@@ -1,0 +1,46 @@
+# revert changes to last commit
+git reset --hard HEAD
+
+# commit and push
+git add . && git commit -m "." && git push
+
+# tag with date and time
+TAG=$(date "+%Y-%m-%d--%H-%M") && git tag $TAG && git push origin $TAG
+
+-------------------------------------------------------------
+`default_nettype none
+//`define DBG
+
+module ICache #(
+    parameter DEPTH_BITS = 5
+) (
+    input wire clk,
+    input wire rst,
+    input wire enable,
+    input wire [ADDRESS_SIZE_BITS-1:0] address,
+    output reg [INSTRUCTION_SIZE_BITS-1:0] instruction,
+    output reg busy
+);
+
+  localparam DEPTH = 2 ** DEPTH_BITS;
+
+  always @(posedge clk) begin
+    if (rst) begin
+    end else begin
+      case (state)
+        STATE_IDLE: begin
+        default: ;
+      endcase
+    end
+  end
+
+endmodule
+
+`undef DBG
+`default_nettype wire
+
+-------------------------------------------------------------
+
+openFPGALoader -b tangnano9k --external-flash test.txt
+
+-------------------------------------------------------------
