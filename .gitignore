@@ -1,5 +1,6 @@
 /.vscode/settings.json
 /*.gprj.user
+/.mypy_cache
 /impl
 *.vvp
 *.vcd

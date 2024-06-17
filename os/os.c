@@ -395,7 +395,7 @@ void action_give(entity_id eid, name obj, name to_ent) {
 void action_mem_test() {
   uart_send_str("testing memory (write)\r\n");
   char *ptr = (char *)0x10000;
-  const char *end = (char *)0x100000;
+  const char *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
   char ch = 0;
   while (ptr < end) {
     *ptr++ = ch++;
@@ -405,11 +405,11 @@ void action_mem_test() {
   ch = 0;
   while (ptr < end) {
     if (*ptr++ != ch++) {
-      uart_send_str("!!! memory test failed\r\n");
+      uart_send_str("!!! test memory failed\r\n");
       return;
     }
   }
-  uart_send_str("memory test succeeded\r\n");
+  uart_send_str("testing memory succeeded\r\n");
 }
 
 void print_help() {
@@ -440,7 +440,7 @@ void input(input_buffer *buf) {
       buf->ix++;
       uart_send_char(ch);
     }
-    *leds = ~buf->ix;
+    *LED = ~buf->ix;
   }
 }
 
@@ -457,9 +457,9 @@ bool strings_equal(const char *s1, const char *s2) {
 
 void uart_send_str(const char *str) {
   while (*str) {
-    while (*uart_out)
+    while (*UART_OUT)
       ;
-    *uart_out = *str++;
+    *UART_OUT = *str++;
   }
 }
 
@@ -477,14 +477,14 @@ void uart_send_hex_nibble(const char nibble) {
 }
 
 void uart_send_char(const char ch) {
-  while (*uart_out)
+  while (*UART_OUT)
     ;
-  *uart_out = ch;
+  *UART_OUT = ch;
 }
 
 char uart_read_char() {
   char ch;
-  while ((ch = *uart_in) == 0)
+  while ((ch = *UART_IN) == 0)
     ;
   return ch;
 }

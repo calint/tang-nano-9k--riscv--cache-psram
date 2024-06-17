@@ -2,6 +2,8 @@
 //
 `default_nettype none
 
+`include "Configuration.sv"
+
 module Top (
     input wire sys_clk,  // 27 MHz
     input wire sys_rst_n,
@@ -26,9 +28,6 @@ module Top (
 );
 
   localparam CPU_FREQUENCY_MHZ = 37_500_000;
-  localparam UART_BAUD_RATE = 9600;
-  localparam RAM_DEPTH_BITWIDTH = 21;
-  localparam CACHE_LINE_IX_BITWIDTH = 5;
 
   // ----------------------------------------------------------
   // -- Gowin_rPLLs
@@ -104,11 +103,11 @@ module Top (
   wire ramio_busy;
 
   RAMIO #(
-      .RAM_DEPTH_BITWIDTH(RAM_DEPTH_BITWIDTH),
+      .RAM_DEPTH_BITWIDTH(`RAM_ADDRESS_BITWIDTH),
       .RAM_ADDRESSING_MODE(0),  // addressing 8 bit words
-      .CACHE_LINE_IX_BITWIDTH(CACHE_LINE_IX_BITWIDTH),
+      .CACHE_LINE_IX_BITWIDTH(`CACHE_LINE_IX_BITWIDTH),
       .CLK_FREQ(CPU_FREQUENCY_MHZ),
-      .BAUD_RATE(UART_BAUD_RATE)
+      .BAUD_RATE(`UART_BAUD_RATE)
   ) ramio (
       .rst_n(sys_rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
