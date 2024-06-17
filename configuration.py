@@ -1,5 +1,5 @@
 #
-# if file changed run `configuration-generate.py`
+# if file changed run `configuration-generate.py` and rebuild
 #
 RAM_ADDRESS_WIDTH = 21      # 2^21 = 2 MB PSRAM
 UART_BAUD_RATE = 9600       # 9600 baud, 8 bits, 1 stop bit, no parity
