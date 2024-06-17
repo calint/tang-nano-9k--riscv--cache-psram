@@ -7,7 +7,7 @@
 
 -mod_name Gowin_rPLL
 -file_name gowin_rpll
--path Z:/home/c/w/tang-nano-9k--step-11/src/gowin_rpll/
+-path Z:/home/c/w/tang-nano-9k--riscv--cache-psram/src/gowin_rpll/
 -type PLL
 -rPll true
 -file_type vlg
@@ -15,7 +15,7 @@
 -dyn_idiv_sel false
 -idiv_sel 9
 -dyn_fbdiv_sel false
--fbdiv_sel 25
+-fbdiv_sel 20
 -dyn_odiv_sel false
 -odiv_sel 8
 -dyn_sdiv_sel 4

@@ -191,12 +191,16 @@ module RAMIO #(
 `endif
     //    data_out = 0; // ? note. uncommenting this creates infinite loop when simulating with iverilog
     // create the 'data_out' based on the 'address'
-    if (address == ADDRESS_UART_OUT && read_type == 3'b001) begin
-      // read unsigned byte from uart_tx
-      data_out = {{24{1'b0}}, uarttx_data_sending};
-    end else if (address == ADDRESS_UART_IN && read_type == 3'b001) begin
-      // read unsigned byte from uart_rx
-      data_out = {{24{1'b0}}, uartrx_data_received};
+    if (address == ADDRESS_UART_OUT && read_type[1:0] == 2'b01) begin
+      // read byte from uart_tx
+      data_out = read_type[2] ? 
+                    {{24{uarttx_data_sending[7]}}, uarttx_data_sending} : 
+                    {{24{1'b0}}, uarttx_data_sending};
+    end else if (address == ADDRESS_UART_IN && read_type[1:0] == 2'b01) begin
+      // read byte from uart_rx
+      data_out = read_type[2] ? 
+                    {{24{uartrx_data_received[7]}}, uartrx_data_received} :
+                    {{24{1'b0}}, uartrx_data_received};
     end else begin
       casex (read_type)
         3'bx01: begin  // byte
@@ -245,7 +249,7 @@ module RAMIO #(
       uartrx_go <= 1;
     end else begin
       // if read from UART then reset the read data
-      if (address == ADDRESS_UART_IN && read_type == 3'b001) begin
+      if (address == ADDRESS_UART_IN && read_type[1:0] == 2'b01) begin
         uartrx_data_received <= 0;
       end
       // if uart has data ready then copy the data from uart and acknowledge (uartrx_go = 0)
@@ -262,14 +266,14 @@ module RAMIO #(
         uarttx_go <= 0;
         uarttx_data_sending <= 0;
       end
-      // if writing to leds
-      if (address == ADDRESS_LED && write_type == 2'b01) begin
-        led <= data_in[3:0];
-      end
       // if writing to uart
       if (address == ADDRESS_UART_OUT && write_type == 2'b01) begin
         uarttx_data_sending <= data_in[7:0];
         uarttx_go <= 1;
+      end
+      // if writing to leds
+      if (address == ADDRESS_LED && write_type == 2'b01) begin
+        led <= data_in[3:0];
       end
     end
   end

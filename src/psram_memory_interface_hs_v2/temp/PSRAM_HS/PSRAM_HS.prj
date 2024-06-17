@@ -10,7 +10,7 @@
     <OptionList>
         <Option type="disable_insert_pad" value="1"/>
         <Option type="include_path" value="C:/Gowin/Gowin_V1.9.9.03_x64/IDE/ipcore/PSRAM_HS_V2/data"/>
-        <Option type="include_path" value="Z:/home/c/w/tang-nano-9k--step-11/src/psram_memory_interface_hs_v2/temp/PSRAM_HS"/>
+        <Option type="include_path" value="Z:/home/c/w/tang-nano-9k--riscv--cache-psram/src/psram_memory_interface_hs_v2/temp/PSRAM_HS"/>
         <Option type="output_file" value="psram_memory_interface_hs_v2.vg"/>
         <Option type="output_template" value="psram_memory_interface_hs_v2_tmp.v"/>
         <Option type="ram_balance" value="1"/>

@@ -5,7 +5,7 @@
 //Part Number: GW1NR-LV9QN88PC6/I5
 //Device: GW1NR-9
 //Device Version: C
-//Created Time: Sun Jun 16 19:59:12 2024
+//Created Time: Mon Jun 17 17:58:14 2024
 
 //Change the instance name and port connections to the signal names
 //--------Copy here to design--------

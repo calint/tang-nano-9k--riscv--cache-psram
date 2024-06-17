@@ -54,7 +54,7 @@ WARN  (DI0003) : Latch inferred for net 'flag_d[0]';We do not recommend the use 
 [75%] Tech-Mapping Phase 2 completed
 [80%] Tech-Mapping Phase 3 completed
 [90%] Tech-Mapping Phase 4 completed
-[95%] Generate netlist file "Z:\home\c\w\tang-nano-9k--step-11\src\psram_memory_interface_hs_v2\temp\PSRAM_HS\psram_memory_interface_hs_v2.vg" completed
-Generate template file "Z:\home\c\w\tang-nano-9k--step-11\src\psram_memory_interface_hs_v2\temp\PSRAM_HS\psram_memory_interface_hs_v2_tmp.v" completed
-[100%] Generate report file "Z:\home\c\w\tang-nano-9k--step-11\src\psram_memory_interface_hs_v2\temp\PSRAM_HS\psram_memory_interface_hs_v2_syn.rpt.html" completed
+[95%] Generate netlist file "Z:\home\c\w\tang-nano-9k--riscv--cache-psram\src\psram_memory_interface_hs_v2\temp\PSRAM_HS\psram_memory_interface_hs_v2.vg" completed
+Generate template file "Z:\home\c\w\tang-nano-9k--riscv--cache-psram\src\psram_memory_interface_hs_v2\temp\PSRAM_HS\psram_memory_interface_hs_v2_tmp.v" completed
+[100%] Generate report file "Z:\home\c\w\tang-nano-9k--riscv--cache-psram\src\psram_memory_interface_hs_v2\temp\PSRAM_HS\psram_memory_interface_hs_v2_syn.rpt.html" completed
 GowinSynthesis finish

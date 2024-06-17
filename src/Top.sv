@@ -27,7 +27,7 @@ module Top (
     output reg  flash_cs
 );
 
-  localparam CPU_FREQUENCY_MHZ = 37_500_000;
+  localparam CPU_FREQUENCY_MHZ = 30_000_000;
 
   // ----------------------------------------------------------
   // -- Gowin_rPLLs
@@ -41,9 +41,9 @@ module Top (
   Gowin_rPLL rpll (
       .clkin(rpll_clkin),  // 27 MHz
       .lock(rpll_lock),
-      .clkout(rpll_clkout),  // 75 MHz
-      .clkoutp(rpll_clkoutp),  // clkout 75 MHz 90 degrees phased
-      .clkoutd(rpll_clkoutd)  // clkout / 4 = 18.75 MHz (IPUG943-1.2E page 15)
+      .clkout(rpll_clkout),  // 60 MHz
+      .clkoutp(rpll_clkoutp),  // clkout 60 MHz 90 degrees phased
+      .clkoutd(rpll_clkoutd) // 60 / 4 = 15 MHz
   );
 
   // ----------------------------------------------------------
@@ -69,7 +69,7 @@ module Top (
       .clk_d(br_clk_d),
       .memory_clk(br_memory_clk),
       .memory_clk_p(br_memory_clk_p),
-      .clk_out(br_clk_out),  // memory_clk / 2
+      .clk_out(br_clk_out),  // memory_clk / 2 = 60 / 2 = 30 MHz
       .pll_lock(br_pll_lock),
       .init_calib(br_init_calib),
 

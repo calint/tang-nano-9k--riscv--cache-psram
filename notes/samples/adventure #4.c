@@ -72,11 +72,15 @@ void action_give(entity_id eid, name obj, name to_ent);
 void action_go(entity_id eid, direction dir);
 void action_drop(entity_id eid, name obj);
 void action_take(entity_id eid, name obj);
+void action_mem_test();
 void input(input_buffer *buf);
 void handle_input(entity_id eid, input_buffer *buf);
 bool strings_equal(const char *s1, const char *s2);
 
 void run() {
+  
+  *LED = 0; // turn all leds on
+
   unsigned char active_entity = 1;
   input_buffer inbuf;
   inbuf.ix = 0;
@@ -155,6 +159,8 @@ void handle_input(entity_id eid, input_buffer *buf) {
       return;
     }
     action_give(eid, words[1], words[2]);
+  } else if (strings_equal(words[0], "m")) {
+    action_mem_test();
   } else {
     uart_send_str("not understood\r\n\r\n");
   }
@@ -389,6 +395,26 @@ void action_give(entity_id eid, name obj, name to_ent) {
   uart_send_str(" is not here\r\n\r\n");
 }
 
+void action_mem_test() {
+  uart_send_str("testing memory (write)\r\n");
+  char *ptr = (char *)0x10000;
+  const char *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
+  char ch = 0;
+  while (ptr < end) {
+    *ptr++ = ch++;
+  }
+  uart_send_str("testing memory (read)\r\n");
+  ptr = (char *)0x10000;
+  ch = 0;
+  while (ptr < end) {
+    if (*ptr++ != ch++) {
+      uart_send_str("!!! test memory failed\r\n");
+      return;
+    }
+  }
+  uart_send_str("testing memory succeeded\r\n");
+}
+
 void print_help() {
   uart_send_str(
       "\r\ncommand:\r\n  n: go north\r\n  e: go east\r\n  s: go south\r\n  w: "
@@ -417,7 +443,7 @@ void input(input_buffer *buf) {
       buf->ix++;
       uart_send_char(ch);
     }
-    *leds = buf->ix;
+    *LED = ~buf->ix;
   }
 }
 
@@ -434,9 +460,9 @@ bool strings_equal(const char *s1, const char *s2) {
 
 void uart_send_str(const char *str) {
   while (*str) {
-    while (*uart_out)
+    while (*UART_OUT)
       ;
-    *uart_out = *str++;
+    *UART_OUT = *str++;
   }
 }
 
@@ -454,14 +480,14 @@ void uart_send_hex_nibble(const char nibble) {
 }
 
 void uart_send_char(const char ch) {
-  while (*uart_out)
+  while (*UART_OUT)
     ;
-  *uart_out = ch;
+  *UART_OUT = ch;
 }
 
 char uart_read_char() {
   char ch;
-  while ((ch = *uart_in) == 0)
+  while ((ch = *UART_IN) == 0)
     ;
   return ch;
 }

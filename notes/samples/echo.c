@@ -7,33 +7,35 @@ void uart_send_char(char ch);
 char uart_read_char();
 
 void run() {
+  *LED = 0; // all leds on
+
   uart_send_str(hello);
 
   while (1) {
     const char ch = uart_read_char();
     uart_send_char(ch);
-    *leds = ch;
+    *LED = ch;
   }
 }
 
 void uart_send_str(const char *str) {
   while (*str) {
-    while (*uart_out)
+    while (*UART_OUT)
       ;
-    *uart_out = *str;
+    *UART_OUT = *str;
     str++;
   }
 }
 
 void uart_send_char(const char ch) {
-  while (*uart_out)
+  while (*UART_OUT)
     ;
-  *uart_out = ch;
+  *UART_OUT = ch;
 }
 
 char uart_read_char() {
   char ch = 0;
-  while ((ch = *uart_in) == 0)
+  while ((ch = *UART_IN) == 0)
     ;
   return ch;
 }

@@ -12,9 +12,9 @@ with open('os/os_start.S', 'w') as file:
 
 with open('os/os_config.h', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
-    file.write('#define LED ((unsigned char volatile *)0xffffffff)\n')
-    file.write('#define UART_OUT ((unsigned char volatile *)0xfffffffe)\n')
-    file.write('#define UART_IN ((unsigned char volatile *)0xfffffffd)\n')
+    file.write('#define LED ((char volatile *)0xffffffff)\n')
+    file.write('#define UART_OUT ((char volatile *)0xfffffffe)\n')
+    file.write('#define UART_IN ((char volatile *)0xfffffffd)\n')
     file.write('#define MEMORY_TOP {}\n'.format(hex(2**cfg.RAM_ADDRESS_WIDTH)))
 
 with open('src/Configuration.sv', 'w') as file:
