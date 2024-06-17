@@ -1,0 +1,125 @@
+
+RAM:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	00000013          	addi	x0,x0,0
+   4:	12345537          	lui	x10,0x12345
+   8:	67850513          	addi	x10,x10,1656 # 12345678 <__global_pointer$+0x12343a38>
+   c:	00300593          	addi	x11,x0,3
+  10:	0045a613          	slti	x12,x11,4
+  14:	fff5a613          	slti	x12,x11,-1
+  18:	0045b613          	sltiu	x12,x11,4
+  1c:	fff5b613          	sltiu	x12,x11,-1
+  20:	fff64693          	xori	x13,x12,-1
+  24:	0016e693          	ori	x13,x13,1
+  28:	0026f693          	andi	x13,x13,2
+  2c:	00369693          	slli	x13,x13,0x3
+  30:	0036d693          	srli	x13,x13,0x3
+  34:	fff6c693          	xori	x13,x13,-1
+  38:	4016d693          	srai	x13,x13,0x1
+  3c:	00c68733          	add	x14,x13,x12
+  40:	40c70733          	sub	x14,x14,x12
+  44:	00c617b3          	sll	x15,x12,x12
+  48:	00f62833          	slt	x16,x12,x15
+  4c:	00c62833          	slt	x16,x12,x12
+  50:	00d83833          	sltu	x16,x16,x13
+  54:	00d848b3          	xor	x17,x16,x13
+  58:	0105d933          	srl	x18,x11,x16
+  5c:	4108d933          	sra	x18,x17,x16
+  60:	00b869b3          	or	x19,x16,x11
+  64:	0109f9b3          	and	x19,x19,x16
+  68:	00001a37          	lui	x20,0x1
+  6c:	013a2223          	sw	x19,4(x20) # 1004 <lbl_auipc+0xbcc>
+  70:	004a2a83          	lw	x21,4(x20)
+  74:	013a1323          	sh	x19,6(x20)
+  78:	006a1a83          	lh	x21,6(x20)
+  7c:	013a03a3          	sb	x19,7(x20)
+  80:	007a0a83          	lb	x21,7(x20)
+  84:	004a0a83          	lb	x21,4(x20)
+  88:	006a1a83          	lh	x21,6(x20)
+  8c:	004a2a83          	lw	x21,4(x20)
+  90:	011a2023          	sw	x17,0(x20)
+  94:	000a4a83          	lbu	x21,0(x20)
+  98:	002a5a83          	lhu	x21,2(x20)
+  9c:	001a8b13          	addi	x22,x21,1
+  a0:	360000ef          	jal	x1,400 <lbl_jal>
+  a4:	376b0263          	beq	x22,x22,408 <lbl_beq>
+
+000000a8 <lbl1>:
+  a8:	375b1463          	bne	x22,x21,410 <lbl_bne>
+
+000000ac <lbl2>:
+  ac:	376ac663          	blt	x21,x22,418 <lbl_blt>
+
+000000b0 <lbl3>:
+  b0:	375b5863          	bge	x22,x21,420 <lbl_bge>
+
+000000b4 <lbl4>:
+  b4:	3729ea63          	bltu	x19,x18,428 <lbl_bltu>
+
+000000b8 <lbl5>:
+  b8:	37397c63          	bgeu	x18,x19,430 <lbl_bgeu>
+
+000000bc <lbl6>:
+  bc:	355b0663          	beq	x22,x21,408 <lbl_beq>
+  c0:	355a9463          	bne	x21,x21,408 <lbl_beq>
+  c4:	355b4a63          	blt	x22,x21,418 <lbl_blt>
+  c8:	356adc63          	bge	x21,x22,420 <lbl_bge>
+  cc:	35396e63          	bltu	x18,x19,428 <lbl_bltu>
+  d0:	3729f063          	bgeu	x19,x18,430 <lbl_bgeu>
+  d4:	364000ef          	jal	x1,438 <lbl_auipc>
+  d8:	fffc6c13          	ori	x24,x24,-1
+  dc:	05500b93          	addi	x23,x0,85
+  e0:	017c0023          	sb	x23,0(x24)
+  e4:	002a5a83          	lhu	x21,2(x20)
+  e8:	001a8a93          	addi	x21,x21,1
+  ec:	015a2023          	sw	x21,0(x20)
+  f0:	000a2c83          	lw	x25,0(x20)
+  f4:	001c8d13          	addi	x26,x25,1
+  f8:	fffd0d13          	addi	x26,x26,-1
+
+000000fc <lbl_done>:
+  fc:	0000006f          	jal	x0,fc <lbl_done>
+	...
+
+00000400 <lbl_jal>:
+ 400:	00008067          	jalr	x0,0(x1)
+ 404:	0000                	.2byte	0x0
+	...
+
+00000408 <lbl_beq>:
+ 408:	ca1ff06f          	jal	x0,a8 <lbl1>
+ 40c:	0000                	.2byte	0x0
+	...
+
+00000410 <lbl_bne>:
+ 410:	c9dff06f          	jal	x0,ac <lbl2>
+ 414:	0000                	.2byte	0x0
+	...
+
+00000418 <lbl_blt>:
+ 418:	c99ff06f          	jal	x0,b0 <lbl3>
+ 41c:	0000                	.2byte	0x0
+	...
+
+00000420 <lbl_bge>:
+ 420:	c95ff06f          	jal	x0,b4 <lbl4>
+ 424:	0000                	.2byte	0x0
+	...
+
+00000428 <lbl_bltu>:
+ 428:	c91ff06f          	jal	x0,b8 <lbl5>
+ 42c:	0000                	.2byte	0x0
+	...
+
+00000430 <lbl_bgeu>:
+ 430:	c8dff06f          	jal	x0,bc <lbl6>
+ 434:	0000                	.2byte	0x0
+	...
+
+00000438 <lbl_auipc>:
+ 438:	fffff117          	auipc	x2,0xfffff
+ 43c:	00008067          	jalr	x0,0(x1)

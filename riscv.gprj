@@ -1,0 +1,20 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW1NR-9C" pn="GW1NR-LV9QN88PC6/I5">gw1nr9c-004</Device>
+    <FileList>
+        <File path="src/BESDPB.sv" type="file.verilog" enable="1"/>
+        <File path="src/Cache.sv" type="file.verilog" enable="1"/>
+        <File path="src/Core.sv" type="file.verilog" enable="1"/>
+        <File path="src/RAMIO.sv" type="file.verilog" enable="1"/>
+        <File path="src/Registers.sv" type="file.verilog" enable="1"/>
+        <File path="src/Top.sv" type="file.verilog" enable="1"/>
+        <File path="src/UartRx.sv" type="file.verilog" enable="1"/>
+        <File path="src/UartTx.sv" type="file.verilog" enable="1"/>
+        <File path="src/gowin_rpll/gowin_rpll.v" type="file.verilog" enable="1"/>
+        <File path="src/psram_memory_interface_hs_v2/psram_memory_interface_hs_v2.v" type="file.verilog" enable="1"/>
+        <File path="tang-nano-9k.cst" type="file.cst" enable="1"/>
+    </FileList>
+</Project>

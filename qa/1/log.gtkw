@@ -1,0 +1,98 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Sat Jun  8 19:40:02 2024
+[*]
+[dumpfile] "/home/c/w/tang-nano-9k--step-8/qa/1/log.vcd"
+[dumpfile_mtime] "Sat Jun  8 19:39:18 2024"
+[dumpfile_size] 35911
+[savefile] "/home/c/w/tang-nano-9k--step-8/qa/1/log.gtkw"
+[timestart] 0
+[size] 1910 1024
+[pos] -1 -1
+*-15.722638 198000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TestBench.
+[sst_width] 269
+[signals_width] 390
+[sst_expanded] 1
+[sst_vpaned_height] 304
+@28
+TestBench.sys_rst_n
+TestBench.clk
+TestBench.clkout
+TestBench.lock
+@200
+-testbench
+@22
+TestBench.address[31:0]
+@c00022
+TestBench.data_in[31:0]
+@28
+(0)TestBench.data_in[31:0]
+(1)TestBench.data_in[31:0]
+(2)TestBench.data_in[31:0]
+(3)TestBench.data_in[31:0]
+(4)TestBench.data_in[31:0]
+(5)TestBench.data_in[31:0]
+(6)TestBench.data_in[31:0]
+(7)TestBench.data_in[31:0]
+(8)TestBench.data_in[31:0]
+(9)TestBench.data_in[31:0]
+(10)TestBench.data_in[31:0]
+(11)TestBench.data_in[31:0]
+(12)TestBench.data_in[31:0]
+(13)TestBench.data_in[31:0]
+(14)TestBench.data_in[31:0]
+(15)TestBench.data_in[31:0]
+(16)TestBench.data_in[31:0]
+(17)TestBench.data_in[31:0]
+(18)TestBench.data_in[31:0]
+(19)TestBench.data_in[31:0]
+(20)TestBench.data_in[31:0]
+(21)TestBench.data_in[31:0]
+(22)TestBench.data_in[31:0]
+(23)TestBench.data_in[31:0]
+(24)TestBench.data_in[31:0]
+(25)TestBench.data_in[31:0]
+(26)TestBench.data_in[31:0]
+(27)TestBench.data_in[31:0]
+(28)TestBench.data_in[31:0]
+(29)TestBench.data_in[31:0]
+(30)TestBench.data_in[31:0]
+(31)TestBench.data_in[31:0]
+@1401200
+-group_end
+@28
+TestBench.data_out_ready
+@22
+TestBench.data_out[31:0]
+TestBench.write_enable[3:0]
+@29
+TestBench.busy
+@200
+-cache
+@28
+TestBench.cache.data_out_ready
+@24
+TestBench.cache.command_delay_interval_counter[5:0]
+@28
+TestBench.cache.br_cmd
+TestBench.cache.br_cmd_en
+TestBench.cache.cache_line_hit
+TestBench.cache.busy
+@22
+TestBench.cache.state[10:0]
+@200
+-burst_ram
+@28
+TestBench.burst_ram.rd_data_valid
+TestBench.burst_ram.busy
+@22
+TestBench.burst_ram.state[4:0]
+@28
+TestBench.burst_ram.cmd
+TestBench.burst_ram.cmd_en
+@22
+TestBench.cache.burst_write_enable_tag[3:0]
+TestBench.cache.write_enable_tag[3:0]
+[pattern_trace] 1
+[pattern_trace] 0

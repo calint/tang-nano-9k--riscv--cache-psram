@@ -1,0 +1,17 @@
+{
+    "tasks": [
+        {
+            "label": "Build and run all tests using iverilog",
+            "type": "shell",
+            "command": "sh",
+            "args": [
+                "qa/qa.sh"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

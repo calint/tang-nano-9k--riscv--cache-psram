@@ -1,0 +1,24 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE ProjectUserData>
+<UserConfig>
+    <Version>1.0</Version>
+    <FlowState>
+        <Process ID="Synthesis" State="4"/>
+        <Process ID="Pnr" State="4"/>
+        <Process ID="Gao" State="4"/>
+        <Process ID="Rtl_Gao" State="2"/>
+    </FlowState>
+    <ResultFileList>
+        <ResultFile ResultFileType="RES.netlist" ResultFilePath="impl/gwsynthesis/tang-nano-9k--step-11.vg"/>
+        <ResultFile ResultFileType="RES.pnr.bitstream" ResultFilePath="impl/pnr/tang-nano-9k--step-11.fs"/>
+        <ResultFile ResultFileType="RES.pnr.pin.rpt" ResultFilePath="impl/pnr/tang-nano-9k--step-11.pin.html"/>
+        <ResultFile ResultFileType="RES.pnr.posp.bin" ResultFilePath="impl/pnr/tang-nano-9k--step-11.db"/>
+        <ResultFile ResultFileType="RES.pnr.pwr.rpt" ResultFilePath="impl/pnr/tang-nano-9k--step-11.power.html"/>
+        <ResultFile ResultFileType="RES.pnr.report" ResultFilePath="impl/pnr/tang-nano-9k--step-11.rpt.html"/>
+        <ResultFile ResultFileType="RES.pnr.timing.paths" ResultFilePath="impl/pnr/tang-nano-9k--step-11.timing_paths"/>
+        <ResultFile ResultFileType="RES.pnr.timing.rpt" ResultFilePath="impl/pnr/tang-nano-9k--step-11.tr.html"/>
+        <ResultFile ResultFileType="RES.syn.report" ResultFilePath="impl/gwsynthesis/tang-nano-9k--step-11_syn.rpt.html"/>
+        <ResultFile ResultFileType="RES.syn.resource" ResultFilePath="impl/gwsynthesis/tang-nano-9k--step-11_syn_rsc.xml"/>
+    </ResultFileList>
+    <Ui>000000ff00000001fd00000002000000000000020a000002b0fc0200000002fc0000003a000002b00000000000fffffffaffffffff0200000003fb00000036004600700067006100500072006f006a006500630074002e00500061006e0065006c002e0048006900650072006100720063006800790100000000ffffffff0000000000000000fb00000032004600700067006100500072006f006a006500630074002e00500061006e0065006c002e00500072006f00630065007300730100000000ffffffff0000000000000000fb00000030004600700067006100500072006f006a006500630074002e00500061006e0065006c002e00440065007300690067006e0100000000ffffffff0000000000000000fc00000164000001860000000000fffffffa000000000200000001fb00000030004600700067006100500072006f006a006500630074002e00500061006e0065006c002e00440065007300690067006e0100000000ffffffff0000000000000000000000030000078000000120fc0100000002fb0000002e004600700067006100500072006f006a006500630074002e00500061006e0065006c002e00490073007300750065010000000000000325000000b300fffffffb00000032004600700067006100500072006f006a006500630074002e00500061006e0065006c002e00470065006e006500720061006c0100000329000004570000005000ffffff00000572000002b000000004000000040000000800000008fc000000010000000200000003000000220043006f00720065002e0054006f006f006c006200610072002e00460069006c00650100000000ffffffff0000000000000000000000220043006f00720065002e0054006f006f006c006200610072002e004500640069007401000000c1ffffffff0000000000000000000000240043006f00720065002e0054006f006f006c006200610072002e0054006f006f006c007301000001abffffffff0000000000000000</Ui>
+</UserConfig>

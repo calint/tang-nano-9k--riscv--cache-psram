@@ -1,0 +1,3 @@
+# directories considered in "Languages"
+*           -linguist-detectable
+/src/**      linguist-detectable
