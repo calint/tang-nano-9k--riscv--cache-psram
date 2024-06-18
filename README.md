@@ -12,6 +12,7 @@ step-wise development towards a RISC-V rv32i implementation supporting cache of 
 [ ] fix truncation warnings
 [x] step 11: adapt riscv core (multi-cycle ad-hoc pipeline simplest way forward)
 [x] RAMIO: read UART with 'lb' or 'lbu'
+[ ] always_comb based CPU
 [ ] 1 cycle ALU op
 [ ] 1+ cycle STORE
 [ ] 2+ cycle LOAD
