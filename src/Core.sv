@@ -68,8 +68,8 @@ module Core #(
   localparam STATE_CPU_LOAD = 12'b0100_0000_0000;
   localparam STATE_CPU_LOAD_DONE = 12'b1000_0000_0000;
 
-  reg [11:0] state = 0;
-  reg [11:0] return_state = 0;
+  reg [11:0] state;
+  reg [11:0] return_state;
 
   // CPU state
   reg [31:0] pc;  // program counter
@@ -81,8 +81,8 @@ module Core #(
   reg [2:0] funct3;
   reg [6:0] funct7;
   // immediate encodings
-  wire signed [31:0] I_imm12 = {{20{ir[31]}}, ir[31:20]};
   wire [31:0] U_imm20 = {ir[31:12], {12{1'b0}}};
+  wire signed [31:0] I_imm12 = {{20{ir[31]}}, ir[31:20]};
   wire signed [31:0] S_imm12 = {{20{ir[31]}}, ir[31:25], ir[11:7]};
   wire signed [31:0] B_imm12 = {{20{ir[31]}}, ir[7], ir[30:25], ir[11:8], 1'b0};
   wire signed [31:0] J_imm20 = {{12{ir[31]}}, ir[19:12], ir[20], ir[30:21], 1'b0};
@@ -434,8 +434,10 @@ module Core #(
         end
 
         STATE_CPU_LOAD_DONE: begin
-          // register written, read next instruction
+          // register written
           rd_we <= 0;
+
+          // next instruction
           ramio_enable <= 1;
           ramio_read_type <= 3'b111;
           ramio_write_type <= 0;
