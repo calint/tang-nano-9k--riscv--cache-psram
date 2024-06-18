@@ -1,6 +1,6 @@
 `timescale 100ps / 100ps
 //
-// RAMIO + BurstRAM
+// Core  (bug fix #1)
 //
 `default_nettype none
 
