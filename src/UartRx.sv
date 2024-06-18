@@ -25,8 +25,8 @@ module UartRx #(
   localparam STATE_STOP_BIT = 5'b01000;
   localparam STATE_WAIT_GO_LOW = 5'b10000;
 
-  reg [4:0] state;
-  reg [3:0] bit_count;  // 3 to fit number 8
+  reg [4:0] state; // 5 states
+  reg [3:0] bit_count;  // 4 bits to fit number 8
   reg [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_counter;
 
   always_ff @(posedge clk, negedge rst_n) begin

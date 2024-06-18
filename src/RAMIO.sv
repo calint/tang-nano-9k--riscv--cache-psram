@@ -153,37 +153,16 @@ module RAMIO #(
     end
   end
 
-  //
-  // UartTx
-  //
-
-  // data being written
+  // data being sent by UartTx
   reg [7:0] uarttx_data_sending;
 
-  // enabled to start sending and disabled to acknowledge that data has been sent
-  reg uarttx_go;
-
-  // enabled if UART is sending data
-  wire uarttx_bsy;
-
-  //
-  // UartRx
-  //
-
-  // data ready
-  wire uartrx_dr;
-
-  // data that is being read
-  wire [7:0] uartrx_data;
-
-  // enable to start receiving and disable to acknowledge that data has been read
-  reg uartrx_go;
-
-  // complete data from 'uartrx_data' when 'uartrx_dr' (data ready) enabled
+  // data from 'uartrx_data' when 'uartrx_dr' (data ready) enabled
   reg [7:0] uartrx_data_received;
 
   // 
-  // convert RAM data out according to 'read_type'
+  // RAM read
+  //  convert 'ram_data_out' according to 'read_type'
+  //   and handle UART read requests
   //
   always_comb begin
 `ifdef DBG
@@ -191,18 +170,22 @@ module RAMIO #(
 `endif
     //    data_out = 0; // ? note. uncommenting this creates infinite loop when simulating with iverilog
     // create the 'data_out' based on the 'address'
+    //
     if (address == ADDRESS_UART_OUT && read_type[1:0] == 2'b01) begin
-      // read byte from uart_tx
+      // if read byte from uart_tx (read_type[2] flags signed)
       data_out = read_type[2] ? 
                     {{24{uarttx_data_sending[7]}}, uarttx_data_sending} : 
                     {{24{1'b0}}, uarttx_data_sending};
+
     end else if (address == ADDRESS_UART_IN && read_type[1:0] == 2'b01) begin
-      // read byte from uart_rx
+      // if read byte from uart_rx (read_type[2] flags signed)
       data_out = read_type[2] ? 
                     {{24{uartrx_data_received[7]}}, uartrx_data_received} :
                     {{24{1'b0}}, uartrx_data_received};
+
     end else begin
       casex (read_type)
+
         3'bx01: begin  // byte
           case (address[1:0])
             2'b00: begin
@@ -219,6 +202,7 @@ module RAMIO #(
             end
           endcase
         end
+
         3'bx10: begin  // half word
           case (address[1:0])
             2'b00: begin
@@ -231,18 +215,36 @@ module RAMIO #(
             2'b11: data_out = 0;  // ? error
           endcase
         end
+
         3'b111: begin  // word
           // ? assert(addr_lower_w==0)
           data_out = ram_data_out;
         end
+
         default: data_out = 0;
+
       endcase
     end
   end
 
+  // enabled to start sending and disabled to acknowledge that data has been sent
+  reg uarttx_go;
+
+  // high if UartTx is busy sending
+  wire uarttx_bsy;
+
+  // data ready
+  wire uartrx_dr;
+
+  // data that is being read by UartRx
+  wire [7:0] uartrx_data;
+
+  // enable to start receiving and disable to acknowledge that data has been read
+  reg uartrx_go;
+
   always_ff @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
-      led <= 4'b1111;  // turn off all leds
+      led <= 4'b1111;  // turn off all LEDs
       uarttx_data_sending <= 0;
       uarttx_go <= 0;
       uartrx_data_received <= 0;
@@ -252,8 +254,12 @@ module RAMIO #(
       if (address == ADDRESS_UART_IN && read_type[1:0] == 2'b01) begin
         uartrx_data_received <= 0;
       end
-      // if uart has data ready then copy the data from uart and acknowledge (uartrx_go = 0)
+      // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
       if (uartrx_dr && uartrx_go) begin
+        // note: read data can be overruns
+        // if (uartrx_data_received != 0) begin
+        //   led <= 4'b1010;
+        // end
         uartrx_data_received <= uartrx_data;
         uartrx_go <= 0;
       end
@@ -261,17 +267,17 @@ module RAMIO #(
       if (uartrx_go == 0) begin
         uartrx_go <= 1;
       end
-      // if uart done sending data then acknowledge (uarttx_go = 0)
+      // if UART is done sending data then acknowledge (uarttx_go = 0)
       if (uarttx_go && !uarttx_bsy) begin
         uarttx_go <= 0;
         uarttx_data_sending <= 0;
       end
-      // if writing to uart
+      // if writing to UART out
       if (address == ADDRESS_UART_OUT && write_type == 2'b01) begin
         uarttx_data_sending <= data_in[7:0];
         uarttx_go <= 1;
       end
-      // if writing to leds
+      // if writing to LEDs
       if (address == ADDRESS_LED && write_type == 2'b01) begin
         led <= data_in[3:0];
       end

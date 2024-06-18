@@ -21,7 +21,7 @@ module Device (
       uartrx_data_received <= 8'hab;
     end else begin
       if (address == ADDRESS_UART_IN) begin
-        uartrx_data_received <= 8'hab;
+        uartrx_data_received <= 8'h00;
       end
     end
   end
