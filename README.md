@@ -8,6 +8,7 @@ step-wise development towards a RISC-V rv32i implementation supporting cache of 
     cat > /dev/ttyUSB1 should echo without dropping input
     => receive is being overrun but how can baud 9600 outpace 20 MHz?
        => due to 'uart_send_char()'
+[ ] study why BAUD rate of less than 2400 does not work
 [ ] fix truncation warnings
 [x] step 11: adapt riscv core (multi-cycle ad-hoc pipeline simplest way forward)
 [x] RAMIO: read UART with 'lb' or 'lbu'
