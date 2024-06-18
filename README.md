@@ -3,7 +3,7 @@
 * RISC-V rv32i implementation for intended use
   - no `ecall`, `ebreak`, `fence` or counters
 * cache to on-board burst 2 MB PSRAM
-* __todo__ dual channel PSRAM
+* __todo__ dual channel 4 MB PSRAM
 * multi-cycle design with ad-hoc pipeline
 * __todo__ fully pipe-lined design
 
