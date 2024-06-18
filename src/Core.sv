@@ -11,9 +11,10 @@ module Core #(
     parameter STARTUP_WAIT = 1_000_000,
     parameter FLASH_TRANSFER_BYTES_NUM = 32'h0010_0000
 ) (
-    input  wire clk,
-    input  wire rst_n,
-    output reg  led,
+    input wire rst_n,
+    input wire clk,
+
+    output reg led,
 
     // RAMIO
     output reg ramio_enable,
