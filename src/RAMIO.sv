@@ -263,8 +263,9 @@ module RAMIO #(
         uartrx_data_received <= uartrx_data;
         uartrx_go <= 0;
       end
-      // if previous cycle acknowledged receiving data then start receiving next data (uartrx_go = 1)
-      if (uartrx_go == 0) begin
+      // if previous cycle acknowledged receiving data
+      //  then start receiving next data (uartrx_go = 1)
+      if (!uartrx_go) begin
         uartrx_go <= 1;
       end
       // if UART is done sending data then acknowledge (uarttx_go = 0)
