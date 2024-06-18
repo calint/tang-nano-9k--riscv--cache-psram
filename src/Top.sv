@@ -43,7 +43,7 @@ module Top (
       .lock(rpll_lock),
       .clkout(rpll_clkout),  // 60 MHz
       .clkoutp(rpll_clkoutp),  // clkout 60 MHz 90 degrees phased
-      .clkoutd(rpll_clkoutd) // 60 / 4 = 15 MHz
+      .clkoutd(rpll_clkoutd)  // 60 / 4 = 15 MHz
   );
 
   // ----------------------------------------------------------
@@ -142,7 +142,10 @@ module Top (
   // -- Core
   // ----------------------------------------------------------
 
-  Core core (
+  Core #(
+      .STARTUP_WAIT(`STARTUP_WAIT),
+      .FLASH_TRANSFER_BYTES_NUM(`FLASH_TRANSFER_BYTES_NUM)
+  ) core (
       .rst_n(sys_rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
       .led  (led[0]),

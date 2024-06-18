@@ -19,8 +19,13 @@ with open('os/os_config.h', 'w') as file:
 
 with open('src/Configuration.sv', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
-    file.write('`define RAM_ADDRESS_BITWIDTH {}\n'.format(cfg.RAM_ADDRESS_WIDTH))
-    file.write('`define CACHE_LINE_IX_BITWIDTH {}\n'.format(cfg.CACHE_LINE_IX_BITWIDTH))
+    file.write('`define RAM_ADDRESS_BITWIDTH {}\n'.format(
+        cfg.RAM_ADDRESS_WIDTH))
+    file.write('`define CACHE_LINE_IX_BITWIDTH {}\n'.format(
+        cfg.CACHE_LINE_IX_BITWIDTH))
     file.write('`define UART_BAUD_RATE {}\n'.format(cfg.UART_BAUD_RATE))
+    num = f'{cfg.FLASH_TRANSFER_BYTES_NUM:08x}'
+    file.write('`define FLASH_TRANSFER_BYTES_NUM 32\'h{}\n'.format(num))
+    file.write('`define STARTUP_WAIT {}\n'.format(cfg.STARTUP_WAIT))
 
 print("generated: src/Configuration.v, os/os_start.S, os/os_config.h")
