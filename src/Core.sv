@@ -55,43 +55,43 @@ module Core #(
   // used while reading flash to increment 'cache_address'
   reg [31:0] ramio_address_next;
 
-  localparam STATE_BOOT_INIT_POWER = 0;
-  localparam STATE_BOOT_LOAD_CMD_TO_SEND = 1;
-  localparam STATE_BOOT_SEND = 2;
-  localparam STATE_BOOT_LOAD_ADDRESS_TO_SEND = 3;
-  localparam STATE_BOOT_READ_DATA = 4;
-  localparam STATE_BOOT_START_WRITE = 5;
-  localparam STATE_BOOT_WRITE = 6;
-  localparam STATE_CPU_FETCH = 7;
-  localparam STATE_CPU_EXECUTE = 8;
-  localparam STATE_CPU_STORE = 9;
-  localparam STATE_CPU_LOAD = 10;
-  localparam STATE_CPU_LOAD_DONE = 11;
+  localparam STATE_BOOT_INIT_POWER = 12'b0000_0000_0001;
+  localparam STATE_BOOT_LOAD_CMD_TO_SEND = 12'b0000_0000_0010;
+  localparam STATE_BOOT_SEND = 12'b0000_0000_0100;
+  localparam STATE_BOOT_LOAD_ADDRESS_TO_SEND = 12'b0000_0000_1000;
+  localparam STATE_BOOT_READ_DATA = 12'b0000_0001_0000;
+  localparam STATE_BOOT_START_WRITE = 12'b0000_0010_0000;
+  localparam STATE_BOOT_WRITE = 12'b0000_0100_0000;
+  localparam STATE_CPU_FETCH = 12'b0000_1000_0000;
+  localparam STATE_CPU_EXECUTE = 12'b0001_0000_0000;
+  localparam STATE_CPU_STORE = 12'b0010_0000_0000;
+  localparam STATE_CPU_LOAD = 12'b0100_0000_0000;
+  localparam STATE_CPU_LOAD_DONE = 12'b1000_0000_0000;
 
-  reg [3:0] state = 0;
-  reg [3:0] return_state = 0;
+  reg [11:0] state = 0;
+  reg [11:0] return_state = 0;
 
   // CPU state
   reg [31:0] pc;  // program counter
-  reg [31:0] pc_next;  // next instruction
-  reg [31:0] ir;  // instruction register (one cycle delay due to ram access)
+  reg [31:0] ir;  // instruction register
   reg [4:0] rs1;  // source register 1
   reg [4:0] rs2;  // source register 2
   reg [4:0] rd;  // destination register
   reg [6:0] opcode;
   reg [2:0] funct3;
   reg [6:0] funct7;
+  // immediate encodings
   wire signed [31:0] I_imm12 = {{20{ir[31]}}, ir[31:20]};
   wire [31:0] U_imm20 = {ir[31:12], {12{1'b0}}};
   wire signed [31:0] S_imm12 = {{20{ir[31]}}, ir[31:25], ir[11:7]};
   wire signed [31:0] B_imm12 = {{20{ir[31]}}, ir[7], ir[30:25], ir[11:8], 1'b0};
   wire signed [31:0] J_imm20 = {{12{ir[31]}}, ir[19:12], ir[20], ir[30:21], 1'b0};
-
+  // registers output data
   wire signed [31:0] rs1_dat;  // register 'rs1' data
   wire signed [31:0] rs2_dat;  // register 'rs2' data
-  reg [31:0] rd_wd;  // register write data
+  // register write back
+  reg [31:0] rd_wd;  // register write data to 'rd'
   reg rd_we;  // register write enable
-  //
 
   always_ff @(posedge clk, negedge rst_n) begin
     if (!rst_n) begin
@@ -101,14 +101,15 @@ module Core #(
       ramio_address <= 0;
       ramio_address_next <= 0;
       ramio_data_in <= 0;
-      pc <= 0;
-
-      led <= 1;
 
       flash_counter <= 0;
       flash_clk <= 0;
       flash_mosi <= 0;
       flash_cs <= 1;
+
+      pc <= 0;
+
+      led <= 1;
 
       state <= STATE_BOOT_INIT_POWER;
 
@@ -217,35 +218,37 @@ module Core #(
         end
 
         STATE_CPU_FETCH: begin
-          // if register write during this cycle, turn it off at next
+          // disable register write incase it was writing during this cycle
           rd_we <= 0;
-          if (ramio_data_out_ready) begin
 
+          if (ramio_data_out_ready) begin
 `ifdef DBG
             $display("fetched: %h", ramio_data_out);
 `endif
-
+            // copy instruction parts from RAM output
             ir <= ramio_data_out;
-            rs1 <= ramio_data_out[19:15];  // source register 1
-            rs2 <= ramio_data_out[24:20];  // source register 2
-            rd <= ramio_data_out[11:7];  // destination register
+            rs1 <= ramio_data_out[19:15];
+            rs2 <= ramio_data_out[24:20];
+            rd <= ramio_data_out[11:7];
             opcode <= ramio_data_out[6:0];
             funct3 <= ramio_data_out[14:12];
             funct7 <= ramio_data_out[31:25];
-            pc_next <= pc + 4;  // assume next instruction
+
             state <= STATE_CPU_EXECUTE;
           end
         end
 
         STATE_CPU_EXECUTE: begin
           // default next state is FETCH next instruction
+          // initially configure 'ramio' for that
           ramio_enable <= 1;
           ramio_read_type <= 3'b111;
           ramio_write_type <= 0;
-          ramio_address <= pc_next;
-          pc <= pc_next;
+          ramio_address <= pc + 4;
+          pc <= pc + 4;
           state <= STATE_CPU_FETCH;
 
+          // execute instruction (part 1)
           case (opcode)
             7'b0110111: begin  // LUI
               rd_wd <= U_imm20;
@@ -311,9 +314,8 @@ module Core #(
             end
             7'b0100011: begin  // store
               ramio_read_type <= 0;
-              ramio_address <= rs1_dat + S_imm12;
-              ramio_data_in <= rs2_dat;
-              state <= STATE_CPU_STORE;
+              ramio_address   <= rs1_dat + S_imm12;
+              ramio_data_in   <= rs2_dat;
               case (funct3)
                 3'b000: begin  // SB
                   ramio_write_type <= 2'b01;  // write byte
@@ -325,11 +327,11 @@ module Core #(
                   ramio_write_type <= 2'b11;  // write word
                 end
               endcase  // case (funct3)
+              state <= STATE_CPU_STORE;
             end
             7'b0000011: begin  // load
               ramio_write_type <= 0;
               ramio_address <= rs1_dat + I_imm12;
-              state <= STATE_CPU_LOAD;
               case (funct3)
                 3'b000: begin  // LB
                   ramio_read_type <= 3'b101;  // read sign extended byte
@@ -347,6 +349,7 @@ module Core #(
                   ramio_read_type <= 3'b010;  // read unsigned half word
                 end
               endcase  // case (funct3)
+              state <= STATE_CPU_LOAD;
             end
             7'b0010111: begin  // AUIPC
               rd_wd <= pc + U_imm20;
@@ -409,7 +412,7 @@ module Core #(
 
         STATE_CPU_STORE: begin
           if (!ramio_busy) begin
-            // next instruction
+            // read next instruction
             ramio_enable <= 1;
             ramio_read_type <= 3'b111;
             ramio_write_type <= 0;
@@ -420,7 +423,7 @@ module Core #(
 
         STATE_CPU_LOAD: begin
           if (ramio_data_out_ready) begin
-            // write register
+            // write to register
             rd_we <= 1;
             rd_wd <= ramio_data_out;
 `ifdef DBG
@@ -431,7 +434,7 @@ module Core #(
         end
 
         STATE_CPU_LOAD_DONE: begin
-          // next instruction
+          // register written, read next instruction
           rd_we <= 0;
           ramio_enable <= 1;
           ramio_read_type <= 3'b111;
