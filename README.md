@@ -2,6 +2,17 @@
 
 step-wise development towards a RISC-V rv32i implementation supporting cache of burst PSRAM
 
+## Gowin EDA configuration
+![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/1.png)
+
+![2](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/2.png)
+
+![3](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/3.png)
+
+![4](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/4.png)
+
+![5](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/5.png)
+
 ## todo
 ```
 [ ] study why terminal drops characters
