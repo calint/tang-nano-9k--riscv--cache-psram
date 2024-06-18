@@ -1,8 +1,7 @@
 //
-// a partial emulator of a flash circuit (P25Q32U)
-// to mock IP components
+// a partial emulator of flash circuit (P25Q32U) used in simulation
+//  mock IP component
 //
-
 `timescale 100ps / 100ps
 //
 `default_nettype none

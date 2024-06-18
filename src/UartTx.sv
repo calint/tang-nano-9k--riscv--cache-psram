@@ -1,3 +1,6 @@
+//
+// UART transmitter
+//
 `timescale 100ps / 100ps
 //
 `default_nettype none
@@ -14,9 +17,10 @@ module UartTx #(
     input wire [7:0] data,  // data to send
 
     // assert to start transmission, disable after 'data' has been read
-    input  wire go,
-    output reg  tx,  // uart tx wire
-    output reg  bsy  // enabled while sendng
+    input wire go,
+
+    output reg tx,  // uart tx wire
+    output reg bsy  // enabled while sendng
 );
 
   localparam BIT_TIME = CLK_FREQ / BAUD_RATE;

@@ -1,3 +1,8 @@
+//
+// Registers
+//
+`timescale 100ps / 100ps
+//
 `default_nettype none
 // `define DBG
 
@@ -6,20 +11,24 @@ module Registers #(
     parameter WIDTH = 32
 ) (
     input wire clk,
+
     input wire [ADDR_WIDTH-1:0] rs1,
     input wire [ADDR_WIDTH-1:0] rs2,
     input wire [ADDR_WIDTH-1:0] rd,
-    input wire [WIDTH-1:0] rd_wd,  // data to write to register 'rd' when 'rd_we' is enabled
-    input wire rd_we,
-    output wire [WIDTH-1:0] rd1,  // value of register 'ra1'
-    output wire [WIDTH-1:0] rd2  // value of register 'ra2'
+
+    output wire [WIDTH-1:0] rs1_dat,  // value of register 'ra1'
+    output wire [WIDTH-1:0] rs2_dat,  // value of register 'ra2'
+
+    // data to write to register 'rd' when 'rd_we' is enabled
+    input wire [WIDTH-1:0] rd_wd,
+    input wire rd_we
 );
 
   reg signed [WIDTH-1:0] mem[0:2**ADDR_WIDTH-1];
 
   // register 0 is hardwired to value 0
-  assign rd1 = rs1 == 0 ? 0 : mem[rs1];
-  assign rd2 = rs2 == 0 ? 0 : mem[rs2];
+  assign rs1_dat = rs1 == 0 ? 0 : mem[rs1];
+  assign rs2_dat = rs2 == 0 ? 0 : mem[rs2];
 
   always @(posedge clk) begin
 `ifdef DBG
@@ -28,7 +37,9 @@ module Registers #(
                rs2, rd, rd_we, rd_wd);
     end
 `endif
-    if (rd_we) mem[rd] <= rd_wd;
+    if (rd_we) begin
+      mem[rd] <= rd_wd;
+    end
   end
 
 endmodule

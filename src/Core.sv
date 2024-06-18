@@ -452,10 +452,10 @@ module Core #(
   Registers registers (
       .clk(clk),
       .rs1(rs1),
-      .rd1(rs1_dat),
+      .rs1_dat(rs1_dat),
       .rs2(rs2),
+      .rs2_dat(rs2_dat),
       .rd(rd),
-      .rd2(rs2_dat),
       .rd_wd(rd_wd),
       .rd_we(rd_we)
   );

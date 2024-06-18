@@ -1,5 +1,5 @@
 //
-// interface to RAM, UART and LEDs
+// Interface to RAM, UART and LEDs
 //
 `timescale 100ps / 100ps
 //

@@ -1,3 +1,6 @@
+//
+// UART receiver
+//
 `timescale 100ps / 100ps
 //
 `default_nettype none

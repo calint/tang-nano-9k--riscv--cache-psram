@@ -1,8 +1,7 @@
 //
 // an emulator of a RAM that does burst reads and writes used in simulations
-// to mock IP components
+//  mock IP component
 //
-
 `timescale 100ps / 100ps
 //
 `default_nettype none

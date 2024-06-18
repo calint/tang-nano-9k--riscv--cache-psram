@@ -1,7 +1,6 @@
 //
-// synthesizes to Byte Enabled Semi Dual Port Block RAM (BESDPB) in Gowin EDA
+// Synthesizes to Byte Enabled Semi Dual Port Block RAM (BESDPB) in Gowin EDA
 //
-
 `timescale 100ps / 100ps
 //
 `default_nettype none
