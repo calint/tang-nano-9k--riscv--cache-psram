@@ -260,6 +260,9 @@ module RAMIO #(
         // if (uartrx_data_received != 0) begin
         //   led <= 4'b1010;
         // end
+        // if (uartrx_data == 0) begin
+        //   led <= 4'b0101;
+        // end
         uartrx_data_received <= uartrx_data;
         uartrx_go <= 0;
       end
