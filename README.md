@@ -1,6 +1,11 @@
 # Tang Nano 9K
 
-step-wise development towards a RISC-V rv32i implementation supporting cache of burst PSRAM
+* RISC-V rv32i implementation for intended use
+  - no `ecall`, `ebreak`, `fence` or counters
+* cache to on-board burst 2 MB PSRAM
+* __todo__ dual channel PSRAM
+* multi-cycle design with ad-hoc pipeline
+* __todo__ fully pipe-lined design
 
 ## Gowin EDA configuration
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/1.png)
