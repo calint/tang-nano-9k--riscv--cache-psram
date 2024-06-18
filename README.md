@@ -7,7 +7,7 @@
 * multi-cycle design with ad-hoc pipeline
 * __todo__ fully pipe-lined design
 
-## Gowin EDA configuration
+## Gowin EDA 1.9.9.03 Project Configuration
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/1.png)
 
 ![2](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/2.png)
@@ -18,7 +18,7 @@
 
 ![5](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/5.png)
 
-## howto
+## Howto
 * build bitstream file in Gowin EDA
 * run `./flash-fpga.sh` to flash bitstream
 * then `./make-and-flash-os.sh` to flash program
@@ -26,7 +26,7 @@
 
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/serial-terminal-settings/1.png)
 
-## todo
+## Todo
 ```
 [ ] study why terminal drops characters
     cat > /dev/ttyUSB1 should echo without dropping input
