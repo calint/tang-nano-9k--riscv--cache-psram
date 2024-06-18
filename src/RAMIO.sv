@@ -255,7 +255,7 @@ module RAMIO #(
         uartrx_data_received <= 0;
       end
       // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
-      if (uartrx_dr && uartrx_go) begin
+      if (uartrx_go && uartrx_dr) begin
         // note: read data can be overrun
         // if (uartrx_data_received != 0) begin
         //   led <= 4'b1010;
