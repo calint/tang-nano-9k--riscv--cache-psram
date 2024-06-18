@@ -20,7 +20,7 @@ module RAMIO #(
     parameter ADDRESS_LED = TOP_ADDRESS,
     parameter ADDRESS_UART_OUT = TOP_ADDRESS - 1,
     parameter ADDRESS_UART_IN = TOP_ADDRESS - 2
-    // note: received byte must be read with 'lbu'
+    // note: received byte must be read with 'lb' or 'lbu'
 ) (
     input wire rst_n,
     input wire clk,
