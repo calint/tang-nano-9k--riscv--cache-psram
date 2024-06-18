@@ -19,6 +19,7 @@
 #   https://github.com/johnwinans/rvalp/releases/download/v0.14/rvalp.pdf
 #
 set -e
+cd $(dirname "$0")
 
 PATH=$PATH:~/riscv/install/rv32i/bin
 BIN=os
@@ -52,9 +53,9 @@ riscv32-unknown-elf-objdump -Mnumeric,no-aliases --source-comment -Sr $BIN > $BI
 # riscv32-unknown-elf-objdump --source-comment -Sr $BIN > $BIN.lst
 
 # print 4 bytes at a time as hex in little endian mode
-xxd -c 4 -e $BIN.bin | awk '{print $2}' > $BIN.mem
-xxd -c 1 -e $BIN.bin | awk '{print $2}' > $BIN.flash
+# xxd -c 4 -e $BIN.bin | awk '{print $2}' > $BIN.mem
+# xxd -c 1 -e $BIN.bin | awk '{print $2}' > $BIN.flash
 
 rm $BIN
 
-ls -l $BIN.bin $BIN.lst $BIN.mem $BIN.flash
+ls -l $BIN.bin $BIN.lst
