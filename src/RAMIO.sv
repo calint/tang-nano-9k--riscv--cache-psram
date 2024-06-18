@@ -62,20 +62,10 @@ module RAMIO #(
     input wire br_rd_data_valid  // rd_data is valid
 );
 
-  // enables / disables RAM operation
-  reg  ram_enable;
+  // enables / disables RAM operation, connected to cache
+  reg ram_enable;
   wire ram_busy;
   wire ram_data_out_ready;
-
-  assign busy = address == ADDRESS_UART_OUT || 
-                address == ADDRESS_UART_IN || 
-                address == ADDRESS_LED 
-                ? 0 : ram_busy;
-
-  assign data_out_ready = address == ADDRESS_UART_OUT || 
-                          address == ADDRESS_UART_IN ||
-                          address == ADDRESS_LED
-                          ? 1 : ram_data_out_ready;
 
   // byte addressed into cache
   reg [ADDRESS_BITWIDTH-1:0] ram_address;
@@ -88,17 +78,30 @@ module RAMIO #(
 
   wire [DATA_WIDTH-1:0] ram_data_out;
 
-  // convert 'data_in' from 'write_type' to byte enabled 4 bytes RAM write 
-  reg [1:0] addr_lower_w;
+  // forward busy and data ready signals from cache unless it is I/O
+  assign busy = address == ADDRESS_UART_OUT || 
+                address == ADDRESS_UART_IN || 
+                address == ADDRESS_LED 
+                ? 0 : ram_busy;
+
+  assign data_out_ready = address == ADDRESS_UART_OUT || 
+                          address == ADDRESS_UART_IN ||
+                          address == ADDRESS_LED
+                          ? 1 : ram_data_out_ready;
+
+  //
+  // RAM write
+  //  convert 'data_in' using 'write_type' to byte enabled 4 bytes RAM write
+  // 
   always_comb begin
     // convert address to 4 byte word addressing in RAM
     ram_address = {address[ADDRESS_BITWIDTH-1:2], 2'b00};
-    // save the lower bits
-    addr_lower_w = address & 2'b11;
+
     // initiate result
     ram_enable = 0;
     ram_write_enable = 0;
     ram_data_in = 0;
+
     if (address == ADDRESS_UART_OUT || address == ADDRESS_UART_IN || address == ADDRESS_LED) begin
       // don't trigger cache when accessing I/O
     end else begin
@@ -110,7 +113,7 @@ module RAMIO #(
           ram_write_enable = 4'b0000;
         end
         2'b01: begin  // byte
-          case (addr_lower_w)
+          case (address[1:0])
             2'b00: begin
               ram_write_enable = 4'b0001;
               ram_data_in[7:0] = data_in[7:0];
@@ -130,7 +133,7 @@ module RAMIO #(
           endcase
         end
         2'b10: begin  // half word
-          case (addr_lower_w)
+          case (address[1:0])
             2'b00: begin
               ram_write_enable  = 4'b0011;
               ram_data_in[15:0] = data_in[15:0];
@@ -168,6 +171,7 @@ module RAMIO #(
     $display("address: %h  read_type: %b", address, read_type);
 `endif
     //    data_out = 0; // ? note. uncommenting this creates infinite loop when simulating with iverilog
+
     // create the 'data_out' based on the 'address'
     //
     if (address == ADDRESS_UART_OUT && read_type[1:0] == 2'b01) begin
@@ -220,13 +224,15 @@ module RAMIO #(
           data_out = ram_data_out;
         end
 
-        default: data_out = 0;
+        default: begin
+          data_out = 0;
+        end
 
       endcase
     end
   end
 
-  // enabled to start sending and disabled to acknowledge that data has been sent
+  // enable to start sending and disable to acknowledge that data has been sent
   reg uarttx_go;
 
   // high if UartTx is busy sending
@@ -238,7 +244,7 @@ module RAMIO #(
   // data that is being read by UartRx
   wire [7:0] uartrx_data;
 
-  // enable to start receiving and disable to acknowledge that data has been read
+  // enable to start receiving and disable to acknowledge that received data has been read
   reg uartrx_go;
 
   always_ff @(posedge clk, negedge rst_n) begin
@@ -292,8 +298,8 @@ module RAMIO #(
       .RAM_DEPTH_BITWIDTH(RAM_DEPTH_BITWIDTH),
       .RAM_ADDRESSING_MODE(RAM_ADDRESSING_MODE)  // 64 bit words
   ) cache (
-      .clk  (clk),
       .rst_n(rst_n),
+      .clk  (clk),
 
       .enable(ram_enable),
       .address(ram_address),
@@ -318,7 +324,8 @@ module RAMIO #(
       .BAUD_RATE(BAUD_RATE)
   ) uarttx (
       .rst_n(rst_n),
-      .clk(clk),
+      .clk  (clk),
+
       .data(uarttx_data_sending),  // data to send
       .go(uarttx_go),  // enable to start transmission, disable after 'data' has been read
       .tx(uart_tx),  // uart tx wire
@@ -330,7 +337,8 @@ module RAMIO #(
       .BAUD_RATE(BAUD_RATE)
   ) uartrx (
       .rst_n(rst_n),
-      .clk(clk),
+      .clk  (clk),
+
       .rx(uart_rx),  // uart rx wire
       .go(uartrx_go),  // enable to start receiving, disable to acknowledge 'dr'
       .data(uartrx_data),  // current data being received, is incomplete until 'dr' is enabled
