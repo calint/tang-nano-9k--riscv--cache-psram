@@ -59,15 +59,15 @@ module UartRx #(
             // note: -1 because one of the ticks has been read before switching state
             state <= STATE_DATA_BITS;
           end
-          if (rx) begin
-            // note: check 'rx' in case there is drifting
-            //  some of the ticks of the start bit has been missed
-            //   set the 'bit_counter' to half a cycle
-            bit_counter <= BIT_TIME == 1 ? 0 : (BIT_TIME / 2 - 1);
-            // note: -1 because one of the ticks has been read before switching state
-            //  BIT_TIME / 2 to sample in the middle of next cycle
-            state <= STATE_DATA_BITS;
-          end
+          // if (rx) begin
+          //   // note: check 'rx' in case there is drifting
+          //   //  some of the ticks of the start bit has been missed
+          //   //   set the 'bit_counter' to half a cycle
+          //   bit_counter <= BIT_TIME == 1 ? 0 : (BIT_TIME / 2 - 1);
+          //   // note: -1 because one of the ticks has been read before switching state
+          //   //  BIT_TIME / 2 to sample in the middle of next cycle
+          //   state <= STATE_DATA_BITS;
+          // end
         end
 
         STATE_DATA_BITS: begin
