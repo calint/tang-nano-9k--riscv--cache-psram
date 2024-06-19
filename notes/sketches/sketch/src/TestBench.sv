@@ -24,10 +24,8 @@ module TestBench;
     $dumpvars(0, TestBench);
 
     #clk_tk;
-    #clk_tk;
     rst_n <= 1;
-    #clk_tk;
-
+  
     address <= 1;
     #clk_tk;
     address <= 4'hf;
