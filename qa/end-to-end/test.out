@@ -16,33 +16,32 @@ notebok not here
 u r in roome
 u c: nothing
 exits: north, east, west
-me > n
+me > 
+not understood
+
 u r in office
 u c: notebook, lighter
-me is here
 exits: south
 u > t lighter
-u r in office
-u c: notebook
-u is here
-exits: south
+u r in roome
+u c: nothing
+exits: north, east, west
 me > g mirror u
+u is not here
+
 u r in office
 u c: notebook
-me is here
 exits: south
 u > i
-u have: lighter, mirror
+u have: lighter
 
-u r in office
-u c: notebook
-u is here
-exits: south
+u r in roome
+u c: nothing
+exits: north, east, west
 me > i
-u have: nothing
+u have: mirror
 
 u r in office
 u c: notebook
-me is here
 exits: south
 u > 

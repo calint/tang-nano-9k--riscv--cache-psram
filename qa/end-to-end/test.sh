@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
-set -x
-
 cd $(dirname "$0")
+set -x
 
 TTY=/dev/ttyUSB1
 BAUD=9600
@@ -19,7 +18,7 @@ stty -F $TTY $BAUD cs8 -cstopb -parenb -crtscts -ixon -ixoff -ignbrk -brkint -ic
 
 cat $TTY > test.out &
 
-read -p "program fpga then press enter to continue"
+read -p "program or reset FPGA then press 'enter' to continue"
 
 printf "i\r" > $TTY
 sleep $SLP
