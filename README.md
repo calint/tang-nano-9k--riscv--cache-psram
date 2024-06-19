@@ -28,7 +28,6 @@
 
 ## Todo
 ```
-[x] make end-to-end test succeed without dropped input
 [o] study why terminal drops characters
     cat > /dev/ttyUSB1 should echo without dropping input
     => receive is being overrun but how can baud 9600 outpace 20 MHz?
@@ -47,6 +46,7 @@
 [ ] 2+ cycle LOAD
 [ ] step 12: pipe-lined core
 ------------------------------------------------------------------------------------------
+[x] make end-to-end test succeed without dropped input
 [x] step 11: adapt riscv core (multi-cycle ad-hoc pipeline simplest way forward)
 [x] RAMIO: read UART with 'lb' or 'lbu'
 ```
