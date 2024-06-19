@@ -34,7 +34,7 @@
     => receive is being overrun but how can baud 9600 outpace 20 MHz?
        => due to 'uart_send_char()'?
     => UART overrun even when doing 'uart_read_char()' in a loop
-    => more over characters are dropped without UART being overrun
+    => moreover characters are dropped without UART being overrun
     => fixed without grasping why. search for '// ??' in RAMIO
 [ ] study why BAUD rate of less than 2400 does not work
 [ ] consider FIFO in UART
