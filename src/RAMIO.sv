@@ -262,14 +262,14 @@ module RAMIO #(
         uartrx_data_received <= 0;
       end else if (uartrx_go && uartrx_dr) begin
         // ?? unclear why this must be in an 'else if'
-        // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
-        // note: read data can be overrun
-        if (uartrx_data_received != 0) begin
-          led <= 4'b1010;
-        end
-        if (uartrx_data == 0) begin
-          led <= 4'b0101;
-        end
+        // // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
+        // // note: read data can be overrun
+        // if (uartrx_data_received != 0) begin
+        //   led <= 4'b1010;
+        // end
+        // if (uartrx_data == 0) begin
+        //   led <= 4'b0101;
+        // end
         uartrx_data_received <= uartrx_data;
         uartrx_go <= 0;
       end

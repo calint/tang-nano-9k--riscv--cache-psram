@@ -443,7 +443,7 @@ void input(input_buffer *buf) {
       buf->ix++;
       uart_send_char(ch);
     }
-    // *LED = ~buf->ix;
+    *LED = ~buf->ix;
   }
 }
 
