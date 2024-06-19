@@ -262,13 +262,6 @@ module TestBench;
     if (ramio.uarttx_data_sending == 0) $display("Test 18 passed");
     else $display("Test 18 FAILED");
 
-    // read from UART
-    enable <= 1;
-    address <= 32'hffff_fffd;
-    read_type <= 3'b001;
-    write_type <= 0;
-    #clk_tk;
-
     // start bit
     uart_rx <= 0;
     #clk_tk;
@@ -299,18 +292,23 @@ module TestBench;
     // stop bit
     uart_rx <= 1;
     #clk_tk;
-    uart_rx <= 1;
-    #clk_tk;
+
+    #clk_tk;  // RAMIO transfers data from UartRx
 
     if (ramio.uartrx_dr && ramio.uartrx_data == 8'haa) $display("Test 19 passed");
     else $display("Test 19 FAILED");
 
-    #clk_tk; // RAMIO transfers data from UartRx
+    // read from UART
+    enable <= 1;
+    address <= 32'hffff_fffd;
+    read_type <= 3'b001;
+    write_type <= 0;
+    #clk_tk;
 
     if (data_out == 8'haa) $display("Test 20 passed");
     else $display("Test 20 FAILED");
 
-    uart_rx <= 0;
+    #clk_tk;  // RAMIO clears data from UartRx
 
     // read from UART again, should be 0
     enable <= 1;

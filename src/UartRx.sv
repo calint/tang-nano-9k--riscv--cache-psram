@@ -44,11 +44,12 @@ module UartRx #(
 
         STATE_IDLE: begin
           if (go && !rx) begin  // does the cpu wait for data and start bit has started?
-            bit_count <= 0;
             bit_counter <= BIT_TIME == 1 ? 0 : (BIT_TIME / 2 - 1);
             // note: -1 because one of the ticks has been read before switching state
             //  BIT_TIME / 2 to sample in the middle of next cycle
-            state <= STATE_START_BIT;
+
+            // if BIT_TIME == 1 then the start bit has been read, jump to read bits
+            state <= BIT_TIME == 1 ? STATE_DATA_BITS : STATE_START_BIT;
           end
         end
 
@@ -57,6 +58,7 @@ module UartRx #(
           if (bit_counter == 0) begin
             bit_counter <= BIT_TIME - 1;
             // note: -1 because one of the ticks has been read before switching state
+            bit_count <= 0;
             state <= STATE_DATA_BITS;
           end
           // if (rx) begin
