@@ -48,25 +48,26 @@ module UartTx #(
         STATE_IDLE: begin
           if (go) begin
             bsy <= 1;
-            bit_time_counter <= BIT_TIME - 1; // -1 because first 'tick' of 'start bit' is being sent in this state
+            bit_time_counter <= BIT_TIME - 1;
+            // note: -1 because first 'tick' of 'start bit' is being sent in this state
             tx <= 0;  // start sending 'start bit'
             state <= STATE_START_BIT;
           end
         end
 
         STATE_START_BIT: begin
+          bit_time_counter <= bit_time_counter - 1;
           if (bit_time_counter == 0) begin
             bit_time_counter <= BIT_TIME - 1;
             // note: -1 because first 'tick' of the first bit is being sent in this state
             tx <= data[0];  // start sending first bit of data
             bit_count <= 1;  // first bit is being sent during this cycle
             state <= STATE_DATA_BITS;
-          end else begin
-            bit_time_counter <= bit_time_counter - 1;
           end
         end
 
         STATE_DATA_BITS: begin
+          bit_time_counter <= bit_time_counter - 1;
           if (bit_time_counter == 0) begin
             tx <= data[bit_count];
             bit_time_counter <= BIT_TIME - 1;
@@ -77,22 +78,20 @@ module UartTx #(
               tx <= 1;  // overwrite tx, start sending stop bit
               state <= STATE_STOP_BIT;
             end
-          end else begin
-            bit_time_counter <= bit_time_counter - 1;
           end
         end
 
         STATE_STOP_BIT: begin
+          bit_time_counter <= bit_time_counter - 1;
           if (bit_time_counter == 0) begin
             bsy   <= 0;
             state <= STATE_WAIT_GO_LOW;
-          end else begin
-            bit_time_counter <= bit_time_counter - 1;
           end
         end
 
         STATE_WAIT_GO_LOW: begin
-          if (!go) begin  // wait for acknowledge that 'data' has been sent
+          // wait for acknowledge that 'data' has been sent
+          if (!go) begin
             state <= STATE_IDLE;
           end
         end
