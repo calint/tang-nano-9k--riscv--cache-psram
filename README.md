@@ -36,7 +36,8 @@
     => UART overrun even when doing 'uart_read_char()' in a loop
 [ ] study why BAUD rate of less than 2400 does not work
 [ ] UART read 'short' and return 0x100 for no data available or 0xXX for byte read including 0
-[ ] UART rx: if rx changes while not expecting assume drifting and set next bit
+[x] UART rx: if rx changes while not expecting assume drifting and set next bit
+    => checks for drifting during start bit
 [ ] fix truncation warnings
 [ ] always_comb based CPU
 [ ] 1 cycle ALU op
