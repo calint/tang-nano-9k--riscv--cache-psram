@@ -1,6 +1,6 @@
 # Tang Nano 9K
 
-* RISC-V rv32i implementation for intended use
+* RISC-V implementation of rv32i for intended use
   - no `ecall`, `ebreak`, `fence` or counters
 * cache to on-board 2 MB burst PSRAM
 * __todo__ dual channel 4 MB PSRAM

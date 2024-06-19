@@ -24,8 +24,8 @@ with open('src/Configuration.sv', 'w') as file:
     file.write('`define CACHE_LINE_IX_BITWIDTH {}\n'.format(
         cfg.CACHE_LINE_IX_BITWIDTH))
     file.write('`define UART_BAUD_RATE {}\n'.format(cfg.UART_BAUD_RATE))
-    num = f'{cfg.FLASH_TRANSFER_BYTES_NUM:08x}'
-    file.write('`define FLASH_TRANSFER_BYTES_NUM 32\'h{}\n'.format(num))
+    file.write('`define FLASH_TRANSFER_BYTES_NUM 32\'h{}\n'.format(
+        f'{cfg.FLASH_TRANSFER_BYTES_NUM:08x}'))
     file.write('`define STARTUP_WAIT {}\n'.format(cfg.STARTUP_WAIT))
 
-print("generated: src/Configuration.v, os/os_start.S, os/os_config.h")
+print("generated: src/Configuration.sv, os/os_start.S, os/os_config.h")
