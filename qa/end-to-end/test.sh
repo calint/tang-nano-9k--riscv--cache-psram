@@ -5,9 +5,10 @@ set -x
 cd $(dirname "$0")
 
 TTY=/dev/ttyUSB1
+BAUD=4800
 SLP=1
 
-stty -F $TTY 9600 cs8 -cstopb -parenb -crtscts -ixon -ixoff -ignbrk -brkint -icrnl -opost -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke
+stty -F $TTY $BAUD cs8 -cstopb -parenb -crtscts -ixon -ixoff -ignbrk -brkint -icrnl -opost -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke
 #    -crtscts disables hardware flow control
 #    -ixon -ixoff disables software flow control
 #    -ignbrk -brkint ignores break conditions
