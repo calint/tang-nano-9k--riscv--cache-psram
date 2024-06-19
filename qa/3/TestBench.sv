@@ -1,6 +1,7 @@
-`timescale 100ps / 100ps
 //
 // Cache + BurstRAM
+//
+`timescale 100ps / 100ps
 //
 `default_nettype none
 

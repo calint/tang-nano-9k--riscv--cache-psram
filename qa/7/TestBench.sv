@@ -1,6 +1,7 @@
-`timescale 100ps / 100ps
 //
 // Core  (bug fix #1)
+//
+`timescale 100ps / 100ps
 //
 `default_nettype none
 

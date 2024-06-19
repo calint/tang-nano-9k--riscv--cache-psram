@@ -1,6 +1,7 @@
-`timescale 1ns / 1ps
 //
 // BurstRAM
+//
+`timescale 1ns / 1ps
 //
 `default_nettype none
 
