@@ -38,6 +38,7 @@
 [x] step 11: adapt riscv core (multi-cycle ad-hoc pipeline simplest way forward)
 [x] RAMIO: read UART with 'lb' or 'lbu'
 [ ] UART read 'short' and return 0x100 for no data available or 0xXX for byte read including 0
+[ ] UART rx: if rx changes while not expecting assume drifting and set next bits
 [ ] always_comb based CPU
 [ ] 1 cycle ALU op
 [ ] 1+ cycle STORE
