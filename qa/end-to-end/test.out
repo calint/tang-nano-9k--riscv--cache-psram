@@ -1,0 +1,41 @@
+welcome to adventure #4
+    type 'help'
+
+u r in roome
+u c: nothing
+exits: north, east, west
+me > i
+u have: mirror
+
+u r in office
+u c: notebook, lighter
+exits: south
+u > t notebook
+u r in roome
+u c: nothing
+exits: north, east, west
+me > t lighter
+lighter not here
+
+u r in office
+u c: lighter
+exits: south
+u > g mirror u
+mirror not in inventory
+
+u r in roome
+u c: nothing
+exits: north, east, west
+me > i
+u have: mirror
+
+u r in office
+u c: lighter
+exits: south
+u > i
+u have: notebook
+
+u r in roome
+u c: nothing
+exits: north, east, west
+me > 

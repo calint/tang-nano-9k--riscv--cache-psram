@@ -16,7 +16,7 @@ stty -F $TTY 9600 cs8 -cstopb -parenb -crtscts -ixon -ixoff -ignbrk -brkint -icr
 #    -isig -icanon -iexten disables terminal signal handling and canonical input processing
 #    -echo -echoe -echok -echoctl -echoke disables terminal echoing
 
-cat $TTY > test1.out &
+cat $TTY > test.out &
 
 read -p "program fpga then press enter to continue"
 
@@ -41,9 +41,9 @@ kill -SIGTERM %1
 # wait for 'cat' to exit
 wait %1 || true
 
-if cmp -s test1.diff test1.out; then
-    echo "test 1: OK"
-    rm test1.out
+if cmp -s test.diff test.out; then
+    echo "test: OK"
+    rm test.out
 else
-    echo "test 1: FAILED"
+    echo "test: FAILED, check 'diff test.diff test.out'"
 fi
