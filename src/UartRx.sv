@@ -28,7 +28,7 @@ module UartRx #(
   localparam STATE_STOP_BIT = 5'b01000;
   localparam STATE_WAIT_GO_LOW = 5'b10000;
 
-  reg [4:0] state; // 5 states
+  reg [4:0] state;  // 5 states
   reg [3:0] bit_count;  // 4 bits to fit number 8
   reg [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_counter;
 
@@ -43,56 +43,53 @@ module UartRx #(
       case (state)
 
         STATE_IDLE: begin
-          if (!rx && go) begin  // does the cpu wait for data and start bit has started?
+          if (go && !rx) begin  // does the cpu wait for data and start bit has started?
             bit_count <= 0;
-            if (BIT_TIME == 1) begin
-              // the start bit has been read, jump to data
-              bit_counter <= BIT_TIME - 1;
-              // note: -1 because one of the ticks has been read before switching state
-              state <= STATE_DATA_BITS;
-            end else begin
-              // get sample from half of the cycle
-              bit_counter <= BIT_TIME / 2 - 1;
-              // note: -1 because one of the ticks has been read before switching state
-              state <= STATE_START_BIT;
-            end
+            bit_counter <= BIT_TIME == 1 ? 0 : (BIT_TIME / 2 - 1);
+            // note: -1 because one of the ticks has been read before switching state
+            //  BIT_TIME / 2 to sample in the middle of next cycle
+            state <= STATE_START_BIT;
           end
         end
 
         STATE_START_BIT: begin
+          bit_counter <= bit_counter - 1;
           if (bit_counter == 0) begin
-            // note: no check if rx==0 because there is no error recovery
             bit_counter <= BIT_TIME - 1;
             // note: -1 because one of the ticks has been read before switching state
             state <= STATE_DATA_BITS;
-          end else begin
-            bit_counter <= bit_counter - 1;
+          end
+          if (rx) begin
+            // note: check 'rx' in case there is drifting
+            //  some of the ticks of the start bit has been missed
+            //   set the 'bit_counter' to half a cycle
+            bit_counter <= BIT_TIME == 1 ? 0 : (BIT_TIME / 2 - 1);
+            // note: -1 because one of the ticks has been read before switching state
+            //  BIT_TIME / 2 to sample in the middle of next cycle
+            state <= STATE_DATA_BITS;
           end
         end
 
         STATE_DATA_BITS: begin
+          bit_counter <= bit_counter - 1;
           if (bit_counter == 0) begin
             data[bit_count] <= rx;
             bit_counter <= BIT_TIME - 1;
             // note: -1 because one of the ticks has been read before switching state
             bit_count <= bit_count + 1;
             if (bit_count == 7) begin
-              // note: 7, not 8, because of NBA of bit_count 
+              // note: 7, not 8, because of NBA
               bit_count <= 0;
               state <= STATE_STOP_BIT;
             end
-          end else begin
-            bit_counter <= bit_counter - 1;
           end
         end
 
         STATE_STOP_BIT: begin
+          bit_counter <= bit_counter - 1;
           if (bit_counter == 0) begin
-            // note: no check if rx==1 because there is no error recovery
             dr <= 1;
             state <= STATE_WAIT_GO_LOW;
-          end else begin
-            bit_counter <= bit_counter - 1;
           end
         end
 
