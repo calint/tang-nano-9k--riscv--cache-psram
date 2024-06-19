@@ -260,9 +260,9 @@ module RAMIO #(
       // if read from UART then reset the read data
       if (address == ADDRESS_UART_IN && read_type[1:0] == 2'b01) begin
         uartrx_data_received <= 0;
-      end
-      // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
-      if (uartrx_go && uartrx_dr) begin
+      end else if (uartrx_go && uartrx_dr) begin
+        // ?? unclear why this must be in an 'else if'
+        // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
         // note: read data can be overrun
         if (uartrx_data_received != 0) begin
           led <= 4'b1010;

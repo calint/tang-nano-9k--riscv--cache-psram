@@ -219,7 +219,7 @@ module Core #(
         end
 
         STATE_CPU_FETCH: begin
-          // disable register write incase it was writing during this cycle
+          // disable register write in case it was writing during this cycle
           rd_we <= 0;
 
           if (ramio_data_out_ready) begin
