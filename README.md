@@ -34,6 +34,7 @@
     => receive is being overrun but how can baud 9600 outpace 20 MHz?
        => due to 'uart_send_char()'?
     => UART overrun even when doing 'uart_read_char()' in a loop
+    => more over characters are dropped without UART being overrun
 [ ] study why BAUD rate of less than 2400 does not work
 [ ] UART read 'short' and return 0x100 for no data available or 0xXX for byte read including 0
 [ ] UART rx: if rx changes while not expecting assume drifting and set next bit
