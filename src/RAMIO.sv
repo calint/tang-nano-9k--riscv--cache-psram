@@ -107,7 +107,10 @@ module RAMIO #(
     end else begin
       // enable RAM
       ram_enable = 1;
-      // convert input to RAM interface
+      // note: could be done in either 'always_comb' however in this block checks of 
+      //  address is done with UART and LED
+
+      // convert input to RAM interface expected byte enabled RAM of 4 bytes
       case (write_type)
         2'b00: begin  // none
           ram_write_enable = 4'b0000;
@@ -170,9 +173,8 @@ module RAMIO #(
 `ifdef DBG
     $display("address: %h  read_type: %b", address, read_type);
 `endif
-    //    data_out = 0; // ? note. uncommenting this creates infinite loop when simulating with iverilog
-
     // create the 'data_out' based on the 'address'
+    // data_out = 0; // note: uncommenting this creates infinite loop when simulating with iverilog
     //
     if (address == ADDRESS_UART_OUT && read_type[1:0] == 2'b01) begin
       // if read byte from uart_tx (read_type[2] flags signed)
@@ -262,12 +264,12 @@ module RAMIO #(
       // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
       if (uartrx_go && uartrx_dr) begin
         // note: read data can be overrun
-        // if (uartrx_data_received != 0) begin
-        //   led <= 4'b1010;
-        // end
-        // if (uartrx_data == 0) begin
-        //   led <= 4'b0101;
-        // end
+        if (uartrx_data_received != 0) begin
+          led <= 4'b1010;
+        end
+        if (uartrx_data == 0) begin
+          led <= 4'b0101;
+        end
         uartrx_data_received <= uartrx_data;
         uartrx_go <= 0;
       end
