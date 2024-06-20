@@ -7,24 +7,24 @@
 // `define DBG
 
 module Registers #(
-    parameter ADDR_WIDTH = 5,
-    parameter WIDTH = 32
+    parameter AddressBitWidth = 5,
+    parameter DataBitWidth = 32
 ) (
     input wire clk,
 
-    input wire [ADDR_WIDTH-1:0] rs1,
-    input wire [ADDR_WIDTH-1:0] rs2,
-    input wire [ADDR_WIDTH-1:0] rd,
+    input wire [AddressBitWidth-1:0] rs1,
+    input wire [AddressBitWidth-1:0] rs2,
+    input wire [AddressBitWidth-1:0] rd,
 
-    output logic [WIDTH-1:0] rs1_dat,  // value of register 'ra1'
-    output logic [WIDTH-1:0] rs2_dat,  // value of register 'ra2'
+    output logic [DataBitWidth-1:0] rs1_dat,  // value of register 'ra1'
+    output logic [DataBitWidth-1:0] rs2_dat,  // value of register 'ra2'
 
     // data to write to register 'rd' when 'rd_we' is enabled
-    input wire [WIDTH-1:0] rd_wd,
+    input wire [DataBitWidth-1:0] rd_wd,
     input wire rd_we
 );
 
-  logic signed [WIDTH-1:0] mem[2**ADDR_WIDTH];
+  logic signed [DataBitWidth-1:0] mem[2**AddressBitWidth];
 
   // register 0 is hardwired to value 0
   assign rs1_dat = rs1 == 0 ? 0 : mem[rs1];

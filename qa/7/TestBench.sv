@@ -58,11 +58,11 @@ module TestBench;
   wire ramio_busy;
 
   RAMIO #(
-      .RAM_DEPTH_BITWIDTH(RAM_DEPTH_BITWIDTH),
-      .RAM_ADDRESSING_MODE(3),  // 64 bit word RAM
-      .CACHE_LINE_IX_BITWIDTH(1),
-      .CLK_FREQ(20_250_000),
-      .BAUD_RATE(20_250_000)
+      .RamDepthBitWidth(RAM_DEPTH_BITWIDTH),
+      .RamAddressingMode(3),  // 64 bit word RAM
+      .CacheLineIndexBitWidth(1),
+      .ClockFrequencyMhz(20_250_000),
+      .BaudRate(20_250_000)
   ) ramio (
       .rst_n(sys_rst_n && br_init_calib),
       .clk(clk),
@@ -105,8 +105,8 @@ module TestBench;
   );
   //------------------------------------------------------------------------
   Core #(
-      .STARTUP_WAIT(0),
-      .FLASH_TRANSFER_BYTES_NUM(4096)
+      .StartupWaitCycles(0),
+      .FlashTransferBytes(4096)
   ) core (
       .rst_n(sys_rst_n && br_init_calib),
       .clk  (clk),

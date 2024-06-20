@@ -8,8 +8,8 @@
 // `define INFO
 
 module UartTx #(
-    parameter CLK_FREQ  = 66_000_000,
-    parameter BAUD_RATE = 9600
+    parameter ClockFrequencyMhz  = 66_000_000,
+    parameter BaudRate = 9600
 ) (
     input wire rst_n,
     input wire clk,
@@ -23,7 +23,7 @@ module UartTx #(
     output logic bsy  // enabled while sendng
 );
 
-  localparam BIT_TIME = CLK_FREQ / BAUD_RATE;
+  localparam BIT_TIME = ClockFrequencyMhz / BaudRate;
 
   localparam STATE_IDLE = 5'b00001;
   localparam STATE_START_BIT = 5'b00010;

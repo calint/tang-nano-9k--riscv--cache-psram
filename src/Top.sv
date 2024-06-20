@@ -101,11 +101,11 @@ module Top (
   logic ramio_busy;
 
   RAMIO #(
-      .RAM_DEPTH_BITWIDTH(`RAM_ADDRESS_BITWIDTH),
-      .RAM_ADDRESSING_MODE(0),  // addressing 8 bit words
-      .CACHE_LINE_IX_BITWIDTH(`CACHE_LINE_IX_BITWIDTH),
-      .CLK_FREQ(CPU_FREQUENCY_MHZ),
-      .BAUD_RATE(`UART_BAUD_RATE)
+      .RamDepthBitWidth(`RAM_ADDRESS_BITWIDTH),
+      .RamAddressingMode(0),  // addressing 8 bit words
+      .CacheLineIndexBitWidth(`CACHE_LINE_IX_BITWIDTH),
+      .ClockFrequencyMhz(CPU_FREQUENCY_MHZ),
+      .BaudRate(`UART_BAUD_RATE)
   ) ramio (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
@@ -141,8 +141,8 @@ module Top (
   // ----------------------------------------------------------
 
   Core #(
-      .STARTUP_WAIT(`STARTUP_WAIT),
-      .FLASH_TRANSFER_BYTES_NUM(`FLASH_TRANSFER_BYTES_NUM)
+      .StartupWaitCycles(`STARTUP_WAIT),
+      .FlashTransferBytes(`FLASH_TRANSFER_BYTES_NUM)
   ) core (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),

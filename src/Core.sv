@@ -8,8 +8,8 @@
 // `define INFO
 
 module Core #(
-    parameter STARTUP_WAIT = 1_000_000,
-    parameter FLASH_TRANSFER_BYTES_NUM = 32'h0010_0000
+    parameter StartupWaitCycles = 1_000_000,
+    parameter FlashTransferBytes = 32'h0010_0000
 ) (
     input wire rst_n,
     input wire clk,
@@ -121,7 +121,7 @@ module Core #(
       unique case (state)
 
         STATE_BOOT_INIT_POWER: begin
-          if (flash_counter >= STARTUP_WAIT) begin
+          if (flash_counter >= StartupWaitCycles) begin
             flash_counter <= 0;
             state <= STATE_BOOT_LOAD_CMD_TO_SEND;
           end else begin
@@ -200,7 +200,7 @@ module Core #(
           if (!ramio_busy) begin
             ramio_enable <= 0;
             flash_current_byte_num <= 0;
-            if (ramio_address_next < FLASH_TRANSFER_BYTES_NUM) begin
+            if (ramio_address_next < FlashTransferBytes) begin
               state <= STATE_BOOT_READ_DATA;
             end else begin
               flash_cs <= 1;

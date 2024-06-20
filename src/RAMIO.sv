@@ -8,17 +8,17 @@
 // `define INFO
 
 module RAMIO #(
-    parameter RAM_DEPTH_BITWIDTH = 10,
-    parameter RAM_ADDRESSING_MODE = 3,
-    parameter CACHE_LINE_IX_BITWIDTH = 1,
-    parameter ADDRESS_BITWIDTH = 32,
-    parameter DATA_WIDTH = 32,
-    parameter CLK_FREQ = 20_250_000,
-    parameter BAUD_RATE = 9600,
-    parameter TOP_ADDRESS = {ADDRESS_BITWIDTH{1'b1}},
-    parameter ADDRESS_LED = TOP_ADDRESS,
-    parameter ADDRESS_UART_OUT = TOP_ADDRESS - 1,
-    parameter ADDRESS_UART_IN = TOP_ADDRESS - 2
+    parameter RamDepthBitWidth = 10,
+    parameter RamAddressingMode = 3,
+    parameter CacheLineIndexBitWidth = 1,
+    parameter AddressBitWidth = 32,
+    parameter DataBitWidth = 32,
+    parameter ClockFrequencyMhz = 20_250_000,
+    parameter BaudRate = 9600,
+    parameter TopAddress = {AddressBitWidth{1'b1}},
+    parameter AddressLed = TopAddress,
+    parameter AddressUartOut = TopAddress - 1,
+    parameter AddressUartIn = TopAddress - 2
     // note: received byte must be read with 'lb' or 'lbu'
 ) (
     input wire rst_n,
@@ -33,13 +33,13 @@ module RAMIO #(
     input wire [2:0] read_type,
 
     // address in bytes
-    input wire [ADDRESS_BITWIDTH-1:0] address,
+    input wire [AddressBitWidth-1:0] address,
 
     // sign extended byte, half word, word
-    input wire [DATA_WIDTH-1:0] data_in,
+    input wire [DataBitWidth-1:0] data_in,
 
     // data at 'address' according to 'read_type'
-    output logic [DATA_WIDTH-1:0] data_out,
+    output logic [DataBitWidth-1:0] data_out,
 
     output logic data_out_ready,
 
@@ -55,7 +55,7 @@ module RAMIO #(
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write
     output logic br_cmd_en,  // 1: cmd and addr is valid
-    output logic [RAM_DEPTH_BITWIDTH-1:0] br_addr,  // see 'RAM_ADDRESSING_MODE'
+    output logic [RamDepthBitWidth-1:0] br_addr,  // see 'RamAddressingMode'
     output logic [63:0] br_wr_data,  // data to write
     output logic [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
@@ -68,25 +68,25 @@ module RAMIO #(
   logic ram_data_out_ready;
 
   // byte addressed into cache
-  logic [ADDRESS_BITWIDTH-1:0] ram_address;
+  logic [AddressBitWidth-1:0] ram_address;
 
   // data formatted for byte enabled write
-  logic [DATA_WIDTH-1:0] ram_data_in;
+  logic [DataBitWidth-1:0] ram_data_in;
 
   // bytes enabled for writing
   logic [3:0] ram_write_enable;
 
-  logic [DATA_WIDTH-1:0] ram_data_out;
+  logic [DataBitWidth-1:0] ram_data_out;
 
   // forward busy and data ready signals from cache unless it is I/O
-  assign busy = address == ADDRESS_UART_OUT || 
-                address == ADDRESS_UART_IN || 
-                address == ADDRESS_LED 
+  assign busy = address == AddressUartOut || 
+                address == AddressUartIn || 
+                address == AddressLed 
                 ? 0 : ram_busy;
 
-  assign data_out_ready = address == ADDRESS_UART_OUT || 
-                          address == ADDRESS_UART_IN ||
-                          address == ADDRESS_LED
+  assign data_out_ready = address == AddressUartOut || 
+                          address == AddressUartIn ||
+                          address == AddressLed
                           ? 1 : ram_data_out_ready;
 
   //
@@ -95,14 +95,14 @@ module RAMIO #(
   // 
   always_comb begin
     // convert address to 4 byte word addressing in RAM
-    ram_address = {address[ADDRESS_BITWIDTH-1:2], 2'b00};
+    ram_address = {address[AddressBitWidth-1:2], 2'b00};
 
     // initiate result
     ram_enable = 0;
     ram_write_enable = 0;
     ram_data_in = 0;
 
-    if (address == ADDRESS_UART_OUT || address == ADDRESS_UART_IN || address == ADDRESS_LED) begin
+    if (address == AddressUartOut || address == AddressUartIn || address == AddressLed) begin
       // don't trigger cache when accessing I/O
     end else begin
       // enable RAM
@@ -177,13 +177,13 @@ module RAMIO #(
     // create the 'data_out' based on the 'address'
     // data_out = 0; // note: uncommenting this creates infinite loop when simulating with iverilog
     //
-    if (address == ADDRESS_UART_OUT && read_type[1:0] == 2'b01) begin
+    if (address == AddressUartOut && read_type[1:0] == 2'b01) begin
       // if read byte from uart_tx (read_type[2] flags signed)
       data_out = read_type[2] ? 
                     {{24{uarttx_data_sending[7]}}, uarttx_data_sending} : 
                     {{24{1'b0}}, uarttx_data_sending};
 
-    end else if (address == ADDRESS_UART_IN && read_type[1:0] == 2'b01) begin
+    end else if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
       // if read byte from uart_rx (read_type[2] flags signed)
       data_out = read_type[2] ? 
                     {{24{uartrx_data_received[7]}}, uartrx_data_received} :
@@ -259,7 +259,7 @@ module RAMIO #(
       uartrx_go <= 1;
     end else begin
       // if read from UART then reset the read data
-      if (address == ADDRESS_UART_IN && read_type[1:0] == 2'b01) begin
+      if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
         uartrx_data_received <= 0;
       end else if (uartrx_go && uartrx_dr) begin
         // ?? unclear why in an 'else if' instead of stand-alone 'if'
@@ -279,21 +279,21 @@ module RAMIO #(
         uarttx_data_sending <= 0;
       end
       // if writing to UART out
-      if (address == ADDRESS_UART_OUT && write_type == 2'b01) begin
+      if (address == AddressUartOut && write_type == 2'b01) begin
         uarttx_data_sending <= data_in[7:0];
         uarttx_go <= 1;
       end
       // if writing to LEDs
-      if (address == ADDRESS_LED && write_type == 2'b01) begin
+      if (address == AddressLed && write_type == 2'b01) begin
         led <= data_in[3:0];
       end
     end
   end
 
   Cache #(
-      .LINE_IX_BITWIDTH(CACHE_LINE_IX_BITWIDTH),
-      .RAM_DEPTH_BITWIDTH(RAM_DEPTH_BITWIDTH),
-      .RAM_ADDRESSING_MODE(RAM_ADDRESSING_MODE)  // 64 bit words
+      .LineIndexBitWidth(CacheLineIndexBitWidth),
+      .RamDepthBitWidth(RamDepthBitWidth),
+      .RamAddressingMode(RamAddressingMode)  // 64 bit words
   ) cache (
       .rst_n,
       .clk,
@@ -317,8 +317,8 @@ module RAMIO #(
   );
 
   UartTx #(
-      .CLK_FREQ (CLK_FREQ),
-      .BAUD_RATE(BAUD_RATE)
+      .ClockFrequencyMhz (ClockFrequencyMhz),
+      .BaudRate(BaudRate)
   ) uarttx (
       .rst_n,
       .clk,
@@ -330,8 +330,8 @@ module RAMIO #(
   );
 
   UartRx #(
-      .CLK_FREQ (CLK_FREQ),
-      .BAUD_RATE(BAUD_RATE)
+      .ClockFrequencyMhz (ClockFrequencyMhz),
+      .BaudRate(BaudRate)
   ) uartrx (
       .rst_n,
       .clk,

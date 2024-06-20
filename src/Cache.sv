@@ -13,18 +13,18 @@
 
 module Cache #(
     // cache lines: 2 ^ value
-    parameter LINE_IX_BITWIDTH = 8,
+    parameter LineIndexBitWidth = 8,
 
     // bits in the address interfacing with RAM
-    parameter RAM_DEPTH_BITWIDTH = 21,
+    parameter RamDepthBitWidth = 21,
 
     // the clock cycles delay between commands
     // see: IPUG943-1.2E Gowin PSRAM Memory Interface HS & HS 2CH IP
     //      page 10
-    parameter COMMAND_DELAY_INTERVAL = 13,
+    parameter CommandDelayIntervalCycles = 13,
     // note: 1 less than spec because the counter starts 1 cycle late (13)
 
-    parameter RAM_ADDRESSING_MODE = 0
+    parameter RamAddressingMode = 0
     // note: 3: RAM has 64 bit words
     //       2: RAM has 32 bit words
     //       1: RAM has 16 bit words
@@ -52,7 +52,7 @@ module Cache #(
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write
     output logic br_cmd_en,  // 1: cmd and addr is valid
-    output logic [RAM_DEPTH_BITWIDTH-1:0] br_addr,  // see 'RAM_ADDRESSING_MODE'
+    output logic [RamDepthBitWidth-1:0] br_addr,  // see 'RamAddressingMode'
     output logic [63:0] br_wr_data,  // data to write
     output logic [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
@@ -72,13 +72,13 @@ module Cache #(
   localparam ZEROS_BITWIDTH = 2;  // leading zeros in the address
   localparam COLUMN_IX_BITWIDTH = 3;  // 2 ^ 3 = 8 elements per line
   localparam COLUMN_COUNT = 2 ** COLUMN_IX_BITWIDTH;
-  localparam LINE_COUNT = 2 ** LINE_IX_BITWIDTH;
-  localparam TAG_BITWIDTH = 32 - LINE_IX_BITWIDTH - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
+  localparam LINE_COUNT = 2 ** LineIndexBitWidth;
+  localparam TAG_BITWIDTH = 32 - LineIndexBitWidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
   // note: assumes there are 2 bits free after 'TAG_BITWIDTH' for 'valid' and 'dirty' flags
 
   localparam LINE_VALID_BIT = TAG_BITWIDTH;
   localparam LINE_DIRTY_BIT = TAG_BITWIDTH + 1;
-  localparam LINE_TO_RAM_ADDRESS_LEFT_SHIFT = COLUMN_IX_BITWIDTH + ZEROS_BITWIDTH - RAM_ADDRESSING_MODE;
+  localparam LINE_TO_RAM_ADDRESS_LEFT_SHIFT = COLUMN_IX_BITWIDTH + ZEROS_BITWIDTH - RamAddressingMode;
 
   // wires dividing the address into components
   // |tag|line| col |00| address
@@ -92,17 +92,17 @@ module Cache #(
     COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
     -:COLUMN_IX_BITWIDTH
   ];
-  wire [LINE_IX_BITWIDTH-1:0] line_ix =  address[
-    LINE_IX_BITWIDTH+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
-    -:LINE_IX_BITWIDTH
+  wire [LineIndexBitWidth-1:0] line_ix =  address[
+    LineIndexBitWidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
+    -:LineIndexBitWidth
   ];
   wire [TAG_BITWIDTH-1:0] address_tag = address[
-    TAG_BITWIDTH+LINE_IX_BITWIDTH+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
+    TAG_BITWIDTH+LineIndexBitWidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
     -:TAG_BITWIDTH
   ];
 
   // starting address of cache line in RAM for current address
-  wire [RAM_DEPTH_BITWIDTH-1:0] burst_line_address = {
+  wire [RamDepthBitWidth-1:0] burst_line_address = {
     address[31:COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH], {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
   };
 
@@ -120,7 +120,7 @@ module Cache #(
   assign br_data_mask = 0;  // writing whole cache lines
 
   BESDPB #(
-      .ADDRESS_BITWIDTH(LINE_IX_BITWIDTH)
+      .ADDRESS_BITWIDTH(LineIndexBitWidth)
   ) tag (
       .clk(clk),
       .write_enable(tag_write_enable),
@@ -135,7 +135,7 @@ module Cache #(
   wire [TAG_BITWIDTH-1:0] cached_tag = cached_tag_and_flags[TAG_BITWIDTH-1:0];
 
   // starting address in burst RAM for the cached line
-  wire [RAM_DEPTH_BITWIDTH-1:0] cached_line_address = {
+  wire [RamDepthBitWidth-1:0] cached_line_address = {
     {cached_tag, line_ix}, {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
   };
 
@@ -160,7 +160,7 @@ module Cache #(
   generate
     for (genvar i = 0; i < COLUMN_COUNT; i++) begin : column
       BESDPB #(
-          .ADDRESS_BITWIDTH(LINE_IX_BITWIDTH)
+          .ADDRESS_BITWIDTH(LineIndexBitWidth)
       ) column (
           .clk(clk),
           .write_enable(column_write_enable[i]),
@@ -279,7 +279,7 @@ module Cache #(
               br_wr_data[31:0] <= column_data_out[0];
               br_wr_data[63:32] <= column_data_out[1];
               br_cmd_en <= 1;
-              command_delay_interval_counter <= COMMAND_DELAY_INTERVAL;
+              command_delay_interval_counter <= CommandDelayIntervalCycles;
               burst_is_writing <= 1;
               state <= STATE_WRITE_1;
             end else begin  // not (write_enable && line_dirty)
@@ -292,7 +292,7 @@ module Cache #(
               br_cmd <= 0;  // command read
               br_addr <= burst_line_address;
               br_cmd_en <= 1;
-              command_delay_interval_counter <= COMMAND_DELAY_INTERVAL;
+              command_delay_interval_counter <= CommandDelayIntervalCycles;
               burst_is_reading <= 1;
               state <= STATE_READ_WAIT_FOR_DATA_READY;
             end
@@ -414,7 +414,7 @@ module Cache #(
             br_cmd <= 0;  // command read
             br_addr <= burst_line_address;
             br_cmd_en <= 1;
-            command_delay_interval_counter <= COMMAND_DELAY_INTERVAL;
+            command_delay_interval_counter <= CommandDelayIntervalCycles;
             burst_is_writing <= 0;
             burst_is_reading <= 1;
             state <= STATE_READ_WAIT_FOR_DATA_READY;
