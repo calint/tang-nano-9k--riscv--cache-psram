@@ -9,16 +9,16 @@ module Top (
     input wire rst_n,
     output logic [5:0] led,
     input wire uart_rx,
-    output wire uart_tx,
+    output logic uart_tx,
     input wire btn1,
 
     // magic ports for PSRAM to be inferred
-    output wire [ 1:0] O_psram_ck,
-    output wire [ 1:0] O_psram_ck_n,
+    output logic [ 1:0] O_psram_ck,
+    output logic [ 1:0] O_psram_ck_n,
     inout  wire [ 1:0] IO_psram_rwds,
     inout  wire [15:0] IO_psram_dq,
-    output wire [ 1:0] O_psram_reset_n,
-    output wire [ 1:0] O_psram_cs_n,
+    output logic [ 1:0] O_psram_reset_n,
+    output logic [ 1:0] O_psram_cs_n,
 
     // flash
     output logic  flash_clk,

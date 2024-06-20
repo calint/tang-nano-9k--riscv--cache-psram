@@ -16,8 +16,8 @@ module Registers #(
     input wire [ADDR_WIDTH-1:0] rs2,
     input wire [ADDR_WIDTH-1:0] rd,
 
-    output wire [WIDTH-1:0] rs1_dat,  // value of register 'ra1'
-    output wire [WIDTH-1:0] rs2_dat,  // value of register 'ra2'
+    output logic [WIDTH-1:0] rs1_dat,  // value of register 'ra1'
+    output logic [WIDTH-1:0] rs2_dat,  // value of register 'ra2'
 
     // data to write to register 'rd' when 'rd_we' is enabled
     input wire [WIDTH-1:0] rd_wd,

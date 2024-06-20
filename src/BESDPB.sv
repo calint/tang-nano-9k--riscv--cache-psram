@@ -16,7 +16,7 @@ module BESDPB #(
     input wire clk,
     input wire [COLUMN_COUNT-1:0] write_enable,
     input wire [ADDRESS_BITWIDTH-1:0] address,
-    output wire [DATA_BITWIDTH-1:0] data_out,
+    output logic [DATA_BITWIDTH-1:0] data_out,
     input wire [DATA_BITWIDTH-1:0] data_in
 );
 

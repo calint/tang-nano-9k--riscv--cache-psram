@@ -41,15 +41,15 @@ module RAMIO #(
     // data at 'address' according to 'read_type'
     output logic [DATA_WIDTH-1:0] data_out,
 
-    output wire data_out_ready,
+    output logic data_out_ready,
 
-    output wire busy,
+    output logic busy,
 
     // I/O mapping of LEDs
     output logic [3:0] led,
 
     // UART
-    output wire uart_tx,
+    output logic uart_tx,
     input  wire uart_rx,
 
     // burst RAM wiring; prefix 'br_'
@@ -57,7 +57,7 @@ module RAMIO #(
     output logic br_cmd_en,  // 1: cmd and addr is valid
     output logic [RAM_DEPTH_BITWIDTH-1:0] br_addr,  // see 'RAM_ADDRESSING_MODE'
     output logic [63:0] br_wr_data,  // data to write
-    output wire [7:0] br_data_mask,  // always 0 meaning write all bytes
+    output logic [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
     input wire br_rd_data_valid  // rd_data is valid
 );
