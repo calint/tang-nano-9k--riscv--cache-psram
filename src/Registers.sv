@@ -24,7 +24,7 @@ module Registers #(
     input wire rd_we
 );
 
-  reg signed [WIDTH-1:0] mem[0:2**ADDR_WIDTH-1];
+  reg signed [WIDTH-1:0] mem[2**ADDR_WIDTH];
 
   // register 0 is hardwired to value 0
   assign rs1_dat = rs1 == 0 ? 0 : mem[rs1];

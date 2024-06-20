@@ -36,7 +36,7 @@ module BurstRAM #(
   reg [$clog2(CYCLES_BEFORE_INITIATED):0] init_calib_delay_counter;
   // note: not -1 because it comparison is against CYCLES_BEFORE_INITIATED
 
-  reg [DATA_BITWIDTH-1:0] data[DEPTH-1:0];
+  reg [DATA_BITWIDTH-1:0] data[DEPTH];
 
   reg [$clog2(BURST_COUNT)-1:0] burst_counter;
 
