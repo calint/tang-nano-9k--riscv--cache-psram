@@ -88,8 +88,8 @@ module Core #(
   wire signed [31:0] B_imm12 = {{20{ir[31]}}, ir[7], ir[30:25], ir[11:8], 1'b0};
   wire signed [31:0] J_imm20 = {{12{ir[31]}}, ir[19:12], ir[20], ir[30:21], 1'b0};
   // registers output data
-  wire signed [31:0] rs1_dat;  // register 'rs1' data
-  wire signed [31:0] rs2_dat;  // register 'rs2' data
+  logic signed [31:0] rs1_dat;  // register 'rs1' data
+  logic signed [31:0] rs2_dat;  // register 'rs2' data
   // register write back
   logic [31:0] rd_wd;  // register write data to 'rd'
   logic rd_we;  // register write enable
@@ -457,14 +457,14 @@ module Core #(
   end
 
   Registers registers (
-      .clk(clk),
-      .rs1(rs1),
-      .rs1_dat(rs1_dat),
-      .rs2(rs2),
-      .rs2_dat(rs2_dat),
-      .rd(rd),
-      .rd_wd(rd_wd),
-      .rd_we(rd_we)
+      .clk,
+      .rs1,
+      .rs1_dat,
+      .rs2,
+      .rs2_dat,
+      .rd,
+      .rd_wd,
+      .rd_we
   );
 
 endmodule
