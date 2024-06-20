@@ -58,7 +58,7 @@ module TestBench;
   wire ramio_busy;
 
   RAMIO #(
-      .RamDepthBitWidth(RAM_DEPTH_BITWIDTH),
+      .RamAddressBitWidth(RAM_DEPTH_BITWIDTH),
       .RamAddressingMode(3),  // 64 bit word RAM
       .CacheLineIndexBitWidth(1),
       .ClockFrequencyMhz(20_250_000),

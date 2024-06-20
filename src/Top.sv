@@ -101,7 +101,7 @@ module Top (
   logic ramio_busy;
 
   RAMIO #(
-      .RamDepthBitWidth(`RAM_ADDRESS_BITWIDTH),
+      .RamAddressBitWidth(`RAM_ADDRESS_BITWIDTH),
       .RamAddressingMode(0),  // addressing 8 bit words
       .CacheLineIndexBitWidth(`CACHE_LINE_IX_BITWIDTH),
       .ClockFrequencyMhz(CPU_FREQUENCY_MHZ),

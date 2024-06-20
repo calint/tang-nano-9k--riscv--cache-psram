@@ -8,7 +8,7 @@
 // `define INFO
 
 module RAMIO #(
-    parameter RamDepthBitWidth = 10,
+    parameter RamAddressBitWidth = 10,
     parameter RamAddressingMode = 3,
     parameter CacheLineIndexBitWidth = 1,
     parameter AddressBitWidth = 32,
@@ -55,7 +55,7 @@ module RAMIO #(
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write
     output logic br_cmd_en,  // 1: cmd and addr is valid
-    output logic [RamDepthBitWidth-1:0] br_addr,  // see 'RamAddressingMode'
+    output logic [RamAddressBitWidth-1:0] br_addr,  // see 'RamAddressingMode'
     output logic [63:0] br_wr_data,  // data to write
     output logic [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
@@ -292,7 +292,7 @@ module RAMIO #(
 
   Cache #(
       .LineIndexBitWidth(CacheLineIndexBitWidth),
-      .RamAddressBitWidth(RamDepthBitWidth),
+      .RamAddressBitWidth(RamAddressBitWidth),
       .RamAddressingMode(RamAddressingMode)  // 64 bit words
   ) cache (
       .rst_n,

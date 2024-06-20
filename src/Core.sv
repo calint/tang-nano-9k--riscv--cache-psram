@@ -467,8 +467,8 @@ module Core #(
       .rs2,
       .rs2_dat,
       .rd,
-      .rd_wd,
-      .rd_we
+      .rd_we,
+      .rd_wd
   );
 
 endmodule
