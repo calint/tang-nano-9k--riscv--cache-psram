@@ -40,7 +40,7 @@ module UartRx #(
       bit_counter <= 0;
       dr <= 0;
     end else begin
-      case (state)
+      unique case (state)
 
         STATE_IDLE: begin
           if (go && !rx) begin  // does the cpu wait for data and start bit has started?

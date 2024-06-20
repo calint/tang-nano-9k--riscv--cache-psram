@@ -62,7 +62,7 @@ module Flash #(
       $display("state: %0d  counter: %0d  address: %h", state, counter, address);
 `endif
 
-      case (state)
+      unique case (state)
 
         STATE_RECEIVE_COMMAND: begin
           counter <= counter - 1;

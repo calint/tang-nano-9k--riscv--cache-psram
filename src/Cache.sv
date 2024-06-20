@@ -259,7 +259,7 @@ module Cache #(
         command_delay_interval_counter <= command_delay_interval_counter - 1'b1;
       end
 
-      case (state)
+      unique case (state)
 
         STATE_IDLE: begin
           if (enable && !cache_line_hit && command_delay_interval_counter == 0) begin

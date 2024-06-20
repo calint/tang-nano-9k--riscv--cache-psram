@@ -43,7 +43,7 @@ module UartTx #(
       tx <= 1;
       bsy <= 0;
     end else begin
-      case (state)
+      unique case (state)
 
         STATE_IDLE: begin
           if (go) begin

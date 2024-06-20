@@ -118,7 +118,7 @@ module Core #(
 `ifdef DBG
       $display("state: %0d", state);
 `endif
-      case (state)
+      unique case (state)
 
         STATE_BOOT_INIT_POWER: begin
           if (flash_counter >= STARTUP_WAIT) begin
@@ -250,14 +250,14 @@ module Core #(
           state <= STATE_CPU_FETCH;
 
           // execute instruction (part 1)
-          case (opcode)
+          unique case (opcode)
             7'b0110111: begin  // LUI
               rd_wd <= U_imm20;
               rd_we <= 1;
             end
             7'b0010011: begin  // logical ops immediate
               rd_we <= 1;
-              case (funct3)
+              unique case (funct3)
                 3'b000: begin  // ADDI
                   rd_wd <= rs1_dat + I_imm12;
                 end
@@ -282,11 +282,12 @@ module Core #(
                 3'b101: begin  // SRLI and SRAI
                   rd_wd <= ir[30] ? rs1_dat >>> rs2 : rs1_dat >> rs2;
                 end
+                default: ;
               endcase  // case (funct3)
             end
             7'b0110011: begin  // logical ops
               rd_we <= 1;
-              case (funct3)
+              unique case (funct3)
                 3'b000: begin  // ADD and SUB
                   rd_wd <= ir[30] ? rs1_dat - rs2_dat : rs1_dat + rs2_dat;
                 end
@@ -311,13 +312,14 @@ module Core #(
                 3'b111: begin  // AND
                   rd_wd <= rs1_dat & rs2_dat;
                 end
+                default: ;
               endcase  // case (funct3)
             end
             7'b0100011: begin  // store
               ramio_read_type <= 0;
               ramio_address   <= rs1_dat + S_imm12;
               ramio_data_in   <= rs2_dat;
-              case (funct3)
+              unique case (funct3)
                 3'b000: begin  // SB
                   ramio_write_type <= 2'b01;  // write byte
                 end
@@ -327,13 +329,14 @@ module Core #(
                 3'b010: begin  // SW
                   ramio_write_type <= 2'b11;  // write word
                 end
+                default: ;
               endcase  // case (funct3)
               state <= STATE_CPU_STORE;
             end
             7'b0000011: begin  // load
               ramio_write_type <= 0;
               ramio_address <= rs1_dat + I_imm12;
-              case (funct3)
+              unique case (funct3)
                 3'b000: begin  // LB
                   ramio_read_type <= 3'b101;  // read sign extended byte
                 end
@@ -349,6 +352,7 @@ module Core #(
                 3'b101: begin  // LHU
                   ramio_read_type <= 3'b010;  // read unsigned half word
                 end
+                default: ;
               endcase  // case (funct3)
               state <= STATE_CPU_LOAD;
             end
@@ -369,7 +373,7 @@ module Core #(
               pc <= rs1_dat + I_imm12;
             end
             7'b1100011: begin  // branches
-              case (funct3)
+              unique case (funct3)
                 3'b000: begin  // BEQ
                   if (rs1_dat == rs2_dat) begin
                     ramio_address <= pc + B_imm12;
@@ -406,8 +410,10 @@ module Core #(
                     pc <= pc + B_imm12;
                   end
                 end
+                default: ;
               endcase  // case (funct3)
             end
+            default: ;
           endcase  // case (opcode)
         end
 

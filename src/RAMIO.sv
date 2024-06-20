@@ -111,12 +111,12 @@ module RAMIO #(
       //  address is done with UART and LED
 
       // convert input to RAM interface expected byte enabled RAM of 4 bytes
-      case (write_type)
+      unique case (write_type)
         2'b00: begin  // none
           ram_write_enable = 4'b0000;
         end
         2'b01: begin  // byte
-          case (address[1:0])
+          unique case (address[1:0])
             2'b00: begin
               ram_write_enable = 4'b0001;
               ram_data_in[7:0] = data_in[7:0];
@@ -136,7 +136,7 @@ module RAMIO #(
           endcase
         end
         2'b10: begin  // half word
-          case (address[1:0])
+          unique case (address[1:0])
             2'b00: begin
               ram_write_enable  = 4'b0011;
               ram_data_in[15:0] = data_in[15:0];
@@ -189,10 +189,10 @@ module RAMIO #(
                     {{24{1'b0}}, uartrx_data_received};
 
     end else begin
-      casex (read_type)
+      unique casez (read_type)
 
-        3'bx01: begin  // byte
-          case (address[1:0])
+        3'b?01: begin  // byte
+          unique case (address[1:0])
             2'b00: begin
               data_out = read_type[2] ? {{24{ram_data_out[7]}}, ram_data_out[7:0]} : {{24{1'b0}}, ram_data_out[7:0]};
             end
@@ -208,8 +208,8 @@ module RAMIO #(
           endcase
         end
 
-        3'bx10: begin  // half word
-          case (address[1:0])
+        3'b?10: begin  // half word
+          unique case (address[1:0])
             2'b00: begin
               data_out = read_type[2] ? {{16{ram_data_out[15]}}, ram_data_out[15:0]} : {{16{1'b0}}, ram_data_out[15:0]};
             end

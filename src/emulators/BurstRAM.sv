@@ -81,7 +81,7 @@ module BurstRAM #(
       state <= STATE_INITIATE;
     end else begin
       // $display("BurstRAM: clk  state: %b", state);
-      case (state)
+      unique case (state)
 
         STATE_INITIATE: begin
           if (init_calib_delay_counter == CYCLES_BEFORE_INITIATED) begin
@@ -96,7 +96,7 @@ module BurstRAM #(
           if (cmd_en) begin
             busy <= 1;
             burst_counter <= 0;
-            case (cmd)
+            unique case (cmd)
               CMD_READ: begin
                 read_delay_counter <= 0;
                 addr_counter <= addr;
@@ -178,7 +178,7 @@ module BurstRAM #(
       if (cmd_en) begin
         busy <= 1;
         burst_counter <= 0;
-        case (cmd)
+        unique case (cmd)
           CMD_READ: begin
             read_delay_counter <= 0;
             addr_counter <= addr;
