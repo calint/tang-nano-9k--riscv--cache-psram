@@ -123,8 +123,8 @@ module Top (
       .led(led[4:1]),
 
       // UART
-      .uart_tx(uart_tx),
-      .uart_rx(uart_rx),
+      .uart_tx,
+      .uart_rx,
 
       // burst RAM wiring; prefix 'br_'
       .br_cmd,  // 0: read, 1: write
