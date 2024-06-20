@@ -16,8 +16,8 @@ module UartTx #(
 
     input wire [7:0] data,  // data to send
 
-    // assert to start transmission, disable after 'data' has been read
     input wire go,
+    // assert to start transmission, disable after 'data' has been read
 
     output logic tx,  // uart tx wire
     output logic bsy  // enabled while sendng

@@ -12,16 +12,16 @@
 // `define INFO
 
 module Cache #(
-    // cache lines: 2 ^ value
     parameter LineIndexBitWidth = 8,
+    // cache lines: 2 ^ value
 
-    // bits in the address interfacing with RAM
     parameter RamDepthBitWidth = 21,
+    // bits in the address interfacing with RAM
 
+    parameter CommandDelayIntervalCycles = 13,
     // the clock cycles delay between commands
     // see: IPUG943-1.2E Gowin PSRAM Memory Interface HS & HS 2CH IP
     //      page 10
-    parameter CommandDelayIntervalCycles = 13,
     // note: 1 less than spec because the counter starts 1 cycle late (13)
 
     parameter RamAddressingMode = 0
@@ -33,21 +33,21 @@ module Cache #(
     input wire clk,
     input wire rst_n,
 
-    // enabled for cache to operate
     input wire enable,
+    // enabled for cache to operate
 
-    // byte addressed; must be held while 'busy' + 1 cycle
     input wire [31:0] address,
+    // byte addressed; must be held while 'busy' + 1 cycle
 
     output logic [31:0] data_out,
     output logic data_out_ready,
     input wire [31:0] data_in,
 
-    // write enable bytes must be held while busy + 1 cycle
     input wire [3:0] write_enable,
+    // note: write enable bytes must be held while busy + 1 cycle
 
-    // asserted when busy reading / writing cache line
     output logic busy,
+    // asserted when busy reading / writing cache line
 
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write
@@ -120,7 +120,7 @@ module Cache #(
   assign br_data_mask = 0;  // writing whole cache lines
 
   BESDPB #(
-      .ADDRESS_BITWIDTH(LineIndexBitWidth)
+      .AddressBitWidth(LineIndexBitWidth)
   ) tag (
       .clk(clk),
       .write_enable(tag_write_enable),
@@ -160,7 +160,7 @@ module Cache #(
   generate
     for (genvar i = 0; i < COLUMN_COUNT; i++) begin : column
       BESDPB #(
-          .ADDRESS_BITWIDTH(LineIndexBitWidth)
+          .AddressBitWidth(LineIndexBitWidth)
       ) column (
           .clk(clk),
           .write_enable(column_write_enable[i]),

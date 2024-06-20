@@ -8,38 +8,37 @@
 // `define INFO
 
 module BESDPB #(
-    parameter DATA_FILE = "",
-    parameter ADDRESS_BITWIDTH = 16,
-    parameter DATA_BITWIDTH = 32,
-    parameter COLUMN_BITWIDTH = 8
+    parameter DataFilePath = "",
+    parameter AddressBitWidth = 16,
+    parameter DataBitWidth = 32,
+    parameter ColumnBitWidth = 8,
+    localparam ColumnCount = DataBitWidth / ColumnBitWidth
 ) (
     input wire clk,
-    input wire [COLUMN_COUNT-1:0] write_enable,
-    input wire [ADDRESS_BITWIDTH-1:0] address,
-    output logic [DATA_BITWIDTH-1:0] data_out,
-    input wire [DATA_BITWIDTH-1:0] data_in
+    input wire [ColumnCount-1:0] write_enable,
+    input wire [AddressBitWidth-1:0] address,
+    output logic [DataBitWidth-1:0] data_out,
+    input wire [DataBitWidth-1:0] data_in
 );
 
-  localparam COLUMN_COUNT = DATA_BITWIDTH / COLUMN_BITWIDTH;
-
-  logic [DATA_BITWIDTH-1:0] data[2**ADDRESS_BITWIDTH];
+  logic [DataBitWidth-1:0] data[2**AddressBitWidth];
 
   assign data_out = data[address];
 
   initial begin
-    for (int i = 0; i < 2 ** ADDRESS_BITWIDTH; i++) begin
+    for (int i = 0; i < 2 ** AddressBitWidth; i++) begin
       data[i] = 0;
     end
 
-    if (DATA_FILE != "") begin
-      $readmemh(DATA_FILE, data, 0, 2 ** ADDRESS_BITWIDTH - 1);
+    if (DataFilePath != "") begin
+      $readmemh(DataFilePath, data, 0, 2 ** AddressBitWidth - 1);
     end
   end
 
   always_ff @(posedge clk) begin
-    for (int i = 0; i < COLUMN_COUNT; i++) begin
+    for (int i = 0; i < ColumnCount; i++) begin
       if (write_enable[i]) begin
-        data[address][(i+1)*COLUMN_BITWIDTH-1-:COLUMN_BITWIDTH] <= data_in[(i+1)*COLUMN_BITWIDTH-1-:COLUMN_BITWIDTH];
+        data[address][(i+1)*ColumnBitWidth-1-:ColumnBitWidth] <= data_in[(i+1)*ColumnBitWidth-1-:ColumnBitWidth];
       end
     end
   end

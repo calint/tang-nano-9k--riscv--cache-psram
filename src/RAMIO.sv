@@ -26,27 +26,27 @@ module RAMIO #(
 
     input wire enable,
 
-    // b00 not a write; b01: byte, b10: half word, b11: word
     input wire [1:0] write_type,
+    // b00 not a write; b01: byte, b10: half word, b11: word
 
-    // b000 not a read; bit[2] flags sign extended or not, b01: byte, b10: half word, b11: word
     input wire [2:0] read_type,
+    // b000 not a read; bit[2] flags sign extended or not, b01: byte, b10: half word, b11: word
 
-    // address in bytes
     input wire [AddressBitWidth-1:0] address,
+    // address in bytes
 
-    // sign extended byte, half word, word
     input wire [DataBitWidth-1:0] data_in,
+    // sign extended byte, half word, word
 
-    // data at 'address' according to 'read_type'
     output logic [DataBitWidth-1:0] data_out,
+    // data at 'address' according to 'read_type'
 
     output logic data_out_ready,
 
     output logic busy,
 
-    // I/O mapping of LEDs
     output logic [3:0] led,
+    // I/O mapping of LEDs
 
     // UART
     output logic uart_tx,
