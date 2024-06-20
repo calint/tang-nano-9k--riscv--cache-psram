@@ -8,7 +8,7 @@
 // `define INFO
 
 module UartRx #(
-    parameter ClockFrequencyMhz  = 66_000_000,
+    parameter ClockFrequencyMhz = 66_000_000,
     parameter BaudRate = 9600
 ) (
     input wire rst_n,
@@ -22,19 +22,21 @@ module UartRx #(
 
   localparam BIT_TIME = ClockFrequencyMhz / BaudRate;
 
-  localparam STATE_IDLE = 5'b00001;
-  localparam STATE_START_BIT = 5'b00010;
-  localparam STATE_DATA_BITS = 5'b00100;
-  localparam STATE_STOP_BIT = 5'b01000;
-  localparam STATE_WAIT_GO_LOW = 5'b10000;
+  typedef enum {
+    Idle,
+    StartBit,
+    DataBits,
+    StopBit,
+    WaitForGoLow
+  } state_e;
 
-  logic [4:0] state;  // 5 states
+  state_e state;  // 5 states
   logic [3:0] bit_count;  // 4 bits to fit number 8
   logic [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_counter;
 
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-      state <= STATE_IDLE;
+      state <= Idle;
       data <= 0;
       bit_count <= 0;
       bit_counter <= 0;
@@ -42,24 +44,24 @@ module UartRx #(
     end else begin
       unique case (state)
 
-        STATE_IDLE: begin
+        Idle: begin
           if (go && !rx) begin  // does the cpu wait for data and start bit has started?
             bit_counter <= BIT_TIME == 1 ? 0 : (BIT_TIME / 2 - 1);
             // note: -1 because one of the ticks has been read before switching state
             //  BIT_TIME / 2 to sample in the middle of next cycle
 
             // if BIT_TIME == 1 then the start bit has been read, jump to read bits
-            state <= BIT_TIME == 1 ? STATE_DATA_BITS : STATE_START_BIT;
+            state <= BIT_TIME == 1 ? DataBits : StartBit;
           end
         end
 
-        STATE_START_BIT: begin
+        StartBit: begin
           bit_counter <= bit_counter - 1'b1;
           if (bit_counter == 0) begin
             bit_counter <= BIT_TIME - 1;
             // note: -1 because one of the ticks has been read before switching state
             bit_count <= 0;
-            state <= STATE_DATA_BITS;
+            state <= DataBits;
           end
           // if (rx) begin
           //   // note: check 'rx' in case there is drifting
@@ -72,7 +74,7 @@ module UartRx #(
           // end
         end
 
-        STATE_DATA_BITS: begin
+        DataBits: begin
           bit_counter <= bit_counter - 1'b1;
           if (bit_counter == 0) begin
             data[bit_count] <= rx;
@@ -82,25 +84,25 @@ module UartRx #(
             if (bit_count == 7) begin
               // note: 7, not 8, because of NBA
               bit_count <= 0;
-              state <= STATE_STOP_BIT;
+              state <= StopBit;
             end
           end
         end
 
-        STATE_STOP_BIT: begin
+        StopBit: begin
           bit_counter <= bit_counter - 1'b1;
           if (bit_counter == 0) begin
             // note: if drifting then start bit might arrive before expected
             dr <= 1;
-            state <= STATE_WAIT_GO_LOW;
+            state <= WaitForGoLow;
           end
         end
 
-        STATE_WAIT_GO_LOW: begin
+        WaitForGoLow: begin
           if (!go) begin
             data <= 0;
             dr <= 0;
-            state <= STATE_IDLE;
+            state <= Idle;
           end
         end
 

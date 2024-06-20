@@ -142,88 +142,88 @@ module TestBench;
     while (br_busy) #clk_tk;
 
     // 0:	00010137          	lui	x2,0x10
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     if (core.registers.mem[2] == 32'h0001_0000) $display("Test 1 passed");
     else $display("Test 1 FAILED");
 
     // 4:	004000ef          	jal	x1,8 <run>
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     if (core.pc == 8) $display("Test 2 passed");
     else $display("Test 2 FAILED");
 
     // 8:	ff010113          	addi	x2,x2,-16 # fff0 <__global_pointer$+0xd75c>
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     if (core.registers.mem[2] == 32'h0000_fff0) $display("Test 3 passed");
     else $display("Test 3 FAILED");
 
     // c:	00112623          	sw	x1,12(x2) # [0xfff0+12] = x1
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
-    while (core.state != core.STATE_CPU_FETCH) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
+    while (core.state != core.CpuFetch) #clk_tk;
 
     // 10:	00812423          	sw	x8,8(x2)  # [0xfff0+8] = x8
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
-    while (core.state != core.STATE_CPU_FETCH) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
+    while (core.state != core.CpuFetch) #clk_tk;
 
     // 14:	01010413          	addi	x8,x2,16  # 0xfff0 + 16
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     if (core.registers.mem[8] == 32'h0001_0000) $display("Test 4 passed");
     else $display("Test 4 FAILED");
 
     // 18:	00000513          	addi	x10,x0,0
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     if (core.registers.mem[10] == 0) $display("Test 5 passed");
     else $display("Test 5 FAILED");
 
     // 1c:	00000097          	auipc	x1,0x0
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     if (core.registers.mem[1] == 32'h0000_001c) $display("Test 5 passed");
     else $display("Test 5 FAILED");
 
     // 20:	01c080e7          	jalr	x1,28(x1) # 38 <run+0x30>
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     if (core.pc == 32'h0000_0038) $display("Test 6 passed");
     else $display("Test 6 FAILED");
 
     // 38:	fd010113          	addi	x2,x2,-48 # 0xffc0
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     if (core.registers.mem[2] == 32'h0000_ffc0) $display("Test 8 passed");
     else $display("Test 8 FAILED");
 
     // 3c:	02812623          	sw	x8,44(x2) #   [0xffec] = 0x1'0000
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
-    while (core.state != core.STATE_CPU_FETCH) #clk_tk;
+    while (core.state != core.CpuFetch) #clk_tk;
 
     // 40:	03010413          	addi	x8,x2,48 # 0xffc0 + 48
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     if (core.registers.mem[8] == 32'h0000_fff0) $display("Test 9 passed");
     else $display("Test 9 FAILED");
 
     // 44:	fca42e23          	sw	x10,-36(x8) # [0xfff0 - 36] = [0xffcc] = 0
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
 
     // 48:	fdc42783          	lw	x15,-36(x8) # x15 = [0xfff0 - 36] = [0xffcc] = 0
-    while (core.state != core.STATE_CPU_EXECUTE) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    while (core.state != core.STATE_CPU_FETCH) #clk_tk;
+    while (core.state != core.CpuFetch) #clk_tk;
     if (core.registers.mem[15] == 32'h0000_0000) $display("Test 10 passed");
     else $display("Test 10 FAILED");
 

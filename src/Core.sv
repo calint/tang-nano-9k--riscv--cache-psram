@@ -8,7 +8,7 @@
 // `define INFO
 
 module Core #(
-    parameter StartupWaitCycles = 1_000_000,
+    parameter StartupWaitCycles  = 1_000_000,
     parameter FlashTransferBytes = 32'h0010_0000
 ) (
     input wire rst_n,
@@ -39,10 +39,10 @@ module Core #(
     input wire ramio_busy,
 
     // flash
-    output logic  flash_clk,
-    input  wire flash_miso,
-    output logic  flash_mosi,
-    output logic  flash_cs
+    output logic flash_clk,
+    input  wire  flash_miso,
+    output logic flash_mosi,
+    output logic flash_cs
 );
 
   // used while reading flash
@@ -56,21 +56,23 @@ module Core #(
   // used while reading flash to increment 'cache_address'
   logic [31:0] ramio_address_next;
 
-  localparam STATE_BOOT_INIT_POWER = 12'b0000_0000_0001;
-  localparam STATE_BOOT_LOAD_CMD_TO_SEND = 12'b0000_0000_0010;
-  localparam STATE_BOOT_SEND = 12'b0000_0000_0100;
-  localparam STATE_BOOT_LOAD_ADDRESS_TO_SEND = 12'b0000_0000_1000;
-  localparam STATE_BOOT_READ_DATA = 12'b0000_0001_0000;
-  localparam STATE_BOOT_START_WRITE = 12'b0000_0010_0000;
-  localparam STATE_BOOT_WRITE = 12'b0000_0100_0000;
-  localparam STATE_CPU_FETCH = 12'b0000_1000_0000;
-  localparam STATE_CPU_EXECUTE = 12'b0001_0000_0000;
-  localparam STATE_CPU_STORE = 12'b0010_0000_0000;
-  localparam STATE_CPU_LOAD = 12'b0100_0000_0000;
-  localparam STATE_CPU_LOAD_DONE = 12'b1000_0000_0000;
+  typedef enum {
+    BootInit,
+    BootLoadCommandToSend,
+    BootSend,
+    BootLoadAddressToSend,
+    BootReadData,
+    BootStartWrite,
+    BootWrite,
+    CpuFetch,
+    CpuExecute,
+    CpuStore,
+    CpuLoad,
+    CpuLoadDone
+  } state_e;
 
-  logic [11:0] state;
-  logic [11:0] return_state;
+  state_e state;
+  state_e return_state;
 
   // CPU state
   logic [31:0] pc;  // program counter
@@ -112,7 +114,7 @@ module Core #(
 
       led <= 1;
 
-      state <= STATE_BOOT_INIT_POWER;
+      state <= BootInit;
 
     end else begin
 `ifdef DBG
@@ -120,32 +122,32 @@ module Core #(
 `endif
       unique case (state)
 
-        STATE_BOOT_INIT_POWER: begin
+        BootInit: begin
           if (flash_counter >= StartupWaitCycles) begin
             flash_counter <= 0;
-            state <= STATE_BOOT_LOAD_CMD_TO_SEND;
+            state <= BootLoadCommandToSend;
           end else begin
             flash_counter <= flash_counter + 1;
           end
         end
 
-        STATE_BOOT_LOAD_CMD_TO_SEND: begin
+        BootLoadCommandToSend: begin
           flash_cs <= 0;
           flash_data_to_send[23-:8] <= 3;  // command 3: read
           flash_bits_to_send <= 8;
-          state <= STATE_BOOT_SEND;
-          return_state <= STATE_BOOT_LOAD_ADDRESS_TO_SEND;
+          state <= BootSend;
+          return_state <= BootLoadAddressToSend;
         end
 
-        STATE_BOOT_LOAD_ADDRESS_TO_SEND: begin
+        BootLoadAddressToSend: begin
           flash_data_to_send <= 0;  // address 0x0
           flash_bits_to_send <= 24;
           flash_current_byte_num <= 0;
-          state <= STATE_BOOT_SEND;
-          return_state <= STATE_BOOT_READ_DATA;
+          state <= BootSend;
+          return_state <= BootReadData;
         end
 
-        STATE_BOOT_SEND: begin
+        BootSend: begin
           if (flash_counter == 0) begin
             // at clock to low
             flash_clk <= 0;
@@ -163,7 +165,7 @@ module Core #(
           end
         end
 
-        STATE_BOOT_READ_DATA: begin
+        BootReadData: begin
           if (!flash_counter[0]) begin
             flash_clk <= 0;
             flash_counter <= flash_counter + 1;
@@ -172,7 +174,7 @@ module Core #(
               flash_data_in[flash_current_byte_num] <= flash_current_byte_out;
               flash_current_byte_num <= flash_current_byte_num + 1'b1;
               if (flash_current_byte_num == 3) begin
-                state <= STATE_BOOT_START_WRITE;
+                state <= BootStartWrite;
               end
             end
           end else begin
@@ -182,7 +184,7 @@ module Core #(
           end
         end
 
-        STATE_BOOT_START_WRITE: begin
+        BootStartWrite: begin
           if (!ramio_busy) begin
             ramio_enable <= 1;
             ramio_read_type <= 0;
@@ -192,16 +194,16 @@ module Core #(
             ramio_data_in <= {
               flash_data_in[3], flash_data_in[2], flash_data_in[1], flash_data_in[0]
             };
-            state <= STATE_BOOT_WRITE;
+            state <= BootWrite;
           end
         end
 
-        STATE_BOOT_WRITE: begin
+        BootWrite: begin
           if (!ramio_busy) begin
             ramio_enable <= 0;
             flash_current_byte_num <= 0;
             if (ramio_address_next < FlashTransferBytes) begin
-              state <= STATE_BOOT_READ_DATA;
+              state <= BootReadData;
             end else begin
               flash_cs <= 1;
 
@@ -213,12 +215,12 @@ module Core #(
 
               pc <= 0;
 
-              state <= STATE_CPU_FETCH;
+              state <= CpuFetch;
             end
           end
         end
 
-        STATE_CPU_FETCH: begin
+        CpuFetch: begin
           // disable register write in case it was writing during this cycle
           rd_we <= 0;
 
@@ -235,11 +237,11 @@ module Core #(
             funct3 <= ramio_data_out[14:12];
             funct7 <= ramio_data_out[31:25];
 
-            state <= STATE_CPU_EXECUTE;
+            state <= CpuExecute;
           end
         end
 
-        STATE_CPU_EXECUTE: begin
+        CpuExecute: begin
           // default next state is FETCH next instruction
           // initially configure 'ramio' for that
           ramio_enable <= 1;
@@ -247,7 +249,7 @@ module Core #(
           ramio_write_type <= 0;
           ramio_address <= pc + 4;
           pc <= pc + 4;
-          state <= STATE_CPU_FETCH;
+          state <= CpuFetch;
 
           // execute instruction (part 1)
           unique case (opcode)
@@ -331,7 +333,7 @@ module Core #(
                 end
                 default: ;
               endcase  // case (funct3)
-              state <= STATE_CPU_STORE;
+              state <= CpuStore;
             end
             7'b0000011: begin  // load
               ramio_write_type <= 0;
@@ -354,7 +356,7 @@ module Core #(
                 end
                 default: ;
               endcase  // case (funct3)
-              state <= STATE_CPU_LOAD;
+              state <= CpuLoad;
             end
             7'b0010111: begin  // AUIPC
               rd_wd <= pc + U_imm20;
@@ -417,18 +419,18 @@ module Core #(
           endcase  // case (opcode)
         end
 
-        STATE_CPU_STORE: begin
+        CpuStore: begin
           if (!ramio_busy) begin
             // read next instruction
             ramio_enable <= 1;
             ramio_read_type <= 3'b111;
             ramio_write_type <= 0;
             ramio_address <= pc;
-            state <= STATE_CPU_FETCH;
+            state <= CpuFetch;
           end
         end
 
-        STATE_CPU_LOAD: begin
+        CpuLoad: begin
           if (ramio_data_out_ready) begin
             // write to register
             rd_we <= 1;
@@ -436,11 +438,11 @@ module Core #(
 `ifdef DBG
             $display("write register[%0d] = 0x%h", rd, ramio_data_out);
 `endif
-            state <= STATE_CPU_LOAD_DONE;
+            state <= CpuLoadDone;
           end
         end
 
-        STATE_CPU_LOAD_DONE: begin
+        CpuLoadDone: begin
           // register written
           rd_we <= 0;
 
@@ -449,7 +451,7 @@ module Core #(
           ramio_read_type <= 3'b111;
           ramio_write_type <= 0;
           ramio_address <= pc;
-          state <= STATE_CPU_FETCH;
+          state <= CpuFetch;
         end
 
       endcase

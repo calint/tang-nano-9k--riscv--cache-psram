@@ -8,7 +8,7 @@
 // `define INFO
 
 module UartTx #(
-    parameter ClockFrequencyMhz  = 66_000_000,
+    parameter ClockFrequencyMhz = 66_000_000,
     parameter BaudRate = 9600
 ) (
     input wire rst_n,
@@ -25,19 +25,21 @@ module UartTx #(
 
   localparam BIT_TIME = ClockFrequencyMhz / BaudRate;
 
-  localparam STATE_IDLE = 5'b00001;
-  localparam STATE_START_BIT = 5'b00010;
-  localparam STATE_DATA_BITS = 5'b00100;
-  localparam STATE_STOP_BIT = 5'b01000;
-  localparam STATE_WAIT_GO_LOW = 5'b10000;
+  typedef enum {
+    Idle,
+    StartBit,
+    DataBits,
+    StopBit,
+    WaitForGoLow
+  } state_e;
 
-  logic [4:0] state;
+  state_e state;
   logic [3:0] bit_count;  // 3 to fit number 8
   logic [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_time_counter;
 
   always_ff @(negedge clk or negedge rst_n) begin
     if (!rst_n) begin
-      state <= STATE_IDLE;
+      state <= Idle;
       bit_count <= 0;
       bit_time_counter <= 0;
       tx <= 1;
@@ -45,28 +47,28 @@ module UartTx #(
     end else begin
       unique case (state)
 
-        STATE_IDLE: begin
+        Idle: begin
           if (go) begin
             bsy <= 1;
             bit_time_counter <= BIT_TIME - 1;
             // note: -1 because first 'tick' of 'start bit' is being sent in this state
             tx <= 0;  // start sending 'start bit'
-            state <= STATE_START_BIT;
+            state <= StartBit;
           end
         end
 
-        STATE_START_BIT: begin
+        StartBit: begin
           bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
             bit_time_counter <= BIT_TIME - 1;
             // note: -1 because first 'tick' of the first bit is being sent in this state
             tx <= data[0];  // start sending first bit of data
             bit_count <= 1;  // first bit is being sent during this cycle
-            state <= STATE_DATA_BITS;
+            state <= DataBits;
           end
         end
 
-        STATE_DATA_BITS: begin
+        DataBits: begin
           bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
             tx <= data[bit_count];
@@ -76,23 +78,23 @@ module UartTx #(
             if (bit_count == 8) begin
               bit_count <= 0;
               tx <= 1;  // overwrite tx, start sending stop bit
-              state <= STATE_STOP_BIT;
+              state <= StopBit;
             end
           end
         end
 
-        STATE_STOP_BIT: begin
+        StopBit: begin
           bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
             bsy   <= 0;
-            state <= STATE_WAIT_GO_LOW;
+            state <= WaitForGoLow;
           end
         end
 
-        STATE_WAIT_GO_LOW: begin
+        WaitForGoLow: begin
           // wait for acknowledge that 'data' has been sent
           if (!go) begin
-            state <= STATE_IDLE;
+            state <= Idle;
           end
         end
 
