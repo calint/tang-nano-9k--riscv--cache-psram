@@ -15,7 +15,7 @@ module Cache #(
     parameter LineIndexBitWidth = 8,
     // cache lines: 2 ^ value
 
-    parameter RamDepthBitWidth = 21,
+    parameter RamAddressBitWidth = 21,
     // bits in the address interfacing with RAM
 
     parameter CommandDelayIntervalCycles = 13,
@@ -52,7 +52,7 @@ module Cache #(
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write
     output logic br_cmd_en,  // 1: cmd and addr is valid
-    output logic [RamDepthBitWidth-1:0] br_addr,  // see 'RamAddressingMode'
+    output logic [RamAddressBitWidth-1:0] br_addr,  // see 'RamAddressingMode'
     output logic [63:0] br_wr_data,  // data to write
     output logic [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
@@ -102,7 +102,7 @@ module Cache #(
   ];
 
   // starting address of cache line in RAM for current address
-  wire [RamDepthBitWidth-1:0] burst_line_address = {
+  wire [RamAddressBitWidth-1:0] burst_line_address = {
     address[31:COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH], {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
   };
 
@@ -135,7 +135,7 @@ module Cache #(
   wire [TAG_BITWIDTH-1:0] cached_tag = cached_tag_and_flags[TAG_BITWIDTH-1:0];
 
   // starting address in burst RAM for the cached line
-  wire [RamDepthBitWidth-1:0] cached_line_address = {
+  wire [RamAddressBitWidth-1:0] cached_line_address = {
     {cached_tag, line_ix}, {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
   };
 
@@ -427,6 +427,8 @@ module Cache #(
 `endif
           end
         end
+
+        default: ;
 
       endcase
     end

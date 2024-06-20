@@ -106,6 +106,8 @@ module UartRx #(
           end
         end
 
+        default: ;
+
       endcase
     end
   end

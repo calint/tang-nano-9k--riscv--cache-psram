@@ -454,6 +454,8 @@ module Core #(
           state <= CpuFetch;
         end
 
+        default: ;
+
       endcase
     end
   end

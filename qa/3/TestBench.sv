@@ -66,7 +66,7 @@ module TestBench;
 
   Cache #(
       .LineIndexBitWidth(2),
-      .RamDepthBitWidth(RAM_DEPTH_BITWIDTH),
+      .RamAddressBitWidth(RAM_DEPTH_BITWIDTH),
       .RamAddressingMode(3)  // 64 bit words
   ) cache (
       .clk(clkout),

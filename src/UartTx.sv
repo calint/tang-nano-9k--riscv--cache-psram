@@ -98,6 +98,8 @@ module UartTx #(
           end
         end
 
+        default: ;
+
       endcase
     end
   end

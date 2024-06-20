@@ -292,7 +292,7 @@ module RAMIO #(
 
   Cache #(
       .LineIndexBitWidth(CacheLineIndexBitWidth),
-      .RamDepthBitWidth(RamDepthBitWidth),
+      .RamAddressBitWidth(RamDepthBitWidth),
       .RamAddressingMode(RamAddressingMode)  // 64 bit words
   ) cache (
       .rst_n,
