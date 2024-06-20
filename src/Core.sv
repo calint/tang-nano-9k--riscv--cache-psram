@@ -151,7 +151,7 @@ module Core #(
             flash_clk <= 0;
             flash_mosi <= flash_data_to_send[23];
             flash_data_to_send <= {flash_data_to_send[22:0], 1'b0};
-            flash_bits_to_send <= flash_bits_to_send - 1;
+            flash_bits_to_send <= flash_bits_to_send - 1'b1;
             flash_counter <= 1;
           end else begin
             // at clock to high
@@ -170,7 +170,7 @@ module Core #(
             if (flash_counter[3:0] == 0 && flash_counter > 0) begin
               // every 16 clock ticks (8 bit * 2)
               flash_data_in[flash_current_byte_num] <= flash_current_byte_out;
-              flash_current_byte_num <= flash_current_byte_num + 1;
+              flash_current_byte_num <= flash_current_byte_num + 1'b1;
               if (flash_current_byte_num == 3) begin
                 state <= STATE_BOOT_START_WRITE;
               end

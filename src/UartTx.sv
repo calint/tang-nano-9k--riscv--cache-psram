@@ -56,7 +56,7 @@ module UartTx #(
         end
 
         STATE_START_BIT: begin
-          bit_time_counter <= bit_time_counter - 1;
+          bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
             bit_time_counter <= BIT_TIME - 1;
             // note: -1 because first 'tick' of the first bit is being sent in this state
@@ -67,12 +67,12 @@ module UartTx #(
         end
 
         STATE_DATA_BITS: begin
-          bit_time_counter <= bit_time_counter - 1;
+          bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
             tx <= data[bit_count];
             bit_time_counter <= BIT_TIME - 1;
             // note: -1 because first 'tick' of next bit is sent in this state
-            bit_count <= bit_count + 1;
+            bit_count <= bit_count + 1'b1;
             if (bit_count == 8) begin
               bit_count <= 0;
               tx <= 1;  // overwrite tx, start sending stop bit
@@ -82,7 +82,7 @@ module UartTx #(
         end
 
         STATE_STOP_BIT: begin
-          bit_time_counter <= bit_time_counter - 1;
+          bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
             bsy   <= 0;
             state <= STATE_WAIT_GO_LOW;

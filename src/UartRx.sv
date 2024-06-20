@@ -54,7 +54,7 @@ module UartRx #(
         end
 
         STATE_START_BIT: begin
-          bit_counter <= bit_counter - 1;
+          bit_counter <= bit_counter - 1'b1;
           if (bit_counter == 0) begin
             bit_counter <= BIT_TIME - 1;
             // note: -1 because one of the ticks has been read before switching state
@@ -73,12 +73,12 @@ module UartRx #(
         end
 
         STATE_DATA_BITS: begin
-          bit_counter <= bit_counter - 1;
+          bit_counter <= bit_counter - 1'b1;
           if (bit_counter == 0) begin
             data[bit_count] <= rx;
             bit_counter <= BIT_TIME - 1;
             // note: -1 because one of the ticks has been read before switching state
-            bit_count <= bit_count + 1;
+            bit_count <= bit_count + 1'b1;
             if (bit_count == 7) begin
               // note: 7, not 8, because of NBA
               bit_count <= 0;
@@ -88,7 +88,7 @@ module UartRx #(
         end
 
         STATE_STOP_BIT: begin
-          bit_counter <= bit_counter - 1;
+          bit_counter <= bit_counter - 1'b1;
           if (bit_counter == 0) begin
             // note: if drifting then start bit might arrive before expected
             dr <= 1;

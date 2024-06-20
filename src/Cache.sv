@@ -256,7 +256,7 @@ module Cache #(
 `ifdef DBG
         $display("@(c) command delay interval counter: %0d", command_delay_interval_counter);
 `endif
-        command_delay_interval_counter <= command_delay_interval_counter - 1;
+        command_delay_interval_counter <= command_delay_interval_counter - 1'b1;
       end
 
       case (state)
