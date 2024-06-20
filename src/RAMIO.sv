@@ -154,6 +154,7 @@ module RAMIO #(
           ram_write_enable = 4'b1111;
           ram_data_in = data_in;
         end
+        default: ;  // ? error
       endcase
     end
   end

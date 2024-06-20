@@ -265,7 +265,7 @@ module Core #(
                   rd_wd <= rs1_dat < I_imm12;
                 end
                 3'b011: begin  // SLTIU
-                  rd_wd <= $unsigned(rs1_dat) < $unsigned(I_imm12);
+                  rd_wd <= unsigned'(rs1_dat) < unsigned'(I_imm12);
                 end
                 3'b100: begin  // XORI
                   rd_wd <= rs1_dat ^ I_imm12;
@@ -298,7 +298,7 @@ module Core #(
                   rd_wd <= rs1_dat < rs2_dat;
                 end
                 3'b011: begin  // SLTU
-                  rd_wd <= $unsigned(rs1_dat) < $unsigned(rs2_dat);
+                  rd_wd <= unsigned'(rs1_dat) < unsigned'(rs2_dat);
                 end
                 3'b100: begin  // XOR
                   rd_wd <= rs1_dat ^ rs2_dat;
@@ -399,13 +399,13 @@ module Core #(
                   end
                 end
                 3'b110: begin  // BLTU
-                  if ($unsigned(rs1_dat) < $unsigned(rs2_dat)) begin
+                  if (unsigned'(rs1_dat) < unsigned'(rs2_dat)) begin
                     ramio_address <= pc + B_imm12;
                     pc <= pc + B_imm12;
                   end
                 end
                 3'b111: begin  // BGEU
-                  if ($unsigned(rs1_dat) >= $unsigned(rs2_dat)) begin
+                  if (unsigned'(rs1_dat) >= unsigned'(rs2_dat)) begin
                     ramio_address <= pc + B_imm12;
                     pc <= pc + B_imm12;
                   end
