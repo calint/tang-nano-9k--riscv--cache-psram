@@ -50,7 +50,7 @@ module RAMIO #(
 
     // UART
     output logic uart_tx,
-    input  wire uart_rx,
+    input  wire  uart_rx,
 
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write
@@ -64,8 +64,8 @@ module RAMIO #(
 
   // enables / disables RAM operation, connected to cache
   logic ram_enable;
-  wire ram_busy;
-  wire ram_data_out_ready;
+  logic ram_busy;
+  logic ram_data_out_ready;
 
   // byte addressed into cache
   logic [ADDRESS_BITWIDTH-1:0] ram_address;
@@ -76,7 +76,7 @@ module RAMIO #(
   // bytes enabled for writing
   logic [3:0] ram_write_enable;
 
-  wire [DATA_WIDTH-1:0] ram_data_out;
+  logic [DATA_WIDTH-1:0] ram_data_out;
 
   // forward busy and data ready signals from cache unless it is I/O
   assign busy = address == ADDRESS_UART_OUT || 
@@ -239,13 +239,13 @@ module RAMIO #(
   logic uarttx_go;
 
   // high if UartTx is busy sending
-  wire uarttx_bsy;
+  logic uarttx_bsy;
 
   // data ready
-  wire uartrx_dr;
+  logic uartrx_dr;
 
   // data that is being read by UartRx
-  wire [7:0] uartrx_data;
+  logic [7:0] uartrx_data;
 
   // enable to start receiving and disable to acknowledge that received data has been read
   logic uartrx_go;
@@ -295,8 +295,8 @@ module RAMIO #(
       .RAM_DEPTH_BITWIDTH(RAM_DEPTH_BITWIDTH),
       .RAM_ADDRESSING_MODE(RAM_ADDRESSING_MODE)  // 64 bit words
   ) cache (
-      .rst_n(rst_n),
-      .clk  (clk),
+      .rst_n,
+      .clk,
 
       .enable(ram_enable),
       .address(ram_address),
@@ -307,13 +307,13 @@ module RAMIO #(
       .busy(ram_busy),
 
       // burst ram wiring; prefix 'br_'
-      .br_cmd(br_cmd),
-      .br_cmd_en(br_cmd_en),
-      .br_addr(br_addr),
-      .br_wr_data(br_wr_data),
-      .br_data_mask(br_data_mask),
-      .br_rd_data(br_rd_data),
-      .br_rd_data_valid(br_rd_data_valid)
+      .br_cmd,
+      .br_cmd_en,
+      .br_addr,
+      .br_wr_data,
+      .br_data_mask,
+      .br_rd_data,
+      .br_rd_data_valid
   );
 
   UartTx #(
