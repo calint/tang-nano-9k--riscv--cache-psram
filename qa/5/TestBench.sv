@@ -22,8 +22,8 @@ module TestBench;
   output reg flash_cs;
 
   Flash #(
-      .DATA_FILE("flash.mem"),
-      .DEPTH_BITWIDTH(6)
+      .DataFilePath("flash.mem"),
+      .AddressBitWidth(6)
   ) dut (
       .rst_n(sys_rst_n),
       .clk(flash_clk),

@@ -29,11 +29,11 @@ module TestBench;
   wire br_busy;
 
   BurstRAM #(
-      .DATA_FILE(""),  // initial RAM content
-      .DEPTH_BITWIDTH(RAM_DEPTH_BITWIDTH),  // 2 ^ x * 8 B entries
-      .BURST_COUNT(4),  // 4 * 64 bit data per burst
-      .CYCLES_BEFORE_DATA_VALID(6),
-      .CYCLES_BEFORE_INITIATED(0)
+      .DataFilePath(""),  // initial RAM content
+      .AddressBitWidth(RAM_DEPTH_BITWIDTH),  // 2 ^ x * 8 B entries
+      .BurstDataCount(4),  // 4 * 64 bit data per burst
+      .CyclesBeforeDataValid(6),
+      .CyclesBeforeInitiated(0)
   ) burst_ram (
       .clk(clk),
       .rst_n(sys_rst_n),
@@ -94,8 +94,8 @@ module TestBench;
   output reg flash_cs;
 
   Flash #(
-      .DATA_FILE("RAM.mem"),
-      .DEPTH_BITWIDTH(12)  // in bytes 2^12 = 4096 B
+      .DataFilePath("RAM.mem"),
+      .AddressBitWidth(12)  // in bytes 2^12 = 4096 B
   ) dut (
       .rst_n(sys_rst_n),
       .clk(flash_clk),

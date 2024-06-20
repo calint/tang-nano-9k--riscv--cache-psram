@@ -25,10 +25,10 @@ module TestBench;
   wire br_busy;
 
   BurstRAM #(
-      .DATA_FILE("RAM.mem"),  // initial RAM content
-      .DEPTH_BITWIDTH(RAM_DEPTH_BITWIDTH),  // 2 ^ 4 * 8 B entries
-      .BURST_COUNT(4),  // 4 * 64 bit data per burst
-      .CYCLES_BEFORE_DATA_VALID(6)
+      .DataFilePath("RAM.mem"),  // initial RAM content
+      .AddressBitWidth(RAM_DEPTH_BITWIDTH),  // 2 ^ 4 * 8 B entries
+      .BurstDataCount(4),  // 4 * 64 bit data per burst
+      .CyclesBeforeDataValid(6)
   ) burst_ram (
       .clk(clk),
       .rst_n(sys_rst_n),

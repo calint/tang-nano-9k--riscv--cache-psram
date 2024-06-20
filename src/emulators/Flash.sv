@@ -9,8 +9,8 @@
 // `define INFO
 
 module Flash #(
-    parameter DATA_FILE = "",  // initial RAM content
-    parameter DEPTH_BITWIDTH = 8
+    parameter DataFilePath = "",  // initial RAM content
+    parameter AddressBitWidth = 8
 ) (
     input  wire rst_n,
     input  wire clk,
@@ -19,11 +19,11 @@ module Flash #(
     input  wire cs
 );
 
-  localparam DEPTH = 2 ** DEPTH_BITWIDTH;
+  localparam DEPTH = 2 ** AddressBitWidth;
 
   reg [7:0] data[DEPTH];
 
-  reg [DEPTH_BITWIDTH-1:0] address;
+  reg [AddressBitWidth-1:0] address;
   reg [7:0] current_byte;
   reg [7:0] counter;
 
@@ -39,13 +39,13 @@ module Flash #(
     $display("----------------------------------------");
     $display("  Flash");
     $display("----------------------------------------");
-    $display("  data file: %s", DATA_FILE);
+    $display("  data file: %s", DataFilePath);
     $display("       size: %0d B", DEPTH);
     $display("----------------------------------------");
 `endif
 
-    if (DATA_FILE != "") begin
-      $readmemh(DATA_FILE, data);
+    if (DataFilePath != "") begin
+      $readmemh(DataFilePath, data);
     end
   end
 

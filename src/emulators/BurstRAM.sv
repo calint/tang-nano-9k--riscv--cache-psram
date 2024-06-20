@@ -9,39 +9,39 @@
 // `define INFO
 
 module BurstRAM #(
-    parameter DATA_FILE = "",  // initial RAM content
-    parameter DEPTH_BITWIDTH = 4,  // 2 ^ 4 * 8 B entries
-    parameter DATA_BITWIDTH = 64,  // must be divisible by 8
-    parameter BURST_COUNT = 4,  // number of RAM data sizes transfered per burst
-    parameter CYCLES_BEFORE_INITIATED = 10,  // emulates initiation delay
-    parameter CYCLES_BEFORE_DATA_VALID = 6  // emulates read delay
+    parameter DataFilePath = "",  // initial RAM content
+    parameter AddressBitWidth = 4,  // 2 ^ 4 * 8 B entries
+    parameter DataBitWidth = 64,  // must be divisible by 8
+    parameter BurstDataCount = 4,  // number of RAM data sizes transfered per burst
+    parameter CyclesBeforeInitiated = 10,  // emulates initiation delay
+    parameter CyclesBeforeDataValid = 6  // emulates read delay
 ) (
     input wire clk,
     input wire rst_n,
     input wire cmd,  // 0: read, 1: write
     input wire cmd_en,  // 1: cmd and addr is valid
-    input wire [DEPTH_BITWIDTH-1:0] addr,  // 8 bytes word
-    input wire [DATA_BITWIDTH-1:0] wr_data,  // data to write
-    input wire [DATA_BITWIDTH/8-1:0] data_mask,  // not implemented (same as 0 in IP component)
-    output reg [DATA_BITWIDTH-1:0] rd_data,  // read data
+    input wire [AddressBitWidth-1:0] addr,  // 8 bytes word
+    input wire [DataBitWidth-1:0] wr_data,  // data to write
+    input wire [DataBitWidth/8-1:0] data_mask,  // not implemented (same as 0 in IP component)
+    output reg [DataBitWidth-1:0] rd_data,  // read data
     output reg rd_data_valid,  // rd_data is valid
     output reg init_calib,
     output reg busy
 );
 
-  localparam DEPTH = 2 ** DEPTH_BITWIDTH;
+  localparam DEPTH = 2 ** AddressBitWidth;
   localparam CMD_READ = 0;
   localparam CMD_WRITE = 1;
 
-  reg [$clog2(CYCLES_BEFORE_INITIATED):0] init_calib_delay_counter;
-  // note: not -1 because it comparison is against CYCLES_BEFORE_INITIATED
+  reg [$clog2(CyclesBeforeInitiated):0] init_calib_delay_counter;
+  // note: not -1 because it comparison is against CyclesBeforeInitiated
 
-  reg [DATA_BITWIDTH-1:0] data[DEPTH];
+  reg [DataBitWidth-1:0] data[DEPTH];
 
-  reg [$clog2(BURST_COUNT)-1:0] burst_counter;
+  reg [$clog2(BurstDataCount)-1:0] burst_counter;
 
-  reg [$clog2(CYCLES_BEFORE_DATA_VALID):0] read_delay_counter;
-  // note: not -1 because it comparison is against CYCLES_BEFORE_DATA_VALID
+  reg [$clog2(CyclesBeforeDataValid):0] read_delay_counter;
+  // note: not -1 because it comparison is against CyclesBeforeDataValid
 
   reg [DEPTH-1:0] addr_counter;
 
@@ -59,15 +59,15 @@ module BurstRAM #(
     $display("----------------------------------------");
     $display("  BurstRAM");
     $display("----------------------------------------");
-    $display("         size: %0d B", DEPTH * DATA_BITWIDTH / 8);
+    $display("         size: %0d B", DEPTH * DataBitWidth / 8);
     $display("        depth: %0d", DEPTH);
-    $display("    data size: %0d bits", DATA_BITWIDTH);
-    $display(" read latency: %0d cycles", CYCLES_BEFORE_DATA_VALID);
+    $display("    data size: %0d bits", DataBitWidth);
+    $display(" read latency: %0d cycles", CyclesBeforeDataValid);
     $display("----------------------------------------");
 `endif
 
-    if (DATA_FILE != "") begin
-      $readmemh(DATA_FILE, data);
+    if (DataFilePath != "") begin
+      $readmemh(DataFilePath, data);
     end
   end
 
@@ -84,7 +84,7 @@ module BurstRAM #(
       unique case (state)
 
         STATE_INITIATE: begin
-          if (init_calib_delay_counter == CYCLES_BEFORE_INITIATED) begin
+          if (init_calib_delay_counter == CyclesBeforeInitiated) begin
             busy <= 0;
             init_calib <= 1;
             state <= STATE_IDLE;
@@ -128,7 +128,7 @@ module BurstRAM #(
         end
 
         STATE_READ_DELAY: begin
-          if (read_delay_counter == CYCLES_BEFORE_DATA_VALID - 1) begin
+          if (read_delay_counter == CyclesBeforeDataValid - 1) begin
             // note: not -1 because state would switch one cycle early
             rd_data_valid <= 1;
             rd_data <= data[addr_counter];
@@ -141,7 +141,7 @@ module BurstRAM #(
         STATE_READ_BURST: begin
           burst_counter <= burst_counter + 1;
           addr_counter  <= addr_counter + 1;
-          if (burst_counter == BURST_COUNT - 1) begin
+          if (burst_counter == BurstDataCount - 1) begin
             // note: -1 because of non-blocking assignments
             rd_data_valid <= 0;
             set_new_state_after_command_done;
@@ -153,7 +153,7 @@ module BurstRAM #(
         STATE_WRITE_BURST: begin
           burst_counter <= burst_counter + 1;
           addr_counter  <= addr_counter + 1;
-          if (burst_counter == BURST_COUNT - 1) begin
+          if (burst_counter == BurstDataCount - 1) begin
             // note: -1 because of non-blocking assignments
             set_new_state_after_command_done;
           end else begin

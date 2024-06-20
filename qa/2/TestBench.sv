@@ -7,12 +7,12 @@
 
 module TestBench;
   BurstRAM #(
-      .DATA_FILE("RAM.mem"),
-      .DEPTH_BITWIDTH(4),
-      .DATA_BITWIDTH(64),
-      .BURST_COUNT(4),
-      .CYCLES_BEFORE_INITIATED(10),
-      .CYCLES_BEFORE_DATA_VALID(4)
+      .DataFilePath("RAM.mem"),
+      .AddressBitWidth(4),
+      .DataBitWidth(64),
+      .BurstDataCount(4),
+      .CyclesBeforeInitiated(10),
+      .CyclesBeforeDataValid(4)
   ) dut (
       .clk(clk),
       .rst_n(rst_n),
