@@ -224,18 +224,21 @@ module Cache #(
     end
   end
 
-  logic [10:0] state;
-  localparam STATE_IDLE = 11'b000_0000_0001;
-  localparam STATE_READ_WAIT_FOR_DATA_READY = 11'b000_0000_0010;
-  localparam STATE_READ_1 = 11'b000_0000_0100;
-  localparam STATE_READ_2 = 11'b000_0000_1000;
-  localparam STATE_READ_3 = 11'b000_0001_0000;
-  localparam STATE_READ_UPDATE_TAG = 11'b000_0010_0000;
-  localparam STATE_READ_FINISH = 11'b000_0100_0000;
-  localparam STATE_WRITE_1 = 11'b000_1000_0000;
-  localparam STATE_WRITE_2 = 11'b001_0000_0000;
-  localparam STATE_WRITE_3 = 11'b010_0000_0000;
-  localparam STATE_WRITE_FINISH = 11'b100_0000_0000;
+  typedef enum {
+    Idle,
+    ReadWaitForDataReady,
+    Read1,
+    Read2,
+    Read3,
+    ReadUpdateTag,
+    ReadFinish,
+    Write1,
+    Write2,
+    Write3,
+    WriteFinish
+  } state_e;
+
+  state_e state;
 
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -246,7 +249,7 @@ module Cache #(
       burst_is_reading <= 0;
       burst_is_writing <= 0;
       command_delay_interval_counter <= 0;
-      state <= STATE_IDLE;
+      state <= Idle;
     end else begin
 `ifdef DBG
       $display("@(c) state: %0d", state);
@@ -261,7 +264,7 @@ module Cache #(
 
       unique case (state)
 
-        STATE_IDLE: begin
+        Idle: begin
           if (enable && !cache_line_hit && command_delay_interval_counter == 0) begin
             // cache miss, start reading the addressed cache line
 `ifdef DBG
@@ -281,7 +284,7 @@ module Cache #(
               br_cmd_en <= 1;
               command_delay_interval_counter <= CommandDelayIntervalCycles;
               burst_is_writing <= 1;
-              state <= STATE_WRITE_1;
+              state <= Write1;
             end else begin  // not (write_enable && line_dirty)
 `ifdef DBG
               if (write_enable && !line_dirty) begin
@@ -294,12 +297,12 @@ module Cache #(
               br_cmd_en <= 1;
               command_delay_interval_counter <= CommandDelayIntervalCycles;
               burst_is_reading <= 1;
-              state <= STATE_READ_WAIT_FOR_DATA_READY;
+              state <= ReadWaitForDataReady;
             end
           end
         end
 
-        STATE_READ_WAIT_FOR_DATA_READY: begin
+        ReadWaitForDataReady: begin
           br_cmd_en <= 0;
           if (br_rd_data_valid) begin
             // first data has arrived
@@ -310,7 +313,7 @@ module Cache #(
             burst_data_in[0] <= br_rd_data[31:0];
             burst_write_enable[1] <= 4'b1111;
             burst_data_in[1] <= br_rd_data[63:32];
-            state <= STATE_READ_1;
+            state <= Read1;
           end else begin  // not (br_rd_data_valid)
 `ifdef DBG
             $display("@(c) waiting for data valid from RAM");
@@ -318,7 +321,7 @@ module Cache #(
           end
         end
 
-        STATE_READ_1: begin
+        Read1: begin
           // second data has arrived
 `ifdef DBG
           $display("@(c) read line (2): 0x%h", br_rd_data);
@@ -329,10 +332,10 @@ module Cache #(
           burst_data_in[2] <= br_rd_data[31:0];
           burst_write_enable[3] <= 4'b1111;
           burst_data_in[3] <= br_rd_data[63:32];
-          state <= STATE_READ_2;
+          state <= Read2;
         end
 
-        STATE_READ_2: begin
+        Read2: begin
           // third data has arrived
 `ifdef DBG
           $display("@(c) read line (3): 0x%h", br_rd_data);
@@ -343,10 +346,10 @@ module Cache #(
           burst_data_in[4] <= br_rd_data[31:0];
           burst_write_enable[5] <= 4'b1111;
           burst_data_in[5] <= br_rd_data[63:32];
-          state <= STATE_READ_3;
+          state <= Read3;
         end
 
-        STATE_READ_3: begin
+        Read3: begin
           // last data has arrived
 `ifdef DBG
           $display("@(c) read line (4): 0x%h", br_rd_data);
@@ -357,54 +360,54 @@ module Cache #(
           burst_data_in[6] <= br_rd_data[31:0];
           burst_write_enable[7] <= 4'b1111;
           burst_data_in[7] <= br_rd_data[63:32];
-          state <= STATE_READ_UPDATE_TAG;
+          state <= ReadUpdateTag;
         end
 
-        STATE_READ_UPDATE_TAG: begin
+        ReadUpdateTag: begin
           // note: reading line can be initiated after a cache eviction
           //       'burst_write_enable[6]' and 7 are then high, set to low
           burst_write_enable[6] <= 0;
           burst_write_enable[7] <= 0;
           burst_tag_write_enable <= 4'b1111;
-          state <= STATE_READ_FINISH;
+          state <= ReadFinish;
         end
 
-        STATE_READ_FINISH: begin
+        ReadFinish: begin
           // note: tag has been written after read data has settled
           burst_is_reading <= 0;
           burst_tag_write_enable <= 0;
-          state <= STATE_IDLE;
+          state <= Idle;
         end
 
-        STATE_WRITE_1: begin
+        Write1: begin
 `ifdef DBG
           $display("@(c) write line (2): 0x%h%h", column_data_out[2], column_data_out[3]);
 `endif
           br_cmd_en <= 0;  // hold command enable only one cycle
           br_wr_data[31:0] <= column_data_out[2];
           br_wr_data[63:32] <= column_data_out[3];
-          state <= STATE_WRITE_2;
+          state <= Write2;
         end
 
-        STATE_WRITE_2: begin
+        Write2: begin
 `ifdef DBG
           $display("@(c) write line (3): 0x%h%h", column_data_out[4], column_data_out[5]);
 `endif
           br_wr_data[31:0] <= column_data_out[4];
           br_wr_data[63:32] <= column_data_out[5];
-          state <= STATE_WRITE_3;
+          state <= Write3;
         end
 
-        STATE_WRITE_3: begin
+        Write3: begin
 `ifdef DBG
           $display("@(c) write line (4): 0x%h%h", column_data_out[6], column_data_out[7]);
 `endif
           br_wr_data[31:0] <= column_data_out[6];
           br_wr_data[63:32] <= column_data_out[7];
-          state <= STATE_WRITE_FINISH;
+          state <= WriteFinish;
         end
 
-        STATE_WRITE_FINISH: begin
+        WriteFinish: begin
           // check if need to wait for command interval delay
           if (command_delay_interval_counter == 0) begin
 `ifdef DBG
@@ -417,7 +420,7 @@ module Cache #(
             command_delay_interval_counter <= CommandDelayIntervalCycles;
             burst_is_writing <= 0;
             burst_is_reading <= 1;
-            state <= STATE_READ_WAIT_FOR_DATA_READY;
+            state <= ReadWaitForDataReady;
           end else begin
 `ifdef DBG
             $display("@(c) waiting for command delay counter %0d", command_delay_interval_counter);
