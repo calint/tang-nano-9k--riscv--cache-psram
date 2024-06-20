@@ -7,7 +7,7 @@
 module Top (
     input wire clk,  // 27 MHz
     input wire rst_n,
-    output reg [5:0] led,
+    output logic [5:0] led,
     input wire uart_rx,
     output wire uart_tx,
     input wire btn1,
@@ -21,10 +21,10 @@ module Top (
     output wire [ 1:0] O_psram_cs_n,
 
     // flash
-    output reg  flash_clk,
+    output logic  flash_clk,
     input  wire flash_miso,
-    output reg  flash_mosi,
-    output reg  flash_cs
+    output logic  flash_mosi,
+    output logic  flash_cs
 );
 
   localparam CPU_FREQUENCY_MHZ = 30_000_000;
@@ -91,11 +91,11 @@ module Top (
   // ----------------------------------------------------------
   // -- RAMIO
   // ----------------------------------------------------------
-  reg ramio_enable;
-  reg [1:0] ramio_write_type;
-  reg [2:0] ramio_read_type;
-  reg [31:0] ramio_address;
-  reg [31:0] ramio_data_in;
+  logic ramio_enable;
+  logic [1:0] ramio_write_type;
+  logic [2:0] ramio_read_type;
+  logic [31:0] ramio_address;
+  logic [31:0] ramio_data_in;
   wire [31:0] ramio_data_out;
   wire ramio_data_out_ready;
   wire ramio_busy;

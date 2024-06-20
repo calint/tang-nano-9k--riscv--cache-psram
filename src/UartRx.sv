@@ -16,8 +16,8 @@ module UartRx #(
 
     input wire rx,
     input wire go,
-    output reg [7:0] data,
-    output reg dr  // enabled when data is ready
+    output logic [7:0] data,
+    output logic dr  // enabled when data is ready
 );
 
   localparam BIT_TIME = CLK_FREQ / BAUD_RATE;
@@ -28,9 +28,9 @@ module UartRx #(
   localparam STATE_STOP_BIT = 5'b01000;
   localparam STATE_WAIT_GO_LOW = 5'b10000;
 
-  reg [4:0] state;  // 5 states
-  reg [3:0] bit_count;  // 4 bits to fit number 8
-  reg [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_counter;
+  logic [4:0] state;  // 5 states
+  logic [3:0] bit_count;  // 4 bits to fit number 8
+  logic [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_counter;
 
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin

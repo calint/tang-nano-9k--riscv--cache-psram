@@ -22,7 +22,7 @@ module BESDPB #(
 
   localparam COLUMN_COUNT = DATA_BITWIDTH / COLUMN_BITWIDTH;
 
-  reg [DATA_BITWIDTH-1:0] data[2**ADDRESS_BITWIDTH];
+  logic [DATA_BITWIDTH-1:0] data[2**ADDRESS_BITWIDTH];
 
   assign data_out = data[address];
 

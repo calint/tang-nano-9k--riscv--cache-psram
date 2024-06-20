@@ -14,22 +14,22 @@ module Core #(
     input wire rst_n,
     input wire clk,
 
-    output reg led,
+    output logic led,
 
     // RAMIO
-    output reg ramio_enable,
+    output logic ramio_enable,
 
     // b00 not a write; b01: byte, b10: half word, b11: word
-    output reg [1:0] ramio_write_type,
+    output logic [1:0] ramio_write_type,
 
     // b000 not a read; bit[2] flags sign extended or not, b01: byte, b10: half word, b11: word
-    output reg [2:0] ramio_read_type,
+    output logic [2:0] ramio_read_type,
 
     // address in bytes
-    output reg [31:0] ramio_address,
+    output logic [31:0] ramio_address,
 
     // sign extended byte, half word, word
-    output reg [31:0] ramio_data_in,
+    output logic [31:0] ramio_data_in,
 
     // data at 'address' according to 'read_type'
     input wire [31:0] ramio_data_out,
@@ -39,22 +39,22 @@ module Core #(
     input wire ramio_busy,
 
     // flash
-    output reg  flash_clk,
+    output logic  flash_clk,
     input  wire flash_miso,
-    output reg  flash_mosi,
-    output reg  flash_cs
+    output logic  flash_mosi,
+    output logic  flash_cs
 );
 
   // used while reading flash
-  reg [23:0] flash_data_to_send;
-  reg [4:0] flash_bits_to_send;
-  reg [31:0] flash_counter;
-  reg [7:0] flash_current_byte_out;
-  reg [7:0] flash_current_byte_num;
-  reg [7:0] flash_data_in[4];
+  logic [23:0] flash_data_to_send;
+  logic [4:0] flash_bits_to_send;
+  logic [31:0] flash_counter;
+  logic [7:0] flash_current_byte_out;
+  logic [7:0] flash_current_byte_num;
+  logic [7:0] flash_data_in[4];
 
   // used while reading flash to increment 'cache_address'
-  reg [31:0] ramio_address_next;
+  logic [31:0] ramio_address_next;
 
   localparam STATE_BOOT_INIT_POWER = 12'b0000_0000_0001;
   localparam STATE_BOOT_LOAD_CMD_TO_SEND = 12'b0000_0000_0010;
@@ -69,18 +69,18 @@ module Core #(
   localparam STATE_CPU_LOAD = 12'b0100_0000_0000;
   localparam STATE_CPU_LOAD_DONE = 12'b1000_0000_0000;
 
-  reg [11:0] state;
-  reg [11:0] return_state;
+  logic [11:0] state;
+  logic [11:0] return_state;
 
   // CPU state
-  reg [31:0] pc;  // program counter
-  reg [31:0] ir;  // instruction register
-  reg [4:0] rs1;  // source register 1
-  reg [4:0] rs2;  // source register 2
-  reg [4:0] rd;  // destination register
-  reg [6:0] opcode;
-  reg [2:0] funct3;
-  reg [6:0] funct7;
+  logic [31:0] pc;  // program counter
+  logic [31:0] ir;  // instruction logicister
+  logic [4:0] rs1;  // source register 1
+  logic [4:0] rs2;  // source register 2
+  logic [4:0] rd;  // destination register
+  logic [6:0] opcode;
+  logic [2:0] funct3;
+  logic [6:0] funct7;
   // immediate encodings
   wire [31:0] U_imm20 = {ir[31:12], {12{1'b0}}};
   wire signed [31:0] I_imm12 = {{20{ir[31]}}, ir[31:20]};
@@ -91,8 +91,8 @@ module Core #(
   wire signed [31:0] rs1_dat;  // register 'rs1' data
   wire signed [31:0] rs2_dat;  // register 'rs2' data
   // register write back
-  reg [31:0] rd_wd;  // register write data to 'rd'
-  reg rd_we;  // register write enable
+  logic [31:0] rd_wd;  // register write data to 'rd'
+  logic rd_we;  // register write enable
 
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin

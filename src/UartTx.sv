@@ -19,8 +19,8 @@ module UartTx #(
     // assert to start transmission, disable after 'data' has been read
     input wire go,
 
-    output reg tx,  // uart tx wire
-    output reg bsy  // enabled while sendng
+    output logic tx,  // uart tx wire
+    output logic bsy  // enabled while sendng
 );
 
   localparam BIT_TIME = CLK_FREQ / BAUD_RATE;
@@ -31,9 +31,9 @@ module UartTx #(
   localparam STATE_STOP_BIT = 5'b01000;
   localparam STATE_WAIT_GO_LOW = 5'b10000;
 
-  reg [4:0] state;
-  reg [3:0] bit_count;  // 3 to fit number 8
-  reg [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_time_counter;
+  logic [4:0] state;
+  logic [3:0] bit_count;  // 3 to fit number 8
+  logic [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_time_counter;
 
   always_ff @(negedge clk or negedge rst_n) begin
     if (!rst_n) begin

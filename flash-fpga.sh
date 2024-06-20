@@ -2,4 +2,4 @@
 set -e
 cd $(dirname "$0")
 
-openFPGALoader -b tangnano9k -f impl/pnr/riscv.fs
+openFPGALoader --board tangnano9k --write-flash impl/pnr/riscv.fs

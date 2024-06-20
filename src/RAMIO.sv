@@ -39,42 +39,42 @@ module RAMIO #(
     input wire [DATA_WIDTH-1:0] data_in,
 
     // data at 'address' according to 'read_type'
-    output reg [DATA_WIDTH-1:0] data_out,
+    output logic [DATA_WIDTH-1:0] data_out,
 
     output wire data_out_ready,
 
     output wire busy,
 
     // I/O mapping of LEDs
-    output reg [3:0] led,
+    output logic [3:0] led,
 
     // UART
     output wire uart_tx,
     input  wire uart_rx,
 
     // burst RAM wiring; prefix 'br_'
-    output reg br_cmd,  // 0: read, 1: write
-    output reg br_cmd_en,  // 1: cmd and addr is valid
-    output reg [RAM_DEPTH_BITWIDTH-1:0] br_addr,  // see 'RAM_ADDRESSING_MODE'
-    output reg [63:0] br_wr_data,  // data to write
+    output logic br_cmd,  // 0: read, 1: write
+    output logic br_cmd_en,  // 1: cmd and addr is valid
+    output logic [RAM_DEPTH_BITWIDTH-1:0] br_addr,  // see 'RAM_ADDRESSING_MODE'
+    output logic [63:0] br_wr_data,  // data to write
     output wire [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
     input wire br_rd_data_valid  // rd_data is valid
 );
 
   // enables / disables RAM operation, connected to cache
-  reg ram_enable;
+  logic ram_enable;
   wire ram_busy;
   wire ram_data_out_ready;
 
   // byte addressed into cache
-  reg [ADDRESS_BITWIDTH-1:0] ram_address;
+  logic [ADDRESS_BITWIDTH-1:0] ram_address;
 
   // data formatted for byte enabled write
-  reg [DATA_WIDTH-1:0] ram_data_in;
+  logic [DATA_WIDTH-1:0] ram_data_in;
 
   // bytes enabled for writing
-  reg [3:0] ram_write_enable;
+  logic [3:0] ram_write_enable;
 
   wire [DATA_WIDTH-1:0] ram_data_out;
 
@@ -160,10 +160,10 @@ module RAMIO #(
   end
 
   // data being sent by UartTx
-  reg [7:0] uarttx_data_sending;
+  logic [7:0] uarttx_data_sending;
 
   // data from 'uartrx_data' when 'uartrx_dr' (data ready) enabled
-  reg [7:0] uartrx_data_received;
+  logic [7:0] uartrx_data_received;
 
   // 
   // RAM read
@@ -236,7 +236,7 @@ module RAMIO #(
   end
 
   // enable to start sending and disable to acknowledge that data has been sent
-  reg uarttx_go;
+  logic uarttx_go;
 
   // high if UartTx is busy sending
   wire uarttx_bsy;
@@ -248,7 +248,7 @@ module RAMIO #(
   wire [7:0] uartrx_data;
 
   // enable to start receiving and disable to acknowledge that received data has been read
-  reg uartrx_go;
+  logic uartrx_go;
 
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin

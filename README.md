@@ -35,7 +35,8 @@
     => UART overrun even when doing 'uart_read_char()' in a loop
     => moreover characters are dropped without UART being overrun
     => fixed end-to-end test without grasping why. search for '// ??' in RAMIO
-[ ] apply (selectively) style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md#lowrisc-verilog-coding-style-guide
+[o] apply (selectively) style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md#lowrisc-verilog-coding-style-guide
+[ ]    use 'logic' instead of registers or wires where applicable?
 [ ] study why BAUD rate of less than 2400 does not work
 [ ] consider FIFO in UART
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0

@@ -39,8 +39,8 @@ module Cache #(
     // byte addressed; must be held while 'busy' + 1 cycle
     input wire [31:0] address,
 
-    output reg [31:0] data_out,
-    output reg data_out_ready,
+    output logic [31:0] data_out,
+    output logic data_out_ready,
     input wire [31:0] data_in,
 
     // write enable bytes must be held while busy + 1 cycle
@@ -50,10 +50,10 @@ module Cache #(
     output wire busy,
 
     // burst RAM wiring; prefix 'br_'
-    output reg br_cmd,  // 0: read, 1: write
-    output reg br_cmd_en,  // 1: cmd and addr is valid
-    output reg [RAM_DEPTH_BITWIDTH-1:0] br_addr,  // see 'RAM_ADDRESSING_MODE'
-    output reg [63:0] br_wr_data,  // data to write
+    output logic br_cmd,  // 0: read, 1: write
+    output logic br_cmd_en,  // 1: cmd and addr is valid
+    output logic [RAM_DEPTH_BITWIDTH-1:0] br_addr,  // see 'RAM_ADDRESSING_MODE'
+    output logic [63:0] br_wr_data,  // data to write
     output wire [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
     input wire br_rd_data_valid  // rd_data is valid
@@ -106,16 +106,16 @@ module Cache #(
     address[31:COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH], {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
   };
 
-  reg burst_is_reading;  // true if in burst read operation
-  reg [31:0] burst_data_in[COLUMN_COUNT];
-  reg [3:0] burst_write_enable[COLUMN_COUNT];
-  reg [3:0] burst_tag_write_enable;
+  logic burst_is_reading;  // true if in burst read operation
+  logic [31:0] burst_data_in[COLUMN_COUNT];
+  logic [3:0] burst_write_enable[COLUMN_COUNT];
+  logic [3:0] burst_tag_write_enable;
 
-  reg burst_is_writing;  // true if in burst write operation
+  logic burst_is_writing;  // true if in burst write operation
 
-  wire [31:0] cached_tag_and_flags;
-  reg [3:0] tag_write_enable;  // true when cache hit; write to set line dirty
-  reg [31:0] tag_data_in;  // tag and flags written when cache hit write
+  logic [31:0] cached_tag_and_flags;
+  logic [3:0] tag_write_enable;  // true when cache hit; write to set line dirty
+  logic [31:0] tag_data_in;  // tag and flags written when cache hit write
 
   assign br_data_mask = 0;  // writing whole cache lines
 
@@ -142,7 +142,7 @@ module Cache #(
   wire cache_line_hit = line_valid && address_tag == cached_tag;
 
   // counts minimum cycles between commands
-  reg [5:0] command_delay_interval_counter;
+  logic [5:0] command_delay_interval_counter;
 
   assign busy = enable && !cache_line_hit || command_delay_interval_counter != 0;
 
@@ -153,9 +153,9 @@ module Cache #(
   // 8 instances of byte enabled semi dual port RAM blocks
   // if cache hit at write then connect 'data_in' to the column
   // if cache miss connect to the state machine that loads a cache line
-  reg [31:0] column_data_in[COLUMN_COUNT];
-  reg [3:0] column_write_enable[COLUMN_COUNT];
-  wire [31:0] column_data_out[COLUMN_COUNT];
+  logic [31:0] column_data_in[COLUMN_COUNT];
+  logic [3:0] column_write_enable[COLUMN_COUNT];
+  logic [31:0] column_data_out[COLUMN_COUNT];
 
   generate
     for (genvar i = 0; i < COLUMN_COUNT; i++) begin : column
@@ -224,7 +224,7 @@ module Cache #(
     end
   end
 
-  reg [10:0] state;
+  logic [10:0] state;
   localparam STATE_IDLE = 11'b000_0000_0001;
   localparam STATE_READ_WAIT_FOR_DATA_READY = 11'b000_0000_0010;
   localparam STATE_READ_1 = 11'b000_0000_0100;
