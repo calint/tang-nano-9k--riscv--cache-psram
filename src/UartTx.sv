@@ -35,7 +35,7 @@ module UartTx #(
   reg [3:0] bit_count;  // 3 to fit number 8
   reg [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_time_counter;
 
-  always_ff @(negedge clk, negedge rst_n) begin
+  always_ff @(negedge clk or negedge rst_n) begin
     if (!rst_n) begin
       state <= STATE_IDLE;
       bit_count <= 0;

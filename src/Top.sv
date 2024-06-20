@@ -5,8 +5,8 @@
 `include "Configuration.svh"
 
 module Top (
-    input wire sys_clk,  // 27 MHz
-    input wire sys_rst_n,
+    input wire clk,  // 27 MHz
+    input wire rst_n,
     output reg [5:0] led,
     input wire uart_rx,
     output wire uart_tx,
@@ -32,14 +32,13 @@ module Top (
   // ----------------------------------------------------------
   // -- Gowin_rPLLs
   // ----------------------------------------------------------
-  wire rpll_clkin = sys_clk;
   wire rpll_lock;
   wire rpll_clkout;
   wire rpll_clkoutp;
   wire rpll_clkoutd;
 
   Gowin_rPLL rpll (
-      .clkin(rpll_clkin),  // 27 MHz
+      .clkin(clk),  // 27 MHz
       .lock(rpll_lock),
       .clkout(rpll_clkout),  // 60 MHz
       .clkoutp(rpll_clkoutp),  // clkout 60 MHz 90 degrees phased
@@ -54,7 +53,6 @@ module Top (
   wire br_memory_clk = rpll_clkout;
   wire br_memory_clk_p = rpll_clkoutp;
   wire br_clk_out;
-  wire rst_n = sys_rst_n;
   wire [63:0] br_wr_data;
   wire [63:0] br_rd_data;
   wire br_rd_data_valid;
@@ -82,12 +80,12 @@ module Top (
       .rd_data_valid(br_rd_data_valid),
 
       // inferred PSRAM ports
-      .O_psram_ck(O_psram_ck),
-      .O_psram_ck_n(O_psram_ck_n),
-      .IO_psram_dq(IO_psram_dq),
-      .IO_psram_rwds(IO_psram_rwds),
-      .O_psram_cs_n(O_psram_cs_n),
-      .O_psram_reset_n(O_psram_reset_n)
+      .O_psram_ck,
+      .O_psram_ck_n,
+      .IO_psram_dq,
+      .IO_psram_rwds,
+      .O_psram_cs_n,
+      .O_psram_reset_n
   );
 
   // ----------------------------------------------------------
@@ -109,7 +107,7 @@ module Top (
       .CLK_FREQ(CPU_FREQUENCY_MHZ),
       .BAUD_RATE(`UART_BAUD_RATE)
   ) ramio (
-      .rst_n(sys_rst_n && rpll_lock && br_init_calib),
+      .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
 
       // interface
@@ -129,13 +127,13 @@ module Top (
       .uart_rx(uart_rx),
 
       // burst RAM wiring; prefix 'br_'
-      .br_cmd(br_cmd),  // 0: read, 1: write
-      .br_cmd_en(br_cmd_en),  // 1: cmd and addr is valid
-      .br_addr(br_addr),  // see 'RAM_ADDRESSING_MODE'
-      .br_wr_data(br_wr_data),  // data to write
-      .br_data_mask(br_data_mask),  // always 0 meaning write all bytes
-      .br_rd_data(br_rd_data),  // data out
-      .br_rd_data_valid(br_rd_data_valid)  // rd_data is valid
+      .br_cmd,  // 0: read, 1: write
+      .br_cmd_en,  // 1: cmd and addr is valid
+      .br_addr,  // see 'RAM_ADDRESSING_MODE'
+      .br_wr_data,  // data to write
+      .br_data_mask,  // always 0 meaning write all bytes
+      .br_rd_data,  // data out
+      .br_rd_data_valid  // rd_data is valid
   );
 
   // ----------------------------------------------------------
@@ -146,23 +144,23 @@ module Top (
       .STARTUP_WAIT(`STARTUP_WAIT),
       .FLASH_TRANSFER_BYTES_NUM(`FLASH_TRANSFER_BYTES_NUM)
   ) core (
-      .rst_n(sys_rst_n && rpll_lock && br_init_calib),
+      .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
       .led  (led[0]),
 
-      .ramio_enable(ramio_enable),
-      .ramio_write_type(ramio_write_type),
-      .ramio_read_type(ramio_read_type),
-      .ramio_address(ramio_address),
-      .ramio_data_in(ramio_data_in),
-      .ramio_data_out(ramio_data_out),
-      .ramio_data_out_ready(ramio_data_out_ready),
-      .ramio_busy(ramio_busy),
+      .ramio_enable,
+      .ramio_write_type,
+      .ramio_read_type,
+      .ramio_address,
+      .ramio_data_in,
+      .ramio_data_out,
+      .ramio_data_out_ready,
+      .ramio_busy,
 
-      .flash_clk (flash_clk),
-      .flash_miso(flash_miso),
-      .flash_mosi(flash_mosi),
-      .flash_cs  (flash_cs)
+      .flash_clk,
+      .flash_miso,
+      .flash_mosi,
+      .flash_cs
   );
 
   assign led[5] = ~ramio_busy;

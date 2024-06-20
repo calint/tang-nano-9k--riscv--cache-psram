@@ -249,7 +249,7 @@ module RAMIO #(
   // enable to start receiving and disable to acknowledge that received data has been read
   reg uartrx_go;
 
-  always_ff @(posedge clk, negedge rst_n) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       led <= 4'b1111;  // turn off all LEDs
       uarttx_data_sending <= 0;
@@ -327,8 +327,8 @@ module RAMIO #(
       .CLK_FREQ (CLK_FREQ),
       .BAUD_RATE(BAUD_RATE)
   ) uarttx (
-      .rst_n(rst_n),
-      .clk  (clk),
+      .rst_n,
+      .clk,
 
       .data(uarttx_data_sending),  // data to send
       .go(uarttx_go),  // enable to start transmission, disable after 'data' has been read
@@ -340,8 +340,8 @@ module RAMIO #(
       .CLK_FREQ (CLK_FREQ),
       .BAUD_RATE(BAUD_RATE)
   ) uartrx (
-      .rst_n(rst_n),
-      .clk  (clk),
+      .rst_n,
+      .clk,
 
       .rx(uart_rx),  // uart rx wire
       .go(uartrx_go),  // enable to start receiving, disable to acknowledge 'dr'

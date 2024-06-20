@@ -237,7 +237,7 @@ module Cache #(
   localparam STATE_WRITE_3 = 11'b010_0000_0000;
   localparam STATE_WRITE_FINISH = 11'b100_0000_0000;
 
-  always_ff @(posedge clk, negedge rst_n) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       burst_tag_write_enable <= 0;
       for (int i = 0; i < COLUMN_COUNT; i++) begin

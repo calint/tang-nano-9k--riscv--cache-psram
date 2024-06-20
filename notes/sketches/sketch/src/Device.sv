@@ -16,7 +16,7 @@ module Device (
     end
   end
 
-  always_ff @(posedge clk, negedge rst_n) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       uartrx_data_received <= 8'hab;
     end else begin

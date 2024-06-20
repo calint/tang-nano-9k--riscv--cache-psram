@@ -32,7 +32,7 @@ module UartRx #(
   reg [3:0] bit_count;  // 4 bits to fit number 8
   reg [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_counter;
 
-  always_ff @(posedge clk, negedge rst_n) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       state <= STATE_IDLE;
       data <= 0;
