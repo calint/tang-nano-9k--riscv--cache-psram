@@ -11,8 +11,7 @@ module BESDPB #(
     parameter DATA_FILE = "",
     parameter ADDRESS_BITWIDTH = 16,
     parameter DATA_BITWIDTH = 32,
-    parameter COLUMN_BITWIDTH = 8,
-    parameter COLUMN_COUNT = DATA_BITWIDTH / COLUMN_BITWIDTH
+    parameter COLUMN_BITWIDTH = 8
 ) (
     input wire clk,
     input wire [COLUMN_COUNT-1:0] write_enable,
@@ -20,6 +19,8 @@ module BESDPB #(
     output wire [DATA_BITWIDTH-1:0] data_out,
     input wire [DATA_BITWIDTH-1:0] data_in
 );
+
+  localparam COLUMN_COUNT = DATA_BITWIDTH / COLUMN_BITWIDTH;
 
   reg [DATA_BITWIDTH-1:0] data[2**ADDRESS_BITWIDTH-1:0];
 

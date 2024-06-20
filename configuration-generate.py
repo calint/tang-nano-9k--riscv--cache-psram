@@ -17,7 +17,7 @@ with open('os/os_config.h', 'w') as file:
     file.write('#define UART_IN ((char volatile *)0xfffffffd)\n')
     file.write('#define MEMORY_TOP {}\n'.format(hex(2**cfg.RAM_ADDRESS_WIDTH)))
 
-with open('src/Configuration.sv', 'w') as file:
+with open('src/Configuration.svh', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
     file.write('`define RAM_ADDRESS_BITWIDTH {}\n'.format(
         cfg.RAM_ADDRESS_WIDTH))
@@ -28,4 +28,4 @@ with open('src/Configuration.sv', 'w') as file:
         f'{cfg.FLASH_TRANSFER_BYTES_NUM:08x}'))
     file.write('`define STARTUP_WAIT {}\n'.format(cfg.STARTUP_WAIT))
 
-print("generated: src/Configuration.sv, os/os_start.S, os/os_config.h")
+print("generated: src/Configuration.svh, os/os_start.S, os/os_config.h")

@@ -89,7 +89,8 @@ module UartRx #(
 
         STATE_STOP_BIT: begin
           bit_counter <= bit_counter - 1;
-          if (bit_counter == 0) begin
+          if (bit_counter == 0 || !rx) begin
+            // note: if drifting then start bit might arrive before expected
             dr <= 1;
             state <= STATE_WAIT_GO_LOW;
           end
