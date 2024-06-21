@@ -79,7 +79,7 @@ bool strings_equal(const char *s1, const char *s2);
 
 void run() {
   
-  *LED = 0; // turn all leds on
+  *LED = 0xa; // turn all leds on
 
   unsigned char active_entity = 1;
   input_buffer inbuf;
