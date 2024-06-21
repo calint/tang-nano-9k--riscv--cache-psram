@@ -38,10 +38,35 @@
 [o] apply (selectively) style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md#lowrisc-verilog-coding-style-guide
 [x]    use 'logic' instead of registers or wires where applicable?
          => reg -> logic, all outputs logic, all inputs wires
-[x]    parameters in pascal casing
-[x]    enums for states in FSM
-[-]    suffixes to port inputs/outputs
+[x]    parameters in UpperCamelCase
+[ ]    Main clock signal is named clk. All clock signals must start with clk_
+[x]    Reset signals are active-low and asynchronous, default name is rst_n
+[x]    Signal names should be descriptive and be consistent throughout the hierarchy
+[ ]    Add _i to module inputs, _o to module outputs or _io for bi-directional module signals
          => the ports have verbose names implying input/output
+[x]    Enumerated types should be suffixed with _e
+[x]    Use full port declaration style for modules, any clock and reset declared first
+[x]    Use named parameters for instantiation, all declared ports must be present, no .*
+[ ]    Top-level parameters is preferred over  `define globals
+[x]    Use symbolically named constants instead of raw numbers
+[x]    Local constants should be declared localparam, globals in a separate .svh file.
+[x]    logic is preferred over reg and wire, declare all signals explicitly
+[x]    always_comb, always_ff and always_latch are preferred over always
+[x]    Interfaces are discouraged
+[x]    Sequential logic must use non-blocking assignments
+[x]    Combinational blocks must use blocking assignments
+[x]    Use of latches is discouraged, use flip-flops when possible
+[x]    The use of X assignments in RTL is strongly discouraged, make use of SVAs to check invalid behavior instead.
+[ ]    Prefer assign statements wherever practical.
+[x]    Use unique case and always define a default case
+[x]    Use available signed arithmetic constructs wherever signed arithmetic is used
+[x]    When printing use 0b and 0x as a prefix for binary and hex. Use _ for clarity
+[x]    Use logical constructs (i.e ||) for logical comparison, bit-wise (i.e |) for data comparison
+[x]    Bit vectors and packed arrays must be little-endian, unpacked arrays must be big-endian
+[ ]    FSMs: no logic except for reset should be performed in the process for the state register
+[x]    A combinational process should first define default value of all outputs in the process
+[ ]    Default value for next state variable should be the current state
+[x]    enums for states in FSM
 [-]    snake case names for modules
          => makes instance names inconvenient
 [x] review test benches
