@@ -44,12 +44,9 @@
     => moreover characters are dropped without UART being overrun
     => fixed end-to-end test without grasping why. search for '// ??' in RAMIO
 [x] enums for states in FSM
-[-] snake case names for modules
-      => makes instance names inconvenient
 [x] review test benches
 [ ] FSM in always_comb?
-[ ] study why BAUD rate of less than 2400 does not work
-[ ] consider FIFO in UART
+[ ] study why BAUD rate less than 2400 does not work
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
 [ ] UART rx: if rx changes to low while in stop-bit assume drifting and switch to wait for go
 [o] fix truncation warnings
@@ -59,6 +56,7 @@
 [ ]   2+ cycle LOAD
 [ ] dual channel 4 MB PSRAM
 [ ] step 12: fully pipe-lined core
+[ ] consider FIFO in UART
 -------------------------------------------------------------------------------------------------------------
 [o] apply style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
 [x]    use 'logic' instead of registers or wires where applicable?
@@ -119,6 +117,8 @@
 [ ]    Explicitly declare the type for parameters.
 [ ]    Suffixes are used in several places to give guidance to intent.
 [x]    Name enumeration types snake_case_e. Name enumeration values ALL_CAPS or UpperCamelCase.
+[-]    Snake case module names.
+         => makes instance names inconvenient
 [x]    Use lower_snake_case when naming signals.
 [x]    Names should describe what a signal's purpose is.
 [x]    Use common prefixes to identify groups of signals that operate together.
