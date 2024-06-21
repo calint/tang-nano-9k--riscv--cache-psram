@@ -112,7 +112,7 @@
 [x]    Ternary expressions nested in the true condition of another ternary expression must be enclosed in parentheses.
 [x]    C++ style comments (// foo) are preferred. C style comments (/* bar */) can also be used.
 [x]    Signals must be declared before they are used. This means that implicit net declarations must not be used.
-[ ]    Declarations (module, class, package, interface)	lower_snake_case
+[x]    Declarations (module, class, package, interface)	lower_snake_case
 [x]    Instance names	lower_snake_case
 [x]    Signals (nets and ports)	lower_snake_case
 [x]    Variables, functions, tasks	lower_snake_case
