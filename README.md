@@ -93,7 +93,7 @@
 [x]    Use only ASCII characters with UNIX-style line endings("\n").
 [x]    Use the .sv extension for SystemVerilog files (or .svh for files that are included via the preprocessor).
 [x]    All lines on non-empty files must end with a newline ("\n").
-[-]    Wrap the code at 100 characters per line.
+[x]    Wrap the code at 100 characters per line.
          => formatting done automatically by extension
 [x]    Do not use tabs anywhere.
 [x]    Delete trailing whitespace at the end of lines.
