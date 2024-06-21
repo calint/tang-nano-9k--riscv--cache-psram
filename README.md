@@ -118,6 +118,28 @@
 [ ]    Do not allow multiple non-blocking assignments to the same bit.
        ... the Verilog standard says that the second assignment will take effect, but this is a style violation.
 [x]    The use of X literals in RTL code is strongly discouraged.
+[x]    Avoid sensitivity lists, and use a consistent assignment type.
+[x]    Avoid case-modifying pragmas. unique case is the best practice. Always define a default case.
+[ ]    Use case inside if wildcard operator behavior is needed.
+         => not supported by iverilog. using "unique casez(...)"
+[x]    Always name your generated blocks.
+[x]    Use the available signed arithmetic constructs wherever signed arithmetic is used.
+[x]    Prefix printed binary numbers with 0b. Prefix printed hexadecimal numbers with 0x. Do not use prefixes for decimal numbers.
+[x]    In synthesizable RTL the use of functions is allowed, provided they are declared automatic. Tasks should not be used.
+         => non used
+[x]    The use of hierarchical references in synthesizable RTL code is prohibited.
+[x]    Do not rely on inferred nets.
+[x]    Use logic for synthesis. wire is allowed when necessary.
+[x]    Prefer logical constructs for logical comparisons, bit-wise for data.
+[x]    Bit vectors and packed arrays must be little-endian.
+[x]    Unpacked arrays must be big-endian.
+[ ]    State machines use an enum to define states, and be implemented with two process blocks: a combinational block and a clocked block.
+[x]    The _n suffix indicates an active-low signal.
+[x]    Use the _p and _n suffixes to indicate a differential pair.
+         => non used
+[x]    Signals delayed by a single clock cycle should end in a _q suffix.
+         => non used
+[x]    The wildcard import syntax, e.g. import ip_pkg::*; is only allowed where the package is part of the same IP as the module that uses that package. 
 
 [x]    enums for states in FSM
 [-]    snake case names for modules
