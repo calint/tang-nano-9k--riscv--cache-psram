@@ -8,8 +8,8 @@
 // `define INFO
 
 module uartrx #(
-    parameter ClockFrequencyMhz = 66_000_000,
-    parameter BaudRate = 9600
+    parameter int unsigned ClockFrequencyMhz = 66_000_000,
+    parameter int unsigned BaudRate = 9600
 ) (
     input wire rst_n,
     input wire clk,
@@ -20,7 +20,7 @@ module uartrx #(
     output logic dr  // enabled when data is ready
 );
 
-  localparam BIT_TIME = ClockFrequencyMhz / BaudRate;
+  localparam int unsigned BIT_TIME = ClockFrequencyMhz / BaudRate;
 
   typedef enum {
     Idle,

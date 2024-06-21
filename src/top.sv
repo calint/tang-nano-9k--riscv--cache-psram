@@ -26,7 +26,7 @@ module top (
     output logic flash_cs
 );
 
-  localparam CPU_FREQUENCY_MHZ = 30_000_000;
+  localparam int unsigned CPU_FREQUENCY_MHZ = 30_000_000;
 
   // ----------------------------------------------------------
   // -- Gowin_rPLLs

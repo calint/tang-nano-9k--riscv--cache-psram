@@ -7,11 +7,11 @@
 
 module testbench;
 
-  localparam RAM_ADDRESS_BIT_WIDTH = 10;
+  localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 10;
 
   reg rst_n;
   reg clk = 1;
-  localparam clk_tk = 36;
+  localparam int unsigned clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
   wire clkin = clk;

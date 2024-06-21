@@ -9,12 +9,12 @@
 // `define INFO
 
 module burst_ram #(
-    parameter DataFilePath = "",  // initial RAM content
-    parameter AddressBitWidth = 4,  // 2 ^ 4 * 8 B entries
-    parameter DataBitWidth = 64,  // must be divisible by 8
-    parameter BurstDataCount = 4,  // number of RAM data sizes transfered per burst
-    parameter CyclesBeforeInitiated = 10,  // emulates initiation delay
-    parameter CyclesBeforeDataValid = 6  // emulates read delay
+    parameter string DataFilePath = "",  // initial RAM content
+    parameter int unsigned AddressBitWidth = 4,  // 2 ^ 4 * 8 B entries
+    parameter int unsigned DataBitWidth = 64,  // must be divisible by 8
+    parameter int unsigned BurstDataCount = 4,  // number of RAM data sizes transfered per burst
+    parameter int unsigned CyclesBeforeInitiated = 10,  // emulates initiation delay
+    parameter int unsigned CyclesBeforeDataValid = 6  // emulates read delay
 ) (
     input wire rst_n,
     input wire clk,
@@ -30,9 +30,9 @@ module burst_ram #(
     output logic busy
 );
 
-  localparam DEPTH = 2 ** AddressBitWidth;
-  localparam CMD_READ = 0;
-  localparam CMD_WRITE = 1;
+  localparam int unsigned DEPTH = 2 ** AddressBitWidth;
+  localparam int unsigned CMD_READ = 0;
+  localparam int unsigned CMD_WRITE = 1;
 
   logic [$clog2(CyclesBeforeInitiated):0] init_calib_delay_counter;
   // note: not -1 because it comparison is against CyclesBeforeInitiated

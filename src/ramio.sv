@@ -8,17 +8,17 @@
 // `define INFO
 
 module ramio #(
-    parameter RamAddressBitWidth = 10,
-    parameter RamAddressingMode = 3,
-    parameter CacheLineIndexBitWidth = 1,
-    parameter AddressBitWidth = 32,
-    parameter DataBitWidth = 32,
-    parameter ClockFrequencyMhz = 20_250_000,
-    parameter BaudRate = 9600,
-    parameter TopAddress = {AddressBitWidth{1'b1}},
-    parameter AddressLed = TopAddress,
-    parameter AddressUartOut = TopAddress - 1,
-    parameter AddressUartIn = TopAddress - 2
+    parameter int unsigned RamAddressBitWidth = 10,
+    parameter int unsigned RamAddressingMode = 3,
+    parameter int unsigned CacheLineIndexBitWidth = 1,
+    parameter int unsigned AddressBitWidth = 32,
+    parameter int unsigned DataBitWidth = 32,
+    parameter int unsigned ClockFrequencyMhz = 20_250_000,
+    parameter int unsigned BaudRate = 9600,
+    parameter int unsigned TopAddress = {AddressBitWidth{1'b1}},
+    parameter int unsigned AddressLed = TopAddress,
+    parameter int unsigned AddressUartOut = TopAddress - 1,
+    parameter int unsigned AddressUartIn = TopAddress - 2
     // note: received byte must be read with 'lb' or 'lbu'
 ) (
     input wire rst_n,

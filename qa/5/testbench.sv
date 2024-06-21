@@ -9,8 +9,8 @@ module testbench;
 
   reg rst_n;
   reg clk = 1;
-  localparam clk_tk = 36;
-  localparam clk_tk_half = clk_tk / 2;
+  localparam int unsigned clk_tk = 36;
+  localparam int unsigned clk_tk_half = clk_tk / 2;
   always #(clk_tk_half) clk = ~clk;
 
   //-------------------------------------------------

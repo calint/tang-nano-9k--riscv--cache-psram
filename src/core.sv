@@ -8,8 +8,8 @@
 // `define INFO
 
 module core #(
-    parameter StartupWaitCycles  = 1_000_000,
-    parameter FlashTransferBytes = 32'h0010_0000
+    parameter int unsigned StartupWaitCycles  = 1_000_000,
+    parameter int unsigned FlashTransferBytes = 32'h0010_0000
 ) (
     input wire rst_n,
     input wire clk,

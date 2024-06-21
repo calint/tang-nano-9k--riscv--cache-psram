@@ -12,19 +12,19 @@
 // `define INFO
 
 module cache #(
-    parameter LineIndexBitWidth = 8,
+    parameter int unsigned LineIndexBitWidth = 8,
     // cache lines: 2 ^ value
 
-    parameter RamAddressBitWidth = 21,
+    parameter int unsigned RamAddressBitWidth = 21,
     // bits in the address interfacing with RAM
 
-    parameter CommandDelayIntervalCycles = 13,
+    parameter int unsigned CommandDelayIntervalCycles = 13,
     // the clock cycles delay between commands
     // see: IPUG943-1.2E Gowin PSRAM Memory Interface HS & HS 2CH IP
     //      page 10
     // note: 1 less than spec because the counter starts 1 cycle late (13)
 
-    parameter RamAddressingMode = 0
+    parameter int unsigned RamAddressingMode = 0
     // note: 3: RAM has 64 bit words
     //       2: RAM has 32 bit words
     //       1: RAM has 16 bit words
@@ -69,16 +69,16 @@ module cache #(
   end
 `endif
 
-  localparam ZEROS_BITWIDTH = 2;  // leading zeros in the address
-  localparam COLUMN_IX_BITWIDTH = 3;  // 2 ^ 3 = 8 elements per line
-  localparam COLUMN_COUNT = 2 ** COLUMN_IX_BITWIDTH;
-  localparam LINE_COUNT = 2 ** LineIndexBitWidth;
-  localparam TAG_BITWIDTH = 32 - LineIndexBitWidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
+  localparam int unsigned ZEROS_BITWIDTH = 2;  // leading zeros in the address
+  localparam int unsigned COLUMN_IX_BITWIDTH = 3;  // 2 ^ 3 = 8 elements per line
+  localparam int unsigned COLUMN_COUNT = 2 ** COLUMN_IX_BITWIDTH;
+  localparam int unsigned LINE_COUNT = 2 ** LineIndexBitWidth;
+  localparam int unsigned TAG_BITWIDTH = 32 - LineIndexBitWidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
   // note: assumes there are 2 bits free after 'TAG_BITWIDTH' for 'valid' and 'dirty' flags
 
-  localparam LINE_VALID_BIT = TAG_BITWIDTH;
-  localparam LINE_DIRTY_BIT = TAG_BITWIDTH + 1;
-  localparam LINE_TO_RAM_ADDRESS_LEFT_SHIFT = COLUMN_IX_BITWIDTH + ZEROS_BITWIDTH - RamAddressingMode;
+  localparam int unsigned LINE_VALID_BIT = TAG_BITWIDTH;
+  localparam int unsigned LINE_DIRTY_BIT = TAG_BITWIDTH + 1;
+  localparam int unsigned LINE_TO_RAM_ADDRESS_LEFT_SHIFT = COLUMN_IX_BITWIDTH + ZEROS_BITWIDTH - RamAddressingMode;
 
   // wires dividing the address into components
   // |tag|line| col |00| address

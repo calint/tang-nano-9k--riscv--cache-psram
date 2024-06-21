@@ -8,11 +8,10 @@
 // `define INFO
 
 module bram #(
-    parameter DataFilePath = "",
-    parameter AddressBitWidth = 16,
-    parameter DataBitWidth = 32,
-    parameter ColumnBitWidth = 8,
-    localparam ColumnCount = DataBitWidth / ColumnBitWidth
+    parameter int unsigned DataFilePath = "",
+    parameter int unsigned AddressBitWidth = 16,
+    parameter int unsigned DataBitWidth = 32,
+    parameter int unsigned ColumnBitWidth = 8
 ) (
     input wire clk,
 
@@ -21,6 +20,8 @@ module bram #(
     output logic [DataBitWidth-1:0] data_out,
     input wire [DataBitWidth-1:0] data_in
 );
+
+  localparam int unsigned ColumnCount = DataBitWidth / ColumnBitWidth;
 
   logic [DataBitWidth-1:0] data[2**AddressBitWidth];
 

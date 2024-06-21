@@ -7,8 +7,8 @@
 // `define DBG
 
 module registers #(
-    parameter AddressBitWidth = 5,
-    parameter DataBitWidth = 32
+    parameter int unsigned AddressBitWidth = 5,
+    parameter int unsigned DataBitWidth = 32
 ) (
     input wire clk,
 

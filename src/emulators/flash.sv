@@ -9,8 +9,8 @@
 // `define INFO
 
 module flash #(
-    parameter DataFilePath = "",  // initial RAM content
-    parameter AddressBitWidth = 8
+    parameter string DataFilePath = "",  // initial RAM content
+    parameter int unsigned AddressBitWidth = 8
 ) (
     input wire rst_n,
     input wire clk,
@@ -20,7 +20,7 @@ module flash #(
     input  wire  cs
 );
 
-  localparam DEPTH = 2 ** AddressBitWidth;
+  localparam int unsigned DEPTH = 2 ** AddressBitWidth;
 
   logic [7:0] data[DEPTH];
 

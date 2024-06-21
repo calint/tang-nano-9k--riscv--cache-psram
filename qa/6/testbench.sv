@@ -8,10 +8,10 @@
 module testbench;
   reg rst_n;
   reg clk = 1;
-  localparam clk_tk = 36;
+  localparam int unsigned clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
-  localparam RAM_ADDRESS_BIT_WIDTH = 10;  // 2^10 * 8 B = 8192 B
+  localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 10;  // 2^10 * 8 B = 8192 B
 
   wire [5:0] led;
   wire uart_tx;

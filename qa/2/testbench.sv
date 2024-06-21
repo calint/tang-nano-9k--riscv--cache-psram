@@ -8,7 +8,7 @@
 module testbench;
 
   reg rst_n;
-  localparam clk_tk = 10;
+  localparam int unsigned clk_tk = 10;
   reg clk = 0;
   always #(clk_tk / 2) clk = ~clk;
 
