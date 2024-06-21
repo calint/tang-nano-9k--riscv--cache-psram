@@ -43,4 +43,12 @@ u r in office
 u c: nothing
 me is here
 exits: south
-u > 
+u > m
+testing memory (write)
+testing memory (read)
+testing memory succeeded
+u r in office
+u c: nothing
+u is here
+exits: south
+me > 

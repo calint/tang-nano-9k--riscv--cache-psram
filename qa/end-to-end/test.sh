@@ -5,11 +5,14 @@
 #
 set -e
 cd $(dirname "$0")
-set -x
+#set -x
 
 TTY=/dev/ttyUSB1
 BAUD=115200
 SLP=1
+
+# capture ctrl+c and kill cat
+trap 'kill $(jobs -p); exit 130' INT
 
 stty -F $TTY $BAUD cs8 -cstopb -parenb -crtscts -ixon -ixoff -ignbrk -brkint -icrnl -opost -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke
 #    -crtscts disables hardware flow control
@@ -20,9 +23,9 @@ stty -F $TTY $BAUD cs8 -cstopb -parenb -crtscts -ixon -ixoff -ignbrk -brkint -ic
 #    -isig -icanon -iexten disables terminal signal handling and canonical input processing
 #    -echo -echoe -echok -echoctl -echoke disables terminal echoing
 
-cat $TTY > test.out &
+cat $TTY | tee test.out &
 
-read -p "program or reset FPGA then press 'enter' to continue"
+read -p $'program or reset FPGA then press "enter" to continue\n\n'
 
 printf "i\r" > $TTY
 sleep $SLP
@@ -38,6 +41,8 @@ printf "i\r" > $TTY
 sleep $SLP
 printf "i\r" > $TTY
 sleep $SLP
+printf "m\r" > $TTY
+sleep 10
 
 # send SIGTERM (termination signal) to 'cat'
 kill -SIGTERM %1
