@@ -47,7 +47,7 @@
 [x]    Enumerated types should be suffixed with _e
 [x]    Use full port declaration style for modules, any clock and reset declared first
 [x]    Use named parameters for instantiation, all declared ports must be present, no .*
-[ ]    Top-level parameters is preferred over  `define globals
+[x]    Top-level parameters is preferred over  `define globals
 [x]    Use symbolically named constants instead of raw numbers
 [x]    Local constants should be declared localparam, globals in a separate .svh file.
 [x]    logic is preferred over reg and wire, declare all signals explicitly
@@ -57,7 +57,7 @@
 [x]    Combinational blocks must use blocking assignments
 [x]    Use of latches is discouraged, use flip-flops when possible
 [x]    The use of X assignments in RTL is strongly discouraged, make use of SVAs to check invalid behavior instead.
-[ ]    Prefer assign statements wherever practical.
+[x]    Prefer assign statements wherever practical.
 [x]    Use unique case and always define a default case
 [x]    Use available signed arithmetic constructs wherever signed arithmetic is used
 [x]    When printing use 0b and 0x as a prefix for binary and hex. Use _ for clarity
@@ -89,7 +89,7 @@
 [x]    Ternary expressions nested in the true condition of another ternary expression must be enclosed in parentheses.
 [x]    C++ style comments (// foo) are preferred. C style comments (/* bar */) can also be used.
 [x]    Signals must be declared before they are used. This means that implicit net declarations must not be used.
-[ ]    Declare global constants using parameters in the project package file.
+[x]    Declare global constants using parameters in the project package file.
 [x]    Use parameter to parameterize, and localparam to declare module-scoped constants. Within a package, use parameter.
 [ ]    Explicitly declare the type for parameters.
 [ ]    Suffixes are used in several places to give guidance to intent.
@@ -108,7 +108,7 @@
 [x]    Do not instantiate recursively.
 [x]    It is recommended to use symbolicly named constants instead of raw numbers.
 [x]    Always be explicit about the widths of number literals.
-[ ]    Do not use multi-bit signals in a boolean context.
+[x]    Do not use multi-bit signals in a boolean context.
 [x]    Only use the bit slicing operator when the intent is to refer to a portion of a bit vector.
 [x]    Beware of shift operations, which can produce a result wider than the operand.
 [x]    Sequential logic must use non-blocking assignments. Combinational blocks must use blocking assignments.
