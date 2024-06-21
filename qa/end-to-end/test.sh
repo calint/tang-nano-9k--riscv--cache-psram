@@ -25,7 +25,7 @@ stty -F $TTY $BAUD cs8 -cstopb -parenb -crtscts -ixon -ixoff -ignbrk -brkint -ic
 
 cat $TTY | tee test.out &
 
-read -p $'program or reset FPGA then press "enter" to continue\n\n'
+read -rsp $'program or reset FPGA then press "enter" to continue\n\n'
 
 printf "i\r" > $TTY
 sleep $SLP
@@ -51,8 +51,12 @@ kill -SIGTERM %1
 wait %1 || true
 
 if cmp -s test.diff test.out; then
+    echo
+    echo
     echo "test: OK"
     rm test.out
 else
+    echo
+    echo
     echo "test: FAILED, check 'diff test.diff test.out'"
 fi
