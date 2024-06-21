@@ -8,31 +8,46 @@ git add . && git commit -m "." && git push
 TAG=$(date "+%Y-%m-%d--%H-%M") && git tag $TAG && git push origin $TAG
 
 -------------------------------------------------------------
+//
+// One line description of the module
+//
+`timescale 100ps / 100ps
+//
 `default_nettype none
 //`define DBG
 
-module ICache #(
-    parameter DEPTH_BITS = 5
+module my_module #(
+  parameter Width = 80,
+  parameter Height = 24
 ) (
-    input wire clk,
-    input wire rst,
-    input wire enable,
-    input wire [ADDRESS_SIZE_BITS-1:0] address,
-    output reg [INSTRUCTION_SIZE_BITS-1:0] instruction,
-    output reg busy
+  input              clk_i,
+  input              rst_ni,
+  input              req_valid_i,
+  input  [Width-1:0] req_data_i,
+  output             req_ready_o,
+  ...
 );
 
-  localparam DEPTH = 2 ** DEPTH_BITS;
+  logic [Width-1:0] req_data_masked;
 
-  always @(posedge clk) begin
-    if (rst) begin
-    end else begin
-      case (state)
-        STATE_IDLE: begin
-        default: ;
-      endcase
-    end
+  submodule u_submodule (
+    .clk_i,
+    .rst_ni,
+    .req_valid_i,
+    .req_data_i (req_data_masked),
+    .req_ready_o(req_ready),
+    ...
+  );
+
+  always_comb begin
+    req_data_masked = req_data_i;
+    case (fsm_state_q)
+      ST_IDLE: begin
+        req_data_masked = req_data_i & MASK_IDLE;
+        ...
   end
+
+  ...
 
 endmodule
 
