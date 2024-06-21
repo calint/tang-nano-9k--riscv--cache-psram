@@ -145,7 +145,7 @@
 [-]    snake case names for modules
          => makes instance names inconvenient
 [x] review test benches
-[ ]    FSM in always_comb?
+[ ] FSM in always_comb?
 [ ] study why BAUD rate of less than 2400 does not work
 [ ] consider FIFO in UART
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
