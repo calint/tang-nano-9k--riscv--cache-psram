@@ -2,7 +2,7 @@
 # if file changed run `configuration-generate.py` and rebuild
 #
 
-RAM_ADDRESS_WIDTH = 21
+RAM_ADDRESS_BITWIDTH = 21
 # 2^21 = 2 MB PSRAM (according to hardware)
 
 UART_BAUD_RATE = 115200
