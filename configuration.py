@@ -3,7 +3,7 @@
 #
 
 RAM_ADDRESS_WIDTH = 21
-# 2^21 = 2 MB PSRAM
+# 2^21 = 2 MB PSRAM (according to hardware)
 
 UART_BAUD_RATE = 9600
 # 9600 baud, 8 bits, 1 stop bit, no parity
