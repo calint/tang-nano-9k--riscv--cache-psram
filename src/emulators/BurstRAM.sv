@@ -24,35 +24,37 @@ module BurstRAM #(
     input wire [AddressBitWidth-1:0] addr,  // 8 bytes word
     input wire [DataBitWidth-1:0] wr_data,  // data to write
     input wire [DataBitWidth/8-1:0] data_mask,  // not implemented (same as 0 in IP component)
-    output reg [DataBitWidth-1:0] rd_data,  // read data
-    output reg rd_data_valid,  // rd_data is valid
-    output reg init_calib,
-    output reg busy
+    output logic [DataBitWidth-1:0] rd_data,  // read data
+    output logic rd_data_valid,  // rd_data is valid
+    output logic init_calib,
+    output logic busy
 );
 
   localparam DEPTH = 2 ** AddressBitWidth;
   localparam CMD_READ = 0;
   localparam CMD_WRITE = 1;
 
-  reg [$clog2(CyclesBeforeInitiated):0] init_calib_delay_counter;
+  logic [$clog2(CyclesBeforeInitiated):0] init_calib_delay_counter;
   // note: not -1 because it comparison is against CyclesBeforeInitiated
 
-  reg [DataBitWidth-1:0] data[DEPTH];
+  logic [DataBitWidth-1:0] data[DEPTH];
 
-  reg [$clog2(BurstDataCount)-1:0] burst_counter;
+  logic [$clog2(BurstDataCount)-1:0] burst_counter;
 
-  reg [$clog2(CyclesBeforeDataValid):0] read_delay_counter;
+  logic [$clog2(CyclesBeforeDataValid):0] read_delay_counter;
   // note: not -1 because it comparison is against CyclesBeforeDataValid
 
-  reg [DEPTH-1:0] addr_counter;
+  logic [DEPTH-1:0] addr_counter;
 
-  localparam STATE_INITIATE = 5'b00001;
-  localparam STATE_IDLE = 5'b00010;
-  localparam STATE_READ_DELAY = 5'b00100;
-  localparam STATE_READ_BURST = 5'b01000;
-  localparam STATE_WRITE_BURST = 5'b10000;
+  typedef enum {
+    Initiate,
+    Idle,
+    ReadDelay,
+    ReadBurst,
+    WriteBurst
+  } state_e;
 
-  reg [4:0] state;
+  logic [4:0] state;
 
   initial begin
 
@@ -79,21 +81,21 @@ module BurstRAM #(
       busy <= 1;
       init_calib <= 0;
       init_calib_delay_counter <= 0;
-      state <= STATE_INITIATE;
+      state <= Initiate;
     end else begin
       // $display("BurstRAM: clk  state: %b", state);
       unique case (state)
 
-        STATE_INITIATE: begin
+        Initiate: begin
           if (init_calib_delay_counter == CyclesBeforeInitiated) begin
             busy <= 0;
             init_calib <= 1;
-            state <= STATE_IDLE;
+            state <= Idle;
           end
           init_calib_delay_counter <= init_calib_delay_counter + 1;
         end
 
-        STATE_IDLE: begin
+        Idle: begin
           if (cmd_en) begin
             busy <= 1;
             burst_counter <= 0;
@@ -101,7 +103,7 @@ module BurstRAM #(
               CMD_READ: begin
                 read_delay_counter <= 0;
                 addr_counter <= addr;
-                state <= STATE_READ_DELAY;
+                state <= ReadDelay;
 
 `ifdef DBG
                 $display("BurstRAM memory dump:");
@@ -122,24 +124,24 @@ module BurstRAM #(
 
                 addr_counter <= addr + 1;
                 // note: +1 because first write is done in this cycle
-                state <= STATE_WRITE_BURST;
+                state <= WriteBurst;
               end
             endcase
           end
         end
 
-        STATE_READ_DELAY: begin
+        ReadDelay: begin
           if (read_delay_counter == CyclesBeforeDataValid - 1) begin
             // note: not -1 because state would switch one cycle early
             rd_data_valid <= 1;
             rd_data <= data[addr_counter];
             addr_counter <= addr_counter + 1;
-            state <= STATE_READ_BURST;
+            state <= ReadBurst;
           end
           read_delay_counter <= read_delay_counter + 1;
         end
 
-        STATE_READ_BURST: begin
+        ReadBurst: begin
           burst_counter <= burst_counter + 1;
           addr_counter  <= addr_counter + 1;
           if (burst_counter == BurstDataCount - 1) begin
@@ -151,7 +153,7 @@ module BurstRAM #(
           end
         end
 
-        STATE_WRITE_BURST: begin
+        WriteBurst: begin
           burst_counter <= burst_counter + 1;
           addr_counter  <= addr_counter + 1;
           if (burst_counter == BurstDataCount - 1) begin
@@ -175,7 +177,7 @@ module BurstRAM #(
   task set_new_state_after_command_done;
     begin
       busy  <= 0;
-      state <= STATE_IDLE;
+      state <= Idle;
       if (cmd_en) begin
         busy <= 1;
         burst_counter <= 0;
@@ -183,7 +185,7 @@ module BurstRAM #(
           CMD_READ: begin
             read_delay_counter <= 0;
             addr_counter <= addr;
-            state <= STATE_READ_DELAY;
+            state <= ReadDelay;
 
 `ifdef DBG
             $display("BurstRAM memory dump (2):");
@@ -200,7 +202,7 @@ module BurstRAM #(
             data[addr] <= wr_data;
             addr_counter <= addr + 1;
             // note: +1 because first write is done in this cycle
-            state <= STATE_WRITE_BURST;
+            state <= WriteBurst;
           end
         endcase
       end
