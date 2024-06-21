@@ -26,6 +26,15 @@
 
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/serial-terminal-settings/1.png)
 
+## Source
+* SystemVerilog adhering to most of style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
+
+## Configuration
+* see `configuration.py`
+
+## Sample Program
+* an "operating system" in `/os` and other examples in `/notes/samples/`
+
 ## Todo
 ```
 [o] study why terminal drops characters
@@ -51,7 +60,7 @@
 [ ]   2+ cycle LOAD
 [ ] step 12: fully pipe-lined core
 -------------------------------------------------------------------------------------------------------------
-[o] apply (selectively) style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md#lowrisc-verilog-coding-style-guide
+[o] apply style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
 [x]    use 'logic' instead of registers or wires where applicable?
          => reg -> logic, all outputs logic, all inputs wires
 [x]    parameters in UpperCamelCase
