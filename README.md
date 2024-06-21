@@ -135,7 +135,7 @@
 [x]    enum member true constant ALL_CAPS
 [x]    enum set member	ALL_CAPS or UpperCamelCase
 [x]    Use parameter to parameterize, and localparam to declare module-scoped constants. Within a package, use parameter.
-[ ]    Explicitly declare the type for parameters.
+[x]    Explicitly declare the type for parameters.
 [ ]    Suffixes are used in several places to give guidance to intent.
 [x]    Name enumeration types snake_case_e. Name enumeration values ALL_CAPS or UpperCamelCase.
 [x]    Use lower_snake_case when naming signals.
