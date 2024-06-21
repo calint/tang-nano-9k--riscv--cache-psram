@@ -6,6 +6,12 @@
 `default_nettype none
 
 module TestBench;
+
+  reg rst_n;
+  localparam clk_tk = 10;
+  reg clk = 0;
+  always #(clk_tk / 2) clk = ~clk;
+
   BurstRAM #(
       .DataFilePath("RAM.mem"),
       .AddressBitWidth(4),
@@ -13,18 +19,19 @@ module TestBench;
       .BurstDataCount(4),
       .CyclesBeforeInitiated(10),
       .CyclesBeforeDataValid(4)
-  ) dut (
-      .clk(clk),
-      .rst_n(rst_n),
-      .cmd(cmd),
-      .cmd_en(cmd_en),
-      .addr(addr),
-      .wr_data(wr_data),
-      .data_mask(data_mask),
-      .rd_data(rd_data),
-      .rd_data_valid(rd_data_valid),
-      .busy(busy)
+  ) ram (
+      .clk,
+      .rst_n,
+      .cmd,
+      .cmd_en,
+      .addr,
+      .wr_data,
+      .data_mask,
+      .rd_data,
+      .rd_data_valid,
+      .busy
   );
+
   reg cmd = 0;
   reg cmd_en = 0;
   reg [3:0] addr = 0;
@@ -34,17 +41,12 @@ module TestBench;
   wire rd_data_valid;
   wire busy;
 
-  localparam clk_tk = 10;
-  reg clk = 0;
-  always #(clk_tk / 2) clk = ~clk;
-
-  reg rst_n = 0;
-
   initial begin
     $dumpfile("log.vcd");
     $dumpvars(0, TestBench);
 
     // reset
+    rst_n <= 0;
     #clk_tk;
     #(clk_tk / 2);
     rst_n <= 1;

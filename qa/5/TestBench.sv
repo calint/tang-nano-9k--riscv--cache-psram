@@ -7,9 +7,7 @@
 
 module TestBench;
 
-  localparam RAM_DEPTH_BITWIDTH = 4;  // 2^4 * 8 B
-
-  reg sys_rst_n = 1;
+  reg rst_n;
   reg clk = 1;
   localparam clk_tk = 36;
   localparam clk_tk_half = clk_tk / 2;
@@ -24,12 +22,12 @@ module TestBench;
   Flash #(
       .DataFilePath("flash.mem"),
       .AddressBitWidth(6)
-  ) dut (
-      .rst_n(sys_rst_n),
-      .clk(flash_clk),
+  ) flash (
+      .rst_n,
+      .clk (flash_clk),
       .miso(flash_miso),
       .mosi(flash_mosi),
-      .cs(flash_cs)
+      .cs  (flash_cs)
   );
   //-------------------------------------------------
 
@@ -39,9 +37,9 @@ module TestBench;
     $dumpfile("log.vcd");
     $dumpvars(0, TestBench);
 
-    sys_rst_n <= 0;
+    rst_n <= 0;
     #clk_tk;
-    sys_rst_n <= 1;
+    rst_n <= 1;
     #clk_tk;
 
     //----------------------------------------------------------
@@ -115,7 +113,7 @@ module TestBench;
         flash_clk <= 1;
         #clk_tk_half;
       end
-      if (dut.data[i] == received_byte) $display("Test %0d passed", i + 1);
+      if (flash.data[i] == received_byte) $display("Test %0d passed", i + 1);
       else $display("Test %0d FAILED", i + 1);
     end
 

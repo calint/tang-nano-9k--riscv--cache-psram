@@ -7,16 +7,16 @@
 
 module TestBench;
 
-  localparam RAM_DEPTH_BITWIDTH = 4;  // 2^4 * 8 B
+  localparam RAM_ADDRESS_BIT_WIDTH = 4;  // 2^4 * 8 B
 
-  reg sys_rst_n = 0;
+  reg rst_n;
   reg clk = 1;
   localparam clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
   wire br_cmd;
   wire br_cmd_en;
-  wire [RAM_DEPTH_BITWIDTH-1:0] br_addr;
+  wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
   wire [63:0] br_wr_data;
   wire [7:0] br_data_mask;
   wire [63:0] br_rd_data;
@@ -26,12 +26,12 @@ module TestBench;
 
   BurstRAM #(
       .DataFilePath("RAM.mem"),  // initial RAM content
-      .AddressBitWidth(RAM_DEPTH_BITWIDTH),  // 2 ^ 4 * 8 B entries
+      .AddressBitWidth(RAM_ADDRESS_BIT_WIDTH),  // 2 ^ 4 * 8 B entries
       .BurstDataCount(4),  // 4 * 64 bit data per burst
       .CyclesBeforeDataValid(6)
-  ) burst_ram (
-      .clk(clk),
-      .rst_n(sys_rst_n),
+  ) ram (
+      .clk,
+      .rst_n,
       .cmd(br_cmd),  // 0: read, 1: write
       .cmd_en(br_cmd_en),  // 1: cmd and addr is valid
       .addr(br_addr),  // 8 bytes word
@@ -56,43 +56,43 @@ module TestBench;
   reg uart_rx = 1;
 
   RAMIO #(
-      .RamAddressBitWidth(RAM_DEPTH_BITWIDTH),
+      .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
       .RamAddressingMode(3),  // 64 bit word RAM
       .CacheLineIndexBitWidth(1),
       .ClockFrequencyMhz(20_250_000),
       .BaudRate(20_250_000)
   ) ramio (
-      .rst_n(sys_rst_n && br_init_calib),
-      .clk(clk),
-      .enable(enable),
-      .write_type(write_type),
-      .read_type(read_type),
-      .address(address),
-      .data_in(data_in),
-      .data_out(data_out),
-      .data_out_ready(data_out_ready),
-      .busy(busy),
-      .led(led[3:0]),
-      .uart_tx(uart_tx),
-      .uart_rx(uart_rx),
+      .rst_n(rst_n && br_init_calib),
+      .clk,
+      .enable,
+      .write_type,
+      .read_type,
+      .address,
+      .data_in,
+      .data_out,
+      .data_out_ready,
+      .busy,
+      .led  (led[3:0]),
+      .uart_tx,
+      .uart_rx,
 
       // burst RAM wiring; prefix 'br_'
-      .br_cmd(br_cmd),  // 0: read, 1: write
-      .br_cmd_en(br_cmd_en),  // 1: cmd and addr is valid
-      .br_addr(br_addr),  // see 'RAM_ADDRESSING_MODE'
-      .br_wr_data(br_wr_data),  // data to write
-      .br_data_mask(br_data_mask),  // always 0 meaning write all bytes
-      .br_rd_data(br_rd_data),  // data out
-      .br_rd_data_valid(br_rd_data_valid)  // rd_data is valid
+      .br_cmd,  // 0: read, 1: write
+      .br_cmd_en,  // 1: cmd and addr is valid
+      .br_addr,  // see 'RAM_ADDRESSING_MODE'
+      .br_wr_data,  // data to write
+      .br_data_mask,  // always 0 meaning write all bytes
+      .br_rd_data,  // data out
+      .br_rd_data_valid  // rd_data is valid
   );
 
   initial begin
     $dumpfile("log.vcd");
     $dumpvars(0, TestBench);
 
+    rst_n <= 0;
     #clk_tk;
-    #clk_tk;
-    sys_rst_n <= 1;
+    rst_n <= 1;
     #clk_tk;
 
     // wait for burst RAM to initiate

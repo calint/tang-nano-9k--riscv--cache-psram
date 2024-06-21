@@ -2,7 +2,7 @@
 set -e
 cd $(dirname "$0")
 
-NUM_TESTS=7
+NUM_TESTS=8
 
 for i in $(seq 1 $NUM_TESTS); do
     ./test-bench.sh $i 2>&1 | grep -v -E \

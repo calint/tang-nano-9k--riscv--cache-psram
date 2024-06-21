@@ -7,9 +7,9 @@
 
 module TestBench;
 
-  localparam RAM_DEPTH_BITWIDTH = 10;
+  localparam RAM_ADDRESS_BIT_WIDTH = 10;
 
-  reg sys_rst_n = 0;
+  reg rst_n;
   reg clk = 1;
   localparam clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
@@ -28,7 +28,7 @@ module TestBench;
 
   wire br_cmd;
   wire br_cmd_en;
-  wire [RAM_DEPTH_BITWIDTH-1:0] br_addr;
+  wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
   wire [63:0] br_wr_data;
   wire [7:0] br_data_mask;
   wire [63:0] br_rd_data;
@@ -38,12 +38,12 @@ module TestBench;
 
   BurstRAM #(
       .DataFilePath(""),  // initial RAM content
-      .AddressBitWidth(RAM_DEPTH_BITWIDTH),  // 2 ^ 4 * 8 B entries
+      .AddressBitWidth(RAM_ADDRESS_BIT_WIDTH),  // 2 ^ 4 * 8 B entries
       .BurstDataCount(4),  // 4 * 64 bit data per burst
       .CyclesBeforeDataValid(6)
   ) burst_ram (
       .clk(clkout),
-      .rst_n(sys_rst_n && lock),
+      .rst_n(rst_n && lock),
       .cmd(br_cmd),  // 0: read, 1: write
       .cmd_en(br_cmd_en),  // 1: cmd and addr is valid
       .addr(br_addr),  // 8 bytes word
@@ -66,11 +66,11 @@ module TestBench;
 
   Cache #(
       .LineIndexBitWidth(2),
-      .RamAddressBitWidth(RAM_DEPTH_BITWIDTH),
+      .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
       .RamAddressingMode(3)  // 64 bit words
   ) cache (
       .clk(clkout),
-      .rst_n(sys_rst_n && lock && br_init_calib),
+      .rst_n(rst_n && lock && br_init_calib),
       .enable(enable),
       .address(address),
       .data_out(data_out),
@@ -93,8 +93,10 @@ module TestBench;
     $dumpfile("log.vcd");
     $dumpvars(0, TestBench);
 
+    rst_n <= 0;
     #clk_tk;
-    sys_rst_n <= 1;
+    rst_n <= 1;
+    #clk_tk;
 
     // wait for burst RAM to initiate
     while (br_busy || !lock) #clk_tk;
@@ -106,7 +108,7 @@ module TestBench;
     #clk_tk;
 
     // write
-    for (int i = 0; i < 2 ** RAM_DEPTH_BITWIDTH; i = i + 1) begin
+    for (int i = 0; i < 2 ** RAM_ADDRESS_BIT_WIDTH; i = i + 1) begin
       // $display("address: %h", address);
       address <= address_next;
       address_next <= address_next + 4;
