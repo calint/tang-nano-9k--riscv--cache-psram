@@ -175,23 +175,23 @@ module ramio #(
     $display("address: %h  read_type: %b", address, read_type);
 `endif
     // create the 'data_out' based on the 'address'
-    // data_out = 0; // note: uncommenting this creates infinite loop when simulating with iverilog
-    //
+    data_out = 0;
+
     if (address == AddressUartOut && read_type[1:0] == 2'b01) begin
-      // if read byte from uart_tx (read_type[2] flags signed)
+      // if read byte from uarttx (read_type[2] flags signed)
       data_out = read_type[2] ? 
                     {{24{uarttx_data_sending[7]}}, uarttx_data_sending} : 
                     {{24{1'b0}}, uarttx_data_sending};
 
     end else if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
-      // if read byte from uart_rx (read_type[2] flags signed)
+      // if read byte from uartrx (read_type[2] flags signed)
       data_out = read_type[2] ? 
                     {{24{uartrx_data_received[7]}}, uartrx_data_received} :
                     {{24{1'b0}}, uartrx_data_received};
 
     end else begin
+      // read from ram
       unique casez (read_type)
-
         3'b?01: begin  // byte
           unique case (address[1:0])
             2'b00: begin
@@ -239,10 +239,7 @@ module ramio #(
           data_out = ram_data_out;
         end
 
-        default: begin
-          data_out = 0;
-        end
-
+        default: ;
       endcase
     end
   end
