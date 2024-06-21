@@ -35,6 +35,22 @@
     => UART overrun even when doing 'uart_read_char()' in a loop
     => moreover characters are dropped without UART being overrun
     => fixed end-to-end test without grasping why. search for '// ??' in RAMIO
+[x] enums for states in FSM
+[-] snake case names for modules
+      => makes instance names inconvenient
+[x] review test benches
+[ ] FSM in always_comb?
+[ ] study why BAUD rate of less than 2400 does not work
+[ ] consider FIFO in UART
+[ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
+[ ] UART rx: if rx changes while not expecting assume drifting and set next bit
+[ ] fix truncation warnings
+[ ] always_comb based CPU
+[ ]   1 cycle ALU op
+[ ]   1+ cycle STORE
+[ ]   2+ cycle LOAD
+[ ] step 12: fully pipe-lined core
+-------------------------------------------------------------------------------------------------------------
 [o] apply (selectively) style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md#lowrisc-verilog-coding-style-guide
 [x]    use 'logic' instead of registers or wires where applicable?
          => reg -> logic, all outputs logic, all inputs wires
@@ -140,22 +156,6 @@
 [x]    Signals delayed by a single clock cycle should end in a _q suffix.
          => non used
 [x]    The wildcard import syntax, e.g. import ip_pkg::*; is only allowed where the package is part of the same IP as the module that uses that package. 
-
-[x]    enums for states in FSM
-[-]    snake case names for modules
-         => makes instance names inconvenient
-[x] review test benches
-[ ] FSM in always_comb?
-[ ] study why BAUD rate of less than 2400 does not work
-[ ] consider FIFO in UART
-[ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
-[ ] UART rx: if rx changes while not expecting assume drifting and set next bit
-[ ] fix truncation warnings
-[ ] always_comb based CPU
-[ ] 1 cycle ALU op
-[ ] 1+ cycle STORE
-[ ] 2+ cycle LOAD
-[ ] step 12: pipe-lined core
 ------------------------------------------------------------------------------------------
 [x] make end-to-end test succeed without dropped input
 [x] step 11: adapt riscv core (multi-cycle ad-hoc pipeline simplest way forward)
