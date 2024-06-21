@@ -17,15 +17,19 @@ with open('os/os_config.h', 'w') as file:
     file.write('#define UART_IN ((char volatile *)0xfffffffd)\n')
     file.write('#define MEMORY_TOP {}\n'.format(hex(2**cfg.RAM_ADDRESS_WIDTH)))
 
-with open('src/Configuration.svh', 'w') as file:
+with open('src/Configuration.sv', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
-    file.write('`define RAM_ADDRESS_BITWIDTH {}\n'.format(
+    file.write('package Configuration;\n')
+    file.write('\n')
+    file.write('  localparam int unsigned RAM_ADDRESS_BITWIDTH = {};\n'.format(
         cfg.RAM_ADDRESS_WIDTH))
-    file.write('`define CACHE_LINE_IX_BITWIDTH {}\n'.format(
+    file.write('  localparam int unsigned CACHE_LINE_IX_BITWIDTH = {};\n'.format(
         cfg.CACHE_LINE_IX_BITWIDTH))
-    file.write('`define UART_BAUD_RATE {}\n'.format(cfg.UART_BAUD_RATE))
-    file.write('`define FLASH_TRANSFER_BYTES_NUM 32\'h{}\n'.format(
+    file.write('  localparam int unsigned UART_BAUD_RATE = {};\n'.format(cfg.UART_BAUD_RATE))
+    file.write('  localparam int unsigned FLASH_TRANSFER_BYTES_NUM = 32\'h{};\n'.format(
         f'{cfg.FLASH_TRANSFER_BYTES_NUM:08x}'))
-    file.write('`define STARTUP_WAIT {}\n'.format(cfg.STARTUP_WAIT))
+    file.write('  localparam int unsigned STARTUP_WAIT = {};\n'.format(cfg.STARTUP_WAIT))
+    file.write('\n')
+    file.write('endpackage\n')
 
-print("generated: src/Configuration.svh, os/os_start.S, os/os_config.h")
+print("generated: src/Configuration.sv, os/os_start.S, os/os_config.h")

@@ -195,16 +195,24 @@ module RAMIO #(
         3'b?01: begin  // byte
           unique case (address[1:0])
             2'b00: begin
-              data_out = read_type[2] ? {{24{ram_data_out[7]}}, ram_data_out[7:0]} : {{24{1'b0}}, ram_data_out[7:0]};
+              data_out = read_type[2] ? 
+              {{24{ram_data_out[7]}}, ram_data_out[7:0]} :
+              {{24{1'b0}}, ram_data_out[7:0]};
             end
             2'b01: begin
-              data_out = read_type[2] ? {{24{ram_data_out[15]}}, ram_data_out[15:8]} : {{24{1'b0}}, ram_data_out[15:8]};
+              data_out = read_type[2] ? 
+              {{24{ram_data_out[15]}}, ram_data_out[15:8]} :
+              {{24{1'b0}}, ram_data_out[15:8]};
             end
             2'b10: begin
-              data_out = read_type[2] ? {{24{ram_data_out[23]}}, ram_data_out[23:16]} : {{24{1'b0}}, ram_data_out[23:16]};
+              data_out = read_type[2] ? 
+              {{24{ram_data_out[23]}}, ram_data_out[23:16]} :
+              {{24{1'b0}}, ram_data_out[23:16]};
             end
             2'b11: begin
-              data_out = read_type[2] ? {{24{ram_data_out[31]}}, ram_data_out[31:24]} : {{24{1'b0}}, ram_data_out[31:24]};
+              data_out = read_type[2] ? 
+              {{24{ram_data_out[31]}}, ram_data_out[31:24]} :
+              {{24{1'b0}}, ram_data_out[31:24]};
             end
           endcase
         end
@@ -212,11 +220,15 @@ module RAMIO #(
         3'b?10: begin  // half word
           unique case (address[1:0])
             2'b00: begin
-              data_out = read_type[2] ? {{16{ram_data_out[15]}}, ram_data_out[15:0]} : {{16{1'b0}}, ram_data_out[15:0]};
+              data_out = read_type[2] ? 
+              {{16{ram_data_out[15]}}, ram_data_out[15:0]} :
+              {{16{1'b0}}, ram_data_out[15:0]};
             end
             2'b01: data_out = 0;  // ? error
             2'b10: begin
-              data_out = read_type[2] ? {{16{ram_data_out[31]}}, ram_data_out[31:16]} : {{16{1'b0}}, ram_data_out[31:16]};
+              data_out = read_type[2] ? 
+              {{16{ram_data_out[31]}}, ram_data_out[31:16]} :
+              {{16{1'b0}}, ram_data_out[31:16]};
             end
             2'b11: data_out = 0;  // ? error
           endcase
@@ -317,7 +329,7 @@ module RAMIO #(
   );
 
   UartTx #(
-      .ClockFrequencyMhz (ClockFrequencyMhz),
+      .ClockFrequencyMhz(ClockFrequencyMhz),
       .BaudRate(BaudRate)
   ) uarttx (
       .rst_n,
@@ -330,7 +342,7 @@ module RAMIO #(
   );
 
   UartRx #(
-      .ClockFrequencyMhz (ClockFrequencyMhz),
+      .ClockFrequencyMhz(ClockFrequencyMhz),
       .BaudRate(BaudRate)
   ) uartrx (
       .rst_n,

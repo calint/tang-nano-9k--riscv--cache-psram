@@ -66,6 +66,59 @@
 [ ]    FSMs: no logic except for reset should be performed in the process for the state register
 [x]    A combinational process should first define default value of all outputs in the process
 [ ]    Default value for next state variable should be the current state
+
+[x]    Use only ASCII characters with UNIX-style line endings("\n").
+[x]    Use the .sv extension for SystemVerilog files (or .svh for files that are included via the preprocessor).
+[x]    All lines on non-empty files must end with a newline ("\n").
+[-]    Wrap the code at 100 characters per line.
+         => formatting done automatically by extension
+[x]    Do not use tabs anywhere.
+[x]    Delete trailing whitespace at the end of lines.
+[x]    Use begin and end unless the whole statement fits on a single line.
+[x]    Indentation is two spaces per level.
+[x]    Keep branching preprocessor directives left-aligned and un-indented.
+[x]    For multiple items on a line, one space must separate the comma and the next character.
+[x]    Include whitespace on both sides of all binary operators.
+[x]    Add a space around packed dimensions.
+[x]    Add one space before type parameters, except when the type is part of a qualified name.
+[x]    When labeling code blocks, add one space before and after the colon.
+[x]    There must be no whitespace before a case item's colon; there must be at least one space after the case item's colon.
+[x]    Function and task calls must not have any spaces between the function name or task name and the open parenthesis.
+[x]    Include whitespace before and after SystemVerilog keywords.
+[x]    Use parentheses to make operations unambiguous.
+[x]    Ternary expressions nested in the true condition of another ternary expression must be enclosed in parentheses.
+[x]    C++ style comments (// foo) are preferred. C style comments (/* bar */) can also be used.
+[x]    Signals must be declared before they are used. This means that implicit net declarations must not be used.
+[ ]    Declare global constants using parameters in the project package file.
+[x]    Use parameter to parameterize, and localparam to declare module-scoped constants. Within a package, use parameter.
+[ ]    Explicitly declare the type for parameters.
+[ ]    Suffixes are used in several places to give guidance to intent.
+[x]    Name enumeration types snake_case_e. Name enumeration values ALL_CAPS or UpperCamelCase.
+[x]    Use lower_snake_case when naming signals.
+[x]    Names should describe what a signal's purpose is.
+[x]    Use common prefixes to identify groups of signals that operate together.
+[ ]    The same signal should have the same name at any level of the hierarchy.
+[ ]    All clock signals must begin with clk
+[x]    Resets are active-low and asynchronous. The default name is rst_n
+[x]    Use these SystemVerilog constructs instead of their Verilog-2001 equivalents
+[x]    Packages must not have cyclic dependencies.
+[x]    Use the Verilog-2001 full port declaration style, and use the format below.
+[x]    Use named ports to fully specify all instantiations.
+[x]    Use named parameters for all instantiations.
+[x]    Do not instantiate recursively.
+[x]    It is recommended to use symbolicly named constants instead of raw numbers.
+[x]    Always be explicit about the widths of number literals.
+[ ]    Do not use multi-bit signals in a boolean context.
+[x]    Only use the bit slicing operator when the intent is to refer to a portion of a bit vector.
+[x]    Beware of shift operations, which can produce a result wider than the operand.
+[x]    Sequential logic must use non-blocking assignments. Combinational blocks must use blocking assignments.
+[x]    Do not use #delay in synthesizable design modules.
+[x]    The use of latches is discouraged - use flip-flops when possible.
+[x]    Use the standard format for declaring sequential blocks.
+[ ]    Do not allow multiple non-blocking assignments to the same bit.
+       ... the Verilog standard says that the second assignment will take effect, but this is a style violation.
+[x]    The use of X literals in RTL code is strongly discouraged.
+
 [x]    enums for states in FSM
 [-]    snake case names for modules
          => makes instance names inconvenient

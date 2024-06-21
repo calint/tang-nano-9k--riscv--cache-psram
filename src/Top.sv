@@ -2,7 +2,7 @@
 //
 `default_nettype none
 
-`include "Configuration.svh"
+import Configuration::*;
 
 module Top (
     input wire clk,  // 27 MHz
@@ -101,11 +101,11 @@ module Top (
   logic ramio_busy;
 
   RAMIO #(
-      .RamAddressBitWidth(`RAM_ADDRESS_BITWIDTH),
+      .RamAddressBitWidth(Configuration::RAM_ADDRESS_BITWIDTH),
       .RamAddressingMode(0),  // addressing 8 bit words
-      .CacheLineIndexBitWidth(`CACHE_LINE_IX_BITWIDTH),
+      .CacheLineIndexBitWidth(Configuration::CACHE_LINE_IX_BITWIDTH),
       .ClockFrequencyMhz(CPU_FREQUENCY_MHZ),
-      .BaudRate(`UART_BAUD_RATE)
+      .BaudRate(Configuration::UART_BAUD_RATE)
   ) ramio (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
@@ -141,8 +141,8 @@ module Top (
   // ----------------------------------------------------------
 
   Core #(
-      .StartupWaitCycles(`STARTUP_WAIT),
-      .FlashTransferBytes(`FLASH_TRANSFER_BYTES_NUM)
+      .StartupWaitCycles(Configuration::STARTUP_WAIT),
+      .FlashTransferBytes(Configuration::FLASH_TRANSFER_BYTES_NUM)
   ) core (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),

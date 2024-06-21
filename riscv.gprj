@@ -7,6 +7,7 @@
     <FileList>
         <File path="src/BESDPB.sv" type="file.verilog" enable="1"/>
         <File path="src/Cache.sv" type="file.verilog" enable="1"/>
+        <File path="src/Configuration.sv" type="file.verilog" enable="1"/>
         <File path="src/Core.sv" type="file.verilog" enable="1"/>
         <File path="src/RAMIO.sv" type="file.verilog" enable="1"/>
         <File path="src/Registers.sv" type="file.verilog" enable="1"/>
