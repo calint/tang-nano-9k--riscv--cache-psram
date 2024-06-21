@@ -112,13 +112,32 @@
 [x]    Ternary expressions nested in the true condition of another ternary expression must be enclosed in parentheses.
 [x]    C++ style comments (// foo) are preferred. C style comments (/* bar */) can also be used.
 [x]    Signals must be declared before they are used. This means that implicit net declarations must not be used.
+[ ]    Declarations (module, class, package, interface)	lower_snake_case
+[x]    Instance names	lower_snake_case
+[x]    Signals (nets and ports)	lower_snake_case
+[x]    Variables, functions, tasks	lower_snake_case
+[x]    Named code blocks	lower_snake_case
+[x]    `define macros	ALL_CAPS
+         => not used
+[x]    Tunable parameters for parameterized modules, classes, and interfaces UpperCamelCase
+[x]    Constants ALL_CAPS or UpperCamelCase
+[x]    Enumeration types lower_snake_case_e
+[x]    Other typedef types lower_snake_case_t
+         => not used
+[x]    Enumerated value names	UpperCamelCase
 [x]    Declare global constants using parameters in the project package file.
+[x]    `define ALL_CAPS Truly constant
+[x]    module parameter UpperCamelCase truly modifiable by instantiation, not constant
+[x]    derived localparam UpperCamelCase while not modified directly, still tracks module parameter
+[x]    tuneable localparam UpperCamelCase while not expected to change upon final RTL version, 
+       is used by designer to explore the design space conveniently
+[x]    true localparam constant ALL_CAPS
+[x]    enum member true constant ALL_CAPS
+[x]    enum set member	ALL_CAPS or UpperCamelCase
 [x]    Use parameter to parameterize, and localparam to declare module-scoped constants. Within a package, use parameter.
 [ ]    Explicitly declare the type for parameters.
 [ ]    Suffixes are used in several places to give guidance to intent.
 [x]    Name enumeration types snake_case_e. Name enumeration values ALL_CAPS or UpperCamelCase.
-[-]    Snake case module names.
-         => makes instance names inconvenient
 [x]    Use lower_snake_case when naming signals.
 [x]    Names should describe what a signal's purpose is.
 [x]    Use common prefixes to identify groups of signals that operate together.
