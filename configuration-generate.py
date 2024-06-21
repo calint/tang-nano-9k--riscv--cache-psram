@@ -25,8 +25,8 @@ with open('src/configuration.sv', 'w') as file:
     file.write('\n')
     file.write('  localparam int unsigned RAM_ADDRESS_BITWIDTH = {};\n'.format(
         cfg.RAM_ADDRESS_BITWIDTH))
-    file.write('  localparam int unsigned CACHE_LINE_IX_BITWIDTH = {};\n'.format(
-        cfg.CACHE_LINE_IX_BITWIDTH))
+    file.write('  localparam int unsigned CACHE_LINE_INDEX_BITWIDTH = {};\n'.format(
+        cfg.CACHE_LINE_INDEX_BITWIDTH))
     file.write('  localparam int unsigned UART_BAUD_RATE = {};\n'.format(cfg.UART_BAUD_RATE))
     file.write('  localparam int unsigned FLASH_TRANSFER_BYTES_NUM = 32\'h{};\n'.format(
         f'{cfg.FLASH_TRANSFER_BYTES_NUM:08x}'))
