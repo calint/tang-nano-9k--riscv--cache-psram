@@ -30,10 +30,11 @@
 * SystemVerilog adhering to most of style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
 
 ## Configuration
-* see `configuration.py`
+* see [`configuration.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration.py)
 
 ## Sample Program
-* an "operating system" in `/os` and other examples in `/notes/samples/`
+* an "operating system" in `/os` inspired by text adventure games
+* other examples in `/notes/samples/`
 
 ## Todo
 ```
