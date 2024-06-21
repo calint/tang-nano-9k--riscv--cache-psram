@@ -8,7 +8,7 @@
 // `define DBG
 // `define INFO
 
-module Flash #(
+module flash #(
     parameter DataFilePath = "",  // initial RAM content
     parameter AddressBitWidth = 8
 ) (

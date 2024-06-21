@@ -11,7 +11,7 @@
 // `define DBG
 // `define INFO
 
-module Cache #(
+module cache #(
     parameter LineIndexBitWidth = 8,
     // cache lines: 2 ^ value
 
@@ -119,7 +119,7 @@ module Cache #(
 
   assign br_data_mask = 0;  // writing whole cache lines
 
-  BESDPB #(
+  bram #(
       .AddressBitWidth(LineIndexBitWidth)
   ) tag (
       .clk(clk),
@@ -159,7 +159,7 @@ module Cache #(
 
   generate
     for (genvar i = 0; i < COLUMN_COUNT; i++) begin : column
-      BESDPB #(
+      bram #(
           .AddressBitWidth(LineIndexBitWidth)
       ) column (
           .clk(clk),

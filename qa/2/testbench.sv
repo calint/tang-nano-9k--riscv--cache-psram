@@ -5,21 +5,21 @@
 //
 `default_nettype none
 
-module TestBench;
+module testbench;
 
   reg rst_n;
   localparam clk_tk = 10;
   reg clk = 0;
   always #(clk_tk / 2) clk = ~clk;
 
-  BurstRAM #(
+  burst_ram #(
       .DataFilePath("RAM.mem"),
       .AddressBitWidth(4),
       .DataBitWidth(64),
       .BurstDataCount(4),
       .CyclesBeforeInitiated(10),
       .CyclesBeforeDataValid(4)
-  ) ram (
+  ) burst_ram (
       .clk,
       .rst_n,
       .cmd,
@@ -43,7 +43,7 @@ module TestBench;
 
   initial begin
     $dumpfile("log.vcd");
-    $dumpvars(0, TestBench);
+    $dumpvars(0, testbench);
 
     // reset
     rst_n <= 0;

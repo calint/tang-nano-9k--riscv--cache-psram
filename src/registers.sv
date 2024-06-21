@@ -6,7 +6,7 @@
 `default_nettype none
 // `define DBG
 
-module Registers #(
+module registers #(
     parameter AddressBitWidth = 5,
     parameter DataBitWidth = 32
 ) (

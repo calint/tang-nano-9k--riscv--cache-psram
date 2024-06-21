@@ -7,7 +7,7 @@
 // `define DBG
 // `define INFO
 
-module UartTx #(
+module uarttx #(
     parameter ClockFrequencyMhz = 66_000_000,
     parameter BaudRate = 9600
 ) (

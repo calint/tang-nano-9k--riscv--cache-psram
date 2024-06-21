@@ -5,7 +5,7 @@
 //
 `default_nettype none
 
-module TestBench;
+module testbench;
   reg rst_n;
   reg clk = 1;
   localparam clk_tk = 36;
@@ -28,13 +28,13 @@ module TestBench;
   wire br_init_calib;
   wire br_busy;
 
-  BurstRAM #(
+  burst_ram #(
       .DataFilePath(""),  // initial RAM content
       .AddressBitWidth(RAM_ADDRESS_BIT_WIDTH),  // 2 ^ x * 8 B entries
       .BurstDataCount(4),  // 4 * 64 bit data per burst
       .CyclesBeforeDataValid(6),
       .CyclesBeforeInitiated(0)
-  ) ram (
+  ) burst_ram (
       .clk,
       .rst_n,
       .cmd(br_cmd),  // 0: read, 1: write
@@ -58,7 +58,7 @@ module TestBench;
   wire [31:0] ramio_data_in;
   wire ramio_busy;
 
-  RAMIO #(
+  ramio #(
       .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
       .RamAddressingMode(3),  // 64 bit word RAM
       .CacheLineIndexBitWidth(1),
@@ -95,7 +95,7 @@ module TestBench;
   output reg flash_mosi;
   output reg flash_cs;
 
-  Flash #(
+  flash #(
       .DataFilePath("RAM.mem"),
       .AddressBitWidth(12)  // in bytes 2^12 = 4096 B
   ) flash (
@@ -107,7 +107,7 @@ module TestBench;
   );
 
   //------------------------------------------------------------------------
-  Core #(
+  core #(
       .StartupWaitCycles (0),
       .FlashTransferBytes(4096)
   ) core (
@@ -134,7 +134,7 @@ module TestBench;
   //------------------------------------------------------------------------
   initial begin
     $dumpfile("log.vcd");
-    $dumpvars(0, TestBench);
+    $dumpvars(0, testbench);
 
     rst_n <= 0;
     #clk_tk;

@@ -1,5 +1,5 @@
 //
-// Synthesizes to Byte Enabled Semi Dual Port Block RAM (BESDPB) in Gowin EDA
+// Synthesized to Byte Enabled Semi Dual Port Block RAM by Gowin EDA
 //
 `timescale 100ps / 100ps
 //
@@ -7,7 +7,7 @@
 // `define DBG
 // `define INFO
 
-module BESDPB #(
+module bram #(
     parameter DataFilePath = "",
     parameter AddressBitWidth = 16,
     parameter DataBitWidth = 32,

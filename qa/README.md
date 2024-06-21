@@ -1,4 +1,4 @@
 # quality assurance
 
 * `./qa.sh` to run all tests
-* `./test-bench.sh` to run a specific test
+* `./testbench.sh <num>` to run a specific test

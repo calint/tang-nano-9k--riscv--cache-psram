@@ -7,7 +7,7 @@
 // `define DBG
 // `define INFO
 
-module RAMIO #(
+module ramio #(
     parameter RamAddressBitWidth = 10,
     parameter RamAddressingMode = 3,
     parameter CacheLineIndexBitWidth = 1,
@@ -302,7 +302,7 @@ module RAMIO #(
     end
   end
 
-  Cache #(
+  cache #(
       .LineIndexBitWidth(CacheLineIndexBitWidth),
       .RamAddressBitWidth(RamAddressBitWidth),
       .RamAddressingMode(RamAddressingMode)  // 64 bit words
@@ -328,7 +328,7 @@ module RAMIO #(
       .br_rd_data_valid
   );
 
-  UartTx #(
+  uarttx #(
       .ClockFrequencyMhz(ClockFrequencyMhz),
       .BaudRate(BaudRate)
   ) uarttx (
@@ -341,7 +341,7 @@ module RAMIO #(
       .bsy(uarttx_bsy)  // enabled while sendng
   );
 
-  UartRx #(
+  uartrx #(
       .ClockFrequencyMhz(ClockFrequencyMhz),
       .BaudRate(BaudRate)
   ) uartrx (

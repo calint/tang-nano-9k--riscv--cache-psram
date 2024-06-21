@@ -5,7 +5,7 @@
 //
 `default_nettype none
 
-module TestBench;
+module testbench;
 
   reg rst_n;
   reg clk = 1;
@@ -19,7 +19,7 @@ module TestBench;
   output reg flash_mosi;
   output reg flash_cs;
 
-  Flash #(
+  flash #(
       .DataFilePath("flash.mem"),
       .AddressBitWidth(6)
   ) flash (
@@ -35,7 +35,7 @@ module TestBench;
 
   initial begin
     $dumpfile("log.vcd");
-    $dumpvars(0, TestBench);
+    $dumpvars(0, testbench);
 
     rst_n <= 0;
     #clk_tk;

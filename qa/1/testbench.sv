@@ -5,7 +5,7 @@
 //
 `default_nettype none
 
-module TestBench;
+module testbench;
 
   localparam RAM_ADDRESS_BIT_WIDTH = 4;
 
@@ -36,12 +36,12 @@ module TestBench;
   wire br_init_calib;
   wire br_busy;
 
-  BurstRAM #(
+  burst_ram #(
       .DataFilePath("RAM.mem"),  // initial RAM content
       .AddressBitWidth(RAM_ADDRESS_BIT_WIDTH),  // 2 ^ 4 * 8 B entries
       .BurstDataCount(4),  // 4 * 64 bit data per burst
       .CyclesBeforeDataValid(6)
-  ) rams (
+  ) burst_ram (
       .clk(clkout),
       .rst_n(rst_n && lock),
       .cmd(br_cmd),  // 0: read, 1: write
@@ -63,7 +63,7 @@ module TestBench;
   wire busy;
   reg enable;
 
-  Cache #(
+  cache #(
       .LineIndexBitWidth(1),
       .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
       .RamAddressingMode(3)  // 64 bit words
@@ -91,7 +91,7 @@ module TestBench;
 
   initial begin
     $dumpfile("log.vcd");
-    $dumpvars(0, TestBench);
+    $dumpvars(0, testbench);
 
     rst_n <= 0;
     #clk_tk;

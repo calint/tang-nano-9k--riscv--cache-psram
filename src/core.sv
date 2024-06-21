@@ -7,7 +7,7 @@
 // `define DBG
 // `define INFO
 
-module Core #(
+module core #(
     parameter StartupWaitCycles  = 1_000_000,
     parameter FlashTransferBytes = 32'h0010_0000
 ) (
@@ -460,7 +460,7 @@ module Core #(
     end
   end
 
-  Registers registers (
+  registers registers (
       .clk,
       .rs1,
       .rs1_dat,

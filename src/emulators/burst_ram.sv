@@ -8,7 +8,7 @@
 // `define DBG
 // `define INFO
 
-module BurstRAM #(
+module burst_ram #(
     parameter DataFilePath = "",  // initial RAM content
     parameter AddressBitWidth = 4,  // 2 ^ 4 * 8 B entries
     parameter DataBitWidth = 64,  // must be divisible by 8
