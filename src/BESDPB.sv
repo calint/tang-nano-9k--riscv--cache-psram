@@ -15,6 +15,7 @@ module BESDPB #(
     localparam ColumnCount = DataBitWidth / ColumnBitWidth
 ) (
     input wire clk,
+
     input wire [ColumnCount-1:0] write_enable,
     input wire [AddressBitWidth-1:0] address,
     output logic [DataBitWidth-1:0] data_out,

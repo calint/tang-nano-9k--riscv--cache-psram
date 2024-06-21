@@ -30,8 +30,8 @@ module Cache #(
     //       1: RAM has 16 bit words
     //       0: RAM has 8 bit words
 ) (
-    input wire clk,
     input wire rst_n,
+    input wire clk,
 
     input wire enable,
     // enabled for cache to operate

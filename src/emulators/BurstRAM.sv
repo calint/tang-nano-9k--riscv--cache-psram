@@ -16,8 +16,9 @@ module BurstRAM #(
     parameter CyclesBeforeInitiated = 10,  // emulates initiation delay
     parameter CyclesBeforeDataValid = 6  // emulates read delay
 ) (
-    input wire clk,
     input wire rst_n,
+    input wire clk,
+
     input wire cmd,  // 0: read, 1: write
     input wire cmd_en,  // 1: cmd and addr is valid
     input wire [AddressBitWidth-1:0] addr,  // 8 bytes word

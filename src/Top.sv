@@ -5,8 +5,9 @@
 import Configuration::*;
 
 module Top (
-    input wire clk,  // 27 MHz
     input wire rst_n,
+    input wire clk,    // 27 MHz
+
     output logic [5:0] led,
     input wire uart_rx,
     output logic uart_tx,
@@ -15,16 +16,16 @@ module Top (
     // magic ports for PSRAM to be inferred
     output logic [ 1:0] O_psram_ck,
     output logic [ 1:0] O_psram_ck_n,
-    inout  wire [ 1:0] IO_psram_rwds,
-    inout  wire [15:0] IO_psram_dq,
+    inout  wire  [ 1:0] IO_psram_rwds,
+    inout  wire  [15:0] IO_psram_dq,
     output logic [ 1:0] O_psram_reset_n,
     output logic [ 1:0] O_psram_cs_n,
 
     // flash
-    output logic  flash_clk,
-    input  wire flash_miso,
-    output logic  flash_mosi,
-    output logic  flash_cs
+    output logic flash_clk,
+    input  wire  flash_miso,
+    output logic flash_mosi,
+    output logic flash_cs
 );
 
   localparam CPU_FREQUENCY_MHZ = 30_000_000;
@@ -141,7 +142,7 @@ module Top (
   // ----------------------------------------------------------
 
   Core #(
-      .StartupWaitCycles(Configuration::STARTUP_WAIT),
+      .StartupWaitCycles (Configuration::STARTUP_WAIT),
       .FlashTransferBytes(Configuration::FLASH_TRANSFER_BYTES_NUM)
   ) core (
       .rst_n(rst_n && rpll_lock && br_init_calib),

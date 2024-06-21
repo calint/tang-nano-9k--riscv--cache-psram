@@ -12,8 +12,9 @@ module Flash #(
     parameter DataFilePath = "",  // initial RAM content
     parameter AddressBitWidth = 8
 ) (
-    input  wire rst_n,
-    input  wire clk,
+    input wire rst_n,
+    input wire clk,
+
     output reg  miso,
     input  wire mosi,
     input  wire cs
