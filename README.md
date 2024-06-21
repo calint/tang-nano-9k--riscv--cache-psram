@@ -37,13 +37,14 @@
     => fixed end-to-end test without grasping why. search for '// ??' in RAMIO
 [o] apply (selectively) style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md#lowrisc-verilog-coding-style-guide
 [x]    use 'logic' instead of registers or wires where applicable?
-       => reg -> logic, all outputs logic
-[x] parameters in pascal casing
-[x] enums for states in FSM
+         => reg -> logic, all outputs logic, all inputs wires
+[x]    parameters in pascal casing
+[x]    enums for states in FSM
 [-]    suffixes to port inputs/outputs
-       => the ports have verbose names implying input/output
-[-] snake case names for modules
-    => makes instance names inconvenient
+         => the ports have verbose names implying input/output
+[-]    snake case names for modules
+         => makes instance names inconvenient
+[x] review test benches
 [ ]    FSM in always_comb?
 [ ] study why BAUD rate of less than 2400 does not work
 [ ] consider FIFO in UART
