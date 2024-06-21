@@ -5,8 +5,8 @@
 RAM_ADDRESS_WIDTH = 21
 # 2^21 = 2 MB PSRAM (according to hardware)
 
-UART_BAUD_RATE = 9600
-# 9600 baud, 8 bits, 1 stop bit, no parity
+UART_BAUD_RATE = 115200
+# 115200 baud, 8 bits, 1 stop bit, no parity
 
 CACHE_LINE_IX_BITWIDTH = 5
 # 2^5*32 = 1 KB unified instruction and data cache

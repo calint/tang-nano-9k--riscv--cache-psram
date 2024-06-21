@@ -22,7 +22,7 @@
 * build bitstream file in Gowin EDA
 * run `./flash-fpga.sh` to flash bitstream
 * then `./make-and-flash-os.sh` to flash program
-* connect with serial terminal to the tty (e.g. /dev/ttyUSB1) at 9600 baud, 8 bit data, 1 stop bit, no parity
+* connect with serial terminal to the tty (e.g. /dev/ttyUSB1) at 115200 baud, 8 bit data, 1 stop bit, no parity
 
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/serial-terminal-settings/1.png)
 

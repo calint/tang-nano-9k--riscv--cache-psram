@@ -4,7 +4,7 @@ cd $(dirname "$0")
 set -x
 
 TTY=/dev/ttyUSB1
-BAUD=9600
+BAUD=115200
 SLP=1
 
 stty -F $TTY $BAUD cs8 -cstopb -parenb -crtscts -ixon -ixoff -ignbrk -brkint -icrnl -opost -isig -icanon -iexten -echo -echoe -echok -echoctl -echoke
