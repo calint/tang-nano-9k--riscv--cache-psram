@@ -19,6 +19,8 @@ with open('os/os_config.h', 'w') as file:
 
 with open('src/Configuration.sv', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
+    file.write('//  note: "localparam" not "parameter" to avoid warnings in Gowin EDA\n')
+    file.write('\n')
     file.write('package Configuration;\n')
     file.write('\n')
     file.write('  localparam int unsigned RAM_ADDRESS_BITWIDTH = {};\n'.format(

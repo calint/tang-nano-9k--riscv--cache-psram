@@ -1,4 +1,6 @@
 // generated - do not edit (see `configuration.py`)
+//  note: "localparam" not "parameter" to avoid warnings in Gowin EDA
+
 package Configuration;
 
   localparam int unsigned RAM_ADDRESS_BITWIDTH = 21;
