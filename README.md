@@ -3,9 +3,7 @@
 * RISC-V implementation of rv32i for intended use
   - no `ecall`, `ebreak`, `fence` or counters
 * cache to on-board 2 MB burst PSRAM
-* __todo__ dual channel 4 MB PSRAM
 * multi-cycle design with ad-hoc pipeline
-* __todo__ fully pipe-lined design
 
 ## Gowin EDA 1.9.9.03 Project Configuration
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/1.png)
@@ -53,12 +51,13 @@
 [ ] study why BAUD rate of less than 2400 does not work
 [ ] consider FIFO in UART
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
-[ ] UART rx: if rx changes while not expecting assume drifting and set next bit
-[ ] fix truncation warnings
+[ ] UART rx: if rx changes to low while in stop-bit assume drifting and switch to wait for go
+[o] fix truncation warnings
 [ ] always_comb based CPU
 [ ]   1 cycle ALU op
 [ ]   1+ cycle STORE
 [ ]   2+ cycle LOAD
+[ ] dual channel 4 MB PSRAM
 [ ] step 12: fully pipe-lined core
 -------------------------------------------------------------------------------------------------------------
 [o] apply style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
