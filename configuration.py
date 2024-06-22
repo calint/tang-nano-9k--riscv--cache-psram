@@ -1,5 +1,5 @@
 #
-# if file changed run `configuration-generate.py` and rebuild
+# if file changed run `configuration-apply.py` and rebuild
 #
 
 RAM_ADDRESS_BITWIDTH = 21
