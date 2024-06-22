@@ -131,7 +131,7 @@ module core #(
         end
 
         BootLoadCommandToSend: begin
-          flash_cs <= 0;
+          flash_cs <= 0;  // enable flash
           flash_data_to_send[23-:8] <= 3;  // command 3: read
           flash_bits_to_send <= 8;
           state <= BootSend;
@@ -148,14 +148,12 @@ module core #(
 
         BootSend: begin
           if (flash_counter == 0) begin
-            // at clock to low
+            flash_counter <= 1;
             flash_clk <= 0;
             flash_mosi <= flash_data_to_send[23];
             flash_data_to_send <= {flash_data_to_send[22:0], 1'b0};
             flash_bits_to_send <= flash_bits_to_send - 1'b1;
-            flash_counter <= 1;
           end else begin
-            // at clock to high
             flash_counter <= 0;
             flash_clk <= 1;
             if (flash_bits_to_send == 0) begin
@@ -169,7 +167,7 @@ module core #(
             flash_clk <= 0;
             flash_counter <= flash_counter + 1;
             if (flash_counter[3:0] == 0 && flash_counter > 0) begin
-              // every 16 clock ticks (8 bit * 2)
+              // every 16 clock cycles (8 bit * 2)
               flash_data_in[flash_current_byte_num] <= flash_current_byte_out;
               flash_current_byte_num <= flash_current_byte_num + 1'b1;
               if (flash_current_byte_num == 3) begin
@@ -204,7 +202,7 @@ module core #(
             if (ramio_address_next < FlashTransferBytes) begin
               state <= BootReadData;
             end else begin
-              flash_cs <= 1;
+              flash_cs <= 1;  // disable flash
 
               // boot address
               ramio_enable <= 1;
