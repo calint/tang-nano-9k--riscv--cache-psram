@@ -281,7 +281,7 @@ module core #(
                 3'b101: begin  // SRLI and SRAI
                   rd_data_in <= ir[30] ? rs1_data_out >>> rs2 : rs1_data_out >> rs2;
                 end
-                default: ;
+                default: led <= 0;  // error
               endcase  // case (funct3)
             end
             7'b0110011: begin  // logical ops
@@ -311,7 +311,7 @@ module core #(
                 3'b111: begin  // AND
                   rd_data_in <= rs1_data_out & rs2_data_out;
                 end
-                default: ;
+                default: led <= 0;  // error
               endcase  // case (funct3)
             end
             7'b0100011: begin  // store
@@ -328,7 +328,7 @@ module core #(
                 3'b010: begin  // SW
                   ramio_write_type <= 2'b11;  // write word
                 end
-                default: ;
+                default: led <= 0;  // error
               endcase  // case (funct3)
               state <= CpuStore;
             end
@@ -351,7 +351,7 @@ module core #(
                 3'b101: begin  // LHU
                   ramio_read_type <= 3'b010;  // read unsigned half word
                 end
-                default: ;
+                default: led <= 0;  // error
               endcase  // case (funct3)
               state <= CpuLoad;
             end
@@ -409,10 +409,10 @@ module core #(
                     pc <= pc + B_imm12;
                   end
                 end
-                default: ;
+                default: led <= 0;  // error
               endcase  // case (funct3)
             end
-            default: ;
+            default: led <= 0;  // error
           endcase  // case (opcode)
         end
 
