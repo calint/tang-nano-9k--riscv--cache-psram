@@ -85,8 +85,8 @@ module top (
       .O_psram_reset_n
   );
 
-  localparam int unsigned CPU_FREQUENCY_HZ = 30_000_000;
-  // br_clk_out = memory_clk / 2
+  localparam int unsigned CLOCK_FREQUENCY_HZ = 30_000_000;
+  // note: = br_clk_out = memory_clk / 2 = 60 / 2
 
   // ----------------------------------------------------------
   // -- RAMIO
@@ -104,7 +104,7 @@ module top (
       .RamAddressBitWidth(configuration::RAM_ADDRESS_BITWIDTH),
       .RamAddressingMode(0),  // addressing 8 bit words
       .CacheLineIndexBitWidth(configuration::CACHE_LINE_INDEX_BITWIDTH),
-      .ClockFrequencyHz(CPU_FREQUENCY_HZ),
+      .ClockFrequencyHz(CLOCK_FREQUENCY_HZ),
       .BaudRate(configuration::UART_BAUD_RATE)
   ) ramio (
       .rst_n(rst_n && rpll_lock && br_init_calib),
