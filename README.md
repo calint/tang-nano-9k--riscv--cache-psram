@@ -1,9 +1,11 @@
 # Tang Nano 9K
 
-* RISC-V implementation of rv32i for intended use
+## Intention
+* RISC-V implementation of rv32i for application intended use
   - no `ecall`, `ebreak`, `fence` or counters
-* cache to on-board 2 MB burst PSRAM
-* multi-cycle design with ad-hoc pipeline
+* multi-cycle with ad-hoc pipeline
+* cache to 2 MB of on-board burst PSRAM
+* explore the FPGA board
 
 ## Gowin EDA 1.9.9.03 Project Configuration
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/1.png)
