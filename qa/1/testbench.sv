@@ -112,7 +112,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'hD5B8A9C4) $display("Test 1 passed");
-    else $display("Test 1 FAILED");
+    else $error("Test 1 FAILED");
 
     // read address 8; cache hit; one cycle delay
     while (busy) #clk_tk;
@@ -121,7 +121,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 32'hAB4C3E6F && data_out_ready) $display("Test 2 passed");
-    else $display("Test 2 FAILED");
+    else $error("Test 2 FAILED");
 
     // read; cache miss, invalid line
     while (busy) #clk_tk;
@@ -130,12 +130,12 @@ module testbench;
     #clk_tk;
 
     if (!data_out_ready) $display("Test 3 passed");
-    else $display("Test 3 FAILED");
+    else $error("Test 3 FAILED");
 
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'h2F5E3C7A && data_out_ready) $display("Test 4 passed");
-    else $display("Test 4 FAILED");
+    else $error("Test 4 FAILED");
 
     // read; cache hit valid
     while (busy) #clk_tk;
@@ -144,7 +144,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 32'h9D8E2F17 && data_out_ready) $display("Test 5 passed");
-    else $display("Test 5 FAILED");
+    else $error("Test 5 FAILED");
 
     // write byte; cache hit
     while (busy) #clk_tk;
@@ -160,7 +160,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 32'hAB4C3Ead && data_out_ready) $display("Test 6 passed");
-    else $display("Test 6 FAILED");
+    else $error("Test 6 FAILED");
 
     // write half-word
     while (busy) #clk_tk;
@@ -176,7 +176,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 32'hAB4C8765 && data_out_ready) $display("Test 8 passed");
-    else $display("Test 8 FAILED");
+    else $error("Test 8 FAILED");
 
     // write upper half-word
     while (busy) #clk_tk;
@@ -192,7 +192,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 32'hfeef8765 && data_out_ready) $display("Test 9 passed");
-    else $display("Test 9 FAILED");
+    else $error("Test 9 FAILED");
 
     // write word; cache miss; evict then write
     while (busy) #clk_tk;
@@ -208,7 +208,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 32'habcdef12 && data_out_ready) $display("Test 10 passed");
-    else $display("Test 10 FAILED");
+    else $error("Test 10 FAILED");
 
     // write word; cache hit
     while (busy) #clk_tk;
@@ -224,7 +224,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 32'h1b2d3f42 && data_out_ready) $display("Test 11 passed");
-    else $display("Test 11 FAILED");
+    else $error("Test 11 FAILED");
 
     while (busy) #clk_tk;
     address <= 0;
@@ -233,7 +233,7 @@ module testbench;
     #clk_tk;
 
     if (busy) $display("Test 12 passed");
-    else $display("Test 12 FAILED");
+    else $error("Test 12 FAILED");
 
     while (busy) #clk_tk;
     address <= 8;
@@ -241,10 +241,10 @@ module testbench;
     #clk_tk;
 
     if (data_out_ready) $display("Test 13 passed");
-    else $display("Test 13 FAILED");
+    else $error("Test 13 FAILED");
 
     if (data_out == 32'hfeef8765 && data_out_ready) $display("Test 9 passed");
-    else $display("Test 9 FAILED");
+    else $error("Test 9 FAILED");
 
     // read last element in the cache line
     while (busy) #clk_tk;
@@ -253,10 +253,10 @@ module testbench;
     #clk_tk;
 
     if (data_out_ready) $display("Test 14 passed");
-    else $display("Test 14 FAILED");
+    else $error("Test 14 FAILED");
 
     if (data_out == 32'h7D4E9F2C && data_out_ready) $display("Test 15 passed");
-    else $display("Test 15 FAILED");
+    else $error("Test 15 FAILED");
 
     #clk_tk;
     #clk_tk;

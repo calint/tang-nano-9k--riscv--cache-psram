@@ -69,34 +69,34 @@ module testbench;
     #clk_tk;
 
     if (rd_data_valid) $display("test 1 passed");
-    else $display("test 1 FAILED");
+    else $error("test 1 FAILED");
 
     // first data
     if (rd_data == 64'h3F5A2E14B7C6A980) $display("test 2 passed");
-    else $display("test 2 FAILED");
+    else $error("test 2 FAILED");
 
     #clk_tk;
 
     // second data
     if (rd_data == 64'h9D8E2F17AB4C3E6F) $display("test 3 passed");
-    else $display("test 3 FAILED");
+    else $error("test 3 FAILED");
 
     #clk_tk;
 
     // third data
     if (rd_data == 64'hA1C3F7E2D5B8A9C4) $display("test 4 passed");
-    else $display("test 4 FAILED");
+    else $error("test 4 FAILED");
 
     #clk_tk;
 
     // fourth data
     if (rd_data == 64'h7D4E9F2C1B6A3D8F) $display("test 5 passed");
-    else $display("test 5 FAILED");
+    else $error("test 5 FAILED");
 
     #clk_tk;
 
     if (!rd_data_valid) $display("test 6 passed");
-    else $display("test 6 FAILED");
+    else $error("test 6 FAILED");
 
     #clk_tk;
     #clk_tk;
@@ -118,34 +118,34 @@ module testbench;
     #clk_tk;
 
     if (rd_data_valid) $display("test 7 passed");
-    else $display("test 7 FAILED");
+    else $error("test 7 FAILED");
 
     // first data
     if (rd_data == 64'h6C4B9A8D2F5E3C7A) $display("test 8 passed");
-    else $display("test 8 FAILED");
+    else $error("test 8 FAILED");
 
     #clk_tk;
 
     // second data
     if (rd_data == 64'hE1A7D0B5C8F3E6A9) $display("test 9 passed");
-    else $display("test 9 FAILED");
+    else $error("test 9 FAILED");
 
     #clk_tk;
 
     // third data
     if (rd_data == 64'hF8E9D2C3B4A5F6E7) $display("test 10 passed");
-    else $display("test 10 FAILED");
+    else $error("test 10 FAILED");
 
     #clk_tk;
 
     // fourth data
     if (rd_data == 64'hD4E7F2C5B8A3D6E9) $display("test 11 passed");
-    else $display("test 11 FAILED");
+    else $error("test 11 FAILED");
 
     #clk_tk;
 
     if (!rd_data_valid) $display("test 12 passed");
-    else $display("test 12 FAILED");
+    else $error("test 12 FAILED");
 
     #clk_tk;
     #clk_tk;

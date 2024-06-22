@@ -109,7 +109,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 0) $display("Test 1 passed");
-    else $display("Test 1 FAILED");
+    else $error("Test 1 FAILED");
 
     $finish;
 

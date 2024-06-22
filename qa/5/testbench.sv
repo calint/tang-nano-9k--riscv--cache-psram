@@ -114,7 +114,7 @@ module testbench;
         #clk_tk_half;
       end
       if (flash.data[i] == received_byte) $display("Test %0d passed", i + 1);
-      else $display("Test %0d FAILED", i + 1);
+      else $error("Test %0d FAILED", i + 1);
     end
 
     //----------------------------------------------------------

@@ -110,7 +110,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'hD5B8A9C4) $display("Test 1 passed");
-    else $display("Test 1 FAILED");
+    else $error("Test 1 FAILED");
 
     // read unsigned byte; cache hit
     address <= 17;
@@ -122,7 +122,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'h0000_00A9) $display("Test 2 passed");
-    else $display("Test 2 FAILED");
+    else $error("Test 2 FAILED");
 
     // read unsigned short; cache hit
     address <= 18;
@@ -134,7 +134,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'h0000_D5B8) $display("Test 3 passed");
-    else $display("Test 3 FAILED");
+    else $error("Test 3 FAILED");
 
     // write unsigned byte; cache hit
     enable <= 1;
@@ -155,7 +155,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'h0000_00ab) $display("Test 4 passed");
-    else $display("Test 4 FAILED");
+    else $error("Test 4 FAILED");
 
     // write half-word; cache hit
     enable <= 1;
@@ -176,7 +176,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'h0000_1234) $display("Test 5 passed");
-    else $display("Test 5 FAILED");
+    else $error("Test 5 FAILED");
 
     // write word; cache hit
     enable <= 1;
@@ -197,7 +197,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'habcd_1234) $display("Test 6 passed");
-    else $display("Test 6 FAILED");
+    else $error("Test 6 FAILED");
 
     // write to UART
     enable <= 1;
@@ -216,51 +216,51 @@ module testbench;
     // start bit
     #clk_tk;
     if (uart_tx == 0) $display("Test 7 passed");
-    else $display("Test 7 FAILED");
+    else $error("Test 7 FAILED");
     // bit 1
     #clk_tk;
     if (uart_tx == 0) $display("Test 8 passed");
-    else $display("Test 8 FAILED");
+    else $error("Test 8 FAILED");
     // bit 2
     #clk_tk;
     if (uart_tx == 1) $display("Test 9 passed");
-    else $display("Test 9 FAILED");
+    else $error("Test 9 FAILED");
     // bit 3
     #clk_tk;
     if (uart_tx == 0) $display("Test 10 passed");
-    else $display("Test 10 FAILED");
+    else $error("Test 10 FAILED");
     // bit 4
     #clk_tk;
     if (uart_tx == 1) $display("Test 11 passed");
-    else $display("Test 11 FAILED");
+    else $error("Test 11 FAILED");
     // bit 5
     #clk_tk;
     if (uart_tx == 0) $display("Test 12 passed");
-    else $display("Test 12 FAILED");
+    else $error("Test 12 FAILED");
     // bit 6
     #clk_tk;
     if (uart_tx == 1) $display("Test 13 passed");
-    else $display("Test 13 FAILED");
+    else $error("Test 13 FAILED");
     // bit 7
     #clk_tk;
     if (uart_tx == 0) $display("Test 14 passed");
-    else $display("Test 14 FAILED");
+    else $error("Test 14 FAILED");
     // stop bit
     #clk_tk;
     if (uart_tx == 1) $display("Test 15 passed");
-    else $display("Test 15 FAILED");
+    else $error("Test 15 FAILED");
     #clk_tk;
     if (uart_tx == 1) $display("Test 16 passed");
-    else $display("Test 16 FAILED");
+    else $error("Test 16 FAILED");
 
     #clk_tk;
     if (ramio.uarttx.bsy == 0) $display("Test 17 passed");
-    else $display("Test 17 FAILED");
+    else $error("Test 17 FAILED");
 
     #clk_tk;
 
     if (ramio.uarttx_data_sending == 0) $display("Test 18 passed");
-    else $display("Test 18 FAILED");
+    else $error("Test 18 FAILED");
 
     // start bit
     uart_rx <= 0;
@@ -296,7 +296,7 @@ module testbench;
     #clk_tk;  // RAMIO transfers data from UartRx
 
     if (ramio.uartrx_dr && ramio.uartrx_data == 8'haa) $display("Test 19 passed");
-    else $display("Test 19 FAILED");
+    else $error("Test 19 FAILED");
 
     // read from UART
     enable <= 1;
@@ -306,7 +306,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 8'haa) $display("Test 20 passed");
-    else $display("Test 20 FAILED");
+    else $error("Test 20 FAILED");
 
     #clk_tk;  // RAMIO clears data from UartRx
 
@@ -318,7 +318,7 @@ module testbench;
     #clk_tk;
 
     if (data_out == 0) $display("Test 21 passed");
-    else $display("Test 21 FAILED");
+    else $error("Test 21 FAILED");
 
     // write unsigned byte; cache miss, eviction
     enable <= 1;
@@ -339,7 +339,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'h0000_00ab) $display("Test 22 passed");
-    else $display("Test 22 FAILED");
+    else $error("Test 22 FAILED");
 
     // write half-word; cache hit
     enable <= 1;
@@ -360,7 +360,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'h0000_1234) $display("Test 23 passed");
-    else $display("Test 23 FAILED");
+    else $error("Test 23 FAILED");
 
     // write word; cache hit
     enable <= 1;
@@ -381,7 +381,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     if (data_out == 32'habcd_1234) $display("Test 24 passed");
-    else $display("Test 24 FAILED");
+    else $error("Test 24 FAILED");
 
     #clk_tk;
     #clk_tk;

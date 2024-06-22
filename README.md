@@ -57,6 +57,8 @@
 [ ] step 12: fully pipe-lined core
 [ ] consider FIFO in UART
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
+[x] testbenches: assert (condition) else $fatal("...");
+      => if else $error
 -------------------------------------------------------------------------------------------------------------
 [o] apply style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
 [x]    use 'logic' instead of registers or wires where applicable?
