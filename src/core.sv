@@ -123,11 +123,10 @@ module core #(
       unique case (state)
 
         BootInit: begin
+          flash_counter <= flash_counter + 1;
           if (flash_counter >= StartupWaitCycles) begin
             flash_counter <= 0;
             state <= BootLoadCommandToSend;
-          end else begin
-            flash_counter <= flash_counter + 1;
           end
         end
 

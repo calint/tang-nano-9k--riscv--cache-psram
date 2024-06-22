@@ -1,5 +1,5 @@
 //
-// RAMIO + BurstRAM
+// Core + RAMIO + BurstRAM + Flash
 //
 `timescale 100ps / 100ps
 //
