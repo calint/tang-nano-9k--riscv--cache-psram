@@ -62,7 +62,7 @@ module testbench;
       .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
       .RamAddressingMode(3),  // 64 bit word RAM
       .CacheLineIndexBitWidth(1),
-      .ClockFrequencyMhz(20_250_000),
+      .ClockFrequencyHz(20_250_000),
       .BaudRate(20_250_000)
   ) ramio (
       .rst_n(rst_n && br_init_calib),

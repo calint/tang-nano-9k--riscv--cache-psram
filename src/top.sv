@@ -26,8 +26,6 @@ module top (
     output logic flash_cs
 );
 
-  localparam int unsigned CPU_FREQUENCY_HZ = 30_000_000;
-
   // ----------------------------------------------------------
   // -- Gowin_rPLLs
   // ----------------------------------------------------------
@@ -87,6 +85,9 @@ module top (
       .O_psram_reset_n
   );
 
+  localparam int unsigned CPU_FREQUENCY_HZ = 30_000_000;
+  // br_clk_out = memory_clk / 2
+
   // ----------------------------------------------------------
   // -- RAMIO
   // ----------------------------------------------------------
@@ -103,7 +104,7 @@ module top (
       .RamAddressBitWidth(configuration::RAM_ADDRESS_BITWIDTH),
       .RamAddressingMode(0),  // addressing 8 bit words
       .CacheLineIndexBitWidth(configuration::CACHE_LINE_INDEX_BITWIDTH),
-      .ClockFrequencyMhz(CPU_FREQUENCY_HZ),
+      .ClockFrequencyHz(CPU_FREQUENCY_HZ),
       .BaudRate(configuration::UART_BAUD_RATE)
   ) ramio (
       .rst_n(rst_n && rpll_lock && br_init_calib),

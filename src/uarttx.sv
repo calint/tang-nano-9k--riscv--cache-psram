@@ -8,7 +8,7 @@
 // `define INFO
 
 module uarttx #(
-    parameter int unsigned ClockFrequencyMhz = 66_000_000,
+    parameter int unsigned ClockFrequencyHz = 66_000_000,
     parameter int unsigned BaudRate = 9600
 ) (
     input wire rst_n,
@@ -23,7 +23,7 @@ module uarttx #(
     output logic bsy  // enabled while sendng
 );
 
-  localparam int unsigned BIT_TIME = ClockFrequencyMhz / BaudRate;
+  localparam int unsigned BIT_TIME = ClockFrequencyHz / BaudRate;
 
   typedef enum {
     Idle,

@@ -13,7 +13,7 @@ module ramio #(
     parameter int unsigned CacheLineIndexBitWidth = 1,
     parameter int unsigned AddressBitWidth = 32,
     parameter int unsigned DataBitWidth = 32,
-    parameter int unsigned ClockFrequencyMhz = 20_250_000,
+    parameter int unsigned ClockFrequencyHz = 20_250_000,
     parameter int unsigned BaudRate = 9600,
     parameter int unsigned TopAddress = {AddressBitWidth{1'b1}},
     parameter int unsigned AddressLed = TopAddress,
@@ -326,7 +326,7 @@ module ramio #(
   );
 
   uarttx #(
-      .ClockFrequencyMhz(ClockFrequencyMhz),
+      .ClockFrequencyHz(ClockFrequencyHz),
       .BaudRate(BaudRate)
   ) uarttx (
       .rst_n,
@@ -339,7 +339,7 @@ module ramio #(
   );
 
   uartrx #(
-      .ClockFrequencyMhz(ClockFrequencyMhz),
+      .ClockFrequencyHz(ClockFrequencyHz),
       .BaudRate(BaudRate)
   ) uartrx (
       .rst_n,
