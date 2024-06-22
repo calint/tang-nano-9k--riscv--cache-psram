@@ -16,39 +16,39 @@ module registers #(
     input wire [AddressBitWidth-1:0] rs1,
 
     // data of register 'rs1'
-    output logic [DataBitWidth-1:0] rs1_dat,
+    output logic [DataBitWidth-1:0] rs1_data_out,
 
     // source register 2
     input wire [AddressBitWidth-1:0] rs2,
 
     // data of register 'rs2'
-    output logic [DataBitWidth-1:0] rs2_dat,
+    output logic [DataBitWidth-1:0] rs2_data_out,
 
     // destination register
     input wire [AddressBitWidth-1:0] rd,
 
     // write enable destination register
-    input wire rd_we,
+    input wire rd_write_enable,
 
-    // data to write to register 'rd' when 'rd_we' is enabled
-    input wire [DataBitWidth-1:0] rd_wd
+    // data to write to register 'rd' when 'rd_write_enable' is enabled
+    input wire [DataBitWidth-1:0] rd_data_in
 );
 
   logic signed [DataBitWidth-1:0] mem[2**AddressBitWidth];
 
   // register 0 is hardwired to value 0
-  assign rs1_dat = rs1 == 0 ? 0 : mem[rs1];
-  assign rs2_dat = rs2 == 0 ? 0 : mem[rs2];
+  assign rs1_data_out = rs1 == 0 ? 0 : mem[rs1];
+  assign rs2_data_out = rs2 == 0 ? 0 : mem[rs2];
 
   always @(posedge clk) begin
 `ifdef DBG
-    if (rd_we) begin
+    if (rd_write_enable) begin
       $display("%0t: clk+: Registers (rs1,rs2,rd,we,rd_dat)=(%0h,%0h,%0h,%0d,%0h)", $time, rs1,
-               rs2, rd, rd_we, rd_wd);
+               rs2, rd, rd_write_enable, rd_data_in);
     end
 `endif
-    if (rd_we) begin
-      mem[rd] <= rd_wd;
+    if (rd_write_enable) begin
+      mem[rd] <= rd_data_in;
     end
   end
 

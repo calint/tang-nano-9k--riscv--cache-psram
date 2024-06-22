@@ -90,11 +90,11 @@ module core #(
   wire signed [31:0] B_imm12 = {{20{ir[31]}}, ir[7], ir[30:25], ir[11:8], 1'b0};
   wire signed [31:0] J_imm20 = {{12{ir[31]}}, ir[19:12], ir[20], ir[30:21], 1'b0};
   // registers output data
-  logic signed [31:0] rs1_dat;  // register 'rs1' data
-  logic signed [31:0] rs2_dat;  // register 'rs2' data
+  logic signed [31:0] rs1_data_out;
+  logic signed [31:0] rs2_data_out;
   // register write back
-  logic [31:0] rd_wd;  // register write data to 'rd'
-  logic rd_we;  // register write enable
+  logic [31:0] rd_data_in;
+  logic rd_write_enable;
 
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -222,7 +222,7 @@ module core #(
 
         CpuFetch: begin
           // disable register write in case it was writing during this cycle
-          rd_we <= 0;
+          rd_write_enable <= 0;
 
           if (ramio_data_out_ready) begin
 `ifdef DBG
@@ -254,73 +254,73 @@ module core #(
           // execute instruction (part 1)
           unique case (opcode)
             7'b0110111: begin  // LUI
-              rd_wd <= U_imm20;
-              rd_we <= 1;
+              rd_data_in <= U_imm20;
+              rd_write_enable <= 1;
             end
             7'b0010011: begin  // logical ops immediate
-              rd_we <= 1;
+              rd_write_enable <= 1;
               unique case (funct3)
                 3'b000: begin  // ADDI
-                  rd_wd <= rs1_dat + I_imm12;
+                  rd_data_in <= rs1_data_out + I_imm12;
                 end
                 3'b010: begin  // SLTI
-                  rd_wd <= rs1_dat < I_imm12;
+                  rd_data_in <= rs1_data_out < I_imm12;
                 end
                 3'b011: begin  // SLTIU
-                  rd_wd <= unsigned'(rs1_dat) < unsigned'(I_imm12);
+                  rd_data_in <= unsigned'(rs1_data_out) < unsigned'(I_imm12);
                 end
                 3'b100: begin  // XORI
-                  rd_wd <= rs1_dat ^ I_imm12;
+                  rd_data_in <= rs1_data_out ^ I_imm12;
                 end
                 3'b110: begin  // ORI
-                  rd_wd <= rs1_dat | I_imm12;
+                  rd_data_in <= rs1_data_out | I_imm12;
                 end
                 3'b111: begin  // ANDI
-                  rd_wd <= rs1_dat & I_imm12;
+                  rd_data_in <= rs1_data_out & I_imm12;
                 end
                 3'b001: begin  // SLLI
-                  rd_wd <= rs1_dat << rs2;
+                  rd_data_in <= rs1_data_out << rs2;
                 end
                 3'b101: begin  // SRLI and SRAI
-                  rd_wd <= ir[30] ? rs1_dat >>> rs2 : rs1_dat >> rs2;
+                  rd_data_in <= ir[30] ? rs1_data_out >>> rs2 : rs1_data_out >> rs2;
                 end
                 default: ;
               endcase  // case (funct3)
             end
             7'b0110011: begin  // logical ops
-              rd_we <= 1;
+              rd_write_enable <= 1;
               unique case (funct3)
                 3'b000: begin  // ADD and SUB
-                  rd_wd <= ir[30] ? rs1_dat - rs2_dat : rs1_dat + rs2_dat;
+                  rd_data_in <= ir[30] ? rs1_data_out - rs2_data_out : rs1_data_out + rs2_data_out;
                 end
                 3'b001: begin  // SLL
-                  rd_wd <= rs1_dat << rs2_dat[4:0];
+                  rd_data_in <= rs1_data_out << rs2_data_out[4:0];
                 end
                 3'b010: begin  // SLT
-                  rd_wd <= rs1_dat < rs2_dat;
+                  rd_data_in <= rs1_data_out < rs2_data_out;
                 end
                 3'b011: begin  // SLTU
-                  rd_wd <= unsigned'(rs1_dat) < unsigned'(rs2_dat);
+                  rd_data_in <= unsigned'(rs1_data_out) < unsigned'(rs2_data_out);
                 end
                 3'b100: begin  // XOR
-                  rd_wd <= rs1_dat ^ rs2_dat;
+                  rd_data_in <= rs1_data_out ^ rs2_data_out;
                 end
                 3'b101: begin  // SRL and SRA
-                  rd_wd <= ir[30] ? rs1_dat >>> rs2_dat[4:0] : rs1_dat >> rs2_dat[4:0];
+                  rd_data_in <= ir[30] ? rs1_data_out >>> rs2_data_out[4:0] : rs1_data_out >> rs2_data_out[4:0];
                 end
                 3'b110: begin  // OR
-                  rd_wd <= rs1_dat | rs2_dat;
+                  rd_data_in <= rs1_data_out | rs2_data_out;
                 end
                 3'b111: begin  // AND
-                  rd_wd <= rs1_dat & rs2_dat;
+                  rd_data_in <= rs1_data_out & rs2_data_out;
                 end
                 default: ;
               endcase  // case (funct3)
             end
             7'b0100011: begin  // store
               ramio_read_type <= 0;
-              ramio_address   <= rs1_dat + S_imm12;
-              ramio_data_in   <= rs2_dat;
+              ramio_address   <= rs1_data_out + S_imm12;
+              ramio_data_in   <= rs2_data_out;
               unique case (funct3)
                 3'b000: begin  // SB
                   ramio_write_type <= 2'b01;  // write byte
@@ -337,7 +337,7 @@ module core #(
             end
             7'b0000011: begin  // load
               ramio_write_type <= 0;
-              ramio_address <= rs1_dat + I_imm12;
+              ramio_address <= rs1_data_out + I_imm12;
               unique case (funct3)
                 3'b000: begin  // LB
                   ramio_read_type <= 3'b101;  // read sign extended byte
@@ -359,55 +359,55 @@ module core #(
               state <= CpuLoad;
             end
             7'b0010111: begin  // AUIPC
-              rd_wd <= pc + U_imm20;
-              rd_we <= 1;
+              rd_data_in <= pc + U_imm20;
+              rd_write_enable <= 1;
             end
             7'b1101111: begin  // JAL
-              rd_wd <= pc + 4;
-              rd_we <= 1;
+              rd_data_in <= pc + 4;
+              rd_write_enable <= 1;
               ramio_address <= pc + J_imm20;
               pc <= pc + J_imm20;
             end
             7'b1100111: begin  // JALR
-              rd_wd <= pc + 4;
-              rd_we <= 1;
-              ramio_address <= rs1_dat + I_imm12;
-              pc <= rs1_dat + I_imm12;
+              rd_data_in <= pc + 4;
+              rd_write_enable <= 1;
+              ramio_address <= rs1_data_out + I_imm12;
+              pc <= rs1_data_out + I_imm12;
             end
             7'b1100011: begin  // branches
               unique case (funct3)
                 3'b000: begin  // BEQ
-                  if (rs1_dat == rs2_dat) begin
+                  if (rs1_data_out == rs2_data_out) begin
                     ramio_address <= pc + B_imm12;
                     pc <= pc + B_imm12;
                   end
                 end
                 3'b001: begin  // BNE
-                  if (rs1_dat != rs2_dat) begin
+                  if (rs1_data_out != rs2_data_out) begin
                     ramio_address <= pc + B_imm12;
                     pc <= pc + B_imm12;
                   end
                 end
                 3'b100: begin  // BLT
-                  if (rs1_dat < rs2_dat) begin
+                  if (rs1_data_out < rs2_data_out) begin
                     ramio_address <= pc + B_imm12;
                     pc <= pc + B_imm12;
                   end
                 end
                 3'b101: begin  // BGE
-                  if (rs1_dat >= rs2_dat) begin
+                  if (rs1_data_out >= rs2_data_out) begin
                     ramio_address <= pc + B_imm12;
                     pc <= pc + B_imm12;
                   end
                 end
                 3'b110: begin  // BLTU
-                  if (unsigned'(rs1_dat) < unsigned'(rs2_dat)) begin
+                  if (unsigned'(rs1_data_out) < unsigned'(rs2_data_out)) begin
                     ramio_address <= pc + B_imm12;
                     pc <= pc + B_imm12;
                   end
                 end
                 3'b111: begin  // BGEU
-                  if (unsigned'(rs1_dat) >= unsigned'(rs2_dat)) begin
+                  if (unsigned'(rs1_data_out) >= unsigned'(rs2_data_out)) begin
                     ramio_address <= pc + B_imm12;
                     pc <= pc + B_imm12;
                   end
@@ -433,8 +433,8 @@ module core #(
         CpuLoad: begin
           if (ramio_data_out_ready) begin
             // write to register
-            rd_we <= 1;
-            rd_wd <= ramio_data_out;
+            rd_write_enable <= 1;
+            rd_data_in <= ramio_data_out;
 `ifdef DBG
             $display("write register[%0d] = 0x%h", rd, ramio_data_out);
 `endif
@@ -444,7 +444,7 @@ module core #(
 
         CpuLoadDone: begin
           // register written
-          rd_we <= 0;
+          rd_write_enable <= 0;
 
           // next instruction
           ramio_enable <= 1;
@@ -463,12 +463,12 @@ module core #(
   registers registers (
       .clk,
       .rs1,
-      .rs1_dat,
+      .rs1_data_out,
       .rs2,
-      .rs2_dat,
+      .rs2_data_out,
       .rd,
-      .rd_we,
-      .rd_wd
+      .rd_write_enable,
+      .rd_data_in
   );
 
 endmodule
