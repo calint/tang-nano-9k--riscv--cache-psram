@@ -51,9 +51,6 @@
 [ ] UART rx: if rx changes to low while in stop-bit assume drifting and switch to wait for go
 [o] fix truncation warnings
 [ ] always_comb based CPU
-[ ]   1 cycle ALU op
-[ ]   1+ cycle STORE
-[ ]   2+ cycle LOAD
 [ ] dual channel 4 MB PSRAM
 [ ] step 12: fully pipe-lined core
 [ ] consider FIFO in UART
