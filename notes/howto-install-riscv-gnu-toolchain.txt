@@ -1,5 +1,5 @@
 RISC-V GNU Compiler Toolchain
 
-https://github.com/riscv-collab/riscv-gnu-toolchain
+git clone https://github.com/riscv/riscv-gnu-toolchain
 
 ./configure --prefix=~/riscv/install --with-arch=rv32i --with-abi=ilp32
