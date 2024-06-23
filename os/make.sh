@@ -51,7 +51,7 @@ chmod -x $BIN.bin
 
 # riscv32-unknown-elf-objdump -Mnumeric,no-aliases --source-comment -Sr $BIN > $BIN.lst
 riscv32-unknown-elf-objdump --source-comment -Sr $BIN > $BIN.lst
-riscv32-unknown-elf-objdump -s --section=.data --section=.rodata --section=.bss $BIN > $BIN.dat
+riscv32-unknown-elf-objdump -s --section=.rodata --section=.data --section=.bss $BIN > $BIN.dat
 
 # print 4 bytes at a time as hex in little endian mode
 # xxd -c 4 -e $BIN.bin | awk '{print $2}' > $BIN.mem
