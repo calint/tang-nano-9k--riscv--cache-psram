@@ -96,7 +96,7 @@ module testbench;
   logic flash_cs;
 
   flash #(
-      .DataFilePath("RAM.mem"),
+      .DataFilePath("ram.mem"),
       .AddressBitWidth(12)  // in bytes 2^12 = 4096 B
   ) flash (
       .rst_n,

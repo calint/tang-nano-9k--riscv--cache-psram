@@ -99,7 +99,6 @@ module testbench;
 
     // write
     for (int i = 0; i < 2 ** RAM_ADDRESS_BIT_WIDTH; i = i + 1) begin
-      // $display("address: %h", address);
       address <= address_next;
       address_next <= address_next + 4;
       data_in = i;
@@ -107,10 +106,6 @@ module testbench;
       #clk_tk;
       while (busy) #clk_tk;
     end
-
-    // for (int i = 0; i < 16; i = i + 1) begin
-    //   $display("%h: %h", i, burst_ram.data[i]);
-    // end
 
     address <= 4;
     write_enable <= 0;

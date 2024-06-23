@@ -13,7 +13,7 @@ module testbench;
   always #(clk_tk / 2) clk = ~clk;
 
   burst_ram #(
-      .DataFilePath("RAM.mem"),
+      .DataFilePath("ram.mem"),
       .AddressBitWidth(4),
       .DataBitWidth(64),
       .BurstDataCount(4),

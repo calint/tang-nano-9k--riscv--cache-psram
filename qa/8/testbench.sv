@@ -25,7 +25,7 @@ module testbench;
   logic br_busy;
 
   burst_ram #(
-      .DataFilePath("RAM.mem"),  // initial RAM content
+      .DataFilePath("ram.mem"),  // initial RAM content
       .AddressBitWidth(RAM_ADDRESS_BIT_WIDTH),  // 2 ^ 4 * 8 B entries
       .BurstDataCount(4),  // 4 * 64 bit data per burst
       .CyclesBeforeDataValid(6)
