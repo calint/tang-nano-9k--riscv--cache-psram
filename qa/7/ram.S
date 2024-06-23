@@ -1,3 +1,5 @@
+.global _start
+
 _start:
   lui	x2,0x10
   jal	x1,run
