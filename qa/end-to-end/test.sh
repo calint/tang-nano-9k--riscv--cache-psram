@@ -43,6 +43,16 @@ printf "i\r" > $TTY
 sleep $SLP
 printf "m\r" > $TTY
 sleep 10
+printf "i\r" > $TTY
+sleep $SLP
+printf "d lighter\r" > $TTY
+sleep $SLP
+printf "t lighter\r" > $TTY
+sleep $SLP
+printf "i\r" > $TTY
+sleep $SLP
+printf "i\r" > $TTY
+sleep $SLP
 
 # send SIGTERM (termination signal) to 'cat'
 kill -SIGTERM %1

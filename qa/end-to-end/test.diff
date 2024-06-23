@@ -51,4 +51,35 @@ u r in office
 u c: nothing
 u is here
 exits: south
-me > 
+me > i
+u have: nothing
+
+u r in office
+u c: nothing
+me is here
+exits: south
+u > d lighter
+u r in office
+u c: lighter
+u is here
+exits: south
+me > t lighter
+u r in office
+u c: nothing
+me is here
+exits: south
+u > i
+u have: notebook, mirror
+
+u r in office
+u c: nothing
+u is here
+exits: south
+me > i
+u have: lighter
+
+u r in office
+u c: nothing
+me is here
+exits: south
+u > 
