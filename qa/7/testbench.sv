@@ -6,8 +6,8 @@
 `default_nettype none
 
 module testbench;
-  reg rst_n;
-  reg clk = 1;
+  logic rst_n;
+  logic clk = 1;
   localparam int unsigned clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
@@ -15,7 +15,7 @@ module testbench;
 
   wire [5:0] led;
   wire uart_tx;
-  reg uart_rx;
+  logic uart_rx;
 
   //------------------------------------------------------------------------
   wire br_cmd;
@@ -91,10 +91,10 @@ module testbench;
   );
 
   //------------------------------------------------------------------------
-  output reg flash_clk;
-  input wire flash_miso;
-  output reg flash_mosi;
-  output reg flash_cs;
+  logic flash_clk;
+  wire  flash_miso;
+  logic flash_mosi;
+  logic flash_cs;
 
   flash #(
       .DataFilePath("RAM.mem"),

@@ -9,8 +9,8 @@ module testbench;
 
   localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 4;
 
-  reg rst_n;
-  reg clk = 1;
+  logic rst_n;
+  logic clk = 1;
   localparam int unsigned clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
@@ -55,13 +55,13 @@ module testbench;
       .busy(br_busy)
   );
 
-  reg [31:0] address;
+  logic [31:0] address;
   wire [31:0] data_out;
   wire data_out_ready;
-  reg [31:0] data_in;
-  reg [3:0] write_enable;
+  logic [31:0] data_in;
+  logic [3:0] write_enable;
   wire busy;
-  reg enable;
+  logic enable;
 
   cache #(
       .LineIndexBitWidth(1),

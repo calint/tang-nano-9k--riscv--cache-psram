@@ -9,8 +9,8 @@ module testbench;
 
   localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 4;  // 2^4 * 8 B
 
-  reg rst_n;
-  reg clk = 1;
+  logic rst_n;
+  logic clk = 1;
   localparam int unsigned clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
@@ -43,17 +43,17 @@ module testbench;
       .busy(br_busy)
   );
 
-  reg enable = 0;
-  reg [1:0] write_type = 0;
-  reg [2:0] read_type = 0;
-  reg [31:0] address = 0;
+  logic enable = 0;
+  logic [1:0] write_type = 0;
+  logic [2:0] read_type = 0;
+  logic [31:0] address = 0;
   wire [31:0] data_out;
   wire data_out_ready;
-  reg [31:0] data_in = 0;
+  logic [31:0] data_in = 0;
   wire busy;
   wire [5:0] led = 0;
-  reg uart_tx;
-  reg uart_rx = 1;
+  logic uart_tx;
+  logic uart_rx = 1;
 
   ramio #(
       .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),

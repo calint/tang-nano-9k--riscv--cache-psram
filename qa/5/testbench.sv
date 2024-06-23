@@ -7,17 +7,17 @@
 
 module testbench;
 
-  reg rst_n;
-  reg clk = 1;
+  logic rst_n;
+  logic clk = 1;
   localparam int unsigned clk_tk = 36;
   localparam int unsigned clk_tk_half = clk_tk / 2;
   always #(clk_tk_half) clk = ~clk;
 
   //-------------------------------------------------
-  output reg flash_clk;
+  output logic flash_clk;
   input wire flash_miso;
-  output reg flash_mosi;
-  output reg flash_cs;
+  output logic flash_mosi;
+  output logic flash_cs;
 
   flash #(
       .DataFilePath("flash.mem"),
@@ -31,7 +31,7 @@ module testbench;
   );
   //-------------------------------------------------
 
-  reg [7:0] received_byte = 0;
+  logic [7:0] received_byte = 0;
 
   initial begin
     $dumpfile("log.vcd");

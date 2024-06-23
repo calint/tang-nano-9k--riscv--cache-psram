@@ -7,9 +7,9 @@
 
 module testbench;
 
-  reg rst_n;
+  logic rst_n;
   localparam int unsigned clk_tk = 10;
-  reg clk = 0;
+  logic clk = 0;
   always #(clk_tk / 2) clk = ~clk;
 
   burst_ram #(
@@ -32,11 +32,11 @@ module testbench;
       .busy
   );
 
-  reg cmd = 0;
-  reg cmd_en = 0;
-  reg [3:0] addr = 0;
-  reg [63:0] wr_data = 0;
-  reg [7:0] data_mask = 0;
+  logic cmd = 0;
+  logic cmd_en = 0;
+  logic [3:0] addr = 0;
+  logic [63:0] wr_data = 0;
+  logic [7:0] data_mask = 0;
   wire [63:0] rd_data;
   wire rd_data_valid;
   wire busy;
