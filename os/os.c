@@ -1,34 +1,14 @@
 #include "os_config.h"
 
-#define CHAR_BACKSPACE 0x7f
-#define CHAR_CARRIAGE_RETURN 0x0d
-#define LOCATION_MAX_OBJECTS 128
-#define LOCATION_MAX_ENTITIES 8
-#define LOCATION_MAX_EXITS 6
-#define ENTITY_MAX_OBJECTS 32
-#define TRUE 1
-#define FALSE 0
-
-void uart_send_str(const char *str);
-void uart_send_char(char ch);
-char uart_read_char();
-void uart_send_hex_byte(char ch);
-void uart_send_hex_nibble(char nibble);
-
-typedef unsigned char bool;
-typedef const char *name;
-typedef unsigned char location_id;
-typedef unsigned char object_id;
-typedef unsigned char entity_id;
-typedef unsigned char direction;
+static const char *hello = "welcome to adventure #4\r\n    type 'help'\r\n\r\n";
 
 static const char *ascii_art =
     "                                  oOo.o.\r\n"
     "         frameless osca          oOo.oOo\r\n"
     "      __________________________  .oOo.\r\n"
     "     O\\        -_   .. \\    ___ \\   ||\r\n"
-    "    O  \\    RISC-V      \\   \\ \\\\ \\ //\\\\\r\n"
-    "   o   /\\    FPGA        \\   \\|\\\\ \\\r\n"
+    "    O  \\    risc-v      \\   \\ \\\\ \\ //\\\\\r\n"
+    "   o   /\\    fpga        \\   \\|\\\\ \\\r\n"
     "  .   //\\\\    overview    \\   ||   \\\r\n"
     "   .  \\\\/\\\\                \\  \\_\\   \\\r\n"
     "    .  \\\\//\\________________\\________\\\r\n"
@@ -52,7 +32,27 @@ static const char *ascii_art =
     "      | |\r\n"
     "\r\n";
 
-static char *hello = "welcome to adventure #4\r\n    type 'help'\r\n\r\n";
+#define CHAR_BACKSPACE 0x7f
+#define CHAR_CARRIAGE_RETURN 0x0d
+#define LOCATION_MAX_OBJECTS 128
+#define LOCATION_MAX_ENTITIES 8
+#define LOCATION_MAX_EXITS 6
+#define ENTITY_MAX_OBJECTS 32
+#define TRUE 1
+#define FALSE 0
+
+void uart_send_str(const char *str);
+void uart_send_char(char ch);
+char uart_read_char();
+void uart_send_hex_byte(char ch);
+void uart_send_hex_nibble(char nibble);
+
+typedef unsigned char bool;
+typedef const char *name;
+typedef unsigned char location_id;
+typedef unsigned char object_id;
+typedef unsigned char entity_id;
+typedef unsigned char direction;
 
 typedef struct input_buffer {
   char line[80];

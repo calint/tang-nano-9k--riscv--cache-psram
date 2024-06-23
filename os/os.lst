@@ -41,7 +41,7 @@ Disassembly of section .text:
 # 
 #   uart_send_str(ascii_art);
       38:	000027b7          	lui	a5,0x2
-      3c:	3847a683          	lw	a3,900(a5) # 2384 <ascii_art>
+      3c:	3887a683          	lw	a3,904(a5) # 2388 <ascii_art>
 #   inbuf.ix = 0;
       40:	04010e23          	sb	zero,92(sp)
 #     s2++;
@@ -64,7 +64,7 @@ Disassembly of section .text:
       60:	fe0716e3          	bnez	a4,4c <run+0x44>
 #   uart_send_str(hello);
       64:	000027b7          	lui	a5,0x2
-      68:	3887a683          	lw	a3,904(a5) # 2388 <hello>
+      68:	3847a683          	lw	a3,900(a5) # 2384 <hello>
 #   while (*str) {
       6c:	0006c703          	lbu	a4,0(a3)
       70:	00070e63          	beqz	a4,8c <run+0x84>
@@ -1375,9 +1375,9 @@ Disassembly of section .text:
 #   while (*str) {
      e50:	0005c703          	lbu	a4,0(a1)
      e54:	fe0716e3          	bnez	a4,e40 <action_drop+0x114>
-     e58:	00002737          	lui	a4,0x2
+     e58:	00001737          	lui	a4,0x1
      e5c:	00d00693          	li	a3,13
-     e60:	a2870713          	add	a4,a4,-1496 # 1a28 <uart_read_char+0x374>
+     e60:	6ec70713          	add	a4,a4,1772 # 16ec <uart_read_char+0x38>
 #     while (*UART_OUT)
      e64:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      e68:	fe079ee3          	bnez	a5,e64 <action_drop+0x138>
