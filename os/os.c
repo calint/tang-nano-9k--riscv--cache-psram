@@ -22,6 +22,36 @@ typedef unsigned char object_id;
 typedef unsigned char entity_id;
 typedef unsigned char direction;
 
+static const char *ascii_art =
+    "                                  oOo.o.\r\n"
+    "         frameless osca          oOo.oOo\r\n"
+    "      __________________________  .oOo.\r\n"
+    "     O\\        -_   .. \\    ___ \\   ||\r\n"
+    "    O  \\    RISC-V      \\   \\ \\\\ \\ //\\\\\r\n"
+    "   o   /\\    FPGA        \\   \\|\\\\ \\\r\n"
+    "  .   //\\\\    overview    \\   ||   \\\r\n"
+    "   .  \\\\/\\\\                \\  \\_\\   \\\r\n"
+    "    .  \\\\//\\________________\\________\\\r\n"
+    "     .  \\/_/, \\\\\\--\\\\..\\\\ - /\\_____  /\r\n"
+    "      .  \\ \\ . \\\\\\__\\\\__\\\\./ / \\__/ /\r\n"
+    "       .  \\ \\ , \\    \\\\ ///./ ,/./ /\r\n"
+    "        .  \\ \\___\\ sticky notes / /\r\n"
+    "         .  \\/\\________________/ /\r\n"
+    "    ./\\.  . / /                 /\r\n"
+    "    /--\\   .\\/_________________/\r\n"
+    "         ___.                 .\r\n"
+    "        |o o|. . . . . . . . .\r\n"
+    "        /| |\\ . .\r\n"
+    "    ____       . .\r\n"
+    "   |O  O|       . .\r\n"
+    "   |_ -_|        . .\r\n"
+    "    /||\\\r\n"
+    "      ___\r\n"
+    "     /- -\\\r\n"
+    "    /\\_-_/\\\r\n"
+    "      | |\r\n"
+    "\r\n";
+
 static char *hello = "welcome to adventure #4\r\n    type 'help'\r\n\r\n";
 
 typedef struct input_buffer {
@@ -85,6 +115,7 @@ void run() {
   input_buffer inbuf;
   inbuf.ix = 0;
 
+  uart_send_str(ascii_art);
   uart_send_str(hello);
 
   while (1) {
