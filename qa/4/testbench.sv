@@ -14,15 +14,15 @@ module testbench;
   localparam int unsigned clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
-  wire br_cmd;
-  wire br_cmd_en;
-  wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
-  wire [63:0] br_wr_data;
-  wire [7:0] br_data_mask;
-  wire [63:0] br_rd_data;
-  wire br_rd_data_valid;
-  wire br_init_calib;
-  wire br_busy;
+  logic br_cmd;
+  logic br_cmd_en;
+  logic [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
+  logic [63:0] br_wr_data;
+  logic [7:0] br_data_mask;
+  logic [63:0] br_rd_data;
+  logic br_rd_data_valid;
+  logic br_init_calib;
+  logic br_busy;
 
   burst_ram #(
       .DataFilePath("RAM.mem"),  // initial RAM content
@@ -47,11 +47,11 @@ module testbench;
   logic [1:0] write_type = 0;
   logic [2:0] read_type = 0;
   logic [31:0] address = 0;
-  wire [31:0] data_out;
-  wire data_out_ready;
+  logic [31:0] data_out;
+  logic data_out_ready;
   logic [31:0] data_in = 0;
-  wire busy;
-  wire [5:0] led = 0;
+  logic busy;
+  logic [5:0] led;
   logic uart_tx;
   logic uart_rx = 1;
 

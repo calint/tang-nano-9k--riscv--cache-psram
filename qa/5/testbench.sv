@@ -15,7 +15,7 @@ module testbench;
 
   //-------------------------------------------------
   output logic flash_clk;
-  input wire flash_miso;
+  input logic flash_miso;
   output logic flash_mosi;
   output logic flash_cs;
 

@@ -13,20 +13,20 @@ module testbench;
 
   localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 11;  // 2^11 * 8 B = 16 KB
 
-  wire [5:0] led;
-  wire uart_tx;
+  logic [5:0] led;
+  logic uart_tx;
   logic uart_rx;
 
   //------------------------------------------------------------------------
-  wire br_cmd;
-  wire br_cmd_en;
-  wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
-  wire [63:0] br_wr_data;
-  wire [7:0] br_data_mask;
-  wire [63:0] br_rd_data;
-  wire br_rd_data_valid;
-  wire br_init_calib;
-  wire br_busy;
+  logic br_cmd;
+  logic br_cmd_en;
+  logic [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
+  logic [63:0] br_wr_data;
+  logic [7:0] br_data_mask;
+  logic [63:0] br_rd_data;
+  logic br_rd_data_valid;
+  logic br_init_calib;
+  logic br_busy;
 
   //------------------------------------------------------------------------
   burst_ram #(
@@ -50,14 +50,14 @@ module testbench;
   );
 
   //------------------------------------------------------------------------
-  wire ramio_enable;
-  wire [1:0] ramio_write_type;
-  wire [2:0] ramio_read_type;
-  wire [31:0] ramio_address;
-  wire [31:0] ramio_data_out;
-  wire ramio_data_out_ready;
-  wire [31:0] ramio_data_in;
-  wire ramio_busy;
+  logic ramio_enable;
+  logic [1:0] ramio_write_type;
+  logic [2:0] ramio_read_type;
+  logic [31:0] ramio_address;
+  logic [31:0] ramio_data_out;
+  logic ramio_data_out_ready;
+  logic [31:0] ramio_data_in;
+  logic ramio_busy;
 
   ramio #(
       .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
@@ -92,7 +92,7 @@ module testbench;
 
   //------------------------------------------------------------------------
   logic flash_clk;
-  wire  flash_miso;
+  logic flash_miso;
   logic flash_mosi;
   logic flash_cs;
 

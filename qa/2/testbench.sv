@@ -37,9 +37,9 @@ module testbench;
   logic [3:0] addr = 0;
   logic [63:0] wr_data = 0;
   logic [7:0] data_mask = 0;
-  wire [63:0] rd_data;
-  wire rd_data_valid;
-  wire busy;
+  logic [63:0] rd_data;
+  logic rd_data_valid;
+  logic busy;
 
   initial begin
     $dumpfile("log.vcd");
