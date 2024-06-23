@@ -53,10 +53,6 @@ chmod -x $BIN.bin
 riscv32-unknown-elf-objdump --source-comment -Sr $BIN > $BIN.lst
 riscv32-unknown-elf-objdump -s --section=.rodata --section=.data --section=.bss $BIN > $BIN.dat
 
-# print 4 bytes at a time as hex in little endian mode
-# xxd -c 4 -e $BIN.bin | awk '{print $2}' > $BIN.mem
-# xxd -c 1 -e $BIN.bin | awk '{print $2}' > $BIN.flash
-
 rm $BIN
 
 ls -l $BIN.bin $BIN.lst $BIN.dat
