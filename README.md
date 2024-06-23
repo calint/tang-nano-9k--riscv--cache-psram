@@ -38,15 +38,14 @@
 
 ## Todo
 ```
+-------------------------------------------------------------------------------------------------------------
 [o] study why terminal drops characters
-    cat > /dev/ttyUSB1 should echo without dropping input
     => receive is being overrun but how can baud 9600 outpace 20 MHz?
        => due to 'uart_send_char()'?
     => UART overrun even when doing 'uart_read_char()' in a loop
     => moreover characters are dropped without UART being overrun
     => fixed end-to-end test without grasping why. search for '// ??' in RAMIO
-[x] enums for states in FSM
-[x] review test benches
+[ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] FSM in always_comb?
 [ ] study why BAUD rate less than 2400 does not work
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
@@ -57,8 +56,14 @@
 [ ] step 12: fully pipe-lined core
 [ ] consider FIFO in UART
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
+-------------------------------------------------------------------------------------------------------------
+[x] enums for states in FSM
+[x] review test benches
 [x] testbenches: assert (condition) else $fatal("...");
-      => if else $error
+      => else $error()
+[x] make end-to-end test succeed without dropped input
+[x] step 11: adapt riscv core (multi-cycle ad-hoc pipeline simplest way forward)
+[x] RAMIO: read UART with 'lb' or 'lbu'
 -------------------------------------------------------------------------------------------------------------
 [o] apply style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
 [x]    use 'logic' instead of registers or wires where applicable?
@@ -186,8 +191,5 @@
 [x]    Signals delayed by a single clock cycle should end in a _q suffix.
          => non used
 [x]    The wildcard import syntax, e.g. import ip_pkg::*; is only allowed where the package is part of the same IP as the module that uses that package. 
-------------------------------------------------------------------------------------------
-[x] make end-to-end test succeed without dropped input
-[x] step 11: adapt riscv core (multi-cycle ad-hoc pipeline simplest way forward)
-[x] RAMIO: read UART with 'lb' or 'lbu'
+-------------------------------------------------------------------------------------------------------------
 ```
