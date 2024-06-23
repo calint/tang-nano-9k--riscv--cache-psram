@@ -25,7 +25,7 @@ PATH=$PATH:~/riscv/install/rv32i/bin
 BIN=os
 
 riscv32-unknown-elf-gcc \
-	-O0 \
+	-O3 \
 	-g \
 	-nostartfiles \
 	-ffreestanding \
@@ -45,13 +45,15 @@ riscv32-unknown-elf-gcc \
 
 #	-Wpadded \
 
+rm $BIN.bin $BIN.lst $BIN.dat || true
+
 riscv32-unknown-elf-objcopy $BIN -O binary $BIN.bin
 
 chmod -x $BIN.bin
 
 # riscv32-unknown-elf-objdump -Mnumeric,no-aliases --source-comment -Sr $BIN > $BIN.lst
-riscv32-unknown-elf-objdump --source-comment -Sr $BIN > $BIN.lst
-riscv32-unknown-elf-objdump -s --section=.rodata --section=.data --section=.bss $BIN > $BIN.dat
+riscv32-unknown-elf-objdump --source-comment -Sr $BIN > $BIN.lst || true
+riscv32-unknown-elf-objdump -s --section=.rodata --section=.data --section=.bss $BIN > $BIN.dat || true
 
 rm $BIN
 
