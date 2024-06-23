@@ -103,8 +103,8 @@ module testbench;
 
     while (!data_out_ready) #clk_tk;
 
-    if (data_out == 32'hD5B8A9C4) $display("Test 1 passed");
-    else $error("Test 1 FAILED");
+    assert (data_out == 32'hD5B8A9C4)
+    else $error();
 
     // read address 8; cache hit; one cycle delay
     while (busy) #clk_tk;
@@ -112,8 +112,8 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out == 32'hAB4C3E6F && data_out_ready) $display("Test 2 passed");
-    else $error("Test 2 FAILED");
+    assert (data_out == 32'hAB4C3E6F && data_out_ready)
+    else $error();
 
     // read; cache miss, invalid line
     while (busy) #clk_tk;
@@ -121,13 +121,13 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (!data_out_ready) $display("Test 3 passed");
-    else $error("Test 3 FAILED");
+    assert (!data_out_ready)
+    else $error();
 
     while (!data_out_ready) #clk_tk;
 
-    if (data_out == 32'h2F5E3C7A && data_out_ready) $display("Test 4 passed");
-    else $error("Test 4 FAILED");
+    assert (data_out == 32'h2F5E3C7A && data_out_ready)
+    else $error();
 
     // read; cache hit valid
     while (busy) #clk_tk;
@@ -135,8 +135,8 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out == 32'h9D8E2F17 && data_out_ready) $display("Test 5 passed");
-    else $error("Test 5 FAILED");
+    assert (data_out == 32'h9D8E2F17 && data_out_ready)
+    else $error();
 
     // write byte; cache hit
     while (busy) #clk_tk;
@@ -151,8 +151,8 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out == 32'hAB4C3Ead && data_out_ready) $display("Test 6 passed");
-    else $error("Test 6 FAILED");
+    assert (data_out == 32'hAB4C3Ead && data_out_ready)
+    else $error();
 
     // write half-word
     while (busy) #clk_tk;
@@ -167,8 +167,8 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out == 32'hAB4C8765 && data_out_ready) $display("Test 8 passed");
-    else $error("Test 8 FAILED");
+    assert (data_out == 32'hAB4C8765 && data_out_ready)
+    else $error();
 
     // write upper half-word
     while (busy) #clk_tk;
@@ -183,8 +183,8 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out == 32'hfeef8765 && data_out_ready) $display("Test 9 passed");
-    else $error("Test 9 FAILED");
+    assert (data_out == 32'hfeef8765 && data_out_ready)
+    else $error();
 
     // write word; cache miss; evict then write
     while (busy) #clk_tk;
@@ -199,8 +199,8 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out == 32'habcdef12 && data_out_ready) $display("Test 10 passed");
-    else $error("Test 10 FAILED");
+    assert (data_out == 32'habcdef12 && data_out_ready)
+    else $error();
 
     // write word; cache hit
     while (busy) #clk_tk;
@@ -215,8 +215,8 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out == 32'h1b2d3f42 && data_out_ready) $display("Test 11 passed");
-    else $error("Test 11 FAILED");
+    assert (data_out == 32'h1b2d3f42 && data_out_ready)
+    else $error();
 
     while (busy) #clk_tk;
     address <= 0;
@@ -224,19 +224,19 @@ module testbench;
     write_enable <= 4'b1111;
     #clk_tk;
 
-    if (busy) $display("Test 12 passed");
-    else $error("Test 12 FAILED");
+    assert (busy)
+    else $error();
 
     while (busy) #clk_tk;
     address <= 8;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out_ready) $display("Test 13 passed");
-    else $error("Test 13 FAILED");
+    assert (data_out_ready)
+    else $error();
 
-    if (data_out == 32'hfeef8765 && data_out_ready) $display("Test 9 passed");
-    else $error("Test 9 FAILED");
+    assert (data_out == 32'hfeef8765 && data_out_ready)
+    else $error();
 
     // read last element in the cache line
     while (busy) #clk_tk;
@@ -244,11 +244,11 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
 
-    if (data_out_ready) $display("Test 14 passed");
-    else $error("Test 14 FAILED");
+    assert (data_out_ready)
+    else $error();
 
-    if (data_out == 32'h7D4E9F2C && data_out_ready) $display("Test 15 passed");
-    else $error("Test 15 FAILED");
+    assert (data_out == 32'h7D4E9F2C && data_out_ready)
+    else $error();
 
     #clk_tk;
     #clk_tk;

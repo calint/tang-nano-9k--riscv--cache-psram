@@ -116,15 +116,15 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
     while (!data_out_ready) #clk_tk;
-    if (data_out == 1) $display("Test 1 passed");
-    else $error("Test 1 FAILED");
+    assert (data_out == 1)
+    else $error();
 
     address <= 8;
     write_enable <= 0;
     #clk_tk;
     while (!data_out_ready) #clk_tk;
-    if (data_out == 2) $display("Test 2 passed");
-    else $error("Test 2 FAILED");
+    assert (data_out == 2)
+    else $error();
 
     address <= 4;
     data_in <= 32'habcd_1234;
@@ -133,10 +133,10 @@ module testbench;
     address <= 4;
     write_enable <= 0;
     #clk_tk;
-    if (data_out_ready) $display("Test 3 passed");
-    else $error("Test 3 FAILED");
-    if (data_out == 32'habcd_1234) $display("Test 4 passed");
-    else $error("Test 4 FAILED");
+    assert (data_out_ready)
+    else $error();
+    assert (data_out == 32'habcd_1234)
+    else $error();
 
 
     $finish;

@@ -108,13 +108,13 @@ module testbench;
       for (int j = 0; j < 8; j++) begin
         flash_clk <= 0;
         #clk_tk_half;
-        // $display("miso: %0d", flash_miso);
+        // 
         received_byte <= {received_byte[6:0], flash_miso};
         flash_clk <= 1;
         #clk_tk_half;
       end
-      if (flash.data[i] == received_byte) $display("Test %0d passed", i + 1);
-      else $error("Test %0d FAILED", i + 1);
+      assert (flash.data[i] == received_byte)
+      else $error();
     end
 
     //----------------------------------------------------------
