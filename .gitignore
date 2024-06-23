@@ -2,7 +2,7 @@
 /*.gprj.user
 /.mypy_cache
 /__pycache__
-/impl
+**/impl/
 /riscv.gprj.user
 *.vvp
 *.vcd
