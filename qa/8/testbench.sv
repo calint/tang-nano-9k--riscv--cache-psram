@@ -1,5 +1,5 @@
 //
-// RAMIO + BurstRAM (bug fix #2)
+// ramio (bug fix #2)
 //
 `timescale 100ps / 100ps
 //

@@ -1,5 +1,5 @@
 //
-// BurstRAM
+// burst_ram
 //
 `timescale 1ns / 1ps
 //

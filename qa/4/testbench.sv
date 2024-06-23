@@ -1,5 +1,5 @@
 //
-// RAMIO + BurstRAM
+// ramio + burst_ram + uartrx + uarttx
 //
 `timescale 100ps / 100ps
 //

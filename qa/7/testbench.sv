@@ -1,5 +1,5 @@
 //
-// Core  (bug fix #1)
+// core  (bug fix #1)
 //
 `timescale 100ps / 100ps
 //

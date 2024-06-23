@@ -1,5 +1,5 @@
 //
-// Flash
+// flash
 //
 `timescale 100ps / 100ps
 //

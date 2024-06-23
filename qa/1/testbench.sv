@@ -1,5 +1,5 @@
 //
-// Cache + BurstRAM
+// cache + burst_ram
 //
 `timescale 100ps / 100ps
 //
