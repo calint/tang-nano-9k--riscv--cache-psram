@@ -140,7 +140,7 @@ module burst_ram #(
           if (burst_counter == BurstDataCount - 1) begin
             // note: -1 because of non-blocking assignments
             rd_data_valid <= 0;
-            set_new_state_after_command_done;
+            set_new_state_after_command_done();
           end else begin
             rd_data <= data[addr_counter];
           end
@@ -151,7 +151,7 @@ module burst_ram #(
           addr_counter  <= addr_counter + 1'b1;
           if (burst_counter == BurstDataCount - 1) begin
             // note: -1 because of non-blocking assignments
-            set_new_state_after_command_done;
+            set_new_state_after_command_done();
           end else begin
             data[addr_counter] <= wr_data;
 `ifdef DBG
