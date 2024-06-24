@@ -145,7 +145,7 @@ module top (
 
   core #(
       .StartupWaitCycles (configuration::STARTUP_WAIT_CYCLES),
-      .FlashTransferBytes(configuration::FLASH_TRANSFER_BYTES_NUM)
+      .FlashTransferBytes(configuration::FLASH_TRANSFER_BYTES)
   ) core (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),

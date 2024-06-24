@@ -11,7 +11,7 @@ UART_BAUD_RATE = 115200
 CACHE_LINE_INDEX_BITWIDTH = 5
 # 2^5*32 = 1 KB unified instruction and data cache
 
-FLASH_TRANSFER_BYTES_NUM = 0x0020_0000
+FLASH_TRANSFER_BYTES = 0x0020_0000
 # number of bytes to transfer from flash at startup (2 MB)
 
 STARTUP_WAIT_CYCLES = 1_000_000
