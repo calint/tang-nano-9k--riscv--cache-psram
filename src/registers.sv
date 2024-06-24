@@ -36,7 +36,7 @@ module registers #(
     input wire [DataBitWidth-1:0] rd_data_in
 );
 
-  logic signed [DataBitWidth-1:0] data[2**AddressBitWidth];
+  logic [DataBitWidth-1:0] data[2**AddressBitWidth];
 
   // register 0 is hardwired to value 0
   assign rs1_data_out = rs1 == 0 ? 0 : data[rs1];
