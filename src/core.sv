@@ -1,7 +1,7 @@
 //
 // RISC-V rv32i reduced core
 //
-// reviewed: 2024-06-24
+// reviewed 2024-06-24
 //
 `timescale 100ps / 100ps
 //

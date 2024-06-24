@@ -1,6 +1,8 @@
 //
 // Synthesized to Byte Enabled Semi Dual Port Block RAM by Gowin EDA
 //
+// reviewed 2024-06-24
+//
 `timescale 100ps / 100ps
 //
 `default_nettype none

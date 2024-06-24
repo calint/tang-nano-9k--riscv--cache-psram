@@ -1,6 +1,8 @@
 //
 // Registers
 //
+// reviewed 2024-06-24
+//
 `timescale 100ps / 100ps
 //
 `default_nettype none
@@ -40,7 +42,7 @@ module registers #(
   assign rs1_data_out = rs1 == 0 ? 0 : mem[rs1];
   assign rs2_data_out = rs2 == 0 ? 0 : mem[rs2];
 
-  always @(posedge clk) begin
+  always_ff @(posedge clk) begin
 `ifdef DBG
     if (rd_write_enable) begin
       $display("%0t: clk+: Registers (rs1,rs2,rd,we,rd_dat)=(%0h,%0h,%0h,%0d,%0h)", $time, rs1,

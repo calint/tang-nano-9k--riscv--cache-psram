@@ -1,5 +1,5 @@
 //
-// cache interfacing with burst RAM
+// Cache for burst RAM
 // see: IPUG943-1.2E Gowin PSRAM Memory Interface HS & HS 2CH IP
 //
 // reviewed 2024-06-07
