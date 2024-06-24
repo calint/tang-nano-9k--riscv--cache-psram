@@ -37,7 +37,6 @@ module flash #(
   state_e state;
 
   initial begin
-
 `ifdef INFO
     $display("----------------------------------------");
     $display("  Flash");
@@ -46,13 +45,12 @@ module flash #(
     $display("       size: %0d B", DEPTH);
     $display("----------------------------------------");
 `endif
-
     if (DataFilePath != "") begin
       $readmemh(DataFilePath, data);
     end
   end
 
-  always @(negedge clk, negedge rst_n) begin
+  always_ff @(negedge clk or negedge rst_n) begin
     if (!rst_n) begin
       counter <= 7;
       address <= 0;
@@ -60,11 +58,9 @@ module flash #(
       miso <= 0;
       state <= ReceiveCommand;
     end else begin
-
 `ifdef DBG
       $display("state: %0d  counter: %0d  address: %h", state, counter, address);
 `endif
-
       unique case (state)
 
         ReceiveCommand: begin
