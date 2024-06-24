@@ -57,7 +57,6 @@ module burst_ram #(
   state_e state;
 
   initial begin
-
 `ifdef INFO
     $display("----------------------------------------");
     $display("  BurstRAM");
@@ -68,7 +67,6 @@ module burst_ram #(
     $display(" read latency: %0d cycles", CyclesBeforeDataValid);
     $display("----------------------------------------");
 `endif
-
     if (DataFilePath != "") begin
       $readmemh(DataFilePath, data);
     end
