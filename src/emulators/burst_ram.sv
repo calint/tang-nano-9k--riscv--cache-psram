@@ -42,9 +42,9 @@ module burst_ram #(
   logic [$clog2(BurstDataCount)-1:0] burst_counter;
 
   logic [$clog2(CyclesBeforeDataValid):0] read_delay_counter;
-  // note: not -1 because it comparison is against CyclesBeforeDataValid
+  // note: not -1 because it is comparison with CyclesBeforeDataValid
 
-  logic [DEPTH-1:0] addr_counter;
+  logic [AddressBitWidth-1:0] addr_counter;
 
   typedef enum {
     Initiate,
@@ -54,7 +54,7 @@ module burst_ram #(
     WriteBurst
   } state_e;
 
-  logic [4:0] state;
+  state_e state;
 
   initial begin
 
@@ -74,7 +74,7 @@ module burst_ram #(
     end
   end
 
-  always @(posedge clk, negedge rst_n) begin
+  always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       rd_data_valid <= 0;
       rd_data <= 0;
@@ -174,7 +174,7 @@ module burst_ram #(
     end
   end
 
-  task set_new_state_after_command_done;
+  task automatic set_new_state_after_command_done;
     begin
       busy  <= 0;
       state <= Idle;
@@ -182,6 +182,7 @@ module burst_ram #(
         busy <= 1;
         burst_counter <= 0;
         unique case (cmd)
+
           CMD_READ: begin
             read_delay_counter <= 0;
             addr_counter <= addr;
@@ -198,12 +199,15 @@ module burst_ram #(
 
 
           end
+
           CMD_WRITE: begin
             data[addr] <= wr_data;
             addr_counter <= addr + 1;
             // note: +1 because first write is done in this cycle
             state <= WriteBurst;
           end
+
+          default: ;
         endcase
       end
     end
