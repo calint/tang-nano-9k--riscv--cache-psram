@@ -77,19 +77,21 @@ welcome to adventure #4
        => due to 'uart_send_char()'?
     => UART overrun even when doing 'uart_read_char()' in a loop
     => moreover characters are dropped without UART being overrun
-    => fixed end-to-end test without grasping why. search for '// ??' in RAMIO
+    => fixed end-to-end test without grasping why it did not previously worked
+       search for '// ??' in 'ramio'
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] FSM in always_comb?
 [ ] study why BAUD rate less than 2400 does not work
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
-[ ] UART rx: if rx changes to low while in stop-bit assume drifting and switch to wait for go
-[x] fix truncation warnings
 [ ] always_comb based CPU
 [ ] dual channel 4 MB PSRAM
 [ ] step 12: fully pipe-lined core
 [ ] consider FIFO in UART
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
 -------------------------------------------------------------------------------------------------------------
+[x] UART rx: if rx changes to low while in stop-bit assume drifting and switch to wait for go
+    => stop bit is read for half a baud cycle giving half to acknowledge and wait for start bit
+[x] fix truncation warnings
 [x] enums for states in FSM
 [x] review test benches
 [x] testbenches: assert (condition) else $fatal("...");

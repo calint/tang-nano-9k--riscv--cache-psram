@@ -1,5 +1,37 @@
 #include "os_config.h"
 
+static const char *hello = "welcome to adventure #4\r\n    type 'help'\r\n\r\n";
+
+static const char *ascii_art =
+    "                                  oOo.o.\r\n"
+    "         frameless osca          oOo.oOo\r\n"
+    "      __________________________  .oOo.\r\n"
+    "     O\\        -_   .. \\    ___ \\   ||\r\n"
+    "    O  \\                \\   \\ \\\\ \\ //\\\\\r\n"
+    "   o   /\\    risc-v      \\   \\|\\\\ \\\r\n"
+    "  .   //\\\\    fpga        \\   ||   \\\r\n"
+    "   .  \\\\/\\\\    overview    \\  \\_\\   \\\r\n"
+    "    .  \\\\//\\________________\\________\\\r\n"
+    "     .  \\/_/, \\\\\\--\\\\..\\\\ - /\\_____  /\r\n"
+    "      .  \\ \\ . \\\\\\__\\\\__\\\\./ / \\__/ /\r\n"
+    "       .  \\ \\ , \\    \\\\ ///./ ,/./ /\r\n"
+    "        .  \\ \\___\\ sticky notes / /\r\n"
+    "         .  \\/\\________________/ /\r\n"
+    "    ./\\.  . / /                 /\r\n"
+    "    /--\\   .\\/_________________/\r\n"
+    "         ___.                 .\r\n"
+    "        |o o|. . . . . . . . .\r\n"
+    "        /| |\\ . .\r\n"
+    "    ____       . .\r\n"
+    "   |O  O|       . .\r\n"
+    "   |_ -_|        . .\r\n"
+    "    /||\\\r\n"
+    "      ___\r\n"
+    "     /- -\\\r\n"
+    "    /\\_-_/\\\r\n"
+    "      | |\r\n"
+    "\r\n";
+
 #define CHAR_BACKSPACE 0x7f
 #define CHAR_CARRIAGE_RETURN 0x0d
 #define LOCATION_MAX_OBJECTS 128
@@ -21,8 +53,6 @@ typedef unsigned char location_id;
 typedef unsigned char object_id;
 typedef unsigned char entity_id;
 typedef unsigned char direction;
-
-static char *hello = "welcome to adventure #4\r\n    type 'help'\r\n\r\n";
 
 typedef struct input_buffer {
   char line[80];
@@ -78,13 +108,14 @@ void handle_input(entity_id eid, input_buffer *buf);
 bool strings_equal(const char *s1, const char *s2);
 
 void run() {
-  
+
   *LED = 0; // turn all leds on
 
   unsigned char active_entity = 1;
   input_buffer inbuf;
   inbuf.ix = 0;
 
+  uart_send_str(ascii_art);
   uart_send_str(hello);
 
   while (1) {
