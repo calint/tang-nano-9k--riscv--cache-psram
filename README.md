@@ -83,7 +83,7 @@ welcome to adventure #4
 [ ] study why BAUD rate less than 2400 does not work
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
 [ ] UART rx: if rx changes to low while in stop-bit assume drifting and switch to wait for go
-[o] fix truncation warnings
+[x] fix truncation warnings
 [ ] always_comb based CPU
 [ ] dual channel 4 MB PSRAM
 [ ] step 12: fully pipe-lined core
