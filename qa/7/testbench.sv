@@ -226,7 +226,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    while (core.state != core.CpuFetch) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     assert (core.registers.mem[15] == 32'h0000_0000)
     else $error();
 
