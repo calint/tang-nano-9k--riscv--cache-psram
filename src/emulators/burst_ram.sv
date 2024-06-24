@@ -83,7 +83,6 @@ module burst_ram #(
       init_calib_delay_counter <= 0;
       state <= Initiate;
     end else begin
-      // $display("BurstRAM: clk  state: %b", state);
       unique case (state)
 
         Initiate: begin
