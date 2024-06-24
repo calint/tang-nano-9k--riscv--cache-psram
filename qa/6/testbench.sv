@@ -154,182 +154,182 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[10] == 32'h1234_5000)
+    assert (core.registers.data[10] == 32'h1234_5000)
     else $error();
 
     // 8: 67850513 addi x10,x10,1656 # 12345678
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[10] == 32'h1234_5678)
+    assert (core.registers.data[10] == 32'h1234_5678)
     else $error();
 
     // c: 00300593 addi x11,x0,3
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[11] == 32'h3)
+    assert (core.registers.data[11] == 32'h3)
     else $error();
 
     // 10: 0045a613 slti x12,x11,4
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[12] == 32'h1)
+    assert (core.registers.data[12] == 32'h1)
     else $error();
 
     // 14: fff5a613 slti x12,x11,-1
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[12] == 32'h0)
+    assert (core.registers.data[12] == 32'h0)
     else $error();
 
     // 18: 0045b613 sltiu x12,x11,4
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[12] == 32'h1)
+    assert (core.registers.data[12] == 32'h1)
     else $error();
 
     // 1c: fff5b613 sltiu x12,x11,-1
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[12] == 32'h1)
+    assert (core.registers.data[12] == 32'h1)
     else $error();
 
     // 20: fff64693 xori x13,x12,-1
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[13] == 32'hffff_fffe)
+    assert (core.registers.data[13] == 32'hffff_fffe)
     else $error();
 
     // 24: 0016e693 ori x13,x13,1
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[13] == 32'hffff_ffff)
+    assert (core.registers.data[13] == 32'hffff_ffff)
     else $error();
 
     // 28: 0026f693 andi x13,x13,2
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[13] == 32'h2)
+    assert (core.registers.data[13] == 32'h2)
     else $error();
 
     // 2c: 00369693 slli x13,x13,0x3
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[13] == 16)
+    assert (core.registers.data[13] == 16)
     else $error();
 
     // 30: 0036d693 srli x13,x13,0x3
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[13] == 2)
+    assert (core.registers.data[13] == 2)
     else $error();
 
     // 34: fff6c693 xori x13,x13,-1
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[13] == -3)
+    assert (core.registers.data[13] == -3)
     else $error();
 
     // 38: 4016d693 srai x13,x13,0x1
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[13] == -2)
+    assert (core.registers.data[13] == -2)
     else $error();
 
     // 3c: 00c68733 add x14,x13,x12
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[14] == -1)
+    assert (core.registers.data[14] == -1)
     else $error();
 
     // 40: 40c70733 sub x14,x14,x12
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[14] == -2)
+    assert (core.registers.data[14] == -2)
     else $error();
 
     // 44: 00c617b3 sll x15,x12,x12
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[15] == 2)
+    assert (core.registers.data[15] == 2)
     else $error();
 
     // 48: 00f62833 slt x16,x12,x15
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[16] == 1)
+    assert (core.registers.data[16] == 1)
     else $error();
 
     // 4c: 00c62833 slt x16,x12,x12
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[16] == 0)
+    assert (core.registers.data[16] == 0)
     else $error();
 
     // 50: 00d83833 sltu x16,x16,x13
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[16] == 1)
+    assert (core.registers.data[16] == 1)
     else $error();
 
     // 54: 00d84833 xor x17,x16,x13
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[17] == -1)
+    assert (core.registers.data[17] == -1)
     else $error();
 
     // 58: 0105d933 srl x18,x11,x16
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[18] == 1)
+    assert (core.registers.data[18] == 1)
     else $error();
 
     // 5c: 4108d933 sra x18,x17,x16
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[18] == -1)
+    assert (core.registers.data[18] == -1)
     else $error();
 
     // 60: 00b869b3 or x19,x16,x11
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[19] == 3)
+    assert (core.registers.data[19] == 3)
     else $error();
 
     // 64: 0109f9b3 and x19,x19,x16
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[19] == 1)
+    assert (core.registers.data[19] == 1)
     else $error();
 
     // 68: 00001a37 lui x20,0x1
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[20] == 32'h0000_1000)
+    assert (core.registers.data[20] == 32'h0000_1000)
     else $error();
 
     // 6c: 013a2223 sw x19,4(x20) # [1004] = 0x0000_0001
@@ -343,7 +343,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[21] == 1)
+    assert (core.registers.data[21] == 1)
     else $error();
 
     // 74: 013a1323 sh x19,6(x20) # [1006] = 0x0001
@@ -357,7 +357,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[21] == 1)
+    assert (core.registers.data[21] == 1)
     else $error();
 
     // 7c: 013a03a3 sb x19,7(x20) # [1007] = 0x01
@@ -371,7 +371,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[21] == 1)
+    assert (core.registers.data[21] == 1)
     else $error();
 
     // 84: 004a0a83 lb x21,4(x20) # x21 = [1004] = 0x01
@@ -379,7 +379,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[21] == 1)
+    assert (core.registers.data[21] == 1)
     else $error();
 
     // 88: 006a1a83 lh sx21,6(x20) # x21 = [1006] = 0x0101
@@ -387,7 +387,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[21] == 32'h0000_01_01)
+    assert (core.registers.data[21] == 32'h0000_01_01)
     else $error();
 
     // 8c: 004a2a83 lw x21,4(x20) # x21 = [1004] = 0x01010001
@@ -395,7 +395,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[21] == 32'h0101_0001)
+    assert (core.registers.data[21] == 32'h0101_0001)
     else $error();
 
     // 90: 011a2023 sw x17,0(x20) # [1000] = 0xffff_ffff
@@ -409,7 +409,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[21] == 32'h0000_00ff)
+    assert (core.registers.data[21] == 32'h0000_00ff)
     else $error();
 
     // 98: 002a5a83 lhu x21,2(x20) # x21 = [1000] = 0xffff
@@ -417,7 +417,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[21] == 32'h0000_ffff)
+    assert (core.registers.data[21] == 32'h0000_ffff)
     else $error();
 
     // 9c: 001a8b13 addi x22,x21,1 # x22 = 0xffff + 1 = 0x1_0000
@@ -425,7 +425,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     while (core.state != core.CpuFetch) #clk_tk;
-    assert (core.registers.mem[22] == 32'h0001_0000)
+    assert (core.registers.data[22] == 32'h0001_0000)
     else $error();
 
     // a0: 360000ef jal x1,400 <lbl_jal>
@@ -558,7 +558,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[2] == 32'hffff_f438)
+    assert (core.registers.data[2] == 32'hffff_f438)
     else $error();
 
     // 43c: 00008067 jalr x0,0(x1)

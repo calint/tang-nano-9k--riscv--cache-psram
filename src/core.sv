@@ -204,7 +204,7 @@ module core #(
             end else begin
               flash_cs <= 1;  // disable flash
 
-              // boot address
+              // boot CPU at address 0
               ramio_enable <= 1;
               ramio_read_type <= 3'b111;
               ramio_write_type <= 0;
@@ -225,7 +225,7 @@ module core #(
 `ifdef DBG
             $display("fetched: %h", ramio_data_out);
 `endif
-            // copy instruction parts from RAM output
+            // copy instruction slices from RAM output to registers
             ir <= ramio_data_out;
             rs1 <= ramio_data_out[19:15];
             rs2 <= ramio_data_out[24:20];
@@ -234,13 +234,16 @@ module core #(
             funct3 <= ramio_data_out[14:12];
             funct7 <= ramio_data_out[31:25];
 
+            // disable RAM next cycle
+            ramio_enable <= 0;
+
             state <= CpuExecute;
           end
         end
 
         CpuExecute: begin
           // default next state is fetch next instruction
-          // initially configure 'ramio' for that
+          // initially configure 'ramio' and 'state' for that
           ramio_enable <= 1;
           ramio_read_type <= 3'b111;
           ramio_write_type <= 0;
@@ -419,7 +422,7 @@ module core #(
         CpuStore: begin
           if (!ramio_busy) begin
             // fetch next instruction
-            ramio_enable <= 1;
+            // note: 'ramio' already enabled
             ramio_read_type <= 3'b111;
             ramio_write_type <= 0;
             ramio_address <= pc;
@@ -435,7 +438,8 @@ module core #(
 `ifdef DBG
             $display("write register[%0d] = 0x%h", rd, ramio_data_out);
 `endif
-            // next instruction
+            // fetch next instruction
+            // note: 'ramio' already enabled
             ramio_read_type <= 3'b111;
             ramio_write_type <= 0;
             ramio_address <= pc;
@@ -443,7 +447,7 @@ module core #(
           end
         end
 
-        default: ;
+        default: led <= 0;  // should/can not happen
 
       endcase
     end

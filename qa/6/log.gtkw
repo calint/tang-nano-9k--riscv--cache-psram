@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
-[*] Sun Jun 23 07:01:57 2024
+[*] Mon Jun 24 10:44:00 2024
 [*]
 [dumpfile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/6/log.vcd"
-[dumpfile_mtime] "Sun Jun 23 06:59:38 2024"
-[dumpfile_size] 9512831
+[dumpfile_mtime] "Mon Jun 24 10:33:19 2024"
+[dumpfile_size] 9512384
 [savefile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/6/log.gtkw"
-[timestart] 0
+[timestart] 257868750
 [size] 1910 1024
-[pos] -1 -1
-*-13.987713 256806000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] -2 -2
+*-13.181225 257900400 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] testbench.
 [sst_width] 269
 [signals_width] 256
@@ -18,7 +18,30 @@
 @28
 testbench.rst_n
 testbench.clk
-@23
+@200
+-core
+@22
 testbench.core.pc[31:0]
+@28
+testbench.core.ramio_enable
+testbench.core.ramio_read_type[2:0]
+testbench.core.ramio_write_type[1:0]
+@22
+testbench.core.ramio_address[31:0]
+testbench.core.ramio_data_in[31:0]
+testbench.core.ramio_data_out[31:0]
+@28
+testbench.core.ramio_data_out_ready
+testbench.core.ramio_busy
+@22
+testbench.core.ir[31:0]
+testbench.core.rs1[4:0]
+testbench.core.rs2[4:0]
+testbench.core.rd[4:0]
+testbench.core.rs1_data_out[31:0]
+testbench.core.rs2_data_out[31:0]
+testbench.core.rd_data_in[31:0]
+@29
+testbench.core.rd_write_enable
 [pattern_trace] 1
 [pattern_trace] 0

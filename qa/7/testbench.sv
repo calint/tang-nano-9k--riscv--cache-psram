@@ -148,7 +148,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[2] == 32'h0001_0000)
+    assert (core.registers.data[2] == 32'h0001_0000)
     else $error();
 
     // 4:	004000ef          	jal	x1,8 <run>
@@ -161,7 +161,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[2] == 32'h0000_fff0)
+    assert (core.registers.data[2] == 32'h0000_fff0)
     else $error();
 
     // c:	00112623          	sw	x1,12(x2) # [0xfff0+12] = x1
@@ -176,21 +176,21 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[8] == 32'h0001_0000)
+    assert (core.registers.data[8] == 32'h0001_0000)
     else $error();
 
     // 18:	00000513          	addi	x10,x0,0
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[10] == 0)
+    assert (core.registers.data[10] == 0)
     else $error();
 
     // 1c:	00000097          	auipc	x1,0x0
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[1] == 32'h0000_001c)
+    assert (core.registers.data[1] == 32'h0000_001c)
     else $error();
 
     // 20:	01c080e7          	jalr	x1,28(x1) # 38 <run+0x30>
@@ -203,7 +203,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[2] == 32'h0000_ffc0)
+    assert (core.registers.data[2] == 32'h0000_ffc0)
     else $error();
 
     // 3c:	02812623          	sw	x8,44(x2) #   [0xffec] = 0x1'0000
@@ -215,7 +215,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    assert (core.registers.mem[8] == 32'h0000_fff0)
+    assert (core.registers.data[8] == 32'h0000_fff0)
     else $error();
 
     // 44:	fca42e23          	sw	x10,-36(x8) # [0xfff0 - 36] = [0xffcc] = 0
@@ -225,9 +225,8 @@ module testbench;
     // 48:	fdc42783          	lw	x15,-36(x8) # x15 = [0xfff0 - 36] = [0xffcc] = 0
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
-    #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
-    assert (core.registers.mem[15] == 32'h0000_0000)
+    assert (core.registers.data[15] == 32'h0000_0000)
     else $error();
 
     $finish;

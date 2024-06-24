@@ -36,11 +36,17 @@ module registers #(
     input wire [DataBitWidth-1:0] rd_data_in
 );
 
-  logic signed [DataBitWidth-1:0] mem[2**AddressBitWidth];
+  logic signed [DataBitWidth-1:0] data[2**AddressBitWidth];
 
   // register 0 is hardwired to value 0
-  assign rs1_data_out = rs1 == 0 ? 0 : mem[rs1];
-  assign rs2_data_out = rs2 == 0 ? 0 : mem[rs2];
+  assign rs1_data_out = rs1 == 0 ? 0 : data[rs1];
+  assign rs2_data_out = rs2 == 0 ? 0 : data[rs2];
+
+  initial begin
+    for (int i = 0; i < 2 ** AddressBitWidth; i++) begin
+      data[i] = 0;
+    end
+  end
 
   always_ff @(posedge clk) begin
 `ifdef DBG
@@ -50,7 +56,7 @@ module registers #(
     end
 `endif
     if (rd_write_enable) begin
-      mem[rd] <= rd_data_in;
+      data[rd] <= rd_data_in;
     end
   end
 
