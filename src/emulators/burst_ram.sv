@@ -181,7 +181,7 @@ module burst_ram #(
 `ifdef DBG
             $display("BurstRAM memory dump (2):");
             $display("---------------------");
-            for (integer i = 0; i < DEPTH; i = i + 1) begin
+            for (int i = 0; i < DEPTH; i++) begin
               $display("%0d: %h", i, data[i]);
             end
             $display("---------------------");
