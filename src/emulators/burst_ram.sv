@@ -10,8 +10,8 @@
 
 module burst_ram #(
     parameter string DataFilePath = "",  // initial RAM content
-    parameter int unsigned AddressBitWidth = 4,  // 2 ^ 4 * 8 B entries
     parameter int unsigned DataBitWidth = 64,  // must be divisible by 8
+    parameter int unsigned AddressBitWidth = 4,  // 2 ^ 4 * 8 B entries
     parameter int unsigned BurstDataCount = 4,  // number of RAM data sizes transfered per burst
     parameter int unsigned CyclesBeforeInitiated = 10,  // emulates initiation delay
     parameter int unsigned CyclesBeforeDataValid = 6  // emulates read delay
