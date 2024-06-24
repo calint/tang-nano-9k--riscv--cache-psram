@@ -187,7 +187,6 @@ module burst_ram #(
             read_delay_counter <= 0;
             addr_counter <= addr;
             state <= ReadDelay;
-
 `ifdef DBG
             $display("BurstRAM memory dump (2):");
             $display("---------------------");
@@ -196,8 +195,6 @@ module burst_ram #(
             end
             $display("---------------------");
 `endif
-
-
           end
 
           CMD_WRITE: begin
