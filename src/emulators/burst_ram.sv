@@ -89,7 +89,7 @@ module burst_ram #(
             init_calib <= 1;
             state <= Idle;
           end
-          init_calib_delay_counter <= init_calib_delay_counter + 1;
+          init_calib_delay_counter <= init_calib_delay_counter + 1'b1;
         end
 
         Idle: begin
@@ -104,7 +104,7 @@ module burst_ram #(
 `ifdef DBG
                 $display("BurstRAM memory dump:");
                 $display("---------------------");
-                for (integer i = 0; i < DEPTH; i = i + 1) begin
+                for (int i = 0; i < DEPTH; i++) begin
                   $display("%0d: %h", i, data[i]);
                 end
                 $display("---------------------");
@@ -115,7 +115,7 @@ module burst_ram #(
 `ifdef DBG
                 $display("BurstRAM[0x%h]=0x%h", addr, wr_data);
 `endif
-                addr_counter <= addr + 1;
+                addr_counter <= addr + 1'b1;
                 // note: +1 because first write is done in this cycle
                 state <= WriteBurst;
               end
@@ -128,15 +128,15 @@ module burst_ram #(
             // note: not -1 because state would switch one cycle early
             rd_data_valid <= 1;
             rd_data <= data[addr_counter];
-            addr_counter <= addr_counter + 1;
+            addr_counter <= addr_counter + 1'b1;
             state <= ReadBurst;
           end
-          read_delay_counter <= read_delay_counter + 1;
+          read_delay_counter <= read_delay_counter + 1'b1;
         end
 
         ReadBurst: begin
-          burst_counter <= burst_counter + 1;
-          addr_counter  <= addr_counter + 1;
+          burst_counter <= burst_counter + 1'b1;
+          addr_counter  <= addr_counter + 1'b1;
           if (burst_counter == BurstDataCount - 1) begin
             // note: -1 because of non-blocking assignments
             rd_data_valid <= 0;
@@ -147,8 +147,8 @@ module burst_ram #(
         end
 
         WriteBurst: begin
-          burst_counter <= burst_counter + 1;
-          addr_counter  <= addr_counter + 1;
+          burst_counter <= burst_counter + 1'b1;
+          addr_counter  <= addr_counter + 1'b1;
           if (burst_counter == BurstDataCount - 1) begin
             // note: -1 because of non-blocking assignments
             set_new_state_after_command_done;
@@ -190,7 +190,7 @@ module burst_ram #(
 
           CMD_WRITE: begin
             data[addr] <= wr_data;
-            addr_counter <= addr + 1;
+            addr_counter <= addr + 1'b1;
             // note: +1 because first write is done in this cycle
             state <= WriteBurst;
           end
