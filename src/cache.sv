@@ -74,8 +74,9 @@ module cache #(
   localparam int unsigned COLUMN_IX_BITWIDTH = 3;  // 2 ^ 3 = 8 elements per line
   localparam int unsigned COLUMN_COUNT = 2 ** COLUMN_IX_BITWIDTH;
   localparam int unsigned LINE_COUNT = 2 ** LineIndexBitWidth;
-  localparam int unsigned TAG_BITWIDTH = 32 - LineIndexBitWidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
-  // note: assumes there are 2 bits free after 'TAG_BITWIDTH' for 'valid' and 'dirty' flags
+  localparam int unsigned TAG_BITWIDTH = 
+    RamAddressBitWidth + RamAddressingMode - LineIndexBitWidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
+  // note: assumes there are 2 bits free after 'TAG_BITWIDTH' for 'valid' and 'dirty' flags in storage
 
   localparam int unsigned LINE_VALID_BIT = TAG_BITWIDTH;
   localparam int unsigned LINE_DIRTY_BIT = TAG_BITWIDTH + 1;
@@ -104,7 +105,8 @@ module cache #(
 
   // starting address of cache line in RAM for current address
   wire [RamAddressBitWidth-1:0] burst_line_address = {
-    address[31:COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH], {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
+    address[TAG_BITWIDTH+LineIndexBitWidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1:COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH],
+    {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
   };
 
   logic burst_is_reading;  // true if in burst read operation
