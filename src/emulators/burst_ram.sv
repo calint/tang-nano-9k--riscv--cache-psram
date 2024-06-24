@@ -104,7 +104,6 @@ module burst_ram #(
                 read_delay_counter <= 0;
                 addr_counter <= addr;
                 state <= ReadDelay;
-
 `ifdef DBG
                 $display("BurstRAM memory dump:");
                 $display("---------------------");
@@ -113,15 +112,12 @@ module burst_ram #(
                 end
                 $display("---------------------");
 `endif
-
               end
               CMD_WRITE: begin
                 data[addr] <= wr_data;
-
 `ifdef DBG
                 $display("BurstRAM[0x%h]=0x%h", addr, wr_data);
 `endif
-
                 addr_counter <= addr + 1;
                 // note: +1 because first write is done in this cycle
                 state <= WriteBurst;
@@ -161,11 +157,9 @@ module burst_ram #(
             set_new_state_after_command_done;
           end else begin
             data[addr_counter] <= wr_data;
-
 `ifdef DBG
             $display("BurstRAM[0x%h]=0x%h (2)", addr_counter, wr_data);
 `endif
-
           end
         end
 
