@@ -20,7 +20,7 @@ module uartrx #(
     // UART rx wire
 
     input wire go,
-    // enable to start receiving
+    // enable to start receiving and disable to acknowledge received 'data'
 
     output logic [7:0] data,
     // data being received
