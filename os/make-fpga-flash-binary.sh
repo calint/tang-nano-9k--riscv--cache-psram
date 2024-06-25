@@ -1,5 +1,7 @@
 #!/bin/sh
 #
+# builds binary to be flashed on FPGA
+#
 # tools used:
 #       riscv32-unknown-elf-gcc: (g2ee5e430018) 12.2.0
 #   riscv32-unknown-elf-objcopy: GNU objcopy (GNU Binutils) 2.40.0.20230214
