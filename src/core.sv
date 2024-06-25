@@ -10,13 +10,17 @@
 // `define INFO
 
 module core #(
-    parameter int unsigned StartupWaitCycles  = 1_000_000,
+    parameter int unsigned StartupWaitCycles = 1_000_000,
+    // arbitrary number of cycles to wait for flash circuit to be initiated
+
     parameter int unsigned FlashTransferBytes = 32'h0010_0000
+    // number of bytes to transfer from flash to 'ramio'
 ) (
     input wire rst_n,
     input wire clk,
 
     output logic led,
+    // on if core has encountered an unexpected state
 
     output logic ramio_enable,
     // enables 'ramio'
@@ -28,10 +32,10 @@ module core #(
     // b00 not a write; b01: byte, b10: half word, b11: word
 
     output logic [31:0] ramio_address,
-    // byte address (4 byte aligned)
+    // byte address (4-byte aligned)
 
     output logic [31:0] ramio_data_in,
-    // sign extended byte, half word, word
+    // byte, half word, word
 
     input wire [31:0] ramio_data_out,
     // data at 'ramio_address' according to 'ramio_read_type'
@@ -54,8 +58,8 @@ module core #(
   logic [7:0] flash_current_byte_num;
   logic [7:0] flash_data_out[4];
 
-  // used while reading flash to increment 'cache_address'
   logic [31:0] ramio_address_next;
+  // used while reading flash to increment 'ramio_address'
 
   typedef enum {
     BootInit,
@@ -76,7 +80,7 @@ module core #(
 
   // CPU state
   logic [31:0] pc;  // program counter
-  logic [31:0] ir;  // instruction logicister
+  logic [31:0] ir;  // instruction register
   logic [4:0] rs1;  // source register 1
   logic [4:0] rs2;  // source register 2
   logic [4:0] rd;  // destination register
@@ -167,10 +171,11 @@ module core #(
           if (!flash_counter[0]) begin
             flash_clk <= 0;
             if (flash_counter[3:0] == 0 && flash_counter > 0) begin
-              // every 16 clock cycles (8 bit * 2)
+              // every 16'th clock cycle (8 bit * 2) read the current byte to data out
               flash_data_out[flash_current_byte_num] <= flash_current_byte_out;
               flash_current_byte_num <= flash_current_byte_num + 1'b1;
               if (flash_current_byte_num == 3) begin
+                // every 4'th byte write to 'ramio'
                 state <= BootStartWrite;
               end
             end
@@ -203,7 +208,7 @@ module core #(
             end else begin
               flash_cs <= 1;  // disable flash
 
-              // boot CPU at address 0
+              // boot CPU at address 0x0
               ramio_enable <= 1;
               ramio_read_type <= 3'b111;
               ramio_write_type <= 0;
@@ -241,8 +246,8 @@ module core #(
         end
 
         CpuExecute: begin
-          // default next state is fetch next instruction
-          // initially configure 'ramio' and 'state' for that
+          // default next state is: fetch next instruction
+          // initially configure 'ramio', 'pc' and 'state' for that
           ramio_enable <= 1;
           ramio_read_type <= 3'b111;
           ramio_write_type <= 0;
@@ -446,7 +451,7 @@ module core #(
           end
         end
 
-        default: led <= 0;  // should/can not happen
+        default: led <= 0;  // should / can not happen
 
       endcase
     end
