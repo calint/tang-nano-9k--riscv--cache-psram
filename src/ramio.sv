@@ -11,13 +11,13 @@
 
 module ramio #(
     parameter int unsigned RamAddressBitWidth = 10,
-    // passed to cache: backing burst RAM depth
+    // passed to 'cache': backing burst RAM depth
 
     parameter int unsigned RamAddressingMode = 3,
-    // passed to cache: address byte (0), half word (1), word (2), 64 bit (3)
+    // passed to 'cache': address byte (0), half word (1), word (2), 64 bit (3)
 
     parameter int unsigned CacheLineIndexBitWidth = 1,
-    // passed to cache: 2 ^ value * 32 B cache size
+    // passed to 'cache': 2 ^ value * 32 B cache size
 
     parameter int unsigned AddressBitWidth = 32,
     // client address bit width
@@ -35,12 +35,14 @@ module ramio #(
     // last addressable byte
 
     parameter int unsigned AddressLed = TopAddress,
+    // 4 LEDs in the lower nibble of the byte
 
     parameter int unsigned AddressUartOut = TopAddress - 1,
-    // note: received byte must be read with 'lb' or 'lbu'
+    // note: byte must be read / written with 'lb' or 'lbu'
 
     parameter int unsigned AddressUartIn = TopAddress - 2
     // note: received byte must be read with 'lb' or 'lbu'
+    //       received byte is set to 0 after read
 ) (
     input wire rst_n,
     input wire clk,
