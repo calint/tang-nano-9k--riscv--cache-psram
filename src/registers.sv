@@ -38,7 +38,7 @@ module registers #(
 
   logic [DataBitWidth-1:0] data[2**AddressBitWidth];
 
-  // register 0 is hardwired to value 0
+  // note: register 0 is hardwired to value 0
   assign rs1_data_out = rs1 == 0 ? 0 : data[rs1];
   assign rs2_data_out = rs2 == 0 ? 0 : data[rs2];
 
