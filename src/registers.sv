@@ -14,26 +14,26 @@ module registers #(
 ) (
     input wire clk,
 
-    // source register 1
     input wire [AddressBitWidth-1:0] rs1,
+    // source register 1
 
-    // data of register 'rs1'
     output logic [DataBitWidth-1:0] rs1_data_out,
+    // data of register 'rs1'
 
-    // source register 2
     input wire [AddressBitWidth-1:0] rs2,
+    // source register 2
 
-    // data of register 'rs2'
     output logic [DataBitWidth-1:0] rs2_data_out,
+    // data of register 'rs2'
 
-    // destination register
     input wire [AddressBitWidth-1:0] rd,
+    // destination register
 
-    // write enable destination register
     input wire rd_write_enable,
+    // write enable destination register
 
-    // data to write to register 'rd' when 'rd_write_enable' is enabled
     input wire [DataBitWidth-1:0] rd_data_in
+    // data to write to register 'rd' when 'rd_write_enable' is enabled
 );
 
   logic [DataBitWidth-1:0] data[2**AddressBitWidth];
