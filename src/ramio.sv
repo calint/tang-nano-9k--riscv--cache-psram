@@ -14,7 +14,8 @@ module ramio #(
     // passed to 'cache': backing burst RAM depth
 
     parameter int unsigned RamAddressingMode = 3,
-    // passed to 'cache': address byte (0), half word (1), word (2), 64 bit (3)
+    // passed to 'cache': address refers to:
+    //  0: byte, 1: half word, 2: word, 3: double word
 
     parameter int unsigned CacheLineIndexBitWidth = 1,
     // passed to 'cache': 2 ^ value * 32 B cache size
@@ -36,6 +37,7 @@ module ramio #(
 
     parameter int unsigned AddressLed = TopAddress,
     // 4 LEDs in the lower nibble of the byte
+    //  write only with 'sb'
 
     parameter int unsigned AddressUartOut = TopAddress - 1,
     // note: byte must be read / written with 'lb' or 'lbu'
@@ -84,114 +86,111 @@ module ramio #(
     input wire br_rd_data_valid  // rd_data is valid
 );
 
-  // enables / disables RAM operation, connected to cache
-  logic ram_enable;
+  logic cache_enable;
+  // enables / disables 'cache' RAM operation
 
-  logic ram_busy;
-  logic ram_data_out_ready;
+  logic [DataBitWidth-1:0] cache_data_out;
+  logic cache_data_out_ready;
+  logic cache_busy;
 
-  // byte address into cache
-  logic [AddressBitWidth-1:0] ram_address;
+  logic [AddressBitWidth-1:0] cache_address;
+  // 4-byte aligned address to RAM data
 
-  // data formatted for byte enabled write of 4 byte word
-  logic [DataBitWidth-1:0] ram_data_in;
+  logic [DataBitWidth-1:0] cache_data_in;
+  // data for byte enabled write of 4-byte word
 
-  // bytes enabled for writing
-  logic [3:0] ram_write_enable;
+  logic [3:0] cache_write_enable;
+  // bytes in the word enabled for writing; default 4-bytes in a word
 
-  logic [DataBitWidth-1:0] ram_data_out;
-
-  // forward busy and data ready signals from cache unless it is I/O
+  // forward 'busy' and 'data ready' signals from cache unless it is I/O
   assign busy = address == AddressUartOut || 
                 address == AddressUartIn || 
                 address == AddressLed 
-                ? 0 : ram_busy;
+                ? 0 : cache_busy;
 
   assign data_out_ready = address == AddressUartOut || 
                           address == AddressUartIn ||
                           address == AddressLed
-                          ? 1 : ram_data_out_ready;
+                          ? 1 : cache_data_out_ready;
 
   //
-  // RAM write
-  //  convert 'data_in' using 'write_type' to byte enabled 4 bytes RAM write
+  // cache write
+  //  convert 'data_in' using 'write_type' to byte enabled 4-bytes word write to cache
   // 
   always_comb begin
-    // convert address to 4 byte word addressing in RAM
-    ram_address = {address[AddressBitWidth-1:2], 2'b00};
+    // convert address to 4-byte word aligned addressing in RAM
+    cache_address = {address[AddressBitWidth-1:2], 2'b00};
 
     // initiate result
-    ram_enable = 0;
-    ram_write_enable = 0;
-    ram_data_in = 0;
+    cache_enable = 0;
+    cache_write_enable = 0;
+    cache_data_in = 0;
 
     if (address == AddressUartOut || address == AddressUartIn || address == AddressLed) begin
       // don't trigger cache when accessing I/O
     end else begin
-      // enable RAM
-      ram_enable = 1;
-      // note: could be done in either 'always_comb' however in this block checks of 
-      //  address is done with both UART and LED
+      cache_enable = 1;
+      // note: could be done in either 'always_comb', however this block checks
+      //  address with both UART and LED
 
-      // convert input to RAM interface expected byte enabled RAM of 4 bytes
+      // convert input to cache interface expected byte enabled 4-bytes word
       unique case (write_type)
         2'b00: begin  // none
-          ram_write_enable = 4'b0000;
+          cache_write_enable = 4'b0000;
         end
         2'b01: begin  // byte
           unique case (address[1:0])
             2'b00: begin
-              ram_write_enable = 4'b0001;
-              ram_data_in[7:0] = data_in[7:0];
+              cache_write_enable = 4'b0001;
+              cache_data_in[7:0] = data_in[7:0];
             end
             2'b01: begin
-              ram_write_enable  = 4'b0010;
-              ram_data_in[15:8] = data_in[7:0];
+              cache_write_enable  = 4'b0010;
+              cache_data_in[15:8] = data_in[7:0];
             end
             2'b10: begin
-              ram_write_enable   = 4'b0100;
-              ram_data_in[23:16] = data_in[7:0];
+              cache_write_enable   = 4'b0100;
+              cache_data_in[23:16] = data_in[7:0];
             end
             2'b11: begin
-              ram_write_enable   = 4'b1000;
-              ram_data_in[31:24] = data_in[7:0];
+              cache_write_enable   = 4'b1000;
+              cache_data_in[31:24] = data_in[7:0];
             end
           endcase
         end
         2'b10: begin  // half word
           unique case (address[1:0])
             2'b00: begin
-              ram_write_enable  = 4'b0011;
-              ram_data_in[15:0] = data_in[15:0];
+              cache_write_enable  = 4'b0011;
+              cache_data_in[15:0] = data_in[15:0];
             end
             2'b01: ;  // ? error
             2'b10: begin
-              ram_write_enable   = 4'b1100;
-              ram_data_in[31:16] = data_in[15:0];
+              cache_write_enable   = 4'b1100;
+              cache_data_in[31:16] = data_in[15:0];
             end
             2'b11: ;  // ? error
           endcase
         end
         2'b11: begin  // word
           // ? assert(addr_lower_w==0)
-          ram_write_enable = 4'b1111;
-          ram_data_in = data_in;
+          cache_write_enable = 4'b1111;
+          cache_data_in = data_in;
         end
         default: ;  // ? error
       endcase
     end
   end
 
-  // data being sent by 'uarttx'
   logic [7:0] uarttx_data_sending;
+  // data being sent by 'uarttx'
 
-  // data copied from 'uartrx_data' when 'uartrx_data_ready' asserted
   logic [7:0] uartrx_data_received;
+  // data copied from 'uartrx_data' when 'uartrx_data_ready' asserted
 
   // 
-  // RAM read
-  //  convert 'ram_data_out' according to 'read_type'
-  //   and handle UART read requests
+  // cache read
+  //  convert 'cache_data_out' according to 'read_type' and handle UART read requests
   //
   always_comb begin
 `ifdef DBG
@@ -219,23 +218,23 @@ module ramio #(
           unique case (address[1:0])
             2'b00: begin
               data_out = read_type[2] ? 
-              {{24{ram_data_out[7]}}, ram_data_out[7:0]} :
-              {{24{1'b0}}, ram_data_out[7:0]};
+              {{24{cache_data_out[7]}}, cache_data_out[7:0]} :
+              {{24{1'b0}}, cache_data_out[7:0]};
             end
             2'b01: begin
               data_out = read_type[2] ? 
-              {{24{ram_data_out[15]}}, ram_data_out[15:8]} :
-              {{24{1'b0}}, ram_data_out[15:8]};
+              {{24{cache_data_out[15]}}, cache_data_out[15:8]} :
+              {{24{1'b0}}, cache_data_out[15:8]};
             end
             2'b10: begin
               data_out = read_type[2] ? 
-              {{24{ram_data_out[23]}}, ram_data_out[23:16]} :
-              {{24{1'b0}}, ram_data_out[23:16]};
+              {{24{cache_data_out[23]}}, cache_data_out[23:16]} :
+              {{24{1'b0}}, cache_data_out[23:16]};
             end
             2'b11: begin
               data_out = read_type[2] ? 
-              {{24{ram_data_out[31]}}, ram_data_out[31:24]} :
-              {{24{1'b0}}, ram_data_out[31:24]};
+              {{24{cache_data_out[31]}}, cache_data_out[31:24]} :
+              {{24{1'b0}}, cache_data_out[31:24]};
             end
           endcase
         end
@@ -244,14 +243,14 @@ module ramio #(
           unique case (address[1:0])
             2'b00: begin
               data_out = read_type[2] ? 
-              {{16{ram_data_out[15]}}, ram_data_out[15:0]} :
-              {{16{1'b0}}, ram_data_out[15:0]};
+              {{16{cache_data_out[15]}}, cache_data_out[15:0]} :
+              {{16{1'b0}}, cache_data_out[15:0]};
             end
             2'b01: data_out = 0;  // ? error
             2'b10: begin
               data_out = read_type[2] ? 
-              {{16{ram_data_out[31]}}, ram_data_out[31:16]} :
-              {{16{1'b0}}, ram_data_out[31:16]};
+              {{16{cache_data_out[31]}}, cache_data_out[31:16]} :
+              {{16{1'b0}}, cache_data_out[31:16]};
             end
             2'b11: data_out = 0;  // ? error
           endcase
@@ -259,7 +258,7 @@ module ramio #(
 
         3'b111: begin  // word
           // ? assert(addr_lower_w==0)
-          data_out = ram_data_out;
+          data_out = cache_data_out;
         end
 
         default: ;
@@ -267,20 +266,20 @@ module ramio #(
     end
   end
 
-  // enable to start sending and disable to acknowledge that data has been sent
   logic uarttx_go;
+  // enable to start sending and disable to acknowledge that data has been sent
 
-  // high if 'uarttx' is busy sending
   logic uarttx_bsy;
+  // enabled when 'uarttx' is busy sending, low when done (assert with uarttx_go = 0)
 
-  // data ready
   logic uartrx_data_ready;
 
-  // data being read by 'uartrx'
   logic [7:0] uartrx_data;
+  // data being read by 'uartrx'
 
-  // enable to start receiving and disable to acknowledge that received data has been read
   logic uartrx_go;
+  // enable to start receiving
+  //  disable to acknowledge that received data has been read from 'uartrx'
 
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -293,9 +292,10 @@ module ramio #(
       // if read from UART then reset the read data
       if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
         uartrx_data_received <= 0;
+
       end else if (uartrx_go && uartrx_data_ready) begin
         // ?? unclear why necessary in an 'else if' instead of stand-alone 'if'
-        // ?? to avoid characters being dropped from 'uartrx'
+        // ??  to avoid characters being dropped from 'uartrx'
 
         // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
         //  note: read data can be overrun
@@ -336,13 +336,13 @@ module ramio #(
       .rst_n,
       .clk,
 
-      .enable(ram_enable),
-      .address(ram_address),
-      .data_out(ram_data_out),
-      .data_out_ready(ram_data_out_ready),
-      .data_in(ram_data_in),
-      .write_enable(ram_write_enable),
-      .busy(ram_busy),
+      .enable(cache_enable),
+      .address(cache_address),
+      .data_out(cache_data_out),
+      .data_out_ready(cache_data_out_ready),
+      .data_in(cache_data_in),
+      .write_enable(cache_write_enable),
+      .busy(cache_busy),
 
       // burst ram wiring; prefix 'br_'
       .br_cmd,
@@ -361,10 +361,17 @@ module ramio #(
       .rst_n,
       .clk,
 
-      .data(uarttx_data_sending),  // data to send
-      .go(uarttx_go),  // enable to start transmission, disable after 'data' has been read
-      .tx(uart_tx),  // uart tx wire
-      .bsy(uarttx_bsy)  // enabled while sendng
+      .tx(uart_tx),
+      // UART tx wire
+
+      .data(uarttx_data_sending),
+      // data to send
+
+      .go(uarttx_go),
+      // enable to start transmission, disable after 'data' has been read
+
+      .bsy(uarttx_bsy)
+      // enabled while sendng
   );
 
   uartrx #(
@@ -374,10 +381,17 @@ module ramio #(
       .rst_n,
       .clk,
 
-      .rx(uart_rx),  // uart rx wire
-      .go(uartrx_go),  // enable to start receiving, disable to acknowledge 'data_ready'
-      .data(uartrx_data),  // current data being received, is incomplete until 'data_ready' asserted
-      .data_ready(uartrx_data_ready)  // enabled when a fulle byte of 'data' has been received
+      .rx(uart_rx),
+      // UART rx wire
+
+      .go(uartrx_go),
+      // enable to start receiving, disable to acknowledge 'data_ready'
+
+      .data(uartrx_data),
+      // current data being received, is incomplete until 'data_ready' asserted
+
+      .data_ready(uartrx_data_ready)
+      // enabled when a fulle byte of 'data' has been received
   );
 
 endmodule

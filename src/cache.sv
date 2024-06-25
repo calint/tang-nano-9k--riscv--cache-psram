@@ -84,7 +84,7 @@ module cache #(
 
   // wires dividing the address into components
   // |tag|line| col |00| address
-  //                |00| ignored (4 bytes word aligned)
+  //                |00| ignored (4-bytes word aligned)
   //          | col |    column_ix: index of the data in the cached line
   //     |line|          line_ix: index in array where tag and cached data is stored
   // |tag|               address_tag: upper bits followed by 'valid' and 'dirty' flag

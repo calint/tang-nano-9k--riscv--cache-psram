@@ -75,6 +75,7 @@ welcome to adventure #4
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] study why BAUD rate less than 2400 does not work
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
+[ ] read LEDs
 
 next step
 [ ] always_comb based CPU
