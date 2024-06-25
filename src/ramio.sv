@@ -159,10 +159,10 @@ module ramio #(
     end
   end
 
-  // data being sent by UartTx
+  // data being sent by 'uarttx'
   logic [7:0] uarttx_data_sending;
 
-  // data from 'uartrx_data' when 'uartrx_dr' (data ready) enabled
+  // data copied from 'uartrx_data' when 'uartrx_data_ready' asserted
   logic [7:0] uartrx_data_received;
 
   // 
@@ -247,13 +247,13 @@ module ramio #(
   // enable to start sending and disable to acknowledge that data has been sent
   logic uarttx_go;
 
-  // high if UartTx is busy sending
+  // high if 'uarttx' is busy sending
   logic uarttx_bsy;
 
   // data ready
-  logic uartrx_dr;
+  logic uartrx_data_ready;
 
-  // data that is being read by UartRx
+  // data that is being read by 'uartrx'
   logic [7:0] uartrx_data;
 
   // enable to start receiving and disable to acknowledge that received data has been read
@@ -270,7 +270,7 @@ module ramio #(
       // if read from UART then reset the read data
       if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
         uartrx_data_received <= 0;
-      end else if (uartrx_go && uartrx_dr) begin
+      end else if (uartrx_go && uartrx_data_ready) begin
         // ?? unclear why in an 'else if' instead of stand-alone 'if'
         // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
         //  note: read data can be overrun
@@ -348,7 +348,7 @@ module ramio #(
       .rx(uart_rx),  // uart rx wire
       .go(uartrx_go),  // enable to start receiving, disable to acknowledge 'dr'
       .data(uartrx_data),  // current data being received, is incomplete until 'dr' is enabled
-      .dr(uartrx_dr)  // enabled when data is ready
+      .data_ready(uartrx_data_ready)  // enabled when data is ready
   );
 
 endmodule

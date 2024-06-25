@@ -19,7 +19,7 @@ module core #(
     output logic led,
 
     output logic ramio_enable,
-    // enables RAMIO
+    // enables 'ramio'
 
     output logic [1:0] ramio_write_type,
     // b00 not a write; b01: byte, b10: half word, b11: word

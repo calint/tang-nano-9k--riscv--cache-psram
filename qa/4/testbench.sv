@@ -293,9 +293,9 @@ module testbench;
     uart_rx <= 1;
     #clk_tk;
 
-    #clk_tk;  // RAMIO transfers data from UartRx
+    #clk_tk;  // 'ramio' transfers data from 'uartrx'
 
-    assert (ramio.uartrx_dr && ramio.uartrx_data == 8'haa)
+    assert (ramio.uartrx_data_ready && ramio.uartrx_data == 8'haa)
     else $error();
 
     // read from UART
@@ -308,7 +308,7 @@ module testbench;
     assert (data_out == 8'haa)
     else $error();
 
-    #clk_tk;  // RAMIO clears data from UartRx
+    #clk_tk;  // 'ramio' clears data from 'uartrx'
 
     // read from UART again, should be 0
     enable <= 1;

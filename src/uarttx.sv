@@ -1,6 +1,8 @@
 //
 // UART transmitter
 //
+// reviewed 2024-06-25
+//
 `timescale 100ps / 100ps
 //
 `default_nettype none
@@ -14,13 +16,21 @@ module uarttx #(
     input wire rst_n,
     input wire clk,
 
-    input wire [7:0] data,  // data to send
+    input wire [7:0] data,
+    // data to send
 
     input wire go,
-    // assert to start transmission, disable after 'data' has been read
+    // enable to start transmission
+    // disable after 'bsy' has gone low to acknowledge that data has been sent
+    //   then enable to start sending new data
 
-    output logic tx,  // uart tx wire
-    output logic bsy  // enabled while sendng
+    output logic tx,
+    // UART tx wire
+
+    output logic bsy
+    // enabled while sending
+    //  after sending, 'bsy' is set to low and needs to be acknowledged by setting 'go' low
+    //   before transmitting new 'data' by enabling 'go'
 );
 
   localparam int unsigned BIT_TIME = ClockFrequencyHz / BaudRate;
@@ -34,7 +44,9 @@ module uarttx #(
   } state_e;
 
   state_e state;
-  logic [3:0] bit_count;  // 3 to fit number 8
+
+  logic [3:0] bit_count;  // 4 bits to fit number 8
+
   logic [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_time_counter;
 
   always_ff @(negedge clk or negedge rst_n) begin
