@@ -76,6 +76,7 @@ welcome to adventure #4
 [ ] study why BAUD rate less than 2400 does not work
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
 [ ] read LEDs
+[ ] investigate and try to recreate the "// ??" issue in 'ramio'
 
 next step
 [ ] always_comb based CPU
