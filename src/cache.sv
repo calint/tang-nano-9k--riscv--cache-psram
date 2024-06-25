@@ -17,7 +17,7 @@ module cache #(
     // cache lines: 2 ^ value
 
     parameter int unsigned RamAddressBitWidth = 21,
-    // bits in the address interfacing with RAM
+    // bits in the address of underlying burst RAM
 
     parameter int unsigned CommandDelayIntervalCycles = 13,
     // the clock cycles delay between commands

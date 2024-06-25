@@ -21,14 +21,14 @@ module core #(
     output logic ramio_enable,
     // enables 'ramio'
 
-    output logic [1:0] ramio_write_type,
-    // b00 not a write; b01: byte, b10: half word, b11: word
-
     output logic [2:0] ramio_read_type,
     // b000 not a read; bit[2] flags sign extended or not, b01: byte, b10: half word, b11: word
 
+    output logic [1:0] ramio_write_type,
+    // b00 not a write; b01: byte, b10: half word, b11: word
+
     output logic [31:0] ramio_address,
-    // address in bytes
+    // byte address (4 byte aligned)
 
     output logic [31:0] ramio_data_in,
     // sign extended byte, half word, word
@@ -40,7 +40,6 @@ module core #(
 
     input wire ramio_busy,
 
-    // flash
     output logic flash_clk,
     input  wire  flash_miso,
     output logic flash_mosi,

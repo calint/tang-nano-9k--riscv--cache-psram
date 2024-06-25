@@ -1,6 +1,8 @@
 //
 // Interface to RAM, UART and LEDs
 //
+// reviewed 2024-06-25
+//
 `timescale 100ps / 100ps
 //
 `default_nettype none
@@ -9,15 +11,34 @@
 
 module ramio #(
     parameter int unsigned RamAddressBitWidth = 10,
+    // passed to cache: backing burst RAM depth
+
     parameter int unsigned RamAddressingMode = 3,
+    // passed to cache: address byte (0), half word (1), word (2), 64 bit (3)
+
     parameter int unsigned CacheLineIndexBitWidth = 1,
+    // passed to cache: 2 ^ value * 32 B cache size
+
     parameter int unsigned AddressBitWidth = 32,
+    // client address bit width
+
     parameter int unsigned DataBitWidth = 32,
+    // client data bit width
+
     parameter int unsigned ClockFrequencyHz = 20_250_000,
+    // passed to 'uartrx' and 'uarttx'
+
     parameter int unsigned BaudRate = 9600,
+    // passed to 'uartrx' and 'uarttx'
+
     parameter int unsigned TopAddress = {AddressBitWidth{1'b1}},
+    // last addressable byte
+
     parameter int unsigned AddressLed = TopAddress,
+
     parameter int unsigned AddressUartOut = TopAddress - 1,
+    // note: received byte must be read with 'lb' or 'lbu'
+
     parameter int unsigned AddressUartIn = TopAddress - 2
     // note: received byte must be read with 'lb' or 'lbu'
 ) (
@@ -26,17 +47,17 @@ module ramio #(
 
     input wire enable,
 
-    input wire [1:0] write_type,
-    // b00 not a write; b01: byte, b10: half word, b11: word
-
     input wire [2:0] read_type,
     // b000 not a read; bit[2] flags sign extended or not, b01: byte, b10: half word, b11: word
 
+    input wire [1:0] write_type,
+    // b00 not a write; b01: byte, b10: half word, b11: word
+
     input wire [AddressBitWidth-1:0] address,
-    // address in bytes
+    // byte address (type aligned)
 
     input wire [DataBitWidth-1:0] data_in,
-    // sign extended byte, half word, word
+    // byte, half word, word
 
     output logic [DataBitWidth-1:0] data_out,
     // data at 'address' according to 'read_type'
@@ -48,7 +69,6 @@ module ramio #(
     output logic [3:0] led,
     // I/O mapping of LEDs
 
-    // UART
     output logic uart_tx,
     input  wire  uart_rx,
 
@@ -64,13 +84,14 @@ module ramio #(
 
   // enables / disables RAM operation, connected to cache
   logic ram_enable;
+
   logic ram_busy;
   logic ram_data_out_ready;
 
-  // byte addressed into cache
+  // byte address into cache
   logic [AddressBitWidth-1:0] ram_address;
 
-  // data formatted for byte enabled write
+  // data formatted for byte enabled write of 4 byte word
   logic [DataBitWidth-1:0] ram_data_in;
 
   // bytes enabled for writing
@@ -108,7 +129,7 @@ module ramio #(
       // enable RAM
       ram_enable = 1;
       // note: could be done in either 'always_comb' however in this block checks of 
-      //  address is done with UART and LED
+      //  address is done with both UART and LED
 
       // convert input to RAM interface expected byte enabled RAM of 4 bytes
       unique case (write_type)
@@ -178,13 +199,13 @@ module ramio #(
     data_out = 0;
 
     if (address == AddressUartOut && read_type[1:0] == 2'b01) begin
-      // if read byte from uarttx (read_type[2] flags signed)
+      // if read byte from 'uarttx' (read_type[2] flags signed)
       data_out = read_type[2] ? 
                     {{24{uarttx_data_sending[7]}}, uarttx_data_sending} : 
                     {{24{1'b0}}, uarttx_data_sending};
 
     end else if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
-      // if read byte from uartrx (read_type[2] flags signed)
+      // if read byte from 'uartrx' (read_type[2] flags signed)
       data_out = read_type[2] ? 
                     {{24{uartrx_data_received[7]}}, uartrx_data_received} :
                     {{24{1'b0}}, uartrx_data_received};
@@ -253,7 +274,7 @@ module ramio #(
   // data ready
   logic uartrx_data_ready;
 
-  // data that is being read by 'uartrx'
+  // data being read by 'uartrx'
   logic [7:0] uartrx_data;
 
   // enable to start receiving and disable to acknowledge that received data has been read
@@ -271,27 +292,33 @@ module ramio #(
       if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
         uartrx_data_received <= 0;
       end else if (uartrx_go && uartrx_data_ready) begin
-        // ?? unclear why in an 'else if' instead of stand-alone 'if'
+        // ?? unclear why necessary in an 'else if' instead of stand-alone 'if'
+        // ?? to avoid characters being dropped from 'uartrx'
+
         // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
         //  note: read data can be overrun
         uartrx_data_received <= uartrx_data;
         uartrx_go <= 0;
       end
+
       // if previous cycle acknowledged receiving data
       //  then start receiving next data (uartrx_go = 1)
       if (!uartrx_go) begin
         uartrx_go <= 1;
       end
+
       // if UART is done sending data then acknowledge (uarttx_go = 0)
       if (uarttx_go && !uarttx_bsy) begin
         uarttx_go <= 0;
         uarttx_data_sending <= 0;
       end
+
       // if writing to UART out
       if (address == AddressUartOut && write_type == 2'b01) begin
         uarttx_data_sending <= data_in[7:0];
         uarttx_go <= 1;
       end
+
       // if writing to LEDs
       if (address == AddressLed && write_type == 2'b01) begin
         led <= data_in[3:0];
@@ -300,9 +327,9 @@ module ramio #(
   end
 
   cache #(
-      .LineIndexBitWidth(CacheLineIndexBitWidth),
+      .LineIndexBitWidth (CacheLineIndexBitWidth),
       .RamAddressBitWidth(RamAddressBitWidth),
-      .RamAddressingMode(RamAddressingMode)  // 64 bit words
+      .RamAddressingMode (RamAddressingMode)
   ) cache (
       .rst_n,
       .clk,
@@ -346,9 +373,9 @@ module ramio #(
       .clk,
 
       .rx(uart_rx),  // uart rx wire
-      .go(uartrx_go),  // enable to start receiving, disable to acknowledge 'dr'
-      .data(uartrx_data),  // current data being received, is incomplete until 'dr' is enabled
-      .data_ready(uartrx_data_ready)  // enabled when data is ready
+      .go(uartrx_go),  // enable to start receiving, disable to acknowledge 'data_ready'
+      .data(uartrx_data),  // current data being received, is incomplete until 'data_ready' asserted
+      .data_ready(uartrx_data_ready)  // enabled when a fulle byte of 'data' has been received
   );
 
 endmodule
