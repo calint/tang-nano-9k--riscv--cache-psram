@@ -77,6 +77,8 @@ welcome to adventure #4
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
 [ ] read LEDs
 [ ] investigate and try to recreate the "// ??" issue in 'ramio'
+    => the simulation works as expected
+[ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
 
 next step
 [ ] always_comb based CPU
@@ -87,7 +89,6 @@ next step
 [ ] dual channel 4 MB PSRAM
 [ ] step 12: fully pipe-lined core
 [ ] consider FIFO in UART
-[ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
 -------------------------------------------------------------------------------------------------------------
 [x] study why terminal drops characters
     => receive is being overrun but how can baud 9600 outpace 20 MHz?
