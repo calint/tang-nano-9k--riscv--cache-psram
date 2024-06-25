@@ -6,3 +6,4 @@
 /riscv.gprj.user
 *.vvp
 *.vcd
+/os/os

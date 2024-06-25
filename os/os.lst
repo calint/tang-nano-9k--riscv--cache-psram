@@ -32,7 +32,11 @@ Disassembly of section .text:
       2c:	07712623          	sw	s7,108(sp)
       30:	07812423          	sw	s8,104(sp)
 # 
-#   *LED = 0; // turn all leds on
+# #define CHAR_CARRIAGE_RETURN 0x0d
+# 
+# #include "os_common.c"
+# 
+# void led_set(unsigned char bits) { *LED = bits; }
       34:	fe000fa3          	sb	zero,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
 # 
 #   unsigned char active_entity = 1;
@@ -44,9 +48,6 @@ Disassembly of section .text:
       3c:	3887a683          	lw	a3,904(a5) # 2388 <ascii_art>
 #   inbuf.ix = 0;
       40:	04010e23          	sb	zero,92(sp)
-#     s2++;
-#   }
-# }
 # 
 # void uart_send_str(const char *str) {
 #   while (*str) {
@@ -65,7 +66,6 @@ Disassembly of section .text:
 #   uart_send_str(hello);
       64:	000027b7          	lui	a5,0x2
       68:	3847a683          	lw	a3,900(a5) # 2384 <hello>
-#   while (*str) {
       6c:	0006c703          	lbu	a4,0(a3)
       70:	00070e63          	beqz	a4,8c <run+0x84>
 #     while (*UART_OUT)
@@ -83,10 +83,19 @@ Disassembly of section .text:
 #   unsigned char active_entity = 1;
       98:	00100b93          	li	s7,1
       9c:	01090913          	add	s2,s2,16 # 2010 <entities>
-      a0:	aa448493          	add	s1,s1,-1372 # 1aa4 <uart_read_char+0x3f0>
-      a4:	c2440413          	add	s0,s0,-988 # 1c24 <uart_read_char+0x570>
+      a0:	aac48493          	add	s1,s1,-1364 # 1aac <action_mem_test+0x4bc>
+      a4:	c2c40413          	add	s0,s0,-980 # 1c2c <action_mem_test+0x63c>
+# }
+# 
+# void input(input_buffer *buf) {
+#   while (1) {
+#     const char ch = uart_read_char();
 #     if (ch == CHAR_BACKSPACE) {
       a8:	07f00a13          	li	s4,127
+#       if (buf->ix > 0) {
+#         buf->ix--;
+#         uart_send_char(ch);
+#       }
 #     } else if (ch == CHAR_CARRIAGE_RETURN ||
       ac:	00d00a93          	li	s5,13
       b0:	04f00b13          	li	s6,79
@@ -102,7 +111,6 @@ Disassembly of section .text:
       d4:	560080e7          	jalr	1376(ra) # 630 <print_location>
 #     uart_send_str(ent->name);
       d8:	000c2683          	lw	a3,0(s8)
-#   while (*str) {
       dc:	0006c703          	lbu	a4,0(a3)
       e0:	00070e63          	beqz	a4,fc <run+0xf4>
 #     while (*UART_OUT)
@@ -141,6 +149,11 @@ Disassembly of section .text:
 #     } else if (ch == CHAR_CARRIAGE_RETURN ||
      130:	07570463          	beq	a4,s5,198 <run+0x190>
      134:	07678263          	beq	a5,s6,198 <run+0x190>
+#                    sizeof(buf->line) - 1) { // -1 since last char must be 0
+#       buf->line[buf->ix] = 0;
+#       buf->ix = 0;
+#       return;
+#     } else {
 #       buf->line[buf->ix] = ch;
      138:	06078693          	add	a3,a5,96
      13c:	002686b3          	add	a3,a3,sp
@@ -155,10 +168,13 @@ Disassembly of section .text:
      150:	fe079ee3          	bnez	a5,14c <run+0x144>
 #   *UART_OUT = ch;
      154:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#     *LED = ~buf->ix;
+#       uart_send_char(ch);
+#     }
+#     led_set(~buf->ix);
      158:	05c14783          	lbu	a5,92(sp)
      15c:	fff7c793          	not	a5,a5
      160:	0ff7f793          	zext.b	a5,a5
+# void led_set(unsigned char bits) { *LED = bits; }
      164:	fef00fa3          	sb	a5,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
 #   while ((ch = *UART_IN) == 0)
      168:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
@@ -175,7 +191,7 @@ Disassembly of section .text:
      188:	fe079ee3          	bnez	a5,184 <run+0x17c>
 #   *UART_OUT = ch;
      18c:	ff400f23          	sb	s4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#     *LED = ~buf->ix;
+#     led_set(~buf->ix);
      190:	05c14783          	lbu	a5,92(sp)
 # }
      194:	fc9ff06f          	j	15c <run+0x154>
@@ -187,7 +203,6 @@ Disassembly of section .text:
      1a4:	04010e23          	sb	zero,92(sp)
 #   while (*str) {
      1a8:	00d00693          	li	a3,13
-#       buf->ix = 0;
      1ac:	00040713          	mv	a4,s0
 #     while (*UART_OUT)
      1b0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
@@ -240,8 +255,7 @@ Disassembly of section .text:
      228:	00480813          	add	a6,a6,4
      22c:	fd1618e3          	bne	a2,a7,1fc <handle_input+0x18>
      230:	00002737          	lui	a4,0x2
-     234:	aa870713          	add	a4,a4,-1368 # 1aa8 <uart_read_char+0x3f4>
-#   while (*str) {
+     234:	ab070713          	add	a4,a4,-1360 # 1ab0 <action_mem_test+0x4c0>
      238:	07400693          	li	a3,116
 #     while (*UART_OUT)
      23c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
@@ -254,18 +268,25 @@ Disassembly of section .text:
      250:	fe0696e3          	bnez	a3,23c <handle_input+0x58>
 #   if (strings_equal(words[0], "help")) {
      254:	00012783          	lw	a5,0(sp)
+#   }
+# }
+# 
+# bool strings_equal(const char *s1, const char *s2) {
+#   while (1) {
 #     if (*s1 - *s2)
      258:	06800693          	li	a3,104
      25c:	0007c703          	lbu	a4,0(a5)
      260:	08d71863          	bne	a4,a3,2f0 <handle_input+0x10c>
      264:	00002637          	lui	a2,0x2
-     268:	acc60613          	add	a2,a2,-1332 # 1acc <uart_read_char+0x418>
+     268:	ad460613          	add	a2,a2,-1324 # 1ad4 <action_mem_test+0x4e4>
      26c:	0100006f          	j	27c <handle_input+0x98>
      270:	0007c683          	lbu	a3,0(a5)
      274:	00064703          	lbu	a4,0(a2)
      278:	04d71863          	bne	a4,a3,2c8 <handle_input+0xe4>
+#       return FALSE;
 #     if (!*s1 && !*s2)
      27c:	00d766b3          	or	a3,a4,a3
+#       return TRUE;
 #     s1++;
      280:	00178793          	add	a5,a5,1
 #     s2++;
@@ -274,7 +295,7 @@ Disassembly of section .text:
      288:	fe0694e3          	bnez	a3,270 <handle_input+0x8c>
      28c:	00002737          	lui	a4,0x2
      290:	00d00693          	li	a3,13
-     294:	ad470713          	add	a4,a4,-1324 # 1ad4 <uart_read_char+0x420>
+     294:	adc70713          	add	a4,a4,-1316 # 1adc <action_mem_test+0x4ec>
 #     while (*UART_OUT)
      298:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      29c:	fe079ee3          	bnez	a5,298 <handle_input+0xb4>
@@ -294,7 +315,7 @@ Disassembly of section .text:
      2c4:	02d70e63          	beq	a4,a3,300 <handle_input+0x11c>
      2c8:	06e00713          	li	a4,110
      2cc:	000027b7          	lui	a5,0x2
-     2d0:	c1478793          	add	a5,a5,-1004 # 1c14 <uart_read_char+0x560>
+     2d0:	c1c78793          	add	a5,a5,-996 # 1c1c <action_mem_test+0x62c>
 #     while (*UART_OUT)
      2d4:	ffe04683          	lbu	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      2d8:	fe069ee3          	bnez	a3,2d4 <handle_input+0xf0>
@@ -305,11 +326,10 @@ Disassembly of section .text:
      2e4:	0007c703          	lbu	a4,0(a5)
      2e8:	fe0716e3          	bnez	a4,2d4 <handle_input+0xf0>
      2ec:	fc5ff06f          	j	2b0 <handle_input+0xcc>
-#     if (*s1 - *s2)
      2f0:	06900693          	li	a3,105
      2f4:	04d71a63          	bne	a4,a3,348 <handle_input+0x164>
      2f8:	00002637          	lui	a2,0x2
-     2fc:	bb060613          	add	a2,a2,-1104 # 1bb0 <uart_read_char+0x4fc>
+     2fc:	bb860613          	add	a2,a2,-1096 # 1bb8 <action_mem_test+0x5c8>
 #     if (!*s1 && !*s2)
      300:	00d766b3          	or	a3,a4,a3
 #     s1++;
@@ -322,10 +342,8 @@ Disassembly of section .text:
      310:	00000097          	auipc	ra,0x0
      314:	63c080e7          	jalr	1596(ra) # 94c <action_inventory>
      318:	00002737          	lui	a4,0x2
-#   while (*str) {
      31c:	00d00693          	li	a3,13
-#     action_inventory(eid);
-     320:	c2470713          	add	a4,a4,-988 # 1c24 <uart_read_char+0x570>
+     320:	c2c70713          	add	a4,a4,-980 # 1c2c <action_mem_test+0x63c>
 #     while (*UART_OUT)
      324:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      328:	fe079ee3          	bnez	a5,324 <handle_input+0x140>
@@ -344,7 +362,7 @@ Disassembly of section .text:
      34c:	06d71863          	bne	a4,a3,3bc <handle_input+0x1d8>
      350:	000025b7          	lui	a1,0x2
      354:	07400813          	li	a6,116
-     358:	bb458593          	add	a1,a1,-1100 # 1bb4 <uart_read_char+0x500>
+     358:	bbc58593          	add	a1,a1,-1092 # 1bbc <action_mem_test+0x5cc>
 #     if (!*s1 && !*s2)
      35c:	0106e6b3          	or	a3,a3,a6
 #     s1++;
@@ -370,8 +388,7 @@ Disassembly of section .text:
      390:	fd0686e3          	beq	a3,a6,35c <handle_input+0x178>
      394:	f35ff06f          	j	2c8 <handle_input+0xe4>
      398:	000026b7          	lui	a3,0x2
-     39c:	bb868693          	add	a3,a3,-1096 # 1bb8 <uart_read_char+0x504>
-#     while (*UART_OUT)
+     39c:	bc068693          	add	a3,a3,-1088 # 1bc0 <action_mem_test+0x5d0>
      3a0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      3a4:	fe079ee3          	bnez	a5,3a0 <handle_input+0x1bc>
 #     *UART_OUT = *str++;
@@ -381,12 +398,11 @@ Disassembly of section .text:
      3b0:	0006c703          	lbu	a4,0(a3)
      3b4:	fe0716e3          	bnez	a4,3a0 <handle_input+0x1bc>
      3b8:	ef9ff06f          	j	2b0 <handle_input+0xcc>
-#     if (*s1 - *s2)
      3bc:	06400693          	li	a3,100
      3c0:	04d71663          	bne	a4,a3,40c <handle_input+0x228>
      3c4:	000025b7          	lui	a1,0x2
      3c8:	06400813          	li	a6,100
-     3cc:	bc858593          	add	a1,a1,-1080 # 1bc8 <uart_read_char+0x514>
+     3cc:	bd058593          	add	a1,a1,-1072 # 1bd0 <action_mem_test+0x5e0>
 #     if (!*s1 && !*s2)
      3d0:	0106e6b3          	or	a3,a3,a6
 #     s1++;
@@ -415,7 +431,7 @@ Disassembly of section .text:
      410:	04d71263          	bne	a4,a3,454 <handle_input+0x270>
      414:	00002637          	lui	a2,0x2
      418:	06e00593          	li	a1,110
-     41c:	bdc60613          	add	a2,a2,-1060 # 1bdc <uart_read_char+0x528>
+     41c:	be460613          	add	a2,a2,-1052 # 1be4 <action_mem_test+0x5f4>
 #     if (!*s1 && !*s2)
      420:	00b6e6b3          	or	a3,a3,a1
 #     s1++;
@@ -441,7 +457,7 @@ Disassembly of section .text:
      454:	06500693          	li	a3,101
      458:	04d71063          	bne	a4,a3,498 <handle_input+0x2b4>
      45c:	00002637          	lui	a2,0x2
-     460:	a5860613          	add	a2,a2,-1448 # 1a58 <uart_read_char+0x3a4>
+     460:	a6060613          	add	a2,a2,-1440 # 1a60 <action_mem_test+0x470>
 #     if (!*s1 && !*s2)
      464:	00d766b3          	or	a3,a4,a3
 #     s1++;
@@ -467,7 +483,7 @@ Disassembly of section .text:
      498:	07300693          	li	a3,115
      49c:	06d71263          	bne	a4,a3,500 <handle_input+0x31c>
      4a0:	00002637          	lui	a2,0x2
-     4a4:	be060613          	add	a2,a2,-1056 # 1be0 <uart_read_char+0x52c>
+     4a4:	be860613          	add	a2,a2,-1048 # 1be8 <action_mem_test+0x5f8>
 #     if (!*s1 && !*s2)
      4a8:	00d766b3          	or	a3,a4,a3
 #     s1++;
@@ -491,7 +507,7 @@ Disassembly of section .text:
      4d4:	fcd70ae3          	beq	a4,a3,4a8 <handle_input+0x2c4>
      4d8:	df1ff06f          	j	2c8 <handle_input+0xe4>
      4dc:	000026b7          	lui	a3,0x2
-     4e0:	bcc68693          	add	a3,a3,-1076 # 1bcc <uart_read_char+0x518>
+     4e0:	bd468693          	add	a3,a3,-1068 # 1bd4 <action_mem_test+0x5e4>
 #     while (*UART_OUT)
      4e4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      4e8:	fe079ee3          	bnez	a5,4e4 <handle_input+0x300>
@@ -502,11 +518,10 @@ Disassembly of section .text:
      4f4:	0006c703          	lbu	a4,0(a3)
      4f8:	fe0716e3          	bnez	a4,4e4 <handle_input+0x300>
      4fc:	db5ff06f          	j	2b0 <handle_input+0xcc>
-#     if (*s1 - *s2)
      500:	07700693          	li	a3,119
      504:	04d71063          	bne	a4,a3,544 <handle_input+0x360>
      508:	00002637          	lui	a2,0x2
-     50c:	be460613          	add	a2,a2,-1052 # 1be4 <uart_read_char+0x530>
+     50c:	bec60613          	add	a2,a2,-1044 # 1bec <action_mem_test+0x5fc>
 #     if (!*s1 && !*s2)
      510:	00d766b3          	or	a3,a4,a3
 #     s1++;
@@ -533,7 +548,7 @@ Disassembly of section .text:
      548:	04d71c63          	bne	a4,a3,5a0 <handle_input+0x3bc>
      54c:	000025b7          	lui	a1,0x2
      550:	06700813          	li	a6,103
-     554:	be858593          	add	a1,a1,-1048 # 1be8 <uart_read_char+0x534>
+     554:	bf058593          	add	a1,a1,-1040 # 1bf0 <action_mem_test+0x600>
 #     if (!*s1 && !*s2)
      558:	0106e6b3          	or	a3,a3,a6
 #     s1++;
@@ -566,7 +581,7 @@ Disassembly of section .text:
      5a4:	d2d712e3          	bne	a4,a3,2c8 <handle_input+0xe4>
      5a8:	00002637          	lui	a2,0x2
      5ac:	00070693          	mv	a3,a4
-     5b0:	c1060613          	add	a2,a2,-1008 # 1c10 <uart_read_char+0x55c>
+     5b0:	c1860613          	add	a2,a2,-1000 # 1c18 <action_mem_test+0x628>
 #     if (!*s1 && !*s2)
      5b4:	00d76733          	or	a4,a4,a3
      5b8:	0ff77713          	zext.b	a4,a4
@@ -581,14 +596,14 @@ Disassembly of section .text:
      5cc:	03010113          	add	sp,sp,48
 #     action_mem_test();
      5d0:	00001317          	auipc	t1,0x1
-     5d4:	e6030067          	jr	-416(t1) # 1430 <action_mem_test>
+     5d4:	02030067          	jr	32(t1) # 15f0 <action_mem_test>
 #     if (*s1 - *s2)
      5d8:	0007c703          	lbu	a4,0(a5)
      5dc:	00064683          	lbu	a3,0(a2)
      5e0:	fcd70ae3          	beq	a4,a3,5b4 <handle_input+0x3d0>
      5e4:	ce5ff06f          	j	2c8 <handle_input+0xe4>
      5e8:	000027b7          	lui	a5,0x2
-     5ec:	bfc78793          	add	a5,a5,-1028 # 1bfc <uart_read_char+0x548>
+     5ec:	c0478793          	add	a5,a5,-1020 # 1c04 <action_mem_test+0x614>
 #     while (*UART_OUT)
      5f0:	ffe04683          	lbu	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      5f4:	fe069ee3          	bnez	a3,5f0 <handle_input+0x40c>
@@ -600,7 +615,7 @@ Disassembly of section .text:
      604:	fe0716e3          	bnez	a4,5f0 <handle_input+0x40c>
      608:	ca9ff06f          	j	2b0 <handle_input+0xcc>
      60c:	000027b7          	lui	a5,0x2
-     610:	bec78793          	add	a5,a5,-1044 # 1bec <uart_read_char+0x538>
+     610:	bf478793          	add	a5,a5,-1036 # 1bf4 <action_mem_test+0x604>
 #     while (*UART_OUT)
      614:	ffe04683          	lbu	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      618:	fe069ee3          	bnez	a3,614 <handle_input+0x430>
@@ -618,10 +633,9 @@ Disassembly of section .text:
 # void print_location(location_id lid, entity_id eid_exclude_from_output) {
      634:	00050313          	mv	t1,a0
      638:	00058893          	mv	a7,a1
-#   while (*str) {
      63c:	07500693          	li	a3,117
 #   const location *loc = &locations[lid];
-     640:	c2870713          	add	a4,a4,-984 # 1c28 <uart_read_char+0x574>
+     640:	c3070713          	add	a4,a4,-976 # 1c30 <action_mem_test+0x640>
 #     while (*UART_OUT)
      644:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      648:	fe079ee3          	bnez	a5,644 <print_location+0x14>
@@ -641,7 +655,6 @@ Disassembly of section .text:
      674:	00279793          	sll	a5,a5,0x2
      678:	00f507b3          	add	a5,a0,a5
      67c:	0007a683          	lw	a3,0(a5)
-#   while (*str) {
      680:	0006c703          	lbu	a4,0(a3)
      684:	00070e63          	beqz	a4,6a0 <print_location+0x70>
 #     while (*UART_OUT)
@@ -655,7 +668,7 @@ Disassembly of section .text:
      69c:	fe0716e3          	bnez	a4,688 <print_location+0x58>
      6a0:	00002737          	lui	a4,0x2
      6a4:	00d00693          	li	a3,13
-     6a8:	c3070713          	add	a4,a4,-976 # 1c30 <uart_read_char+0x57c>
+     6a8:	c3870713          	add	a4,a4,-968 # 1c38 <action_mem_test+0x648>
 #     while (*UART_OUT)
      6ac:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      6b0:	fe079ee3          	bnez	a5,6ac <print_location+0x7c>
@@ -684,7 +697,6 @@ Disassembly of section .text:
      6f4:	00261793          	sll	a5,a2,0x2
      6f8:	00f307b3          	add	a5,t1,a5
      6fc:	0007a683          	lw	a3,0(a5)
-#   while (*str) {
      700:	0006c703          	lbu	a4,0(a3)
      704:	00070e63          	beqz	a4,720 <print_location+0xf0>
 #     while (*UART_OUT)
@@ -703,10 +715,8 @@ Disassembly of section .text:
      728:	0005c603          	lbu	a2,0(a1)
 #     if (!oid)
      72c:	04060663          	beqz	a2,778 <print_location+0x148>
-#   while (*str) {
      730:	02c00693          	li	a3,44
-#     if (!oid)
-     734:	c38e8713          	add	a4,t4,-968 # 1c38 <uart_read_char+0x584>
+     734:	c40e8713          	add	a4,t4,-960 # 1c40 <action_mem_test+0x650>
 #     while (*UART_OUT)
      738:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      73c:	fe079ee3          	bnez	a5,738 <print_location+0x108>
@@ -719,7 +729,7 @@ Disassembly of section .text:
      750:	fa5ff06f          	j	6f4 <print_location+0xc4>
      754:	00002737          	lui	a4,0x2
      758:	06e00693          	li	a3,110
-     75c:	c3c70713          	add	a4,a4,-964 # 1c3c <uart_read_char+0x588>
+     75c:	c4470713          	add	a4,a4,-956 # 1c44 <action_mem_test+0x654>
 #     while (*UART_OUT)
      760:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      764:	fe079ee3          	bnez	a5,760 <print_location+0x130>
@@ -730,9 +740,9 @@ Disassembly of section .text:
      770:	00074683          	lbu	a3,0(a4)
      774:	fe0696e3          	bnez	a3,760 <print_location+0x130>
      778:	000026b7          	lui	a3,0x2
-     77c:	c2468613          	add	a2,a3,-988 # 1c24 <uart_read_char+0x570>
+     77c:	c2c68613          	add	a2,a3,-980 # 1c2c <action_mem_test+0x63c>
      780:	00d00713          	li	a4,13
-     784:	c2468693          	add	a3,a3,-988
+     784:	c2c68693          	add	a3,a3,-980
 #     while (*UART_OUT)
      788:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      78c:	fe079ee3          	bnez	a5,788 <print_location+0x158>
@@ -763,7 +773,6 @@ Disassembly of section .text:
      7cc:	00379793          	sll	a5,a5,0x3
      7d0:	00fe07b3          	add	a5,t3,a5
      7d4:	0007a683          	lw	a3,0(a5)
-#   while (*str) {
      7d8:	0006c703          	lbu	a4,0(a3)
      7dc:	00070e63          	beqz	a4,7f8 <print_location+0x1c8>
 #     while (*UART_OUT)
@@ -782,9 +791,8 @@ Disassembly of section .text:
 #   if (add_list_sep) {
      804:	02070463          	beqz	a4,82c <print_location+0x1fc>
      808:	00002737          	lui	a4,0x2
-#   while (*str) {
      80c:	02000693          	li	a3,32
-     810:	c4470713          	add	a4,a4,-956 # 1c44 <uart_read_char+0x590>
+     810:	c4c70713          	add	a4,a4,-948 # 1c4c <action_mem_test+0x65c>
 #     while (*UART_OUT)
      814:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      818:	fe079ee3          	bnez	a5,814 <print_location+0x1e4>
@@ -796,7 +804,7 @@ Disassembly of section .text:
      828:	fe0696e3          	bnez	a3,814 <print_location+0x1e4>
      82c:	000026b7          	lui	a3,0x2
      830:	06500713          	li	a4,101
-     834:	c5068693          	add	a3,a3,-944 # 1c50 <uart_read_char+0x59c>
+     834:	c5868693          	add	a3,a3,-936 # 1c58 <action_mem_test+0x668>
 #     while (*UART_OUT)
      838:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      83c:	fe079ee3          	bnez	a5,838 <print_location+0x208>
@@ -822,7 +830,6 @@ Disassembly of section .text:
      878:	0a071663          	bnez	a4,924 <print_location+0x2f4>
 #     uart_send_str(exit_names[i]);
      87c:	0005a683          	lw	a3,0(a1)
-#   while (*str) {
      880:	0006c703          	lbu	a4,0(a3)
      884:	00070e63          	beqz	a4,8a0 <print_location+0x270>
 #     while (*UART_OUT)
@@ -842,9 +849,8 @@ Disassembly of section .text:
 #   if (!add_list_sep) {
      8b0:	02071463          	bnez	a4,8d8 <print_location+0x2a8>
      8b4:	00002737          	lui	a4,0x2
-#   while (*str) {
      8b8:	06e00693          	li	a3,110
-     8bc:	c5870713          	add	a4,a4,-936 # 1c58 <uart_read_char+0x5a4>
+     8bc:	c6070713          	add	a4,a4,-928 # 1c60 <action_mem_test+0x670>
 #     while (*UART_OUT)
      8c0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      8c4:	fe079ee3          	bnez	a5,8c0 <print_location+0x290>
@@ -868,9 +874,8 @@ Disassembly of section .text:
 # }
      8f8:	00008067          	ret
      8fc:	00002737          	lui	a4,0x2
-#   while (*str) {
      900:	02c00693          	li	a3,44
-     904:	c3870713          	add	a4,a4,-968 # 1c38 <uart_read_char+0x584>
+     904:	c4070713          	add	a4,a4,-960 # 1c40 <action_mem_test+0x650>
 #     while (*UART_OUT)
      908:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      90c:	fe079ee3          	bnez	a5,908 <print_location+0x2d8>
@@ -883,7 +888,7 @@ Disassembly of section .text:
      920:	ea5ff06f          	j	7c4 <print_location+0x194>
      924:	00002737          	lui	a4,0x2
      928:	02c00693          	li	a3,44
-     92c:	c3870713          	add	a4,a4,-968 # 1c38 <uart_read_char+0x584>
+     92c:	c4070713          	add	a4,a4,-960 # 1c40 <action_mem_test+0x650>
 #     while (*UART_OUT)
      930:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      934:	fe079ee3          	bnez	a5,930 <print_location+0x300>
@@ -899,9 +904,8 @@ Disassembly of section .text:
      94c:	00002737          	lui	a4,0x2
 # void action_inventory(entity_id eid) {
      950:	00050613          	mv	a2,a0
-#   while (*str) {
      954:	07500693          	li	a3,117
-     958:	c6070713          	add	a4,a4,-928 # 1c60 <uart_read_char+0x5ac>
+     958:	c6870713          	add	a4,a4,-920 # 1c68 <action_mem_test+0x678>
 #     while (*UART_OUT)
      95c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      960:	fe079ee3          	bnez	a5,95c <action_inventory+0x10>
@@ -931,7 +935,6 @@ Disassembly of section .text:
      9a8:	00261793          	sll	a5,a2,0x2
      9ac:	00f507b3          	add	a5,a0,a5
      9b0:	0007a683          	lw	a3,0(a5)
-#   while (*str) {
      9b4:	0006c703          	lbu	a4,0(a3)
      9b8:	00070e63          	beqz	a4,9d4 <action_inventory+0x88>
 #     while (*UART_OUT)
@@ -950,10 +953,8 @@ Disassembly of section .text:
      9dc:	0005c603          	lbu	a2,0(a1)
 #     if (!oid)
      9e0:	04060663          	beqz	a2,a2c <action_inventory+0xe0>
-#   while (*str) {
      9e4:	02c00693          	li	a3,44
-#     if (!oid)
-     9e8:	c3888713          	add	a4,a7,-968 # 1c38 <uart_read_char+0x584>
+     9e8:	c4088713          	add	a4,a7,-960 # 1c40 <action_mem_test+0x650>
 #     while (*UART_OUT)
      9ec:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      9f0:	fe079ee3          	bnez	a5,9ec <action_inventory+0xa0>
@@ -966,7 +967,7 @@ Disassembly of section .text:
      a04:	fa5ff06f          	j	9a8 <action_inventory+0x5c>
      a08:	00002737          	lui	a4,0x2
      a0c:	06e00693          	li	a3,110
-     a10:	c3c70713          	add	a4,a4,-964 # 1c3c <uart_read_char+0x588>
+     a10:	c4470713          	add	a4,a4,-956 # 1c44 <action_mem_test+0x654>
 #     while (*UART_OUT)
      a14:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      a18:	fe079ee3          	bnez	a5,a14 <action_inventory+0xc8>
@@ -978,7 +979,7 @@ Disassembly of section .text:
      a28:	fe0696e3          	bnez	a3,a14 <action_inventory+0xc8>
      a2c:	00002737          	lui	a4,0x2
      a30:	00d00693          	li	a3,13
-     a34:	c2470713          	add	a4,a4,-988 # 1c24 <uart_read_char+0x570>
+     a34:	c2c70713          	add	a4,a4,-980 # 1c2c <action_mem_test+0x63c>
 #     while (*UART_OUT)
      a38:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      a3c:	fe079ee3          	bnez	a5,a38 <action_inventory+0xec>
@@ -1031,7 +1032,7 @@ Disassembly of section .text:
      aa4:	fef512e3          	bne	a0,a5,a88 <add_object_to_list+0x10>
      aa8:	00002737          	lui	a4,0x2
      aac:	07300513          	li	a0,115
-     ab0:	c6c70713          	add	a4,a4,-916 # 1c6c <uart_read_char+0x5b8>
+     ab0:	c7470713          	add	a4,a4,-908 # 1c74 <action_mem_test+0x684>
 #     while (*UART_OUT)
      ab4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      ab8:	fe079ee3          	bnez	a5,ab4 <add_object_to_list+0x3c>
@@ -1065,7 +1066,7 @@ Disassembly of section .text:
      afc:	fef512e3          	bne	a0,a5,ae0 <add_entity_to_list+0x10>
      b00:	00002737          	lui	a4,0x2
      b04:	06c00513          	li	a0,108
-     b08:	c7c70713          	add	a4,a4,-900 # 1c7c <uart_read_char+0x5c8>
+     b08:	c8470713          	add	a4,a4,-892 # 1c84 <action_mem_test+0x694>
 #     while (*UART_OUT)
      b0c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      b10:	fe079ee3          	bnez	a5,b0c <add_entity_to_list+0x3c>
@@ -1104,10 +1105,9 @@ Disassembly of section .text:
 #       if (!list[j])
      b68:	fe0714e3          	bnez	a4,b50 <remove_entity_from_list+0x28>
      b6c:	00008067          	ret
-#   while (*str) {
      b70:	00002737          	lui	a4,0x2
      b74:	06500693          	li	a3,101
-     b78:	c8c70713          	add	a4,a4,-884 # 1c8c <uart_read_char+0x5d8>
+     b78:	c9470713          	add	a4,a4,-876 # 1c94 <action_mem_test+0x6a4>
 #     while (*UART_OUT)
      b7c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      b80:	fe079ee3          	bnez	a5,b7c <remove_entity_from_list+0x54>
@@ -1141,7 +1141,6 @@ Disassembly of section .text:
      bcc:	00379793          	sll	a5,a5,0x3
      bd0:	00f307b3          	add	a5,t1,a5
      bd4:	0047c783          	lbu	a5,4(a5)
-#   while (*str) {
      bd8:	0005ce83          	lbu	t4,0(a1)
 #     if (!strings_equal(objects[oid].name, obj))
      bdc:	00002fb7          	lui	t6,0x2
@@ -1240,7 +1239,7 @@ Disassembly of section .text:
      cd8:	00002737          	lui	a4,0x2
 #   while (*str) {
      cdc:	07300693          	li	a3,115
-     ce0:	c6c70713          	add	a4,a4,-916 # 1c6c <uart_read_char+0x5b8>
+     ce0:	c7470713          	add	a4,a4,-908 # 1c74 <action_mem_test+0x684>
 #     while (*UART_OUT)
      ce4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      ce8:	fe079ee3          	bnez	a5,ce4 <action_take+0x128>
@@ -1254,7 +1253,7 @@ Disassembly of section .text:
      d00:	00008067          	ret
      d04:	00002737          	lui	a4,0x2
      d08:	02000693          	li	a3,32
-     d0c:	ca070713          	add	a4,a4,-864 # 1ca0 <uart_read_char+0x5ec>
+     d0c:	ca870713          	add	a4,a4,-856 # 1ca8 <action_mem_test+0x6b8>
 #     while (*UART_OUT)
      d10:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      d14:	fe079ee3          	bnez	a5,d10 <action_take+0x154>
@@ -1354,7 +1353,7 @@ Disassembly of section .text:
      e10:	f51f92e3          	bne	t6,a7,d54 <action_drop+0x28>
      e14:	00002737          	lui	a4,0x2
      e18:	07500693          	li	a3,117
-     e1c:	cb070713          	add	a4,a4,-848 # 1cb0 <uart_read_char+0x5fc>
+     e1c:	cb870713          	add	a4,a4,-840 # 1cb8 <action_mem_test+0x6c8>
 #     while (*UART_OUT)
      e20:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      e24:	fe079ee3          	bnez	a5,e20 <action_drop+0xf4>
@@ -1377,7 +1376,7 @@ Disassembly of section .text:
      e54:	fe0716e3          	bnez	a4,e40 <action_drop+0x114>
      e58:	00001737          	lui	a4,0x1
      e5c:	00d00693          	li	a3,13
-     e60:	6ec70713          	add	a4,a4,1772 # 16ec <uart_read_char+0x38>
+     e60:	6f470713          	add	a4,a4,1780 # 16f4 <action_mem_test+0x104>
 #     while (*UART_OUT)
      e64:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      e68:	fe079ee3          	bnez	a5,e64 <action_drop+0x138>
@@ -1394,9 +1393,8 @@ Disassembly of section .text:
      e84:	00168693          	add	a3,a3,1
      e88:	f4c710e3          	bne	a4,a2,dc8 <action_drop+0x9c>
      e8c:	00002737          	lui	a4,0x2
-#   while (*str) {
      e90:	07300693          	li	a3,115
-     e94:	c6c70713          	add	a4,a4,-916 # 1c6c <uart_read_char+0x5b8>
+     e94:	c7470713          	add	a4,a4,-908 # 1c74 <action_mem_test+0x684>
 #     while (*UART_OUT)
      e98:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      e9c:	fe079ee3          	bnez	a5,e98 <action_drop+0x16c>
@@ -1432,9 +1430,8 @@ Disassembly of section .text:
 #   if (!to) {
      efc:	02059663          	bnez	a1,f28 <action_go+0x70>
      f00:	00002737          	lui	a4,0x2
-#   while (*str) {
      f04:	06300693          	li	a3,99
-     f08:	cc070713          	add	a4,a4,-832 # 1cc0 <uart_read_char+0x60c>
+     f08:	cc870713          	add	a4,a4,-824 # 1cc8 <action_mem_test+0x6d8>
 #     while (*UART_OUT)
      f0c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      f10:	fe079ee3          	bnez	a5,f0c <action_go+0x54>
@@ -1490,10 +1487,9 @@ Disassembly of section .text:
      fa4:	1ea70663          	beq	a4,a0,1190 <action_go+0x2d8>
      fa8:	0067c703          	lbu	a4,6(a5)
      fac:	1aa70663          	beq	a4,a0,1158 <action_go+0x2a0>
-#   while (*str) {
      fb0:	00002737          	lui	a4,0x2
      fb4:	06500813          	li	a6,101
-     fb8:	c8c70713          	add	a4,a4,-884 # 1c8c <uart_read_char+0x5d8>
+     fb8:	c9470713          	add	a4,a4,-876 # 1c94 <action_mem_test+0x6a4>
 #     while (*UART_OUT)
      fbc:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
      fc0:	fe079ee3          	bnez	a5,fbc <action_go+0x104>
@@ -1707,9 +1703,8 @@ Disassembly of section .text:
     11dc:	00700313          	li	t1,7
     11e0:	d75ff06f          	j	f54 <action_go+0x9c>
     11e4:	00002737          	lui	a4,0x2
-#   while (*str) {
     11e8:	06c00693          	li	a3,108
-    11ec:	c7c70713          	add	a4,a4,-900 # 1c7c <uart_read_char+0x5c8>
+    11ec:	c8470713          	add	a4,a4,-892 # 1c84 <action_mem_test+0x694>
 #     while (*UART_OUT)
     11f0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
     11f4:	fe079ee3          	bnez	a5,11f0 <action_go+0x338>
@@ -1731,9 +1726,7 @@ Disassembly of section .text:
     1220:	00fe87b3          	add	a5,t4,a5
 #   const entity_id *lse = loc->entities;
     1224:	0047c783          	lbu	a5,4(a5)
-#   while (*str) {
     1228:	00064e03          	lbu	t3,0(a2)
-#   const entity_id *lse = loc->entities;
     122c:	00379893          	sll	a7,a5,0x3
     1230:	00f888b3          	add	a7,a7,a5
     1234:	00289893          	sll	a7,a7,0x2
@@ -1771,9 +1764,7 @@ Disassembly of section .text:
     1294:	00a30533          	add	a0,t1,a0
     1298:	00351513          	sll	a0,a0,0x3
     129c:	00550513          	add	a0,a0,5
-#   while (*str) {
     12a0:	0005c883          	lbu	a7,0(a1)
-#     object_id *lso = ent->objects;
     12a4:	00ae8533          	add	a0,t4,a0
 #       if (!strings_equal(objects[oid].name, obj))
     12a8:	00002e37          	lui	t3,0x2
@@ -1874,7 +1865,7 @@ Disassembly of section .text:
     13a4:	fa0e16e3          	bnez	t3,1350 <action_give+0x144>
     13a8:	00002737          	lui	a4,0x2
     13ac:	02000693          	li	a3,32
-    13b0:	cec70713          	add	a4,a4,-788 # 1cec <uart_read_char+0x638>
+    13b0:	cf470713          	add	a4,a4,-780 # 1cf4 <action_mem_test+0x704>
 #     while (*UART_OUT)
     13b4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
     13b8:	fe079ee3          	bnez	a5,13b4 <action_give+0x1a8>
@@ -1891,9 +1882,8 @@ Disassembly of section .text:
     13d4:	00168693          	add	a3,a3,1
     13d8:	f2c718e3          	bne	a4,a2,1308 <action_give+0xfc>
     13dc:	00002737          	lui	a4,0x2
-#   while (*str) {
     13e0:	07300693          	li	a3,115
-    13e4:	c6c70713          	add	a4,a4,-916 # 1c6c <uart_read_char+0x5b8>
+    13e4:	c7470713          	add	a4,a4,-908 # 1c74 <action_mem_test+0x684>
 #     while (*UART_OUT)
     13e8:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
     13ec:	fe079ee3          	bnez	a5,13e8 <action_give+0x1dc>
@@ -1906,7 +1896,7 @@ Disassembly of section .text:
     1400:	00008067          	ret
     1404:	00002737          	lui	a4,0x2
     1408:	02000693          	li	a3,32
-    140c:	cd470713          	add	a4,a4,-812 # 1cd4 <uart_read_char+0x620>
+    140c:	cdc70713          	add	a4,a4,-804 # 1cdc <action_mem_test+0x6ec>
 #     while (*UART_OUT)
     1410:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
     1414:	fe079ee3          	bnez	a5,1410 <action_give+0x204>
@@ -1919,281 +1909,309 @@ Disassembly of section .text:
     1428:	00008067          	ret
     142c:	00008067          	ret
 
-00001430 <action_mem_test>:
+00001430 <print_help>:
     1430:	00002737          	lui	a4,0x2
-    1434:	07400693          	li	a3,116
-    1438:	d0070713          	add	a4,a4,-768 # 1d00 <uart_read_char+0x64c>
+    1434:	00d00693          	li	a3,13
+    1438:	adc70713          	add	a4,a4,-1316 # 1adc <action_mem_test+0x4ec>
 #     while (*UART_OUT)
     143c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1440:	fe079ee3          	bnez	a5,143c <action_mem_test+0xc>
+    1440:	fe079ee3          	bnez	a5,143c <print_help+0xc>
 #     *UART_OUT = *str++;
     1444:	00170713          	add	a4,a4,1
     1448:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
 #   while (*str) {
     144c:	00074683          	lbu	a3,0(a4)
-    1450:	fe0696e3          	bnez	a3,143c <action_mem_test+0xc>
-#   while (ptr < end) {
-    1454:	00200637          	lui	a2,0x200
-#   char *ptr = (char *)0x10000;
-    1458:	000107b7          	lui	a5,0x10
-#   while (ptr < end) {
-    145c:	c0060613          	add	a2,a2,-1024 # 1ffc00 <__global_pointer$+0x1fd400>
-    1460:	0ff7f693          	zext.b	a3,a5
-#     *ptr++ = ch++;
-    1464:	00d78023          	sb	a3,0(a5) # 10000 <__global_pointer$+0xd800>
-    1468:	00178793          	add	a5,a5,1
-#   while (ptr < end) {
-    146c:	fec79ae3          	bne	a5,a2,1460 <action_mem_test+0x30>
-    1470:	00002737          	lui	a4,0x2
-#   while (*str) {
-    1474:	07400693          	li	a3,116
-    1478:	d1c70713          	add	a4,a4,-740 # 1d1c <uart_read_char+0x668>
-#     while (*UART_OUT)
-    147c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1480:	fe079ee3          	bnez	a5,147c <action_mem_test+0x4c>
-#     *UART_OUT = *str++;
-    1484:	00170713          	add	a4,a4,1
-    1488:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    148c:	00074683          	lbu	a3,0(a4)
-    1490:	fe0696e3          	bnez	a3,147c <action_mem_test+0x4c>
-#   while (ptr < end) {
-    1494:	00200637          	lui	a2,0x200
-#   ptr = (char *)0x10000;
-    1498:	000107b7          	lui	a5,0x10
-#   while (ptr < end) {
-    149c:	c0060613          	add	a2,a2,-1024 # 1ffc00 <__global_pointer$+0x1fd400>
-    14a0:	0080006f          	j	14a8 <action_mem_test+0x78>
-    14a4:	04c78063          	beq	a5,a2,14e4 <action_mem_test+0xb4>
-#     if (*ptr++ != ch++) {
-    14a8:	0007c683          	lbu	a3,0(a5) # 10000 <__global_pointer$+0xd800>
-    14ac:	00178793          	add	a5,a5,1
-    14b0:	fff78713          	add	a4,a5,-1
-    14b4:	0ff77713          	zext.b	a4,a4
-    14b8:	fee686e3          	beq	a3,a4,14a4 <action_mem_test+0x74>
-    14bc:	00002737          	lui	a4,0x2
-#   while (*str) {
-    14c0:	02100693          	li	a3,33
-    14c4:	d3470713          	add	a4,a4,-716 # 1d34 <uart_read_char+0x680>
-#     while (*UART_OUT)
-    14c8:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    14cc:	fe079ee3          	bnez	a5,14c8 <action_mem_test+0x98>
-#     *UART_OUT = *str++;
-    14d0:	00170713          	add	a4,a4,1
-    14d4:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    14d8:	00074683          	lbu	a3,0(a4)
-    14dc:	fe0696e3          	bnez	a3,14c8 <action_mem_test+0x98>
-    14e0:	00008067          	ret
-    14e4:	00002737          	lui	a4,0x2
-    14e8:	07400693          	li	a3,116
-    14ec:	d5070713          	add	a4,a4,-688 # 1d50 <uart_read_char+0x69c>
-#     while (*UART_OUT)
-    14f0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    14f4:	fe079ee3          	bnez	a5,14f0 <action_mem_test+0xc0>
-#     *UART_OUT = *str++;
-    14f8:	00170713          	add	a4,a4,1
-    14fc:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    1500:	00074683          	lbu	a3,0(a4)
-    1504:	fe0696e3          	bnez	a3,14f0 <action_mem_test+0xc0>
+    1450:	fe0696e3          	bnez	a3,143c <print_help+0xc>
 # }
+    1454:	00008067          	ret
+
+00001458 <input>:
+#     if (ch == CHAR_BACKSPACE) {
+    1458:	07f00613          	li	a2,127
+#     } else if (ch == CHAR_CARRIAGE_RETURN ||
+    145c:	00d00593          	li	a1,13
+    1460:	04f00813          	li	a6,79
+#   while ((ch = *UART_IN) == 0)
+    1464:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
+    1468:	0ff7f713          	zext.b	a4,a5
+    146c:	fe078ce3          	beqz	a5,1464 <input+0xc>
+#       if (buf->ix > 0) {
+    1470:	05054783          	lbu	a5,80(a0)
+#     if (ch == CHAR_BACKSPACE) {
+    1474:	02c70e63          	beq	a4,a2,14b0 <input+0x58>
+#     } else if (ch == CHAR_CARRIAGE_RETURN ||
+    1478:	04b70c63          	beq	a4,a1,14d0 <input+0x78>
+    147c:	05078a63          	beq	a5,a6,14d0 <input+0x78>
+#       buf->line[buf->ix] = ch;
+    1480:	00f506b3          	add	a3,a0,a5
+    1484:	00e68023          	sb	a4,0(a3)
+#       buf->ix++;
+    1488:	00178793          	add	a5,a5,1
+    148c:	04f50823          	sb	a5,80(a0)
+#   while (*UART_OUT)
+    1490:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1494:	fe079ee3          	bnez	a5,1490 <input+0x38>
+#   *UART_OUT = ch;
+    1498:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+#     led_set(~buf->ix);
+    149c:	05054783          	lbu	a5,80(a0)
+    14a0:	fff7c793          	not	a5,a5
+    14a4:	0ff7f793          	zext.b	a5,a5
+# void led_set(unsigned char bits) { *LED = bits; }
+    14a8:	fef00fa3          	sb	a5,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
+#   while ((ch = *UART_IN) == 0)
+    14ac:	fb9ff06f          	j	1464 <input+0xc>
+#       if (buf->ix > 0) {
+    14b0:	fe0788e3          	beqz	a5,14a0 <input+0x48>
+#         buf->ix--;
+    14b4:	fff78793          	add	a5,a5,-1
+    14b8:	04f50823          	sb	a5,80(a0)
+#   while (*UART_OUT)
+    14bc:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    14c0:	fe079ee3          	bnez	a5,14bc <input+0x64>
+#   *UART_OUT = ch;
+    14c4:	fec00f23          	sb	a2,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+#     led_set(~buf->ix);
+    14c8:	05054783          	lbu	a5,80(a0)
+# }
+    14cc:	fd5ff06f          	j	14a0 <input+0x48>
+#       buf->line[buf->ix] = 0;
+    14d0:	00f507b3          	add	a5,a0,a5
+    14d4:	00078023          	sb	zero,0(a5)
+#       buf->ix = 0;
+    14d8:	04050823          	sb	zero,80(a0)
+# }
+    14dc:	00008067          	ret
+
+000014e0 <strings_equal>:
+#     if (*s1 - *s2)
+    14e0:	00054783          	lbu	a5,0(a0)
+    14e4:	0005c703          	lbu	a4,0(a1)
+    14e8:	00f71e63          	bne	a4,a5,1504 <strings_equal+0x24>
+#     if (!*s1 && !*s2)
+    14ec:	00e7e7b3          	or	a5,a5,a4
+#     s1++;
+    14f0:	00150513          	add	a0,a0,1
+#     s2++;
+    14f4:	00158593          	add	a1,a1,1
+#     if (!*s1 && !*s2)
+    14f8:	fe0794e3          	bnez	a5,14e0 <strings_equal>
+#       return TRUE;
+    14fc:	00100513          	li	a0,1
+#   }
+# }
+    1500:	00008067          	ret
+#       return FALSE;
+    1504:	00000513          	li	a0,0
     1508:	00008067          	ret
 
-0000150c <print_help>:
+0000150c <uart_send_hex_byte>:
+# 
+# void uart_send_hex_byte(const char ch) {
+#   uart_send_hex_nibble((ch & 0xf0) >> 4);
+    150c:	00455793          	srl	a5,a0,0x4
+#   uart_send_hex_nibble(ch & 0x0f);
+# }
+# 
+# void uart_send_hex_nibble(const char nibble) {
+#   if (nibble < 10) {
+    1510:	00900713          	li	a4,9
+    1514:	04f76463          	bltu	a4,a5,155c <uart_send_hex_byte+0x50>
+#     uart_send_char('0' + nibble);
+    1518:	03078713          	add	a4,a5,48
+#   while (*UART_OUT)
+    151c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1520:	fe079ee3          	bnez	a5,151c <uart_send_hex_byte+0x10>
+#   *UART_OUT = ch;
+    1524:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+#   uart_send_hex_nibble(ch & 0x0f);
+    1528:	00f57513          	and	a0,a0,15
+#   if (nibble < 10) {
+    152c:	00900793          	li	a5,9
+    1530:	00a7ec63          	bltu	a5,a0,1548 <uart_send_hex_byte+0x3c>
+#     uart_send_char('0' + nibble);
+    1534:	03050513          	add	a0,a0,48
+#   while (*UART_OUT)
+    1538:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    153c:	fe079ee3          	bnez	a5,1538 <uart_send_hex_byte+0x2c>
+#   *UART_OUT = ch;
+    1540:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+# }
+    1544:	00008067          	ret
+#   } else {
+#     uart_send_char('A' + (nibble - 10));
+    1548:	03750513          	add	a0,a0,55
+#   while (*UART_OUT)
+    154c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1550:	fe079ee3          	bnez	a5,154c <uart_send_hex_byte+0x40>
+#   *UART_OUT = ch;
+    1554:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+# }
+    1558:	00008067          	ret
+#     uart_send_char('A' + (nibble - 10));
+    155c:	03778713          	add	a4,a5,55
+#   while (*UART_OUT)
+    1560:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1564:	fe079ee3          	bnez	a5,1560 <uart_send_hex_byte+0x54>
+    1568:	fbdff06f          	j	1524 <uart_send_hex_byte+0x18>
+
+0000156c <uart_send_hex_nibble>:
+#   if (nibble < 10) {
+    156c:	00900793          	li	a5,9
+    1570:	00a7ee63          	bltu	a5,a0,158c <uart_send_hex_nibble+0x20>
+#     uart_send_char('0' + nibble);
+    1574:	03050513          	add	a0,a0,48
+    1578:	0ff57513          	zext.b	a0,a0
+    157c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1580:	fe079ee3          	bnez	a5,157c <uart_send_hex_nibble+0x10>
+#   *UART_OUT = ch;
+    1584:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+#   }
+# }
+    1588:	00008067          	ret
+#     uart_send_char('A' + (nibble - 10));
+    158c:	03750513          	add	a0,a0,55
+    1590:	0ff57513          	zext.b	a0,a0
+#   while (*UART_OUT)
+    1594:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1598:	fe079ee3          	bnez	a5,1594 <uart_send_hex_nibble+0x28>
+#   *UART_OUT = ch;
+    159c:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+# }
+    15a0:	00008067          	ret
+
+000015a4 <led_set>:
+# void led_set(unsigned char bits) { *LED = bits; }
+    15a4:	fea00fa3          	sb	a0,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
+    15a8:	00008067          	ret
+
+000015ac <uart_send_str>:
 #   while (*str) {
-    150c:	00002737          	lui	a4,0x2
-    1510:	00d00693          	li	a3,13
-    1514:	ad470713          	add	a4,a4,-1324 # 1ad4 <uart_read_char+0x420>
+    15ac:	00054703          	lbu	a4,0(a0)
+    15b0:	00070e63          	beqz	a4,15cc <uart_send_str+0x20>
 #     while (*UART_OUT)
-    1518:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    151c:	fe079ee3          	bnez	a5,1518 <print_help+0xc>
+    15b4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    15b8:	fe079ee3          	bnez	a5,15b4 <uart_send_str+0x8>
 #     *UART_OUT = *str++;
-    1520:	00170713          	add	a4,a4,1
-    1524:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    15bc:	00150513          	add	a0,a0,1
+    15c0:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
 #   while (*str) {
-    1528:	00074683          	lbu	a3,0(a4)
-    152c:	fe0696e3          	bnez	a3,1518 <print_help+0xc>
+    15c4:	00054703          	lbu	a4,0(a0)
+    15c8:	fe0716e3          	bnez	a4,15b4 <uart_send_str+0x8>
 # }
-    1530:	00008067          	ret
+    15cc:	00008067          	ret
 
-00001534 <input>:
-#     if (ch == CHAR_BACKSPACE) {
-    1534:	07f00613          	li	a2,127
-#     } else if (ch == CHAR_CARRIAGE_RETURN ||
-    1538:	00d00593          	li	a1,13
-    153c:	04f00813          	li	a6,79
-#   while ((ch = *UART_IN) == 0)
-    1540:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
-    1544:	0ff7f713          	zext.b	a4,a5
-    1548:	fe078ce3          	beqz	a5,1540 <input+0xc>
-#       if (buf->ix > 0) {
-    154c:	05054783          	lbu	a5,80(a0)
-#     if (ch == CHAR_BACKSPACE) {
-    1550:	02c70e63          	beq	a4,a2,158c <input+0x58>
-#     } else if (ch == CHAR_CARRIAGE_RETURN ||
-    1554:	04b70c63          	beq	a4,a1,15ac <input+0x78>
-    1558:	05078a63          	beq	a5,a6,15ac <input+0x78>
-#       buf->line[buf->ix] = ch;
-    155c:	00f506b3          	add	a3,a0,a5
-    1560:	00e68023          	sb	a4,0(a3)
-#       buf->ix++;
-    1564:	00178793          	add	a5,a5,1
-    1568:	04f50823          	sb	a5,80(a0)
+000015d0 <uart_send_char>:
 #   while (*UART_OUT)
-    156c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1570:	fe079ee3          	bnez	a5,156c <input+0x38>
+    15d0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    15d4:	fe079ee3          	bnez	a5,15d0 <uart_send_char>
 #   *UART_OUT = ch;
-    1574:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#     *LED = ~buf->ix;
-    1578:	05054783          	lbu	a5,80(a0)
-    157c:	fff7c793          	not	a5,a5
-    1580:	0ff7f793          	zext.b	a5,a5
-    1584:	fef00fa3          	sb	a5,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
-#   while ((ch = *UART_IN) == 0)
-    1588:	fb9ff06f          	j	1540 <input+0xc>
-#       if (buf->ix > 0) {
-    158c:	fe0788e3          	beqz	a5,157c <input+0x48>
-#         buf->ix--;
-    1590:	fff78793          	add	a5,a5,-1
-    1594:	04f50823          	sb	a5,80(a0)
-#   while (*UART_OUT)
-    1598:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    159c:	fe079ee3          	bnez	a5,1598 <input+0x64>
-#   *UART_OUT = ch;
-    15a0:	fec00f23          	sb	a2,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#     *LED = ~buf->ix;
-    15a4:	05054783          	lbu	a5,80(a0)
-# }
-    15a8:	fd5ff06f          	j	157c <input+0x48>
-#       buf->line[buf->ix] = 0;
-    15ac:	00f507b3          	add	a5,a0,a5
-    15b0:	00078023          	sb	zero,0(a5)
-#       buf->ix = 0;
-    15b4:	04050823          	sb	zero,80(a0)
-# }
-    15b8:	00008067          	ret
-
-000015bc <strings_equal>:
-#     if (*s1 - *s2)
-    15bc:	00054783          	lbu	a5,0(a0)
-    15c0:	0005c703          	lbu	a4,0(a1)
-    15c4:	00f71e63          	bne	a4,a5,15e0 <strings_equal+0x24>
-#     if (!*s1 && !*s2)
-    15c8:	00e7e7b3          	or	a5,a5,a4
-#     s1++;
-    15cc:	00150513          	add	a0,a0,1
-#     s2++;
-    15d0:	00158593          	add	a1,a1,1
-#     if (!*s1 && !*s2)
-    15d4:	fe0794e3          	bnez	a5,15bc <strings_equal>
-#       return TRUE;
-    15d8:	00100513          	li	a0,1
+    15d8:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
 # }
     15dc:	00008067          	ret
-#       return FALSE;
-    15e0:	00000513          	li	a0,0
-    15e4:	00008067          	ret
 
-000015e8 <uart_send_str>:
-#   while (*str) {
-    15e8:	00054703          	lbu	a4,0(a0)
-    15ec:	00070e63          	beqz	a4,1608 <uart_send_str+0x20>
-#     while (*UART_OUT)
-    15f0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    15f4:	fe079ee3          	bnez	a5,15f0 <uart_send_str+0x8>
-#     *UART_OUT = *str++;
-    15f8:	00150513          	add	a0,a0,1
-    15fc:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    1600:	00054703          	lbu	a4,0(a0)
-    1604:	fe0716e3          	bnez	a4,15f0 <uart_send_str+0x8>
-# }
-    1608:	00008067          	ret
-
-0000160c <uart_send_hex_byte>:
-#   uart_send_hex_nibble((ch & 0xf0) >> 4);
-    160c:	00455793          	srl	a5,a0,0x4
-#   if (nibble < 10) {
-    1610:	00900713          	li	a4,9
-    1614:	04f76463          	bltu	a4,a5,165c <uart_send_hex_byte+0x50>
-#     uart_send_char('0' + nibble);
-    1618:	03078713          	add	a4,a5,48
-#   while (*UART_OUT)
-    161c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1620:	fe079ee3          	bnez	a5,161c <uart_send_hex_byte+0x10>
-#   *UART_OUT = ch;
-    1624:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   uart_send_hex_nibble(ch & 0x0f);
-    1628:	00f57513          	and	a0,a0,15
-#   if (nibble < 10) {
-    162c:	00900793          	li	a5,9
-    1630:	00a7ec63          	bltu	a5,a0,1648 <uart_send_hex_byte+0x3c>
-#     uart_send_char('0' + nibble);
-    1634:	03050513          	add	a0,a0,48
-#   while (*UART_OUT)
-    1638:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    163c:	fe079ee3          	bnez	a5,1638 <uart_send_hex_byte+0x2c>
-#   *UART_OUT = ch;
-    1640:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-# }
-    1644:	00008067          	ret
-#     uart_send_char('A' + (nibble - 10));
-    1648:	03750513          	add	a0,a0,55
-#   while (*UART_OUT)
-    164c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1650:	fe079ee3          	bnez	a5,164c <uart_send_hex_byte+0x40>
-#   *UART_OUT = ch;
-    1654:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-# }
-    1658:	00008067          	ret
-#     uart_send_char('A' + (nibble - 10));
-    165c:	03778713          	add	a4,a5,55
-#   while (*UART_OUT)
-    1660:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1664:	fe079ee3          	bnez	a5,1660 <uart_send_hex_byte+0x54>
-    1668:	fbdff06f          	j	1624 <uart_send_hex_byte+0x18>
-
-0000166c <uart_send_hex_nibble>:
-#   if (nibble < 10) {
-    166c:	00900793          	li	a5,9
-    1670:	00a7ee63          	bltu	a5,a0,168c <uart_send_hex_nibble+0x20>
-#     uart_send_char('0' + nibble);
-    1674:	03050513          	add	a0,a0,48
-    1678:	0ff57513          	zext.b	a0,a0
-#   while (*UART_OUT)
-    167c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1680:	fe079ee3          	bnez	a5,167c <uart_send_hex_nibble+0x10>
-#   *UART_OUT = ch;
-    1684:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-# }
-    1688:	00008067          	ret
-#     uart_send_char('A' + (nibble - 10));
-    168c:	03750513          	add	a0,a0,55
-    1690:	0ff57513          	zext.b	a0,a0
-#   while (*UART_OUT)
-    1694:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1698:	fe079ee3          	bnez	a5,1694 <uart_send_hex_nibble+0x28>
-#   *UART_OUT = ch;
-    169c:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-# }
-    16a0:	00008067          	ret
-
-000016a4 <uart_send_char>:
-#   while (*UART_OUT)
-    16a4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    16a8:	fe079ee3          	bnez	a5,16a4 <uart_send_char>
-#   *UART_OUT = ch;
-    16ac:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-# }
-    16b0:	00008067          	ret
-
-000016b4 <uart_read_char>:
+000015e0 <uart_read_char>:
 #   while ((ch = *UART_IN) == 0)
-    16b4:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
-    16b8:	0ff7f513          	zext.b	a0,a5
-    16bc:	fe078ce3          	beqz	a5,16b4 <uart_read_char>
+    15e0:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
+    15e4:	0ff7f513          	zext.b	a0,a5
+    15e8:	fe078ce3          	beqz	a5,15e0 <uart_read_char>
 #     ;
 #   return ch;
 # }
-    16c0:	00008067          	ret
+    15ec:	00008067          	ret
+
+000015f0 <action_mem_test>:
+#   while (*str) {
+    15f0:	00002737          	lui	a4,0x2
+    15f4:	07400693          	li	a3,116
+    15f8:	d0870713          	add	a4,a4,-760 # 1d08 <action_mem_test+0x718>
+#     while (*UART_OUT)
+    15fc:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1600:	fe079ee3          	bnez	a5,15fc <action_mem_test+0xc>
+#     *UART_OUT = *str++;
+    1604:	00170713          	add	a4,a4,1
+    1608:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+#   while (*str) {
+    160c:	00074683          	lbu	a3,0(a4)
+    1610:	fe0696e3          	bnez	a3,15fc <action_mem_test+0xc>
+# void action_mem_test() {
+#   uart_send_str("testing memory (write)\r\n");
+#   char *ptr = (char *)0x10000;
+#   const char *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
+#   char ch = 0;
+#   while (ptr < end) {
+    1614:	00200637          	lui	a2,0x200
+#   char *ptr = (char *)0x10000;
+    1618:	000107b7          	lui	a5,0x10
+#   while (ptr < end) {
+    161c:	c0060613          	add	a2,a2,-1024 # 1ffc00 <__global_pointer$+0x1fd400>
+    1620:	0ff7f693          	zext.b	a3,a5
+#     *ptr++ = ch++;
+    1624:	00d78023          	sb	a3,0(a5) # 10000 <__global_pointer$+0xd800>
+    1628:	00178793          	add	a5,a5,1
+#   while (ptr < end) {
+    162c:	fec79ae3          	bne	a5,a2,1620 <action_mem_test+0x30>
+    1630:	00002737          	lui	a4,0x2
+#   while (*str) {
+    1634:	07400693          	li	a3,116
+    1638:	d2470713          	add	a4,a4,-732 # 1d24 <action_mem_test+0x734>
+#     while (*UART_OUT)
+    163c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1640:	fe079ee3          	bnez	a5,163c <action_mem_test+0x4c>
+#     *UART_OUT = *str++;
+    1644:	00170713          	add	a4,a4,1
+    1648:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+#   while (*str) {
+    164c:	00074683          	lbu	a3,0(a4)
+    1650:	fe0696e3          	bnez	a3,163c <action_mem_test+0x4c>
+#   }
+#   uart_send_str("testing memory (read)\r\n");
+#   ptr = (char *)0x10000;
+#   ch = 0;
+#   while (ptr < end) {
+    1654:	00200637          	lui	a2,0x200
+#   ptr = (char *)0x10000;
+    1658:	000107b7          	lui	a5,0x10
+#   while (ptr < end) {
+    165c:	c0060613          	add	a2,a2,-1024 # 1ffc00 <__global_pointer$+0x1fd400>
+    1660:	0080006f          	j	1668 <action_mem_test+0x78>
+    1664:	04c78063          	beq	a5,a2,16a4 <action_mem_test+0xb4>
+#     if (*ptr++ != ch++) {
+    1668:	0007c683          	lbu	a3,0(a5) # 10000 <__global_pointer$+0xd800>
+    166c:	00178793          	add	a5,a5,1
+    1670:	fff78713          	add	a4,a5,-1
+    1674:	0ff77713          	zext.b	a4,a4
+    1678:	fee686e3          	beq	a3,a4,1664 <action_mem_test+0x74>
+    167c:	00002737          	lui	a4,0x2
+#   while (*str) {
+    1680:	02100693          	li	a3,33
+    1684:	d3c70713          	add	a4,a4,-708 # 1d3c <action_mem_test+0x74c>
+#     while (*UART_OUT)
+    1688:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    168c:	fe079ee3          	bnez	a5,1688 <action_mem_test+0x98>
+#     *UART_OUT = *str++;
+    1690:	00170713          	add	a4,a4,1
+    1694:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+#   while (*str) {
+    1698:	00074683          	lbu	a3,0(a4)
+    169c:	fe0696e3          	bnez	a3,1688 <action_mem_test+0x98>
+    16a0:	00008067          	ret
+    16a4:	00002737          	lui	a4,0x2
+    16a8:	07400693          	li	a3,116
+    16ac:	d5870713          	add	a4,a4,-680 # 1d58 <action_mem_test+0x768>
+#     while (*UART_OUT)
+    16b0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    16b4:	fe079ee3          	bnez	a5,16b0 <action_mem_test+0xc0>
+#     *UART_OUT = *str++;
+    16b8:	00170713          	add	a4,a4,1
+    16bc:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+#   while (*str) {
+    16c0:	00074683          	lbu	a3,0(a4)
+    16c4:	fe0696e3          	bnez	a3,16b0 <action_mem_test+0xc0>
+#       uart_send_str("!!! test memory failed\r\n");
+#       return;
+#     }
+#   }
+#   uart_send_str("testing memory succeeded\r\n");
+# }
+    16c8:	00008067          	ret
