@@ -2,6 +2,8 @@
 // an emulator of a RAM that does burst reads and writes used in simulations
 //  mock IP component
 //
+// reviewed 2024-06-26
+//
 `timescale 100ps / 100ps
 //
 `default_nettype none
@@ -30,14 +32,30 @@ module burst_ram #(
     input wire rst_n,
     input wire clk,
 
-    input wire cmd,  // 0: read, 1: write
-    input wire cmd_en,  // 1: cmd and addr is valid
-    input wire [AddressBitWidth-1:0] addr,  // 8 bytes word in default configuration
-    input wire [DataBitWidth-1:0] wr_data,  // data to write
-    input wire [DataBitWidth/8-1:0] data_mask,  // not implemented (same as 0 in IP component)
-    output logic [DataBitWidth-1:0] rd_data,  // read data
-    output logic rd_data_valid,  // rd_data is valid
+    input wire cmd,
+    // 0: read, 1: write
+
+    input wire cmd_en,
+    // 1: cmd and addr is valid
+
+    input wire [AddressBitWidth-1:0] addr,
+    // in default configuration 8 bytes word
+
+    input wire [DataBitWidth-1:0] wr_data,
+    // data to write
+
+    input wire [DataBitWidth/8-1:0] data_mask,
+    // not implemented (same as 0 in IP component)
+
+    output logic [DataBitWidth-1:0] rd_data,
+    // read data
+
+    output logic rd_data_valid,
+    // rd_data is valid
+
     output logic init_calib,
+    // high when RAM is ready for use
+
     output logic busy
 );
 
@@ -45,17 +63,17 @@ module burst_ram #(
   localparam int unsigned CMD_READ = 0;
   localparam int unsigned CMD_WRITE = 1;
 
+  logic [DataBitWidth-1:0] data[DEPTH];
+
   logic [$clog2(CyclesBeforeInitiated):0] init_calib_delay_counter;
   // note: not -1 because comparison is against CyclesBeforeInitiated
 
-  logic [DataBitWidth-1:0] data[DEPTH];
-
   logic [$clog2(BurstDataCount)-1:0] burst_counter;
 
-  logic [$clog2(CyclesBeforeDataValid):0] read_delay_counter;
-  // note: not -1 because comparison is against CyclesBeforeDataValid
+  logic [$clog2(CyclesBeforeDataValid)-1:0] read_delay_counter;
 
   logic [AddressBitWidth-1:0] addr_iter;
+  // used in burst read / write
 
   typedef enum {
     Initiate,
@@ -76,7 +94,7 @@ module burst_ram #(
     $display("        depth: %0d", DEPTH);
     $display("    data size: %0d bits", DataBitWidth);
     $display(" read latency: %0d cycles", CyclesBeforeDataValid);
-    $display("  burst count: %0d cycles", BurstDataCount);
+    $display("  burst count: %0d", BurstDataCount);
     $display("----------------------------------------");
 `endif
     if (DataFilePath != "") begin
@@ -109,21 +127,19 @@ module burst_ram #(
         end
 
         ReadDelay: begin
+          read_delay_counter <= read_delay_counter + 1'b1;
           if (read_delay_counter == CyclesBeforeDataValid - 1) begin
-            // note: not -1 because state would switch one cycle early
             rd_data_valid <= 1;
             rd_data <= data[addr_iter];
             addr_iter <= addr_iter + 1'b1;
             state <= ReadBurst;
           end
-          read_delay_counter <= read_delay_counter + 1'b1;
         end
 
         ReadBurst: begin
           burst_counter <= burst_counter + 1'b1;
           addr_iter <= addr_iter + 1'b1;
           if (burst_counter == BurstDataCount - 1) begin
-            // note: -1 because of non-blocking assignments
             rd_data_valid <= 0;
             state <= Idle;
             idle_task();
@@ -136,7 +152,6 @@ module burst_ram #(
           burst_counter <= burst_counter + 1'b1;
           addr_iter <= addr_iter + 1'b1;
           if (burst_counter == BurstDataCount - 1) begin
-            // note: -1 because of non-blocking assignments
             state <= Idle;
             idle_task();
           end else begin
