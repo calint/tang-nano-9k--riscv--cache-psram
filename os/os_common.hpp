@@ -30,13 +30,11 @@ static const char *ascii_art =
     "      | |\r\n"
     "\r\n";
 
-#define CHAR_BACKSPACE 0x7f
-#define LOCATION_MAX_OBJECTS 128
-#define LOCATION_MAX_ENTITIES 8
-#define LOCATION_MAX_EXITS 6
-#define ENTITY_MAX_OBJECTS 32
-#define TRUE 1
-#define FALSE 0
+constexpr char CHAR_BACKSPACE = 0x7f;
+constexpr int LOCATION_MAX_OBJECTS = 128;
+constexpr int LOCATION_MAX_ENTITIES = 8;
+constexpr int LOCATION_MAX_EXITS = 6;
+constexpr int ENTITY_MAX_OBJECTS = 32;
 
 void led_set(unsigned char bits);
 void uart_send_str(const char *str);
@@ -45,38 +43,37 @@ char uart_read_char();
 void uart_send_hex_byte(char ch);
 void uart_send_hex_nibble(char nibble);
 
-typedef unsigned char bool;
-typedef const char *name;
-typedef unsigned char location_id;
-typedef unsigned char object_id;
-typedef unsigned char entity_id;
-typedef unsigned char direction;
+using name_t = const char *;
+using location_id_t = unsigned char;
+using object_id_t = unsigned char;
+using entity_id_t = unsigned char;
+using direction_t = unsigned char;
 
-typedef struct input_buffer {
+struct input_buffer {
   char line[80];
   unsigned char ix;
-} input_buffer;
+};
 
-typedef struct object {
-  name name;
-} object;
+struct object {
+  name_t name;
+};
 
 static object objects[] = {{""}, {"notebook"}, {"mirror"}, {"lighter"}};
 
-typedef struct entity {
-  name name;
-  location_id location;
-  object_id objects[ENTITY_MAX_OBJECTS];
-} entity;
+struct entity {
+  name_t name;
+  location_id_t location;
+  object_id_t objects[ENTITY_MAX_OBJECTS];
+};
 
 static entity entities[] = {{"", 0, {0}}, {"me", 1, {2}}, {"u", 2, {0}}};
 
-typedef struct location {
-  name name;
-  object_id objects[LOCATION_MAX_OBJECTS];
-  entity_id entities[LOCATION_MAX_ENTITIES];
-  location_id exits[LOCATION_MAX_EXITS];
-} location;
+struct location {
+  name_t name;
+  object_id_t objects[LOCATION_MAX_OBJECTS];
+  entity_id_t entities[LOCATION_MAX_ENTITIES];
+  location_id_t exits[LOCATION_MAX_EXITS];
+};
 
 static location locations[] = {{"", {0}, {0}, {0}},
                                {"roome", {0}, {1}, {2, 3, 0, 4}},
@@ -88,24 +85,24 @@ static const char *exit_names[] = {"north", "east", "south",
                                    "west",  "up",   "down"};
 
 void print_help();
-void print_location(location_id lid, entity_id eid_exclude_from_output);
-bool add_object_to_list(object_id list[], unsigned list_len, object_id oid);
-void remove_object_from_list_by_index(object_id list[], unsigned ix);
-bool add_entity_to_list(entity_id list[], unsigned list_len, entity_id eid);
-void remove_entity_from_list_by_index(entity_id list[], unsigned ix);
-void remove_entity_from_list(entity_id list[], unsigned list_len,
-                             entity_id eid);
-void action_inventory(entity_id eid);
-void action_give(entity_id eid, name obj, name to_ent);
-void action_go(entity_id eid, direction dir);
-void action_drop(entity_id eid, name obj);
-void action_take(entity_id eid, name obj);
+void print_location(location_id_t lid, entity_id_t eid_exclude_from_output);
+bool add_object_to_list(object_id_t list[], unsigned list_len, object_id_t oid);
+void remove_object_from_list_by_index(object_id_t list[], unsigned ix);
+bool add_entity_to_list(entity_id_t list[], unsigned list_len, entity_id_t eid);
+void remove_entity_from_list_by_index(entity_id_t list[], unsigned ix);
+void remove_entity_from_list(entity_id_t list[], unsigned list_len,
+                             entity_id_t eid);
+void action_inventory(entity_id_t eid);
+void action_give(entity_id_t eid, name_t obj, name_t to_ent);
+void action_go(entity_id_t eid, direction_t dir);
+void action_drop(entity_id_t eid, name_t obj);
+void action_take(entity_id_t eid, name_t obj);
 void action_mem_test();
 void input(input_buffer *buf);
-void handle_input(entity_id eid, input_buffer *buf);
+void handle_input(entity_id_t eid, input_buffer *buf);
 bool strings_equal(const char *s1, const char *s2);
 
-void run() {
+extern "C" void run() {
 
   led_set(0); // turn all leds on
 
@@ -131,7 +128,7 @@ void run() {
   }
 }
 
-void handle_input(entity_id eid, input_buffer *buf) {
+void handle_input(entity_id_t eid, input_buffer *buf) {
   const char *words[8];
   char *ptr = buf->line;
   unsigned nwords = 0;
@@ -195,23 +192,23 @@ void handle_input(entity_id eid, input_buffer *buf) {
   }
 }
 
-void print_location(location_id lid, entity_id eid_exclude_from_output) {
+void print_location(location_id_t lid, entity_id_t eid_exclude_from_output) {
   const location *loc = &locations[lid];
   uart_send_str("u r in ");
   uart_send_str(loc->name);
   uart_send_str("\r\nu c: ");
 
   // print objects in location
-  bool add_list_sep = FALSE;
-  const object_id *lso = loc->objects;
+  bool add_list_sep = false;
+  const object_id_t *lso = loc->objects;
   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
-    const object_id oid = lso[i];
+    const object_id_t oid = lso[i];
     if (!oid)
       break;
     if (add_list_sep) {
       uart_send_str(", ");
     } else {
-      add_list_sep = TRUE;
+      add_list_sep = true;
     }
     uart_send_str(objects[oid].name);
   }
@@ -221,10 +218,10 @@ void print_location(location_id lid, entity_id eid_exclude_from_output) {
   uart_send_str("\r\n");
 
   // print entities in location
-  add_list_sep = FALSE;
-  const entity_id *lse = loc->entities;
+  add_list_sep = false;
+  const entity_id_t *lse = loc->entities;
   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
-    const entity_id eid = lse[i];
+    const entity_id_t eid = lse[i];
     if (!eid)
       break;
     if (eid == eid_exclude_from_output)
@@ -232,7 +229,7 @@ void print_location(location_id lid, entity_id eid_exclude_from_output) {
     if (add_list_sep) {
       uart_send_str(", ");
     } else {
-      add_list_sep = TRUE;
+      add_list_sep = true;
     }
     uart_send_str(entities[eid].name);
   }
@@ -241,7 +238,7 @@ void print_location(location_id lid, entity_id eid_exclude_from_output) {
   }
 
   // print exits from location
-  add_list_sep = FALSE;
+  add_list_sep = false;
   uart_send_str("exits: ");
   for (unsigned i = 0; i < LOCATION_MAX_EXITS; i++) {
     if (!loc->exits[i])
@@ -249,7 +246,7 @@ void print_location(location_id lid, entity_id eid_exclude_from_output) {
     if (add_list_sep) {
       uart_send_str(", ");
     } else {
-      add_list_sep = TRUE;
+      add_list_sep = true;
     }
     uart_send_str(exit_names[i]);
   }
@@ -259,18 +256,18 @@ void print_location(location_id lid, entity_id eid_exclude_from_output) {
   uart_send_str("\r\n");
 }
 
-void action_inventory(entity_id eid) {
+void action_inventory(entity_id_t eid) {
   uart_send_str("u have: ");
-  bool add_list_sep = FALSE;
-  const object_id *lso = entities[eid].objects;
+  bool add_list_sep = false;
+  const object_id_t *lso = entities[eid].objects;
   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
-    const object_id oid = lso[i];
+    const object_id_t oid = lso[i];
     if (!oid)
       break;
     if (add_list_sep) {
       uart_send_str(", ");
     } else {
-      add_list_sep = TRUE;
+      add_list_sep = true;
     }
     uart_send_str(objects[oid].name);
   }
@@ -280,8 +277,8 @@ void action_inventory(entity_id eid) {
   uart_send_str("\r\n");
 }
 
-void remove_object_from_list_by_index(object_id list[], unsigned ix) {
-  object_id *ptr = &list[ix];
+void remove_object_from_list_by_index(object_id_t list[], unsigned ix) {
+  object_id_t *ptr = &list[ix];
   while (1) {
     *ptr = *(ptr + 1);
     if (!*ptr)
@@ -290,34 +287,36 @@ void remove_object_from_list_by_index(object_id list[], unsigned ix) {
   }
 }
 
-bool add_object_to_list(object_id list[], unsigned list_len, object_id oid) {
+bool add_object_to_list(object_id_t list[], unsigned list_len,
+                        object_id_t oid) {
   // list_len - 1 since last element has to be 0
   for (unsigned i = 0; i < list_len - 1; i++) {
     if (list[i])
       continue;
     list[i] = oid;
     list[i + 1] = 0;
-    return TRUE;
+    return true;
   }
   uart_send_str("space full\r\n");
-  return FALSE;
+  return false;
 }
 
-bool add_entity_to_list(entity_id list[], unsigned list_len, entity_id eid) {
+bool add_entity_to_list(entity_id_t list[], unsigned list_len,
+                        entity_id_t eid) {
   // list_len - 1 since last element has to be 0
   for (unsigned i = 0; i < list_len - 1; i++) {
     if (list[i])
       continue;
     list[i] = eid;
     list[i + 1] = 0;
-    return TRUE;
+    return true;
   }
   uart_send_str("location full\r\n");
-  return FALSE;
+  return false;
 }
 
-void remove_entity_from_list(entity_id list[], unsigned list_len,
-                             entity_id eid) {
+void remove_entity_from_list(entity_id_t list[], unsigned list_len,
+                             entity_id_t eid) {
   // list_len - 1 since last element has to be 0
   for (unsigned i = 0; i < list_len - 1; i++) {
     if (list[i] != eid)
@@ -332,8 +331,8 @@ void remove_entity_from_list(entity_id list[], unsigned list_len,
   uart_send_str("entity not here\r\n");
 }
 
-void remove_entity_from_list_by_index(entity_id list[], unsigned ix) {
-  entity_id *ptr = &list[ix];
+void remove_entity_from_list_by_index(entity_id_t list[], unsigned ix) {
+  entity_id_t *ptr = &list[ix];
   while (1) {
     *ptr = *(ptr + 1);
     if (!*ptr)
@@ -342,11 +341,11 @@ void remove_entity_from_list_by_index(entity_id list[], unsigned ix) {
   }
 }
 
-void action_take(entity_id eid, name obj) {
+void action_take(entity_id_t eid, name_t obj) {
   entity *ent = &entities[eid];
-  object_id *lso = locations[ent->location].objects;
+  object_id_t *lso = locations[ent->location].objects;
   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
-    const object_id oid = lso[i];
+    const object_id_t oid = lso[i];
     if (!oid)
       break;
     if (!strings_equal(objects[oid].name, obj))
@@ -360,11 +359,11 @@ void action_take(entity_id eid, name obj) {
   uart_send_str(" not here\r\n\r\n");
 }
 
-void action_drop(entity_id eid, name obj) {
+void action_drop(entity_id_t eid, name_t obj) {
   entity *ent = &entities[eid];
-  object_id *lso = ent->objects;
+  object_id_t *lso = ent->objects;
   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
-    const object_id oid = lso[i];
+    const object_id_t oid = lso[i];
     if (!oid)
       break;
     if (!strings_equal(objects[oid].name, obj))
@@ -380,10 +379,10 @@ void action_drop(entity_id eid, name obj) {
   uart_send_str("\r\n\r\n");
 }
 
-void action_go(entity_id eid, direction dir) {
+void action_go(entity_id_t eid, direction_t dir) {
   entity *ent = &entities[eid];
   location *loc = &locations[ent->location];
-  const location_id to = loc->exits[dir];
+  const location_id_t to = loc->exits[dir];
   if (!to) {
     uart_send_str("cannot go there\r\n\r\n");
     return;
@@ -394,19 +393,19 @@ void action_go(entity_id eid, direction dir) {
   }
 }
 
-void action_give(entity_id eid, name obj, name to_ent) {
+void action_give(entity_id_t eid, name_t obj, name_t to_ent) {
   entity *ent = &entities[eid];
   const location *loc = &locations[ent->location];
-  const entity_id *lse = loc->entities;
+  const entity_id_t *lse = loc->entities;
   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     if (!lse[i])
       break;
     entity *to = &entities[lse[i]];
     if (!strings_equal(to->name, to_ent))
       continue;
-    object_id *lso = ent->objects;
+    object_id_t *lso = ent->objects;
     for (unsigned j = 0; j < ENTITY_MAX_OBJECTS; j++) {
-      const object_id oid = lso[j];
+      const object_id_t oid = lso[j];
       if (!oid)
         break;
       if (!strings_equal(objects[oid].name, obj))
@@ -441,9 +440,8 @@ void input(input_buffer *buf) {
         buf->ix--;
         uart_send_char(ch);
       }
-    } else if (ch == CHAR_CARRIAGE_RETURN ||
-               buf->ix ==
-                   sizeof(buf->line) - 1) { // -1 since last char must be 0
+    } else if (ch == CHAR_CARRIAGE_RETURN || buf->ix == sizeof(buf->line) - 1) {
+      // -1 since last char must be 0
       buf->line[buf->ix] = 0;
       buf->ix = 0;
       return;
@@ -459,9 +457,9 @@ void input(input_buffer *buf) {
 bool strings_equal(const char *s1, const char *s2) {
   while (1) {
     if (*s1 - *s2)
-      return FALSE;
+      return false;
     if (!*s1 && !*s2)
-      return TRUE;
+      return true;
     s1++;
     s2++;
   }

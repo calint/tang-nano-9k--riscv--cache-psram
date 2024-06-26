@@ -14,2204 +14,1541 @@ Disassembly of section .text:
        4:	004000ef          	jal	8 <run>
 
 00000008 <run>:
-# void action_mem_test();
-# void input(input_buffer *buf);
-# void handle_input(entity_id eid, input_buffer *buf);
-# bool strings_equal(const char *s1, const char *s2);
-# 
-# void run() {
-       8:	f7010113          	add	sp,sp,-144 # 1fff70 <__global_pointer$+0x1fd770>
-       c:	08112623          	sw	ra,140(sp)
-      10:	08812423          	sw	s0,136(sp)
-      14:	08912223          	sw	s1,132(sp)
-      18:	09212023          	sw	s2,128(sp)
-      1c:	07312e23          	sw	s3,124(sp)
-      20:	07412c23          	sw	s4,120(sp)
-      24:	07512a23          	sw	s5,116(sp)
-      28:	07612823          	sw	s6,112(sp)
-      2c:	07712623          	sw	s7,108(sp)
-      30:	07812423          	sw	s8,104(sp)
-# 
-# #define CHAR_CARRIAGE_RETURN 0x0d
-# 
-# #include "os_common.c"
-# 
-# void led_set(unsigned char bits) { *LED = bits; }
-      34:	fe000fa3          	sb	zero,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
-# 
-#   unsigned char active_entity = 1;
-#   input_buffer inbuf;
-#   inbuf.ix = 0;
-# 
-#   uart_send_str(ascii_art);
-      38:	000027b7          	lui	a5,0x2
-      3c:	3887a683          	lw	a3,904(a5) # 2388 <ascii_art>
-#   inbuf.ix = 0;
-      40:	04010e23          	sb	zero,92(sp)
-# 
-# void uart_send_str(const char *str) {
-#   while (*str) {
-      44:	0006c703          	lbu	a4,0(a3)
-      48:	00070e63          	beqz	a4,64 <run+0x5c>
-#     while (*UART_OUT)
-      4c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-      50:	fe079ee3          	bnez	a5,4c <run+0x44>
-#       ;
-#     *UART_OUT = *str++;
-      54:	00168693          	add	a3,a3,1
-      58:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-      5c:	0006c703          	lbu	a4,0(a3)
-      60:	fe0716e3          	bnez	a4,4c <run+0x44>
-#   uart_send_str(hello);
-      64:	000027b7          	lui	a5,0x2
-      68:	3847a683          	lw	a3,900(a5) # 2384 <hello>
-      6c:	0006c703          	lbu	a4,0(a3)
-      70:	00070e63          	beqz	a4,8c <run+0x84>
-#     while (*UART_OUT)
-      74:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-      78:	fe079ee3          	bnez	a5,74 <run+0x6c>
-#     *UART_OUT = *str++;
-      7c:	00168693          	add	a3,a3,1
-      80:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-      84:	0006c703          	lbu	a4,0(a3)
-      88:	fe0716e3          	bnez	a4,74 <run+0x6c>
-      8c:	00002937          	lui	s2,0x2
-      90:	000024b7          	lui	s1,0x2
-      94:	00002437          	lui	s0,0x2
-#   unsigned char active_entity = 1;
-      98:	00100b93          	li	s7,1
-      9c:	01090913          	add	s2,s2,16 # 2010 <entities>
-      a0:	aac48493          	add	s1,s1,-1364 # 1aac <action_mem_test+0x4bc>
-      a4:	c2c40413          	add	s0,s0,-980 # 1c2c <action_mem_test+0x63c>
-# }
-# 
-# void input(input_buffer *buf) {
-#   while (1) {
-#     const char ch = uart_read_char();
-#     if (ch == CHAR_BACKSPACE) {
-      a8:	07f00a13          	li	s4,127
-#       if (buf->ix > 0) {
-#         buf->ix--;
-#         uart_send_char(ch);
-#       }
-#     } else if (ch == CHAR_CARRIAGE_RETURN ||
-      ac:	00d00a93          	li	s5,13
-      b0:	04f00b13          	li	s6,79
-      b4:	00300993          	li	s3,3
-#     print_location(ent->location, active_entity);
-      b8:	002b9c13          	sll	s8,s7,0x2
-      bc:	017c0c33          	add	s8,s8,s7
-      c0:	003c1c13          	sll	s8,s8,0x3
-      c4:	01890c33          	add	s8,s2,s8
-      c8:	004c4503          	lbu	a0,4(s8)
-      cc:	000b8593          	mv	a1,s7
-      d0:	00000097          	auipc	ra,0x0
-      d4:	560080e7          	jalr	1376(ra) # 630 <print_location>
-#     uart_send_str(ent->name);
-      d8:	000c2683          	lw	a3,0(s8)
-      dc:	0006c703          	lbu	a4,0(a3)
-      e0:	00070e63          	beqz	a4,fc <run+0xf4>
-#     while (*UART_OUT)
-      e4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-      e8:	fe079ee3          	bnez	a5,e4 <run+0xdc>
-#     *UART_OUT = *str++;
-      ec:	00168693          	add	a3,a3,1
-      f0:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-      f4:	0006c703          	lbu	a4,0(a3)
-      f8:	fe0716e3          	bnez	a4,e4 <run+0xdc>
-      fc:	02000693          	li	a3,32
-     100:	00048713          	mv	a4,s1
-#     while (*UART_OUT)
-     104:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     108:	fe079ee3          	bnez	a5,104 <run+0xfc>
-#     *UART_OUT = *str++;
-     10c:	00170713          	add	a4,a4,1
-     110:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     114:	00074683          	lbu	a3,0(a4)
-     118:	fe0696e3          	bnez	a3,104 <run+0xfc>
-#   *UART_OUT = ch;
-# }
-# 
-# char uart_read_char() {
-#   char ch;
-#   while ((ch = *UART_IN) == 0)
-     11c:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
-     120:	0ff7f713          	zext.b	a4,a5
-     124:	fe078ce3          	beqz	a5,11c <run+0x114>
-#       if (buf->ix > 0) {
-     128:	05c14783          	lbu	a5,92(sp)
-#     if (ch == CHAR_BACKSPACE) {
-     12c:	05470663          	beq	a4,s4,178 <run+0x170>
-#     } else if (ch == CHAR_CARRIAGE_RETURN ||
-     130:	07570463          	beq	a4,s5,198 <run+0x190>
-     134:	07678263          	beq	a5,s6,198 <run+0x190>
-#                    sizeof(buf->line) - 1) { // -1 since last char must be 0
-#       buf->line[buf->ix] = 0;
-#       buf->ix = 0;
-#       return;
-#     } else {
-#       buf->line[buf->ix] = ch;
-     138:	06078693          	add	a3,a5,96
-     13c:	002686b3          	add	a3,a3,sp
-#       buf->ix++;
-     140:	00178793          	add	a5,a5,1
-#       buf->line[buf->ix] = ch;
-     144:	fae68623          	sb	a4,-84(a3)
-#       buf->ix++;
-     148:	04f10e23          	sb	a5,92(sp)
-#   while (*UART_OUT)
-     14c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     150:	fe079ee3          	bnez	a5,14c <run+0x144>
-#   *UART_OUT = ch;
-     154:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#       uart_send_char(ch);
-#     }
-#     led_set(~buf->ix);
-     158:	05c14783          	lbu	a5,92(sp)
-     15c:	fff7c793          	not	a5,a5
-     160:	0ff7f793          	zext.b	a5,a5
-# void led_set(unsigned char bits) { *LED = bits; }
-     164:	fef00fa3          	sb	a5,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
-#   while ((ch = *UART_IN) == 0)
-     168:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
-     16c:	0ff7f713          	zext.b	a4,a5
-     170:	fa0786e3          	beqz	a5,11c <run+0x114>
-     174:	fb5ff06f          	j	128 <run+0x120>
-#       if (buf->ix > 0) {
-     178:	fe0782e3          	beqz	a5,15c <run+0x154>
-#         buf->ix--;
-     17c:	fff78793          	add	a5,a5,-1
-     180:	04f10e23          	sb	a5,92(sp)
-#   while (*UART_OUT)
-     184:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     188:	fe079ee3          	bnez	a5,184 <run+0x17c>
-#   *UART_OUT = ch;
-     18c:	ff400f23          	sb	s4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#     led_set(~buf->ix);
-     190:	05c14783          	lbu	a5,92(sp)
-# }
-     194:	fc9ff06f          	j	15c <run+0x154>
-#       buf->line[buf->ix] = 0;
-     198:	06078793          	add	a5,a5,96
-     19c:	002787b3          	add	a5,a5,sp
-     1a0:	fa078623          	sb	zero,-84(a5)
-#       buf->ix = 0;
-     1a4:	04010e23          	sb	zero,92(sp)
-#   while (*str) {
-     1a8:	00d00693          	li	a3,13
-     1ac:	00040713          	mv	a4,s0
-#     while (*UART_OUT)
-     1b0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     1b4:	fe079ee3          	bnez	a5,1b0 <run+0x1a8>
-#     *UART_OUT = *str++;
-     1b8:	00170713          	add	a4,a4,1
-     1bc:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     1c0:	00074683          	lbu	a3,0(a4)
-     1c4:	fe0696e3          	bnez	a3,1b0 <run+0x1a8>
-#     handle_input(active_entity, &inbuf);
-     1c8:	000b8513          	mv	a0,s7
-     1cc:	00c10593          	add	a1,sp,12
-     1d0:	41798bb3          	sub	s7,s3,s7
-     1d4:	00000097          	auipc	ra,0x0
-     1d8:	010080e7          	jalr	16(ra) # 1e4 <handle_input>
-#     if (active_entity == 1)
-     1dc:	0ffbfb93          	zext.b	s7,s7
-     1e0:	ed9ff06f          	j	b8 <run+0xb0>
+       8:	f9010113          	add	sp,sp,-112 # 1fff90 <__global_pointer$+0x1fc650>
+       c:	06112623          	sw	ra,108(sp)
+      10:	06812423          	sw	s0,104(sp)
+      14:	07010413          	add	s0,sp,112
+      18:	00000513          	li	a0,0
+      1c:	00001097          	auipc	ra,0x1
+      20:	4ac080e7          	jalr	1196(ra) # 14c8 <_Z7led_seth>
+      24:	00100793          	li	a5,1
+      28:	fef407a3          	sb	a5,-17(s0)
+      2c:	fe040223          	sb	zero,-28(s0)
+      30:	000037b7          	lui	a5,0x3
+      34:	4dc7a783          	lw	a5,1244(a5) # 34dc <_ZL9ascii_art>
+      38:	00078513          	mv	a0,a5
+      3c:	00001097          	auipc	ra,0x1
+      40:	4bc080e7          	jalr	1212(ra) # 14f8 <_Z13uart_send_strPKc>
+      44:	000037b7          	lui	a5,0x3
+      48:	4d87a783          	lw	a5,1240(a5) # 34d8 <_ZL5hello>
+      4c:	00078513          	mv	a0,a5
+      50:	00001097          	auipc	ra,0x1
+      54:	4a8080e7          	jalr	1192(ra) # 14f8 <_Z13uart_send_strPKc>
+      58:	fef44703          	lbu	a4,-17(s0)
+      5c:	00070793          	mv	a5,a4
+      60:	00279793          	sll	a5,a5,0x2
+      64:	00e787b3          	add	a5,a5,a4
+      68:	00379793          	sll	a5,a5,0x3
+      6c:	00003737          	lui	a4,0x3
+      70:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
+      74:	00e787b3          	add	a5,a5,a4
+      78:	fef42423          	sw	a5,-24(s0)
+      7c:	fe842783          	lw	a5,-24(s0)
+      80:	0047c783          	lbu	a5,4(a5)
+      84:	fef44703          	lbu	a4,-17(s0)
+      88:	00070593          	mv	a1,a4
+      8c:	00078513          	mv	a0,a5
+      90:	00000097          	auipc	ra,0x0
+      94:	418080e7          	jalr	1048(ra) # 4a8 <_Z14print_locationhh>
+      98:	fe842783          	lw	a5,-24(s0)
+      9c:	0007a783          	lw	a5,0(a5)
+      a0:	00078513          	mv	a0,a5
+      a4:	00001097          	auipc	ra,0x1
+      a8:	454080e7          	jalr	1108(ra) # 14f8 <_Z13uart_send_strPKc>
+      ac:	000027b7          	lui	a5,0x2
+      b0:	ac078513          	add	a0,a5,-1344 # 1ac0 <_Z15action_mem_testv+0x4d4>
+      b4:	00001097          	auipc	ra,0x1
+      b8:	444080e7          	jalr	1092(ra) # 14f8 <_Z13uart_send_strPKc>
+      bc:	f9440793          	add	a5,s0,-108
+      c0:	00078513          	mv	a0,a5
+      c4:	00001097          	auipc	ra,0x1
+      c8:	1a4080e7          	jalr	420(ra) # 1268 <_Z5inputP12input_buffer>
+      cc:	000027b7          	lui	a5,0x2
+      d0:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
+      d4:	00001097          	auipc	ra,0x1
+      d8:	424080e7          	jalr	1060(ra) # 14f8 <_Z13uart_send_strPKc>
+      dc:	f9440713          	add	a4,s0,-108
+      e0:	fef44783          	lbu	a5,-17(s0)
+      e4:	00070593          	mv	a1,a4
+      e8:	00078513          	mv	a0,a5
+      ec:	00000097          	auipc	ra,0x0
+      f0:	02c080e7          	jalr	44(ra) # 118 <_Z12handle_inputhP12input_buffer>
+      f4:	fef44703          	lbu	a4,-17(s0)
+      f8:	00100793          	li	a5,1
+      fc:	00f71863          	bne	a4,a5,10c <run+0x104>
+     100:	00200793          	li	a5,2
+     104:	fef407a3          	sb	a5,-17(s0)
+     108:	f51ff06f          	j	58 <run+0x50>
+     10c:	00100793          	li	a5,1
+     110:	fef407a3          	sb	a5,-17(s0)
+     114:	f45ff06f          	j	58 <run+0x50>
 
-000001e4 <handle_input>:
-# void handle_input(entity_id eid, input_buffer *buf) {
-     1e4:	fd010113          	add	sp,sp,-48
-     1e8:	02112623          	sw	ra,44(sp)
-     1ec:	00010813          	mv	a6,sp
-#   unsigned nwords = 0;
-     1f0:	00000613          	li	a2,0
-#     while (*ptr && *ptr != ' ') {
-     1f4:	02000693          	li	a3,32
-#     if (nwords == sizeof(words) / sizeof(const char *)) {
-     1f8:	00800893          	li	a7,8
-#     while (*ptr && *ptr != ' ') {
-     1fc:	0005c783          	lbu	a5,0(a1)
-#     words[nwords++] = ptr;
-     200:	00b82023          	sw	a1,0(a6)
-     204:	00160613          	add	a2,a2,1
-#     while (*ptr && *ptr != ' ') {
-     208:	00079863          	bnez	a5,218 <handle_input+0x34>
-     20c:	0480006f          	j	254 <handle_input+0x70>
-     210:	0005c783          	lbu	a5,0(a1)
-     214:	04078063          	beqz	a5,254 <handle_input+0x70>
-     218:	00058713          	mv	a4,a1
-#       ptr++;
-     21c:	00158593          	add	a1,a1,1
-#     while (*ptr && *ptr != ' ') {
-     220:	fed798e3          	bne	a5,a3,210 <handle_input+0x2c>
-#     *ptr = 0;
-     224:	00070023          	sb	zero,0(a4)
-#     if (nwords == sizeof(words) / sizeof(const char *)) {
-     228:	00480813          	add	a6,a6,4
-     22c:	fd1618e3          	bne	a2,a7,1fc <handle_input+0x18>
-     230:	00002737          	lui	a4,0x2
-     234:	ab070713          	add	a4,a4,-1360 # 1ab0 <action_mem_test+0x4c0>
-     238:	07400693          	li	a3,116
-#     while (*UART_OUT)
-     23c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     240:	fe079ee3          	bnez	a5,23c <handle_input+0x58>
-#     *UART_OUT = *str++;
-     244:	00170713          	add	a4,a4,1
-     248:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     24c:	00074683          	lbu	a3,0(a4)
-     250:	fe0696e3          	bnez	a3,23c <handle_input+0x58>
-#   if (strings_equal(words[0], "help")) {
-     254:	00012783          	lw	a5,0(sp)
-#   }
-# }
-# 
-# bool strings_equal(const char *s1, const char *s2) {
-#   while (1) {
-#     if (*s1 - *s2)
-     258:	06800693          	li	a3,104
-     25c:	0007c703          	lbu	a4,0(a5)
-     260:	08d71863          	bne	a4,a3,2f0 <handle_input+0x10c>
-     264:	00002637          	lui	a2,0x2
-     268:	ad460613          	add	a2,a2,-1324 # 1ad4 <action_mem_test+0x4e4>
-     26c:	0100006f          	j	27c <handle_input+0x98>
-     270:	0007c683          	lbu	a3,0(a5)
-     274:	00064703          	lbu	a4,0(a2)
-     278:	04d71863          	bne	a4,a3,2c8 <handle_input+0xe4>
-#       return FALSE;
-#     if (!*s1 && !*s2)
-     27c:	00d766b3          	or	a3,a4,a3
-#       return TRUE;
-#     s1++;
-     280:	00178793          	add	a5,a5,1
-#     s2++;
-     284:	00160613          	add	a2,a2,1
-#     if (!*s1 && !*s2)
-     288:	fe0694e3          	bnez	a3,270 <handle_input+0x8c>
-     28c:	00002737          	lui	a4,0x2
-     290:	00d00693          	li	a3,13
-     294:	adc70713          	add	a4,a4,-1316 # 1adc <action_mem_test+0x4ec>
-#     while (*UART_OUT)
-     298:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     29c:	fe079ee3          	bnez	a5,298 <handle_input+0xb4>
-#     *UART_OUT = *str++;
-     2a0:	00170713          	add	a4,a4,1
-     2a4:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     2a8:	00074683          	lbu	a3,0(a4)
-     2ac:	fe0696e3          	bnez	a3,298 <handle_input+0xb4>
-# }
-     2b0:	02c12083          	lw	ra,44(sp)
-     2b4:	03010113          	add	sp,sp,48
-     2b8:	00008067          	ret
-#     if (*s1 - *s2)
-     2bc:	0007c703          	lbu	a4,0(a5)
-     2c0:	00064683          	lbu	a3,0(a2)
-     2c4:	02d70e63          	beq	a4,a3,300 <handle_input+0x11c>
-     2c8:	06e00713          	li	a4,110
-     2cc:	000027b7          	lui	a5,0x2
-     2d0:	c1c78793          	add	a5,a5,-996 # 1c1c <action_mem_test+0x62c>
-#     while (*UART_OUT)
-     2d4:	ffe04683          	lbu	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     2d8:	fe069ee3          	bnez	a3,2d4 <handle_input+0xf0>
-#     *UART_OUT = *str++;
-     2dc:	00178793          	add	a5,a5,1
-     2e0:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     2e4:	0007c703          	lbu	a4,0(a5)
-     2e8:	fe0716e3          	bnez	a4,2d4 <handle_input+0xf0>
-     2ec:	fc5ff06f          	j	2b0 <handle_input+0xcc>
-     2f0:	06900693          	li	a3,105
-     2f4:	04d71a63          	bne	a4,a3,348 <handle_input+0x164>
-     2f8:	00002637          	lui	a2,0x2
-     2fc:	bb860613          	add	a2,a2,-1096 # 1bb8 <action_mem_test+0x5c8>
-#     if (!*s1 && !*s2)
-     300:	00d766b3          	or	a3,a4,a3
-#     s1++;
-     304:	00178793          	add	a5,a5,1
-#     s2++;
-     308:	00160613          	add	a2,a2,1
-#     if (!*s1 && !*s2)
-     30c:	fa0698e3          	bnez	a3,2bc <handle_input+0xd8>
-#     action_inventory(eid);
-     310:	00000097          	auipc	ra,0x0
-     314:	63c080e7          	jalr	1596(ra) # 94c <action_inventory>
-     318:	00002737          	lui	a4,0x2
-     31c:	00d00693          	li	a3,13
-     320:	c2c70713          	add	a4,a4,-980 # 1c2c <action_mem_test+0x63c>
-#     while (*UART_OUT)
-     324:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     328:	fe079ee3          	bnez	a5,324 <handle_input+0x140>
-#     *UART_OUT = *str++;
-     32c:	00170713          	add	a4,a4,1
-     330:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     334:	00074683          	lbu	a3,0(a4)
-     338:	f6068ce3          	beqz	a3,2b0 <handle_input+0xcc>
-#     while (*UART_OUT)
-     33c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     340:	fe0792e3          	bnez	a5,324 <handle_input+0x140>
-     344:	fe9ff06f          	j	32c <handle_input+0x148>
-#     if (*s1 - *s2)
-     348:	07400693          	li	a3,116
-     34c:	06d71863          	bne	a4,a3,3bc <handle_input+0x1d8>
-     350:	000025b7          	lui	a1,0x2
-     354:	07400813          	li	a6,116
-     358:	bbc58593          	add	a1,a1,-1092 # 1bbc <action_mem_test+0x5cc>
-#     if (!*s1 && !*s2)
-     35c:	0106e6b3          	or	a3,a3,a6
-#     s1++;
-     360:	00178793          	add	a5,a5,1
-#     s2++;
-     364:	00158593          	add	a1,a1,1
-#     if (!*s1 && !*s2)
-     368:	02069063          	bnez	a3,388 <handle_input+0x1a4>
-#     if (nwords < 2) {
-     36c:	00100793          	li	a5,1
-     370:	02f60463          	beq	a2,a5,398 <handle_input+0x1b4>
-#     action_take(eid, words[1]);
-     374:	00412583          	lw	a1,4(sp)
-# }
-     378:	02c12083          	lw	ra,44(sp)
-     37c:	03010113          	add	sp,sp,48
-#     action_take(eid, words[1]);
-     380:	00001317          	auipc	t1,0x1
-     384:	83c30067          	jr	-1988(t1) # bbc <action_take>
-#     if (*s1 - *s2)
-     388:	0007c683          	lbu	a3,0(a5)
-     38c:	0005c803          	lbu	a6,0(a1)
-     390:	fd0686e3          	beq	a3,a6,35c <handle_input+0x178>
-     394:	f35ff06f          	j	2c8 <handle_input+0xe4>
-     398:	000026b7          	lui	a3,0x2
-     39c:	bc068693          	add	a3,a3,-1088 # 1bc0 <action_mem_test+0x5d0>
-     3a0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     3a4:	fe079ee3          	bnez	a5,3a0 <handle_input+0x1bc>
-#     *UART_OUT = *str++;
-     3a8:	00168693          	add	a3,a3,1
-     3ac:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     3b0:	0006c703          	lbu	a4,0(a3)
-     3b4:	fe0716e3          	bnez	a4,3a0 <handle_input+0x1bc>
-     3b8:	ef9ff06f          	j	2b0 <handle_input+0xcc>
-     3bc:	06400693          	li	a3,100
-     3c0:	04d71663          	bne	a4,a3,40c <handle_input+0x228>
-     3c4:	000025b7          	lui	a1,0x2
-     3c8:	06400813          	li	a6,100
-     3cc:	bd058593          	add	a1,a1,-1072 # 1bd0 <action_mem_test+0x5e0>
-#     if (!*s1 && !*s2)
-     3d0:	0106e6b3          	or	a3,a3,a6
-#     s1++;
-     3d4:	00178793          	add	a5,a5,1
-#     s2++;
-     3d8:	00158593          	add	a1,a1,1
-#     if (!*s1 && !*s2)
-     3dc:	02069063          	bnez	a3,3fc <handle_input+0x218>
-#     if (nwords < 2) {
-     3e0:	00100793          	li	a5,1
-     3e4:	0ef60c63          	beq	a2,a5,4dc <handle_input+0x2f8>
-#     action_drop(eid, words[1]);
-     3e8:	00412583          	lw	a1,4(sp)
-# }
-     3ec:	02c12083          	lw	ra,44(sp)
-     3f0:	03010113          	add	sp,sp,48
-#     action_drop(eid, words[1]);
-     3f4:	00001317          	auipc	t1,0x1
-     3f8:	93830067          	jr	-1736(t1) # d2c <action_drop>
-#     if (*s1 - *s2)
-     3fc:	0007c683          	lbu	a3,0(a5)
-     400:	0005c803          	lbu	a6,0(a1)
-     404:	fd0686e3          	beq	a3,a6,3d0 <handle_input+0x1ec>
-     408:	ec1ff06f          	j	2c8 <handle_input+0xe4>
-     40c:	06e00693          	li	a3,110
-     410:	04d71263          	bne	a4,a3,454 <handle_input+0x270>
-     414:	00002637          	lui	a2,0x2
-     418:	06e00593          	li	a1,110
-     41c:	be460613          	add	a2,a2,-1052 # 1be4 <action_mem_test+0x5f4>
-#     if (!*s1 && !*s2)
-     420:	00b6e6b3          	or	a3,a3,a1
-#     s1++;
-     424:	00178793          	add	a5,a5,1
-#     s2++;
-     428:	00160613          	add	a2,a2,1
-#     if (!*s1 && !*s2)
-     42c:	00069c63          	bnez	a3,444 <handle_input+0x260>
-# }
-     430:	02c12083          	lw	ra,44(sp)
-#     action_go(eid, 0);
-     434:	00000593          	li	a1,0
-# }
-     438:	03010113          	add	sp,sp,48
-#     action_go(eid, 0);
-     43c:	00001317          	auipc	t1,0x1
-     440:	a7c30067          	jr	-1412(t1) # eb8 <action_go>
-#     if (*s1 - *s2)
-     444:	0007c683          	lbu	a3,0(a5)
-     448:	00064583          	lbu	a1,0(a2)
-     44c:	fcb68ae3          	beq	a3,a1,420 <handle_input+0x23c>
-     450:	e7dff06f          	j	2cc <handle_input+0xe8>
-     454:	06500693          	li	a3,101
-     458:	04d71063          	bne	a4,a3,498 <handle_input+0x2b4>
-     45c:	00002637          	lui	a2,0x2
-     460:	a6060613          	add	a2,a2,-1440 # 1a60 <action_mem_test+0x470>
-#     if (!*s1 && !*s2)
-     464:	00d766b3          	or	a3,a4,a3
-#     s1++;
-     468:	00178793          	add	a5,a5,1
-#     s2++;
-     46c:	00160613          	add	a2,a2,1
-#     if (!*s1 && !*s2)
-     470:	00069c63          	bnez	a3,488 <handle_input+0x2a4>
-# }
-     474:	02c12083          	lw	ra,44(sp)
-#     action_go(eid, 1);
-     478:	00100593          	li	a1,1
-# }
-     47c:	03010113          	add	sp,sp,48
-#     action_go(eid, 1);
-     480:	00001317          	auipc	t1,0x1
-     484:	a3830067          	jr	-1480(t1) # eb8 <action_go>
-#     if (*s1 - *s2)
-     488:	0007c703          	lbu	a4,0(a5)
-     48c:	00064683          	lbu	a3,0(a2)
-     490:	fcd70ae3          	beq	a4,a3,464 <handle_input+0x280>
-     494:	e35ff06f          	j	2c8 <handle_input+0xe4>
-     498:	07300693          	li	a3,115
-     49c:	06d71263          	bne	a4,a3,500 <handle_input+0x31c>
-     4a0:	00002637          	lui	a2,0x2
-     4a4:	be860613          	add	a2,a2,-1048 # 1be8 <action_mem_test+0x5f8>
-#     if (!*s1 && !*s2)
-     4a8:	00d766b3          	or	a3,a4,a3
-#     s1++;
-     4ac:	00178793          	add	a5,a5,1
-#     s2++;
-     4b0:	00160613          	add	a2,a2,1
-#     if (!*s1 && !*s2)
-     4b4:	00069c63          	bnez	a3,4cc <handle_input+0x2e8>
-# }
-     4b8:	02c12083          	lw	ra,44(sp)
-#     action_go(eid, 2);
-     4bc:	00200593          	li	a1,2
-# }
-     4c0:	03010113          	add	sp,sp,48
-#     action_go(eid, 2);
-     4c4:	00001317          	auipc	t1,0x1
-     4c8:	9f430067          	jr	-1548(t1) # eb8 <action_go>
-#     if (*s1 - *s2)
-     4cc:	0007c703          	lbu	a4,0(a5)
-     4d0:	00064683          	lbu	a3,0(a2)
-     4d4:	fcd70ae3          	beq	a4,a3,4a8 <handle_input+0x2c4>
-     4d8:	df1ff06f          	j	2c8 <handle_input+0xe4>
-     4dc:	000026b7          	lui	a3,0x2
-     4e0:	bd468693          	add	a3,a3,-1068 # 1bd4 <action_mem_test+0x5e4>
-#     while (*UART_OUT)
-     4e4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     4e8:	fe079ee3          	bnez	a5,4e4 <handle_input+0x300>
-#     *UART_OUT = *str++;
-     4ec:	00168693          	add	a3,a3,1
-     4f0:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     4f4:	0006c703          	lbu	a4,0(a3)
-     4f8:	fe0716e3          	bnez	a4,4e4 <handle_input+0x300>
-     4fc:	db5ff06f          	j	2b0 <handle_input+0xcc>
-     500:	07700693          	li	a3,119
-     504:	04d71063          	bne	a4,a3,544 <handle_input+0x360>
-     508:	00002637          	lui	a2,0x2
-     50c:	bec60613          	add	a2,a2,-1044 # 1bec <action_mem_test+0x5fc>
-#     if (!*s1 && !*s2)
-     510:	00d766b3          	or	a3,a4,a3
-#     s1++;
-     514:	00178793          	add	a5,a5,1
-#     s2++;
-     518:	00160613          	add	a2,a2,1
-#     if (!*s1 && !*s2)
-     51c:	00069c63          	bnez	a3,534 <handle_input+0x350>
-# }
-     520:	02c12083          	lw	ra,44(sp)
-#     action_go(eid, 3);
-     524:	00300593          	li	a1,3
-# }
-     528:	03010113          	add	sp,sp,48
-#     action_go(eid, 3);
-     52c:	00001317          	auipc	t1,0x1
-     530:	98c30067          	jr	-1652(t1) # eb8 <action_go>
-#     if (*s1 - *s2)
-     534:	0007c703          	lbu	a4,0(a5)
-     538:	00064683          	lbu	a3,0(a2)
-     53c:	fcd70ae3          	beq	a4,a3,510 <handle_input+0x32c>
-     540:	d89ff06f          	j	2c8 <handle_input+0xe4>
-     544:	06700693          	li	a3,103
-     548:	04d71c63          	bne	a4,a3,5a0 <handle_input+0x3bc>
-     54c:	000025b7          	lui	a1,0x2
-     550:	06700813          	li	a6,103
-     554:	bf058593          	add	a1,a1,-1040 # 1bf0 <action_mem_test+0x600>
-#     if (!*s1 && !*s2)
-     558:	0106e6b3          	or	a3,a3,a6
-#     s1++;
-     55c:	00178793          	add	a5,a5,1
-#     s2++;
-     560:	00158593          	add	a1,a1,1
-#     if (!*s1 && !*s2)
-     564:	02069663          	bnez	a3,590 <handle_input+0x3ac>
-#     if (nwords < 2) {
-     568:	00100793          	li	a5,1
-     56c:	0af60063          	beq	a2,a5,60c <handle_input+0x428>
-#     if (nwords < 3) {
-     570:	00200793          	li	a5,2
-     574:	06f60a63          	beq	a2,a5,5e8 <handle_input+0x404>
-#     action_give(eid, words[1], words[2]);
-     578:	00812603          	lw	a2,8(sp)
-     57c:	00412583          	lw	a1,4(sp)
-# }
-     580:	02c12083          	lw	ra,44(sp)
-     584:	03010113          	add	sp,sp,48
-#     action_give(eid, words[1], words[2]);
-     588:	00001317          	auipc	t1,0x1
-     58c:	c8430067          	jr	-892(t1) # 120c <action_give>
-#     if (*s1 - *s2)
-     590:	0007c683          	lbu	a3,0(a5)
-     594:	0005c803          	lbu	a6,0(a1)
-     598:	fd0680e3          	beq	a3,a6,558 <handle_input+0x374>
-     59c:	d2dff06f          	j	2c8 <handle_input+0xe4>
-     5a0:	06d00693          	li	a3,109
-     5a4:	d2d712e3          	bne	a4,a3,2c8 <handle_input+0xe4>
-     5a8:	00002637          	lui	a2,0x2
-     5ac:	00070693          	mv	a3,a4
-     5b0:	c1860613          	add	a2,a2,-1000 # 1c18 <action_mem_test+0x628>
-#     if (!*s1 && !*s2)
-     5b4:	00d76733          	or	a4,a4,a3
-     5b8:	0ff77713          	zext.b	a4,a4
-#     s1++;
-     5bc:	00178793          	add	a5,a5,1
-#     s2++;
-     5c0:	00160613          	add	a2,a2,1
-#     if (!*s1 && !*s2)
-     5c4:	00071a63          	bnez	a4,5d8 <handle_input+0x3f4>
-# }
-     5c8:	02c12083          	lw	ra,44(sp)
-     5cc:	03010113          	add	sp,sp,48
-#     action_mem_test();
-     5d0:	00001317          	auipc	t1,0x1
-     5d4:	02030067          	jr	32(t1) # 15f0 <action_mem_test>
-#     if (*s1 - *s2)
-     5d8:	0007c703          	lbu	a4,0(a5)
-     5dc:	00064683          	lbu	a3,0(a2)
-     5e0:	fcd70ae3          	beq	a4,a3,5b4 <handle_input+0x3d0>
-     5e4:	ce5ff06f          	j	2c8 <handle_input+0xe4>
+00000118 <_Z12handle_inputhP12input_buffer>:
+     118:	fb010113          	add	sp,sp,-80
+     11c:	04112623          	sw	ra,76(sp)
+     120:	04812423          	sw	s0,72(sp)
+     124:	05010413          	add	s0,sp,80
+     128:	00050793          	mv	a5,a0
+     12c:	fab42c23          	sw	a1,-72(s0)
+     130:	faf40fa3          	sb	a5,-65(s0)
+     134:	fb842783          	lw	a5,-72(s0)
+     138:	fef42623          	sw	a5,-20(s0)
+     13c:	fe042423          	sw	zero,-24(s0)
+     140:	fec42703          	lw	a4,-20(s0)
+     144:	fe842783          	lw	a5,-24(s0)
+     148:	00178693          	add	a3,a5,1
+     14c:	fed42423          	sw	a3,-24(s0)
+     150:	00279793          	sll	a5,a5,0x2
+     154:	ff078793          	add	a5,a5,-16
+     158:	008787b3          	add	a5,a5,s0
+     15c:	fce7ac23          	sw	a4,-40(a5)
+     160:	0100006f          	j	170 <_Z12handle_inputhP12input_buffer+0x58>
+     164:	fec42783          	lw	a5,-20(s0)
+     168:	00178793          	add	a5,a5,1
+     16c:	fef42623          	sw	a5,-20(s0)
+     170:	fec42783          	lw	a5,-20(s0)
+     174:	0007c783          	lbu	a5,0(a5)
+     178:	00078a63          	beqz	a5,18c <_Z12handle_inputhP12input_buffer+0x74>
+     17c:	fec42783          	lw	a5,-20(s0)
+     180:	0007c703          	lbu	a4,0(a5)
+     184:	02000793          	li	a5,32
+     188:	fcf71ee3          	bne	a4,a5,164 <_Z12handle_inputhP12input_buffer+0x4c>
+     18c:	fec42783          	lw	a5,-20(s0)
+     190:	0007c783          	lbu	a5,0(a5)
+     194:	02078c63          	beqz	a5,1cc <_Z12handle_inputhP12input_buffer+0xb4>
+     198:	fec42783          	lw	a5,-20(s0)
+     19c:	00078023          	sb	zero,0(a5)
+     1a0:	fec42783          	lw	a5,-20(s0)
+     1a4:	00178793          	add	a5,a5,1
+     1a8:	fef42623          	sw	a5,-20(s0)
+     1ac:	fe842703          	lw	a4,-24(s0)
+     1b0:	00800793          	li	a5,8
+     1b4:	f8f716e3          	bne	a4,a5,140 <_Z12handle_inputhP12input_buffer+0x28>
+     1b8:	000027b7          	lui	a5,0x2
+     1bc:	ac878513          	add	a0,a5,-1336 # 1ac8 <_Z15action_mem_testv+0x4dc>
+     1c0:	00001097          	auipc	ra,0x1
+     1c4:	338080e7          	jalr	824(ra) # 14f8 <_Z13uart_send_strPKc>
+     1c8:	0080006f          	j	1d0 <_Z12handle_inputhP12input_buffer+0xb8>
+     1cc:	00000013          	nop
+     1d0:	fc842703          	lw	a4,-56(s0)
+     1d4:	000027b7          	lui	a5,0x2
+     1d8:	aec78593          	add	a1,a5,-1300 # 1aec <_Z15action_mem_testv+0x500>
+     1dc:	00070513          	mv	a0,a4
+     1e0:	00001097          	auipc	ra,0x1
+     1e4:	1a4080e7          	jalr	420(ra) # 1384 <_Z13strings_equalPKcS0_>
+     1e8:	00050793          	mv	a5,a0
+     1ec:	00078863          	beqz	a5,1fc <_Z12handle_inputhP12input_buffer+0xe4>
+     1f0:	00001097          	auipc	ra,0x1
+     1f4:	044080e7          	jalr	68(ra) # 1234 <_Z10print_helpv>
+     1f8:	2a00006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     1fc:	fc842703          	lw	a4,-56(s0)
+     200:	000027b7          	lui	a5,0x2
+     204:	af478593          	add	a1,a5,-1292 # 1af4 <_Z15action_mem_testv+0x508>
+     208:	00070513          	mv	a0,a4
+     20c:	00001097          	auipc	ra,0x1
+     210:	178080e7          	jalr	376(ra) # 1384 <_Z13strings_equalPKcS0_>
+     214:	00050793          	mv	a5,a0
+     218:	02078463          	beqz	a5,240 <_Z12handle_inputhP12input_buffer+0x128>
+     21c:	fbf44783          	lbu	a5,-65(s0)
+     220:	00078513          	mv	a0,a5
+     224:	00000097          	auipc	ra,0x0
+     228:	584080e7          	jalr	1412(ra) # 7a8 <_Z16action_inventoryh>
+     22c:	000027b7          	lui	a5,0x2
+     230:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
+     234:	00001097          	auipc	ra,0x1
+     238:	2c4080e7          	jalr	708(ra) # 14f8 <_Z13uart_send_strPKc>
+     23c:	25c0006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     240:	fc842703          	lw	a4,-56(s0)
+     244:	000027b7          	lui	a5,0x2
+     248:	af878593          	add	a1,a5,-1288 # 1af8 <_Z15action_mem_testv+0x50c>
+     24c:	00070513          	mv	a0,a4
+     250:	00001097          	auipc	ra,0x1
+     254:	134080e7          	jalr	308(ra) # 1384 <_Z13strings_equalPKcS0_>
+     258:	00050793          	mv	a5,a0
+     25c:	04078063          	beqz	a5,29c <_Z12handle_inputhP12input_buffer+0x184>
+     260:	fe842703          	lw	a4,-24(s0)
+     264:	00100793          	li	a5,1
+     268:	00e7ec63          	bltu	a5,a4,280 <_Z12handle_inputhP12input_buffer+0x168>
+     26c:	000027b7          	lui	a5,0x2
+     270:	afc78513          	add	a0,a5,-1284 # 1afc <_Z15action_mem_testv+0x510>
+     274:	00001097          	auipc	ra,0x1
+     278:	284080e7          	jalr	644(ra) # 14f8 <_Z13uart_send_strPKc>
+     27c:	21c0006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     280:	fcc42703          	lw	a4,-52(s0)
+     284:	fbf44783          	lbu	a5,-65(s0)
+     288:	00070593          	mv	a1,a4
+     28c:	00078513          	mv	a0,a5
+     290:	00001097          	auipc	ra,0x1
+     294:	950080e7          	jalr	-1712(ra) # be0 <_Z11action_takehPKc>
+     298:	2000006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     29c:	fc842703          	lw	a4,-56(s0)
+     2a0:	000027b7          	lui	a5,0x2
+     2a4:	b0c78593          	add	a1,a5,-1268 # 1b0c <_Z15action_mem_testv+0x520>
+     2a8:	00070513          	mv	a0,a4
+     2ac:	00001097          	auipc	ra,0x1
+     2b0:	0d8080e7          	jalr	216(ra) # 1384 <_Z13strings_equalPKcS0_>
+     2b4:	00050793          	mv	a5,a0
+     2b8:	04078063          	beqz	a5,2f8 <_Z12handle_inputhP12input_buffer+0x1e0>
+     2bc:	fe842703          	lw	a4,-24(s0)
+     2c0:	00100793          	li	a5,1
+     2c4:	00e7ec63          	bltu	a5,a4,2dc <_Z12handle_inputhP12input_buffer+0x1c4>
+     2c8:	000027b7          	lui	a5,0x2
+     2cc:	b1078513          	add	a0,a5,-1264 # 1b10 <_Z15action_mem_testv+0x524>
+     2d0:	00001097          	auipc	ra,0x1
+     2d4:	228080e7          	jalr	552(ra) # 14f8 <_Z13uart_send_strPKc>
+     2d8:	1c00006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     2dc:	fcc42703          	lw	a4,-52(s0)
+     2e0:	fbf44783          	lbu	a5,-65(s0)
+     2e4:	00070593          	mv	a1,a4
+     2e8:	00078513          	mv	a0,a5
+     2ec:	00001097          	auipc	ra,0x1
+     2f0:	a5c080e7          	jalr	-1444(ra) # d48 <_Z11action_drophPKc>
+     2f4:	1a40006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     2f8:	fc842703          	lw	a4,-56(s0)
+     2fc:	000027b7          	lui	a5,0x2
+     300:	b2078593          	add	a1,a5,-1248 # 1b20 <_Z15action_mem_testv+0x534>
+     304:	00070513          	mv	a0,a4
+     308:	00001097          	auipc	ra,0x1
+     30c:	07c080e7          	jalr	124(ra) # 1384 <_Z13strings_equalPKcS0_>
+     310:	00050793          	mv	a5,a0
+     314:	00078e63          	beqz	a5,330 <_Z12handle_inputhP12input_buffer+0x218>
+     318:	fbf44783          	lbu	a5,-65(s0)
+     31c:	00000593          	li	a1,0
+     320:	00078513          	mv	a0,a5
+     324:	00001097          	auipc	ra,0x1
+     328:	b9c080e7          	jalr	-1124(ra) # ec0 <_Z9action_gohh>
+     32c:	16c0006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     330:	fc842703          	lw	a4,-56(s0)
+     334:	000027b7          	lui	a5,0x2
+     338:	b2478593          	add	a1,a5,-1244 # 1b24 <_Z15action_mem_testv+0x538>
+     33c:	00070513          	mv	a0,a4
+     340:	00001097          	auipc	ra,0x1
+     344:	044080e7          	jalr	68(ra) # 1384 <_Z13strings_equalPKcS0_>
+     348:	00050793          	mv	a5,a0
+     34c:	00078e63          	beqz	a5,368 <_Z12handle_inputhP12input_buffer+0x250>
+     350:	fbf44783          	lbu	a5,-65(s0)
+     354:	00100593          	li	a1,1
+     358:	00078513          	mv	a0,a5
+     35c:	00001097          	auipc	ra,0x1
+     360:	b64080e7          	jalr	-1180(ra) # ec0 <_Z9action_gohh>
+     364:	1340006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     368:	fc842703          	lw	a4,-56(s0)
+     36c:	000027b7          	lui	a5,0x2
+     370:	b2878593          	add	a1,a5,-1240 # 1b28 <_Z15action_mem_testv+0x53c>
+     374:	00070513          	mv	a0,a4
+     378:	00001097          	auipc	ra,0x1
+     37c:	00c080e7          	jalr	12(ra) # 1384 <_Z13strings_equalPKcS0_>
+     380:	00050793          	mv	a5,a0
+     384:	00078e63          	beqz	a5,3a0 <_Z12handle_inputhP12input_buffer+0x288>
+     388:	fbf44783          	lbu	a5,-65(s0)
+     38c:	00200593          	li	a1,2
+     390:	00078513          	mv	a0,a5
+     394:	00001097          	auipc	ra,0x1
+     398:	b2c080e7          	jalr	-1236(ra) # ec0 <_Z9action_gohh>
+     39c:	0fc0006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     3a0:	fc842703          	lw	a4,-56(s0)
+     3a4:	000027b7          	lui	a5,0x2
+     3a8:	b2c78593          	add	a1,a5,-1236 # 1b2c <_Z15action_mem_testv+0x540>
+     3ac:	00070513          	mv	a0,a4
+     3b0:	00001097          	auipc	ra,0x1
+     3b4:	fd4080e7          	jalr	-44(ra) # 1384 <_Z13strings_equalPKcS0_>
+     3b8:	00050793          	mv	a5,a0
+     3bc:	00078e63          	beqz	a5,3d8 <_Z12handle_inputhP12input_buffer+0x2c0>
+     3c0:	fbf44783          	lbu	a5,-65(s0)
+     3c4:	00300593          	li	a1,3
+     3c8:	00078513          	mv	a0,a5
+     3cc:	00001097          	auipc	ra,0x1
+     3d0:	af4080e7          	jalr	-1292(ra) # ec0 <_Z9action_gohh>
+     3d4:	0c40006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     3d8:	fc842703          	lw	a4,-56(s0)
+     3dc:	000027b7          	lui	a5,0x2
+     3e0:	b3078593          	add	a1,a5,-1232 # 1b30 <_Z15action_mem_testv+0x544>
+     3e4:	00070513          	mv	a0,a4
+     3e8:	00001097          	auipc	ra,0x1
+     3ec:	f9c080e7          	jalr	-100(ra) # 1384 <_Z13strings_equalPKcS0_>
+     3f0:	00050793          	mv	a5,a0
+     3f4:	06078463          	beqz	a5,45c <_Z12handle_inputhP12input_buffer+0x344>
+     3f8:	fe842703          	lw	a4,-24(s0)
+     3fc:	00100793          	li	a5,1
+     400:	00e7ec63          	bltu	a5,a4,418 <_Z12handle_inputhP12input_buffer+0x300>
+     404:	000027b7          	lui	a5,0x2
+     408:	b3478513          	add	a0,a5,-1228 # 1b34 <_Z15action_mem_testv+0x548>
+     40c:	00001097          	auipc	ra,0x1
+     410:	0ec080e7          	jalr	236(ra) # 14f8 <_Z13uart_send_strPKc>
+     414:	0840006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     418:	fe842703          	lw	a4,-24(s0)
+     41c:	00200793          	li	a5,2
+     420:	00e7ec63          	bltu	a5,a4,438 <_Z12handle_inputhP12input_buffer+0x320>
+     424:	000027b7          	lui	a5,0x2
+     428:	b4478513          	add	a0,a5,-1212 # 1b44 <_Z15action_mem_testv+0x558>
+     42c:	00001097          	auipc	ra,0x1
+     430:	0cc080e7          	jalr	204(ra) # 14f8 <_Z13uart_send_strPKc>
+     434:	0640006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     438:	fcc42703          	lw	a4,-52(s0)
+     43c:	fd042683          	lw	a3,-48(s0)
+     440:	fbf44783          	lbu	a5,-65(s0)
+     444:	00068613          	mv	a2,a3
+     448:	00070593          	mv	a1,a4
+     44c:	00078513          	mv	a0,a5
+     450:	00001097          	auipc	ra,0x1
+     454:	ba8080e7          	jalr	-1112(ra) # ff8 <_Z11action_givehPKcS0_>
+     458:	0400006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     45c:	fc842703          	lw	a4,-56(s0)
+     460:	000027b7          	lui	a5,0x2
+     464:	b5878593          	add	a1,a5,-1192 # 1b58 <_Z15action_mem_testv+0x56c>
+     468:	00070513          	mv	a0,a4
+     46c:	00001097          	auipc	ra,0x1
+     470:	f18080e7          	jalr	-232(ra) # 1384 <_Z13strings_equalPKcS0_>
+     474:	00050793          	mv	a5,a0
+     478:	00078863          	beqz	a5,488 <_Z12handle_inputhP12input_buffer+0x370>
+     47c:	00001097          	auipc	ra,0x1
+     480:	170080e7          	jalr	368(ra) # 15ec <_Z15action_mem_testv>
+     484:	0140006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     488:	000027b7          	lui	a5,0x2
+     48c:	b5c78513          	add	a0,a5,-1188 # 1b5c <_Z15action_mem_testv+0x570>
+     490:	00001097          	auipc	ra,0x1
+     494:	068080e7          	jalr	104(ra) # 14f8 <_Z13uart_send_strPKc>
+     498:	04c12083          	lw	ra,76(sp)
+     49c:	04812403          	lw	s0,72(sp)
+     4a0:	05010113          	add	sp,sp,80
+     4a4:	00008067          	ret
+
+000004a8 <_Z14print_locationhh>:
+     4a8:	fb010113          	add	sp,sp,-80
+     4ac:	04112623          	sw	ra,76(sp)
+     4b0:	04812423          	sw	s0,72(sp)
+     4b4:	05010413          	add	s0,sp,80
+     4b8:	00050793          	mv	a5,a0
+     4bc:	00058713          	mv	a4,a1
+     4c0:	faf40fa3          	sb	a5,-65(s0)
+     4c4:	00070793          	mv	a5,a4
+     4c8:	faf40f23          	sb	a5,-66(s0)
+     4cc:	fbf44703          	lbu	a4,-65(s0)
+     4d0:	00070793          	mv	a5,a4
+     4d4:	00379793          	sll	a5,a5,0x3
+     4d8:	00e787b3          	add	a5,a5,a4
+     4dc:	00279793          	sll	a5,a5,0x2
+     4e0:	00e787b3          	add	a5,a5,a4
+     4e4:	00279793          	sll	a5,a5,0x2
+     4e8:	00003737          	lui	a4,0x3
+     4ec:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
+     4f0:	00e787b3          	add	a5,a5,a4
+     4f4:	fcf42e23          	sw	a5,-36(s0)
+     4f8:	000027b7          	lui	a5,0x2
+     4fc:	b7078513          	add	a0,a5,-1168 # 1b70 <_Z15action_mem_testv+0x584>
+     500:	00001097          	auipc	ra,0x1
+     504:	ff8080e7          	jalr	-8(ra) # 14f8 <_Z13uart_send_strPKc>
+     508:	fdc42783          	lw	a5,-36(s0)
+     50c:	0007a783          	lw	a5,0(a5)
+     510:	00078513          	mv	a0,a5
+     514:	00001097          	auipc	ra,0x1
+     518:	fe4080e7          	jalr	-28(ra) # 14f8 <_Z13uart_send_strPKc>
+     51c:	000027b7          	lui	a5,0x2
+     520:	b7878513          	add	a0,a5,-1160 # 1b78 <_Z15action_mem_testv+0x58c>
+     524:	00001097          	auipc	ra,0x1
+     528:	fd4080e7          	jalr	-44(ra) # 14f8 <_Z13uart_send_strPKc>
+     52c:	fe0407a3          	sb	zero,-17(s0)
+     530:	fdc42783          	lw	a5,-36(s0)
+     534:	00478793          	add	a5,a5,4
+     538:	fcf42c23          	sw	a5,-40(s0)
+     53c:	fe042423          	sw	zero,-24(s0)
+     540:	0740006f          	j	5b4 <_Z14print_locationhh+0x10c>
+     544:	fd842703          	lw	a4,-40(s0)
+     548:	fe842783          	lw	a5,-24(s0)
+     54c:	00f707b3          	add	a5,a4,a5
+     550:	0007c783          	lbu	a5,0(a5)
+     554:	fcf40ba3          	sb	a5,-41(s0)
+     558:	fd744783          	lbu	a5,-41(s0)
+     55c:	06078463          	beqz	a5,5c4 <_Z14print_locationhh+0x11c>
+     560:	fef44783          	lbu	a5,-17(s0)
+     564:	00078c63          	beqz	a5,57c <_Z14print_locationhh+0xd4>
+     568:	000027b7          	lui	a5,0x2
+     56c:	b8078513          	add	a0,a5,-1152 # 1b80 <_Z15action_mem_testv+0x594>
+     570:	00001097          	auipc	ra,0x1
+     574:	f88080e7          	jalr	-120(ra) # 14f8 <_Z13uart_send_strPKc>
+     578:	00c0006f          	j	584 <_Z14print_locationhh+0xdc>
+     57c:	00100793          	li	a5,1
+     580:	fef407a3          	sb	a5,-17(s0)
+     584:	fd744783          	lbu	a5,-41(s0)
+     588:	00003737          	lui	a4,0x3
+     58c:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
+     590:	00279793          	sll	a5,a5,0x2
+     594:	00f707b3          	add	a5,a4,a5
+     598:	0007a783          	lw	a5,0(a5)
+     59c:	00078513          	mv	a0,a5
+     5a0:	00001097          	auipc	ra,0x1
+     5a4:	f58080e7          	jalr	-168(ra) # 14f8 <_Z13uart_send_strPKc>
+     5a8:	fe842783          	lw	a5,-24(s0)
+     5ac:	00178793          	add	a5,a5,1
+     5b0:	fef42423          	sw	a5,-24(s0)
+     5b4:	fe842703          	lw	a4,-24(s0)
+     5b8:	07f00793          	li	a5,127
+     5bc:	f8e7f4e3          	bgeu	a5,a4,544 <_Z14print_locationhh+0x9c>
+     5c0:	0080006f          	j	5c8 <_Z14print_locationhh+0x120>
+     5c4:	00000013          	nop
+     5c8:	fef44783          	lbu	a5,-17(s0)
+     5cc:	0017c793          	xor	a5,a5,1
+     5d0:	0ff7f793          	zext.b	a5,a5
+     5d4:	00078a63          	beqz	a5,5e8 <_Z14print_locationhh+0x140>
+     5d8:	000027b7          	lui	a5,0x2
+     5dc:	b8478513          	add	a0,a5,-1148 # 1b84 <_Z15action_mem_testv+0x598>
+     5e0:	00001097          	auipc	ra,0x1
+     5e4:	f18080e7          	jalr	-232(ra) # 14f8 <_Z13uart_send_strPKc>
      5e8:	000027b7          	lui	a5,0x2
-     5ec:	c0478793          	add	a5,a5,-1020 # 1c04 <action_mem_test+0x614>
-#     while (*UART_OUT)
-     5f0:	ffe04683          	lbu	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     5f4:	fe069ee3          	bnez	a3,5f0 <handle_input+0x40c>
-#     *UART_OUT = *str++;
-     5f8:	00178793          	add	a5,a5,1
-     5fc:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     600:	0007c703          	lbu	a4,0(a5)
-     604:	fe0716e3          	bnez	a4,5f0 <handle_input+0x40c>
-     608:	ca9ff06f          	j	2b0 <handle_input+0xcc>
-     60c:	000027b7          	lui	a5,0x2
-     610:	bf478793          	add	a5,a5,-1036 # 1bf4 <action_mem_test+0x604>
-#     while (*UART_OUT)
-     614:	ffe04683          	lbu	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     618:	fe069ee3          	bnez	a3,614 <handle_input+0x430>
-#     *UART_OUT = *str++;
-     61c:	00178793          	add	a5,a5,1
-     620:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     624:	0007c703          	lbu	a4,0(a5)
-     628:	fe0716e3          	bnez	a4,614 <handle_input+0x430>
-     62c:	c85ff06f          	j	2b0 <handle_input+0xcc>
+     5ec:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
+     5f0:	00001097          	auipc	ra,0x1
+     5f4:	f08080e7          	jalr	-248(ra) # 14f8 <_Z13uart_send_strPKc>
+     5f8:	fe0407a3          	sb	zero,-17(s0)
+     5fc:	fdc42783          	lw	a5,-36(s0)
+     600:	08478793          	add	a5,a5,132
+     604:	fcf42823          	sw	a5,-48(s0)
+     608:	fe042223          	sw	zero,-28(s0)
+     60c:	0940006f          	j	6a0 <_Z14print_locationhh+0x1f8>
+     610:	fd042703          	lw	a4,-48(s0)
+     614:	fe442783          	lw	a5,-28(s0)
+     618:	00f707b3          	add	a5,a4,a5
+     61c:	0007c783          	lbu	a5,0(a5)
+     620:	fcf407a3          	sb	a5,-49(s0)
+     624:	fcf44783          	lbu	a5,-49(s0)
+     628:	08078463          	beqz	a5,6b0 <_Z14print_locationhh+0x208>
+     62c:	fcf44703          	lbu	a4,-49(s0)
+     630:	fbe44783          	lbu	a5,-66(s0)
+     634:	04f70e63          	beq	a4,a5,690 <_Z14print_locationhh+0x1e8>
+     638:	fef44783          	lbu	a5,-17(s0)
+     63c:	00078c63          	beqz	a5,654 <_Z14print_locationhh+0x1ac>
+     640:	000027b7          	lui	a5,0x2
+     644:	b8078513          	add	a0,a5,-1152 # 1b80 <_Z15action_mem_testv+0x594>
+     648:	00001097          	auipc	ra,0x1
+     64c:	eb0080e7          	jalr	-336(ra) # 14f8 <_Z13uart_send_strPKc>
+     650:	00c0006f          	j	65c <_Z14print_locationhh+0x1b4>
+     654:	00100793          	li	a5,1
+     658:	fef407a3          	sb	a5,-17(s0)
+     65c:	fcf44703          	lbu	a4,-49(s0)
+     660:	000037b7          	lui	a5,0x3
+     664:	15078693          	add	a3,a5,336 # 3150 <_ZL8entities>
+     668:	00070793          	mv	a5,a4
+     66c:	00279793          	sll	a5,a5,0x2
+     670:	00e787b3          	add	a5,a5,a4
+     674:	00379793          	sll	a5,a5,0x3
+     678:	00f687b3          	add	a5,a3,a5
+     67c:	0007a783          	lw	a5,0(a5)
+     680:	00078513          	mv	a0,a5
+     684:	00001097          	auipc	ra,0x1
+     688:	e74080e7          	jalr	-396(ra) # 14f8 <_Z13uart_send_strPKc>
+     68c:	0080006f          	j	694 <_Z14print_locationhh+0x1ec>
+     690:	00000013          	nop
+     694:	fe442783          	lw	a5,-28(s0)
+     698:	00178793          	add	a5,a5,1
+     69c:	fef42223          	sw	a5,-28(s0)
+     6a0:	fe442703          	lw	a4,-28(s0)
+     6a4:	00700793          	li	a5,7
+     6a8:	f6e7f4e3          	bgeu	a5,a4,610 <_Z14print_locationhh+0x168>
+     6ac:	0080006f          	j	6b4 <_Z14print_locationhh+0x20c>
+     6b0:	00000013          	nop
+     6b4:	fef44783          	lbu	a5,-17(s0)
+     6b8:	00078a63          	beqz	a5,6cc <_Z14print_locationhh+0x224>
+     6bc:	000027b7          	lui	a5,0x2
+     6c0:	b8c78513          	add	a0,a5,-1140 # 1b8c <_Z15action_mem_testv+0x5a0>
+     6c4:	00001097          	auipc	ra,0x1
+     6c8:	e34080e7          	jalr	-460(ra) # 14f8 <_Z13uart_send_strPKc>
+     6cc:	fe0407a3          	sb	zero,-17(s0)
+     6d0:	000027b7          	lui	a5,0x2
+     6d4:	b9878513          	add	a0,a5,-1128 # 1b98 <_Z15action_mem_testv+0x5ac>
+     6d8:	00001097          	auipc	ra,0x1
+     6dc:	e20080e7          	jalr	-480(ra) # 14f8 <_Z13uart_send_strPKc>
+     6e0:	fe042023          	sw	zero,-32(s0)
+     6e4:	0740006f          	j	758 <_Z14print_locationhh+0x2b0>
+     6e8:	fdc42703          	lw	a4,-36(s0)
+     6ec:	fe042783          	lw	a5,-32(s0)
+     6f0:	00f707b3          	add	a5,a4,a5
+     6f4:	08c7c783          	lbu	a5,140(a5)
+     6f8:	04078863          	beqz	a5,748 <_Z14print_locationhh+0x2a0>
+     6fc:	fef44783          	lbu	a5,-17(s0)
+     700:	00078c63          	beqz	a5,718 <_Z14print_locationhh+0x270>
+     704:	000027b7          	lui	a5,0x2
+     708:	b8078513          	add	a0,a5,-1152 # 1b80 <_Z15action_mem_testv+0x594>
+     70c:	00001097          	auipc	ra,0x1
+     710:	dec080e7          	jalr	-532(ra) # 14f8 <_Z13uart_send_strPKc>
+     714:	00c0006f          	j	720 <_Z14print_locationhh+0x278>
+     718:	00100793          	li	a5,1
+     71c:	fef407a3          	sb	a5,-17(s0)
+     720:	000037b7          	lui	a5,0x3
+     724:	4ac78713          	add	a4,a5,1196 # 34ac <_ZL10exit_names>
+     728:	fe042783          	lw	a5,-32(s0)
+     72c:	00279793          	sll	a5,a5,0x2
+     730:	00f707b3          	add	a5,a4,a5
+     734:	0007a783          	lw	a5,0(a5)
+     738:	00078513          	mv	a0,a5
+     73c:	00001097          	auipc	ra,0x1
+     740:	dbc080e7          	jalr	-580(ra) # 14f8 <_Z13uart_send_strPKc>
+     744:	0080006f          	j	74c <_Z14print_locationhh+0x2a4>
+     748:	00000013          	nop
+     74c:	fe042783          	lw	a5,-32(s0)
+     750:	00178793          	add	a5,a5,1
+     754:	fef42023          	sw	a5,-32(s0)
+     758:	fe042703          	lw	a4,-32(s0)
+     75c:	00500793          	li	a5,5
+     760:	f8e7f4e3          	bgeu	a5,a4,6e8 <_Z14print_locationhh+0x240>
+     764:	fef44783          	lbu	a5,-17(s0)
+     768:	0017c793          	xor	a5,a5,1
+     76c:	0ff7f793          	zext.b	a5,a5
+     770:	00078a63          	beqz	a5,784 <_Z14print_locationhh+0x2dc>
+     774:	000027b7          	lui	a5,0x2
+     778:	ba078513          	add	a0,a5,-1120 # 1ba0 <_Z15action_mem_testv+0x5b4>
+     77c:	00001097          	auipc	ra,0x1
+     780:	d7c080e7          	jalr	-644(ra) # 14f8 <_Z13uart_send_strPKc>
+     784:	000027b7          	lui	a5,0x2
+     788:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
+     78c:	00001097          	auipc	ra,0x1
+     790:	d6c080e7          	jalr	-660(ra) # 14f8 <_Z13uart_send_strPKc>
+     794:	00000013          	nop
+     798:	04c12083          	lw	ra,76(sp)
+     79c:	04812403          	lw	s0,72(sp)
+     7a0:	05010113          	add	sp,sp,80
+     7a4:	00008067          	ret
 
-00000630 <print_location>:
-#   const location *loc = &locations[lid];
-     630:	00002737          	lui	a4,0x2
-# void print_location(location_id lid, entity_id eid_exclude_from_output) {
-     634:	00050313          	mv	t1,a0
-     638:	00058893          	mv	a7,a1
-     63c:	07500693          	li	a3,117
-#   const location *loc = &locations[lid];
-     640:	c3070713          	add	a4,a4,-976 # 1c30 <action_mem_test+0x640>
-#     while (*UART_OUT)
-     644:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     648:	fe079ee3          	bnez	a5,644 <print_location+0x14>
-#     *UART_OUT = *str++;
-     64c:	00170713          	add	a4,a4,1
-     650:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     654:	00074683          	lbu	a3,0(a4)
-     658:	fe0696e3          	bnez	a3,644 <print_location+0x14>
-#   uart_send_str(loc->name);
-     65c:	00331613          	sll	a2,t1,0x3
-     660:	006607b3          	add	a5,a2,t1
-     664:	00279793          	sll	a5,a5,0x2
-     668:	006787b3          	add	a5,a5,t1
-     66c:	00002537          	lui	a0,0x2
-     670:	08850513          	add	a0,a0,136 # 2088 <locations>
-     674:	00279793          	sll	a5,a5,0x2
-     678:	00f507b3          	add	a5,a0,a5
-     67c:	0007a683          	lw	a3,0(a5)
-     680:	0006c703          	lbu	a4,0(a3)
-     684:	00070e63          	beqz	a4,6a0 <print_location+0x70>
-#     while (*UART_OUT)
-     688:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     68c:	fe079ee3          	bnez	a5,688 <print_location+0x58>
-#     *UART_OUT = *str++;
-     690:	00168693          	add	a3,a3,1
-     694:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     698:	0006c703          	lbu	a4,0(a3)
-     69c:	fe0716e3          	bnez	a4,688 <print_location+0x58>
-     6a0:	00002737          	lui	a4,0x2
-     6a4:	00d00693          	li	a3,13
-     6a8:	c3870713          	add	a4,a4,-968 # 1c38 <action_mem_test+0x648>
-#     while (*UART_OUT)
-     6ac:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     6b0:	fe079ee3          	bnez	a5,6ac <print_location+0x7c>
-#     *UART_OUT = *str++;
-     6b4:	00170713          	add	a4,a4,1
-     6b8:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     6bc:	00074683          	lbu	a3,0(a4)
-     6c0:	fe0696e3          	bnez	a3,6ac <print_location+0x7c>
-#   const object_id *lso = loc->objects;
-     6c4:	00660833          	add	a6,a2,t1
-     6c8:	00281813          	sll	a6,a6,0x2
-     6cc:	00680833          	add	a6,a6,t1
-     6d0:	00281813          	sll	a6,a6,0x2
-     6d4:	00480593          	add	a1,a6,4
-     6d8:	00b505b3          	add	a1,a0,a1
-#     const object_id oid = lso[i];
-     6dc:	0005c603          	lbu	a2,0(a1)
-     6e0:	08058e13          	add	t3,a1,128
-#     if (!oid)
-     6e4:	06060863          	beqz	a2,754 <print_location+0x124>
-     6e8:	00002337          	lui	t1,0x2
-     6ec:	00030313          	mv	t1,t1
-     6f0:	00002eb7          	lui	t4,0x2
-#     uart_send_str(objects[oid].name);
-     6f4:	00261793          	sll	a5,a2,0x2
-     6f8:	00f307b3          	add	a5,t1,a5
-     6fc:	0007a683          	lw	a3,0(a5)
-     700:	0006c703          	lbu	a4,0(a3)
-     704:	00070e63          	beqz	a4,720 <print_location+0xf0>
-#     while (*UART_OUT)
-     708:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     70c:	fe079ee3          	bnez	a5,708 <print_location+0xd8>
-#     *UART_OUT = *str++;
-     710:	00168693          	add	a3,a3,1
-     714:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     718:	0006c703          	lbu	a4,0(a3)
-     71c:	fe0716e3          	bnez	a4,708 <print_location+0xd8>
-#   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
-     720:	00158593          	add	a1,a1,1
-     724:	05c58a63          	beq	a1,t3,778 <print_location+0x148>
-#     const object_id oid = lso[i];
-     728:	0005c603          	lbu	a2,0(a1)
-#     if (!oid)
-     72c:	04060663          	beqz	a2,778 <print_location+0x148>
-     730:	02c00693          	li	a3,44
-     734:	c40e8713          	add	a4,t4,-960 # 1c40 <action_mem_test+0x650>
-#     while (*UART_OUT)
-     738:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     73c:	fe079ee3          	bnez	a5,738 <print_location+0x108>
-#     *UART_OUT = *str++;
-     740:	00170713          	add	a4,a4,1
-     744:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     748:	00074683          	lbu	a3,0(a4)
-     74c:	fe0696e3          	bnez	a3,738 <print_location+0x108>
-     750:	fa5ff06f          	j	6f4 <print_location+0xc4>
-     754:	00002737          	lui	a4,0x2
-     758:	06e00693          	li	a3,110
-     75c:	c4470713          	add	a4,a4,-956 # 1c44 <action_mem_test+0x654>
-#     while (*UART_OUT)
-     760:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     764:	fe079ee3          	bnez	a5,760 <print_location+0x130>
-#     *UART_OUT = *str++;
-     768:	00170713          	add	a4,a4,1
-     76c:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     770:	00074683          	lbu	a3,0(a4)
-     774:	fe0696e3          	bnez	a3,760 <print_location+0x130>
-     778:	000026b7          	lui	a3,0x2
-     77c:	c2c68613          	add	a2,a3,-980 # 1c2c <action_mem_test+0x63c>
-     780:	00d00713          	li	a4,13
-     784:	c2c68693          	add	a3,a3,-980
-#     while (*UART_OUT)
-     788:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     78c:	fe079ee3          	bnez	a5,788 <print_location+0x158>
-#     *UART_OUT = *str++;
-     790:	00168693          	add	a3,a3,1
-     794:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     798:	0006c703          	lbu	a4,0(a3)
-     79c:	fe0716e3          	bnez	a4,788 <print_location+0x158>
-#   const entity_id *lse = loc->entities;
-     7a0:	08480593          	add	a1,a6,132
-     7a4:	00b505b3          	add	a1,a0,a1
-#     uart_send_str(entities[eid].name);
-     7a8:	00002e37          	lui	t3,0x2
-     7ac:	00858e93          	add	t4,a1,8
-     7b0:	010e0e13          	add	t3,t3,16 # 2010 <entities>
-#     const entity_id eid = lse[i];
-     7b4:	0005c303          	lbu	t1,0(a1)
-#     if (!eid)
-     7b8:	04030663          	beqz	t1,804 <print_location+0x1d4>
-#     if (eid == eid_exclude_from_output)
-     7bc:	05130063          	beq	t1,a7,7fc <print_location+0x1cc>
-#     if (add_list_sep) {
-     7c0:	12071e63          	bnez	a4,8fc <print_location+0x2cc>
-#     uart_send_str(entities[eid].name);
-     7c4:	00231793          	sll	a5,t1,0x2
-     7c8:	006787b3          	add	a5,a5,t1
-     7cc:	00379793          	sll	a5,a5,0x3
-     7d0:	00fe07b3          	add	a5,t3,a5
-     7d4:	0007a683          	lw	a3,0(a5)
-     7d8:	0006c703          	lbu	a4,0(a3)
-     7dc:	00070e63          	beqz	a4,7f8 <print_location+0x1c8>
-#     while (*UART_OUT)
-     7e0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     7e4:	fe079ee3          	bnez	a5,7e0 <print_location+0x1b0>
-#     *UART_OUT = *str++;
-     7e8:	00168693          	add	a3,a3,1
-     7ec:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     7f0:	0006c703          	lbu	a4,0(a3)
-     7f4:	fe0716e3          	bnez	a4,7e0 <print_location+0x1b0>
-     7f8:	00100713          	li	a4,1
-#   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
-     7fc:	00158593          	add	a1,a1,1
-     800:	fabe9ae3          	bne	t4,a1,7b4 <print_location+0x184>
-#   if (add_list_sep) {
-     804:	02070463          	beqz	a4,82c <print_location+0x1fc>
-     808:	00002737          	lui	a4,0x2
-     80c:	02000693          	li	a3,32
-     810:	c4c70713          	add	a4,a4,-948 # 1c4c <action_mem_test+0x65c>
-#     while (*UART_OUT)
-     814:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     818:	fe079ee3          	bnez	a5,814 <print_location+0x1e4>
-#     *UART_OUT = *str++;
-     81c:	00170713          	add	a4,a4,1
-     820:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     824:	00074683          	lbu	a3,0(a4)
-     828:	fe0696e3          	bnez	a3,814 <print_location+0x1e4>
-     82c:	000026b7          	lui	a3,0x2
-     830:	06500713          	li	a4,101
-     834:	c5868693          	add	a3,a3,-936 # 1c58 <action_mem_test+0x668>
-#     while (*UART_OUT)
-     838:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     83c:	fe079ee3          	bnez	a5,838 <print_location+0x208>
-#     *UART_OUT = *str++;
-     840:	00168693          	add	a3,a3,1
-     844:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     848:	0006c703          	lbu	a4,0(a3)
-     84c:	fe0716e3          	bnez	a4,838 <print_location+0x208>
-     850:	000025b7          	lui	a1,0x2
-     854:	36c58593          	add	a1,a1,876 # 236c <exit_names>
-     858:	01050533          	add	a0,a0,a6
-     85c:	01858813          	add	a6,a1,24
-     860:	0100006f          	j	870 <print_location+0x240>
-#   for (unsigned i = 0; i < LOCATION_MAX_EXITS; i++) {
-     864:	00458593          	add	a1,a1,4
-     868:	00150513          	add	a0,a0,1
-     86c:	04b80263          	beq	a6,a1,8b0 <print_location+0x280>
-#     if (!loc->exits[i])
-     870:	08c54783          	lbu	a5,140(a0)
-     874:	fe0788e3          	beqz	a5,864 <print_location+0x234>
-#     if (add_list_sep) {
-     878:	0a071663          	bnez	a4,924 <print_location+0x2f4>
-#     uart_send_str(exit_names[i]);
-     87c:	0005a683          	lw	a3,0(a1)
-     880:	0006c703          	lbu	a4,0(a3)
-     884:	00070e63          	beqz	a4,8a0 <print_location+0x270>
-#     while (*UART_OUT)
-     888:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     88c:	fe079ee3          	bnez	a5,888 <print_location+0x258>
-#     *UART_OUT = *str++;
-     890:	00168693          	add	a3,a3,1
-     894:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     898:	0006c703          	lbu	a4,0(a3)
-     89c:	fe0716e3          	bnez	a4,888 <print_location+0x258>
-#   for (unsigned i = 0; i < LOCATION_MAX_EXITS; i++) {
-     8a0:	00458593          	add	a1,a1,4
-     8a4:	00100713          	li	a4,1
-     8a8:	00150513          	add	a0,a0,1
-     8ac:	fcb812e3          	bne	a6,a1,870 <print_location+0x240>
-#   if (!add_list_sep) {
-     8b0:	02071463          	bnez	a4,8d8 <print_location+0x2a8>
-     8b4:	00002737          	lui	a4,0x2
-     8b8:	06e00693          	li	a3,110
-     8bc:	c6070713          	add	a4,a4,-928 # 1c60 <action_mem_test+0x670>
-#     while (*UART_OUT)
-     8c0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     8c4:	fe079ee3          	bnez	a5,8c0 <print_location+0x290>
-#     *UART_OUT = *str++;
-     8c8:	00170713          	add	a4,a4,1
-     8cc:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     8d0:	00074683          	lbu	a3,0(a4)
-     8d4:	fe0696e3          	bnez	a3,8c0 <print_location+0x290>
-     8d8:	00d00693          	li	a3,13
-     8dc:	00060713          	mv	a4,a2
-#     while (*UART_OUT)
-     8e0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     8e4:	fe079ee3          	bnez	a5,8e0 <print_location+0x2b0>
-#     *UART_OUT = *str++;
-     8e8:	00170713          	add	a4,a4,1
-     8ec:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     8f0:	00074683          	lbu	a3,0(a4)
-     8f4:	fe0696e3          	bnez	a3,8e0 <print_location+0x2b0>
-# }
-     8f8:	00008067          	ret
-     8fc:	00002737          	lui	a4,0x2
-     900:	02c00693          	li	a3,44
-     904:	c4070713          	add	a4,a4,-960 # 1c40 <action_mem_test+0x650>
-#     while (*UART_OUT)
-     908:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     90c:	fe079ee3          	bnez	a5,908 <print_location+0x2d8>
-#     *UART_OUT = *str++;
-     910:	00170713          	add	a4,a4,1
-     914:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     918:	00074683          	lbu	a3,0(a4)
-     91c:	fe0696e3          	bnez	a3,908 <print_location+0x2d8>
-     920:	ea5ff06f          	j	7c4 <print_location+0x194>
-     924:	00002737          	lui	a4,0x2
-     928:	02c00693          	li	a3,44
-     92c:	c4070713          	add	a4,a4,-960 # 1c40 <action_mem_test+0x650>
-#     while (*UART_OUT)
-     930:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     934:	fe079ee3          	bnez	a5,930 <print_location+0x300>
-#     *UART_OUT = *str++;
-     938:	00170713          	add	a4,a4,1
-     93c:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     940:	00074683          	lbu	a3,0(a4)
-     944:	fe0696e3          	bnez	a3,930 <print_location+0x300>
-     948:	f35ff06f          	j	87c <print_location+0x24c>
+000007a8 <_Z16action_inventoryh>:
+     7a8:	fd010113          	add	sp,sp,-48
+     7ac:	02112623          	sw	ra,44(sp)
+     7b0:	02812423          	sw	s0,40(sp)
+     7b4:	03010413          	add	s0,sp,48
+     7b8:	00050793          	mv	a5,a0
+     7bc:	fcf40fa3          	sb	a5,-33(s0)
+     7c0:	000027b7          	lui	a5,0x2
+     7c4:	ba878513          	add	a0,a5,-1112 # 1ba8 <_Z15action_mem_testv+0x5bc>
+     7c8:	00001097          	auipc	ra,0x1
+     7cc:	d30080e7          	jalr	-720(ra) # 14f8 <_Z13uart_send_strPKc>
+     7d0:	fe0407a3          	sb	zero,-17(s0)
+     7d4:	fdf44703          	lbu	a4,-33(s0)
+     7d8:	00070793          	mv	a5,a4
+     7dc:	00279793          	sll	a5,a5,0x2
+     7e0:	00e787b3          	add	a5,a5,a4
+     7e4:	00379793          	sll	a5,a5,0x3
+     7e8:	00003737          	lui	a4,0x3
+     7ec:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
+     7f0:	00e787b3          	add	a5,a5,a4
+     7f4:	00578793          	add	a5,a5,5
+     7f8:	fef42223          	sw	a5,-28(s0)
+     7fc:	fe042423          	sw	zero,-24(s0)
+     800:	0740006f          	j	874 <_Z16action_inventoryh+0xcc>
+     804:	fe442703          	lw	a4,-28(s0)
+     808:	fe842783          	lw	a5,-24(s0)
+     80c:	00f707b3          	add	a5,a4,a5
+     810:	0007c783          	lbu	a5,0(a5)
+     814:	fef401a3          	sb	a5,-29(s0)
+     818:	fe344783          	lbu	a5,-29(s0)
+     81c:	06078463          	beqz	a5,884 <_Z16action_inventoryh+0xdc>
+     820:	fef44783          	lbu	a5,-17(s0)
+     824:	00078c63          	beqz	a5,83c <_Z16action_inventoryh+0x94>
+     828:	000027b7          	lui	a5,0x2
+     82c:	b8078513          	add	a0,a5,-1152 # 1b80 <_Z15action_mem_testv+0x594>
+     830:	00001097          	auipc	ra,0x1
+     834:	cc8080e7          	jalr	-824(ra) # 14f8 <_Z13uart_send_strPKc>
+     838:	00c0006f          	j	844 <_Z16action_inventoryh+0x9c>
+     83c:	00100793          	li	a5,1
+     840:	fef407a3          	sb	a5,-17(s0)
+     844:	fe344783          	lbu	a5,-29(s0)
+     848:	00003737          	lui	a4,0x3
+     84c:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
+     850:	00279793          	sll	a5,a5,0x2
+     854:	00f707b3          	add	a5,a4,a5
+     858:	0007a783          	lw	a5,0(a5)
+     85c:	00078513          	mv	a0,a5
+     860:	00001097          	auipc	ra,0x1
+     864:	c98080e7          	jalr	-872(ra) # 14f8 <_Z13uart_send_strPKc>
+     868:	fe842783          	lw	a5,-24(s0)
+     86c:	00178793          	add	a5,a5,1
+     870:	fef42423          	sw	a5,-24(s0)
+     874:	fe842703          	lw	a4,-24(s0)
+     878:	01f00793          	li	a5,31
+     87c:	f8e7f4e3          	bgeu	a5,a4,804 <_Z16action_inventoryh+0x5c>
+     880:	0080006f          	j	888 <_Z16action_inventoryh+0xe0>
+     884:	00000013          	nop
+     888:	fef44783          	lbu	a5,-17(s0)
+     88c:	0017c793          	xor	a5,a5,1
+     890:	0ff7f793          	zext.b	a5,a5
+     894:	00078a63          	beqz	a5,8a8 <_Z16action_inventoryh+0x100>
+     898:	000027b7          	lui	a5,0x2
+     89c:	b8478513          	add	a0,a5,-1148 # 1b84 <_Z15action_mem_testv+0x598>
+     8a0:	00001097          	auipc	ra,0x1
+     8a4:	c58080e7          	jalr	-936(ra) # 14f8 <_Z13uart_send_strPKc>
+     8a8:	000027b7          	lui	a5,0x2
+     8ac:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
+     8b0:	00001097          	auipc	ra,0x1
+     8b4:	c48080e7          	jalr	-952(ra) # 14f8 <_Z13uart_send_strPKc>
+     8b8:	00000013          	nop
+     8bc:	02c12083          	lw	ra,44(sp)
+     8c0:	02812403          	lw	s0,40(sp)
+     8c4:	03010113          	add	sp,sp,48
+     8c8:	00008067          	ret
 
-0000094c <action_inventory>:
-     94c:	00002737          	lui	a4,0x2
-# void action_inventory(entity_id eid) {
-     950:	00050613          	mv	a2,a0
-     954:	07500693          	li	a3,117
-     958:	c6870713          	add	a4,a4,-920 # 1c68 <action_mem_test+0x678>
-#     while (*UART_OUT)
-     95c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     960:	fe079ee3          	bnez	a5,95c <action_inventory+0x10>
-#     *UART_OUT = *str++;
-     964:	00170713          	add	a4,a4,1
-     968:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     96c:	00074683          	lbu	a3,0(a4)
-     970:	fe0696e3          	bnez	a3,95c <action_inventory+0x10>
-#   const object_id *lso = entities[eid].objects;
-     974:	00261593          	sll	a1,a2,0x2
-     978:	00c585b3          	add	a1,a1,a2
-     97c:	00359593          	sll	a1,a1,0x3
-     980:	000027b7          	lui	a5,0x2
-     984:	00558593          	add	a1,a1,5
-     988:	01078793          	add	a5,a5,16 # 2010 <entities>
-     98c:	00f585b3          	add	a1,a1,a5
-#     const object_id oid = lso[i];
-     990:	0005c603          	lbu	a2,0(a1)
-     994:	02058813          	add	a6,a1,32
-#     if (!oid)
-     998:	06060863          	beqz	a2,a08 <action_inventory+0xbc>
-     99c:	00002537          	lui	a0,0x2
-     9a0:	00050513          	mv	a0,a0
-     9a4:	000028b7          	lui	a7,0x2
-#     uart_send_str(objects[oid].name);
-     9a8:	00261793          	sll	a5,a2,0x2
-     9ac:	00f507b3          	add	a5,a0,a5
-     9b0:	0007a683          	lw	a3,0(a5)
-     9b4:	0006c703          	lbu	a4,0(a3)
-     9b8:	00070e63          	beqz	a4,9d4 <action_inventory+0x88>
-#     while (*UART_OUT)
-     9bc:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     9c0:	fe079ee3          	bnez	a5,9bc <action_inventory+0x70>
-#     *UART_OUT = *str++;
-     9c4:	00168693          	add	a3,a3,1
-     9c8:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     9cc:	0006c703          	lbu	a4,0(a3)
-     9d0:	fe0716e3          	bnez	a4,9bc <action_inventory+0x70>
-#   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
-     9d4:	00158593          	add	a1,a1,1
-     9d8:	04b80a63          	beq	a6,a1,a2c <action_inventory+0xe0>
-#     const object_id oid = lso[i];
-     9dc:	0005c603          	lbu	a2,0(a1)
-#     if (!oid)
-     9e0:	04060663          	beqz	a2,a2c <action_inventory+0xe0>
-     9e4:	02c00693          	li	a3,44
-     9e8:	c4088713          	add	a4,a7,-960 # 1c40 <action_mem_test+0x650>
-#     while (*UART_OUT)
-     9ec:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     9f0:	fe079ee3          	bnez	a5,9ec <action_inventory+0xa0>
-#     *UART_OUT = *str++;
-     9f4:	00170713          	add	a4,a4,1
-     9f8:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     9fc:	00074683          	lbu	a3,0(a4)
-     a00:	fe0696e3          	bnez	a3,9ec <action_inventory+0xa0>
-     a04:	fa5ff06f          	j	9a8 <action_inventory+0x5c>
-     a08:	00002737          	lui	a4,0x2
-     a0c:	06e00693          	li	a3,110
-     a10:	c4470713          	add	a4,a4,-956 # 1c44 <action_mem_test+0x654>
-#     while (*UART_OUT)
-     a14:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     a18:	fe079ee3          	bnez	a5,a14 <action_inventory+0xc8>
-#     *UART_OUT = *str++;
-     a1c:	00170713          	add	a4,a4,1
-     a20:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     a24:	00074683          	lbu	a3,0(a4)
-     a28:	fe0696e3          	bnez	a3,a14 <action_inventory+0xc8>
-     a2c:	00002737          	lui	a4,0x2
-     a30:	00d00693          	li	a3,13
-     a34:	c2c70713          	add	a4,a4,-980 # 1c2c <action_mem_test+0x63c>
-#     while (*UART_OUT)
-     a38:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     a3c:	fe079ee3          	bnez	a5,a38 <action_inventory+0xec>
-#     *UART_OUT = *str++;
-     a40:	00170713          	add	a4,a4,1
-     a44:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     a48:	00074683          	lbu	a3,0(a4)
-     a4c:	fe0696e3          	bnez	a3,a38 <action_inventory+0xec>
-# }
-     a50:	00008067          	ret
+000008cc <_Z32remove_object_from_list_by_indexPhj>:
+     8cc:	fd010113          	add	sp,sp,-48
+     8d0:	02812623          	sw	s0,44(sp)
+     8d4:	03010413          	add	s0,sp,48
+     8d8:	fca42e23          	sw	a0,-36(s0)
+     8dc:	fcb42c23          	sw	a1,-40(s0)
+     8e0:	fdc42703          	lw	a4,-36(s0)
+     8e4:	fd842783          	lw	a5,-40(s0)
+     8e8:	00f707b3          	add	a5,a4,a5
+     8ec:	fef42623          	sw	a5,-20(s0)
+     8f0:	fec42783          	lw	a5,-20(s0)
+     8f4:	0017c703          	lbu	a4,1(a5)
+     8f8:	fec42783          	lw	a5,-20(s0)
+     8fc:	00e78023          	sb	a4,0(a5)
+     900:	fec42783          	lw	a5,-20(s0)
+     904:	0007c783          	lbu	a5,0(a5)
+     908:	00078a63          	beqz	a5,91c <_Z32remove_object_from_list_by_indexPhj+0x50>
+     90c:	fec42783          	lw	a5,-20(s0)
+     910:	00178793          	add	a5,a5,1
+     914:	fef42623          	sw	a5,-20(s0)
+     918:	fd9ff06f          	j	8f0 <_Z32remove_object_from_list_by_indexPhj+0x24>
+     91c:	00000013          	nop
+     920:	02c12403          	lw	s0,44(sp)
+     924:	03010113          	add	sp,sp,48
+     928:	00008067          	ret
 
-00000a54 <remove_object_from_list_by_index>:
-#   object_id *ptr = &list[ix];
-     a54:	00b50533          	add	a0,a0,a1
-#     *ptr = *(ptr + 1);
-     a58:	00154783          	lbu	a5,1(a0) # 2001 <objects+0x1>
-     a5c:	00f50023          	sb	a5,0(a0)
-#     if (!*ptr)
-     a60:	00078a63          	beqz	a5,a74 <remove_object_from_list_by_index+0x20>
-#     *ptr = *(ptr + 1);
-     a64:	00254783          	lbu	a5,2(a0)
-#     ptr++;
-     a68:	00150513          	add	a0,a0,1
-#     *ptr = *(ptr + 1);
-     a6c:	00f50023          	sb	a5,0(a0)
-#     if (!*ptr)
-     a70:	fe079ae3          	bnez	a5,a64 <remove_object_from_list_by_index+0x10>
-# }
-     a74:	00008067          	ret
+0000092c <_Z18add_object_to_listPhjh>:
+     92c:	fd010113          	add	sp,sp,-48
+     930:	02112623          	sw	ra,44(sp)
+     934:	02812423          	sw	s0,40(sp)
+     938:	03010413          	add	s0,sp,48
+     93c:	fca42e23          	sw	a0,-36(s0)
+     940:	fcb42c23          	sw	a1,-40(s0)
+     944:	00060793          	mv	a5,a2
+     948:	fcf40ba3          	sb	a5,-41(s0)
+     94c:	fe042623          	sw	zero,-20(s0)
+     950:	0580006f          	j	9a8 <_Z18add_object_to_listPhjh+0x7c>
+     954:	fdc42703          	lw	a4,-36(s0)
+     958:	fec42783          	lw	a5,-20(s0)
+     95c:	00f707b3          	add	a5,a4,a5
+     960:	0007c783          	lbu	a5,0(a5)
+     964:	02079a63          	bnez	a5,998 <_Z18add_object_to_listPhjh+0x6c>
+     968:	fdc42703          	lw	a4,-36(s0)
+     96c:	fec42783          	lw	a5,-20(s0)
+     970:	00f707b3          	add	a5,a4,a5
+     974:	fd744703          	lbu	a4,-41(s0)
+     978:	00e78023          	sb	a4,0(a5)
+     97c:	fec42783          	lw	a5,-20(s0)
+     980:	00178793          	add	a5,a5,1
+     984:	fdc42703          	lw	a4,-36(s0)
+     988:	00f707b3          	add	a5,a4,a5
+     98c:	00078023          	sb	zero,0(a5)
+     990:	00100793          	li	a5,1
+     994:	0380006f          	j	9cc <_Z18add_object_to_listPhjh+0xa0>
+     998:	00000013          	nop
+     99c:	fec42783          	lw	a5,-20(s0)
+     9a0:	00178793          	add	a5,a5,1
+     9a4:	fef42623          	sw	a5,-20(s0)
+     9a8:	fd842783          	lw	a5,-40(s0)
+     9ac:	fff78793          	add	a5,a5,-1
+     9b0:	fec42703          	lw	a4,-20(s0)
+     9b4:	faf760e3          	bltu	a4,a5,954 <_Z18add_object_to_listPhjh+0x28>
+     9b8:	000027b7          	lui	a5,0x2
+     9bc:	bb478513          	add	a0,a5,-1100 # 1bb4 <_Z15action_mem_testv+0x5c8>
+     9c0:	00001097          	auipc	ra,0x1
+     9c4:	b38080e7          	jalr	-1224(ra) # 14f8 <_Z13uart_send_strPKc>
+     9c8:	00000793          	li	a5,0
+     9cc:	00078513          	mv	a0,a5
+     9d0:	02c12083          	lw	ra,44(sp)
+     9d4:	02812403          	lw	s0,40(sp)
+     9d8:	03010113          	add	sp,sp,48
+     9dc:	00008067          	ret
 
-00000a78 <add_object_to_list>:
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     a78:	00100793          	li	a5,1
-     a7c:	02f58663          	beq	a1,a5,aa8 <add_object_to_list+0x30>
-     a80:	fff50793          	add	a5,a0,-1
-     a84:	00b787b3          	add	a5,a5,a1
-#     if (list[i])
-     a88:	00054703          	lbu	a4,0(a0)
-     a8c:	00071a63          	bnez	a4,aa0 <add_object_to_list+0x28>
-#     list[i] = oid;
-     a90:	00c50023          	sb	a2,0(a0)
-#     list[i + 1] = 0;
-     a94:	000500a3          	sb	zero,1(a0)
-#     return TRUE;
-     a98:	00100513          	li	a0,1
-     a9c:	00008067          	ret
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     aa0:	00150513          	add	a0,a0,1
-     aa4:	fef512e3          	bne	a0,a5,a88 <add_object_to_list+0x10>
-     aa8:	00002737          	lui	a4,0x2
-     aac:	07300513          	li	a0,115
-     ab0:	c7470713          	add	a4,a4,-908 # 1c74 <action_mem_test+0x684>
-#     while (*UART_OUT)
-     ab4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     ab8:	fe079ee3          	bnez	a5,ab4 <add_object_to_list+0x3c>
-#     *UART_OUT = *str++;
-     abc:	00170713          	add	a4,a4,1
-     ac0:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     ac4:	00074503          	lbu	a0,0(a4)
-     ac8:	fe0516e3          	bnez	a0,ab4 <add_object_to_list+0x3c>
-# }
-     acc:	00008067          	ret
+000009e0 <_Z18add_entity_to_listPhjh>:
+     9e0:	fd010113          	add	sp,sp,-48
+     9e4:	02112623          	sw	ra,44(sp)
+     9e8:	02812423          	sw	s0,40(sp)
+     9ec:	03010413          	add	s0,sp,48
+     9f0:	fca42e23          	sw	a0,-36(s0)
+     9f4:	fcb42c23          	sw	a1,-40(s0)
+     9f8:	00060793          	mv	a5,a2
+     9fc:	fcf40ba3          	sb	a5,-41(s0)
+     a00:	fe042623          	sw	zero,-20(s0)
+     a04:	0580006f          	j	a5c <_Z18add_entity_to_listPhjh+0x7c>
+     a08:	fdc42703          	lw	a4,-36(s0)
+     a0c:	fec42783          	lw	a5,-20(s0)
+     a10:	00f707b3          	add	a5,a4,a5
+     a14:	0007c783          	lbu	a5,0(a5)
+     a18:	02079a63          	bnez	a5,a4c <_Z18add_entity_to_listPhjh+0x6c>
+     a1c:	fdc42703          	lw	a4,-36(s0)
+     a20:	fec42783          	lw	a5,-20(s0)
+     a24:	00f707b3          	add	a5,a4,a5
+     a28:	fd744703          	lbu	a4,-41(s0)
+     a2c:	00e78023          	sb	a4,0(a5)
+     a30:	fec42783          	lw	a5,-20(s0)
+     a34:	00178793          	add	a5,a5,1
+     a38:	fdc42703          	lw	a4,-36(s0)
+     a3c:	00f707b3          	add	a5,a4,a5
+     a40:	00078023          	sb	zero,0(a5)
+     a44:	00100793          	li	a5,1
+     a48:	0380006f          	j	a80 <_Z18add_entity_to_listPhjh+0xa0>
+     a4c:	00000013          	nop
+     a50:	fec42783          	lw	a5,-20(s0)
+     a54:	00178793          	add	a5,a5,1
+     a58:	fef42623          	sw	a5,-20(s0)
+     a5c:	fd842783          	lw	a5,-40(s0)
+     a60:	fff78793          	add	a5,a5,-1
+     a64:	fec42703          	lw	a4,-20(s0)
+     a68:	faf760e3          	bltu	a4,a5,a08 <_Z18add_entity_to_listPhjh+0x28>
+     a6c:	000027b7          	lui	a5,0x2
+     a70:	bc478513          	add	a0,a5,-1084 # 1bc4 <_Z15action_mem_testv+0x5d8>
+     a74:	00001097          	auipc	ra,0x1
+     a78:	a84080e7          	jalr	-1404(ra) # 14f8 <_Z13uart_send_strPKc>
+     a7c:	00000793          	li	a5,0
+     a80:	00078513          	mv	a0,a5
+     a84:	02c12083          	lw	ra,44(sp)
+     a88:	02812403          	lw	s0,40(sp)
+     a8c:	03010113          	add	sp,sp,48
+     a90:	00008067          	ret
 
-00000ad0 <add_entity_to_list>:
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     ad0:	00100793          	li	a5,1
-     ad4:	02f58663          	beq	a1,a5,b00 <add_entity_to_list+0x30>
-     ad8:	fff50793          	add	a5,a0,-1
-     adc:	00b787b3          	add	a5,a5,a1
-#     if (list[i])
-     ae0:	00054703          	lbu	a4,0(a0)
-     ae4:	00071a63          	bnez	a4,af8 <add_entity_to_list+0x28>
-#     list[i] = eid;
-     ae8:	00c50023          	sb	a2,0(a0)
-#     list[i + 1] = 0;
-     aec:	000500a3          	sb	zero,1(a0)
-#     return TRUE;
-     af0:	00100513          	li	a0,1
-     af4:	00008067          	ret
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     af8:	00150513          	add	a0,a0,1
-     afc:	fef512e3          	bne	a0,a5,ae0 <add_entity_to_list+0x10>
-     b00:	00002737          	lui	a4,0x2
-     b04:	06c00513          	li	a0,108
-     b08:	c8470713          	add	a4,a4,-892 # 1c84 <action_mem_test+0x694>
-#     while (*UART_OUT)
-     b0c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     b10:	fe079ee3          	bnez	a5,b0c <add_entity_to_list+0x3c>
-#     *UART_OUT = *str++;
-     b14:	00170713          	add	a4,a4,1
-     b18:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     b1c:	00074503          	lbu	a0,0(a4)
-     b20:	fe0516e3          	bnez	a0,b0c <add_entity_to_list+0x3c>
-# }
-     b24:	00008067          	ret
+00000a94 <_Z23remove_entity_from_listPhjh>:
+     a94:	fd010113          	add	sp,sp,-48
+     a98:	02112623          	sw	ra,44(sp)
+     a9c:	02812423          	sw	s0,40(sp)
+     aa0:	03010413          	add	s0,sp,48
+     aa4:	fca42e23          	sw	a0,-36(s0)
+     aa8:	fcb42c23          	sw	a1,-40(s0)
+     aac:	00060793          	mv	a5,a2
+     ab0:	fcf40ba3          	sb	a5,-41(s0)
+     ab4:	fe042623          	sw	zero,-20(s0)
+     ab8:	0900006f          	j	b48 <_Z23remove_entity_from_listPhjh+0xb4>
+     abc:	fdc42703          	lw	a4,-36(s0)
+     ac0:	fec42783          	lw	a5,-20(s0)
+     ac4:	00f707b3          	add	a5,a4,a5
+     ac8:	0007c783          	lbu	a5,0(a5)
+     acc:	fd744703          	lbu	a4,-41(s0)
+     ad0:	06f71463          	bne	a4,a5,b38 <_Z23remove_entity_from_listPhjh+0xa4>
+     ad4:	fec42783          	lw	a5,-20(s0)
+     ad8:	fef42423          	sw	a5,-24(s0)
+     adc:	0480006f          	j	b24 <_Z23remove_entity_from_listPhjh+0x90>
+     ae0:	fe842783          	lw	a5,-24(s0)
+     ae4:	00178793          	add	a5,a5,1
+     ae8:	fdc42703          	lw	a4,-36(s0)
+     aec:	00f70733          	add	a4,a4,a5
+     af0:	fdc42683          	lw	a3,-36(s0)
+     af4:	fe842783          	lw	a5,-24(s0)
+     af8:	00f687b3          	add	a5,a3,a5
+     afc:	00074703          	lbu	a4,0(a4)
+     b00:	00e78023          	sb	a4,0(a5)
+     b04:	fdc42703          	lw	a4,-36(s0)
+     b08:	fe842783          	lw	a5,-24(s0)
+     b0c:	00f707b3          	add	a5,a4,a5
+     b10:	0007c783          	lbu	a5,0(a5)
+     b14:	04078c63          	beqz	a5,b6c <_Z23remove_entity_from_listPhjh+0xd8>
+     b18:	fe842783          	lw	a5,-24(s0)
+     b1c:	00178793          	add	a5,a5,1
+     b20:	fef42423          	sw	a5,-24(s0)
+     b24:	fd842783          	lw	a5,-40(s0)
+     b28:	fff78793          	add	a5,a5,-1
+     b2c:	fe842703          	lw	a4,-24(s0)
+     b30:	faf768e3          	bltu	a4,a5,ae0 <_Z23remove_entity_from_listPhjh+0x4c>
+     b34:	0080006f          	j	b3c <_Z23remove_entity_from_listPhjh+0xa8>
+     b38:	00000013          	nop
+     b3c:	fec42783          	lw	a5,-20(s0)
+     b40:	00178793          	add	a5,a5,1
+     b44:	fef42623          	sw	a5,-20(s0)
+     b48:	fd842783          	lw	a5,-40(s0)
+     b4c:	fff78793          	add	a5,a5,-1
+     b50:	fec42703          	lw	a4,-20(s0)
+     b54:	f6f764e3          	bltu	a4,a5,abc <_Z23remove_entity_from_listPhjh+0x28>
+     b58:	000027b7          	lui	a5,0x2
+     b5c:	bd478513          	add	a0,a5,-1068 # 1bd4 <_Z15action_mem_testv+0x5e8>
+     b60:	00001097          	auipc	ra,0x1
+     b64:	998080e7          	jalr	-1640(ra) # 14f8 <_Z13uart_send_strPKc>
+     b68:	0080006f          	j	b70 <_Z23remove_entity_from_listPhjh+0xdc>
+     b6c:	00000013          	nop
+     b70:	02c12083          	lw	ra,44(sp)
+     b74:	02812403          	lw	s0,40(sp)
+     b78:	03010113          	add	sp,sp,48
+     b7c:	00008067          	ret
 
-00000b28 <remove_entity_from_list>:
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     b28:	fff58813          	add	a6,a1,-1
-     b2c:	04080263          	beqz	a6,b70 <remove_entity_from_list+0x48>
-     b30:	00150693          	add	a3,a0,1
-     b34:	00b505b3          	add	a1,a0,a1
-     b38:	00c0006f          	j	b44 <remove_entity_from_list+0x1c>
-     b3c:	00168693          	add	a3,a3,1
-     b40:	02b68863          	beq	a3,a1,b70 <remove_entity_from_list+0x48>
-#     if (list[i] != eid)
-     b44:	fff6c783          	lbu	a5,-1(a3)
-     b48:	fec79ae3          	bne	a5,a2,b3c <remove_entity_from_list+0x14>
-     b4c:	00068793          	mv	a5,a3
-#     for (unsigned j = i; j < list_len - 1; j++) {
-     b50:	40a78733          	sub	a4,a5,a0
-     b54:	fff70713          	add	a4,a4,-1
-     b58:	ff0772e3          	bgeu	a4,a6,b3c <remove_entity_from_list+0x14>
-#       list[j] = list[j + 1];
-     b5c:	0007c703          	lbu	a4,0(a5)
-#       if (!list[j])
-     b60:	00178793          	add	a5,a5,1
-#       list[j] = list[j + 1];
-     b64:	fee78f23          	sb	a4,-2(a5)
-#       if (!list[j])
-     b68:	fe0714e3          	bnez	a4,b50 <remove_entity_from_list+0x28>
-     b6c:	00008067          	ret
-     b70:	00002737          	lui	a4,0x2
-     b74:	06500693          	li	a3,101
-     b78:	c9470713          	add	a4,a4,-876 # 1c94 <action_mem_test+0x6a4>
-#     while (*UART_OUT)
-     b7c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     b80:	fe079ee3          	bnez	a5,b7c <remove_entity_from_list+0x54>
-#     *UART_OUT = *str++;
-     b84:	00170713          	add	a4,a4,1
-     b88:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     b8c:	00074683          	lbu	a3,0(a4)
-     b90:	fe0696e3          	bnez	a3,b7c <remove_entity_from_list+0x54>
-# }
-     b94:	00008067          	ret
+00000b80 <_Z32remove_entity_from_list_by_indexPhj>:
+     b80:	fd010113          	add	sp,sp,-48
+     b84:	02812623          	sw	s0,44(sp)
+     b88:	03010413          	add	s0,sp,48
+     b8c:	fca42e23          	sw	a0,-36(s0)
+     b90:	fcb42c23          	sw	a1,-40(s0)
+     b94:	fdc42703          	lw	a4,-36(s0)
+     b98:	fd842783          	lw	a5,-40(s0)
+     b9c:	00f707b3          	add	a5,a4,a5
+     ba0:	fef42623          	sw	a5,-20(s0)
+     ba4:	fec42783          	lw	a5,-20(s0)
+     ba8:	0017c703          	lbu	a4,1(a5)
+     bac:	fec42783          	lw	a5,-20(s0)
+     bb0:	00e78023          	sb	a4,0(a5)
+     bb4:	fec42783          	lw	a5,-20(s0)
+     bb8:	0007c783          	lbu	a5,0(a5)
+     bbc:	00078a63          	beqz	a5,bd0 <_Z32remove_entity_from_list_by_indexPhj+0x50>
+     bc0:	fec42783          	lw	a5,-20(s0)
+     bc4:	00178793          	add	a5,a5,1
+     bc8:	fef42623          	sw	a5,-20(s0)
+     bcc:	fd9ff06f          	j	ba4 <_Z32remove_entity_from_list_by_indexPhj+0x24>
+     bd0:	00000013          	nop
+     bd4:	02c12403          	lw	s0,44(sp)
+     bd8:	03010113          	add	sp,sp,48
+     bdc:	00008067          	ret
 
-00000b98 <remove_entity_from_list_by_index>:
-# void remove_entity_from_list_by_index(entity_id list[], unsigned ix) {
-     b98:	00b50533          	add	a0,a0,a1
-     b9c:	00154783          	lbu	a5,1(a0)
-     ba0:	00f50023          	sb	a5,0(a0)
-     ba4:	00078a63          	beqz	a5,bb8 <remove_entity_from_list_by_index+0x20>
-     ba8:	00254783          	lbu	a5,2(a0)
-     bac:	00150513          	add	a0,a0,1
-     bb0:	00f50023          	sb	a5,0(a0)
-     bb4:	fe079ae3          	bnez	a5,ba8 <remove_entity_from_list_by_index+0x10>
-     bb8:	00008067          	ret
+00000be0 <_Z11action_takehPKc>:
+     be0:	fd010113          	add	sp,sp,-48
+     be4:	02112623          	sw	ra,44(sp)
+     be8:	02812423          	sw	s0,40(sp)
+     bec:	03010413          	add	s0,sp,48
+     bf0:	00050793          	mv	a5,a0
+     bf4:	fcb42c23          	sw	a1,-40(s0)
+     bf8:	fcf40fa3          	sb	a5,-33(s0)
+     bfc:	fdf44703          	lbu	a4,-33(s0)
+     c00:	00070793          	mv	a5,a4
+     c04:	00279793          	sll	a5,a5,0x2
+     c08:	00e787b3          	add	a5,a5,a4
+     c0c:	00379793          	sll	a5,a5,0x3
+     c10:	00003737          	lui	a4,0x3
+     c14:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
+     c18:	00e787b3          	add	a5,a5,a4
+     c1c:	fef42423          	sw	a5,-24(s0)
+     c20:	fe842783          	lw	a5,-24(s0)
+     c24:	0047c783          	lbu	a5,4(a5)
+     c28:	00078713          	mv	a4,a5
+     c2c:	00070793          	mv	a5,a4
+     c30:	00379793          	sll	a5,a5,0x3
+     c34:	00e787b3          	add	a5,a5,a4
+     c38:	00279793          	sll	a5,a5,0x2
+     c3c:	00e787b3          	add	a5,a5,a4
+     c40:	00279793          	sll	a5,a5,0x2
+     c44:	00003737          	lui	a4,0x3
+     c48:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
+     c4c:	00e787b3          	add	a5,a5,a4
+     c50:	00478793          	add	a5,a5,4
+     c54:	fef42223          	sw	a5,-28(s0)
+     c58:	fe042623          	sw	zero,-20(s0)
+     c5c:	0a40006f          	j	d00 <_Z11action_takehPKc+0x120>
+     c60:	fe442703          	lw	a4,-28(s0)
+     c64:	fec42783          	lw	a5,-20(s0)
+     c68:	00f707b3          	add	a5,a4,a5
+     c6c:	0007c783          	lbu	a5,0(a5)
+     c70:	fef401a3          	sb	a5,-29(s0)
+     c74:	fe344783          	lbu	a5,-29(s0)
+     c78:	08078c63          	beqz	a5,d10 <_Z11action_takehPKc+0x130>
+     c7c:	fe344783          	lbu	a5,-29(s0)
+     c80:	00003737          	lui	a4,0x3
+     c84:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
+     c88:	00279793          	sll	a5,a5,0x2
+     c8c:	00f707b3          	add	a5,a4,a5
+     c90:	0007a783          	lw	a5,0(a5)
+     c94:	fd842583          	lw	a1,-40(s0)
+     c98:	00078513          	mv	a0,a5
+     c9c:	00000097          	auipc	ra,0x0
+     ca0:	6e8080e7          	jalr	1768(ra) # 1384 <_Z13strings_equalPKcS0_>
+     ca4:	00050793          	mv	a5,a0
+     ca8:	0017c793          	xor	a5,a5,1
+     cac:	0ff7f793          	zext.b	a5,a5
+     cb0:	04079063          	bnez	a5,cf0 <_Z11action_takehPKc+0x110>
+     cb4:	fe842783          	lw	a5,-24(s0)
+     cb8:	00578793          	add	a5,a5,5
+     cbc:	fe344703          	lbu	a4,-29(s0)
+     cc0:	00070613          	mv	a2,a4
+     cc4:	02000593          	li	a1,32
+     cc8:	00078513          	mv	a0,a5
+     ccc:	00000097          	auipc	ra,0x0
+     cd0:	c60080e7          	jalr	-928(ra) # 92c <_Z18add_object_to_listPhjh>
+     cd4:	00050793          	mv	a5,a0
+     cd8:	04078e63          	beqz	a5,d34 <_Z11action_takehPKc+0x154>
+     cdc:	fec42583          	lw	a1,-20(s0)
+     ce0:	fe442503          	lw	a0,-28(s0)
+     ce4:	00000097          	auipc	ra,0x0
+     ce8:	be8080e7          	jalr	-1048(ra) # 8cc <_Z32remove_object_from_list_by_indexPhj>
+     cec:	0480006f          	j	d34 <_Z11action_takehPKc+0x154>
+     cf0:	00000013          	nop
+     cf4:	fec42783          	lw	a5,-20(s0)
+     cf8:	00178793          	add	a5,a5,1
+     cfc:	fef42623          	sw	a5,-20(s0)
+     d00:	fec42703          	lw	a4,-20(s0)
+     d04:	07f00793          	li	a5,127
+     d08:	f4e7fce3          	bgeu	a5,a4,c60 <_Z11action_takehPKc+0x80>
+     d0c:	0080006f          	j	d14 <_Z11action_takehPKc+0x134>
+     d10:	00000013          	nop
+     d14:	fd842503          	lw	a0,-40(s0)
+     d18:	00000097          	auipc	ra,0x0
+     d1c:	7e0080e7          	jalr	2016(ra) # 14f8 <_Z13uart_send_strPKc>
+     d20:	000027b7          	lui	a5,0x2
+     d24:	be878513          	add	a0,a5,-1048 # 1be8 <_Z15action_mem_testv+0x5fc>
+     d28:	00000097          	auipc	ra,0x0
+     d2c:	7d0080e7          	jalr	2000(ra) # 14f8 <_Z13uart_send_strPKc>
+     d30:	0080006f          	j	d38 <_Z11action_takehPKc+0x158>
+     d34:	00000013          	nop
+     d38:	02c12083          	lw	ra,44(sp)
+     d3c:	02812403          	lw	s0,40(sp)
+     d40:	03010113          	add	sp,sp,48
+     d44:	00008067          	ret
 
-00000bbc <action_take>:
-#   object_id *lso = locations[ent->location].objects;
-     bbc:	00251e13          	sll	t3,a0,0x2
-     bc0:	00ae07b3          	add	a5,t3,a0
-     bc4:	00002337          	lui	t1,0x2
-     bc8:	01030313          	add	t1,t1,16 # 2010 <entities>
-     bcc:	00379793          	sll	a5,a5,0x3
-     bd0:	00f307b3          	add	a5,t1,a5
-     bd4:	0047c783          	lbu	a5,4(a5)
-     bd8:	0005ce83          	lbu	t4,0(a1)
-#     if (!strings_equal(objects[oid].name, obj))
-     bdc:	00002fb7          	lui	t6,0x2
-#   object_id *lso = locations[ent->location].objects;
-     be0:	00379813          	sll	a6,a5,0x3
-     be4:	00f80833          	add	a6,a6,a5
-     be8:	00281813          	sll	a6,a6,0x2
-     bec:	00f80833          	add	a6,a6,a5
-     bf0:	00281813          	sll	a6,a6,0x2
-     bf4:	000027b7          	lui	a5,0x2
-     bf8:	00480813          	add	a6,a6,4
-     bfc:	08878793          	add	a5,a5,136 # 2088 <locations>
-     c00:	00f80833          	add	a6,a6,a5
-     c04:	08080293          	add	t0,a6,128
-#     if (!strings_equal(objects[oid].name, obj))
-     c08:	000f8f93          	mv	t6,t6
-#     const object_id oid = lso[i];
-     c0c:	00084f03          	lbu	t5,0(a6)
-     c10:	00080893          	mv	a7,a6
-#     if (!oid)
-     c14:	080f0863          	beqz	t5,ca4 <action_take+0xe8>
-#     if (!strings_equal(objects[oid].name, obj))
-     c18:	002f1793          	sll	a5,t5,0x2
-     c1c:	00ff87b3          	add	a5,t6,a5
-     c20:	0007a703          	lw	a4,0(a5)
-#     if (*s1 - *s2)
-     c24:	00074783          	lbu	a5,0(a4)
-     c28:	08fe9c63          	bne	t4,a5,cc0 <action_take+0x104>
-     c2c:	000e8613          	mv	a2,t4
-     c30:	00058693          	mv	a3,a1
-#     if (!*s1 && !*s2)
-     c34:	00c7e7b3          	or	a5,a5,a2
-     c38:	0ff7f793          	zext.b	a5,a5
-#     s1++;
-     c3c:	00170713          	add	a4,a4,1
-#     s2++;
-     c40:	00168693          	add	a3,a3,1
-#     if (!*s1 && !*s2)
-     c44:	06079863          	bnez	a5,cb4 <action_take+0xf8>
-#     if (add_object_to_list(ent->objects, ENTITY_MAX_OBJECTS, oid)) {
-     c48:	00ae07b3          	add	a5,t3,a0
-     c4c:	00379793          	sll	a5,a5,0x3
-     c50:	00578793          	add	a5,a5,5
-     c54:	00f30333          	add	t1,t1,a5
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     c58:	00030713          	mv	a4,t1
-     c5c:	00000793          	li	a5,0
-#     if (list[i])
-     c60:	00074683          	lbu	a3,0(a4)
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     c64:	00178793          	add	a5,a5,1
-#     if (list[i])
-     c68:	06069263          	bnez	a3,ccc <action_take+0x110>
-#     *ptr = *(ptr + 1);
-     c6c:	00184683          	lbu	a3,1(a6)
-#     list[i] = oid;
-     c70:	01e70023          	sb	t5,0(a4)
-#     list[i + 1] = 0;
-     c74:	00f30333          	add	t1,t1,a5
-     c78:	00030023          	sb	zero,0(t1)
-#     *ptr = *(ptr + 1);
-     c7c:	00d80023          	sb	a3,0(a6)
-#     if (!*ptr)
-     c80:	08068063          	beqz	a3,d00 <action_take+0x144>
-#     *ptr = *(ptr + 1);
-     c84:	0028c783          	lbu	a5,2(a7)
-#     ptr++;
-     c88:	00188893          	add	a7,a7,1
-#     *ptr = *(ptr + 1);
-     c8c:	00f88023          	sb	a5,0(a7)
-#     if (!*ptr)
-     c90:	fe079ae3          	bnez	a5,c84 <action_take+0xc8>
-     c94:	00008067          	ret
-#     *UART_OUT = *str++;
-     c98:	00158593          	add	a1,a1,1
-     c9c:	ffd00f23          	sb	t4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     ca0:	0005ce83          	lbu	t4,0(a1)
-     ca4:	060e8063          	beqz	t4,d04 <action_take+0x148>
-#     while (*UART_OUT)
-     ca8:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     cac:	fe079ee3          	bnez	a5,ca8 <action_take+0xec>
-     cb0:	fe9ff06f          	j	c98 <action_take+0xdc>
-#     if (*s1 - *s2)
-     cb4:	00074783          	lbu	a5,0(a4)
-     cb8:	0006c603          	lbu	a2,0(a3)
-     cbc:	f6c78ce3          	beq	a5,a2,c34 <action_take+0x78>
-#   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
-     cc0:	00180813          	add	a6,a6,1
-     cc4:	f50294e3          	bne	t0,a6,c0c <action_take+0x50>
-     cc8:	fddff06f          	j	ca4 <action_take+0xe8>
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     ccc:	01f00693          	li	a3,31
-     cd0:	00170713          	add	a4,a4,1
-     cd4:	f8d796e3          	bne	a5,a3,c60 <action_take+0xa4>
-     cd8:	00002737          	lui	a4,0x2
-#   while (*str) {
-     cdc:	07300693          	li	a3,115
-     ce0:	c7470713          	add	a4,a4,-908 # 1c74 <action_mem_test+0x684>
-#     while (*UART_OUT)
-     ce4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     ce8:	fe079ee3          	bnez	a5,ce4 <action_take+0x128>
-#     *UART_OUT = *str++;
-     cec:	00170713          	add	a4,a4,1
-     cf0:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     cf4:	00074683          	lbu	a3,0(a4)
-     cf8:	fe0696e3          	bnez	a3,ce4 <action_take+0x128>
-     cfc:	00008067          	ret
-     d00:	00008067          	ret
-     d04:	00002737          	lui	a4,0x2
-     d08:	02000693          	li	a3,32
-     d0c:	ca870713          	add	a4,a4,-856 # 1ca8 <action_mem_test+0x6b8>
-#     while (*UART_OUT)
-     d10:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     d14:	fe079ee3          	bnez	a5,d10 <action_take+0x154>
-#     *UART_OUT = *str++;
-     d18:	00170713          	add	a4,a4,1
-     d1c:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     d20:	00074683          	lbu	a3,0(a4)
-     d24:	fe0696e3          	bnez	a3,d10 <action_take+0x154>
-# }
-     d28:	00008067          	ret
+00000d48 <_Z11action_drophPKc>:
+     d48:	fd010113          	add	sp,sp,-48
+     d4c:	02112623          	sw	ra,44(sp)
+     d50:	02812423          	sw	s0,40(sp)
+     d54:	03010413          	add	s0,sp,48
+     d58:	00050793          	mv	a5,a0
+     d5c:	fcb42c23          	sw	a1,-40(s0)
+     d60:	fcf40fa3          	sb	a5,-33(s0)
+     d64:	fdf44703          	lbu	a4,-33(s0)
+     d68:	00070793          	mv	a5,a4
+     d6c:	00279793          	sll	a5,a5,0x2
+     d70:	00e787b3          	add	a5,a5,a4
+     d74:	00379793          	sll	a5,a5,0x3
+     d78:	00003737          	lui	a4,0x3
+     d7c:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
+     d80:	00e787b3          	add	a5,a5,a4
+     d84:	fef42423          	sw	a5,-24(s0)
+     d88:	fe842783          	lw	a5,-24(s0)
+     d8c:	00578793          	add	a5,a5,5
+     d90:	fef42223          	sw	a5,-28(s0)
+     d94:	fe042623          	sw	zero,-20(s0)
+     d98:	0d00006f          	j	e68 <_Z11action_drophPKc+0x120>
+     d9c:	fe442703          	lw	a4,-28(s0)
+     da0:	fec42783          	lw	a5,-20(s0)
+     da4:	00f707b3          	add	a5,a4,a5
+     da8:	0007c783          	lbu	a5,0(a5)
+     dac:	fef401a3          	sb	a5,-29(s0)
+     db0:	fe344783          	lbu	a5,-29(s0)
+     db4:	0c078263          	beqz	a5,e78 <_Z11action_drophPKc+0x130>
+     db8:	fe344783          	lbu	a5,-29(s0)
+     dbc:	00003737          	lui	a4,0x3
+     dc0:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
+     dc4:	00279793          	sll	a5,a5,0x2
+     dc8:	00f707b3          	add	a5,a4,a5
+     dcc:	0007a783          	lw	a5,0(a5)
+     dd0:	fd842583          	lw	a1,-40(s0)
+     dd4:	00078513          	mv	a0,a5
+     dd8:	00000097          	auipc	ra,0x0
+     ddc:	5ac080e7          	jalr	1452(ra) # 1384 <_Z13strings_equalPKcS0_>
+     de0:	00050793          	mv	a5,a0
+     de4:	0017c793          	xor	a5,a5,1
+     de8:	0ff7f793          	zext.b	a5,a5
+     dec:	06079663          	bnez	a5,e58 <_Z11action_drophPKc+0x110>
+     df0:	fe842783          	lw	a5,-24(s0)
+     df4:	0047c783          	lbu	a5,4(a5)
+     df8:	00078713          	mv	a4,a5
+     dfc:	00070793          	mv	a5,a4
+     e00:	00379793          	sll	a5,a5,0x3
+     e04:	00e787b3          	add	a5,a5,a4
+     e08:	00279793          	sll	a5,a5,0x2
+     e0c:	00e787b3          	add	a5,a5,a4
+     e10:	00279793          	sll	a5,a5,0x2
+     e14:	00003737          	lui	a4,0x3
+     e18:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
+     e1c:	00e787b3          	add	a5,a5,a4
+     e20:	00478793          	add	a5,a5,4
+     e24:	fe344703          	lbu	a4,-29(s0)
+     e28:	00070613          	mv	a2,a4
+     e2c:	08000593          	li	a1,128
+     e30:	00078513          	mv	a0,a5
+     e34:	00000097          	auipc	ra,0x0
+     e38:	af8080e7          	jalr	-1288(ra) # 92c <_Z18add_object_to_listPhjh>
+     e3c:	00050793          	mv	a5,a0
+     e40:	06078663          	beqz	a5,eac <_Z11action_drophPKc+0x164>
+     e44:	fec42583          	lw	a1,-20(s0)
+     e48:	fe442503          	lw	a0,-28(s0)
+     e4c:	00000097          	auipc	ra,0x0
+     e50:	a80080e7          	jalr	-1408(ra) # 8cc <_Z32remove_object_from_list_by_indexPhj>
+     e54:	0580006f          	j	eac <_Z11action_drophPKc+0x164>
+     e58:	00000013          	nop
+     e5c:	fec42783          	lw	a5,-20(s0)
+     e60:	00178793          	add	a5,a5,1
+     e64:	fef42623          	sw	a5,-20(s0)
+     e68:	fec42703          	lw	a4,-20(s0)
+     e6c:	01f00793          	li	a5,31
+     e70:	f2e7f6e3          	bgeu	a5,a4,d9c <_Z11action_drophPKc+0x54>
+     e74:	0080006f          	j	e7c <_Z11action_drophPKc+0x134>
+     e78:	00000013          	nop
+     e7c:	000027b7          	lui	a5,0x2
+     e80:	bf878513          	add	a0,a5,-1032 # 1bf8 <_Z15action_mem_testv+0x60c>
+     e84:	00000097          	auipc	ra,0x0
+     e88:	674080e7          	jalr	1652(ra) # 14f8 <_Z13uart_send_strPKc>
+     e8c:	fd842503          	lw	a0,-40(s0)
+     e90:	00000097          	auipc	ra,0x0
+     e94:	668080e7          	jalr	1640(ra) # 14f8 <_Z13uart_send_strPKc>
+     e98:	000027b7          	lui	a5,0x2
+     e9c:	c0878513          	add	a0,a5,-1016 # 1c08 <_Z15action_mem_testv+0x61c>
+     ea0:	00000097          	auipc	ra,0x0
+     ea4:	658080e7          	jalr	1624(ra) # 14f8 <_Z13uart_send_strPKc>
+     ea8:	0080006f          	j	eb0 <_Z11action_drophPKc+0x168>
+     eac:	00000013          	nop
+     eb0:	02c12083          	lw	ra,44(sp)
+     eb4:	02812403          	lw	s0,40(sp)
+     eb8:	03010113          	add	sp,sp,48
+     ebc:	00008067          	ret
 
-00000d2c <action_drop>:
-#   object_id *lso = ent->objects;
-     d2c:	00251e13          	sll	t3,a0,0x2
-     d30:	00ae08b3          	add	a7,t3,a0
-     d34:	00389893          	sll	a7,a7,0x3
-     d38:	00002337          	lui	t1,0x2
-     d3c:	00588893          	add	a7,a7,5
-     d40:	01030313          	add	t1,t1,16 # 2010 <entities>
-     d44:	011308b3          	add	a7,t1,a7
-#     if (!strings_equal(objects[oid].name, obj))
-     d48:	00002f37          	lui	t5,0x2
-     d4c:	02088f93          	add	t6,a7,32
-     d50:	000f0f13          	mv	t5,t5
-#     const object_id oid = lso[i];
-     d54:	0008ce83          	lbu	t4,0(a7)
-     d58:	00088813          	mv	a6,a7
-#     if (!oid)
-     d5c:	0a0e8c63          	beqz	t4,e14 <action_drop+0xe8>
-#     if (!strings_equal(objects[oid].name, obj))
-     d60:	002e9793          	sll	a5,t4,0x2
-     d64:	00ff07b3          	add	a5,t5,a5
-     d68:	0007a703          	lw	a4,0(a5)
-#     if (*s1 - *s2)
-     d6c:	0005c683          	lbu	a3,0(a1)
-     d70:	00074783          	lbu	a5,0(a4)
-     d74:	08d79c63          	bne	a5,a3,e0c <action_drop+0xe0>
-     d78:	00058613          	mv	a2,a1
-#     if (!*s1 && !*s2)
-     d7c:	00d7e7b3          	or	a5,a5,a3
-#     s1++;
-     d80:	00170713          	add	a4,a4,1
-#     s2++;
-     d84:	00160613          	add	a2,a2,1
-#     if (!*s1 && !*s2)
-     d88:	06079c63          	bnez	a5,e00 <action_drop+0xd4>
-#     if (add_object_to_list(locations[ent->location].objects,
-     d8c:	00ae0e33          	add	t3,t3,a0
-     d90:	003e1e13          	sll	t3,t3,0x3
-     d94:	01c30333          	add	t1,t1,t3
-     d98:	00434703          	lbu	a4,4(t1)
-     d9c:	00371793          	sll	a5,a4,0x3
-     da0:	00e787b3          	add	a5,a5,a4
-     da4:	00279793          	sll	a5,a5,0x2
-     da8:	00e787b3          	add	a5,a5,a4
-     dac:	00279793          	sll	a5,a5,0x2
-     db0:	00002737          	lui	a4,0x2
-     db4:	08870713          	add	a4,a4,136 # 2088 <locations>
-     db8:	00478793          	add	a5,a5,4
-     dbc:	00e787b3          	add	a5,a5,a4
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     dc0:	00078693          	mv	a3,a5
-     dc4:	00000713          	li	a4,0
-#     if (list[i])
-     dc8:	0006c603          	lbu	a2,0(a3)
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     dcc:	00170713          	add	a4,a4,1
-#     if (list[i])
-     dd0:	0a061863          	bnez	a2,e80 <action_drop+0x154>
-#     *ptr = *(ptr + 1);
-     dd4:	0018c603          	lbu	a2,1(a7)
-#     list[i] = oid;
-     dd8:	01d68023          	sb	t4,0(a3)
-#     list[i + 1] = 0;
-     ddc:	00e787b3          	add	a5,a5,a4
-     de0:	00078023          	sb	zero,0(a5)
-#     *ptr = *(ptr + 1);
-     de4:	00c88023          	sb	a2,0(a7)
-#     if (!*ptr)
-     de8:	0c060663          	beqz	a2,eb4 <action_drop+0x188>
-#     *ptr = *(ptr + 1);
-     dec:	00284783          	lbu	a5,2(a6)
-#     ptr++;
-     df0:	00180813          	add	a6,a6,1
-#     *ptr = *(ptr + 1);
-     df4:	00f80023          	sb	a5,0(a6)
-#     if (!*ptr)
-     df8:	fe079ae3          	bnez	a5,dec <action_drop+0xc0>
-     dfc:	00008067          	ret
-#     if (*s1 - *s2)
-     e00:	00074783          	lbu	a5,0(a4)
-     e04:	00064683          	lbu	a3,0(a2)
-     e08:	f6d78ae3          	beq	a5,a3,d7c <action_drop+0x50>
-#   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
-     e0c:	00188893          	add	a7,a7,1
-     e10:	f51f92e3          	bne	t6,a7,d54 <action_drop+0x28>
-     e14:	00002737          	lui	a4,0x2
-     e18:	07500693          	li	a3,117
-     e1c:	cb870713          	add	a4,a4,-840 # 1cb8 <action_mem_test+0x6c8>
-#     while (*UART_OUT)
-     e20:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     e24:	fe079ee3          	bnez	a5,e20 <action_drop+0xf4>
-#     *UART_OUT = *str++;
-     e28:	00170713          	add	a4,a4,1
-     e2c:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     e30:	00074683          	lbu	a3,0(a4)
-     e34:	fe0696e3          	bnez	a3,e20 <action_drop+0xf4>
-     e38:	0005c703          	lbu	a4,0(a1)
-     e3c:	00070e63          	beqz	a4,e58 <action_drop+0x12c>
-#     while (*UART_OUT)
-     e40:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     e44:	fe079ee3          	bnez	a5,e40 <action_drop+0x114>
-#     *UART_OUT = *str++;
-     e48:	00158593          	add	a1,a1,1
-     e4c:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     e50:	0005c703          	lbu	a4,0(a1)
-     e54:	fe0716e3          	bnez	a4,e40 <action_drop+0x114>
-     e58:	00001737          	lui	a4,0x1
-     e5c:	00d00693          	li	a3,13
-     e60:	6f470713          	add	a4,a4,1780 # 16f4 <action_mem_test+0x104>
-#     while (*UART_OUT)
-     e64:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     e68:	fe079ee3          	bnez	a5,e64 <action_drop+0x138>
-#     *UART_OUT = *str++;
-     e6c:	00170713          	add	a4,a4,1
-     e70:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     e74:	00074683          	lbu	a3,0(a4)
-     e78:	fe0696e3          	bnez	a3,e64 <action_drop+0x138>
-# }
-     e7c:	00008067          	ret
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     e80:	07f00613          	li	a2,127
-     e84:	00168693          	add	a3,a3,1
-     e88:	f4c710e3          	bne	a4,a2,dc8 <action_drop+0x9c>
-     e8c:	00002737          	lui	a4,0x2
-     e90:	07300693          	li	a3,115
-     e94:	c7470713          	add	a4,a4,-908 # 1c74 <action_mem_test+0x684>
-#     while (*UART_OUT)
-     e98:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     e9c:	fe079ee3          	bnez	a5,e98 <action_drop+0x16c>
-#     *UART_OUT = *str++;
-     ea0:	00170713          	add	a4,a4,1
-     ea4:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     ea8:	00074683          	lbu	a3,0(a4)
-     eac:	fe0696e3          	bnez	a3,e98 <action_drop+0x16c>
-     eb0:	00008067          	ret
-     eb4:	00008067          	ret
-
-00000eb8 <action_go>:
-#   location *loc = &locations[ent->location];
-     eb8:	00251613          	sll	a2,a0,0x2
-     ebc:	00a607b3          	add	a5,a2,a0
-     ec0:	000026b7          	lui	a3,0x2
-     ec4:	01068693          	add	a3,a3,16 # 2010 <entities>
-     ec8:	00379793          	sll	a5,a5,0x3
-     ecc:	00f687b3          	add	a5,a3,a5
-     ed0:	0047c883          	lbu	a7,4(a5)
-#   const location_id to = loc->exits[dir];
-     ed4:	00002837          	lui	a6,0x2
-     ed8:	08880813          	add	a6,a6,136 # 2088 <locations>
-     edc:	00389713          	sll	a4,a7,0x3
-     ee0:	011707b3          	add	a5,a4,a7
-     ee4:	00279793          	sll	a5,a5,0x2
-     ee8:	011787b3          	add	a5,a5,a7
+00000ec0 <_Z9action_gohh>:
+     ec0:	fd010113          	add	sp,sp,-48
+     ec4:	02112623          	sw	ra,44(sp)
+     ec8:	02812423          	sw	s0,40(sp)
+     ecc:	03010413          	add	s0,sp,48
+     ed0:	00050793          	mv	a5,a0
+     ed4:	00058713          	mv	a4,a1
+     ed8:	fcf40fa3          	sb	a5,-33(s0)
+     edc:	00070793          	mv	a5,a4
+     ee0:	fcf40f23          	sb	a5,-34(s0)
+     ee4:	fdf44703          	lbu	a4,-33(s0)
+     ee8:	00070793          	mv	a5,a4
      eec:	00279793          	sll	a5,a5,0x2
-     ef0:	00f807b3          	add	a5,a6,a5
-     ef4:	00b787b3          	add	a5,a5,a1
-     ef8:	08c7c583          	lbu	a1,140(a5)
-#   if (!to) {
-     efc:	02059663          	bnez	a1,f28 <action_go+0x70>
-     f00:	00002737          	lui	a4,0x2
-     f04:	06300693          	li	a3,99
-     f08:	cc870713          	add	a4,a4,-824 # 1cc8 <action_mem_test+0x6d8>
-#     while (*UART_OUT)
-     f0c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     f10:	fe079ee3          	bnez	a5,f0c <action_go+0x54>
-#     *UART_OUT = *str++;
-     f14:	00170713          	add	a4,a4,1
-     f18:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     f1c:	00074683          	lbu	a3,0(a4)
-     f20:	fe0696e3          	bnez	a3,f0c <action_go+0x54>
-     f24:	00008067          	ret
-#   if (add_entity_to_list(locations[to].entities, LOCATION_MAX_ENTITIES, eid)) {
-     f28:	00359793          	sll	a5,a1,0x3
-     f2c:	00b787b3          	add	a5,a5,a1
-     f30:	00279793          	sll	a5,a5,0x2
-     f34:	00b787b3          	add	a5,a5,a1
-     f38:	00279793          	sll	a5,a5,0x2
-     f3c:	08478793          	add	a5,a5,132
-     f40:	00f807b3          	add	a5,a6,a5
-#     if (list[i])
-     f44:	0007ce83          	lbu	t4,0(a5)
-     f48:	00078e13          	mv	t3,a5
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-     f4c:	00100313          	li	t1,1
-#     if (list[i])
-     f50:	0c0e9e63          	bnez	t4,102c <action_go+0x174>
-#     remove_entity_from_list(loc->entities, LOCATION_MAX_ENTITIES, eid);
-     f54:	01170733          	add	a4,a4,a7
-     f58:	00271713          	sll	a4,a4,0x2
-     f5c:	01170733          	add	a4,a4,a7
-     f60:	00271713          	sll	a4,a4,0x2
-#     list[i] = eid;
-     f64:	00ae0023          	sb	a0,0(t3)
-#     list[i + 1] = 0;
-     f68:	006787b3          	add	a5,a5,t1
-#     remove_entity_from_list(loc->entities, LOCATION_MAX_ENTITIES, eid);
-     f6c:	08470713          	add	a4,a4,132
-#     list[i + 1] = 0;
-     f70:	00078023          	sb	zero,0(a5)
-#     remove_entity_from_list(loc->entities, LOCATION_MAX_ENTITIES, eid);
-     f74:	00e807b3          	add	a5,a6,a4
-#     if (list[i] != eid)
-     f78:	0007c703          	lbu	a4,0(a5)
-     f7c:	0ca70263          	beq	a4,a0,1040 <action_go+0x188>
-     f80:	0017c703          	lbu	a4,1(a5)
-     f84:	10a70a63          	beq	a4,a0,1098 <action_go+0x1e0>
-     f88:	0027c703          	lbu	a4,2(a5)
-     f8c:	14a70c63          	beq	a4,a0,10e4 <action_go+0x22c>
-     f90:	0037c703          	lbu	a4,3(a5)
-     f94:	18a70863          	beq	a4,a0,1124 <action_go+0x26c>
-     f98:	0047c703          	lbu	a4,4(a5)
-     f9c:	04a70663          	beq	a4,a0,fe8 <action_go+0x130>
-     fa0:	0057c703          	lbu	a4,5(a5)
-     fa4:	1ea70663          	beq	a4,a0,1190 <action_go+0x2d8>
-     fa8:	0067c703          	lbu	a4,6(a5)
-     fac:	1aa70663          	beq	a4,a0,1158 <action_go+0x2a0>
-     fb0:	00002737          	lui	a4,0x2
-     fb4:	06500813          	li	a6,101
-     fb8:	c9470713          	add	a4,a4,-876 # 1c94 <action_mem_test+0x6a4>
-#     while (*UART_OUT)
-     fbc:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-     fc0:	fe079ee3          	bnez	a5,fbc <action_go+0x104>
-#     *UART_OUT = *str++;
-     fc4:	00170713          	add	a4,a4,1
-     fc8:	ff000f23          	sb	a6,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-     fcc:	00074803          	lbu	a6,0(a4)
-     fd0:	fe0816e3          	bnez	a6,fbc <action_go+0x104>
-#     ent->location = to;
-     fd4:	00a607b3          	add	a5,a2,a0
-     fd8:	00379793          	sll	a5,a5,0x3
-     fdc:	00f687b3          	add	a5,a3,a5
-     fe0:	00b78223          	sb	a1,4(a5)
-# }
-     fe4:	00008067          	ret
-#       list[j] = list[j + 1];
-     fe8:	0057c703          	lbu	a4,5(a5)
-     fec:	00e78223          	sb	a4,4(a5)
-#       if (!list[j])
-     ff0:	fe0702e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-     ff4:	0067c703          	lbu	a4,6(a5)
-     ff8:	00e782a3          	sb	a4,5(a5)
-#       if (!list[j])
-     ffc:	fc070ce3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1000:	0077c703          	lbu	a4,7(a5)
-    1004:	00e78323          	sb	a4,6(a5)
-#       if (!list[j])
-    1008:	fc0706e3          	beqz	a4,fd4 <action_go+0x11c>
-#     if (list[i] != eid)
-    100c:	0057c803          	lbu	a6,5(a5)
-    1010:	f8a81ce3          	bne	a6,a0,fa8 <action_go+0xf0>
-#       list[j] = list[j + 1];
-    1014:	0067c883          	lbu	a7,6(a5)
-    1018:	00678813          	add	a6,a5,6
-    101c:	011782a3          	sb	a7,5(a5)
-    1020:	00e80023          	sb	a4,0(a6)
-#       if (!list[j])
-    1024:	f80712e3          	bnez	a4,fa8 <action_go+0xf0>
-    1028:	fadff06f          	j	fd4 <action_go+0x11c>
-#     if (list[i])
-    102c:	0017c303          	lbu	t1,1(a5)
-    1030:	12031c63          	bnez	t1,1168 <action_go+0x2b0>
-    1034:	00178e13          	add	t3,a5,1
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    1038:	00200313          	li	t1,2
-    103c:	f19ff06f          	j	f54 <action_go+0x9c>
-#       list[j] = list[j + 1];
-    1040:	0017c703          	lbu	a4,1(a5)
-    1044:	00e78023          	sb	a4,0(a5)
-#       if (!list[j])
-    1048:	f80706e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    104c:	0027c703          	lbu	a4,2(a5)
-    1050:	00e780a3          	sb	a4,1(a5)
-#       if (!list[j])
-    1054:	f80700e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1058:	0037c703          	lbu	a4,3(a5)
-    105c:	00e78123          	sb	a4,2(a5)
-#       if (!list[j])
-    1060:	f6070ae3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1064:	0047c703          	lbu	a4,4(a5)
-    1068:	00e781a3          	sb	a4,3(a5)
-#       if (!list[j])
-    106c:	f60704e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1070:	0057c703          	lbu	a4,5(a5)
-    1074:	00e78223          	sb	a4,4(a5)
-#       if (!list[j])
-    1078:	f4070ee3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    107c:	0067c703          	lbu	a4,6(a5)
-    1080:	00e782a3          	sb	a4,5(a5)
-#       if (!list[j])
-    1084:	f40708e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1088:	0077c703          	lbu	a4,7(a5)
-    108c:	00e78323          	sb	a4,6(a5)
-#       if (!list[j])
-    1090:	ee0718e3          	bnez	a4,f80 <action_go+0xc8>
-    1094:	f41ff06f          	j	fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1098:	0027c703          	lbu	a4,2(a5)
-    109c:	00e780a3          	sb	a4,1(a5)
-#       if (!list[j])
-    10a0:	f2070ae3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    10a4:	0037c703          	lbu	a4,3(a5)
-    10a8:	00e78123          	sb	a4,2(a5)
-#       if (!list[j])
-    10ac:	f20704e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    10b0:	0047c703          	lbu	a4,4(a5)
-    10b4:	00e781a3          	sb	a4,3(a5)
-#       if (!list[j])
-    10b8:	f0070ee3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    10bc:	0057c703          	lbu	a4,5(a5)
-    10c0:	00e78223          	sb	a4,4(a5)
-#       if (!list[j])
-    10c4:	f00708e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    10c8:	0067c703          	lbu	a4,6(a5)
-    10cc:	00e782a3          	sb	a4,5(a5)
-#       if (!list[j])
-    10d0:	f00702e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    10d4:	0077c703          	lbu	a4,7(a5)
-    10d8:	00e78323          	sb	a4,6(a5)
-#       if (!list[j])
-    10dc:	ea0716e3          	bnez	a4,f88 <action_go+0xd0>
-    10e0:	ef5ff06f          	j	fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    10e4:	0037c703          	lbu	a4,3(a5)
-    10e8:	00e78123          	sb	a4,2(a5)
-#       if (!list[j])
-    10ec:	ee0704e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    10f0:	0047c703          	lbu	a4,4(a5)
-    10f4:	00e781a3          	sb	a4,3(a5)
-#       if (!list[j])
-    10f8:	ec070ee3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    10fc:	0057c703          	lbu	a4,5(a5)
-    1100:	00e78223          	sb	a4,4(a5)
-#       if (!list[j])
-    1104:	ec0708e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1108:	0067c703          	lbu	a4,6(a5)
-    110c:	00e782a3          	sb	a4,5(a5)
-#       if (!list[j])
-    1110:	ec0702e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1114:	0077c703          	lbu	a4,7(a5)
-    1118:	00e78323          	sb	a4,6(a5)
-#       if (!list[j])
-    111c:	e6071ae3          	bnez	a4,f90 <action_go+0xd8>
-    1120:	eb5ff06f          	j	fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1124:	0047c703          	lbu	a4,4(a5)
-    1128:	00e781a3          	sb	a4,3(a5)
-#       if (!list[j])
-    112c:	ea0704e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1130:	0057c703          	lbu	a4,5(a5)
-    1134:	00e78223          	sb	a4,4(a5)
-#       if (!list[j])
-    1138:	e8070ee3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    113c:	0067c703          	lbu	a4,6(a5)
-    1140:	00e782a3          	sb	a4,5(a5)
-#       if (!list[j])
-    1144:	e80708e3          	beqz	a4,fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1148:	0077c703          	lbu	a4,7(a5)
-    114c:	00e78323          	sb	a4,6(a5)
-#       if (!list[j])
-    1150:	e40714e3          	bnez	a4,f98 <action_go+0xe0>
-    1154:	e81ff06f          	j	fd4 <action_go+0x11c>
-#       list[j] = list[j + 1];
-    1158:	0077c703          	lbu	a4,7(a5)
-    115c:	00e78323          	sb	a4,6(a5)
-#       if (!list[j])
-    1160:	e40718e3          	bnez	a4,fb0 <action_go+0xf8>
-    1164:	e71ff06f          	j	fd4 <action_go+0x11c>
-#     if (list[i])
-    1168:	0027c303          	lbu	t1,2(a5)
-    116c:	00031863          	bnez	t1,117c <action_go+0x2c4>
-    1170:	00278e13          	add	t3,a5,2
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    1174:	00300313          	li	t1,3
-    1178:	dddff06f          	j	f54 <action_go+0x9c>
-#     if (list[i])
-    117c:	0037c303          	lbu	t1,3(a5)
-    1180:	02031463          	bnez	t1,11a8 <action_go+0x2f0>
-    1184:	00378e13          	add	t3,a5,3
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    1188:	00400313          	li	t1,4
-    118c:	dc9ff06f          	j	f54 <action_go+0x9c>
-#       list[j] = list[j + 1];
-    1190:	0067c703          	lbu	a4,6(a5)
-    1194:	00678813          	add	a6,a5,6
-    1198:	00e782a3          	sb	a4,5(a5)
-#       if (!list[j])
-    119c:	e2070ce3          	beqz	a4,fd4 <action_go+0x11c>
-    11a0:	0077c703          	lbu	a4,7(a5)
-    11a4:	e7dff06f          	j	1020 <action_go+0x168>
-#     if (list[i])
-    11a8:	0047c303          	lbu	t1,4(a5)
-    11ac:	00031863          	bnez	t1,11bc <action_go+0x304>
-    11b0:	00478e13          	add	t3,a5,4
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    11b4:	00500313          	li	t1,5
-    11b8:	d9dff06f          	j	f54 <action_go+0x9c>
-#     if (list[i])
-    11bc:	0057c303          	lbu	t1,5(a5)
-    11c0:	00031863          	bnez	t1,11d0 <action_go+0x318>
-    11c4:	00578e13          	add	t3,a5,5
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    11c8:	00600313          	li	t1,6
-    11cc:	d89ff06f          	j	f54 <action_go+0x9c>
-#     if (list[i])
-    11d0:	0067c303          	lbu	t1,6(a5)
-    11d4:	00031863          	bnez	t1,11e4 <action_go+0x32c>
-    11d8:	00678e13          	add	t3,a5,6
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    11dc:	00700313          	li	t1,7
-    11e0:	d75ff06f          	j	f54 <action_go+0x9c>
-    11e4:	00002737          	lui	a4,0x2
-    11e8:	06c00693          	li	a3,108
-    11ec:	c8470713          	add	a4,a4,-892 # 1c84 <action_mem_test+0x694>
-#     while (*UART_OUT)
-    11f0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    11f4:	fe079ee3          	bnez	a5,11f0 <action_go+0x338>
-#     *UART_OUT = *str++;
-    11f8:	00170713          	add	a4,a4,1
-    11fc:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    1200:	00074683          	lbu	a3,0(a4)
-    1204:	fe0696e3          	bnez	a3,11f0 <action_go+0x338>
-    1208:	00008067          	ret
+     ef0:	00e787b3          	add	a5,a5,a4
+     ef4:	00379793          	sll	a5,a5,0x3
+     ef8:	00003737          	lui	a4,0x3
+     efc:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
+     f00:	00e787b3          	add	a5,a5,a4
+     f04:	fef42623          	sw	a5,-20(s0)
+     f08:	fec42783          	lw	a5,-20(s0)
+     f0c:	0047c783          	lbu	a5,4(a5)
+     f10:	00078713          	mv	a4,a5
+     f14:	00070793          	mv	a5,a4
+     f18:	00379793          	sll	a5,a5,0x3
+     f1c:	00e787b3          	add	a5,a5,a4
+     f20:	00279793          	sll	a5,a5,0x2
+     f24:	00e787b3          	add	a5,a5,a4
+     f28:	00279793          	sll	a5,a5,0x2
+     f2c:	00003737          	lui	a4,0x3
+     f30:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
+     f34:	00e787b3          	add	a5,a5,a4
+     f38:	fef42423          	sw	a5,-24(s0)
+     f3c:	fde44783          	lbu	a5,-34(s0)
+     f40:	fe842703          	lw	a4,-24(s0)
+     f44:	00f707b3          	add	a5,a4,a5
+     f48:	08c7c783          	lbu	a5,140(a5)
+     f4c:	fef403a3          	sb	a5,-25(s0)
+     f50:	fe744783          	lbu	a5,-25(s0)
+     f54:	00079c63          	bnez	a5,f6c <_Z9action_gohh+0xac>
+     f58:	000027b7          	lui	a5,0x2
+     f5c:	c1078513          	add	a0,a5,-1008 # 1c10 <_Z15action_mem_testv+0x624>
+     f60:	00000097          	auipc	ra,0x0
+     f64:	598080e7          	jalr	1432(ra) # 14f8 <_Z13uart_send_strPKc>
+     f68:	0800006f          	j	fe8 <_Z9action_gohh+0x128>
+     f6c:	fe744703          	lbu	a4,-25(s0)
+     f70:	00070793          	mv	a5,a4
+     f74:	00379793          	sll	a5,a5,0x3
+     f78:	00e787b3          	add	a5,a5,a4
+     f7c:	00279793          	sll	a5,a5,0x2
+     f80:	00e787b3          	add	a5,a5,a4
+     f84:	00279793          	sll	a5,a5,0x2
+     f88:	08078713          	add	a4,a5,128
+     f8c:	000037b7          	lui	a5,0x3
+     f90:	1c878793          	add	a5,a5,456 # 31c8 <_ZL9locations>
+     f94:	00f707b3          	add	a5,a4,a5
+     f98:	00478793          	add	a5,a5,4
+     f9c:	fdf44703          	lbu	a4,-33(s0)
+     fa0:	00070613          	mv	a2,a4
+     fa4:	00800593          	li	a1,8
+     fa8:	00078513          	mv	a0,a5
+     fac:	00000097          	auipc	ra,0x0
+     fb0:	a34080e7          	jalr	-1484(ra) # 9e0 <_Z18add_entity_to_listPhjh>
+     fb4:	00050793          	mv	a5,a0
+     fb8:	02078863          	beqz	a5,fe8 <_Z9action_gohh+0x128>
+     fbc:	fe842783          	lw	a5,-24(s0)
+     fc0:	08478793          	add	a5,a5,132
+     fc4:	fdf44703          	lbu	a4,-33(s0)
+     fc8:	00070613          	mv	a2,a4
+     fcc:	00800593          	li	a1,8
+     fd0:	00078513          	mv	a0,a5
+     fd4:	00000097          	auipc	ra,0x0
+     fd8:	ac0080e7          	jalr	-1344(ra) # a94 <_Z23remove_entity_from_listPhjh>
+     fdc:	fec42783          	lw	a5,-20(s0)
+     fe0:	fe744703          	lbu	a4,-25(s0)
+     fe4:	00e78223          	sb	a4,4(a5)
+     fe8:	02c12083          	lw	ra,44(sp)
+     fec:	02812403          	lw	s0,40(sp)
+     ff0:	03010113          	add	sp,sp,48
+     ff4:	00008067          	ret
 
-0000120c <action_give>:
-#   const location *loc = &locations[ent->location];
-    120c:	00251313          	sll	t1,a0,0x2
-    1210:	00a307b3          	add	a5,t1,a0
-    1214:	00002eb7          	lui	t4,0x2
-    1218:	010e8e93          	add	t4,t4,16 # 2010 <entities>
-    121c:	00379793          	sll	a5,a5,0x3
-    1220:	00fe87b3          	add	a5,t4,a5
-#   const entity_id *lse = loc->entities;
-    1224:	0047c783          	lbu	a5,4(a5)
-    1228:	00064e03          	lbu	t3,0(a2)
-    122c:	00379893          	sll	a7,a5,0x3
-    1230:	00f888b3          	add	a7,a7,a5
-    1234:	00289893          	sll	a7,a7,0x2
-    1238:	00f888b3          	add	a7,a7,a5
-    123c:	00289893          	sll	a7,a7,0x2
-    1240:	000027b7          	lui	a5,0x2
-    1244:	08488893          	add	a7,a7,132
-    1248:	08878793          	add	a5,a5,136 # 2088 <locations>
-    124c:	00f888b3          	add	a7,a7,a5
-    1250:	00888293          	add	t0,a7,8
-#     if (!lse[i])
-    1254:	0008cf83          	lbu	t6,0(a7)
-    1258:	0e0f8a63          	beqz	t6,134c <action_give+0x140>
-#     if (!strings_equal(to->name, to_ent))
-    125c:	002f9f13          	sll	t5,t6,0x2
-    1260:	01ff07b3          	add	a5,t5,t6
-    1264:	00379793          	sll	a5,a5,0x3
-    1268:	00fe87b3          	add	a5,t4,a5
-    126c:	0007a703          	lw	a4,0(a5)
-#     if (*s1 - *s2)
-    1270:	00074783          	lbu	a5,0(a4)
-    1274:	12fe1463          	bne	t3,a5,139c <action_give+0x190>
-    1278:	000e0813          	mv	a6,t3
-    127c:	00060693          	mv	a3,a2
-#     if (!*s1 && !*s2)
-    1280:	0107e7b3          	or	a5,a5,a6
-    1284:	0ff7f793          	zext.b	a5,a5
-#     s1++;
-    1288:	00170713          	add	a4,a4,1
-#     s2++;
-    128c:	00168693          	add	a3,a3,1
-#     if (!*s1 && !*s2)
-    1290:	10079063          	bnez	a5,1390 <action_give+0x184>
-#     object_id *lso = ent->objects;
-    1294:	00a30533          	add	a0,t1,a0
-    1298:	00351513          	sll	a0,a0,0x3
-    129c:	00550513          	add	a0,a0,5
-    12a0:	0005c883          	lbu	a7,0(a1)
-    12a4:	00ae8533          	add	a0,t4,a0
-#       if (!strings_equal(objects[oid].name, obj))
-    12a8:	00002e37          	lui	t3,0x2
-    12ac:	02050293          	add	t0,a0,32
-    12b0:	000e0e13          	mv	t3,t3
-#       const object_id oid = lso[j];
-    12b4:	00054303          	lbu	t1,0(a0)
-    12b8:	00050813          	mv	a6,a0
-#       if (!oid)
-    12bc:	0a030663          	beqz	t1,1368 <action_give+0x15c>
-#       if (!strings_equal(objects[oid].name, obj))
-    12c0:	00231793          	sll	a5,t1,0x2
-    12c4:	00fe07b3          	add	a5,t3,a5
-    12c8:	0007a703          	lw	a4,0(a5)
-#     if (*s1 - *s2)
-    12cc:	00074783          	lbu	a5,0(a4)
-    12d0:	0af89a63          	bne	a7,a5,1384 <action_give+0x178>
-    12d4:	00088613          	mv	a2,a7
-    12d8:	00058693          	mv	a3,a1
-#     if (!*s1 && !*s2)
-    12dc:	00c7e7b3          	or	a5,a5,a2
-    12e0:	0ff7f793          	zext.b	a5,a5
-#     s1++;
-    12e4:	00170713          	add	a4,a4,1
-#     s2++;
-    12e8:	00168693          	add	a3,a3,1
-#     if (!*s1 && !*s2)
-    12ec:	08079663          	bnez	a5,1378 <action_give+0x16c>
-#       if (add_object_to_list(to->objects, ENTITY_MAX_OBJECTS, oid)) {
-    12f0:	01ff07b3          	add	a5,t5,t6
-    12f4:	00379793          	sll	a5,a5,0x3
-    12f8:	00578793          	add	a5,a5,5
-    12fc:	00fe87b3          	add	a5,t4,a5
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    1300:	00078693          	mv	a3,a5
-    1304:	00000713          	li	a4,0
-#     if (list[i])
-    1308:	0006c603          	lbu	a2,0(a3)
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    130c:	00170713          	add	a4,a4,1
-#     if (list[i])
-    1310:	0c061063          	bnez	a2,13d0 <action_give+0x1c4>
-#     list[i] = oid;
-    1314:	00668023          	sb	t1,0(a3)
-#     list[i + 1] = 0;
-    1318:	00e787b3          	add	a5,a5,a4
-    131c:	00078023          	sb	zero,0(a5)
-#     *ptr = *(ptr + 1);
-    1320:	00154783          	lbu	a5,1(a0)
-    1324:	00f50023          	sb	a5,0(a0)
-#     if (!*ptr)
-    1328:	10078263          	beqz	a5,142c <action_give+0x220>
-#     *ptr = *(ptr + 1);
-    132c:	00284783          	lbu	a5,2(a6)
-#     ptr++;
-    1330:	00180813          	add	a6,a6,1
-#     *ptr = *(ptr + 1);
-    1334:	00f80023          	sb	a5,0(a6)
-#     if (!*ptr)
-    1338:	fe079ae3          	bnez	a5,132c <action_give+0x120>
-    133c:	00008067          	ret
-#     *UART_OUT = *str++;
-    1340:	00160613          	add	a2,a2,1
-    1344:	ffc00f23          	sb	t3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    1348:	00064e03          	lbu	t3,0(a2)
-    134c:	040e0e63          	beqz	t3,13a8 <action_give+0x19c>
-#     while (*UART_OUT)
-    1350:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1354:	fe079ee3          	bnez	a5,1350 <action_give+0x144>
-    1358:	fe9ff06f          	j	1340 <action_give+0x134>
-#     *UART_OUT = *str++;
-    135c:	00158593          	add	a1,a1,1
-    1360:	ff100f23          	sb	a7,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    1364:	0005c883          	lbu	a7,0(a1)
-    1368:	08088e63          	beqz	a7,1404 <action_give+0x1f8>
-#     while (*UART_OUT)
-    136c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1370:	fe079ee3          	bnez	a5,136c <action_give+0x160>
-    1374:	fe9ff06f          	j	135c <action_give+0x150>
-#     if (*s1 - *s2)
-    1378:	00074783          	lbu	a5,0(a4)
-    137c:	0006c603          	lbu	a2,0(a3)
-    1380:	f4c78ee3          	beq	a5,a2,12dc <action_give+0xd0>
-#     for (unsigned j = 0; j < ENTITY_MAX_OBJECTS; j++) {
-    1384:	00150513          	add	a0,a0,1
-    1388:	f25516e3          	bne	a0,t0,12b4 <action_give+0xa8>
-    138c:	fddff06f          	j	1368 <action_give+0x15c>
-#     if (*s1 - *s2)
-    1390:	00074783          	lbu	a5,0(a4)
-    1394:	0006c803          	lbu	a6,0(a3)
-    1398:	ef0784e3          	beq	a5,a6,1280 <action_give+0x74>
-#   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
-    139c:	00188893          	add	a7,a7,1
-    13a0:	ea589ae3          	bne	a7,t0,1254 <action_give+0x48>
-#   while (*str) {
-    13a4:	fa0e16e3          	bnez	t3,1350 <action_give+0x144>
-    13a8:	00002737          	lui	a4,0x2
-    13ac:	02000693          	li	a3,32
-    13b0:	cf470713          	add	a4,a4,-780 # 1cf4 <action_mem_test+0x704>
-#     while (*UART_OUT)
-    13b4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    13b8:	fe079ee3          	bnez	a5,13b4 <action_give+0x1a8>
-#     *UART_OUT = *str++;
-    13bc:	00170713          	add	a4,a4,1
-    13c0:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    13c4:	00074683          	lbu	a3,0(a4)
-    13c8:	fe0696e3          	bnez	a3,13b4 <action_give+0x1a8>
-# }
-    13cc:	00008067          	ret
-#   for (unsigned i = 0; i < list_len - 1; i++) {
-    13d0:	01f00613          	li	a2,31
-    13d4:	00168693          	add	a3,a3,1
-    13d8:	f2c718e3          	bne	a4,a2,1308 <action_give+0xfc>
-    13dc:	00002737          	lui	a4,0x2
-    13e0:	07300693          	li	a3,115
-    13e4:	c7470713          	add	a4,a4,-908 # 1c74 <action_mem_test+0x684>
-#     while (*UART_OUT)
-    13e8:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    13ec:	fe079ee3          	bnez	a5,13e8 <action_give+0x1dc>
-#     *UART_OUT = *str++;
-    13f0:	00170713          	add	a4,a4,1
-    13f4:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    13f8:	00074683          	lbu	a3,0(a4)
-    13fc:	fe0696e3          	bnez	a3,13e8 <action_give+0x1dc>
-    1400:	00008067          	ret
-    1404:	00002737          	lui	a4,0x2
-    1408:	02000693          	li	a3,32
-    140c:	cdc70713          	add	a4,a4,-804 # 1cdc <action_mem_test+0x6ec>
-#     while (*UART_OUT)
-    1410:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1414:	fe079ee3          	bnez	a5,1410 <action_give+0x204>
-#     *UART_OUT = *str++;
-    1418:	00170713          	add	a4,a4,1
-    141c:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    1420:	00074683          	lbu	a3,0(a4)
-    1424:	fe0696e3          	bnez	a3,1410 <action_give+0x204>
-    1428:	00008067          	ret
-    142c:	00008067          	ret
+00000ff8 <_Z11action_givehPKcS0_>:
+     ff8:	fc010113          	add	sp,sp,-64
+     ffc:	02112e23          	sw	ra,60(sp)
+    1000:	02812c23          	sw	s0,56(sp)
+    1004:	04010413          	add	s0,sp,64
+    1008:	00050793          	mv	a5,a0
+    100c:	fcb42423          	sw	a1,-56(s0)
+    1010:	fcc42223          	sw	a2,-60(s0)
+    1014:	fcf407a3          	sb	a5,-49(s0)
+    1018:	fcf44703          	lbu	a4,-49(s0)
+    101c:	00070793          	mv	a5,a4
+    1020:	00279793          	sll	a5,a5,0x2
+    1024:	00e787b3          	add	a5,a5,a4
+    1028:	00379793          	sll	a5,a5,0x3
+    102c:	00003737          	lui	a4,0x3
+    1030:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
+    1034:	00e787b3          	add	a5,a5,a4
+    1038:	fef42223          	sw	a5,-28(s0)
+    103c:	fe442783          	lw	a5,-28(s0)
+    1040:	0047c783          	lbu	a5,4(a5)
+    1044:	00078713          	mv	a4,a5
+    1048:	00070793          	mv	a5,a4
+    104c:	00379793          	sll	a5,a5,0x3
+    1050:	00e787b3          	add	a5,a5,a4
+    1054:	00279793          	sll	a5,a5,0x2
+    1058:	00e787b3          	add	a5,a5,a4
+    105c:	00279793          	sll	a5,a5,0x2
+    1060:	00003737          	lui	a4,0x3
+    1064:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
+    1068:	00e787b3          	add	a5,a5,a4
+    106c:	fef42023          	sw	a5,-32(s0)
+    1070:	fe042783          	lw	a5,-32(s0)
+    1074:	08478793          	add	a5,a5,132
+    1078:	fcf42e23          	sw	a5,-36(s0)
+    107c:	fe042623          	sw	zero,-20(s0)
+    1080:	16c0006f          	j	11ec <_Z11action_givehPKcS0_+0x1f4>
+    1084:	fdc42703          	lw	a4,-36(s0)
+    1088:	fec42783          	lw	a5,-20(s0)
+    108c:	00f707b3          	add	a5,a4,a5
+    1090:	0007c783          	lbu	a5,0(a5)
+    1094:	16078463          	beqz	a5,11fc <_Z11action_givehPKcS0_+0x204>
+    1098:	fdc42703          	lw	a4,-36(s0)
+    109c:	fec42783          	lw	a5,-20(s0)
+    10a0:	00f707b3          	add	a5,a4,a5
+    10a4:	0007c783          	lbu	a5,0(a5)
+    10a8:	00078713          	mv	a4,a5
+    10ac:	00070793          	mv	a5,a4
+    10b0:	00279793          	sll	a5,a5,0x2
+    10b4:	00e787b3          	add	a5,a5,a4
+    10b8:	00379793          	sll	a5,a5,0x3
+    10bc:	00003737          	lui	a4,0x3
+    10c0:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
+    10c4:	00e787b3          	add	a5,a5,a4
+    10c8:	fcf42c23          	sw	a5,-40(s0)
+    10cc:	fd842783          	lw	a5,-40(s0)
+    10d0:	0007a783          	lw	a5,0(a5)
+    10d4:	fc442583          	lw	a1,-60(s0)
+    10d8:	00078513          	mv	a0,a5
+    10dc:	00000097          	auipc	ra,0x0
+    10e0:	2a8080e7          	jalr	680(ra) # 1384 <_Z13strings_equalPKcS0_>
+    10e4:	00050793          	mv	a5,a0
+    10e8:	0017c793          	xor	a5,a5,1
+    10ec:	0ff7f793          	zext.b	a5,a5
+    10f0:	0e079663          	bnez	a5,11dc <_Z11action_givehPKcS0_+0x1e4>
+    10f4:	fe442783          	lw	a5,-28(s0)
+    10f8:	00578793          	add	a5,a5,5
+    10fc:	fcf42a23          	sw	a5,-44(s0)
+    1100:	fe042423          	sw	zero,-24(s0)
+    1104:	0a40006f          	j	11a8 <_Z11action_givehPKcS0_+0x1b0>
+    1108:	fd442703          	lw	a4,-44(s0)
+    110c:	fe842783          	lw	a5,-24(s0)
+    1110:	00f707b3          	add	a5,a4,a5
+    1114:	0007c783          	lbu	a5,0(a5)
+    1118:	fcf409a3          	sb	a5,-45(s0)
+    111c:	fd344783          	lbu	a5,-45(s0)
+    1120:	08078c63          	beqz	a5,11b8 <_Z11action_givehPKcS0_+0x1c0>
+    1124:	fd344783          	lbu	a5,-45(s0)
+    1128:	00003737          	lui	a4,0x3
+    112c:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
+    1130:	00279793          	sll	a5,a5,0x2
+    1134:	00f707b3          	add	a5,a4,a5
+    1138:	0007a783          	lw	a5,0(a5)
+    113c:	fc842583          	lw	a1,-56(s0)
+    1140:	00078513          	mv	a0,a5
+    1144:	00000097          	auipc	ra,0x0
+    1148:	240080e7          	jalr	576(ra) # 1384 <_Z13strings_equalPKcS0_>
+    114c:	00050793          	mv	a5,a0
+    1150:	0017c793          	xor	a5,a5,1
+    1154:	0ff7f793          	zext.b	a5,a5
+    1158:	04079063          	bnez	a5,1198 <_Z11action_givehPKcS0_+0x1a0>
+    115c:	fd842783          	lw	a5,-40(s0)
+    1160:	00578793          	add	a5,a5,5
+    1164:	fd344703          	lbu	a4,-45(s0)
+    1168:	00070613          	mv	a2,a4
+    116c:	02000593          	li	a1,32
+    1170:	00078513          	mv	a0,a5
+    1174:	fffff097          	auipc	ra,0xfffff
+    1178:	7b8080e7          	jalr	1976(ra) # 92c <_Z18add_object_to_listPhjh>
+    117c:	00050793          	mv	a5,a0
+    1180:	0a078063          	beqz	a5,1220 <_Z11action_givehPKcS0_+0x228>
+    1184:	fe842583          	lw	a1,-24(s0)
+    1188:	fd442503          	lw	a0,-44(s0)
+    118c:	fffff097          	auipc	ra,0xfffff
+    1190:	740080e7          	jalr	1856(ra) # 8cc <_Z32remove_object_from_list_by_indexPhj>
+    1194:	08c0006f          	j	1220 <_Z11action_givehPKcS0_+0x228>
+    1198:	00000013          	nop
+    119c:	fe842783          	lw	a5,-24(s0)
+    11a0:	00178793          	add	a5,a5,1
+    11a4:	fef42423          	sw	a5,-24(s0)
+    11a8:	fe842703          	lw	a4,-24(s0)
+    11ac:	01f00793          	li	a5,31
+    11b0:	f4e7fce3          	bgeu	a5,a4,1108 <_Z11action_givehPKcS0_+0x110>
+    11b4:	0080006f          	j	11bc <_Z11action_givehPKcS0_+0x1c4>
+    11b8:	00000013          	nop
+    11bc:	fc842503          	lw	a0,-56(s0)
+    11c0:	00000097          	auipc	ra,0x0
+    11c4:	338080e7          	jalr	824(ra) # 14f8 <_Z13uart_send_strPKc>
+    11c8:	000027b7          	lui	a5,0x2
+    11cc:	c2478513          	add	a0,a5,-988 # 1c24 <_Z15action_mem_testv+0x638>
+    11d0:	00000097          	auipc	ra,0x0
+    11d4:	328080e7          	jalr	808(ra) # 14f8 <_Z13uart_send_strPKc>
+    11d8:	04c0006f          	j	1224 <_Z11action_givehPKcS0_+0x22c>
+    11dc:	00000013          	nop
+    11e0:	fec42783          	lw	a5,-20(s0)
+    11e4:	00178793          	add	a5,a5,1
+    11e8:	fef42623          	sw	a5,-20(s0)
+    11ec:	fec42703          	lw	a4,-20(s0)
+    11f0:	00700793          	li	a5,7
+    11f4:	e8e7f8e3          	bgeu	a5,a4,1084 <_Z11action_givehPKcS0_+0x8c>
+    11f8:	0080006f          	j	1200 <_Z11action_givehPKcS0_+0x208>
+    11fc:	00000013          	nop
+    1200:	fc442503          	lw	a0,-60(s0)
+    1204:	00000097          	auipc	ra,0x0
+    1208:	2f4080e7          	jalr	756(ra) # 14f8 <_Z13uart_send_strPKc>
+    120c:	000027b7          	lui	a5,0x2
+    1210:	c3c78513          	add	a0,a5,-964 # 1c3c <_Z15action_mem_testv+0x650>
+    1214:	00000097          	auipc	ra,0x0
+    1218:	2e4080e7          	jalr	740(ra) # 14f8 <_Z13uart_send_strPKc>
+    121c:	0080006f          	j	1224 <_Z11action_givehPKcS0_+0x22c>
+    1220:	00000013          	nop
+    1224:	03c12083          	lw	ra,60(sp)
+    1228:	03812403          	lw	s0,56(sp)
+    122c:	04010113          	add	sp,sp,64
+    1230:	00008067          	ret
 
-00001430 <print_help>:
-    1430:	00002737          	lui	a4,0x2
-    1434:	00d00693          	li	a3,13
-    1438:	adc70713          	add	a4,a4,-1316 # 1adc <action_mem_test+0x4ec>
-#     while (*UART_OUT)
-    143c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1440:	fe079ee3          	bnez	a5,143c <print_help+0xc>
-#     *UART_OUT = *str++;
-    1444:	00170713          	add	a4,a4,1
-    1448:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    144c:	00074683          	lbu	a3,0(a4)
-    1450:	fe0696e3          	bnez	a3,143c <print_help+0xc>
-# }
-    1454:	00008067          	ret
+00001234 <_Z10print_helpv>:
+    1234:	ff010113          	add	sp,sp,-16
+    1238:	00112623          	sw	ra,12(sp)
+    123c:	00812423          	sw	s0,8(sp)
+    1240:	01010413          	add	s0,sp,16
+    1244:	000027b7          	lui	a5,0x2
+    1248:	c5078513          	add	a0,a5,-944 # 1c50 <_Z15action_mem_testv+0x664>
+    124c:	00000097          	auipc	ra,0x0
+    1250:	2ac080e7          	jalr	684(ra) # 14f8 <_Z13uart_send_strPKc>
+    1254:	00000013          	nop
+    1258:	00c12083          	lw	ra,12(sp)
+    125c:	00812403          	lw	s0,8(sp)
+    1260:	01010113          	add	sp,sp,16
+    1264:	00008067          	ret
 
-00001458 <input>:
-#     if (ch == CHAR_BACKSPACE) {
-    1458:	07f00613          	li	a2,127
-#     } else if (ch == CHAR_CARRIAGE_RETURN ||
-    145c:	00d00593          	li	a1,13
-    1460:	04f00813          	li	a6,79
-#   while ((ch = *UART_IN) == 0)
-    1464:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
-    1468:	0ff7f713          	zext.b	a4,a5
-    146c:	fe078ce3          	beqz	a5,1464 <input+0xc>
-#       if (buf->ix > 0) {
-    1470:	05054783          	lbu	a5,80(a0)
-#     if (ch == CHAR_BACKSPACE) {
-    1474:	02c70e63          	beq	a4,a2,14b0 <input+0x58>
-#     } else if (ch == CHAR_CARRIAGE_RETURN ||
-    1478:	04b70c63          	beq	a4,a1,14d0 <input+0x78>
-    147c:	05078a63          	beq	a5,a6,14d0 <input+0x78>
-#       buf->line[buf->ix] = ch;
-    1480:	00f506b3          	add	a3,a0,a5
-    1484:	00e68023          	sb	a4,0(a3)
-#       buf->ix++;
-    1488:	00178793          	add	a5,a5,1
-    148c:	04f50823          	sb	a5,80(a0)
-#   while (*UART_OUT)
-    1490:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1494:	fe079ee3          	bnez	a5,1490 <input+0x38>
-#   *UART_OUT = ch;
-    1498:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#     led_set(~buf->ix);
-    149c:	05054783          	lbu	a5,80(a0)
-    14a0:	fff7c793          	not	a5,a5
+00001268 <_Z5inputP12input_buffer>:
+    1268:	fd010113          	add	sp,sp,-48
+    126c:	02112623          	sw	ra,44(sp)
+    1270:	02812423          	sw	s0,40(sp)
+    1274:	03010413          	add	s0,sp,48
+    1278:	fca42e23          	sw	a0,-36(s0)
+    127c:	00000097          	auipc	ra,0x0
+    1280:	330080e7          	jalr	816(ra) # 15ac <_Z14uart_read_charv>
+    1284:	00050793          	mv	a5,a0
+    1288:	fef407a3          	sb	a5,-17(s0)
+    128c:	fef44703          	lbu	a4,-17(s0)
+    1290:	07f00793          	li	a5,127
+    1294:	02f71e63          	bne	a4,a5,12d0 <_Z5inputP12input_buffer+0x68>
+    1298:	fdc42783          	lw	a5,-36(s0)
+    129c:	0507c783          	lbu	a5,80(a5)
+    12a0:	0a078a63          	beqz	a5,1354 <_Z5inputP12input_buffer+0xec>
+    12a4:	fdc42783          	lw	a5,-36(s0)
+    12a8:	0507c783          	lbu	a5,80(a5)
+    12ac:	fff78793          	add	a5,a5,-1
+    12b0:	0ff7f713          	zext.b	a4,a5
+    12b4:	fdc42783          	lw	a5,-36(s0)
+    12b8:	04e78823          	sb	a4,80(a5)
+    12bc:	fef44783          	lbu	a5,-17(s0)
+    12c0:	00078513          	mv	a0,a5
+    12c4:	00000097          	auipc	ra,0x0
+    12c8:	29c080e7          	jalr	668(ra) # 1560 <_Z14uart_send_charc>
+    12cc:	0880006f          	j	1354 <_Z5inputP12input_buffer+0xec>
+    12d0:	fef44703          	lbu	a4,-17(s0)
+    12d4:	00d00793          	li	a5,13
+    12d8:	00f70a63          	beq	a4,a5,12ec <_Z5inputP12input_buffer+0x84>
+    12dc:	fdc42783          	lw	a5,-36(s0)
+    12e0:	0507c703          	lbu	a4,80(a5)
+    12e4:	04f00793          	li	a5,79
+    12e8:	02f71463          	bne	a4,a5,1310 <_Z5inputP12input_buffer+0xa8>
+    12ec:	fdc42783          	lw	a5,-36(s0)
+    12f0:	0507c783          	lbu	a5,80(a5)
+    12f4:	00078713          	mv	a4,a5
+    12f8:	fdc42783          	lw	a5,-36(s0)
+    12fc:	00e787b3          	add	a5,a5,a4
+    1300:	00078023          	sb	zero,0(a5)
+    1304:	fdc42783          	lw	a5,-36(s0)
+    1308:	04078823          	sb	zero,80(a5)
+    130c:	0680006f          	j	1374 <_Z5inputP12input_buffer+0x10c>
+    1310:	fdc42783          	lw	a5,-36(s0)
+    1314:	0507c783          	lbu	a5,80(a5)
+    1318:	00078713          	mv	a4,a5
+    131c:	fdc42783          	lw	a5,-36(s0)
+    1320:	00e787b3          	add	a5,a5,a4
+    1324:	fef44703          	lbu	a4,-17(s0)
+    1328:	00e78023          	sb	a4,0(a5)
+    132c:	fdc42783          	lw	a5,-36(s0)
+    1330:	0507c783          	lbu	a5,80(a5)
+    1334:	00178793          	add	a5,a5,1
+    1338:	0ff7f713          	zext.b	a4,a5
+    133c:	fdc42783          	lw	a5,-36(s0)
+    1340:	04e78823          	sb	a4,80(a5)
+    1344:	fef44783          	lbu	a5,-17(s0)
+    1348:	00078513          	mv	a0,a5
+    134c:	00000097          	auipc	ra,0x0
+    1350:	214080e7          	jalr	532(ra) # 1560 <_Z14uart_send_charc>
+    1354:	fdc42783          	lw	a5,-36(s0)
+    1358:	0507c783          	lbu	a5,80(a5)
+    135c:	fff7c793          	not	a5,a5
+    1360:	0ff7f793          	zext.b	a5,a5
+    1364:	00078513          	mv	a0,a5
+    1368:	00000097          	auipc	ra,0x0
+    136c:	160080e7          	jalr	352(ra) # 14c8 <_Z7led_seth>
+    1370:	f0dff06f          	j	127c <_Z5inputP12input_buffer+0x14>
+    1374:	02c12083          	lw	ra,44(sp)
+    1378:	02812403          	lw	s0,40(sp)
+    137c:	03010113          	add	sp,sp,48
+    1380:	00008067          	ret
+
+00001384 <_Z13strings_equalPKcS0_>:
+    1384:	fe010113          	add	sp,sp,-32
+    1388:	00812e23          	sw	s0,28(sp)
+    138c:	02010413          	add	s0,sp,32
+    1390:	fea42623          	sw	a0,-20(s0)
+    1394:	feb42423          	sw	a1,-24(s0)
+    1398:	fec42783          	lw	a5,-20(s0)
+    139c:	0007c703          	lbu	a4,0(a5)
+    13a0:	fe842783          	lw	a5,-24(s0)
+    13a4:	0007c783          	lbu	a5,0(a5)
+    13a8:	00f70663          	beq	a4,a5,13b4 <_Z13strings_equalPKcS0_+0x30>
+    13ac:	00000793          	li	a5,0
+    13b0:	0400006f          	j	13f0 <_Z13strings_equalPKcS0_+0x6c>
+    13b4:	fec42783          	lw	a5,-20(s0)
+    13b8:	0007c783          	lbu	a5,0(a5)
+    13bc:	00079c63          	bnez	a5,13d4 <_Z13strings_equalPKcS0_+0x50>
+    13c0:	fe842783          	lw	a5,-24(s0)
+    13c4:	0007c783          	lbu	a5,0(a5)
+    13c8:	00079663          	bnez	a5,13d4 <_Z13strings_equalPKcS0_+0x50>
+    13cc:	00100793          	li	a5,1
+    13d0:	0200006f          	j	13f0 <_Z13strings_equalPKcS0_+0x6c>
+    13d4:	fec42783          	lw	a5,-20(s0)
+    13d8:	00178793          	add	a5,a5,1
+    13dc:	fef42623          	sw	a5,-20(s0)
+    13e0:	fe842783          	lw	a5,-24(s0)
+    13e4:	00178793          	add	a5,a5,1
+    13e8:	fef42423          	sw	a5,-24(s0)
+    13ec:	fadff06f          	j	1398 <_Z13strings_equalPKcS0_+0x14>
+    13f0:	00078513          	mv	a0,a5
+    13f4:	01c12403          	lw	s0,28(sp)
+    13f8:	02010113          	add	sp,sp,32
+    13fc:	00008067          	ret
+
+00001400 <_Z18uart_send_hex_bytec>:
+    1400:	fe010113          	add	sp,sp,-32
+    1404:	00112e23          	sw	ra,28(sp)
+    1408:	00812c23          	sw	s0,24(sp)
+    140c:	02010413          	add	s0,sp,32
+    1410:	00050793          	mv	a5,a0
+    1414:	fef407a3          	sb	a5,-17(s0)
+    1418:	fef44783          	lbu	a5,-17(s0)
+    141c:	0047d793          	srl	a5,a5,0x4
+    1420:	0ff7f793          	zext.b	a5,a5
+    1424:	00078513          	mv	a0,a5
+    1428:	00000097          	auipc	ra,0x0
+    142c:	034080e7          	jalr	52(ra) # 145c <_Z20uart_send_hex_nibblec>
+    1430:	fef44783          	lbu	a5,-17(s0)
+    1434:	00f7f793          	and	a5,a5,15
+    1438:	0ff7f793          	zext.b	a5,a5
+    143c:	00078513          	mv	a0,a5
+    1440:	00000097          	auipc	ra,0x0
+    1444:	01c080e7          	jalr	28(ra) # 145c <_Z20uart_send_hex_nibblec>
+    1448:	00000013          	nop
+    144c:	01c12083          	lw	ra,28(sp)
+    1450:	01812403          	lw	s0,24(sp)
+    1454:	02010113          	add	sp,sp,32
+    1458:	00008067          	ret
+
+0000145c <_Z20uart_send_hex_nibblec>:
+    145c:	fe010113          	add	sp,sp,-32
+    1460:	00112e23          	sw	ra,28(sp)
+    1464:	00812c23          	sw	s0,24(sp)
+    1468:	02010413          	add	s0,sp,32
+    146c:	00050793          	mv	a5,a0
+    1470:	fef407a3          	sb	a5,-17(s0)
+    1474:	fef44703          	lbu	a4,-17(s0)
+    1478:	00900793          	li	a5,9
+    147c:	02e7e063          	bltu	a5,a4,149c <_Z20uart_send_hex_nibblec+0x40>
+    1480:	fef44783          	lbu	a5,-17(s0)
+    1484:	03078793          	add	a5,a5,48
+    1488:	0ff7f793          	zext.b	a5,a5
+    148c:	00078513          	mv	a0,a5
+    1490:	00000097          	auipc	ra,0x0
+    1494:	0d0080e7          	jalr	208(ra) # 1560 <_Z14uart_send_charc>
+    1498:	01c0006f          	j	14b4 <_Z20uart_send_hex_nibblec+0x58>
+    149c:	fef44783          	lbu	a5,-17(s0)
+    14a0:	03778793          	add	a5,a5,55
     14a4:	0ff7f793          	zext.b	a5,a5
+    14a8:	00078513          	mv	a0,a5
+    14ac:	00000097          	auipc	ra,0x0
+    14b0:	0b4080e7          	jalr	180(ra) # 1560 <_Z14uart_send_charc>
+    14b4:	00000013          	nop
+    14b8:	01c12083          	lw	ra,28(sp)
+    14bc:	01812403          	lw	s0,24(sp)
+    14c0:	02010113          	add	sp,sp,32
+    14c4:	00008067          	ret
+
+000014c8 <_Z7led_seth>:
 # void led_set(unsigned char bits) { *LED = bits; }
-    14a8:	fef00fa3          	sb	a5,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
-#   while ((ch = *UART_IN) == 0)
-    14ac:	fb9ff06f          	j	1464 <input+0xc>
-#       if (buf->ix > 0) {
-    14b0:	fe0788e3          	beqz	a5,14a0 <input+0x48>
-#         buf->ix--;
-    14b4:	fff78793          	add	a5,a5,-1
-    14b8:	04f50823          	sb	a5,80(a0)
-#   while (*UART_OUT)
-    14bc:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    14c0:	fe079ee3          	bnez	a5,14bc <input+0x64>
-#   *UART_OUT = ch;
-    14c4:	fec00f23          	sb	a2,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#     led_set(~buf->ix);
-    14c8:	05054783          	lbu	a5,80(a0)
-# }
-    14cc:	fd5ff06f          	j	14a0 <input+0x48>
-#       buf->line[buf->ix] = 0;
-    14d0:	00f507b3          	add	a5,a0,a5
-    14d4:	00078023          	sb	zero,0(a5)
-#       buf->ix = 0;
-    14d8:	04050823          	sb	zero,80(a0)
-# }
-    14dc:	00008067          	ret
+    14c8:	fe010113          	add	sp,sp,-32
+    14cc:	00812e23          	sw	s0,28(sp)
+    14d0:	02010413          	add	s0,sp,32
+    14d4:	00050793          	mv	a5,a0
+    14d8:	fef407a3          	sb	a5,-17(s0)
+    14dc:	fff00793          	li	a5,-1
+    14e0:	fef44703          	lbu	a4,-17(s0)
+    14e4:	00e78023          	sb	a4,0(a5)
+    14e8:	00000013          	nop
+    14ec:	01c12403          	lw	s0,28(sp)
+    14f0:	02010113          	add	sp,sp,32
+    14f4:	00008067          	ret
 
-000014e0 <strings_equal>:
-#     if (*s1 - *s2)
-    14e0:	00054783          	lbu	a5,0(a0)
-    14e4:	0005c703          	lbu	a4,0(a1)
-    14e8:	00f71e63          	bne	a4,a5,1504 <strings_equal+0x24>
-#     if (!*s1 && !*s2)
-    14ec:	00e7e7b3          	or	a5,a5,a4
-#     s1++;
-    14f0:	00150513          	add	a0,a0,1
-#     s2++;
-    14f4:	00158593          	add	a1,a1,1
-#     if (!*s1 && !*s2)
-    14f8:	fe0794e3          	bnez	a5,14e0 <strings_equal>
-#       return TRUE;
-    14fc:	00100513          	li	a0,1
-#   }
+000014f8 <_Z13uart_send_strPKc>:
+# void uart_send_str(const char *str) {
+    14f8:	fe010113          	add	sp,sp,-32
+    14fc:	00812e23          	sw	s0,28(sp)
+    1500:	02010413          	add	s0,sp,32
+    1504:	fea42623          	sw	a0,-20(s0)
+#   while (*str) {
+    1508:	0380006f          	j	1540 <_Z13uart_send_strPKc+0x48>
+#     while (*UART_OUT)
+    150c:	00000013          	nop
+    1510:	ffe00793          	li	a5,-2
+    1514:	0007c783          	lbu	a5,0(a5)
+    1518:	0ff7f793          	zext.b	a5,a5
+    151c:	00f037b3          	snez	a5,a5
+    1520:	0ff7f793          	zext.b	a5,a5
+    1524:	fe0796e3          	bnez	a5,1510 <_Z13uart_send_strPKc+0x18>
+#     *UART_OUT = *str++;
+    1528:	fec42783          	lw	a5,-20(s0)
+    152c:	00178713          	add	a4,a5,1
+    1530:	fee42623          	sw	a4,-20(s0)
+    1534:	ffe00713          	li	a4,-2
+    1538:	0007c783          	lbu	a5,0(a5)
+    153c:	00f70023          	sb	a5,0(a4)
+#   while (*str) {
+    1540:	fec42783          	lw	a5,-20(s0)
+    1544:	0007c783          	lbu	a5,0(a5)
+    1548:	fc0792e3          	bnez	a5,150c <_Z13uart_send_strPKc+0x14>
 # }
-    1500:	00008067          	ret
-#       return FALSE;
-    1504:	00000513          	li	a0,0
-    1508:	00008067          	ret
+    154c:	00000013          	nop
+    1550:	00000013          	nop
+    1554:	01c12403          	lw	s0,28(sp)
+    1558:	02010113          	add	sp,sp,32
+    155c:	00008067          	ret
 
-0000150c <uart_send_hex_byte>:
-# 
-# void uart_send_hex_byte(const char ch) {
-#   uart_send_hex_nibble((ch & 0xf0) >> 4);
-    150c:	00455793          	srl	a5,a0,0x4
-#   uart_send_hex_nibble(ch & 0x0f);
-# }
-# 
-# void uart_send_hex_nibble(const char nibble) {
-#   if (nibble < 10) {
-    1510:	00900713          	li	a4,9
-    1514:	04f76463          	bltu	a4,a5,155c <uart_send_hex_byte+0x50>
-#     uart_send_char('0' + nibble);
-    1518:	03078713          	add	a4,a5,48
+00001560 <_Z14uart_send_charc>:
+# void uart_send_char(const char ch) {
+    1560:	fe010113          	add	sp,sp,-32
+    1564:	00812e23          	sw	s0,28(sp)
+    1568:	02010413          	add	s0,sp,32
+    156c:	00050793          	mv	a5,a0
+    1570:	fef407a3          	sb	a5,-17(s0)
 #   while (*UART_OUT)
-    151c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1520:	fe079ee3          	bnez	a5,151c <uart_send_hex_byte+0x10>
+    1574:	00000013          	nop
+    1578:	ffe00793          	li	a5,-2
+    157c:	0007c783          	lbu	a5,0(a5)
+    1580:	0ff7f793          	zext.b	a5,a5
+    1584:	00f037b3          	snez	a5,a5
+    1588:	0ff7f793          	zext.b	a5,a5
+    158c:	fe0796e3          	bnez	a5,1578 <_Z14uart_send_charc+0x18>
 #   *UART_OUT = ch;
-    1524:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   uart_send_hex_nibble(ch & 0x0f);
-    1528:	00f57513          	and	a0,a0,15
-#   if (nibble < 10) {
-    152c:	00900793          	li	a5,9
-    1530:	00a7ec63          	bltu	a5,a0,1548 <uart_send_hex_byte+0x3c>
-#     uart_send_char('0' + nibble);
-    1534:	03050513          	add	a0,a0,48
-#   while (*UART_OUT)
-    1538:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    153c:	fe079ee3          	bnez	a5,1538 <uart_send_hex_byte+0x2c>
-#   *UART_OUT = ch;
-    1540:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
+    1590:	ffe00793          	li	a5,-2
+    1594:	fef44703          	lbu	a4,-17(s0)
+    1598:	00e78023          	sb	a4,0(a5)
 # }
-    1544:	00008067          	ret
-#   } else {
-#     uart_send_char('A' + (nibble - 10));
-    1548:	03750513          	add	a0,a0,55
-#   while (*UART_OUT)
-    154c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1550:	fe079ee3          	bnez	a5,154c <uart_send_hex_byte+0x40>
-#   *UART_OUT = ch;
-    1554:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-# }
-    1558:	00008067          	ret
-#     uart_send_char('A' + (nibble - 10));
-    155c:	03778713          	add	a4,a5,55
-#   while (*UART_OUT)
-    1560:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1564:	fe079ee3          	bnez	a5,1560 <uart_send_hex_byte+0x54>
-    1568:	fbdff06f          	j	1524 <uart_send_hex_byte+0x18>
-
-0000156c <uart_send_hex_nibble>:
-#   if (nibble < 10) {
-    156c:	00900793          	li	a5,9
-    1570:	00a7ee63          	bltu	a5,a0,158c <uart_send_hex_nibble+0x20>
-#     uart_send_char('0' + nibble);
-    1574:	03050513          	add	a0,a0,48
-    1578:	0ff57513          	zext.b	a0,a0
-    157c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1580:	fe079ee3          	bnez	a5,157c <uart_send_hex_nibble+0x10>
-#   *UART_OUT = ch;
-    1584:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   }
-# }
-    1588:	00008067          	ret
-#     uart_send_char('A' + (nibble - 10));
-    158c:	03750513          	add	a0,a0,55
-    1590:	0ff57513          	zext.b	a0,a0
-#   while (*UART_OUT)
-    1594:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1598:	fe079ee3          	bnez	a5,1594 <uart_send_hex_nibble+0x28>
-#   *UART_OUT = ch;
-    159c:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-# }
-    15a0:	00008067          	ret
-
-000015a4 <led_set>:
-# void led_set(unsigned char bits) { *LED = bits; }
-    15a4:	fea00fa3          	sb	a0,-1(zero) # ffffffff <__global_pointer$+0xffffd7ff>
+    159c:	00000013          	nop
+    15a0:	01c12403          	lw	s0,28(sp)
+    15a4:	02010113          	add	sp,sp,32
     15a8:	00008067          	ret
 
-000015ac <uart_send_str>:
-#   while (*str) {
-    15ac:	00054703          	lbu	a4,0(a0)
-    15b0:	00070e63          	beqz	a4,15cc <uart_send_str+0x20>
-#     while (*UART_OUT)
-    15b4:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    15b8:	fe079ee3          	bnez	a5,15b4 <uart_send_str+0x8>
-#     *UART_OUT = *str++;
-    15bc:	00150513          	add	a0,a0,1
-    15c0:	fee00f23          	sb	a4,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    15c4:	00054703          	lbu	a4,0(a0)
-    15c8:	fe0716e3          	bnez	a4,15b4 <uart_send_str+0x8>
-# }
-    15cc:	00008067          	ret
-
-000015d0 <uart_send_char>:
-#   while (*UART_OUT)
-    15d0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    15d4:	fe079ee3          	bnez	a5,15d0 <uart_send_char>
-#   *UART_OUT = ch;
-    15d8:	fea00f23          	sb	a0,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-# }
-    15dc:	00008067          	ret
-
-000015e0 <uart_read_char>:
+000015ac <_Z14uart_read_charv>:
+# char uart_read_char() {
+    15ac:	fe010113          	add	sp,sp,-32
+    15b0:	00812e23          	sw	s0,28(sp)
+    15b4:	02010413          	add	s0,sp,32
 #   while ((ch = *UART_IN) == 0)
-    15e0:	ffd04783          	lbu	a5,-3(zero) # fffffffd <__global_pointer$+0xffffd7fd>
-    15e4:	0ff7f513          	zext.b	a0,a5
-    15e8:	fe078ce3          	beqz	a5,15e0 <uart_read_char>
-#     ;
+    15b8:	00000013          	nop
+    15bc:	ffd00793          	li	a5,-3
+    15c0:	0007c783          	lbu	a5,0(a5)
+    15c4:	fef407a3          	sb	a5,-17(s0)
+    15c8:	fef44783          	lbu	a5,-17(s0)
+    15cc:	0017b793          	seqz	a5,a5
+    15d0:	0ff7f793          	zext.b	a5,a5
+    15d4:	fe0794e3          	bnez	a5,15bc <_Z14uart_read_charv+0x10>
 #   return ch;
+    15d8:	fef44783          	lbu	a5,-17(s0)
 # }
-    15ec:	00008067          	ret
+    15dc:	00078513          	mv	a0,a5
+    15e0:	01c12403          	lw	s0,28(sp)
+    15e4:	02010113          	add	sp,sp,32
+    15e8:	00008067          	ret
 
-000015f0 <action_mem_test>:
-#   while (*str) {
-    15f0:	00002737          	lui	a4,0x2
-    15f4:	07400693          	li	a3,116
-    15f8:	d0870713          	add	a4,a4,-760 # 1d08 <action_mem_test+0x718>
-#     while (*UART_OUT)
-    15fc:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1600:	fe079ee3          	bnez	a5,15fc <action_mem_test+0xc>
-#     *UART_OUT = *str++;
-    1604:	00170713          	add	a4,a4,1
-    1608:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    160c:	00074683          	lbu	a3,0(a4)
-    1610:	fe0696e3          	bnez	a3,15fc <action_mem_test+0xc>
+000015ec <_Z15action_mem_testv>:
 # void action_mem_test() {
+    15ec:	fe010113          	add	sp,sp,-32
+    15f0:	00112e23          	sw	ra,28(sp)
+    15f4:	00812c23          	sw	s0,24(sp)
+    15f8:	02010413          	add	s0,sp,32
 #   uart_send_str("testing memory (write)\r\n");
+    15fc:	000027b7          	lui	a5,0x2
+    1600:	d2c78513          	add	a0,a5,-724 # 1d2c <_Z15action_mem_testv+0x740>
+    1604:	00000097          	auipc	ra,0x0
+    1608:	ef4080e7          	jalr	-268(ra) # 14f8 <_Z13uart_send_strPKc>
 #   char *ptr = (char *)0x10000;
+    160c:	000107b7          	lui	a5,0x10
+    1610:	fef42623          	sw	a5,-20(s0)
 #   const char *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
+    1614:	002007b7          	lui	a5,0x200
+    1618:	c0078793          	add	a5,a5,-1024 # 1ffc00 <__global_pointer$+0x1fc2c0>
+    161c:	fef42223          	sw	a5,-28(s0)
 #   char ch = 0;
+    1620:	fe0405a3          	sb	zero,-21(s0)
 #   while (ptr < end) {
-    1614:	00200637          	lui	a2,0x200
-#   char *ptr = (char *)0x10000;
-    1618:	000107b7          	lui	a5,0x10
-#   while (ptr < end) {
-    161c:	c0060613          	add	a2,a2,-1024 # 1ffc00 <__global_pointer$+0x1fd400>
-    1620:	0ff7f693          	zext.b	a3,a5
+    1624:	0200006f          	j	1644 <_Z15action_mem_testv+0x58>
 #     *ptr++ = ch++;
-    1624:	00d78023          	sb	a3,0(a5) # 10000 <__global_pointer$+0xd800>
-    1628:	00178793          	add	a5,a5,1
+    1628:	feb44703          	lbu	a4,-21(s0)
+    162c:	00170793          	add	a5,a4,1
+    1630:	fef405a3          	sb	a5,-21(s0)
+    1634:	fec42783          	lw	a5,-20(s0)
+    1638:	00178693          	add	a3,a5,1
+    163c:	fed42623          	sw	a3,-20(s0)
+    1640:	00e78023          	sb	a4,0(a5)
 #   while (ptr < end) {
-    162c:	fec79ae3          	bne	a5,a2,1620 <action_mem_test+0x30>
-    1630:	00002737          	lui	a4,0x2
-#   while (*str) {
-    1634:	07400693          	li	a3,116
-    1638:	d2470713          	add	a4,a4,-732 # 1d24 <action_mem_test+0x734>
-#     while (*UART_OUT)
-    163c:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    1640:	fe079ee3          	bnez	a5,163c <action_mem_test+0x4c>
-#     *UART_OUT = *str++;
-    1644:	00170713          	add	a4,a4,1
-    1648:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    164c:	00074683          	lbu	a3,0(a4)
-    1650:	fe0696e3          	bnez	a3,163c <action_mem_test+0x4c>
-#   }
+    1644:	fec42703          	lw	a4,-20(s0)
+    1648:	fe442783          	lw	a5,-28(s0)
+    164c:	fcf76ee3          	bltu	a4,a5,1628 <_Z15action_mem_testv+0x3c>
 #   uart_send_str("testing memory (read)\r\n");
+    1650:	000027b7          	lui	a5,0x2
+    1654:	d4878513          	add	a0,a5,-696 # 1d48 <_Z15action_mem_testv+0x75c>
+    1658:	00000097          	auipc	ra,0x0
+    165c:	ea0080e7          	jalr	-352(ra) # 14f8 <_Z13uart_send_strPKc>
 #   ptr = (char *)0x10000;
+    1660:	000107b7          	lui	a5,0x10
+    1664:	fef42623          	sw	a5,-20(s0)
 #   ch = 0;
+    1668:	fe0405a3          	sb	zero,-21(s0)
 #   while (ptr < end) {
-    1654:	00200637          	lui	a2,0x200
-#   ptr = (char *)0x10000;
-    1658:	000107b7          	lui	a5,0x10
-#   while (ptr < end) {
-    165c:	c0060613          	add	a2,a2,-1024 # 1ffc00 <__global_pointer$+0x1fd400>
-    1660:	0080006f          	j	1668 <action_mem_test+0x78>
-    1664:	04c78063          	beq	a5,a2,16a4 <action_mem_test+0xb4>
+    166c:	0440006f          	j	16b0 <_Z15action_mem_testv+0xc4>
 #     if (*ptr++ != ch++) {
-    1668:	0007c683          	lbu	a3,0(a5) # 10000 <__global_pointer$+0xd800>
-    166c:	00178793          	add	a5,a5,1
-    1670:	fff78713          	add	a4,a5,-1
-    1674:	0ff77713          	zext.b	a4,a4
-    1678:	fee686e3          	beq	a3,a4,1664 <action_mem_test+0x74>
-    167c:	00002737          	lui	a4,0x2
-#   while (*str) {
-    1680:	02100693          	li	a3,33
-    1684:	d3c70713          	add	a4,a4,-708 # 1d3c <action_mem_test+0x74c>
-#     while (*UART_OUT)
-    1688:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    168c:	fe079ee3          	bnez	a5,1688 <action_mem_test+0x98>
-#     *UART_OUT = *str++;
-    1690:	00170713          	add	a4,a4,1
-    1694:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    1698:	00074683          	lbu	a3,0(a4)
-    169c:	fe0696e3          	bnez	a3,1688 <action_mem_test+0x98>
-    16a0:	00008067          	ret
-    16a4:	00002737          	lui	a4,0x2
-    16a8:	07400693          	li	a3,116
-    16ac:	d5870713          	add	a4,a4,-680 # 1d58 <action_mem_test+0x768>
-#     while (*UART_OUT)
-    16b0:	ffe04783          	lbu	a5,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-    16b4:	fe079ee3          	bnez	a5,16b0 <action_mem_test+0xc0>
-#     *UART_OUT = *str++;
-    16b8:	00170713          	add	a4,a4,1
-    16bc:	fed00f23          	sb	a3,-2(zero) # fffffffe <__global_pointer$+0xffffd7fe>
-#   while (*str) {
-    16c0:	00074683          	lbu	a3,0(a4)
-    16c4:	fe0696e3          	bnez	a3,16b0 <action_mem_test+0xc0>
+    1670:	fec42783          	lw	a5,-20(s0)
+    1674:	00178713          	add	a4,a5,1 # 10001 <__global_pointer$+0xc6c1>
+    1678:	fee42623          	sw	a4,-20(s0)
+    167c:	0007c703          	lbu	a4,0(a5)
+    1680:	feb44783          	lbu	a5,-21(s0)
+    1684:	00178693          	add	a3,a5,1
+    1688:	fed405a3          	sb	a3,-21(s0)
+    168c:	40f707b3          	sub	a5,a4,a5
+    1690:	00f037b3          	snez	a5,a5
+    1694:	0ff7f793          	zext.b	a5,a5
+    1698:	00078c63          	beqz	a5,16b0 <_Z15action_mem_testv+0xc4>
 #       uart_send_str("!!! test memory failed\r\n");
+    169c:	000027b7          	lui	a5,0x2
+    16a0:	d6078513          	add	a0,a5,-672 # 1d60 <_Z15action_mem_testv+0x774>
+    16a4:	00000097          	auipc	ra,0x0
+    16a8:	e54080e7          	jalr	-428(ra) # 14f8 <_Z13uart_send_strPKc>
 #       return;
-#     }
-#   }
+    16ac:	0200006f          	j	16cc <_Z15action_mem_testv+0xe0>
+#   while (ptr < end) {
+    16b0:	fec42703          	lw	a4,-20(s0)
+    16b4:	fe442783          	lw	a5,-28(s0)
+    16b8:	faf76ce3          	bltu	a4,a5,1670 <_Z15action_mem_testv+0x84>
 #   uart_send_str("testing memory succeeded\r\n");
+    16bc:	000027b7          	lui	a5,0x2
+    16c0:	d7c78513          	add	a0,a5,-644 # 1d7c <_Z15action_mem_testv+0x790>
+    16c4:	00000097          	auipc	ra,0x0
+    16c8:	e34080e7          	jalr	-460(ra) # 14f8 <_Z13uart_send_strPKc>
 # }
-    16c8:	00008067          	ret
+    16cc:	01c12083          	lw	ra,28(sp)
+    16d0:	01812403          	lw	s0,24(sp)
+    16d4:	02010113          	add	sp,sp,32
+    16d8:	00008067          	ret

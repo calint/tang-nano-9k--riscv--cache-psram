@@ -5,15 +5,15 @@
 #include <termios.h>
 #include <unistd.h>
 
-#define CHAR_CARRIAGE_RETURN 0x0a
+constexpr char CHAR_CARRIAGE_RETURN = 0x0a;
 
-#include "os_common.c"
+#include "os_common.hpp"
 
 int main() {
-  struct termios tm;
-  tcgetattr(STDIN_FILENO, &tm);
-  tm.c_lflag &= ~(unsigned)(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &tm);
+  struct termios term {};
+  tcgetattr(STDIN_FILENO, &term);
+  term.c_lflag &= ~(unsigned)(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &term);
 
   run();
 }

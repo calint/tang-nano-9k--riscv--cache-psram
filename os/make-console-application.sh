@@ -7,11 +7,12 @@ cd $(dirname "$0")
 
 BIN=os
 
-gcc -o $BIN -O0 -g -Wall -Wextra -pedantic \
+g++ -o $BIN -O0 -g -Wall -Wextra -pedantic \
     -Wconversion \
     -Wshadow \
     -Wno-unused-parameter \
-    console-application.c
+    -Wno-changes-meaning \
+    console-application.cpp
 
 ls -l $BIN
 

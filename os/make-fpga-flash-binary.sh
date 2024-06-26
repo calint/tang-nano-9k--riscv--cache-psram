@@ -26,8 +26,8 @@ cd $(dirname "$0")
 PATH=$PATH:~/riscv/install/rv32i/bin
 BIN=os
 
-riscv32-unknown-elf-gcc \
-	-O3 \
+riscv32-unknown-elf-g++ \
+	-O0 \
 	-g \
 	-nostartfiles \
 	-ffreestanding \
@@ -41,9 +41,10 @@ riscv32-unknown-elf-gcc \
 	-Wall -Wextra -pedantic \
 	-Wconversion \
 	-Wshadow \
+	-fpermissive \
 	-Wl,-Ttext=0x0 \
 	-Wl,--no-relax \
-	os_start.S os.c -o $BIN
+	os_start.S os.cpp -o $BIN
 
 #	-Wpadded \
 

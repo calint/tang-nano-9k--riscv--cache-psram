@@ -10,7 +10,7 @@ with open('os/os_start.S', 'w') as file:
     file.write('    li sp, {}\n'.format(hex(2**cfg.RAM_ADDRESS_BITWIDTH)))
     file.write('    jal ra, run\n')
 
-with open('os/os_config.h', 'w') as file:
+with open('os/os_config.hpp', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
     file.write('#define LED ((char volatile *)0xffffffff)\n')
     file.write('#define UART_OUT ((char volatile *)0xfffffffe)\n')
@@ -38,4 +38,4 @@ with open('src/configuration.sv', 'w') as file:
     file.write('\n')
     file.write('endpackage\n')
 
-print("generated: src/configuration.sv, os/os_start.S, os/os_config.h")
+print("generated: src/configuration.sv, os/os_start.S, os/os_config.hpp")

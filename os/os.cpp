@@ -1,11 +1,11 @@
 //
 // source file for the FPGA build
 //
-#include "os_config.h"
+#include "os_config.hpp"
 
-#define CHAR_CARRIAGE_RETURN 0x0d
+constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
 
-#include "os_common.c"
+#include "os_common.hpp"
 
 void led_set(unsigned char bits) { *LED = bits; }
 

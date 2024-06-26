@@ -1,0 +1,39 @@
+serial terminal:
+    arrows:
+        up: 1B 41
+        down: 1B 42
+        right: 1B 43
+        left: 1B 44
+        
+    delete: 1B 33 7E
+
+    page:
+        up: 1B 35 7E
+        down: 1B 36 7E
+    
+    home: 1B 31 7E
+    end: 1B 34 7E
+
+    backspace:  7F
+
+    return: 0D
+
+linux console:
+    arrows:
+        up: 1B 5B 41
+        down: 1B 5B 42
+        right: 1B 5B 43
+        left: 1B 5B 44
+        
+    delete: 1B 5B 33 7E
+
+    page:
+        up: 1B 5B 35 7E
+        down: 1B 5B 36 7E
+    
+    home: 1B 5B 48
+    end: 1B 5B 46
+
+    backspace:  7F
+
+    return: 0A
