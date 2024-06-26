@@ -9,7 +9,7 @@ constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
 
 void led_set(unsigned char bits) { *LED = bits; }
 
-void uart_send_str(const char *str) {
+void uart_send_str(char const *str) {
   while (*str) {
     while (*UART_OUT)
       ;
@@ -17,7 +17,7 @@ void uart_send_str(const char *str) {
   }
 }
 
-void uart_send_char(const char ch) {
+void uart_send_char(char const ch) {
   while (*UART_OUT)
     ;
   *UART_OUT = ch;
@@ -33,7 +33,7 @@ char uart_read_char() {
 void action_mem_test() {
   uart_send_str("testing memory (write)\r\n");
   char *ptr = (char *)0x10000;
-  const char *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
+  char const *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
   char ch = 0;
   while (ptr < end) {
     *ptr++ = ch++;

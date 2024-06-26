@@ -1401,7 +1401,7 @@ Disassembly of section .text:
     1514:	00008067          	ret
 
 00001518 <_Z13uart_send_strPKc>:
-# void uart_send_str(const char *str) {
+# void uart_send_str(char const *str) {
     1518:	fe010113          	add	sp,sp,-32
     151c:	00812e23          	sw	s0,28(sp)
     1520:	02010413          	add	s0,sp,32
@@ -1435,7 +1435,7 @@ Disassembly of section .text:
     157c:	00008067          	ret
 
 00001580 <_Z14uart_send_charc>:
-# void uart_send_char(const char ch) {
+# void uart_send_char(char const ch) {
     1580:	fe010113          	add	sp,sp,-32
     1584:	00812e23          	sw	s0,28(sp)
     1588:	02010413          	add	s0,sp,32
@@ -1495,7 +1495,7 @@ Disassembly of section .text:
 #   char *ptr = (char *)0x10000;
     162c:	000107b7          	lui	a5,0x10
     1630:	fef42623          	sw	a5,-20(s0)
-#   const char *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
+#   char const *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
     1634:	002007b7          	lui	a5,0x200
     1638:	c0078793          	add	a5,a5,-1024 # 1ffc00 <__global_pointer$+0x1fc214>
     163c:	fef42223          	sw	a5,-28(s0)
