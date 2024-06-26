@@ -50,29 +50,29 @@ using entity_id_t = unsigned char;
 using direction_t = unsigned char;
 
 struct input_buffer {
-  char line[80];
-  unsigned char ix;
+  char line[80]{};
+  unsigned char ix{};
 };
 
 struct object {
-  name_t name;
+  name_t name{};
 };
 
 static object objects[] = {{""}, {"notebook"}, {"mirror"}, {"lighter"}};
 
 struct entity {
-  name_t name;
-  location_id_t location;
-  object_id_t objects[ENTITY_MAX_OBJECTS];
+  name_t name{};
+  location_id_t location{};
+  object_id_t objects[ENTITY_MAX_OBJECTS]{};
 };
 
 static entity entities[] = {{"", 0, {0}}, {"me", 1, {2}}, {"u", 2, {0}}};
 
 struct location {
-  name_t name;
-  object_id_t objects[LOCATION_MAX_OBJECTS];
-  entity_id_t entities[LOCATION_MAX_ENTITIES];
-  location_id_t exits[LOCATION_MAX_EXITS];
+  name_t name{};
+  object_id_t objects[LOCATION_MAX_OBJECTS]{};
+  entity_id_t entities[LOCATION_MAX_ENTITIES]{};
+  location_id_t exits[LOCATION_MAX_EXITS]{};
 };
 
 static location locations[] = {{"", {0}, {0}, {0}},
@@ -107,16 +107,15 @@ extern "C" void run() {
   led_set(0); // turn all leds on
 
   unsigned char active_entity = 1;
-  input_buffer inbuf;
-  inbuf.ix = 0;
+  input_buffer inbuf{};
 
   uart_send_str(ascii_art);
   uart_send_str(hello);
 
   while (1) {
-    const entity *ent = &entities[active_entity];
-    print_location(ent->location, active_entity);
-    uart_send_str(ent->name);
+    const entity &ent = entities[active_entity];
+    print_location(ent.location, active_entity);
+    uart_send_str(ent.name);
     uart_send_str(" > ");
     input(inbuf);
     uart_send_str("\r\n");
@@ -132,7 +131,7 @@ void handle_input(entity_id_t eid, input_buffer &buf) {
   const char *words[8];
   char *ptr = buf.line;
   unsigned nwords = 0;
-  while (1) {
+  while (true) {
     words[nwords++] = ptr;
     while (*ptr && *ptr != ' ') {
       ptr++;
@@ -193,14 +192,14 @@ void handle_input(entity_id_t eid, input_buffer &buf) {
 }
 
 void print_location(location_id_t lid, entity_id_t eid_exclude_from_output) {
-  const location *loc = &locations[lid];
+  const location &loc = locations[lid];
   uart_send_str("u r in ");
-  uart_send_str(loc->name);
+  uart_send_str(loc.name);
   uart_send_str("\r\nu c: ");
 
   // print objects in location
   bool add_list_sep = false;
-  const object_id_t *lso = loc->objects;
+  const object_id_t *lso = loc.objects;
   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
     const object_id_t oid = lso[i];
     if (!oid)
@@ -219,7 +218,7 @@ void print_location(location_id_t lid, entity_id_t eid_exclude_from_output) {
 
   // print entities in location
   add_list_sep = false;
-  const entity_id_t *lse = loc->entities;
+  const entity_id_t *lse = loc.entities;
   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     const entity_id_t eid = lse[i];
     if (!eid)
@@ -241,7 +240,7 @@ void print_location(location_id_t lid, entity_id_t eid_exclude_from_output) {
   add_list_sep = false;
   uart_send_str("exits: ");
   for (unsigned i = 0; i < LOCATION_MAX_EXITS; i++) {
-    if (!loc->exits[i])
+    if (!loc.exits[i])
       continue;
     if (add_list_sep) {
       uart_send_str(", ");
@@ -279,7 +278,7 @@ void action_inventory(entity_id_t eid) {
 
 void remove_object_from_list_by_index(object_id_t list[], unsigned ix) {
   object_id_t *ptr = &list[ix];
-  while (1) {
+  while (true) {
     *ptr = *(ptr + 1);
     if (!*ptr)
       return;
@@ -333,7 +332,7 @@ void remove_entity_from_list(entity_id_t list[], unsigned list_len,
 
 void remove_entity_from_list_by_index(entity_id_t list[], unsigned ix) {
   entity_id_t *ptr = &list[ix];
-  while (1) {
+  while (true) {
     *ptr = *(ptr + 1);
     if (!*ptr)
       return;
@@ -342,15 +341,15 @@ void remove_entity_from_list_by_index(entity_id_t list[], unsigned ix) {
 }
 
 void action_take(entity_id_t eid, name_t obj) {
-  entity *ent = &entities[eid];
-  object_id_t *lso = locations[ent->location].objects;
+  entity &ent = entities[eid];
+  object_id_t *lso = locations[ent.location].objects;
   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
     const object_id_t oid = lso[i];
     if (!oid)
       break;
     if (!strings_equal(objects[oid].name, obj))
       continue;
-    if (add_object_to_list(ent->objects, ENTITY_MAX_OBJECTS, oid)) {
+    if (add_object_to_list(ent.objects, ENTITY_MAX_OBJECTS, oid)) {
       remove_object_from_list_by_index(lso, i);
     }
     return;
@@ -360,15 +359,15 @@ void action_take(entity_id_t eid, name_t obj) {
 }
 
 void action_drop(entity_id_t eid, name_t obj) {
-  entity *ent = &entities[eid];
-  object_id_t *lso = ent->objects;
+  entity &ent = entities[eid];
+  object_id_t *lso = ent.objects;
   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
     const object_id_t oid = lso[i];
     if (!oid)
       break;
     if (!strings_equal(objects[oid].name, obj))
       continue;
-    if (add_object_to_list(locations[ent->location].objects,
+    if (add_object_to_list(locations[ent.location].objects,
                            LOCATION_MAX_OBJECTS, oid)) {
       remove_object_from_list_by_index(lso, i);
     }
@@ -380,37 +379,37 @@ void action_drop(entity_id_t eid, name_t obj) {
 }
 
 void action_go(entity_id_t eid, direction_t dir) {
-  entity *ent = &entities[eid];
-  location *loc = &locations[ent->location];
-  const location_id_t to = loc->exits[dir];
+  entity &ent = entities[eid];
+  location &loc = locations[ent.location];
+  const location_id_t to = loc.exits[dir];
   if (!to) {
     uart_send_str("cannot go there\r\n\r\n");
     return;
   }
   if (add_entity_to_list(locations[to].entities, LOCATION_MAX_ENTITIES, eid)) {
-    remove_entity_from_list(loc->entities, LOCATION_MAX_ENTITIES, eid);
-    ent->location = to;
+    remove_entity_from_list(loc.entities, LOCATION_MAX_ENTITIES, eid);
+    ent.location = to;
   }
 }
 
 void action_give(entity_id_t eid, name_t obj, name_t to_ent) {
-  entity *ent = &entities[eid];
-  const location *loc = &locations[ent->location];
-  const entity_id_t *lse = loc->entities;
+  entity &ent = entities[eid];
+  const location &loc = locations[ent.location];
+  const entity_id_t *lse = loc.entities;
   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     if (!lse[i])
       break;
-    entity *to = &entities[lse[i]];
-    if (!strings_equal(to->name, to_ent))
+    entity &to = entities[lse[i]];
+    if (!strings_equal(to.name, to_ent))
       continue;
-    object_id_t *lso = ent->objects;
+    object_id_t *lso = ent.objects;
     for (unsigned j = 0; j < ENTITY_MAX_OBJECTS; j++) {
       const object_id_t oid = lso[j];
       if (!oid)
         break;
       if (!strings_equal(objects[oid].name, obj))
         continue;
-      if (add_object_to_list(to->objects, ENTITY_MAX_OBJECTS, oid)) {
+      if (add_object_to_list(to.objects, ENTITY_MAX_OBJECTS, oid)) {
         remove_object_from_list_by_index(lso, j);
       }
       return;
@@ -433,7 +432,7 @@ void print_help() {
 }
 
 void input(input_buffer &buf) {
-  while (1) {
+  while (true) {
     const char ch = uart_read_char();
     // uart_send_hex_byte(ch);
     // uart_send_char(' ');
@@ -458,7 +457,7 @@ void input(input_buffer &buf) {
 }
 
 bool strings_equal(const char *s1, const char *s2) {
-  while (1) {
+  while (true) {
     if (*s1 - *s2)
       return false;
     if (!*s1 && !*s2)

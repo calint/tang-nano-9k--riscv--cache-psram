@@ -32,6 +32,7 @@ riscv32-unknown-elf-g++ -std=c++23 \
 	-nostartfiles \
 	-ffreestanding \
 	-nostdlib \
+	-fno-builtin \
 	-fno-toplevel-reorder \
 	-fno-pic \
 	-march=rv32i \

@@ -49,3 +49,12 @@ void action_mem_test() {
   }
   uart_send_str("testing memory succeeded\r\n");
 }
+
+// built-in function called by compiler
+extern "C" void *memset(void *str, int ch, int n) {
+  char *ptr = reinterpret_cast<char *>(str);
+  while (n--) {
+    *ptr++ = (char)ch;
+  }
+  return str;
+}

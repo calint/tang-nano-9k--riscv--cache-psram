@@ -14,1541 +14,1584 @@ Disassembly of section .text:
        4:	004000ef          	jal	8 <run>
 
 00000008 <run>:
-       8:	f9010113          	add	sp,sp,-112 # 1fff90 <__global_pointer$+0x1fc650>
+       8:	f9010113          	add	sp,sp,-112 # 1fff90 <__global_pointer$+0x1fc5a4>
        c:	06112623          	sw	ra,108(sp)
       10:	06812423          	sw	s0,104(sp)
       14:	07010413          	add	s0,sp,112
       18:	00000513          	li	a0,0
       1c:	00001097          	auipc	ra,0x1
-      20:	4ac080e7          	jalr	1196(ra) # 14c8 <_Z7led_seth>
+      20:	4cc080e7          	jalr	1228(ra) # 14e8 <_Z7led_seth>
       24:	00100793          	li	a5,1
       28:	fef407a3          	sb	a5,-17(s0)
-      2c:	fe040223          	sb	zero,-28(s0)
-      30:	000037b7          	lui	a5,0x3
-      34:	4dc7a783          	lw	a5,1244(a5) # 34dc <_ZL9ascii_art>
-      38:	00078513          	mv	a0,a5
-      3c:	00001097          	auipc	ra,0x1
-      40:	4bc080e7          	jalr	1212(ra) # 14f8 <_Z13uart_send_strPKc>
-      44:	000037b7          	lui	a5,0x3
-      48:	4d87a783          	lw	a5,1240(a5) # 34d8 <_ZL5hello>
-      4c:	00078513          	mv	a0,a5
-      50:	00001097          	auipc	ra,0x1
-      54:	4a8080e7          	jalr	1192(ra) # 14f8 <_Z13uart_send_strPKc>
-      58:	fef44703          	lbu	a4,-17(s0)
-      5c:	00070793          	mv	a5,a4
-      60:	00279793          	sll	a5,a5,0x2
-      64:	00e787b3          	add	a5,a5,a4
-      68:	00379793          	sll	a5,a5,0x3
-      6c:	00003737          	lui	a4,0x3
-      70:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
-      74:	00e787b3          	add	a5,a5,a4
-      78:	fef42423          	sw	a5,-24(s0)
-      7c:	fe842783          	lw	a5,-24(s0)
-      80:	0047c783          	lbu	a5,4(a5)
-      84:	fef44703          	lbu	a4,-17(s0)
-      88:	00070593          	mv	a1,a4
-      8c:	00078513          	mv	a0,a5
-      90:	00000097          	auipc	ra,0x0
-      94:	418080e7          	jalr	1048(ra) # 4a8 <_Z14print_locationhh>
-      98:	fe842783          	lw	a5,-24(s0)
-      9c:	0007a783          	lw	a5,0(a5)
-      a0:	00078513          	mv	a0,a5
-      a4:	00001097          	auipc	ra,0x1
-      a8:	454080e7          	jalr	1108(ra) # 14f8 <_Z13uart_send_strPKc>
-      ac:	000027b7          	lui	a5,0x2
-      b0:	ac078513          	add	a0,a5,-1344 # 1ac0 <_Z15action_mem_testv+0x4d4>
-      b4:	00001097          	auipc	ra,0x1
-      b8:	444080e7          	jalr	1092(ra) # 14f8 <_Z13uart_send_strPKc>
-      bc:	f9440793          	add	a5,s0,-108
+      2c:	f8042a23          	sw	zero,-108(s0)
+      30:	f9840793          	add	a5,s0,-104
+      34:	04c00713          	li	a4,76
+      38:	00070613          	mv	a2,a4
+      3c:	00000593          	li	a1,0
+      40:	00078513          	mv	a0,a5
+      44:	00001097          	auipc	ra,0x1
+      48:	6b8080e7          	jalr	1720(ra) # 16fc <memset>
+      4c:	fe040223          	sb	zero,-28(s0)
+      50:	000037b7          	lui	a5,0x3
+      54:	5887a783          	lw	a5,1416(a5) # 3588 <_ZL9ascii_art>
+      58:	00078513          	mv	a0,a5
+      5c:	00001097          	auipc	ra,0x1
+      60:	4bc080e7          	jalr	1212(ra) # 1518 <_Z13uart_send_strPKc>
+      64:	000037b7          	lui	a5,0x3
+      68:	5847a783          	lw	a5,1412(a5) # 3584 <_ZL5hello>
+      6c:	00078513          	mv	a0,a5
+      70:	00001097          	auipc	ra,0x1
+      74:	4a8080e7          	jalr	1192(ra) # 1518 <_Z13uart_send_strPKc>
+      78:	fef44703          	lbu	a4,-17(s0)
+      7c:	00070793          	mv	a5,a4
+      80:	00279793          	sll	a5,a5,0x2
+      84:	00e787b3          	add	a5,a5,a4
+      88:	00379793          	sll	a5,a5,0x3
+      8c:	00003737          	lui	a4,0x3
+      90:	1fc70713          	add	a4,a4,508 # 31fc <_ZL8entities>
+      94:	00e787b3          	add	a5,a5,a4
+      98:	fef42423          	sw	a5,-24(s0)
+      9c:	fe842783          	lw	a5,-24(s0)
+      a0:	0047c783          	lbu	a5,4(a5)
+      a4:	fef44703          	lbu	a4,-17(s0)
+      a8:	00070593          	mv	a1,a4
+      ac:	00078513          	mv	a0,a5
+      b0:	00000097          	auipc	ra,0x0
+      b4:	418080e7          	jalr	1048(ra) # 4c8 <_Z14print_locationhh>
+      b8:	fe842783          	lw	a5,-24(s0)
+      bc:	0007a783          	lw	a5,0(a5)
       c0:	00078513          	mv	a0,a5
       c4:	00001097          	auipc	ra,0x1
-      c8:	1a4080e7          	jalr	420(ra) # 1268 <_Z5inputR12input_buffer>
+      c8:	454080e7          	jalr	1108(ra) # 1518 <_Z13uart_send_strPKc>
       cc:	000027b7          	lui	a5,0x2
-      d0:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
+      d0:	b4878513          	add	a0,a5,-1208 # 1b48 <memset+0x44c>
       d4:	00001097          	auipc	ra,0x1
-      d8:	424080e7          	jalr	1060(ra) # 14f8 <_Z13uart_send_strPKc>
-      dc:	f9440713          	add	a4,s0,-108
-      e0:	fef44783          	lbu	a5,-17(s0)
-      e4:	00070593          	mv	a1,a4
-      e8:	00078513          	mv	a0,a5
-      ec:	00000097          	auipc	ra,0x0
-      f0:	02c080e7          	jalr	44(ra) # 118 <_Z12handle_inputhR12input_buffer>
-      f4:	fef44703          	lbu	a4,-17(s0)
-      f8:	00100793          	li	a5,1
-      fc:	00f71863          	bne	a4,a5,10c <run+0x104>
-     100:	00200793          	li	a5,2
-     104:	fef407a3          	sb	a5,-17(s0)
-     108:	f51ff06f          	j	58 <run+0x50>
-     10c:	00100793          	li	a5,1
-     110:	fef407a3          	sb	a5,-17(s0)
-     114:	f45ff06f          	j	58 <run+0x50>
+      d8:	444080e7          	jalr	1092(ra) # 1518 <_Z13uart_send_strPKc>
+      dc:	f9440793          	add	a5,s0,-108
+      e0:	00078513          	mv	a0,a5
+      e4:	00001097          	auipc	ra,0x1
+      e8:	1a4080e7          	jalr	420(ra) # 1288 <_Z5inputR12input_buffer>
+      ec:	000027b7          	lui	a5,0x2
+      f0:	b4c78513          	add	a0,a5,-1204 # 1b4c <memset+0x450>
+      f4:	00001097          	auipc	ra,0x1
+      f8:	424080e7          	jalr	1060(ra) # 1518 <_Z13uart_send_strPKc>
+      fc:	f9440713          	add	a4,s0,-108
+     100:	fef44783          	lbu	a5,-17(s0)
+     104:	00070593          	mv	a1,a4
+     108:	00078513          	mv	a0,a5
+     10c:	00000097          	auipc	ra,0x0
+     110:	02c080e7          	jalr	44(ra) # 138 <_Z12handle_inputhR12input_buffer>
+     114:	fef44703          	lbu	a4,-17(s0)
+     118:	00100793          	li	a5,1
+     11c:	00f71863          	bne	a4,a5,12c <run+0x124>
+     120:	00200793          	li	a5,2
+     124:	fef407a3          	sb	a5,-17(s0)
+     128:	f51ff06f          	j	78 <run+0x70>
+     12c:	00100793          	li	a5,1
+     130:	fef407a3          	sb	a5,-17(s0)
+     134:	f45ff06f          	j	78 <run+0x70>
 
-00000118 <_Z12handle_inputhR12input_buffer>:
-     118:	fb010113          	add	sp,sp,-80
-     11c:	04112623          	sw	ra,76(sp)
-     120:	04812423          	sw	s0,72(sp)
-     124:	05010413          	add	s0,sp,80
-     128:	00050793          	mv	a5,a0
-     12c:	fab42c23          	sw	a1,-72(s0)
-     130:	faf40fa3          	sb	a5,-65(s0)
-     134:	fb842783          	lw	a5,-72(s0)
-     138:	fef42623          	sw	a5,-20(s0)
-     13c:	fe042423          	sw	zero,-24(s0)
-     140:	fec42703          	lw	a4,-20(s0)
-     144:	fe842783          	lw	a5,-24(s0)
-     148:	00178693          	add	a3,a5,1
-     14c:	fed42423          	sw	a3,-24(s0)
-     150:	00279793          	sll	a5,a5,0x2
-     154:	ff078793          	add	a5,a5,-16
-     158:	008787b3          	add	a5,a5,s0
-     15c:	fce7ac23          	sw	a4,-40(a5)
-     160:	0100006f          	j	170 <_Z12handle_inputhR12input_buffer+0x58>
-     164:	fec42783          	lw	a5,-20(s0)
-     168:	00178793          	add	a5,a5,1
-     16c:	fef42623          	sw	a5,-20(s0)
-     170:	fec42783          	lw	a5,-20(s0)
-     174:	0007c783          	lbu	a5,0(a5)
-     178:	00078a63          	beqz	a5,18c <_Z12handle_inputhR12input_buffer+0x74>
-     17c:	fec42783          	lw	a5,-20(s0)
-     180:	0007c703          	lbu	a4,0(a5)
-     184:	02000793          	li	a5,32
-     188:	fcf71ee3          	bne	a4,a5,164 <_Z12handle_inputhR12input_buffer+0x4c>
-     18c:	fec42783          	lw	a5,-20(s0)
-     190:	0007c783          	lbu	a5,0(a5)
-     194:	02078c63          	beqz	a5,1cc <_Z12handle_inputhR12input_buffer+0xb4>
-     198:	fec42783          	lw	a5,-20(s0)
-     19c:	00078023          	sb	zero,0(a5)
-     1a0:	fec42783          	lw	a5,-20(s0)
-     1a4:	00178793          	add	a5,a5,1
-     1a8:	fef42623          	sw	a5,-20(s0)
-     1ac:	fe842703          	lw	a4,-24(s0)
-     1b0:	00800793          	li	a5,8
-     1b4:	f8f716e3          	bne	a4,a5,140 <_Z12handle_inputhR12input_buffer+0x28>
-     1b8:	000027b7          	lui	a5,0x2
-     1bc:	ac878513          	add	a0,a5,-1336 # 1ac8 <_Z15action_mem_testv+0x4dc>
-     1c0:	00001097          	auipc	ra,0x1
-     1c4:	338080e7          	jalr	824(ra) # 14f8 <_Z13uart_send_strPKc>
-     1c8:	0080006f          	j	1d0 <_Z12handle_inputhR12input_buffer+0xb8>
-     1cc:	00000013          	nop
-     1d0:	fc842703          	lw	a4,-56(s0)
-     1d4:	000027b7          	lui	a5,0x2
-     1d8:	aec78593          	add	a1,a5,-1300 # 1aec <_Z15action_mem_testv+0x500>
-     1dc:	00070513          	mv	a0,a4
+00000138 <_Z12handle_inputhR12input_buffer>:
+     138:	fb010113          	add	sp,sp,-80
+     13c:	04112623          	sw	ra,76(sp)
+     140:	04812423          	sw	s0,72(sp)
+     144:	05010413          	add	s0,sp,80
+     148:	00050793          	mv	a5,a0
+     14c:	fab42c23          	sw	a1,-72(s0)
+     150:	faf40fa3          	sb	a5,-65(s0)
+     154:	fb842783          	lw	a5,-72(s0)
+     158:	fef42623          	sw	a5,-20(s0)
+     15c:	fe042423          	sw	zero,-24(s0)
+     160:	fec42703          	lw	a4,-20(s0)
+     164:	fe842783          	lw	a5,-24(s0)
+     168:	00178693          	add	a3,a5,1
+     16c:	fed42423          	sw	a3,-24(s0)
+     170:	00279793          	sll	a5,a5,0x2
+     174:	ff078793          	add	a5,a5,-16
+     178:	008787b3          	add	a5,a5,s0
+     17c:	fce7ac23          	sw	a4,-40(a5)
+     180:	0100006f          	j	190 <_Z12handle_inputhR12input_buffer+0x58>
+     184:	fec42783          	lw	a5,-20(s0)
+     188:	00178793          	add	a5,a5,1
+     18c:	fef42623          	sw	a5,-20(s0)
+     190:	fec42783          	lw	a5,-20(s0)
+     194:	0007c783          	lbu	a5,0(a5)
+     198:	00078a63          	beqz	a5,1ac <_Z12handle_inputhR12input_buffer+0x74>
+     19c:	fec42783          	lw	a5,-20(s0)
+     1a0:	0007c703          	lbu	a4,0(a5)
+     1a4:	02000793          	li	a5,32
+     1a8:	fcf71ee3          	bne	a4,a5,184 <_Z12handle_inputhR12input_buffer+0x4c>
+     1ac:	fec42783          	lw	a5,-20(s0)
+     1b0:	0007c783          	lbu	a5,0(a5)
+     1b4:	02078c63          	beqz	a5,1ec <_Z12handle_inputhR12input_buffer+0xb4>
+     1b8:	fec42783          	lw	a5,-20(s0)
+     1bc:	00078023          	sb	zero,0(a5)
+     1c0:	fec42783          	lw	a5,-20(s0)
+     1c4:	00178793          	add	a5,a5,1
+     1c8:	fef42623          	sw	a5,-20(s0)
+     1cc:	fe842703          	lw	a4,-24(s0)
+     1d0:	00800793          	li	a5,8
+     1d4:	f8f716e3          	bne	a4,a5,160 <_Z12handle_inputhR12input_buffer+0x28>
+     1d8:	000027b7          	lui	a5,0x2
+     1dc:	b5078513          	add	a0,a5,-1200 # 1b50 <memset+0x454>
      1e0:	00001097          	auipc	ra,0x1
-     1e4:	1a4080e7          	jalr	420(ra) # 1384 <_Z13strings_equalPKcS0_>
-     1e8:	00050793          	mv	a5,a0
-     1ec:	00078863          	beqz	a5,1fc <_Z12handle_inputhR12input_buffer+0xe4>
-     1f0:	00001097          	auipc	ra,0x1
-     1f4:	044080e7          	jalr	68(ra) # 1234 <_Z10print_helpv>
-     1f8:	2a00006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     1fc:	fc842703          	lw	a4,-56(s0)
-     200:	000027b7          	lui	a5,0x2
-     204:	af478593          	add	a1,a5,-1292 # 1af4 <_Z15action_mem_testv+0x508>
-     208:	00070513          	mv	a0,a4
-     20c:	00001097          	auipc	ra,0x1
-     210:	178080e7          	jalr	376(ra) # 1384 <_Z13strings_equalPKcS0_>
-     214:	00050793          	mv	a5,a0
-     218:	02078463          	beqz	a5,240 <_Z12handle_inputhR12input_buffer+0x128>
-     21c:	fbf44783          	lbu	a5,-65(s0)
-     220:	00078513          	mv	a0,a5
-     224:	00000097          	auipc	ra,0x0
-     228:	584080e7          	jalr	1412(ra) # 7a8 <_Z16action_inventoryh>
-     22c:	000027b7          	lui	a5,0x2
-     230:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
-     234:	00001097          	auipc	ra,0x1
-     238:	2c4080e7          	jalr	708(ra) # 14f8 <_Z13uart_send_strPKc>
-     23c:	25c0006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     240:	fc842703          	lw	a4,-56(s0)
-     244:	000027b7          	lui	a5,0x2
-     248:	af878593          	add	a1,a5,-1288 # 1af8 <_Z15action_mem_testv+0x50c>
-     24c:	00070513          	mv	a0,a4
-     250:	00001097          	auipc	ra,0x1
-     254:	134080e7          	jalr	308(ra) # 1384 <_Z13strings_equalPKcS0_>
-     258:	00050793          	mv	a5,a0
-     25c:	04078063          	beqz	a5,29c <_Z12handle_inputhR12input_buffer+0x184>
-     260:	fe842703          	lw	a4,-24(s0)
-     264:	00100793          	li	a5,1
-     268:	00e7ec63          	bltu	a5,a4,280 <_Z12handle_inputhR12input_buffer+0x168>
-     26c:	000027b7          	lui	a5,0x2
-     270:	afc78513          	add	a0,a5,-1284 # 1afc <_Z15action_mem_testv+0x510>
-     274:	00001097          	auipc	ra,0x1
-     278:	284080e7          	jalr	644(ra) # 14f8 <_Z13uart_send_strPKc>
-     27c:	21c0006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     280:	fcc42703          	lw	a4,-52(s0)
-     284:	fbf44783          	lbu	a5,-65(s0)
-     288:	00070593          	mv	a1,a4
-     28c:	00078513          	mv	a0,a5
-     290:	00001097          	auipc	ra,0x1
-     294:	950080e7          	jalr	-1712(ra) # be0 <_Z11action_takehPKc>
-     298:	2000006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     29c:	fc842703          	lw	a4,-56(s0)
-     2a0:	000027b7          	lui	a5,0x2
-     2a4:	b0c78593          	add	a1,a5,-1268 # 1b0c <_Z15action_mem_testv+0x520>
-     2a8:	00070513          	mv	a0,a4
-     2ac:	00001097          	auipc	ra,0x1
-     2b0:	0d8080e7          	jalr	216(ra) # 1384 <_Z13strings_equalPKcS0_>
-     2b4:	00050793          	mv	a5,a0
-     2b8:	04078063          	beqz	a5,2f8 <_Z12handle_inputhR12input_buffer+0x1e0>
-     2bc:	fe842703          	lw	a4,-24(s0)
-     2c0:	00100793          	li	a5,1
-     2c4:	00e7ec63          	bltu	a5,a4,2dc <_Z12handle_inputhR12input_buffer+0x1c4>
-     2c8:	000027b7          	lui	a5,0x2
-     2cc:	b1078513          	add	a0,a5,-1264 # 1b10 <_Z15action_mem_testv+0x524>
-     2d0:	00001097          	auipc	ra,0x1
-     2d4:	228080e7          	jalr	552(ra) # 14f8 <_Z13uart_send_strPKc>
-     2d8:	1c00006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     2dc:	fcc42703          	lw	a4,-52(s0)
-     2e0:	fbf44783          	lbu	a5,-65(s0)
-     2e4:	00070593          	mv	a1,a4
-     2e8:	00078513          	mv	a0,a5
-     2ec:	00001097          	auipc	ra,0x1
-     2f0:	a5c080e7          	jalr	-1444(ra) # d48 <_Z11action_drophPKc>
-     2f4:	1a40006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     2f8:	fc842703          	lw	a4,-56(s0)
-     2fc:	000027b7          	lui	a5,0x2
-     300:	b2078593          	add	a1,a5,-1248 # 1b20 <_Z15action_mem_testv+0x534>
-     304:	00070513          	mv	a0,a4
-     308:	00001097          	auipc	ra,0x1
-     30c:	07c080e7          	jalr	124(ra) # 1384 <_Z13strings_equalPKcS0_>
-     310:	00050793          	mv	a5,a0
-     314:	00078e63          	beqz	a5,330 <_Z12handle_inputhR12input_buffer+0x218>
-     318:	fbf44783          	lbu	a5,-65(s0)
-     31c:	00000593          	li	a1,0
-     320:	00078513          	mv	a0,a5
-     324:	00001097          	auipc	ra,0x1
-     328:	b9c080e7          	jalr	-1124(ra) # ec0 <_Z9action_gohh>
-     32c:	16c0006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     330:	fc842703          	lw	a4,-56(s0)
-     334:	000027b7          	lui	a5,0x2
-     338:	b2478593          	add	a1,a5,-1244 # 1b24 <_Z15action_mem_testv+0x538>
-     33c:	00070513          	mv	a0,a4
-     340:	00001097          	auipc	ra,0x1
-     344:	044080e7          	jalr	68(ra) # 1384 <_Z13strings_equalPKcS0_>
-     348:	00050793          	mv	a5,a0
-     34c:	00078e63          	beqz	a5,368 <_Z12handle_inputhR12input_buffer+0x250>
-     350:	fbf44783          	lbu	a5,-65(s0)
-     354:	00100593          	li	a1,1
-     358:	00078513          	mv	a0,a5
-     35c:	00001097          	auipc	ra,0x1
-     360:	b64080e7          	jalr	-1180(ra) # ec0 <_Z9action_gohh>
-     364:	1340006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     368:	fc842703          	lw	a4,-56(s0)
-     36c:	000027b7          	lui	a5,0x2
-     370:	b2878593          	add	a1,a5,-1240 # 1b28 <_Z15action_mem_testv+0x53c>
-     374:	00070513          	mv	a0,a4
-     378:	00001097          	auipc	ra,0x1
-     37c:	00c080e7          	jalr	12(ra) # 1384 <_Z13strings_equalPKcS0_>
-     380:	00050793          	mv	a5,a0
-     384:	00078e63          	beqz	a5,3a0 <_Z12handle_inputhR12input_buffer+0x288>
-     388:	fbf44783          	lbu	a5,-65(s0)
-     38c:	00200593          	li	a1,2
-     390:	00078513          	mv	a0,a5
-     394:	00001097          	auipc	ra,0x1
-     398:	b2c080e7          	jalr	-1236(ra) # ec0 <_Z9action_gohh>
-     39c:	0fc0006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     3a0:	fc842703          	lw	a4,-56(s0)
-     3a4:	000027b7          	lui	a5,0x2
-     3a8:	b2c78593          	add	a1,a5,-1236 # 1b2c <_Z15action_mem_testv+0x540>
-     3ac:	00070513          	mv	a0,a4
-     3b0:	00001097          	auipc	ra,0x1
-     3b4:	fd4080e7          	jalr	-44(ra) # 1384 <_Z13strings_equalPKcS0_>
-     3b8:	00050793          	mv	a5,a0
-     3bc:	00078e63          	beqz	a5,3d8 <_Z12handle_inputhR12input_buffer+0x2c0>
-     3c0:	fbf44783          	lbu	a5,-65(s0)
-     3c4:	00300593          	li	a1,3
-     3c8:	00078513          	mv	a0,a5
-     3cc:	00001097          	auipc	ra,0x1
-     3d0:	af4080e7          	jalr	-1292(ra) # ec0 <_Z9action_gohh>
-     3d4:	0c40006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     3d8:	fc842703          	lw	a4,-56(s0)
-     3dc:	000027b7          	lui	a5,0x2
-     3e0:	b3078593          	add	a1,a5,-1232 # 1b30 <_Z15action_mem_testv+0x544>
-     3e4:	00070513          	mv	a0,a4
-     3e8:	00001097          	auipc	ra,0x1
-     3ec:	f9c080e7          	jalr	-100(ra) # 1384 <_Z13strings_equalPKcS0_>
-     3f0:	00050793          	mv	a5,a0
-     3f4:	06078463          	beqz	a5,45c <_Z12handle_inputhR12input_buffer+0x344>
-     3f8:	fe842703          	lw	a4,-24(s0)
-     3fc:	00100793          	li	a5,1
-     400:	00e7ec63          	bltu	a5,a4,418 <_Z12handle_inputhR12input_buffer+0x300>
-     404:	000027b7          	lui	a5,0x2
-     408:	b3478513          	add	a0,a5,-1228 # 1b34 <_Z15action_mem_testv+0x548>
-     40c:	00001097          	auipc	ra,0x1
-     410:	0ec080e7          	jalr	236(ra) # 14f8 <_Z13uart_send_strPKc>
-     414:	0840006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
+     1e4:	338080e7          	jalr	824(ra) # 1518 <_Z13uart_send_strPKc>
+     1e8:	0080006f          	j	1f0 <_Z12handle_inputhR12input_buffer+0xb8>
+     1ec:	00000013          	nop
+     1f0:	fc842703          	lw	a4,-56(s0)
+     1f4:	000027b7          	lui	a5,0x2
+     1f8:	b7478593          	add	a1,a5,-1164 # 1b74 <memset+0x478>
+     1fc:	00070513          	mv	a0,a4
+     200:	00001097          	auipc	ra,0x1
+     204:	1a4080e7          	jalr	420(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     208:	00050793          	mv	a5,a0
+     20c:	00078863          	beqz	a5,21c <_Z12handle_inputhR12input_buffer+0xe4>
+     210:	00001097          	auipc	ra,0x1
+     214:	044080e7          	jalr	68(ra) # 1254 <_Z10print_helpv>
+     218:	2a00006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     21c:	fc842703          	lw	a4,-56(s0)
+     220:	000027b7          	lui	a5,0x2
+     224:	b7c78593          	add	a1,a5,-1156 # 1b7c <memset+0x480>
+     228:	00070513          	mv	a0,a4
+     22c:	00001097          	auipc	ra,0x1
+     230:	178080e7          	jalr	376(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     234:	00050793          	mv	a5,a0
+     238:	02078463          	beqz	a5,260 <_Z12handle_inputhR12input_buffer+0x128>
+     23c:	fbf44783          	lbu	a5,-65(s0)
+     240:	00078513          	mv	a0,a5
+     244:	00000097          	auipc	ra,0x0
+     248:	584080e7          	jalr	1412(ra) # 7c8 <_Z16action_inventoryh>
+     24c:	000027b7          	lui	a5,0x2
+     250:	b4c78513          	add	a0,a5,-1204 # 1b4c <memset+0x450>
+     254:	00001097          	auipc	ra,0x1
+     258:	2c4080e7          	jalr	708(ra) # 1518 <_Z13uart_send_strPKc>
+     25c:	25c0006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     260:	fc842703          	lw	a4,-56(s0)
+     264:	000027b7          	lui	a5,0x2
+     268:	b8078593          	add	a1,a5,-1152 # 1b80 <memset+0x484>
+     26c:	00070513          	mv	a0,a4
+     270:	00001097          	auipc	ra,0x1
+     274:	134080e7          	jalr	308(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     278:	00050793          	mv	a5,a0
+     27c:	04078063          	beqz	a5,2bc <_Z12handle_inputhR12input_buffer+0x184>
+     280:	fe842703          	lw	a4,-24(s0)
+     284:	00100793          	li	a5,1
+     288:	00e7ec63          	bltu	a5,a4,2a0 <_Z12handle_inputhR12input_buffer+0x168>
+     28c:	000027b7          	lui	a5,0x2
+     290:	b8478513          	add	a0,a5,-1148 # 1b84 <memset+0x488>
+     294:	00001097          	auipc	ra,0x1
+     298:	284080e7          	jalr	644(ra) # 1518 <_Z13uart_send_strPKc>
+     29c:	21c0006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     2a0:	fcc42703          	lw	a4,-52(s0)
+     2a4:	fbf44783          	lbu	a5,-65(s0)
+     2a8:	00070593          	mv	a1,a4
+     2ac:	00078513          	mv	a0,a5
+     2b0:	00001097          	auipc	ra,0x1
+     2b4:	950080e7          	jalr	-1712(ra) # c00 <_Z11action_takehPKc>
+     2b8:	2000006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     2bc:	fc842703          	lw	a4,-56(s0)
+     2c0:	000027b7          	lui	a5,0x2
+     2c4:	b9478593          	add	a1,a5,-1132 # 1b94 <memset+0x498>
+     2c8:	00070513          	mv	a0,a4
+     2cc:	00001097          	auipc	ra,0x1
+     2d0:	0d8080e7          	jalr	216(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     2d4:	00050793          	mv	a5,a0
+     2d8:	04078063          	beqz	a5,318 <_Z12handle_inputhR12input_buffer+0x1e0>
+     2dc:	fe842703          	lw	a4,-24(s0)
+     2e0:	00100793          	li	a5,1
+     2e4:	00e7ec63          	bltu	a5,a4,2fc <_Z12handle_inputhR12input_buffer+0x1c4>
+     2e8:	000027b7          	lui	a5,0x2
+     2ec:	b9878513          	add	a0,a5,-1128 # 1b98 <memset+0x49c>
+     2f0:	00001097          	auipc	ra,0x1
+     2f4:	228080e7          	jalr	552(ra) # 1518 <_Z13uart_send_strPKc>
+     2f8:	1c00006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     2fc:	fcc42703          	lw	a4,-52(s0)
+     300:	fbf44783          	lbu	a5,-65(s0)
+     304:	00070593          	mv	a1,a4
+     308:	00078513          	mv	a0,a5
+     30c:	00001097          	auipc	ra,0x1
+     310:	a5c080e7          	jalr	-1444(ra) # d68 <_Z11action_drophPKc>
+     314:	1a40006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     318:	fc842703          	lw	a4,-56(s0)
+     31c:	000027b7          	lui	a5,0x2
+     320:	ba878593          	add	a1,a5,-1112 # 1ba8 <memset+0x4ac>
+     324:	00070513          	mv	a0,a4
+     328:	00001097          	auipc	ra,0x1
+     32c:	07c080e7          	jalr	124(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     330:	00050793          	mv	a5,a0
+     334:	00078e63          	beqz	a5,350 <_Z12handle_inputhR12input_buffer+0x218>
+     338:	fbf44783          	lbu	a5,-65(s0)
+     33c:	00000593          	li	a1,0
+     340:	00078513          	mv	a0,a5
+     344:	00001097          	auipc	ra,0x1
+     348:	b9c080e7          	jalr	-1124(ra) # ee0 <_Z9action_gohh>
+     34c:	16c0006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     350:	fc842703          	lw	a4,-56(s0)
+     354:	000027b7          	lui	a5,0x2
+     358:	bac78593          	add	a1,a5,-1108 # 1bac <memset+0x4b0>
+     35c:	00070513          	mv	a0,a4
+     360:	00001097          	auipc	ra,0x1
+     364:	044080e7          	jalr	68(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     368:	00050793          	mv	a5,a0
+     36c:	00078e63          	beqz	a5,388 <_Z12handle_inputhR12input_buffer+0x250>
+     370:	fbf44783          	lbu	a5,-65(s0)
+     374:	00100593          	li	a1,1
+     378:	00078513          	mv	a0,a5
+     37c:	00001097          	auipc	ra,0x1
+     380:	b64080e7          	jalr	-1180(ra) # ee0 <_Z9action_gohh>
+     384:	1340006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     388:	fc842703          	lw	a4,-56(s0)
+     38c:	000027b7          	lui	a5,0x2
+     390:	bb078593          	add	a1,a5,-1104 # 1bb0 <memset+0x4b4>
+     394:	00070513          	mv	a0,a4
+     398:	00001097          	auipc	ra,0x1
+     39c:	00c080e7          	jalr	12(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     3a0:	00050793          	mv	a5,a0
+     3a4:	00078e63          	beqz	a5,3c0 <_Z12handle_inputhR12input_buffer+0x288>
+     3a8:	fbf44783          	lbu	a5,-65(s0)
+     3ac:	00200593          	li	a1,2
+     3b0:	00078513          	mv	a0,a5
+     3b4:	00001097          	auipc	ra,0x1
+     3b8:	b2c080e7          	jalr	-1236(ra) # ee0 <_Z9action_gohh>
+     3bc:	0fc0006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     3c0:	fc842703          	lw	a4,-56(s0)
+     3c4:	000027b7          	lui	a5,0x2
+     3c8:	bb478593          	add	a1,a5,-1100 # 1bb4 <memset+0x4b8>
+     3cc:	00070513          	mv	a0,a4
+     3d0:	00001097          	auipc	ra,0x1
+     3d4:	fd4080e7          	jalr	-44(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     3d8:	00050793          	mv	a5,a0
+     3dc:	00078e63          	beqz	a5,3f8 <_Z12handle_inputhR12input_buffer+0x2c0>
+     3e0:	fbf44783          	lbu	a5,-65(s0)
+     3e4:	00300593          	li	a1,3
+     3e8:	00078513          	mv	a0,a5
+     3ec:	00001097          	auipc	ra,0x1
+     3f0:	af4080e7          	jalr	-1292(ra) # ee0 <_Z9action_gohh>
+     3f4:	0c40006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     3f8:	fc842703          	lw	a4,-56(s0)
+     3fc:	000027b7          	lui	a5,0x2
+     400:	bb878593          	add	a1,a5,-1096 # 1bb8 <memset+0x4bc>
+     404:	00070513          	mv	a0,a4
+     408:	00001097          	auipc	ra,0x1
+     40c:	f9c080e7          	jalr	-100(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     410:	00050793          	mv	a5,a0
+     414:	06078463          	beqz	a5,47c <_Z12handle_inputhR12input_buffer+0x344>
      418:	fe842703          	lw	a4,-24(s0)
-     41c:	00200793          	li	a5,2
-     420:	00e7ec63          	bltu	a5,a4,438 <_Z12handle_inputhR12input_buffer+0x320>
+     41c:	00100793          	li	a5,1
+     420:	00e7ec63          	bltu	a5,a4,438 <_Z12handle_inputhR12input_buffer+0x300>
      424:	000027b7          	lui	a5,0x2
-     428:	b4478513          	add	a0,a5,-1212 # 1b44 <_Z15action_mem_testv+0x558>
+     428:	bbc78513          	add	a0,a5,-1092 # 1bbc <memset+0x4c0>
      42c:	00001097          	auipc	ra,0x1
-     430:	0cc080e7          	jalr	204(ra) # 14f8 <_Z13uart_send_strPKc>
-     434:	0640006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     438:	fcc42703          	lw	a4,-52(s0)
-     43c:	fd042683          	lw	a3,-48(s0)
-     440:	fbf44783          	lbu	a5,-65(s0)
-     444:	00068613          	mv	a2,a3
-     448:	00070593          	mv	a1,a4
-     44c:	00078513          	mv	a0,a5
-     450:	00001097          	auipc	ra,0x1
-     454:	ba8080e7          	jalr	-1112(ra) # ff8 <_Z11action_givehPKcS0_>
-     458:	0400006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     45c:	fc842703          	lw	a4,-56(s0)
-     460:	000027b7          	lui	a5,0x2
-     464:	b5878593          	add	a1,a5,-1192 # 1b58 <_Z15action_mem_testv+0x56c>
-     468:	00070513          	mv	a0,a4
-     46c:	00001097          	auipc	ra,0x1
-     470:	f18080e7          	jalr	-232(ra) # 1384 <_Z13strings_equalPKcS0_>
-     474:	00050793          	mv	a5,a0
-     478:	00078863          	beqz	a5,488 <_Z12handle_inputhR12input_buffer+0x370>
-     47c:	00001097          	auipc	ra,0x1
-     480:	170080e7          	jalr	368(ra) # 15ec <_Z15action_mem_testv>
-     484:	0140006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
-     488:	000027b7          	lui	a5,0x2
-     48c:	b5c78513          	add	a0,a5,-1188 # 1b5c <_Z15action_mem_testv+0x570>
-     490:	00001097          	auipc	ra,0x1
-     494:	068080e7          	jalr	104(ra) # 14f8 <_Z13uart_send_strPKc>
-     498:	04c12083          	lw	ra,76(sp)
-     49c:	04812403          	lw	s0,72(sp)
-     4a0:	05010113          	add	sp,sp,80
-     4a4:	00008067          	ret
+     430:	0ec080e7          	jalr	236(ra) # 1518 <_Z13uart_send_strPKc>
+     434:	0840006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     438:	fe842703          	lw	a4,-24(s0)
+     43c:	00200793          	li	a5,2
+     440:	00e7ec63          	bltu	a5,a4,458 <_Z12handle_inputhR12input_buffer+0x320>
+     444:	000027b7          	lui	a5,0x2
+     448:	bcc78513          	add	a0,a5,-1076 # 1bcc <memset+0x4d0>
+     44c:	00001097          	auipc	ra,0x1
+     450:	0cc080e7          	jalr	204(ra) # 1518 <_Z13uart_send_strPKc>
+     454:	0640006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     458:	fcc42703          	lw	a4,-52(s0)
+     45c:	fd042683          	lw	a3,-48(s0)
+     460:	fbf44783          	lbu	a5,-65(s0)
+     464:	00068613          	mv	a2,a3
+     468:	00070593          	mv	a1,a4
+     46c:	00078513          	mv	a0,a5
+     470:	00001097          	auipc	ra,0x1
+     474:	ba8080e7          	jalr	-1112(ra) # 1018 <_Z11action_givehPKcS0_>
+     478:	0400006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     47c:	fc842703          	lw	a4,-56(s0)
+     480:	000027b7          	lui	a5,0x2
+     484:	be078593          	add	a1,a5,-1056 # 1be0 <memset+0x4e4>
+     488:	00070513          	mv	a0,a4
+     48c:	00001097          	auipc	ra,0x1
+     490:	f18080e7          	jalr	-232(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     494:	00050793          	mv	a5,a0
+     498:	00078863          	beqz	a5,4a8 <_Z12handle_inputhR12input_buffer+0x370>
+     49c:	00001097          	auipc	ra,0x1
+     4a0:	170080e7          	jalr	368(ra) # 160c <_Z15action_mem_testv>
+     4a4:	0140006f          	j	4b8 <_Z12handle_inputhR12input_buffer+0x380>
+     4a8:	000027b7          	lui	a5,0x2
+     4ac:	be478513          	add	a0,a5,-1052 # 1be4 <memset+0x4e8>
+     4b0:	00001097          	auipc	ra,0x1
+     4b4:	068080e7          	jalr	104(ra) # 1518 <_Z13uart_send_strPKc>
+     4b8:	04c12083          	lw	ra,76(sp)
+     4bc:	04812403          	lw	s0,72(sp)
+     4c0:	05010113          	add	sp,sp,80
+     4c4:	00008067          	ret
 
-000004a8 <_Z14print_locationhh>:
-     4a8:	fb010113          	add	sp,sp,-80
-     4ac:	04112623          	sw	ra,76(sp)
-     4b0:	04812423          	sw	s0,72(sp)
-     4b4:	05010413          	add	s0,sp,80
-     4b8:	00050793          	mv	a5,a0
-     4bc:	00058713          	mv	a4,a1
-     4c0:	faf40fa3          	sb	a5,-65(s0)
-     4c4:	00070793          	mv	a5,a4
-     4c8:	faf40f23          	sb	a5,-66(s0)
-     4cc:	fbf44703          	lbu	a4,-65(s0)
-     4d0:	00070793          	mv	a5,a4
-     4d4:	00379793          	sll	a5,a5,0x3
-     4d8:	00e787b3          	add	a5,a5,a4
-     4dc:	00279793          	sll	a5,a5,0x2
-     4e0:	00e787b3          	add	a5,a5,a4
-     4e4:	00279793          	sll	a5,a5,0x2
-     4e8:	00003737          	lui	a4,0x3
-     4ec:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
-     4f0:	00e787b3          	add	a5,a5,a4
-     4f4:	fcf42e23          	sw	a5,-36(s0)
-     4f8:	000027b7          	lui	a5,0x2
-     4fc:	b7078513          	add	a0,a5,-1168 # 1b70 <_Z15action_mem_testv+0x584>
-     500:	00001097          	auipc	ra,0x1
-     504:	ff8080e7          	jalr	-8(ra) # 14f8 <_Z13uart_send_strPKc>
-     508:	fdc42783          	lw	a5,-36(s0)
-     50c:	0007a783          	lw	a5,0(a5)
-     510:	00078513          	mv	a0,a5
-     514:	00001097          	auipc	ra,0x1
-     518:	fe4080e7          	jalr	-28(ra) # 14f8 <_Z13uart_send_strPKc>
-     51c:	000027b7          	lui	a5,0x2
-     520:	b7878513          	add	a0,a5,-1160 # 1b78 <_Z15action_mem_testv+0x58c>
-     524:	00001097          	auipc	ra,0x1
-     528:	fd4080e7          	jalr	-44(ra) # 14f8 <_Z13uart_send_strPKc>
-     52c:	fe0407a3          	sb	zero,-17(s0)
-     530:	fdc42783          	lw	a5,-36(s0)
-     534:	00478793          	add	a5,a5,4
-     538:	fcf42c23          	sw	a5,-40(s0)
-     53c:	fe042423          	sw	zero,-24(s0)
-     540:	0740006f          	j	5b4 <_Z14print_locationhh+0x10c>
-     544:	fd842703          	lw	a4,-40(s0)
-     548:	fe842783          	lw	a5,-24(s0)
-     54c:	00f707b3          	add	a5,a4,a5
-     550:	0007c783          	lbu	a5,0(a5)
-     554:	fcf40ba3          	sb	a5,-41(s0)
-     558:	fd744783          	lbu	a5,-41(s0)
-     55c:	06078463          	beqz	a5,5c4 <_Z14print_locationhh+0x11c>
-     560:	fef44783          	lbu	a5,-17(s0)
-     564:	00078c63          	beqz	a5,57c <_Z14print_locationhh+0xd4>
-     568:	000027b7          	lui	a5,0x2
-     56c:	b8078513          	add	a0,a5,-1152 # 1b80 <_Z15action_mem_testv+0x594>
-     570:	00001097          	auipc	ra,0x1
-     574:	f88080e7          	jalr	-120(ra) # 14f8 <_Z13uart_send_strPKc>
-     578:	00c0006f          	j	584 <_Z14print_locationhh+0xdc>
-     57c:	00100793          	li	a5,1
-     580:	fef407a3          	sb	a5,-17(s0)
-     584:	fd744783          	lbu	a5,-41(s0)
-     588:	00003737          	lui	a4,0x3
-     58c:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
-     590:	00279793          	sll	a5,a5,0x2
-     594:	00f707b3          	add	a5,a4,a5
-     598:	0007a783          	lw	a5,0(a5)
-     59c:	00078513          	mv	a0,a5
-     5a0:	00001097          	auipc	ra,0x1
-     5a4:	f58080e7          	jalr	-168(ra) # 14f8 <_Z13uart_send_strPKc>
-     5a8:	fe842783          	lw	a5,-24(s0)
-     5ac:	00178793          	add	a5,a5,1
-     5b0:	fef42423          	sw	a5,-24(s0)
-     5b4:	fe842703          	lw	a4,-24(s0)
-     5b8:	07f00793          	li	a5,127
-     5bc:	f8e7f4e3          	bgeu	a5,a4,544 <_Z14print_locationhh+0x9c>
-     5c0:	0080006f          	j	5c8 <_Z14print_locationhh+0x120>
-     5c4:	00000013          	nop
-     5c8:	fef44783          	lbu	a5,-17(s0)
-     5cc:	0017c793          	xor	a5,a5,1
-     5d0:	0ff7f793          	zext.b	a5,a5
-     5d4:	00078a63          	beqz	a5,5e8 <_Z14print_locationhh+0x140>
-     5d8:	000027b7          	lui	a5,0x2
-     5dc:	b8478513          	add	a0,a5,-1148 # 1b84 <_Z15action_mem_testv+0x598>
-     5e0:	00001097          	auipc	ra,0x1
-     5e4:	f18080e7          	jalr	-232(ra) # 14f8 <_Z13uart_send_strPKc>
-     5e8:	000027b7          	lui	a5,0x2
-     5ec:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
-     5f0:	00001097          	auipc	ra,0x1
-     5f4:	f08080e7          	jalr	-248(ra) # 14f8 <_Z13uart_send_strPKc>
-     5f8:	fe0407a3          	sb	zero,-17(s0)
-     5fc:	fdc42783          	lw	a5,-36(s0)
-     600:	08478793          	add	a5,a5,132
-     604:	fcf42823          	sw	a5,-48(s0)
-     608:	fe042223          	sw	zero,-28(s0)
-     60c:	0940006f          	j	6a0 <_Z14print_locationhh+0x1f8>
-     610:	fd042703          	lw	a4,-48(s0)
-     614:	fe442783          	lw	a5,-28(s0)
-     618:	00f707b3          	add	a5,a4,a5
-     61c:	0007c783          	lbu	a5,0(a5)
-     620:	fcf407a3          	sb	a5,-49(s0)
-     624:	fcf44783          	lbu	a5,-49(s0)
-     628:	08078463          	beqz	a5,6b0 <_Z14print_locationhh+0x208>
-     62c:	fcf44703          	lbu	a4,-49(s0)
-     630:	fbe44783          	lbu	a5,-66(s0)
-     634:	04f70e63          	beq	a4,a5,690 <_Z14print_locationhh+0x1e8>
-     638:	fef44783          	lbu	a5,-17(s0)
-     63c:	00078c63          	beqz	a5,654 <_Z14print_locationhh+0x1ac>
-     640:	000027b7          	lui	a5,0x2
-     644:	b8078513          	add	a0,a5,-1152 # 1b80 <_Z15action_mem_testv+0x594>
-     648:	00001097          	auipc	ra,0x1
-     64c:	eb0080e7          	jalr	-336(ra) # 14f8 <_Z13uart_send_strPKc>
-     650:	00c0006f          	j	65c <_Z14print_locationhh+0x1b4>
-     654:	00100793          	li	a5,1
-     658:	fef407a3          	sb	a5,-17(s0)
-     65c:	fcf44703          	lbu	a4,-49(s0)
-     660:	000037b7          	lui	a5,0x3
-     664:	15078693          	add	a3,a5,336 # 3150 <_ZL8entities>
-     668:	00070793          	mv	a5,a4
-     66c:	00279793          	sll	a5,a5,0x2
-     670:	00e787b3          	add	a5,a5,a4
-     674:	00379793          	sll	a5,a5,0x3
-     678:	00f687b3          	add	a5,a3,a5
-     67c:	0007a783          	lw	a5,0(a5)
-     680:	00078513          	mv	a0,a5
-     684:	00001097          	auipc	ra,0x1
-     688:	e74080e7          	jalr	-396(ra) # 14f8 <_Z13uart_send_strPKc>
-     68c:	0080006f          	j	694 <_Z14print_locationhh+0x1ec>
-     690:	00000013          	nop
-     694:	fe442783          	lw	a5,-28(s0)
-     698:	00178793          	add	a5,a5,1
-     69c:	fef42223          	sw	a5,-28(s0)
-     6a0:	fe442703          	lw	a4,-28(s0)
-     6a4:	00700793          	li	a5,7
-     6a8:	f6e7f4e3          	bgeu	a5,a4,610 <_Z14print_locationhh+0x168>
-     6ac:	0080006f          	j	6b4 <_Z14print_locationhh+0x20c>
+000004c8 <_Z14print_locationhh>:
+     4c8:	fb010113          	add	sp,sp,-80
+     4cc:	04112623          	sw	ra,76(sp)
+     4d0:	04812423          	sw	s0,72(sp)
+     4d4:	05010413          	add	s0,sp,80
+     4d8:	00050793          	mv	a5,a0
+     4dc:	00058713          	mv	a4,a1
+     4e0:	faf40fa3          	sb	a5,-65(s0)
+     4e4:	00070793          	mv	a5,a4
+     4e8:	faf40f23          	sb	a5,-66(s0)
+     4ec:	fbf44703          	lbu	a4,-65(s0)
+     4f0:	00070793          	mv	a5,a4
+     4f4:	00379793          	sll	a5,a5,0x3
+     4f8:	00e787b3          	add	a5,a5,a4
+     4fc:	00279793          	sll	a5,a5,0x2
+     500:	00e787b3          	add	a5,a5,a4
+     504:	00279793          	sll	a5,a5,0x2
+     508:	00003737          	lui	a4,0x3
+     50c:	27470713          	add	a4,a4,628 # 3274 <_ZL9locations>
+     510:	00e787b3          	add	a5,a5,a4
+     514:	fcf42e23          	sw	a5,-36(s0)
+     518:	000027b7          	lui	a5,0x2
+     51c:	bf878513          	add	a0,a5,-1032 # 1bf8 <memset+0x4fc>
+     520:	00001097          	auipc	ra,0x1
+     524:	ff8080e7          	jalr	-8(ra) # 1518 <_Z13uart_send_strPKc>
+     528:	fdc42783          	lw	a5,-36(s0)
+     52c:	0007a783          	lw	a5,0(a5)
+     530:	00078513          	mv	a0,a5
+     534:	00001097          	auipc	ra,0x1
+     538:	fe4080e7          	jalr	-28(ra) # 1518 <_Z13uart_send_strPKc>
+     53c:	000027b7          	lui	a5,0x2
+     540:	c0078513          	add	a0,a5,-1024 # 1c00 <memset+0x504>
+     544:	00001097          	auipc	ra,0x1
+     548:	fd4080e7          	jalr	-44(ra) # 1518 <_Z13uart_send_strPKc>
+     54c:	fe0407a3          	sb	zero,-17(s0)
+     550:	fdc42783          	lw	a5,-36(s0)
+     554:	00478793          	add	a5,a5,4
+     558:	fcf42c23          	sw	a5,-40(s0)
+     55c:	fe042423          	sw	zero,-24(s0)
+     560:	0740006f          	j	5d4 <_Z14print_locationhh+0x10c>
+     564:	fd842703          	lw	a4,-40(s0)
+     568:	fe842783          	lw	a5,-24(s0)
+     56c:	00f707b3          	add	a5,a4,a5
+     570:	0007c783          	lbu	a5,0(a5)
+     574:	fcf40ba3          	sb	a5,-41(s0)
+     578:	fd744783          	lbu	a5,-41(s0)
+     57c:	06078463          	beqz	a5,5e4 <_Z14print_locationhh+0x11c>
+     580:	fef44783          	lbu	a5,-17(s0)
+     584:	00078c63          	beqz	a5,59c <_Z14print_locationhh+0xd4>
+     588:	000027b7          	lui	a5,0x2
+     58c:	c0878513          	add	a0,a5,-1016 # 1c08 <memset+0x50c>
+     590:	00001097          	auipc	ra,0x1
+     594:	f88080e7          	jalr	-120(ra) # 1518 <_Z13uart_send_strPKc>
+     598:	00c0006f          	j	5a4 <_Z14print_locationhh+0xdc>
+     59c:	00100793          	li	a5,1
+     5a0:	fef407a3          	sb	a5,-17(s0)
+     5a4:	fd744783          	lbu	a5,-41(s0)
+     5a8:	00003737          	lui	a4,0x3
+     5ac:	1ec70713          	add	a4,a4,492 # 31ec <_ZL7objects>
+     5b0:	00279793          	sll	a5,a5,0x2
+     5b4:	00f707b3          	add	a5,a4,a5
+     5b8:	0007a783          	lw	a5,0(a5)
+     5bc:	00078513          	mv	a0,a5
+     5c0:	00001097          	auipc	ra,0x1
+     5c4:	f58080e7          	jalr	-168(ra) # 1518 <_Z13uart_send_strPKc>
+     5c8:	fe842783          	lw	a5,-24(s0)
+     5cc:	00178793          	add	a5,a5,1
+     5d0:	fef42423          	sw	a5,-24(s0)
+     5d4:	fe842703          	lw	a4,-24(s0)
+     5d8:	07f00793          	li	a5,127
+     5dc:	f8e7f4e3          	bgeu	a5,a4,564 <_Z14print_locationhh+0x9c>
+     5e0:	0080006f          	j	5e8 <_Z14print_locationhh+0x120>
+     5e4:	00000013          	nop
+     5e8:	fef44783          	lbu	a5,-17(s0)
+     5ec:	0017c793          	xor	a5,a5,1
+     5f0:	0ff7f793          	zext.b	a5,a5
+     5f4:	00078a63          	beqz	a5,608 <_Z14print_locationhh+0x140>
+     5f8:	000027b7          	lui	a5,0x2
+     5fc:	c0c78513          	add	a0,a5,-1012 # 1c0c <memset+0x510>
+     600:	00001097          	auipc	ra,0x1
+     604:	f18080e7          	jalr	-232(ra) # 1518 <_Z13uart_send_strPKc>
+     608:	000027b7          	lui	a5,0x2
+     60c:	b4c78513          	add	a0,a5,-1204 # 1b4c <memset+0x450>
+     610:	00001097          	auipc	ra,0x1
+     614:	f08080e7          	jalr	-248(ra) # 1518 <_Z13uart_send_strPKc>
+     618:	fe0407a3          	sb	zero,-17(s0)
+     61c:	fdc42783          	lw	a5,-36(s0)
+     620:	08478793          	add	a5,a5,132
+     624:	fcf42823          	sw	a5,-48(s0)
+     628:	fe042223          	sw	zero,-28(s0)
+     62c:	0940006f          	j	6c0 <_Z14print_locationhh+0x1f8>
+     630:	fd042703          	lw	a4,-48(s0)
+     634:	fe442783          	lw	a5,-28(s0)
+     638:	00f707b3          	add	a5,a4,a5
+     63c:	0007c783          	lbu	a5,0(a5)
+     640:	fcf407a3          	sb	a5,-49(s0)
+     644:	fcf44783          	lbu	a5,-49(s0)
+     648:	08078463          	beqz	a5,6d0 <_Z14print_locationhh+0x208>
+     64c:	fcf44703          	lbu	a4,-49(s0)
+     650:	fbe44783          	lbu	a5,-66(s0)
+     654:	04f70e63          	beq	a4,a5,6b0 <_Z14print_locationhh+0x1e8>
+     658:	fef44783          	lbu	a5,-17(s0)
+     65c:	00078c63          	beqz	a5,674 <_Z14print_locationhh+0x1ac>
+     660:	000027b7          	lui	a5,0x2
+     664:	c0878513          	add	a0,a5,-1016 # 1c08 <memset+0x50c>
+     668:	00001097          	auipc	ra,0x1
+     66c:	eb0080e7          	jalr	-336(ra) # 1518 <_Z13uart_send_strPKc>
+     670:	00c0006f          	j	67c <_Z14print_locationhh+0x1b4>
+     674:	00100793          	li	a5,1
+     678:	fef407a3          	sb	a5,-17(s0)
+     67c:	fcf44703          	lbu	a4,-49(s0)
+     680:	000037b7          	lui	a5,0x3
+     684:	1fc78693          	add	a3,a5,508 # 31fc <_ZL8entities>
+     688:	00070793          	mv	a5,a4
+     68c:	00279793          	sll	a5,a5,0x2
+     690:	00e787b3          	add	a5,a5,a4
+     694:	00379793          	sll	a5,a5,0x3
+     698:	00f687b3          	add	a5,a3,a5
+     69c:	0007a783          	lw	a5,0(a5)
+     6a0:	00078513          	mv	a0,a5
+     6a4:	00001097          	auipc	ra,0x1
+     6a8:	e74080e7          	jalr	-396(ra) # 1518 <_Z13uart_send_strPKc>
+     6ac:	0080006f          	j	6b4 <_Z14print_locationhh+0x1ec>
      6b0:	00000013          	nop
-     6b4:	fef44783          	lbu	a5,-17(s0)
-     6b8:	00078a63          	beqz	a5,6cc <_Z14print_locationhh+0x224>
-     6bc:	000027b7          	lui	a5,0x2
-     6c0:	b8c78513          	add	a0,a5,-1140 # 1b8c <_Z15action_mem_testv+0x5a0>
-     6c4:	00001097          	auipc	ra,0x1
-     6c8:	e34080e7          	jalr	-460(ra) # 14f8 <_Z13uart_send_strPKc>
-     6cc:	fe0407a3          	sb	zero,-17(s0)
-     6d0:	000027b7          	lui	a5,0x2
-     6d4:	b9878513          	add	a0,a5,-1128 # 1b98 <_Z15action_mem_testv+0x5ac>
-     6d8:	00001097          	auipc	ra,0x1
-     6dc:	e20080e7          	jalr	-480(ra) # 14f8 <_Z13uart_send_strPKc>
-     6e0:	fe042023          	sw	zero,-32(s0)
-     6e4:	0740006f          	j	758 <_Z14print_locationhh+0x2b0>
-     6e8:	fdc42703          	lw	a4,-36(s0)
-     6ec:	fe042783          	lw	a5,-32(s0)
-     6f0:	00f707b3          	add	a5,a4,a5
-     6f4:	08c7c783          	lbu	a5,140(a5)
-     6f8:	04078863          	beqz	a5,748 <_Z14print_locationhh+0x2a0>
-     6fc:	fef44783          	lbu	a5,-17(s0)
-     700:	00078c63          	beqz	a5,718 <_Z14print_locationhh+0x270>
-     704:	000027b7          	lui	a5,0x2
-     708:	b8078513          	add	a0,a5,-1152 # 1b80 <_Z15action_mem_testv+0x594>
-     70c:	00001097          	auipc	ra,0x1
-     710:	dec080e7          	jalr	-532(ra) # 14f8 <_Z13uart_send_strPKc>
-     714:	00c0006f          	j	720 <_Z14print_locationhh+0x278>
-     718:	00100793          	li	a5,1
-     71c:	fef407a3          	sb	a5,-17(s0)
-     720:	000037b7          	lui	a5,0x3
-     724:	4ac78713          	add	a4,a5,1196 # 34ac <_ZL10exit_names>
-     728:	fe042783          	lw	a5,-32(s0)
-     72c:	00279793          	sll	a5,a5,0x2
-     730:	00f707b3          	add	a5,a4,a5
-     734:	0007a783          	lw	a5,0(a5)
-     738:	00078513          	mv	a0,a5
-     73c:	00001097          	auipc	ra,0x1
-     740:	dbc080e7          	jalr	-580(ra) # 14f8 <_Z13uart_send_strPKc>
-     744:	0080006f          	j	74c <_Z14print_locationhh+0x2a4>
-     748:	00000013          	nop
-     74c:	fe042783          	lw	a5,-32(s0)
-     750:	00178793          	add	a5,a5,1
-     754:	fef42023          	sw	a5,-32(s0)
-     758:	fe042703          	lw	a4,-32(s0)
-     75c:	00500793          	li	a5,5
-     760:	f8e7f4e3          	bgeu	a5,a4,6e8 <_Z14print_locationhh+0x240>
-     764:	fef44783          	lbu	a5,-17(s0)
-     768:	0017c793          	xor	a5,a5,1
-     76c:	0ff7f793          	zext.b	a5,a5
-     770:	00078a63          	beqz	a5,784 <_Z14print_locationhh+0x2dc>
-     774:	000027b7          	lui	a5,0x2
-     778:	ba078513          	add	a0,a5,-1120 # 1ba0 <_Z15action_mem_testv+0x5b4>
-     77c:	00001097          	auipc	ra,0x1
-     780:	d7c080e7          	jalr	-644(ra) # 14f8 <_Z13uart_send_strPKc>
-     784:	000027b7          	lui	a5,0x2
-     788:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
-     78c:	00001097          	auipc	ra,0x1
-     790:	d6c080e7          	jalr	-660(ra) # 14f8 <_Z13uart_send_strPKc>
-     794:	00000013          	nop
-     798:	04c12083          	lw	ra,76(sp)
-     79c:	04812403          	lw	s0,72(sp)
-     7a0:	05010113          	add	sp,sp,80
-     7a4:	00008067          	ret
+     6b4:	fe442783          	lw	a5,-28(s0)
+     6b8:	00178793          	add	a5,a5,1
+     6bc:	fef42223          	sw	a5,-28(s0)
+     6c0:	fe442703          	lw	a4,-28(s0)
+     6c4:	00700793          	li	a5,7
+     6c8:	f6e7f4e3          	bgeu	a5,a4,630 <_Z14print_locationhh+0x168>
+     6cc:	0080006f          	j	6d4 <_Z14print_locationhh+0x20c>
+     6d0:	00000013          	nop
+     6d4:	fef44783          	lbu	a5,-17(s0)
+     6d8:	00078a63          	beqz	a5,6ec <_Z14print_locationhh+0x224>
+     6dc:	000027b7          	lui	a5,0x2
+     6e0:	c1478513          	add	a0,a5,-1004 # 1c14 <memset+0x518>
+     6e4:	00001097          	auipc	ra,0x1
+     6e8:	e34080e7          	jalr	-460(ra) # 1518 <_Z13uart_send_strPKc>
+     6ec:	fe0407a3          	sb	zero,-17(s0)
+     6f0:	000027b7          	lui	a5,0x2
+     6f4:	c2078513          	add	a0,a5,-992 # 1c20 <memset+0x524>
+     6f8:	00001097          	auipc	ra,0x1
+     6fc:	e20080e7          	jalr	-480(ra) # 1518 <_Z13uart_send_strPKc>
+     700:	fe042023          	sw	zero,-32(s0)
+     704:	0740006f          	j	778 <_Z14print_locationhh+0x2b0>
+     708:	fdc42703          	lw	a4,-36(s0)
+     70c:	fe042783          	lw	a5,-32(s0)
+     710:	00f707b3          	add	a5,a4,a5
+     714:	08c7c783          	lbu	a5,140(a5)
+     718:	04078863          	beqz	a5,768 <_Z14print_locationhh+0x2a0>
+     71c:	fef44783          	lbu	a5,-17(s0)
+     720:	00078c63          	beqz	a5,738 <_Z14print_locationhh+0x270>
+     724:	000027b7          	lui	a5,0x2
+     728:	c0878513          	add	a0,a5,-1016 # 1c08 <memset+0x50c>
+     72c:	00001097          	auipc	ra,0x1
+     730:	dec080e7          	jalr	-532(ra) # 1518 <_Z13uart_send_strPKc>
+     734:	00c0006f          	j	740 <_Z14print_locationhh+0x278>
+     738:	00100793          	li	a5,1
+     73c:	fef407a3          	sb	a5,-17(s0)
+     740:	000037b7          	lui	a5,0x3
+     744:	55878713          	add	a4,a5,1368 # 3558 <_ZL10exit_names>
+     748:	fe042783          	lw	a5,-32(s0)
+     74c:	00279793          	sll	a5,a5,0x2
+     750:	00f707b3          	add	a5,a4,a5
+     754:	0007a783          	lw	a5,0(a5)
+     758:	00078513          	mv	a0,a5
+     75c:	00001097          	auipc	ra,0x1
+     760:	dbc080e7          	jalr	-580(ra) # 1518 <_Z13uart_send_strPKc>
+     764:	0080006f          	j	76c <_Z14print_locationhh+0x2a4>
+     768:	00000013          	nop
+     76c:	fe042783          	lw	a5,-32(s0)
+     770:	00178793          	add	a5,a5,1
+     774:	fef42023          	sw	a5,-32(s0)
+     778:	fe042703          	lw	a4,-32(s0)
+     77c:	00500793          	li	a5,5
+     780:	f8e7f4e3          	bgeu	a5,a4,708 <_Z14print_locationhh+0x240>
+     784:	fef44783          	lbu	a5,-17(s0)
+     788:	0017c793          	xor	a5,a5,1
+     78c:	0ff7f793          	zext.b	a5,a5
+     790:	00078a63          	beqz	a5,7a4 <_Z14print_locationhh+0x2dc>
+     794:	000027b7          	lui	a5,0x2
+     798:	c2878513          	add	a0,a5,-984 # 1c28 <memset+0x52c>
+     79c:	00001097          	auipc	ra,0x1
+     7a0:	d7c080e7          	jalr	-644(ra) # 1518 <_Z13uart_send_strPKc>
+     7a4:	000027b7          	lui	a5,0x2
+     7a8:	b4c78513          	add	a0,a5,-1204 # 1b4c <memset+0x450>
+     7ac:	00001097          	auipc	ra,0x1
+     7b0:	d6c080e7          	jalr	-660(ra) # 1518 <_Z13uart_send_strPKc>
+     7b4:	00000013          	nop
+     7b8:	04c12083          	lw	ra,76(sp)
+     7bc:	04812403          	lw	s0,72(sp)
+     7c0:	05010113          	add	sp,sp,80
+     7c4:	00008067          	ret
 
-000007a8 <_Z16action_inventoryh>:
-     7a8:	fd010113          	add	sp,sp,-48
-     7ac:	02112623          	sw	ra,44(sp)
-     7b0:	02812423          	sw	s0,40(sp)
-     7b4:	03010413          	add	s0,sp,48
-     7b8:	00050793          	mv	a5,a0
-     7bc:	fcf40fa3          	sb	a5,-33(s0)
-     7c0:	000027b7          	lui	a5,0x2
-     7c4:	ba878513          	add	a0,a5,-1112 # 1ba8 <_Z15action_mem_testv+0x5bc>
-     7c8:	00001097          	auipc	ra,0x1
-     7cc:	d30080e7          	jalr	-720(ra) # 14f8 <_Z13uart_send_strPKc>
-     7d0:	fe0407a3          	sb	zero,-17(s0)
-     7d4:	fdf44703          	lbu	a4,-33(s0)
-     7d8:	00070793          	mv	a5,a4
-     7dc:	00279793          	sll	a5,a5,0x2
-     7e0:	00e787b3          	add	a5,a5,a4
-     7e4:	00379793          	sll	a5,a5,0x3
-     7e8:	00003737          	lui	a4,0x3
-     7ec:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
-     7f0:	00e787b3          	add	a5,a5,a4
-     7f4:	00578793          	add	a5,a5,5
-     7f8:	fef42223          	sw	a5,-28(s0)
-     7fc:	fe042423          	sw	zero,-24(s0)
-     800:	0740006f          	j	874 <_Z16action_inventoryh+0xcc>
-     804:	fe442703          	lw	a4,-28(s0)
-     808:	fe842783          	lw	a5,-24(s0)
-     80c:	00f707b3          	add	a5,a4,a5
-     810:	0007c783          	lbu	a5,0(a5)
-     814:	fef401a3          	sb	a5,-29(s0)
-     818:	fe344783          	lbu	a5,-29(s0)
-     81c:	06078463          	beqz	a5,884 <_Z16action_inventoryh+0xdc>
-     820:	fef44783          	lbu	a5,-17(s0)
-     824:	00078c63          	beqz	a5,83c <_Z16action_inventoryh+0x94>
-     828:	000027b7          	lui	a5,0x2
-     82c:	b8078513          	add	a0,a5,-1152 # 1b80 <_Z15action_mem_testv+0x594>
-     830:	00001097          	auipc	ra,0x1
-     834:	cc8080e7          	jalr	-824(ra) # 14f8 <_Z13uart_send_strPKc>
-     838:	00c0006f          	j	844 <_Z16action_inventoryh+0x9c>
-     83c:	00100793          	li	a5,1
-     840:	fef407a3          	sb	a5,-17(s0)
-     844:	fe344783          	lbu	a5,-29(s0)
-     848:	00003737          	lui	a4,0x3
-     84c:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
-     850:	00279793          	sll	a5,a5,0x2
-     854:	00f707b3          	add	a5,a4,a5
-     858:	0007a783          	lw	a5,0(a5)
-     85c:	00078513          	mv	a0,a5
-     860:	00001097          	auipc	ra,0x1
-     864:	c98080e7          	jalr	-872(ra) # 14f8 <_Z13uart_send_strPKc>
-     868:	fe842783          	lw	a5,-24(s0)
-     86c:	00178793          	add	a5,a5,1
-     870:	fef42423          	sw	a5,-24(s0)
-     874:	fe842703          	lw	a4,-24(s0)
-     878:	01f00793          	li	a5,31
-     87c:	f8e7f4e3          	bgeu	a5,a4,804 <_Z16action_inventoryh+0x5c>
-     880:	0080006f          	j	888 <_Z16action_inventoryh+0xe0>
-     884:	00000013          	nop
-     888:	fef44783          	lbu	a5,-17(s0)
-     88c:	0017c793          	xor	a5,a5,1
-     890:	0ff7f793          	zext.b	a5,a5
-     894:	00078a63          	beqz	a5,8a8 <_Z16action_inventoryh+0x100>
-     898:	000027b7          	lui	a5,0x2
-     89c:	b8478513          	add	a0,a5,-1148 # 1b84 <_Z15action_mem_testv+0x598>
-     8a0:	00001097          	auipc	ra,0x1
-     8a4:	c58080e7          	jalr	-936(ra) # 14f8 <_Z13uart_send_strPKc>
-     8a8:	000027b7          	lui	a5,0x2
-     8ac:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
-     8b0:	00001097          	auipc	ra,0x1
-     8b4:	c48080e7          	jalr	-952(ra) # 14f8 <_Z13uart_send_strPKc>
-     8b8:	00000013          	nop
-     8bc:	02c12083          	lw	ra,44(sp)
-     8c0:	02812403          	lw	s0,40(sp)
-     8c4:	03010113          	add	sp,sp,48
-     8c8:	00008067          	ret
+000007c8 <_Z16action_inventoryh>:
+     7c8:	fd010113          	add	sp,sp,-48
+     7cc:	02112623          	sw	ra,44(sp)
+     7d0:	02812423          	sw	s0,40(sp)
+     7d4:	03010413          	add	s0,sp,48
+     7d8:	00050793          	mv	a5,a0
+     7dc:	fcf40fa3          	sb	a5,-33(s0)
+     7e0:	000027b7          	lui	a5,0x2
+     7e4:	c3078513          	add	a0,a5,-976 # 1c30 <memset+0x534>
+     7e8:	00001097          	auipc	ra,0x1
+     7ec:	d30080e7          	jalr	-720(ra) # 1518 <_Z13uart_send_strPKc>
+     7f0:	fe0407a3          	sb	zero,-17(s0)
+     7f4:	fdf44703          	lbu	a4,-33(s0)
+     7f8:	00070793          	mv	a5,a4
+     7fc:	00279793          	sll	a5,a5,0x2
+     800:	00e787b3          	add	a5,a5,a4
+     804:	00379793          	sll	a5,a5,0x3
+     808:	00003737          	lui	a4,0x3
+     80c:	1fc70713          	add	a4,a4,508 # 31fc <_ZL8entities>
+     810:	00e787b3          	add	a5,a5,a4
+     814:	00578793          	add	a5,a5,5
+     818:	fef42223          	sw	a5,-28(s0)
+     81c:	fe042423          	sw	zero,-24(s0)
+     820:	0740006f          	j	894 <_Z16action_inventoryh+0xcc>
+     824:	fe442703          	lw	a4,-28(s0)
+     828:	fe842783          	lw	a5,-24(s0)
+     82c:	00f707b3          	add	a5,a4,a5
+     830:	0007c783          	lbu	a5,0(a5)
+     834:	fef401a3          	sb	a5,-29(s0)
+     838:	fe344783          	lbu	a5,-29(s0)
+     83c:	06078463          	beqz	a5,8a4 <_Z16action_inventoryh+0xdc>
+     840:	fef44783          	lbu	a5,-17(s0)
+     844:	00078c63          	beqz	a5,85c <_Z16action_inventoryh+0x94>
+     848:	000027b7          	lui	a5,0x2
+     84c:	c0878513          	add	a0,a5,-1016 # 1c08 <memset+0x50c>
+     850:	00001097          	auipc	ra,0x1
+     854:	cc8080e7          	jalr	-824(ra) # 1518 <_Z13uart_send_strPKc>
+     858:	00c0006f          	j	864 <_Z16action_inventoryh+0x9c>
+     85c:	00100793          	li	a5,1
+     860:	fef407a3          	sb	a5,-17(s0)
+     864:	fe344783          	lbu	a5,-29(s0)
+     868:	00003737          	lui	a4,0x3
+     86c:	1ec70713          	add	a4,a4,492 # 31ec <_ZL7objects>
+     870:	00279793          	sll	a5,a5,0x2
+     874:	00f707b3          	add	a5,a4,a5
+     878:	0007a783          	lw	a5,0(a5)
+     87c:	00078513          	mv	a0,a5
+     880:	00001097          	auipc	ra,0x1
+     884:	c98080e7          	jalr	-872(ra) # 1518 <_Z13uart_send_strPKc>
+     888:	fe842783          	lw	a5,-24(s0)
+     88c:	00178793          	add	a5,a5,1
+     890:	fef42423          	sw	a5,-24(s0)
+     894:	fe842703          	lw	a4,-24(s0)
+     898:	01f00793          	li	a5,31
+     89c:	f8e7f4e3          	bgeu	a5,a4,824 <_Z16action_inventoryh+0x5c>
+     8a0:	0080006f          	j	8a8 <_Z16action_inventoryh+0xe0>
+     8a4:	00000013          	nop
+     8a8:	fef44783          	lbu	a5,-17(s0)
+     8ac:	0017c793          	xor	a5,a5,1
+     8b0:	0ff7f793          	zext.b	a5,a5
+     8b4:	00078a63          	beqz	a5,8c8 <_Z16action_inventoryh+0x100>
+     8b8:	000027b7          	lui	a5,0x2
+     8bc:	c0c78513          	add	a0,a5,-1012 # 1c0c <memset+0x510>
+     8c0:	00001097          	auipc	ra,0x1
+     8c4:	c58080e7          	jalr	-936(ra) # 1518 <_Z13uart_send_strPKc>
+     8c8:	000027b7          	lui	a5,0x2
+     8cc:	b4c78513          	add	a0,a5,-1204 # 1b4c <memset+0x450>
+     8d0:	00001097          	auipc	ra,0x1
+     8d4:	c48080e7          	jalr	-952(ra) # 1518 <_Z13uart_send_strPKc>
+     8d8:	00000013          	nop
+     8dc:	02c12083          	lw	ra,44(sp)
+     8e0:	02812403          	lw	s0,40(sp)
+     8e4:	03010113          	add	sp,sp,48
+     8e8:	00008067          	ret
 
-000008cc <_Z32remove_object_from_list_by_indexPhj>:
-     8cc:	fd010113          	add	sp,sp,-48
-     8d0:	02812623          	sw	s0,44(sp)
-     8d4:	03010413          	add	s0,sp,48
-     8d8:	fca42e23          	sw	a0,-36(s0)
-     8dc:	fcb42c23          	sw	a1,-40(s0)
-     8e0:	fdc42703          	lw	a4,-36(s0)
-     8e4:	fd842783          	lw	a5,-40(s0)
-     8e8:	00f707b3          	add	a5,a4,a5
-     8ec:	fef42623          	sw	a5,-20(s0)
-     8f0:	fec42783          	lw	a5,-20(s0)
-     8f4:	0017c703          	lbu	a4,1(a5)
-     8f8:	fec42783          	lw	a5,-20(s0)
-     8fc:	00e78023          	sb	a4,0(a5)
-     900:	fec42783          	lw	a5,-20(s0)
-     904:	0007c783          	lbu	a5,0(a5)
-     908:	00078a63          	beqz	a5,91c <_Z32remove_object_from_list_by_indexPhj+0x50>
-     90c:	fec42783          	lw	a5,-20(s0)
-     910:	00178793          	add	a5,a5,1
-     914:	fef42623          	sw	a5,-20(s0)
-     918:	fd9ff06f          	j	8f0 <_Z32remove_object_from_list_by_indexPhj+0x24>
-     91c:	00000013          	nop
-     920:	02c12403          	lw	s0,44(sp)
-     924:	03010113          	add	sp,sp,48
-     928:	00008067          	ret
+000008ec <_Z32remove_object_from_list_by_indexPhj>:
+     8ec:	fd010113          	add	sp,sp,-48
+     8f0:	02812623          	sw	s0,44(sp)
+     8f4:	03010413          	add	s0,sp,48
+     8f8:	fca42e23          	sw	a0,-36(s0)
+     8fc:	fcb42c23          	sw	a1,-40(s0)
+     900:	fdc42703          	lw	a4,-36(s0)
+     904:	fd842783          	lw	a5,-40(s0)
+     908:	00f707b3          	add	a5,a4,a5
+     90c:	fef42623          	sw	a5,-20(s0)
+     910:	fec42783          	lw	a5,-20(s0)
+     914:	0017c703          	lbu	a4,1(a5)
+     918:	fec42783          	lw	a5,-20(s0)
+     91c:	00e78023          	sb	a4,0(a5)
+     920:	fec42783          	lw	a5,-20(s0)
+     924:	0007c783          	lbu	a5,0(a5)
+     928:	00078a63          	beqz	a5,93c <_Z32remove_object_from_list_by_indexPhj+0x50>
+     92c:	fec42783          	lw	a5,-20(s0)
+     930:	00178793          	add	a5,a5,1
+     934:	fef42623          	sw	a5,-20(s0)
+     938:	fd9ff06f          	j	910 <_Z32remove_object_from_list_by_indexPhj+0x24>
+     93c:	00000013          	nop
+     940:	02c12403          	lw	s0,44(sp)
+     944:	03010113          	add	sp,sp,48
+     948:	00008067          	ret
 
-0000092c <_Z18add_object_to_listPhjh>:
-     92c:	fd010113          	add	sp,sp,-48
-     930:	02112623          	sw	ra,44(sp)
-     934:	02812423          	sw	s0,40(sp)
-     938:	03010413          	add	s0,sp,48
-     93c:	fca42e23          	sw	a0,-36(s0)
-     940:	fcb42c23          	sw	a1,-40(s0)
-     944:	00060793          	mv	a5,a2
-     948:	fcf40ba3          	sb	a5,-41(s0)
-     94c:	fe042623          	sw	zero,-20(s0)
-     950:	0580006f          	j	9a8 <_Z18add_object_to_listPhjh+0x7c>
-     954:	fdc42703          	lw	a4,-36(s0)
-     958:	fec42783          	lw	a5,-20(s0)
-     95c:	00f707b3          	add	a5,a4,a5
-     960:	0007c783          	lbu	a5,0(a5)
-     964:	02079a63          	bnez	a5,998 <_Z18add_object_to_listPhjh+0x6c>
-     968:	fdc42703          	lw	a4,-36(s0)
-     96c:	fec42783          	lw	a5,-20(s0)
-     970:	00f707b3          	add	a5,a4,a5
-     974:	fd744703          	lbu	a4,-41(s0)
-     978:	00e78023          	sb	a4,0(a5)
-     97c:	fec42783          	lw	a5,-20(s0)
-     980:	00178793          	add	a5,a5,1
-     984:	fdc42703          	lw	a4,-36(s0)
-     988:	00f707b3          	add	a5,a4,a5
-     98c:	00078023          	sb	zero,0(a5)
-     990:	00100793          	li	a5,1
-     994:	0380006f          	j	9cc <_Z18add_object_to_listPhjh+0xa0>
-     998:	00000013          	nop
+0000094c <_Z18add_object_to_listPhjh>:
+     94c:	fd010113          	add	sp,sp,-48
+     950:	02112623          	sw	ra,44(sp)
+     954:	02812423          	sw	s0,40(sp)
+     958:	03010413          	add	s0,sp,48
+     95c:	fca42e23          	sw	a0,-36(s0)
+     960:	fcb42c23          	sw	a1,-40(s0)
+     964:	00060793          	mv	a5,a2
+     968:	fcf40ba3          	sb	a5,-41(s0)
+     96c:	fe042623          	sw	zero,-20(s0)
+     970:	0580006f          	j	9c8 <_Z18add_object_to_listPhjh+0x7c>
+     974:	fdc42703          	lw	a4,-36(s0)
+     978:	fec42783          	lw	a5,-20(s0)
+     97c:	00f707b3          	add	a5,a4,a5
+     980:	0007c783          	lbu	a5,0(a5)
+     984:	02079a63          	bnez	a5,9b8 <_Z18add_object_to_listPhjh+0x6c>
+     988:	fdc42703          	lw	a4,-36(s0)
+     98c:	fec42783          	lw	a5,-20(s0)
+     990:	00f707b3          	add	a5,a4,a5
+     994:	fd744703          	lbu	a4,-41(s0)
+     998:	00e78023          	sb	a4,0(a5)
      99c:	fec42783          	lw	a5,-20(s0)
      9a0:	00178793          	add	a5,a5,1
-     9a4:	fef42623          	sw	a5,-20(s0)
-     9a8:	fd842783          	lw	a5,-40(s0)
-     9ac:	fff78793          	add	a5,a5,-1
-     9b0:	fec42703          	lw	a4,-20(s0)
-     9b4:	faf760e3          	bltu	a4,a5,954 <_Z18add_object_to_listPhjh+0x28>
-     9b8:	000027b7          	lui	a5,0x2
-     9bc:	bb478513          	add	a0,a5,-1100 # 1bb4 <_Z15action_mem_testv+0x5c8>
-     9c0:	00001097          	auipc	ra,0x1
-     9c4:	b38080e7          	jalr	-1224(ra) # 14f8 <_Z13uart_send_strPKc>
-     9c8:	00000793          	li	a5,0
-     9cc:	00078513          	mv	a0,a5
-     9d0:	02c12083          	lw	ra,44(sp)
-     9d4:	02812403          	lw	s0,40(sp)
-     9d8:	03010113          	add	sp,sp,48
-     9dc:	00008067          	ret
+     9a4:	fdc42703          	lw	a4,-36(s0)
+     9a8:	00f707b3          	add	a5,a4,a5
+     9ac:	00078023          	sb	zero,0(a5)
+     9b0:	00100793          	li	a5,1
+     9b4:	0380006f          	j	9ec <_Z18add_object_to_listPhjh+0xa0>
+     9b8:	00000013          	nop
+     9bc:	fec42783          	lw	a5,-20(s0)
+     9c0:	00178793          	add	a5,a5,1
+     9c4:	fef42623          	sw	a5,-20(s0)
+     9c8:	fd842783          	lw	a5,-40(s0)
+     9cc:	fff78793          	add	a5,a5,-1
+     9d0:	fec42703          	lw	a4,-20(s0)
+     9d4:	faf760e3          	bltu	a4,a5,974 <_Z18add_object_to_listPhjh+0x28>
+     9d8:	000027b7          	lui	a5,0x2
+     9dc:	c3c78513          	add	a0,a5,-964 # 1c3c <memset+0x540>
+     9e0:	00001097          	auipc	ra,0x1
+     9e4:	b38080e7          	jalr	-1224(ra) # 1518 <_Z13uart_send_strPKc>
+     9e8:	00000793          	li	a5,0
+     9ec:	00078513          	mv	a0,a5
+     9f0:	02c12083          	lw	ra,44(sp)
+     9f4:	02812403          	lw	s0,40(sp)
+     9f8:	03010113          	add	sp,sp,48
+     9fc:	00008067          	ret
 
-000009e0 <_Z18add_entity_to_listPhjh>:
-     9e0:	fd010113          	add	sp,sp,-48
-     9e4:	02112623          	sw	ra,44(sp)
-     9e8:	02812423          	sw	s0,40(sp)
-     9ec:	03010413          	add	s0,sp,48
-     9f0:	fca42e23          	sw	a0,-36(s0)
-     9f4:	fcb42c23          	sw	a1,-40(s0)
-     9f8:	00060793          	mv	a5,a2
-     9fc:	fcf40ba3          	sb	a5,-41(s0)
-     a00:	fe042623          	sw	zero,-20(s0)
-     a04:	0580006f          	j	a5c <_Z18add_entity_to_listPhjh+0x7c>
-     a08:	fdc42703          	lw	a4,-36(s0)
-     a0c:	fec42783          	lw	a5,-20(s0)
-     a10:	00f707b3          	add	a5,a4,a5
-     a14:	0007c783          	lbu	a5,0(a5)
-     a18:	02079a63          	bnez	a5,a4c <_Z18add_entity_to_listPhjh+0x6c>
-     a1c:	fdc42703          	lw	a4,-36(s0)
-     a20:	fec42783          	lw	a5,-20(s0)
-     a24:	00f707b3          	add	a5,a4,a5
-     a28:	fd744703          	lbu	a4,-41(s0)
-     a2c:	00e78023          	sb	a4,0(a5)
-     a30:	fec42783          	lw	a5,-20(s0)
-     a34:	00178793          	add	a5,a5,1
-     a38:	fdc42703          	lw	a4,-36(s0)
-     a3c:	00f707b3          	add	a5,a4,a5
-     a40:	00078023          	sb	zero,0(a5)
-     a44:	00100793          	li	a5,1
-     a48:	0380006f          	j	a80 <_Z18add_entity_to_listPhjh+0xa0>
-     a4c:	00000013          	nop
+00000a00 <_Z18add_entity_to_listPhjh>:
+     a00:	fd010113          	add	sp,sp,-48
+     a04:	02112623          	sw	ra,44(sp)
+     a08:	02812423          	sw	s0,40(sp)
+     a0c:	03010413          	add	s0,sp,48
+     a10:	fca42e23          	sw	a0,-36(s0)
+     a14:	fcb42c23          	sw	a1,-40(s0)
+     a18:	00060793          	mv	a5,a2
+     a1c:	fcf40ba3          	sb	a5,-41(s0)
+     a20:	fe042623          	sw	zero,-20(s0)
+     a24:	0580006f          	j	a7c <_Z18add_entity_to_listPhjh+0x7c>
+     a28:	fdc42703          	lw	a4,-36(s0)
+     a2c:	fec42783          	lw	a5,-20(s0)
+     a30:	00f707b3          	add	a5,a4,a5
+     a34:	0007c783          	lbu	a5,0(a5)
+     a38:	02079a63          	bnez	a5,a6c <_Z18add_entity_to_listPhjh+0x6c>
+     a3c:	fdc42703          	lw	a4,-36(s0)
+     a40:	fec42783          	lw	a5,-20(s0)
+     a44:	00f707b3          	add	a5,a4,a5
+     a48:	fd744703          	lbu	a4,-41(s0)
+     a4c:	00e78023          	sb	a4,0(a5)
      a50:	fec42783          	lw	a5,-20(s0)
      a54:	00178793          	add	a5,a5,1
-     a58:	fef42623          	sw	a5,-20(s0)
-     a5c:	fd842783          	lw	a5,-40(s0)
-     a60:	fff78793          	add	a5,a5,-1
-     a64:	fec42703          	lw	a4,-20(s0)
-     a68:	faf760e3          	bltu	a4,a5,a08 <_Z18add_entity_to_listPhjh+0x28>
-     a6c:	000027b7          	lui	a5,0x2
-     a70:	bc478513          	add	a0,a5,-1084 # 1bc4 <_Z15action_mem_testv+0x5d8>
-     a74:	00001097          	auipc	ra,0x1
-     a78:	a84080e7          	jalr	-1404(ra) # 14f8 <_Z13uart_send_strPKc>
-     a7c:	00000793          	li	a5,0
-     a80:	00078513          	mv	a0,a5
-     a84:	02c12083          	lw	ra,44(sp)
-     a88:	02812403          	lw	s0,40(sp)
-     a8c:	03010113          	add	sp,sp,48
-     a90:	00008067          	ret
+     a58:	fdc42703          	lw	a4,-36(s0)
+     a5c:	00f707b3          	add	a5,a4,a5
+     a60:	00078023          	sb	zero,0(a5)
+     a64:	00100793          	li	a5,1
+     a68:	0380006f          	j	aa0 <_Z18add_entity_to_listPhjh+0xa0>
+     a6c:	00000013          	nop
+     a70:	fec42783          	lw	a5,-20(s0)
+     a74:	00178793          	add	a5,a5,1
+     a78:	fef42623          	sw	a5,-20(s0)
+     a7c:	fd842783          	lw	a5,-40(s0)
+     a80:	fff78793          	add	a5,a5,-1
+     a84:	fec42703          	lw	a4,-20(s0)
+     a88:	faf760e3          	bltu	a4,a5,a28 <_Z18add_entity_to_listPhjh+0x28>
+     a8c:	000027b7          	lui	a5,0x2
+     a90:	c4c78513          	add	a0,a5,-948 # 1c4c <memset+0x550>
+     a94:	00001097          	auipc	ra,0x1
+     a98:	a84080e7          	jalr	-1404(ra) # 1518 <_Z13uart_send_strPKc>
+     a9c:	00000793          	li	a5,0
+     aa0:	00078513          	mv	a0,a5
+     aa4:	02c12083          	lw	ra,44(sp)
+     aa8:	02812403          	lw	s0,40(sp)
+     aac:	03010113          	add	sp,sp,48
+     ab0:	00008067          	ret
 
-00000a94 <_Z23remove_entity_from_listPhjh>:
-     a94:	fd010113          	add	sp,sp,-48
-     a98:	02112623          	sw	ra,44(sp)
-     a9c:	02812423          	sw	s0,40(sp)
-     aa0:	03010413          	add	s0,sp,48
-     aa4:	fca42e23          	sw	a0,-36(s0)
-     aa8:	fcb42c23          	sw	a1,-40(s0)
-     aac:	00060793          	mv	a5,a2
-     ab0:	fcf40ba3          	sb	a5,-41(s0)
-     ab4:	fe042623          	sw	zero,-20(s0)
-     ab8:	0900006f          	j	b48 <_Z23remove_entity_from_listPhjh+0xb4>
-     abc:	fdc42703          	lw	a4,-36(s0)
-     ac0:	fec42783          	lw	a5,-20(s0)
-     ac4:	00f707b3          	add	a5,a4,a5
-     ac8:	0007c783          	lbu	a5,0(a5)
-     acc:	fd744703          	lbu	a4,-41(s0)
-     ad0:	06f71463          	bne	a4,a5,b38 <_Z23remove_entity_from_listPhjh+0xa4>
-     ad4:	fec42783          	lw	a5,-20(s0)
-     ad8:	fef42423          	sw	a5,-24(s0)
-     adc:	0480006f          	j	b24 <_Z23remove_entity_from_listPhjh+0x90>
-     ae0:	fe842783          	lw	a5,-24(s0)
-     ae4:	00178793          	add	a5,a5,1
-     ae8:	fdc42703          	lw	a4,-36(s0)
-     aec:	00f70733          	add	a4,a4,a5
-     af0:	fdc42683          	lw	a3,-36(s0)
-     af4:	fe842783          	lw	a5,-24(s0)
-     af8:	00f687b3          	add	a5,a3,a5
-     afc:	00074703          	lbu	a4,0(a4)
-     b00:	00e78023          	sb	a4,0(a5)
-     b04:	fdc42703          	lw	a4,-36(s0)
-     b08:	fe842783          	lw	a5,-24(s0)
-     b0c:	00f707b3          	add	a5,a4,a5
-     b10:	0007c783          	lbu	a5,0(a5)
-     b14:	04078c63          	beqz	a5,b6c <_Z23remove_entity_from_listPhjh+0xd8>
-     b18:	fe842783          	lw	a5,-24(s0)
-     b1c:	00178793          	add	a5,a5,1
-     b20:	fef42423          	sw	a5,-24(s0)
-     b24:	fd842783          	lw	a5,-40(s0)
-     b28:	fff78793          	add	a5,a5,-1
-     b2c:	fe842703          	lw	a4,-24(s0)
-     b30:	faf768e3          	bltu	a4,a5,ae0 <_Z23remove_entity_from_listPhjh+0x4c>
-     b34:	0080006f          	j	b3c <_Z23remove_entity_from_listPhjh+0xa8>
-     b38:	00000013          	nop
-     b3c:	fec42783          	lw	a5,-20(s0)
-     b40:	00178793          	add	a5,a5,1
-     b44:	fef42623          	sw	a5,-20(s0)
-     b48:	fd842783          	lw	a5,-40(s0)
-     b4c:	fff78793          	add	a5,a5,-1
-     b50:	fec42703          	lw	a4,-20(s0)
-     b54:	f6f764e3          	bltu	a4,a5,abc <_Z23remove_entity_from_listPhjh+0x28>
-     b58:	000027b7          	lui	a5,0x2
-     b5c:	bd478513          	add	a0,a5,-1068 # 1bd4 <_Z15action_mem_testv+0x5e8>
-     b60:	00001097          	auipc	ra,0x1
-     b64:	998080e7          	jalr	-1640(ra) # 14f8 <_Z13uart_send_strPKc>
-     b68:	0080006f          	j	b70 <_Z23remove_entity_from_listPhjh+0xdc>
-     b6c:	00000013          	nop
-     b70:	02c12083          	lw	ra,44(sp)
-     b74:	02812403          	lw	s0,40(sp)
-     b78:	03010113          	add	sp,sp,48
-     b7c:	00008067          	ret
+00000ab4 <_Z23remove_entity_from_listPhjh>:
+     ab4:	fd010113          	add	sp,sp,-48
+     ab8:	02112623          	sw	ra,44(sp)
+     abc:	02812423          	sw	s0,40(sp)
+     ac0:	03010413          	add	s0,sp,48
+     ac4:	fca42e23          	sw	a0,-36(s0)
+     ac8:	fcb42c23          	sw	a1,-40(s0)
+     acc:	00060793          	mv	a5,a2
+     ad0:	fcf40ba3          	sb	a5,-41(s0)
+     ad4:	fe042623          	sw	zero,-20(s0)
+     ad8:	0900006f          	j	b68 <_Z23remove_entity_from_listPhjh+0xb4>
+     adc:	fdc42703          	lw	a4,-36(s0)
+     ae0:	fec42783          	lw	a5,-20(s0)
+     ae4:	00f707b3          	add	a5,a4,a5
+     ae8:	0007c783          	lbu	a5,0(a5)
+     aec:	fd744703          	lbu	a4,-41(s0)
+     af0:	06f71463          	bne	a4,a5,b58 <_Z23remove_entity_from_listPhjh+0xa4>
+     af4:	fec42783          	lw	a5,-20(s0)
+     af8:	fef42423          	sw	a5,-24(s0)
+     afc:	0480006f          	j	b44 <_Z23remove_entity_from_listPhjh+0x90>
+     b00:	fe842783          	lw	a5,-24(s0)
+     b04:	00178793          	add	a5,a5,1
+     b08:	fdc42703          	lw	a4,-36(s0)
+     b0c:	00f70733          	add	a4,a4,a5
+     b10:	fdc42683          	lw	a3,-36(s0)
+     b14:	fe842783          	lw	a5,-24(s0)
+     b18:	00f687b3          	add	a5,a3,a5
+     b1c:	00074703          	lbu	a4,0(a4)
+     b20:	00e78023          	sb	a4,0(a5)
+     b24:	fdc42703          	lw	a4,-36(s0)
+     b28:	fe842783          	lw	a5,-24(s0)
+     b2c:	00f707b3          	add	a5,a4,a5
+     b30:	0007c783          	lbu	a5,0(a5)
+     b34:	04078c63          	beqz	a5,b8c <_Z23remove_entity_from_listPhjh+0xd8>
+     b38:	fe842783          	lw	a5,-24(s0)
+     b3c:	00178793          	add	a5,a5,1
+     b40:	fef42423          	sw	a5,-24(s0)
+     b44:	fd842783          	lw	a5,-40(s0)
+     b48:	fff78793          	add	a5,a5,-1
+     b4c:	fe842703          	lw	a4,-24(s0)
+     b50:	faf768e3          	bltu	a4,a5,b00 <_Z23remove_entity_from_listPhjh+0x4c>
+     b54:	0080006f          	j	b5c <_Z23remove_entity_from_listPhjh+0xa8>
+     b58:	00000013          	nop
+     b5c:	fec42783          	lw	a5,-20(s0)
+     b60:	00178793          	add	a5,a5,1
+     b64:	fef42623          	sw	a5,-20(s0)
+     b68:	fd842783          	lw	a5,-40(s0)
+     b6c:	fff78793          	add	a5,a5,-1
+     b70:	fec42703          	lw	a4,-20(s0)
+     b74:	f6f764e3          	bltu	a4,a5,adc <_Z23remove_entity_from_listPhjh+0x28>
+     b78:	000027b7          	lui	a5,0x2
+     b7c:	c5c78513          	add	a0,a5,-932 # 1c5c <memset+0x560>
+     b80:	00001097          	auipc	ra,0x1
+     b84:	998080e7          	jalr	-1640(ra) # 1518 <_Z13uart_send_strPKc>
+     b88:	0080006f          	j	b90 <_Z23remove_entity_from_listPhjh+0xdc>
+     b8c:	00000013          	nop
+     b90:	02c12083          	lw	ra,44(sp)
+     b94:	02812403          	lw	s0,40(sp)
+     b98:	03010113          	add	sp,sp,48
+     b9c:	00008067          	ret
 
-00000b80 <_Z32remove_entity_from_list_by_indexPhj>:
-     b80:	fd010113          	add	sp,sp,-48
-     b84:	02812623          	sw	s0,44(sp)
-     b88:	03010413          	add	s0,sp,48
-     b8c:	fca42e23          	sw	a0,-36(s0)
-     b90:	fcb42c23          	sw	a1,-40(s0)
-     b94:	fdc42703          	lw	a4,-36(s0)
-     b98:	fd842783          	lw	a5,-40(s0)
-     b9c:	00f707b3          	add	a5,a4,a5
-     ba0:	fef42623          	sw	a5,-20(s0)
-     ba4:	fec42783          	lw	a5,-20(s0)
-     ba8:	0017c703          	lbu	a4,1(a5)
-     bac:	fec42783          	lw	a5,-20(s0)
-     bb0:	00e78023          	sb	a4,0(a5)
-     bb4:	fec42783          	lw	a5,-20(s0)
-     bb8:	0007c783          	lbu	a5,0(a5)
-     bbc:	00078a63          	beqz	a5,bd0 <_Z32remove_entity_from_list_by_indexPhj+0x50>
-     bc0:	fec42783          	lw	a5,-20(s0)
-     bc4:	00178793          	add	a5,a5,1
-     bc8:	fef42623          	sw	a5,-20(s0)
-     bcc:	fd9ff06f          	j	ba4 <_Z32remove_entity_from_list_by_indexPhj+0x24>
-     bd0:	00000013          	nop
-     bd4:	02c12403          	lw	s0,44(sp)
-     bd8:	03010113          	add	sp,sp,48
-     bdc:	00008067          	ret
+00000ba0 <_Z32remove_entity_from_list_by_indexPhj>:
+     ba0:	fd010113          	add	sp,sp,-48
+     ba4:	02812623          	sw	s0,44(sp)
+     ba8:	03010413          	add	s0,sp,48
+     bac:	fca42e23          	sw	a0,-36(s0)
+     bb0:	fcb42c23          	sw	a1,-40(s0)
+     bb4:	fdc42703          	lw	a4,-36(s0)
+     bb8:	fd842783          	lw	a5,-40(s0)
+     bbc:	00f707b3          	add	a5,a4,a5
+     bc0:	fef42623          	sw	a5,-20(s0)
+     bc4:	fec42783          	lw	a5,-20(s0)
+     bc8:	0017c703          	lbu	a4,1(a5)
+     bcc:	fec42783          	lw	a5,-20(s0)
+     bd0:	00e78023          	sb	a4,0(a5)
+     bd4:	fec42783          	lw	a5,-20(s0)
+     bd8:	0007c783          	lbu	a5,0(a5)
+     bdc:	00078a63          	beqz	a5,bf0 <_Z32remove_entity_from_list_by_indexPhj+0x50>
+     be0:	fec42783          	lw	a5,-20(s0)
+     be4:	00178793          	add	a5,a5,1
+     be8:	fef42623          	sw	a5,-20(s0)
+     bec:	fd9ff06f          	j	bc4 <_Z32remove_entity_from_list_by_indexPhj+0x24>
+     bf0:	00000013          	nop
+     bf4:	02c12403          	lw	s0,44(sp)
+     bf8:	03010113          	add	sp,sp,48
+     bfc:	00008067          	ret
 
-00000be0 <_Z11action_takehPKc>:
-     be0:	fd010113          	add	sp,sp,-48
-     be4:	02112623          	sw	ra,44(sp)
-     be8:	02812423          	sw	s0,40(sp)
-     bec:	03010413          	add	s0,sp,48
-     bf0:	00050793          	mv	a5,a0
-     bf4:	fcb42c23          	sw	a1,-40(s0)
-     bf8:	fcf40fa3          	sb	a5,-33(s0)
-     bfc:	fdf44703          	lbu	a4,-33(s0)
-     c00:	00070793          	mv	a5,a4
-     c04:	00279793          	sll	a5,a5,0x2
-     c08:	00e787b3          	add	a5,a5,a4
-     c0c:	00379793          	sll	a5,a5,0x3
-     c10:	00003737          	lui	a4,0x3
-     c14:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
-     c18:	00e787b3          	add	a5,a5,a4
-     c1c:	fef42423          	sw	a5,-24(s0)
-     c20:	fe842783          	lw	a5,-24(s0)
-     c24:	0047c783          	lbu	a5,4(a5)
-     c28:	00078713          	mv	a4,a5
-     c2c:	00070793          	mv	a5,a4
-     c30:	00379793          	sll	a5,a5,0x3
-     c34:	00e787b3          	add	a5,a5,a4
-     c38:	00279793          	sll	a5,a5,0x2
-     c3c:	00e787b3          	add	a5,a5,a4
-     c40:	00279793          	sll	a5,a5,0x2
-     c44:	00003737          	lui	a4,0x3
-     c48:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
-     c4c:	00e787b3          	add	a5,a5,a4
-     c50:	00478793          	add	a5,a5,4
-     c54:	fef42223          	sw	a5,-28(s0)
-     c58:	fe042623          	sw	zero,-20(s0)
-     c5c:	0a40006f          	j	d00 <_Z11action_takehPKc+0x120>
-     c60:	fe442703          	lw	a4,-28(s0)
-     c64:	fec42783          	lw	a5,-20(s0)
-     c68:	00f707b3          	add	a5,a4,a5
-     c6c:	0007c783          	lbu	a5,0(a5)
-     c70:	fef401a3          	sb	a5,-29(s0)
-     c74:	fe344783          	lbu	a5,-29(s0)
-     c78:	08078c63          	beqz	a5,d10 <_Z11action_takehPKc+0x130>
-     c7c:	fe344783          	lbu	a5,-29(s0)
-     c80:	00003737          	lui	a4,0x3
-     c84:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
-     c88:	00279793          	sll	a5,a5,0x2
-     c8c:	00f707b3          	add	a5,a4,a5
-     c90:	0007a783          	lw	a5,0(a5)
-     c94:	fd842583          	lw	a1,-40(s0)
-     c98:	00078513          	mv	a0,a5
-     c9c:	00000097          	auipc	ra,0x0
-     ca0:	6e8080e7          	jalr	1768(ra) # 1384 <_Z13strings_equalPKcS0_>
-     ca4:	00050793          	mv	a5,a0
-     ca8:	0017c793          	xor	a5,a5,1
-     cac:	0ff7f793          	zext.b	a5,a5
-     cb0:	04079063          	bnez	a5,cf0 <_Z11action_takehPKc+0x110>
-     cb4:	fe842783          	lw	a5,-24(s0)
-     cb8:	00578793          	add	a5,a5,5
-     cbc:	fe344703          	lbu	a4,-29(s0)
-     cc0:	00070613          	mv	a2,a4
-     cc4:	02000593          	li	a1,32
-     cc8:	00078513          	mv	a0,a5
-     ccc:	00000097          	auipc	ra,0x0
-     cd0:	c60080e7          	jalr	-928(ra) # 92c <_Z18add_object_to_listPhjh>
-     cd4:	00050793          	mv	a5,a0
-     cd8:	04078e63          	beqz	a5,d34 <_Z11action_takehPKc+0x154>
-     cdc:	fec42583          	lw	a1,-20(s0)
-     ce0:	fe442503          	lw	a0,-28(s0)
-     ce4:	00000097          	auipc	ra,0x0
-     ce8:	be8080e7          	jalr	-1048(ra) # 8cc <_Z32remove_object_from_list_by_indexPhj>
-     cec:	0480006f          	j	d34 <_Z11action_takehPKc+0x154>
-     cf0:	00000013          	nop
-     cf4:	fec42783          	lw	a5,-20(s0)
-     cf8:	00178793          	add	a5,a5,1
-     cfc:	fef42623          	sw	a5,-20(s0)
-     d00:	fec42703          	lw	a4,-20(s0)
-     d04:	07f00793          	li	a5,127
-     d08:	f4e7fce3          	bgeu	a5,a4,c60 <_Z11action_takehPKc+0x80>
-     d0c:	0080006f          	j	d14 <_Z11action_takehPKc+0x134>
+00000c00 <_Z11action_takehPKc>:
+     c00:	fd010113          	add	sp,sp,-48
+     c04:	02112623          	sw	ra,44(sp)
+     c08:	02812423          	sw	s0,40(sp)
+     c0c:	03010413          	add	s0,sp,48
+     c10:	00050793          	mv	a5,a0
+     c14:	fcb42c23          	sw	a1,-40(s0)
+     c18:	fcf40fa3          	sb	a5,-33(s0)
+     c1c:	fdf44703          	lbu	a4,-33(s0)
+     c20:	00070793          	mv	a5,a4
+     c24:	00279793          	sll	a5,a5,0x2
+     c28:	00e787b3          	add	a5,a5,a4
+     c2c:	00379793          	sll	a5,a5,0x3
+     c30:	00003737          	lui	a4,0x3
+     c34:	1fc70713          	add	a4,a4,508 # 31fc <_ZL8entities>
+     c38:	00e787b3          	add	a5,a5,a4
+     c3c:	fef42423          	sw	a5,-24(s0)
+     c40:	fe842783          	lw	a5,-24(s0)
+     c44:	0047c783          	lbu	a5,4(a5)
+     c48:	00078713          	mv	a4,a5
+     c4c:	00070793          	mv	a5,a4
+     c50:	00379793          	sll	a5,a5,0x3
+     c54:	00e787b3          	add	a5,a5,a4
+     c58:	00279793          	sll	a5,a5,0x2
+     c5c:	00e787b3          	add	a5,a5,a4
+     c60:	00279793          	sll	a5,a5,0x2
+     c64:	00003737          	lui	a4,0x3
+     c68:	27470713          	add	a4,a4,628 # 3274 <_ZL9locations>
+     c6c:	00e787b3          	add	a5,a5,a4
+     c70:	00478793          	add	a5,a5,4
+     c74:	fef42223          	sw	a5,-28(s0)
+     c78:	fe042623          	sw	zero,-20(s0)
+     c7c:	0a40006f          	j	d20 <_Z11action_takehPKc+0x120>
+     c80:	fe442703          	lw	a4,-28(s0)
+     c84:	fec42783          	lw	a5,-20(s0)
+     c88:	00f707b3          	add	a5,a4,a5
+     c8c:	0007c783          	lbu	a5,0(a5)
+     c90:	fef401a3          	sb	a5,-29(s0)
+     c94:	fe344783          	lbu	a5,-29(s0)
+     c98:	08078c63          	beqz	a5,d30 <_Z11action_takehPKc+0x130>
+     c9c:	fe344783          	lbu	a5,-29(s0)
+     ca0:	00003737          	lui	a4,0x3
+     ca4:	1ec70713          	add	a4,a4,492 # 31ec <_ZL7objects>
+     ca8:	00279793          	sll	a5,a5,0x2
+     cac:	00f707b3          	add	a5,a4,a5
+     cb0:	0007a783          	lw	a5,0(a5)
+     cb4:	fd842583          	lw	a1,-40(s0)
+     cb8:	00078513          	mv	a0,a5
+     cbc:	00000097          	auipc	ra,0x0
+     cc0:	6e8080e7          	jalr	1768(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     cc4:	00050793          	mv	a5,a0
+     cc8:	0017c793          	xor	a5,a5,1
+     ccc:	0ff7f793          	zext.b	a5,a5
+     cd0:	04079063          	bnez	a5,d10 <_Z11action_takehPKc+0x110>
+     cd4:	fe842783          	lw	a5,-24(s0)
+     cd8:	00578793          	add	a5,a5,5
+     cdc:	fe344703          	lbu	a4,-29(s0)
+     ce0:	00070613          	mv	a2,a4
+     ce4:	02000593          	li	a1,32
+     ce8:	00078513          	mv	a0,a5
+     cec:	00000097          	auipc	ra,0x0
+     cf0:	c60080e7          	jalr	-928(ra) # 94c <_Z18add_object_to_listPhjh>
+     cf4:	00050793          	mv	a5,a0
+     cf8:	04078e63          	beqz	a5,d54 <_Z11action_takehPKc+0x154>
+     cfc:	fec42583          	lw	a1,-20(s0)
+     d00:	fe442503          	lw	a0,-28(s0)
+     d04:	00000097          	auipc	ra,0x0
+     d08:	be8080e7          	jalr	-1048(ra) # 8ec <_Z32remove_object_from_list_by_indexPhj>
+     d0c:	0480006f          	j	d54 <_Z11action_takehPKc+0x154>
      d10:	00000013          	nop
-     d14:	fd842503          	lw	a0,-40(s0)
-     d18:	00000097          	auipc	ra,0x0
-     d1c:	7e0080e7          	jalr	2016(ra) # 14f8 <_Z13uart_send_strPKc>
-     d20:	000027b7          	lui	a5,0x2
-     d24:	be878513          	add	a0,a5,-1048 # 1be8 <_Z15action_mem_testv+0x5fc>
-     d28:	00000097          	auipc	ra,0x0
-     d2c:	7d0080e7          	jalr	2000(ra) # 14f8 <_Z13uart_send_strPKc>
-     d30:	0080006f          	j	d38 <_Z11action_takehPKc+0x158>
-     d34:	00000013          	nop
-     d38:	02c12083          	lw	ra,44(sp)
-     d3c:	02812403          	lw	s0,40(sp)
-     d40:	03010113          	add	sp,sp,48
-     d44:	00008067          	ret
+     d14:	fec42783          	lw	a5,-20(s0)
+     d18:	00178793          	add	a5,a5,1
+     d1c:	fef42623          	sw	a5,-20(s0)
+     d20:	fec42703          	lw	a4,-20(s0)
+     d24:	07f00793          	li	a5,127
+     d28:	f4e7fce3          	bgeu	a5,a4,c80 <_Z11action_takehPKc+0x80>
+     d2c:	0080006f          	j	d34 <_Z11action_takehPKc+0x134>
+     d30:	00000013          	nop
+     d34:	fd842503          	lw	a0,-40(s0)
+     d38:	00000097          	auipc	ra,0x0
+     d3c:	7e0080e7          	jalr	2016(ra) # 1518 <_Z13uart_send_strPKc>
+     d40:	000027b7          	lui	a5,0x2
+     d44:	c7078513          	add	a0,a5,-912 # 1c70 <memset+0x574>
+     d48:	00000097          	auipc	ra,0x0
+     d4c:	7d0080e7          	jalr	2000(ra) # 1518 <_Z13uart_send_strPKc>
+     d50:	0080006f          	j	d58 <_Z11action_takehPKc+0x158>
+     d54:	00000013          	nop
+     d58:	02c12083          	lw	ra,44(sp)
+     d5c:	02812403          	lw	s0,40(sp)
+     d60:	03010113          	add	sp,sp,48
+     d64:	00008067          	ret
 
-00000d48 <_Z11action_drophPKc>:
-     d48:	fd010113          	add	sp,sp,-48
-     d4c:	02112623          	sw	ra,44(sp)
-     d50:	02812423          	sw	s0,40(sp)
-     d54:	03010413          	add	s0,sp,48
-     d58:	00050793          	mv	a5,a0
-     d5c:	fcb42c23          	sw	a1,-40(s0)
-     d60:	fcf40fa3          	sb	a5,-33(s0)
-     d64:	fdf44703          	lbu	a4,-33(s0)
-     d68:	00070793          	mv	a5,a4
-     d6c:	00279793          	sll	a5,a5,0x2
-     d70:	00e787b3          	add	a5,a5,a4
-     d74:	00379793          	sll	a5,a5,0x3
-     d78:	00003737          	lui	a4,0x3
-     d7c:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
-     d80:	00e787b3          	add	a5,a5,a4
-     d84:	fef42423          	sw	a5,-24(s0)
-     d88:	fe842783          	lw	a5,-24(s0)
-     d8c:	00578793          	add	a5,a5,5
-     d90:	fef42223          	sw	a5,-28(s0)
-     d94:	fe042623          	sw	zero,-20(s0)
-     d98:	0d00006f          	j	e68 <_Z11action_drophPKc+0x120>
-     d9c:	fe442703          	lw	a4,-28(s0)
-     da0:	fec42783          	lw	a5,-20(s0)
-     da4:	00f707b3          	add	a5,a4,a5
-     da8:	0007c783          	lbu	a5,0(a5)
-     dac:	fef401a3          	sb	a5,-29(s0)
-     db0:	fe344783          	lbu	a5,-29(s0)
-     db4:	0c078263          	beqz	a5,e78 <_Z11action_drophPKc+0x130>
-     db8:	fe344783          	lbu	a5,-29(s0)
-     dbc:	00003737          	lui	a4,0x3
-     dc0:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
-     dc4:	00279793          	sll	a5,a5,0x2
-     dc8:	00f707b3          	add	a5,a4,a5
-     dcc:	0007a783          	lw	a5,0(a5)
-     dd0:	fd842583          	lw	a1,-40(s0)
-     dd4:	00078513          	mv	a0,a5
-     dd8:	00000097          	auipc	ra,0x0
-     ddc:	5ac080e7          	jalr	1452(ra) # 1384 <_Z13strings_equalPKcS0_>
-     de0:	00050793          	mv	a5,a0
-     de4:	0017c793          	xor	a5,a5,1
-     de8:	0ff7f793          	zext.b	a5,a5
-     dec:	06079663          	bnez	a5,e58 <_Z11action_drophPKc+0x110>
-     df0:	fe842783          	lw	a5,-24(s0)
-     df4:	0047c783          	lbu	a5,4(a5)
-     df8:	00078713          	mv	a4,a5
-     dfc:	00070793          	mv	a5,a4
-     e00:	00379793          	sll	a5,a5,0x3
-     e04:	00e787b3          	add	a5,a5,a4
-     e08:	00279793          	sll	a5,a5,0x2
-     e0c:	00e787b3          	add	a5,a5,a4
-     e10:	00279793          	sll	a5,a5,0x2
-     e14:	00003737          	lui	a4,0x3
-     e18:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
-     e1c:	00e787b3          	add	a5,a5,a4
-     e20:	00478793          	add	a5,a5,4
-     e24:	fe344703          	lbu	a4,-29(s0)
-     e28:	00070613          	mv	a2,a4
-     e2c:	08000593          	li	a1,128
-     e30:	00078513          	mv	a0,a5
-     e34:	00000097          	auipc	ra,0x0
-     e38:	af8080e7          	jalr	-1288(ra) # 92c <_Z18add_object_to_listPhjh>
-     e3c:	00050793          	mv	a5,a0
-     e40:	06078663          	beqz	a5,eac <_Z11action_drophPKc+0x164>
-     e44:	fec42583          	lw	a1,-20(s0)
-     e48:	fe442503          	lw	a0,-28(s0)
-     e4c:	00000097          	auipc	ra,0x0
-     e50:	a80080e7          	jalr	-1408(ra) # 8cc <_Z32remove_object_from_list_by_indexPhj>
-     e54:	0580006f          	j	eac <_Z11action_drophPKc+0x164>
-     e58:	00000013          	nop
-     e5c:	fec42783          	lw	a5,-20(s0)
-     e60:	00178793          	add	a5,a5,1
-     e64:	fef42623          	sw	a5,-20(s0)
-     e68:	fec42703          	lw	a4,-20(s0)
-     e6c:	01f00793          	li	a5,31
-     e70:	f2e7f6e3          	bgeu	a5,a4,d9c <_Z11action_drophPKc+0x54>
-     e74:	0080006f          	j	e7c <_Z11action_drophPKc+0x134>
+00000d68 <_Z11action_drophPKc>:
+     d68:	fd010113          	add	sp,sp,-48
+     d6c:	02112623          	sw	ra,44(sp)
+     d70:	02812423          	sw	s0,40(sp)
+     d74:	03010413          	add	s0,sp,48
+     d78:	00050793          	mv	a5,a0
+     d7c:	fcb42c23          	sw	a1,-40(s0)
+     d80:	fcf40fa3          	sb	a5,-33(s0)
+     d84:	fdf44703          	lbu	a4,-33(s0)
+     d88:	00070793          	mv	a5,a4
+     d8c:	00279793          	sll	a5,a5,0x2
+     d90:	00e787b3          	add	a5,a5,a4
+     d94:	00379793          	sll	a5,a5,0x3
+     d98:	00003737          	lui	a4,0x3
+     d9c:	1fc70713          	add	a4,a4,508 # 31fc <_ZL8entities>
+     da0:	00e787b3          	add	a5,a5,a4
+     da4:	fef42423          	sw	a5,-24(s0)
+     da8:	fe842783          	lw	a5,-24(s0)
+     dac:	00578793          	add	a5,a5,5
+     db0:	fef42223          	sw	a5,-28(s0)
+     db4:	fe042623          	sw	zero,-20(s0)
+     db8:	0d00006f          	j	e88 <_Z11action_drophPKc+0x120>
+     dbc:	fe442703          	lw	a4,-28(s0)
+     dc0:	fec42783          	lw	a5,-20(s0)
+     dc4:	00f707b3          	add	a5,a4,a5
+     dc8:	0007c783          	lbu	a5,0(a5)
+     dcc:	fef401a3          	sb	a5,-29(s0)
+     dd0:	fe344783          	lbu	a5,-29(s0)
+     dd4:	0c078263          	beqz	a5,e98 <_Z11action_drophPKc+0x130>
+     dd8:	fe344783          	lbu	a5,-29(s0)
+     ddc:	00003737          	lui	a4,0x3
+     de0:	1ec70713          	add	a4,a4,492 # 31ec <_ZL7objects>
+     de4:	00279793          	sll	a5,a5,0x2
+     de8:	00f707b3          	add	a5,a4,a5
+     dec:	0007a783          	lw	a5,0(a5)
+     df0:	fd842583          	lw	a1,-40(s0)
+     df4:	00078513          	mv	a0,a5
+     df8:	00000097          	auipc	ra,0x0
+     dfc:	5ac080e7          	jalr	1452(ra) # 13a4 <_Z13strings_equalPKcS0_>
+     e00:	00050793          	mv	a5,a0
+     e04:	0017c793          	xor	a5,a5,1
+     e08:	0ff7f793          	zext.b	a5,a5
+     e0c:	06079663          	bnez	a5,e78 <_Z11action_drophPKc+0x110>
+     e10:	fe842783          	lw	a5,-24(s0)
+     e14:	0047c783          	lbu	a5,4(a5)
+     e18:	00078713          	mv	a4,a5
+     e1c:	00070793          	mv	a5,a4
+     e20:	00379793          	sll	a5,a5,0x3
+     e24:	00e787b3          	add	a5,a5,a4
+     e28:	00279793          	sll	a5,a5,0x2
+     e2c:	00e787b3          	add	a5,a5,a4
+     e30:	00279793          	sll	a5,a5,0x2
+     e34:	00003737          	lui	a4,0x3
+     e38:	27470713          	add	a4,a4,628 # 3274 <_ZL9locations>
+     e3c:	00e787b3          	add	a5,a5,a4
+     e40:	00478793          	add	a5,a5,4
+     e44:	fe344703          	lbu	a4,-29(s0)
+     e48:	00070613          	mv	a2,a4
+     e4c:	08000593          	li	a1,128
+     e50:	00078513          	mv	a0,a5
+     e54:	00000097          	auipc	ra,0x0
+     e58:	af8080e7          	jalr	-1288(ra) # 94c <_Z18add_object_to_listPhjh>
+     e5c:	00050793          	mv	a5,a0
+     e60:	06078663          	beqz	a5,ecc <_Z11action_drophPKc+0x164>
+     e64:	fec42583          	lw	a1,-20(s0)
+     e68:	fe442503          	lw	a0,-28(s0)
+     e6c:	00000097          	auipc	ra,0x0
+     e70:	a80080e7          	jalr	-1408(ra) # 8ec <_Z32remove_object_from_list_by_indexPhj>
+     e74:	0580006f          	j	ecc <_Z11action_drophPKc+0x164>
      e78:	00000013          	nop
-     e7c:	000027b7          	lui	a5,0x2
-     e80:	bf878513          	add	a0,a5,-1032 # 1bf8 <_Z15action_mem_testv+0x60c>
-     e84:	00000097          	auipc	ra,0x0
-     e88:	674080e7          	jalr	1652(ra) # 14f8 <_Z13uart_send_strPKc>
-     e8c:	fd842503          	lw	a0,-40(s0)
-     e90:	00000097          	auipc	ra,0x0
-     e94:	668080e7          	jalr	1640(ra) # 14f8 <_Z13uart_send_strPKc>
-     e98:	000027b7          	lui	a5,0x2
-     e9c:	c0878513          	add	a0,a5,-1016 # 1c08 <_Z15action_mem_testv+0x61c>
-     ea0:	00000097          	auipc	ra,0x0
-     ea4:	658080e7          	jalr	1624(ra) # 14f8 <_Z13uart_send_strPKc>
-     ea8:	0080006f          	j	eb0 <_Z11action_drophPKc+0x168>
-     eac:	00000013          	nop
-     eb0:	02c12083          	lw	ra,44(sp)
-     eb4:	02812403          	lw	s0,40(sp)
-     eb8:	03010113          	add	sp,sp,48
-     ebc:	00008067          	ret
+     e7c:	fec42783          	lw	a5,-20(s0)
+     e80:	00178793          	add	a5,a5,1
+     e84:	fef42623          	sw	a5,-20(s0)
+     e88:	fec42703          	lw	a4,-20(s0)
+     e8c:	01f00793          	li	a5,31
+     e90:	f2e7f6e3          	bgeu	a5,a4,dbc <_Z11action_drophPKc+0x54>
+     e94:	0080006f          	j	e9c <_Z11action_drophPKc+0x134>
+     e98:	00000013          	nop
+     e9c:	000027b7          	lui	a5,0x2
+     ea0:	c8078513          	add	a0,a5,-896 # 1c80 <memset+0x584>
+     ea4:	00000097          	auipc	ra,0x0
+     ea8:	674080e7          	jalr	1652(ra) # 1518 <_Z13uart_send_strPKc>
+     eac:	fd842503          	lw	a0,-40(s0)
+     eb0:	00000097          	auipc	ra,0x0
+     eb4:	668080e7          	jalr	1640(ra) # 1518 <_Z13uart_send_strPKc>
+     eb8:	000027b7          	lui	a5,0x2
+     ebc:	c9078513          	add	a0,a5,-880 # 1c90 <memset+0x594>
+     ec0:	00000097          	auipc	ra,0x0
+     ec4:	658080e7          	jalr	1624(ra) # 1518 <_Z13uart_send_strPKc>
+     ec8:	0080006f          	j	ed0 <_Z11action_drophPKc+0x168>
+     ecc:	00000013          	nop
+     ed0:	02c12083          	lw	ra,44(sp)
+     ed4:	02812403          	lw	s0,40(sp)
+     ed8:	03010113          	add	sp,sp,48
+     edc:	00008067          	ret
 
-00000ec0 <_Z9action_gohh>:
-     ec0:	fd010113          	add	sp,sp,-48
-     ec4:	02112623          	sw	ra,44(sp)
-     ec8:	02812423          	sw	s0,40(sp)
-     ecc:	03010413          	add	s0,sp,48
-     ed0:	00050793          	mv	a5,a0
-     ed4:	00058713          	mv	a4,a1
-     ed8:	fcf40fa3          	sb	a5,-33(s0)
-     edc:	00070793          	mv	a5,a4
-     ee0:	fcf40f23          	sb	a5,-34(s0)
-     ee4:	fdf44703          	lbu	a4,-33(s0)
-     ee8:	00070793          	mv	a5,a4
-     eec:	00279793          	sll	a5,a5,0x2
-     ef0:	00e787b3          	add	a5,a5,a4
-     ef4:	00379793          	sll	a5,a5,0x3
-     ef8:	00003737          	lui	a4,0x3
-     efc:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
-     f00:	00e787b3          	add	a5,a5,a4
-     f04:	fef42623          	sw	a5,-20(s0)
-     f08:	fec42783          	lw	a5,-20(s0)
-     f0c:	0047c783          	lbu	a5,4(a5)
-     f10:	00078713          	mv	a4,a5
-     f14:	00070793          	mv	a5,a4
-     f18:	00379793          	sll	a5,a5,0x3
-     f1c:	00e787b3          	add	a5,a5,a4
-     f20:	00279793          	sll	a5,a5,0x2
-     f24:	00e787b3          	add	a5,a5,a4
-     f28:	00279793          	sll	a5,a5,0x2
-     f2c:	00003737          	lui	a4,0x3
-     f30:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
-     f34:	00e787b3          	add	a5,a5,a4
-     f38:	fef42423          	sw	a5,-24(s0)
-     f3c:	fde44783          	lbu	a5,-34(s0)
-     f40:	fe842703          	lw	a4,-24(s0)
-     f44:	00f707b3          	add	a5,a4,a5
-     f48:	08c7c783          	lbu	a5,140(a5)
-     f4c:	fef403a3          	sb	a5,-25(s0)
-     f50:	fe744783          	lbu	a5,-25(s0)
-     f54:	00079c63          	bnez	a5,f6c <_Z9action_gohh+0xac>
-     f58:	000027b7          	lui	a5,0x2
-     f5c:	c1078513          	add	a0,a5,-1008 # 1c10 <_Z15action_mem_testv+0x624>
-     f60:	00000097          	auipc	ra,0x0
-     f64:	598080e7          	jalr	1432(ra) # 14f8 <_Z13uart_send_strPKc>
-     f68:	0800006f          	j	fe8 <_Z9action_gohh+0x128>
-     f6c:	fe744703          	lbu	a4,-25(s0)
-     f70:	00070793          	mv	a5,a4
-     f74:	00379793          	sll	a5,a5,0x3
-     f78:	00e787b3          	add	a5,a5,a4
-     f7c:	00279793          	sll	a5,a5,0x2
-     f80:	00e787b3          	add	a5,a5,a4
-     f84:	00279793          	sll	a5,a5,0x2
-     f88:	08078713          	add	a4,a5,128
-     f8c:	000037b7          	lui	a5,0x3
-     f90:	1c878793          	add	a5,a5,456 # 31c8 <_ZL9locations>
-     f94:	00f707b3          	add	a5,a4,a5
-     f98:	00478793          	add	a5,a5,4
-     f9c:	fdf44703          	lbu	a4,-33(s0)
-     fa0:	00070613          	mv	a2,a4
-     fa4:	00800593          	li	a1,8
-     fa8:	00078513          	mv	a0,a5
-     fac:	00000097          	auipc	ra,0x0
-     fb0:	a34080e7          	jalr	-1484(ra) # 9e0 <_Z18add_entity_to_listPhjh>
-     fb4:	00050793          	mv	a5,a0
-     fb8:	02078863          	beqz	a5,fe8 <_Z9action_gohh+0x128>
-     fbc:	fe842783          	lw	a5,-24(s0)
-     fc0:	08478793          	add	a5,a5,132
-     fc4:	fdf44703          	lbu	a4,-33(s0)
-     fc8:	00070613          	mv	a2,a4
-     fcc:	00800593          	li	a1,8
-     fd0:	00078513          	mv	a0,a5
-     fd4:	00000097          	auipc	ra,0x0
-     fd8:	ac0080e7          	jalr	-1344(ra) # a94 <_Z23remove_entity_from_listPhjh>
-     fdc:	fec42783          	lw	a5,-20(s0)
-     fe0:	fe744703          	lbu	a4,-25(s0)
-     fe4:	00e78223          	sb	a4,4(a5)
-     fe8:	02c12083          	lw	ra,44(sp)
-     fec:	02812403          	lw	s0,40(sp)
-     ff0:	03010113          	add	sp,sp,48
-     ff4:	00008067          	ret
+00000ee0 <_Z9action_gohh>:
+     ee0:	fd010113          	add	sp,sp,-48
+     ee4:	02112623          	sw	ra,44(sp)
+     ee8:	02812423          	sw	s0,40(sp)
+     eec:	03010413          	add	s0,sp,48
+     ef0:	00050793          	mv	a5,a0
+     ef4:	00058713          	mv	a4,a1
+     ef8:	fcf40fa3          	sb	a5,-33(s0)
+     efc:	00070793          	mv	a5,a4
+     f00:	fcf40f23          	sb	a5,-34(s0)
+     f04:	fdf44703          	lbu	a4,-33(s0)
+     f08:	00070793          	mv	a5,a4
+     f0c:	00279793          	sll	a5,a5,0x2
+     f10:	00e787b3          	add	a5,a5,a4
+     f14:	00379793          	sll	a5,a5,0x3
+     f18:	00003737          	lui	a4,0x3
+     f1c:	1fc70713          	add	a4,a4,508 # 31fc <_ZL8entities>
+     f20:	00e787b3          	add	a5,a5,a4
+     f24:	fef42623          	sw	a5,-20(s0)
+     f28:	fec42783          	lw	a5,-20(s0)
+     f2c:	0047c783          	lbu	a5,4(a5)
+     f30:	00078713          	mv	a4,a5
+     f34:	00070793          	mv	a5,a4
+     f38:	00379793          	sll	a5,a5,0x3
+     f3c:	00e787b3          	add	a5,a5,a4
+     f40:	00279793          	sll	a5,a5,0x2
+     f44:	00e787b3          	add	a5,a5,a4
+     f48:	00279793          	sll	a5,a5,0x2
+     f4c:	00003737          	lui	a4,0x3
+     f50:	27470713          	add	a4,a4,628 # 3274 <_ZL9locations>
+     f54:	00e787b3          	add	a5,a5,a4
+     f58:	fef42423          	sw	a5,-24(s0)
+     f5c:	fde44783          	lbu	a5,-34(s0)
+     f60:	fe842703          	lw	a4,-24(s0)
+     f64:	00f707b3          	add	a5,a4,a5
+     f68:	08c7c783          	lbu	a5,140(a5)
+     f6c:	fef403a3          	sb	a5,-25(s0)
+     f70:	fe744783          	lbu	a5,-25(s0)
+     f74:	00079c63          	bnez	a5,f8c <_Z9action_gohh+0xac>
+     f78:	000027b7          	lui	a5,0x2
+     f7c:	c9878513          	add	a0,a5,-872 # 1c98 <memset+0x59c>
+     f80:	00000097          	auipc	ra,0x0
+     f84:	598080e7          	jalr	1432(ra) # 1518 <_Z13uart_send_strPKc>
+     f88:	0800006f          	j	1008 <_Z9action_gohh+0x128>
+     f8c:	fe744703          	lbu	a4,-25(s0)
+     f90:	00070793          	mv	a5,a4
+     f94:	00379793          	sll	a5,a5,0x3
+     f98:	00e787b3          	add	a5,a5,a4
+     f9c:	00279793          	sll	a5,a5,0x2
+     fa0:	00e787b3          	add	a5,a5,a4
+     fa4:	00279793          	sll	a5,a5,0x2
+     fa8:	08078713          	add	a4,a5,128
+     fac:	000037b7          	lui	a5,0x3
+     fb0:	27478793          	add	a5,a5,628 # 3274 <_ZL9locations>
+     fb4:	00f707b3          	add	a5,a4,a5
+     fb8:	00478793          	add	a5,a5,4
+     fbc:	fdf44703          	lbu	a4,-33(s0)
+     fc0:	00070613          	mv	a2,a4
+     fc4:	00800593          	li	a1,8
+     fc8:	00078513          	mv	a0,a5
+     fcc:	00000097          	auipc	ra,0x0
+     fd0:	a34080e7          	jalr	-1484(ra) # a00 <_Z18add_entity_to_listPhjh>
+     fd4:	00050793          	mv	a5,a0
+     fd8:	02078863          	beqz	a5,1008 <_Z9action_gohh+0x128>
+     fdc:	fe842783          	lw	a5,-24(s0)
+     fe0:	08478793          	add	a5,a5,132
+     fe4:	fdf44703          	lbu	a4,-33(s0)
+     fe8:	00070613          	mv	a2,a4
+     fec:	00800593          	li	a1,8
+     ff0:	00078513          	mv	a0,a5
+     ff4:	00000097          	auipc	ra,0x0
+     ff8:	ac0080e7          	jalr	-1344(ra) # ab4 <_Z23remove_entity_from_listPhjh>
+     ffc:	fec42783          	lw	a5,-20(s0)
+    1000:	fe744703          	lbu	a4,-25(s0)
+    1004:	00e78223          	sb	a4,4(a5)
+    1008:	02c12083          	lw	ra,44(sp)
+    100c:	02812403          	lw	s0,40(sp)
+    1010:	03010113          	add	sp,sp,48
+    1014:	00008067          	ret
 
-00000ff8 <_Z11action_givehPKcS0_>:
-     ff8:	fc010113          	add	sp,sp,-64
-     ffc:	02112e23          	sw	ra,60(sp)
-    1000:	02812c23          	sw	s0,56(sp)
-    1004:	04010413          	add	s0,sp,64
-    1008:	00050793          	mv	a5,a0
-    100c:	fcb42423          	sw	a1,-56(s0)
-    1010:	fcc42223          	sw	a2,-60(s0)
-    1014:	fcf407a3          	sb	a5,-49(s0)
-    1018:	fcf44703          	lbu	a4,-49(s0)
-    101c:	00070793          	mv	a5,a4
-    1020:	00279793          	sll	a5,a5,0x2
-    1024:	00e787b3          	add	a5,a5,a4
-    1028:	00379793          	sll	a5,a5,0x3
-    102c:	00003737          	lui	a4,0x3
-    1030:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
-    1034:	00e787b3          	add	a5,a5,a4
-    1038:	fef42223          	sw	a5,-28(s0)
-    103c:	fe442783          	lw	a5,-28(s0)
-    1040:	0047c783          	lbu	a5,4(a5)
-    1044:	00078713          	mv	a4,a5
-    1048:	00070793          	mv	a5,a4
-    104c:	00379793          	sll	a5,a5,0x3
-    1050:	00e787b3          	add	a5,a5,a4
-    1054:	00279793          	sll	a5,a5,0x2
-    1058:	00e787b3          	add	a5,a5,a4
-    105c:	00279793          	sll	a5,a5,0x2
-    1060:	00003737          	lui	a4,0x3
-    1064:	1c870713          	add	a4,a4,456 # 31c8 <_ZL9locations>
-    1068:	00e787b3          	add	a5,a5,a4
-    106c:	fef42023          	sw	a5,-32(s0)
-    1070:	fe042783          	lw	a5,-32(s0)
-    1074:	08478793          	add	a5,a5,132
-    1078:	fcf42e23          	sw	a5,-36(s0)
-    107c:	fe042623          	sw	zero,-20(s0)
-    1080:	16c0006f          	j	11ec <_Z11action_givehPKcS0_+0x1f4>
-    1084:	fdc42703          	lw	a4,-36(s0)
-    1088:	fec42783          	lw	a5,-20(s0)
-    108c:	00f707b3          	add	a5,a4,a5
-    1090:	0007c783          	lbu	a5,0(a5)
-    1094:	16078463          	beqz	a5,11fc <_Z11action_givehPKcS0_+0x204>
-    1098:	fdc42703          	lw	a4,-36(s0)
-    109c:	fec42783          	lw	a5,-20(s0)
-    10a0:	00f707b3          	add	a5,a4,a5
-    10a4:	0007c783          	lbu	a5,0(a5)
-    10a8:	00078713          	mv	a4,a5
-    10ac:	00070793          	mv	a5,a4
-    10b0:	00279793          	sll	a5,a5,0x2
-    10b4:	00e787b3          	add	a5,a5,a4
-    10b8:	00379793          	sll	a5,a5,0x3
-    10bc:	00003737          	lui	a4,0x3
-    10c0:	15070713          	add	a4,a4,336 # 3150 <_ZL8entities>
-    10c4:	00e787b3          	add	a5,a5,a4
-    10c8:	fcf42c23          	sw	a5,-40(s0)
-    10cc:	fd842783          	lw	a5,-40(s0)
-    10d0:	0007a783          	lw	a5,0(a5)
-    10d4:	fc442583          	lw	a1,-60(s0)
-    10d8:	00078513          	mv	a0,a5
-    10dc:	00000097          	auipc	ra,0x0
-    10e0:	2a8080e7          	jalr	680(ra) # 1384 <_Z13strings_equalPKcS0_>
-    10e4:	00050793          	mv	a5,a0
-    10e8:	0017c793          	xor	a5,a5,1
-    10ec:	0ff7f793          	zext.b	a5,a5
-    10f0:	0e079663          	bnez	a5,11dc <_Z11action_givehPKcS0_+0x1e4>
-    10f4:	fe442783          	lw	a5,-28(s0)
-    10f8:	00578793          	add	a5,a5,5
-    10fc:	fcf42a23          	sw	a5,-44(s0)
-    1100:	fe042423          	sw	zero,-24(s0)
-    1104:	0a40006f          	j	11a8 <_Z11action_givehPKcS0_+0x1b0>
-    1108:	fd442703          	lw	a4,-44(s0)
-    110c:	fe842783          	lw	a5,-24(s0)
-    1110:	00f707b3          	add	a5,a4,a5
-    1114:	0007c783          	lbu	a5,0(a5)
-    1118:	fcf409a3          	sb	a5,-45(s0)
-    111c:	fd344783          	lbu	a5,-45(s0)
-    1120:	08078c63          	beqz	a5,11b8 <_Z11action_givehPKcS0_+0x1c0>
-    1124:	fd344783          	lbu	a5,-45(s0)
-    1128:	00003737          	lui	a4,0x3
-    112c:	14070713          	add	a4,a4,320 # 3140 <_ZL7objects>
-    1130:	00279793          	sll	a5,a5,0x2
-    1134:	00f707b3          	add	a5,a4,a5
-    1138:	0007a783          	lw	a5,0(a5)
-    113c:	fc842583          	lw	a1,-56(s0)
-    1140:	00078513          	mv	a0,a5
-    1144:	00000097          	auipc	ra,0x0
-    1148:	240080e7          	jalr	576(ra) # 1384 <_Z13strings_equalPKcS0_>
-    114c:	00050793          	mv	a5,a0
-    1150:	0017c793          	xor	a5,a5,1
-    1154:	0ff7f793          	zext.b	a5,a5
-    1158:	04079063          	bnez	a5,1198 <_Z11action_givehPKcS0_+0x1a0>
-    115c:	fd842783          	lw	a5,-40(s0)
-    1160:	00578793          	add	a5,a5,5
-    1164:	fd344703          	lbu	a4,-45(s0)
-    1168:	00070613          	mv	a2,a4
-    116c:	02000593          	li	a1,32
-    1170:	00078513          	mv	a0,a5
-    1174:	fffff097          	auipc	ra,0xfffff
-    1178:	7b8080e7          	jalr	1976(ra) # 92c <_Z18add_object_to_listPhjh>
-    117c:	00050793          	mv	a5,a0
-    1180:	0a078063          	beqz	a5,1220 <_Z11action_givehPKcS0_+0x228>
-    1184:	fe842583          	lw	a1,-24(s0)
-    1188:	fd442503          	lw	a0,-44(s0)
-    118c:	fffff097          	auipc	ra,0xfffff
-    1190:	740080e7          	jalr	1856(ra) # 8cc <_Z32remove_object_from_list_by_indexPhj>
-    1194:	08c0006f          	j	1220 <_Z11action_givehPKcS0_+0x228>
-    1198:	00000013          	nop
-    119c:	fe842783          	lw	a5,-24(s0)
-    11a0:	00178793          	add	a5,a5,1
-    11a4:	fef42423          	sw	a5,-24(s0)
-    11a8:	fe842703          	lw	a4,-24(s0)
-    11ac:	01f00793          	li	a5,31
-    11b0:	f4e7fce3          	bgeu	a5,a4,1108 <_Z11action_givehPKcS0_+0x110>
-    11b4:	0080006f          	j	11bc <_Z11action_givehPKcS0_+0x1c4>
+00001018 <_Z11action_givehPKcS0_>:
+    1018:	fc010113          	add	sp,sp,-64
+    101c:	02112e23          	sw	ra,60(sp)
+    1020:	02812c23          	sw	s0,56(sp)
+    1024:	04010413          	add	s0,sp,64
+    1028:	00050793          	mv	a5,a0
+    102c:	fcb42423          	sw	a1,-56(s0)
+    1030:	fcc42223          	sw	a2,-60(s0)
+    1034:	fcf407a3          	sb	a5,-49(s0)
+    1038:	fcf44703          	lbu	a4,-49(s0)
+    103c:	00070793          	mv	a5,a4
+    1040:	00279793          	sll	a5,a5,0x2
+    1044:	00e787b3          	add	a5,a5,a4
+    1048:	00379793          	sll	a5,a5,0x3
+    104c:	00003737          	lui	a4,0x3
+    1050:	1fc70713          	add	a4,a4,508 # 31fc <_ZL8entities>
+    1054:	00e787b3          	add	a5,a5,a4
+    1058:	fef42223          	sw	a5,-28(s0)
+    105c:	fe442783          	lw	a5,-28(s0)
+    1060:	0047c783          	lbu	a5,4(a5)
+    1064:	00078713          	mv	a4,a5
+    1068:	00070793          	mv	a5,a4
+    106c:	00379793          	sll	a5,a5,0x3
+    1070:	00e787b3          	add	a5,a5,a4
+    1074:	00279793          	sll	a5,a5,0x2
+    1078:	00e787b3          	add	a5,a5,a4
+    107c:	00279793          	sll	a5,a5,0x2
+    1080:	00003737          	lui	a4,0x3
+    1084:	27470713          	add	a4,a4,628 # 3274 <_ZL9locations>
+    1088:	00e787b3          	add	a5,a5,a4
+    108c:	fef42023          	sw	a5,-32(s0)
+    1090:	fe042783          	lw	a5,-32(s0)
+    1094:	08478793          	add	a5,a5,132
+    1098:	fcf42e23          	sw	a5,-36(s0)
+    109c:	fe042623          	sw	zero,-20(s0)
+    10a0:	16c0006f          	j	120c <_Z11action_givehPKcS0_+0x1f4>
+    10a4:	fdc42703          	lw	a4,-36(s0)
+    10a8:	fec42783          	lw	a5,-20(s0)
+    10ac:	00f707b3          	add	a5,a4,a5
+    10b0:	0007c783          	lbu	a5,0(a5)
+    10b4:	16078463          	beqz	a5,121c <_Z11action_givehPKcS0_+0x204>
+    10b8:	fdc42703          	lw	a4,-36(s0)
+    10bc:	fec42783          	lw	a5,-20(s0)
+    10c0:	00f707b3          	add	a5,a4,a5
+    10c4:	0007c783          	lbu	a5,0(a5)
+    10c8:	00078713          	mv	a4,a5
+    10cc:	00070793          	mv	a5,a4
+    10d0:	00279793          	sll	a5,a5,0x2
+    10d4:	00e787b3          	add	a5,a5,a4
+    10d8:	00379793          	sll	a5,a5,0x3
+    10dc:	00003737          	lui	a4,0x3
+    10e0:	1fc70713          	add	a4,a4,508 # 31fc <_ZL8entities>
+    10e4:	00e787b3          	add	a5,a5,a4
+    10e8:	fcf42c23          	sw	a5,-40(s0)
+    10ec:	fd842783          	lw	a5,-40(s0)
+    10f0:	0007a783          	lw	a5,0(a5)
+    10f4:	fc442583          	lw	a1,-60(s0)
+    10f8:	00078513          	mv	a0,a5
+    10fc:	00000097          	auipc	ra,0x0
+    1100:	2a8080e7          	jalr	680(ra) # 13a4 <_Z13strings_equalPKcS0_>
+    1104:	00050793          	mv	a5,a0
+    1108:	0017c793          	xor	a5,a5,1
+    110c:	0ff7f793          	zext.b	a5,a5
+    1110:	0e079663          	bnez	a5,11fc <_Z11action_givehPKcS0_+0x1e4>
+    1114:	fe442783          	lw	a5,-28(s0)
+    1118:	00578793          	add	a5,a5,5
+    111c:	fcf42a23          	sw	a5,-44(s0)
+    1120:	fe042423          	sw	zero,-24(s0)
+    1124:	0a40006f          	j	11c8 <_Z11action_givehPKcS0_+0x1b0>
+    1128:	fd442703          	lw	a4,-44(s0)
+    112c:	fe842783          	lw	a5,-24(s0)
+    1130:	00f707b3          	add	a5,a4,a5
+    1134:	0007c783          	lbu	a5,0(a5)
+    1138:	fcf409a3          	sb	a5,-45(s0)
+    113c:	fd344783          	lbu	a5,-45(s0)
+    1140:	08078c63          	beqz	a5,11d8 <_Z11action_givehPKcS0_+0x1c0>
+    1144:	fd344783          	lbu	a5,-45(s0)
+    1148:	00003737          	lui	a4,0x3
+    114c:	1ec70713          	add	a4,a4,492 # 31ec <_ZL7objects>
+    1150:	00279793          	sll	a5,a5,0x2
+    1154:	00f707b3          	add	a5,a4,a5
+    1158:	0007a783          	lw	a5,0(a5)
+    115c:	fc842583          	lw	a1,-56(s0)
+    1160:	00078513          	mv	a0,a5
+    1164:	00000097          	auipc	ra,0x0
+    1168:	240080e7          	jalr	576(ra) # 13a4 <_Z13strings_equalPKcS0_>
+    116c:	00050793          	mv	a5,a0
+    1170:	0017c793          	xor	a5,a5,1
+    1174:	0ff7f793          	zext.b	a5,a5
+    1178:	04079063          	bnez	a5,11b8 <_Z11action_givehPKcS0_+0x1a0>
+    117c:	fd842783          	lw	a5,-40(s0)
+    1180:	00578793          	add	a5,a5,5
+    1184:	fd344703          	lbu	a4,-45(s0)
+    1188:	00070613          	mv	a2,a4
+    118c:	02000593          	li	a1,32
+    1190:	00078513          	mv	a0,a5
+    1194:	fffff097          	auipc	ra,0xfffff
+    1198:	7b8080e7          	jalr	1976(ra) # 94c <_Z18add_object_to_listPhjh>
+    119c:	00050793          	mv	a5,a0
+    11a0:	0a078063          	beqz	a5,1240 <_Z11action_givehPKcS0_+0x228>
+    11a4:	fe842583          	lw	a1,-24(s0)
+    11a8:	fd442503          	lw	a0,-44(s0)
+    11ac:	fffff097          	auipc	ra,0xfffff
+    11b0:	740080e7          	jalr	1856(ra) # 8ec <_Z32remove_object_from_list_by_indexPhj>
+    11b4:	08c0006f          	j	1240 <_Z11action_givehPKcS0_+0x228>
     11b8:	00000013          	nop
-    11bc:	fc842503          	lw	a0,-56(s0)
-    11c0:	00000097          	auipc	ra,0x0
-    11c4:	338080e7          	jalr	824(ra) # 14f8 <_Z13uart_send_strPKc>
-    11c8:	000027b7          	lui	a5,0x2
-    11cc:	c2478513          	add	a0,a5,-988 # 1c24 <_Z15action_mem_testv+0x638>
-    11d0:	00000097          	auipc	ra,0x0
-    11d4:	328080e7          	jalr	808(ra) # 14f8 <_Z13uart_send_strPKc>
-    11d8:	04c0006f          	j	1224 <_Z11action_givehPKcS0_+0x22c>
-    11dc:	00000013          	nop
-    11e0:	fec42783          	lw	a5,-20(s0)
-    11e4:	00178793          	add	a5,a5,1
-    11e8:	fef42623          	sw	a5,-20(s0)
-    11ec:	fec42703          	lw	a4,-20(s0)
-    11f0:	00700793          	li	a5,7
-    11f4:	e8e7f8e3          	bgeu	a5,a4,1084 <_Z11action_givehPKcS0_+0x8c>
-    11f8:	0080006f          	j	1200 <_Z11action_givehPKcS0_+0x208>
+    11bc:	fe842783          	lw	a5,-24(s0)
+    11c0:	00178793          	add	a5,a5,1
+    11c4:	fef42423          	sw	a5,-24(s0)
+    11c8:	fe842703          	lw	a4,-24(s0)
+    11cc:	01f00793          	li	a5,31
+    11d0:	f4e7fce3          	bgeu	a5,a4,1128 <_Z11action_givehPKcS0_+0x110>
+    11d4:	0080006f          	j	11dc <_Z11action_givehPKcS0_+0x1c4>
+    11d8:	00000013          	nop
+    11dc:	fc842503          	lw	a0,-56(s0)
+    11e0:	00000097          	auipc	ra,0x0
+    11e4:	338080e7          	jalr	824(ra) # 1518 <_Z13uart_send_strPKc>
+    11e8:	000027b7          	lui	a5,0x2
+    11ec:	cac78513          	add	a0,a5,-852 # 1cac <memset+0x5b0>
+    11f0:	00000097          	auipc	ra,0x0
+    11f4:	328080e7          	jalr	808(ra) # 1518 <_Z13uart_send_strPKc>
+    11f8:	04c0006f          	j	1244 <_Z11action_givehPKcS0_+0x22c>
     11fc:	00000013          	nop
-    1200:	fc442503          	lw	a0,-60(s0)
-    1204:	00000097          	auipc	ra,0x0
-    1208:	2f4080e7          	jalr	756(ra) # 14f8 <_Z13uart_send_strPKc>
-    120c:	000027b7          	lui	a5,0x2
-    1210:	c3c78513          	add	a0,a5,-964 # 1c3c <_Z15action_mem_testv+0x650>
-    1214:	00000097          	auipc	ra,0x0
-    1218:	2e4080e7          	jalr	740(ra) # 14f8 <_Z13uart_send_strPKc>
-    121c:	0080006f          	j	1224 <_Z11action_givehPKcS0_+0x22c>
-    1220:	00000013          	nop
-    1224:	03c12083          	lw	ra,60(sp)
-    1228:	03812403          	lw	s0,56(sp)
-    122c:	04010113          	add	sp,sp,64
-    1230:	00008067          	ret
+    1200:	fec42783          	lw	a5,-20(s0)
+    1204:	00178793          	add	a5,a5,1
+    1208:	fef42623          	sw	a5,-20(s0)
+    120c:	fec42703          	lw	a4,-20(s0)
+    1210:	00700793          	li	a5,7
+    1214:	e8e7f8e3          	bgeu	a5,a4,10a4 <_Z11action_givehPKcS0_+0x8c>
+    1218:	0080006f          	j	1220 <_Z11action_givehPKcS0_+0x208>
+    121c:	00000013          	nop
+    1220:	fc442503          	lw	a0,-60(s0)
+    1224:	00000097          	auipc	ra,0x0
+    1228:	2f4080e7          	jalr	756(ra) # 1518 <_Z13uart_send_strPKc>
+    122c:	000027b7          	lui	a5,0x2
+    1230:	cc478513          	add	a0,a5,-828 # 1cc4 <memset+0x5c8>
+    1234:	00000097          	auipc	ra,0x0
+    1238:	2e4080e7          	jalr	740(ra) # 1518 <_Z13uart_send_strPKc>
+    123c:	0080006f          	j	1244 <_Z11action_givehPKcS0_+0x22c>
+    1240:	00000013          	nop
+    1244:	03c12083          	lw	ra,60(sp)
+    1248:	03812403          	lw	s0,56(sp)
+    124c:	04010113          	add	sp,sp,64
+    1250:	00008067          	ret
 
-00001234 <_Z10print_helpv>:
-    1234:	ff010113          	add	sp,sp,-16
-    1238:	00112623          	sw	ra,12(sp)
-    123c:	00812423          	sw	s0,8(sp)
-    1240:	01010413          	add	s0,sp,16
-    1244:	000027b7          	lui	a5,0x2
-    1248:	c5078513          	add	a0,a5,-944 # 1c50 <_Z15action_mem_testv+0x664>
-    124c:	00000097          	auipc	ra,0x0
-    1250:	2ac080e7          	jalr	684(ra) # 14f8 <_Z13uart_send_strPKc>
-    1254:	00000013          	nop
-    1258:	00c12083          	lw	ra,12(sp)
-    125c:	00812403          	lw	s0,8(sp)
-    1260:	01010113          	add	sp,sp,16
-    1264:	00008067          	ret
+00001254 <_Z10print_helpv>:
+    1254:	ff010113          	add	sp,sp,-16
+    1258:	00112623          	sw	ra,12(sp)
+    125c:	00812423          	sw	s0,8(sp)
+    1260:	01010413          	add	s0,sp,16
+    1264:	000027b7          	lui	a5,0x2
+    1268:	cd878513          	add	a0,a5,-808 # 1cd8 <memset+0x5dc>
+    126c:	00000097          	auipc	ra,0x0
+    1270:	2ac080e7          	jalr	684(ra) # 1518 <_Z13uart_send_strPKc>
+    1274:	00000013          	nop
+    1278:	00c12083          	lw	ra,12(sp)
+    127c:	00812403          	lw	s0,8(sp)
+    1280:	01010113          	add	sp,sp,16
+    1284:	00008067          	ret
 
-00001268 <_Z5inputR12input_buffer>:
-    1268:	fd010113          	add	sp,sp,-48
-    126c:	02112623          	sw	ra,44(sp)
-    1270:	02812423          	sw	s0,40(sp)
-    1274:	03010413          	add	s0,sp,48
-    1278:	fca42e23          	sw	a0,-36(s0)
-    127c:	00000097          	auipc	ra,0x0
-    1280:	330080e7          	jalr	816(ra) # 15ac <_Z14uart_read_charv>
-    1284:	00050793          	mv	a5,a0
-    1288:	fef407a3          	sb	a5,-17(s0)
-    128c:	fef44703          	lbu	a4,-17(s0)
-    1290:	07f00793          	li	a5,127
-    1294:	02f71e63          	bne	a4,a5,12d0 <_Z5inputR12input_buffer+0x68>
-    1298:	fdc42783          	lw	a5,-36(s0)
-    129c:	0507c783          	lbu	a5,80(a5)
-    12a0:	0a078a63          	beqz	a5,1354 <_Z5inputR12input_buffer+0xec>
-    12a4:	fdc42783          	lw	a5,-36(s0)
-    12a8:	0507c783          	lbu	a5,80(a5)
-    12ac:	fff78793          	add	a5,a5,-1
-    12b0:	0ff7f713          	zext.b	a4,a5
-    12b4:	fdc42783          	lw	a5,-36(s0)
-    12b8:	04e78823          	sb	a4,80(a5)
-    12bc:	fef44783          	lbu	a5,-17(s0)
-    12c0:	00078513          	mv	a0,a5
-    12c4:	00000097          	auipc	ra,0x0
-    12c8:	29c080e7          	jalr	668(ra) # 1560 <_Z14uart_send_charc>
-    12cc:	0880006f          	j	1354 <_Z5inputR12input_buffer+0xec>
-    12d0:	fef44703          	lbu	a4,-17(s0)
-    12d4:	00d00793          	li	a5,13
-    12d8:	00f70a63          	beq	a4,a5,12ec <_Z5inputR12input_buffer+0x84>
-    12dc:	fdc42783          	lw	a5,-36(s0)
-    12e0:	0507c703          	lbu	a4,80(a5)
-    12e4:	04f00793          	li	a5,79
-    12e8:	02f71463          	bne	a4,a5,1310 <_Z5inputR12input_buffer+0xa8>
-    12ec:	fdc42783          	lw	a5,-36(s0)
-    12f0:	0507c783          	lbu	a5,80(a5)
-    12f4:	00078713          	mv	a4,a5
-    12f8:	fdc42783          	lw	a5,-36(s0)
-    12fc:	00e787b3          	add	a5,a5,a4
-    1300:	00078023          	sb	zero,0(a5)
-    1304:	fdc42783          	lw	a5,-36(s0)
-    1308:	04078823          	sb	zero,80(a5)
-    130c:	0680006f          	j	1374 <_Z5inputR12input_buffer+0x10c>
-    1310:	fdc42783          	lw	a5,-36(s0)
-    1314:	0507c783          	lbu	a5,80(a5)
-    1318:	00078713          	mv	a4,a5
-    131c:	fdc42783          	lw	a5,-36(s0)
-    1320:	00e787b3          	add	a5,a5,a4
-    1324:	fef44703          	lbu	a4,-17(s0)
-    1328:	00e78023          	sb	a4,0(a5)
-    132c:	fdc42783          	lw	a5,-36(s0)
-    1330:	0507c783          	lbu	a5,80(a5)
-    1334:	00178793          	add	a5,a5,1
-    1338:	0ff7f713          	zext.b	a4,a5
+00001288 <_Z5inputR12input_buffer>:
+    1288:	fd010113          	add	sp,sp,-48
+    128c:	02112623          	sw	ra,44(sp)
+    1290:	02812423          	sw	s0,40(sp)
+    1294:	03010413          	add	s0,sp,48
+    1298:	fca42e23          	sw	a0,-36(s0)
+    129c:	00000097          	auipc	ra,0x0
+    12a0:	330080e7          	jalr	816(ra) # 15cc <_Z14uart_read_charv>
+    12a4:	00050793          	mv	a5,a0
+    12a8:	fef407a3          	sb	a5,-17(s0)
+    12ac:	fef44703          	lbu	a4,-17(s0)
+    12b0:	07f00793          	li	a5,127
+    12b4:	02f71e63          	bne	a4,a5,12f0 <_Z5inputR12input_buffer+0x68>
+    12b8:	fdc42783          	lw	a5,-36(s0)
+    12bc:	0507c783          	lbu	a5,80(a5)
+    12c0:	0a078a63          	beqz	a5,1374 <_Z5inputR12input_buffer+0xec>
+    12c4:	fdc42783          	lw	a5,-36(s0)
+    12c8:	0507c783          	lbu	a5,80(a5)
+    12cc:	fff78793          	add	a5,a5,-1
+    12d0:	0ff7f713          	zext.b	a4,a5
+    12d4:	fdc42783          	lw	a5,-36(s0)
+    12d8:	04e78823          	sb	a4,80(a5)
+    12dc:	fef44783          	lbu	a5,-17(s0)
+    12e0:	00078513          	mv	a0,a5
+    12e4:	00000097          	auipc	ra,0x0
+    12e8:	29c080e7          	jalr	668(ra) # 1580 <_Z14uart_send_charc>
+    12ec:	0880006f          	j	1374 <_Z5inputR12input_buffer+0xec>
+    12f0:	fef44703          	lbu	a4,-17(s0)
+    12f4:	00d00793          	li	a5,13
+    12f8:	00f70a63          	beq	a4,a5,130c <_Z5inputR12input_buffer+0x84>
+    12fc:	fdc42783          	lw	a5,-36(s0)
+    1300:	0507c703          	lbu	a4,80(a5)
+    1304:	04f00793          	li	a5,79
+    1308:	02f71463          	bne	a4,a5,1330 <_Z5inputR12input_buffer+0xa8>
+    130c:	fdc42783          	lw	a5,-36(s0)
+    1310:	0507c783          	lbu	a5,80(a5)
+    1314:	00078713          	mv	a4,a5
+    1318:	fdc42783          	lw	a5,-36(s0)
+    131c:	00e787b3          	add	a5,a5,a4
+    1320:	00078023          	sb	zero,0(a5)
+    1324:	fdc42783          	lw	a5,-36(s0)
+    1328:	04078823          	sb	zero,80(a5)
+    132c:	0680006f          	j	1394 <_Z5inputR12input_buffer+0x10c>
+    1330:	fdc42783          	lw	a5,-36(s0)
+    1334:	0507c783          	lbu	a5,80(a5)
+    1338:	00078713          	mv	a4,a5
     133c:	fdc42783          	lw	a5,-36(s0)
-    1340:	04e78823          	sb	a4,80(a5)
-    1344:	fef44783          	lbu	a5,-17(s0)
-    1348:	00078513          	mv	a0,a5
-    134c:	00000097          	auipc	ra,0x0
-    1350:	214080e7          	jalr	532(ra) # 1560 <_Z14uart_send_charc>
-    1354:	fdc42783          	lw	a5,-36(s0)
-    1358:	0507c783          	lbu	a5,80(a5)
-    135c:	fff7c793          	not	a5,a5
-    1360:	0ff7f793          	zext.b	a5,a5
-    1364:	00078513          	mv	a0,a5
-    1368:	00000097          	auipc	ra,0x0
-    136c:	160080e7          	jalr	352(ra) # 14c8 <_Z7led_seth>
-    1370:	f0dff06f          	j	127c <_Z5inputR12input_buffer+0x14>
-    1374:	02c12083          	lw	ra,44(sp)
-    1378:	02812403          	lw	s0,40(sp)
-    137c:	03010113          	add	sp,sp,48
-    1380:	00008067          	ret
+    1340:	00e787b3          	add	a5,a5,a4
+    1344:	fef44703          	lbu	a4,-17(s0)
+    1348:	00e78023          	sb	a4,0(a5)
+    134c:	fdc42783          	lw	a5,-36(s0)
+    1350:	0507c783          	lbu	a5,80(a5)
+    1354:	00178793          	add	a5,a5,1
+    1358:	0ff7f713          	zext.b	a4,a5
+    135c:	fdc42783          	lw	a5,-36(s0)
+    1360:	04e78823          	sb	a4,80(a5)
+    1364:	fef44783          	lbu	a5,-17(s0)
+    1368:	00078513          	mv	a0,a5
+    136c:	00000097          	auipc	ra,0x0
+    1370:	214080e7          	jalr	532(ra) # 1580 <_Z14uart_send_charc>
+    1374:	fdc42783          	lw	a5,-36(s0)
+    1378:	0507c783          	lbu	a5,80(a5)
+    137c:	fff7c793          	not	a5,a5
+    1380:	0ff7f793          	zext.b	a5,a5
+    1384:	00078513          	mv	a0,a5
+    1388:	00000097          	auipc	ra,0x0
+    138c:	160080e7          	jalr	352(ra) # 14e8 <_Z7led_seth>
+    1390:	f0dff06f          	j	129c <_Z5inputR12input_buffer+0x14>
+    1394:	02c12083          	lw	ra,44(sp)
+    1398:	02812403          	lw	s0,40(sp)
+    139c:	03010113          	add	sp,sp,48
+    13a0:	00008067          	ret
 
-00001384 <_Z13strings_equalPKcS0_>:
-    1384:	fe010113          	add	sp,sp,-32
-    1388:	00812e23          	sw	s0,28(sp)
-    138c:	02010413          	add	s0,sp,32
-    1390:	fea42623          	sw	a0,-20(s0)
-    1394:	feb42423          	sw	a1,-24(s0)
-    1398:	fec42783          	lw	a5,-20(s0)
-    139c:	0007c703          	lbu	a4,0(a5)
-    13a0:	fe842783          	lw	a5,-24(s0)
-    13a4:	0007c783          	lbu	a5,0(a5)
-    13a8:	00f70663          	beq	a4,a5,13b4 <_Z13strings_equalPKcS0_+0x30>
-    13ac:	00000793          	li	a5,0
-    13b0:	0400006f          	j	13f0 <_Z13strings_equalPKcS0_+0x6c>
-    13b4:	fec42783          	lw	a5,-20(s0)
-    13b8:	0007c783          	lbu	a5,0(a5)
-    13bc:	00079c63          	bnez	a5,13d4 <_Z13strings_equalPKcS0_+0x50>
+000013a4 <_Z13strings_equalPKcS0_>:
+    13a4:	fe010113          	add	sp,sp,-32
+    13a8:	00812e23          	sw	s0,28(sp)
+    13ac:	02010413          	add	s0,sp,32
+    13b0:	fea42623          	sw	a0,-20(s0)
+    13b4:	feb42423          	sw	a1,-24(s0)
+    13b8:	fec42783          	lw	a5,-20(s0)
+    13bc:	0007c703          	lbu	a4,0(a5)
     13c0:	fe842783          	lw	a5,-24(s0)
     13c4:	0007c783          	lbu	a5,0(a5)
-    13c8:	00079663          	bnez	a5,13d4 <_Z13strings_equalPKcS0_+0x50>
-    13cc:	00100793          	li	a5,1
-    13d0:	0200006f          	j	13f0 <_Z13strings_equalPKcS0_+0x6c>
+    13c8:	00f70663          	beq	a4,a5,13d4 <_Z13strings_equalPKcS0_+0x30>
+    13cc:	00000793          	li	a5,0
+    13d0:	0400006f          	j	1410 <_Z13strings_equalPKcS0_+0x6c>
     13d4:	fec42783          	lw	a5,-20(s0)
-    13d8:	00178793          	add	a5,a5,1
-    13dc:	fef42623          	sw	a5,-20(s0)
+    13d8:	0007c783          	lbu	a5,0(a5)
+    13dc:	00079c63          	bnez	a5,13f4 <_Z13strings_equalPKcS0_+0x50>
     13e0:	fe842783          	lw	a5,-24(s0)
-    13e4:	00178793          	add	a5,a5,1
-    13e8:	fef42423          	sw	a5,-24(s0)
-    13ec:	fadff06f          	j	1398 <_Z13strings_equalPKcS0_+0x14>
-    13f0:	00078513          	mv	a0,a5
-    13f4:	01c12403          	lw	s0,28(sp)
-    13f8:	02010113          	add	sp,sp,32
-    13fc:	00008067          	ret
+    13e4:	0007c783          	lbu	a5,0(a5)
+    13e8:	00079663          	bnez	a5,13f4 <_Z13strings_equalPKcS0_+0x50>
+    13ec:	00100793          	li	a5,1
+    13f0:	0200006f          	j	1410 <_Z13strings_equalPKcS0_+0x6c>
+    13f4:	fec42783          	lw	a5,-20(s0)
+    13f8:	00178793          	add	a5,a5,1
+    13fc:	fef42623          	sw	a5,-20(s0)
+    1400:	fe842783          	lw	a5,-24(s0)
+    1404:	00178793          	add	a5,a5,1
+    1408:	fef42423          	sw	a5,-24(s0)
+    140c:	fadff06f          	j	13b8 <_Z13strings_equalPKcS0_+0x14>
+    1410:	00078513          	mv	a0,a5
+    1414:	01c12403          	lw	s0,28(sp)
+    1418:	02010113          	add	sp,sp,32
+    141c:	00008067          	ret
 
-00001400 <_Z18uart_send_hex_bytec>:
-    1400:	fe010113          	add	sp,sp,-32
-    1404:	00112e23          	sw	ra,28(sp)
-    1408:	00812c23          	sw	s0,24(sp)
-    140c:	02010413          	add	s0,sp,32
-    1410:	00050793          	mv	a5,a0
-    1414:	fef407a3          	sb	a5,-17(s0)
-    1418:	fef44783          	lbu	a5,-17(s0)
-    141c:	0047d793          	srl	a5,a5,0x4
-    1420:	0ff7f793          	zext.b	a5,a5
-    1424:	00078513          	mv	a0,a5
-    1428:	00000097          	auipc	ra,0x0
-    142c:	034080e7          	jalr	52(ra) # 145c <_Z20uart_send_hex_nibblec>
-    1430:	fef44783          	lbu	a5,-17(s0)
-    1434:	00f7f793          	and	a5,a5,15
-    1438:	0ff7f793          	zext.b	a5,a5
-    143c:	00078513          	mv	a0,a5
-    1440:	00000097          	auipc	ra,0x0
-    1444:	01c080e7          	jalr	28(ra) # 145c <_Z20uart_send_hex_nibblec>
-    1448:	00000013          	nop
-    144c:	01c12083          	lw	ra,28(sp)
-    1450:	01812403          	lw	s0,24(sp)
-    1454:	02010113          	add	sp,sp,32
-    1458:	00008067          	ret
+00001420 <_Z18uart_send_hex_bytec>:
+    1420:	fe010113          	add	sp,sp,-32
+    1424:	00112e23          	sw	ra,28(sp)
+    1428:	00812c23          	sw	s0,24(sp)
+    142c:	02010413          	add	s0,sp,32
+    1430:	00050793          	mv	a5,a0
+    1434:	fef407a3          	sb	a5,-17(s0)
+    1438:	fef44783          	lbu	a5,-17(s0)
+    143c:	0047d793          	srl	a5,a5,0x4
+    1440:	0ff7f793          	zext.b	a5,a5
+    1444:	00078513          	mv	a0,a5
+    1448:	00000097          	auipc	ra,0x0
+    144c:	034080e7          	jalr	52(ra) # 147c <_Z20uart_send_hex_nibblec>
+    1450:	fef44783          	lbu	a5,-17(s0)
+    1454:	00f7f793          	and	a5,a5,15
+    1458:	0ff7f793          	zext.b	a5,a5
+    145c:	00078513          	mv	a0,a5
+    1460:	00000097          	auipc	ra,0x0
+    1464:	01c080e7          	jalr	28(ra) # 147c <_Z20uart_send_hex_nibblec>
+    1468:	00000013          	nop
+    146c:	01c12083          	lw	ra,28(sp)
+    1470:	01812403          	lw	s0,24(sp)
+    1474:	02010113          	add	sp,sp,32
+    1478:	00008067          	ret
 
-0000145c <_Z20uart_send_hex_nibblec>:
-    145c:	fe010113          	add	sp,sp,-32
-    1460:	00112e23          	sw	ra,28(sp)
-    1464:	00812c23          	sw	s0,24(sp)
-    1468:	02010413          	add	s0,sp,32
-    146c:	00050793          	mv	a5,a0
-    1470:	fef407a3          	sb	a5,-17(s0)
-    1474:	fef44703          	lbu	a4,-17(s0)
-    1478:	00900793          	li	a5,9
-    147c:	02e7e063          	bltu	a5,a4,149c <_Z20uart_send_hex_nibblec+0x40>
-    1480:	fef44783          	lbu	a5,-17(s0)
-    1484:	03078793          	add	a5,a5,48
-    1488:	0ff7f793          	zext.b	a5,a5
-    148c:	00078513          	mv	a0,a5
-    1490:	00000097          	auipc	ra,0x0
-    1494:	0d0080e7          	jalr	208(ra) # 1560 <_Z14uart_send_charc>
-    1498:	01c0006f          	j	14b4 <_Z20uart_send_hex_nibblec+0x58>
-    149c:	fef44783          	lbu	a5,-17(s0)
-    14a0:	03778793          	add	a5,a5,55
-    14a4:	0ff7f793          	zext.b	a5,a5
-    14a8:	00078513          	mv	a0,a5
-    14ac:	00000097          	auipc	ra,0x0
-    14b0:	0b4080e7          	jalr	180(ra) # 1560 <_Z14uart_send_charc>
-    14b4:	00000013          	nop
-    14b8:	01c12083          	lw	ra,28(sp)
-    14bc:	01812403          	lw	s0,24(sp)
-    14c0:	02010113          	add	sp,sp,32
-    14c4:	00008067          	ret
+0000147c <_Z20uart_send_hex_nibblec>:
+    147c:	fe010113          	add	sp,sp,-32
+    1480:	00112e23          	sw	ra,28(sp)
+    1484:	00812c23          	sw	s0,24(sp)
+    1488:	02010413          	add	s0,sp,32
+    148c:	00050793          	mv	a5,a0
+    1490:	fef407a3          	sb	a5,-17(s0)
+    1494:	fef44703          	lbu	a4,-17(s0)
+    1498:	00900793          	li	a5,9
+    149c:	02e7e063          	bltu	a5,a4,14bc <_Z20uart_send_hex_nibblec+0x40>
+    14a0:	fef44783          	lbu	a5,-17(s0)
+    14a4:	03078793          	add	a5,a5,48
+    14a8:	0ff7f793          	zext.b	a5,a5
+    14ac:	00078513          	mv	a0,a5
+    14b0:	00000097          	auipc	ra,0x0
+    14b4:	0d0080e7          	jalr	208(ra) # 1580 <_Z14uart_send_charc>
+    14b8:	01c0006f          	j	14d4 <_Z20uart_send_hex_nibblec+0x58>
+    14bc:	fef44783          	lbu	a5,-17(s0)
+    14c0:	03778793          	add	a5,a5,55
+    14c4:	0ff7f793          	zext.b	a5,a5
+    14c8:	00078513          	mv	a0,a5
+    14cc:	00000097          	auipc	ra,0x0
+    14d0:	0b4080e7          	jalr	180(ra) # 1580 <_Z14uart_send_charc>
+    14d4:	00000013          	nop
+    14d8:	01c12083          	lw	ra,28(sp)
+    14dc:	01812403          	lw	s0,24(sp)
+    14e0:	02010113          	add	sp,sp,32
+    14e4:	00008067          	ret
 
-000014c8 <_Z7led_seth>:
+000014e8 <_Z7led_seth>:
 # void led_set(unsigned char bits) { *LED = bits; }
-    14c8:	fe010113          	add	sp,sp,-32
-    14cc:	00812e23          	sw	s0,28(sp)
-    14d0:	02010413          	add	s0,sp,32
-    14d4:	00050793          	mv	a5,a0
-    14d8:	fef407a3          	sb	a5,-17(s0)
-    14dc:	fff00793          	li	a5,-1
-    14e0:	fef44703          	lbu	a4,-17(s0)
-    14e4:	00e78023          	sb	a4,0(a5)
-    14e8:	00000013          	nop
-    14ec:	01c12403          	lw	s0,28(sp)
-    14f0:	02010113          	add	sp,sp,32
-    14f4:	00008067          	ret
+    14e8:	fe010113          	add	sp,sp,-32
+    14ec:	00812e23          	sw	s0,28(sp)
+    14f0:	02010413          	add	s0,sp,32
+    14f4:	00050793          	mv	a5,a0
+    14f8:	fef407a3          	sb	a5,-17(s0)
+    14fc:	fff00793          	li	a5,-1
+    1500:	fef44703          	lbu	a4,-17(s0)
+    1504:	00e78023          	sb	a4,0(a5)
+    1508:	00000013          	nop
+    150c:	01c12403          	lw	s0,28(sp)
+    1510:	02010113          	add	sp,sp,32
+    1514:	00008067          	ret
 
-000014f8 <_Z13uart_send_strPKc>:
+00001518 <_Z13uart_send_strPKc>:
 # void uart_send_str(const char *str) {
-    14f8:	fe010113          	add	sp,sp,-32
-    14fc:	00812e23          	sw	s0,28(sp)
-    1500:	02010413          	add	s0,sp,32
-    1504:	fea42623          	sw	a0,-20(s0)
+    1518:	fe010113          	add	sp,sp,-32
+    151c:	00812e23          	sw	s0,28(sp)
+    1520:	02010413          	add	s0,sp,32
+    1524:	fea42623          	sw	a0,-20(s0)
 #   while (*str) {
-    1508:	0380006f          	j	1540 <_Z13uart_send_strPKc+0x48>
+    1528:	0380006f          	j	1560 <_Z13uart_send_strPKc+0x48>
 #     while (*UART_OUT)
-    150c:	00000013          	nop
-    1510:	ffe00793          	li	a5,-2
-    1514:	0007c783          	lbu	a5,0(a5)
-    1518:	0ff7f793          	zext.b	a5,a5
-    151c:	00f037b3          	snez	a5,a5
-    1520:	0ff7f793          	zext.b	a5,a5
-    1524:	fe0796e3          	bnez	a5,1510 <_Z13uart_send_strPKc+0x18>
+    152c:	00000013          	nop
+    1530:	ffe00793          	li	a5,-2
+    1534:	0007c783          	lbu	a5,0(a5)
+    1538:	0ff7f793          	zext.b	a5,a5
+    153c:	00f037b3          	snez	a5,a5
+    1540:	0ff7f793          	zext.b	a5,a5
+    1544:	fe0796e3          	bnez	a5,1530 <_Z13uart_send_strPKc+0x18>
 #     *UART_OUT = *str++;
-    1528:	fec42783          	lw	a5,-20(s0)
-    152c:	00178713          	add	a4,a5,1
-    1530:	fee42623          	sw	a4,-20(s0)
-    1534:	ffe00713          	li	a4,-2
-    1538:	0007c783          	lbu	a5,0(a5)
-    153c:	00f70023          	sb	a5,0(a4)
+    1548:	fec42783          	lw	a5,-20(s0)
+    154c:	00178713          	add	a4,a5,1
+    1550:	fee42623          	sw	a4,-20(s0)
+    1554:	ffe00713          	li	a4,-2
+    1558:	0007c783          	lbu	a5,0(a5)
+    155c:	00f70023          	sb	a5,0(a4)
 #   while (*str) {
-    1540:	fec42783          	lw	a5,-20(s0)
-    1544:	0007c783          	lbu	a5,0(a5)
-    1548:	fc0792e3          	bnez	a5,150c <_Z13uart_send_strPKc+0x14>
+    1560:	fec42783          	lw	a5,-20(s0)
+    1564:	0007c783          	lbu	a5,0(a5)
+    1568:	fc0792e3          	bnez	a5,152c <_Z13uart_send_strPKc+0x14>
 # }
-    154c:	00000013          	nop
-    1550:	00000013          	nop
-    1554:	01c12403          	lw	s0,28(sp)
-    1558:	02010113          	add	sp,sp,32
-    155c:	00008067          	ret
+    156c:	00000013          	nop
+    1570:	00000013          	nop
+    1574:	01c12403          	lw	s0,28(sp)
+    1578:	02010113          	add	sp,sp,32
+    157c:	00008067          	ret
 
-00001560 <_Z14uart_send_charc>:
+00001580 <_Z14uart_send_charc>:
 # void uart_send_char(const char ch) {
-    1560:	fe010113          	add	sp,sp,-32
-    1564:	00812e23          	sw	s0,28(sp)
-    1568:	02010413          	add	s0,sp,32
-    156c:	00050793          	mv	a5,a0
-    1570:	fef407a3          	sb	a5,-17(s0)
+    1580:	fe010113          	add	sp,sp,-32
+    1584:	00812e23          	sw	s0,28(sp)
+    1588:	02010413          	add	s0,sp,32
+    158c:	00050793          	mv	a5,a0
+    1590:	fef407a3          	sb	a5,-17(s0)
 #   while (*UART_OUT)
-    1574:	00000013          	nop
-    1578:	ffe00793          	li	a5,-2
-    157c:	0007c783          	lbu	a5,0(a5)
-    1580:	0ff7f793          	zext.b	a5,a5
-    1584:	00f037b3          	snez	a5,a5
-    1588:	0ff7f793          	zext.b	a5,a5
-    158c:	fe0796e3          	bnez	a5,1578 <_Z14uart_send_charc+0x18>
+    1594:	00000013          	nop
+    1598:	ffe00793          	li	a5,-2
+    159c:	0007c783          	lbu	a5,0(a5)
+    15a0:	0ff7f793          	zext.b	a5,a5
+    15a4:	00f037b3          	snez	a5,a5
+    15a8:	0ff7f793          	zext.b	a5,a5
+    15ac:	fe0796e3          	bnez	a5,1598 <_Z14uart_send_charc+0x18>
 #   *UART_OUT = ch;
-    1590:	ffe00793          	li	a5,-2
-    1594:	fef44703          	lbu	a4,-17(s0)
-    1598:	00e78023          	sb	a4,0(a5)
+    15b0:	ffe00793          	li	a5,-2
+    15b4:	fef44703          	lbu	a4,-17(s0)
+    15b8:	00e78023          	sb	a4,0(a5)
 # }
-    159c:	00000013          	nop
-    15a0:	01c12403          	lw	s0,28(sp)
-    15a4:	02010113          	add	sp,sp,32
-    15a8:	00008067          	ret
+    15bc:	00000013          	nop
+    15c0:	01c12403          	lw	s0,28(sp)
+    15c4:	02010113          	add	sp,sp,32
+    15c8:	00008067          	ret
 
-000015ac <_Z14uart_read_charv>:
+000015cc <_Z14uart_read_charv>:
 # char uart_read_char() {
-    15ac:	fe010113          	add	sp,sp,-32
-    15b0:	00812e23          	sw	s0,28(sp)
-    15b4:	02010413          	add	s0,sp,32
+    15cc:	fe010113          	add	sp,sp,-32
+    15d0:	00812e23          	sw	s0,28(sp)
+    15d4:	02010413          	add	s0,sp,32
 #   while ((ch = *UART_IN) == 0)
-    15b8:	00000013          	nop
-    15bc:	ffd00793          	li	a5,-3
-    15c0:	0007c783          	lbu	a5,0(a5)
-    15c4:	fef407a3          	sb	a5,-17(s0)
-    15c8:	fef44783          	lbu	a5,-17(s0)
-    15cc:	0017b793          	seqz	a5,a5
-    15d0:	0ff7f793          	zext.b	a5,a5
-    15d4:	fe0794e3          	bnez	a5,15bc <_Z14uart_read_charv+0x10>
+    15d8:	00000013          	nop
+    15dc:	ffd00793          	li	a5,-3
+    15e0:	0007c783          	lbu	a5,0(a5)
+    15e4:	fef407a3          	sb	a5,-17(s0)
+    15e8:	fef44783          	lbu	a5,-17(s0)
+    15ec:	0017b793          	seqz	a5,a5
+    15f0:	0ff7f793          	zext.b	a5,a5
+    15f4:	fe0794e3          	bnez	a5,15dc <_Z14uart_read_charv+0x10>
 #   return ch;
-    15d8:	fef44783          	lbu	a5,-17(s0)
+    15f8:	fef44783          	lbu	a5,-17(s0)
 # }
-    15dc:	00078513          	mv	a0,a5
-    15e0:	01c12403          	lw	s0,28(sp)
-    15e4:	02010113          	add	sp,sp,32
-    15e8:	00008067          	ret
+    15fc:	00078513          	mv	a0,a5
+    1600:	01c12403          	lw	s0,28(sp)
+    1604:	02010113          	add	sp,sp,32
+    1608:	00008067          	ret
 
-000015ec <_Z15action_mem_testv>:
+0000160c <_Z15action_mem_testv>:
 # void action_mem_test() {
-    15ec:	fe010113          	add	sp,sp,-32
-    15f0:	00112e23          	sw	ra,28(sp)
-    15f4:	00812c23          	sw	s0,24(sp)
-    15f8:	02010413          	add	s0,sp,32
+    160c:	fe010113          	add	sp,sp,-32
+    1610:	00112e23          	sw	ra,28(sp)
+    1614:	00812c23          	sw	s0,24(sp)
+    1618:	02010413          	add	s0,sp,32
 #   uart_send_str("testing memory (write)\r\n");
-    15fc:	000027b7          	lui	a5,0x2
-    1600:	d2c78513          	add	a0,a5,-724 # 1d2c <_Z15action_mem_testv+0x740>
-    1604:	00000097          	auipc	ra,0x0
-    1608:	ef4080e7          	jalr	-268(ra) # 14f8 <_Z13uart_send_strPKc>
+    161c:	000027b7          	lui	a5,0x2
+    1620:	db478513          	add	a0,a5,-588 # 1db4 <memset+0x6b8>
+    1624:	00000097          	auipc	ra,0x0
+    1628:	ef4080e7          	jalr	-268(ra) # 1518 <_Z13uart_send_strPKc>
 #   char *ptr = (char *)0x10000;
-    160c:	000107b7          	lui	a5,0x10
-    1610:	fef42623          	sw	a5,-20(s0)
+    162c:	000107b7          	lui	a5,0x10
+    1630:	fef42623          	sw	a5,-20(s0)
 #   const char *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
-    1614:	002007b7          	lui	a5,0x200
-    1618:	c0078793          	add	a5,a5,-1024 # 1ffc00 <__global_pointer$+0x1fc2c0>
-    161c:	fef42223          	sw	a5,-28(s0)
+    1634:	002007b7          	lui	a5,0x200
+    1638:	c0078793          	add	a5,a5,-1024 # 1ffc00 <__global_pointer$+0x1fc214>
+    163c:	fef42223          	sw	a5,-28(s0)
 #   char ch = 0;
-    1620:	fe0405a3          	sb	zero,-21(s0)
+    1640:	fe0405a3          	sb	zero,-21(s0)
 #   while (ptr < end) {
-    1624:	0200006f          	j	1644 <_Z15action_mem_testv+0x58>
+    1644:	0200006f          	j	1664 <_Z15action_mem_testv+0x58>
 #     *ptr++ = ch++;
-    1628:	feb44703          	lbu	a4,-21(s0)
-    162c:	00170793          	add	a5,a4,1
-    1630:	fef405a3          	sb	a5,-21(s0)
-    1634:	fec42783          	lw	a5,-20(s0)
-    1638:	00178693          	add	a3,a5,1
-    163c:	fed42623          	sw	a3,-20(s0)
-    1640:	00e78023          	sb	a4,0(a5)
+    1648:	feb44703          	lbu	a4,-21(s0)
+    164c:	00170793          	add	a5,a4,1
+    1650:	fef405a3          	sb	a5,-21(s0)
+    1654:	fec42783          	lw	a5,-20(s0)
+    1658:	00178693          	add	a3,a5,1
+    165c:	fed42623          	sw	a3,-20(s0)
+    1660:	00e78023          	sb	a4,0(a5)
 #   while (ptr < end) {
-    1644:	fec42703          	lw	a4,-20(s0)
-    1648:	fe442783          	lw	a5,-28(s0)
-    164c:	fcf76ee3          	bltu	a4,a5,1628 <_Z15action_mem_testv+0x3c>
+    1664:	fec42703          	lw	a4,-20(s0)
+    1668:	fe442783          	lw	a5,-28(s0)
+    166c:	fcf76ee3          	bltu	a4,a5,1648 <_Z15action_mem_testv+0x3c>
 #   uart_send_str("testing memory (read)\r\n");
-    1650:	000027b7          	lui	a5,0x2
-    1654:	d4878513          	add	a0,a5,-696 # 1d48 <_Z15action_mem_testv+0x75c>
-    1658:	00000097          	auipc	ra,0x0
-    165c:	ea0080e7          	jalr	-352(ra) # 14f8 <_Z13uart_send_strPKc>
+    1670:	000027b7          	lui	a5,0x2
+    1674:	dd078513          	add	a0,a5,-560 # 1dd0 <memset+0x6d4>
+    1678:	00000097          	auipc	ra,0x0
+    167c:	ea0080e7          	jalr	-352(ra) # 1518 <_Z13uart_send_strPKc>
 #   ptr = (char *)0x10000;
-    1660:	000107b7          	lui	a5,0x10
-    1664:	fef42623          	sw	a5,-20(s0)
+    1680:	000107b7          	lui	a5,0x10
+    1684:	fef42623          	sw	a5,-20(s0)
 #   ch = 0;
-    1668:	fe0405a3          	sb	zero,-21(s0)
+    1688:	fe0405a3          	sb	zero,-21(s0)
 #   while (ptr < end) {
-    166c:	0440006f          	j	16b0 <_Z15action_mem_testv+0xc4>
+    168c:	0440006f          	j	16d0 <_Z15action_mem_testv+0xc4>
 #     if (*ptr++ != ch++) {
-    1670:	fec42783          	lw	a5,-20(s0)
-    1674:	00178713          	add	a4,a5,1 # 10001 <__global_pointer$+0xc6c1>
-    1678:	fee42623          	sw	a4,-20(s0)
-    167c:	0007c703          	lbu	a4,0(a5)
-    1680:	feb44783          	lbu	a5,-21(s0)
-    1684:	00178693          	add	a3,a5,1
-    1688:	fed405a3          	sb	a3,-21(s0)
-    168c:	40f707b3          	sub	a5,a4,a5
-    1690:	00f037b3          	snez	a5,a5
-    1694:	0ff7f793          	zext.b	a5,a5
-    1698:	00078c63          	beqz	a5,16b0 <_Z15action_mem_testv+0xc4>
+    1690:	fec42783          	lw	a5,-20(s0)
+    1694:	00178713          	add	a4,a5,1 # 10001 <__global_pointer$+0xc615>
+    1698:	fee42623          	sw	a4,-20(s0)
+    169c:	0007c703          	lbu	a4,0(a5)
+    16a0:	feb44783          	lbu	a5,-21(s0)
+    16a4:	00178693          	add	a3,a5,1
+    16a8:	fed405a3          	sb	a3,-21(s0)
+    16ac:	40f707b3          	sub	a5,a4,a5
+    16b0:	00f037b3          	snez	a5,a5
+    16b4:	0ff7f793          	zext.b	a5,a5
+    16b8:	00078c63          	beqz	a5,16d0 <_Z15action_mem_testv+0xc4>
 #       uart_send_str("!!! test memory failed\r\n");
-    169c:	000027b7          	lui	a5,0x2
-    16a0:	d6078513          	add	a0,a5,-672 # 1d60 <_Z15action_mem_testv+0x774>
-    16a4:	00000097          	auipc	ra,0x0
-    16a8:	e54080e7          	jalr	-428(ra) # 14f8 <_Z13uart_send_strPKc>
-#       return;
-    16ac:	0200006f          	j	16cc <_Z15action_mem_testv+0xe0>
-#   while (ptr < end) {
-    16b0:	fec42703          	lw	a4,-20(s0)
-    16b4:	fe442783          	lw	a5,-28(s0)
-    16b8:	faf76ce3          	bltu	a4,a5,1670 <_Z15action_mem_testv+0x84>
-#   uart_send_str("testing memory succeeded\r\n");
     16bc:	000027b7          	lui	a5,0x2
-    16c0:	d7c78513          	add	a0,a5,-644 # 1d7c <_Z15action_mem_testv+0x790>
+    16c0:	de878513          	add	a0,a5,-536 # 1de8 <memset+0x6ec>
     16c4:	00000097          	auipc	ra,0x0
-    16c8:	e34080e7          	jalr	-460(ra) # 14f8 <_Z13uart_send_strPKc>
+    16c8:	e54080e7          	jalr	-428(ra) # 1518 <_Z13uart_send_strPKc>
+#       return;
+    16cc:	0200006f          	j	16ec <_Z15action_mem_testv+0xe0>
+#   while (ptr < end) {
+    16d0:	fec42703          	lw	a4,-20(s0)
+    16d4:	fe442783          	lw	a5,-28(s0)
+    16d8:	faf76ce3          	bltu	a4,a5,1690 <_Z15action_mem_testv+0x84>
+#   uart_send_str("testing memory succeeded\r\n");
+    16dc:	000027b7          	lui	a5,0x2
+    16e0:	e0478513          	add	a0,a5,-508 # 1e04 <memset+0x708>
+    16e4:	00000097          	auipc	ra,0x0
+    16e8:	e34080e7          	jalr	-460(ra) # 1518 <_Z13uart_send_strPKc>
 # }
-    16cc:	01c12083          	lw	ra,28(sp)
-    16d0:	01812403          	lw	s0,24(sp)
-    16d4:	02010113          	add	sp,sp,32
-    16d8:	00008067          	ret
+    16ec:	01c12083          	lw	ra,28(sp)
+    16f0:	01812403          	lw	s0,24(sp)
+    16f4:	02010113          	add	sp,sp,32
+    16f8:	00008067          	ret
+
+000016fc <memset>:
+# extern "C" void *memset(void *str, int ch, int n) {
+    16fc:	fd010113          	add	sp,sp,-48
+    1700:	02812623          	sw	s0,44(sp)
+    1704:	03010413          	add	s0,sp,48
+    1708:	fca42e23          	sw	a0,-36(s0)
+    170c:	fcb42c23          	sw	a1,-40(s0)
+    1710:	fcc42a23          	sw	a2,-44(s0)
+#   char *ptr = reinterpret_cast<char *>(str);
+    1714:	fdc42783          	lw	a5,-36(s0)
+    1718:	fef42623          	sw	a5,-20(s0)
+#   while (n--) {
+    171c:	01c0006f          	j	1738 <memset+0x3c>
+#     *ptr++ = (char)ch;
+    1720:	fd842783          	lw	a5,-40(s0)
+    1724:	0ff7f713          	zext.b	a4,a5
+    1728:	fec42783          	lw	a5,-20(s0)
+    172c:	00178693          	add	a3,a5,1
+    1730:	fed42623          	sw	a3,-20(s0)
+    1734:	00e78023          	sb	a4,0(a5)
+#   while (n--) {
+    1738:	fd442783          	lw	a5,-44(s0)
+    173c:	fff78713          	add	a4,a5,-1
+    1740:	fce42a23          	sw	a4,-44(s0)
+    1744:	00f037b3          	snez	a5,a5
+    1748:	0ff7f793          	zext.b	a5,a5
+    174c:	fc079ae3          	bnez	a5,1720 <memset+0x24>
+#   return str;
+    1750:	fdc42783          	lw	a5,-36(s0)
+# }
+    1754:	00078513          	mv	a0,a5
+    1758:	02c12403          	lw	s0,44(sp)
+    175c:	03010113          	add	sp,sp,48
+    1760:	00008067          	ret
