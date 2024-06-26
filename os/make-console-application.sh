@@ -11,7 +11,6 @@ g++ -o $BIN -O0 -g -Wall -Wextra -pedantic \
     -Wconversion \
     -Wshadow \
     -Wno-unused-parameter \
-    -Wno-changes-meaning \
     console-application.cpp
 
 ls -l $BIN

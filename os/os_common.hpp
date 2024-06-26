@@ -435,6 +435,9 @@ void print_help() {
 void input(input_buffer *buf) {
   while (1) {
     const char ch = uart_read_char();
+    // uart_send_hex_byte(ch);
+    // uart_send_char(' ');
+    // continue;
     if (ch == CHAR_BACKSPACE) {
       if (buf->ix > 0) {
         buf->ix--;
