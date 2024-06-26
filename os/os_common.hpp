@@ -65,7 +65,7 @@ public:
     if (ix_ == end_) {
       line_[ix_] = ch;
       ++ix_;
-      end_ = ix_;
+      ++end_;
       return true;
     }
 
@@ -520,7 +520,6 @@ auto input(input_buffer &buf) -> void {
         uart_send_char(ch);
       }
     } else if (ch == CHAR_CARRIAGE_RETURN || buf.is_full()) {
-      // -1 since last char must be 0
       buf.set_eos();
       return;
     } else {
