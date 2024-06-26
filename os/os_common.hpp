@@ -38,13 +38,14 @@ using int32_t = int;
 using uint32_t = unsigned int;
 using int64_t = long long;
 using uint64_t = unsigned long long;
+
 using name_t = char const *;
 using location_id_t = uint8_t;
 using object_id_t = uint8_t;
 using entity_id_t = uint8_t;
 using direction_t = uint8_t;
 
-constexpr uint8_t CHAR_BACKSPACE = 0x7f;
+constexpr char CHAR_BACKSPACE = 0x7f;
 constexpr uint32_t LOCATION_MAX_OBJECTS = 128;
 constexpr uint32_t LOCATION_MAX_ENTITIES = 8;
 constexpr uint32_t LOCATION_MAX_EXITS = 6;
