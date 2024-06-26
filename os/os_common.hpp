@@ -51,9 +51,71 @@ constexpr uint32_t LOCATION_MAX_ENTITIES = 8;
 constexpr uint32_t LOCATION_MAX_EXITS = 6;
 constexpr uint32_t ENTITY_MAX_OBJECTS = 32;
 
-struct input_buffer {
-  char line[80]{};
-  uint8_t ix{};
+class input_buffer final {
+  char line_[80]{};
+  uint8_t ix_{};
+  uint8_t end_{};
+
+public:
+  auto insert(char ch) -> bool {
+    if (end_ == sizeof(line_) - 1) {
+      return false;
+    }
+
+    if (ix_ == end_) {
+      line_[ix_] = ch;
+      ++ix_;
+      end_ = ix_;
+      return true;
+    }
+
+    ++end_;
+    for (uint32_t i = end_; i > ix_; --i) {
+      line_[i] = line_[i - 1];
+    }
+    line_[ix_] = ch;
+    return true;
+  }
+
+  auto backspace() -> bool {
+    if (ix_ == 0) {
+      return false;
+    }
+
+    if (ix_ == end_) {
+      --end_;
+      --ix_;
+      return true;
+    }
+
+    for (uint32_t i = ix_ - 1; i < end_; ++i) {
+      line_[i] = line_[i + 1];
+    }
+    --ix_;
+    --end_;
+    return true;
+  }
+
+  auto del() -> void {
+    if (ix_ == end_) {
+      return;
+    }
+
+    for (uint32_t i = ix_ + 1; i < end_; ++i) {
+      line_[i - 1] = line_[i];
+    }
+    --end_;
+  }
+
+  auto reset() -> void { ix_ = end_ = 0; }
+
+  auto set_eos() -> void { line_[end_] = '\0'; }
+
+  auto line() -> char * { return line_; }
+
+  auto is_full() -> bool { return end_ == sizeof(line_) - 1; }
+
+  auto end_index() -> uint32_t { return end_; }
 };
 
 struct object {
@@ -143,7 +205,7 @@ extern "C" auto run() -> void {
 
 auto handle_input(entity_id_t eid, input_buffer &buf) -> void {
   char const *words[8];
-  char *ptr = buf.line;
+  char *ptr = buf.line();
   unsigned nwords = 0;
   while (true) {
     words[nwords++] = ptr;
@@ -447,27 +509,25 @@ auto print_help() -> void {
 }
 
 auto input(input_buffer &buf) -> void {
+  buf.reset();
   while (true) {
     char const ch = uart_read_char();
     // uart_send_hex_byte(ch);
     // uart_send_char(' ');
     // continue;
     if (ch == CHAR_BACKSPACE) {
-      if (buf.ix > 0) {
-        buf.ix--;
+      if (buf.backspace()) {
         uart_send_char(ch);
       }
-    } else if (ch == CHAR_CARRIAGE_RETURN || buf.ix == sizeof(buf.line) - 1) {
+    } else if (ch == CHAR_CARRIAGE_RETURN || buf.is_full()) {
       // -1 since last char must be 0
-      buf.line[buf.ix] = 0;
-      buf.ix = 0;
+      buf.set_eos();
       return;
     } else {
-      buf.line[buf.ix] = ch;
-      buf.ix++;
+      buf.insert(ch);
       uart_send_char(ch);
     }
-    led_set(~buf.ix);
+    led_set(~(uint8_t)buf.end_index());
   }
 }
 
