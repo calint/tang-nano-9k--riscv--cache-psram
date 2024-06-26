@@ -42,9 +42,13 @@ riscv32-unknown-elf-g++ -std=c++23 \
 	-Wall -Wextra -pedantic \
 	-Wconversion \
 	-Wshadow \
+	-Wno-unused-function \
+	-fno-zero-initialized-in-bss \
 	-Wl,-Ttext=0x0 \
 	-Wl,--no-relax \
 	os_start.S os.cpp -o $BIN
+
+# note: without -fno-zero-initialized-in-bss static bool initiated to false are not exported in the binary
 
 #	-Wpadded \
 
@@ -58,6 +62,6 @@ chmod -x $BIN.bin
 riscv32-unknown-elf-objdump --source-comment -Sr $BIN > $BIN.lst || true
 riscv32-unknown-elf-objdump -s --section=.rodata --section=.data --section=.bss $BIN > $BIN.dat || true
 
-rm $BIN
+# rm $BIN
 
 ls -l $BIN.bin $BIN.lst $BIN.dat

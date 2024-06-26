@@ -7,7 +7,7 @@ constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
 
 #include "os_common.hpp"
 
-auto led_set(unsigned char bits) -> void { *LED = bits; }
+auto led_set(uint8_t bits) -> void { *LED = bits; }
 
 auto uart_send_str(char const *str) -> void {
   while (*str) {
@@ -48,6 +48,12 @@ auto action_mem_test() -> void {
     }
   }
   uart_send_str("testing memory succeeded\r\n");
+}
+
+auto uart_send_move_back(uint32_t const n) -> void {
+  for (uint32_t i = 0; i < n; ++i) {
+    uart_send_char('\b');
+  }
 }
 
 // built-in function called by compiler

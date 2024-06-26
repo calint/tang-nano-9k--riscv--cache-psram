@@ -74,6 +74,7 @@ public:
       line_[i] = line_[i - 1];
     }
     line_[ix_] = ch;
+    ++ix_;
     return true;
   }
 
@@ -116,6 +117,26 @@ public:
   auto is_full() -> bool { return end_ == sizeof(line_) - 1; }
 
   auto end_index() -> uint32_t { return end_; }
+
+  auto index() -> uint32_t { return ix_; }
+
+  auto move_cursor_left() -> bool {
+    if (ix_ == 0) {
+      return false;
+    }
+
+    --ix_;
+    return true;
+  }
+
+  auto move_cursor_right() -> bool {
+    if (ix_ == end_) {
+      return false;
+    }
+
+    ++ix_;
+    return true;
+  }
 };
 
 struct object {
@@ -149,37 +170,39 @@ static char const *exit_names[] = {"north", "east", "south",
                                    "west",  "up",   "down"};
 
 // implemented in platform dependent source
-auto led_set(uint8_t bits) -> void;
-auto uart_send_str(char const *str) -> void;
-auto uart_send_char(char ch) -> void;
-auto uart_read_char() -> char;
-auto uart_send_hex_byte(char ch) -> void;
-auto uart_send_hex_nibble(char nibble) -> void;
+static auto led_set(uint8_t bits) -> void;
+static auto uart_send_str(char const *str) -> void;
+static auto uart_send_char(char ch) -> void;
+static auto uart_read_char() -> char;
+static auto uart_send_hex_byte(char ch) -> void;
+static auto uart_send_hex_nibble(char nibble) -> void;
+static auto uart_send_move_back(uint32_t n) -> void;
 
 // API
-auto print_help() -> void;
-auto print_location(location_id_t lid,
-                    entity_id_t eid_exclude_from_output) -> void;
-auto add_object_to_list(object_id_t list[], uint32_t list_len,
-                        object_id_t oid) -> bool;
-auto remove_object_from_list_by_index(object_id_t list[], uint32_t ix) -> void;
-auto add_entity_to_list(entity_id_t list[], uint32_t list_len,
-                        entity_id_t eid) -> bool;
-auto remove_entity_from_list_by_index(entity_id_t list[], uint32_t ix) -> void;
-auto remove_entity_from_list(entity_id_t list[], uint32_t list_len,
-                             entity_id_t eid) -> void;
-auto action_inventory(entity_id_t eid) -> void;
-auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void;
-auto action_go(entity_id_t eid, direction_t dir) -> void;
-auto action_drop(entity_id_t eid, name_t obj) -> void;
-auto action_take(entity_id_t eid, name_t obj) -> void;
-auto input(input_buffer &buf) -> void;
-auto handle_input(entity_id_t eid, input_buffer &buf) -> void;
-auto strings_equal(char const *s1, char const *s2) -> bool;
-auto action_mem_test() -> void;
+static auto print_help() -> void;
+static auto print_location(location_id_t lid,
+                           entity_id_t eid_exclude_from_output) -> void;
+static auto add_object_to_list(object_id_t list[], uint32_t list_len,
+                               object_id_t oid) -> bool;
+static auto remove_object_from_list_by_index(object_id_t list[],
+                                             uint32_t ix) -> void;
+static auto add_entity_to_list(entity_id_t list[], uint32_t list_len,
+                               entity_id_t eid) -> bool;
+static auto remove_entity_from_list_by_index(entity_id_t list[],
+                                             uint32_t ix) -> void;
+static auto remove_entity_from_list(entity_id_t list[], uint32_t list_len,
+                                    entity_id_t eid) -> void;
+static auto action_inventory(entity_id_t eid) -> void;
+static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void;
+static auto action_go(entity_id_t eid, direction_t dir) -> void;
+static auto action_drop(entity_id_t eid, name_t obj) -> void;
+static auto action_take(entity_id_t eid, name_t obj) -> void;
+static auto input(input_buffer &buf) -> void;
+static auto handle_input(entity_id_t eid, input_buffer &buf) -> void;
+static auto strings_equal(char const *s1, char const *s2) -> bool;
+static auto action_mem_test() -> void;
 
 extern "C" auto run() -> void {
-
   led_set(0); // turn all leds on
 
   entity_id_t active_entity = 1;
@@ -203,7 +226,7 @@ extern "C" auto run() -> void {
   }
 }
 
-auto handle_input(entity_id_t eid, input_buffer &buf) -> void {
+static auto handle_input(entity_id_t eid, input_buffer &buf) -> void {
   char const *words[8];
   char *ptr = buf.line();
   unsigned nwords = 0;
@@ -221,10 +244,10 @@ auto handle_input(entity_id_t eid, input_buffer &buf) -> void {
       break;
     }
   }
-  //  for (unsigned i = 0; i < nwords; i++) {
-  //    uart_send_str(words[i]);
-  //    uart_send_str("\r\n");
-  //  }
+  // for (unsigned i = 0; i < nwords; i++) {
+  //   uart_send_str(words[i]);
+  //   uart_send_str("\r\n");
+  // }
   if (strings_equal(words[0], "help")) {
     print_help();
   } else if (strings_equal(words[0], "i")) {
@@ -267,8 +290,8 @@ auto handle_input(entity_id_t eid, input_buffer &buf) -> void {
   }
 }
 
-auto print_location(location_id_t lid,
-                    entity_id_t eid_exclude_from_output) -> void {
+static auto print_location(location_id_t lid,
+                           entity_id_t eid_exclude_from_output) -> void {
   location const &loc = locations[lid];
   uart_send_str("u r in ");
   uart_send_str(loc.name);
@@ -332,7 +355,7 @@ auto print_location(location_id_t lid,
   uart_send_str("\r\n");
 }
 
-auto action_inventory(entity_id_t eid) -> void {
+static auto action_inventory(entity_id_t eid) -> void {
   uart_send_str("u have: ");
   bool add_list_sep = false;
   object_id_t const *lso = entities[eid].objects;
@@ -353,7 +376,8 @@ auto action_inventory(entity_id_t eid) -> void {
   uart_send_str("\r\n");
 }
 
-auto remove_object_from_list_by_index(object_id_t list[], unsigned ix) -> void {
+static auto remove_object_from_list_by_index(object_id_t list[],
+                                             unsigned ix) -> void {
   object_id_t *ptr = &list[ix];
   while (true) {
     *ptr = *(ptr + 1);
@@ -363,8 +387,8 @@ auto remove_object_from_list_by_index(object_id_t list[], unsigned ix) -> void {
   }
 }
 
-auto add_object_to_list(object_id_t list[], unsigned list_len,
-                        object_id_t oid) -> bool {
+static auto add_object_to_list(object_id_t list[], unsigned list_len,
+                               object_id_t oid) -> bool {
   // list_len - 1 since last element has to be 0
   for (unsigned i = 0; i < list_len - 1; i++) {
     if (list[i])
@@ -377,8 +401,8 @@ auto add_object_to_list(object_id_t list[], unsigned list_len,
   return false;
 }
 
-auto add_entity_to_list(entity_id_t list[], unsigned list_len,
-                        entity_id_t eid) -> bool {
+static auto add_entity_to_list(entity_id_t list[], unsigned list_len,
+                               entity_id_t eid) -> bool {
   // list_len - 1 since last element has to be 0
   for (unsigned i = 0; i < list_len - 1; i++) {
     if (list[i])
@@ -391,8 +415,8 @@ auto add_entity_to_list(entity_id_t list[], unsigned list_len,
   return false;
 }
 
-auto remove_entity_from_list(entity_id_t list[], unsigned list_len,
-                             entity_id_t eid) -> void {
+static auto remove_entity_from_list(entity_id_t list[], unsigned list_len,
+                                    entity_id_t eid) -> void {
   // list_len - 1 since last element has to be 0
   for (unsigned i = 0; i < list_len - 1; i++) {
     if (list[i] != eid)
@@ -407,7 +431,8 @@ auto remove_entity_from_list(entity_id_t list[], unsigned list_len,
   uart_send_str("entity not here\r\n");
 }
 
-auto remove_entity_from_list_by_index(entity_id_t list[], unsigned ix) -> void {
+static auto remove_entity_from_list_by_index(entity_id_t list[],
+                                             unsigned ix) -> void {
   entity_id_t *ptr = &list[ix];
   while (true) {
     *ptr = *(ptr + 1);
@@ -417,7 +442,7 @@ auto remove_entity_from_list_by_index(entity_id_t list[], unsigned ix) -> void {
   }
 }
 
-auto action_take(entity_id_t eid, name_t obj) -> void {
+static auto action_take(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
   object_id_t *lso = locations[ent.location].objects;
   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
@@ -435,7 +460,7 @@ auto action_take(entity_id_t eid, name_t obj) -> void {
   uart_send_str(" not here\r\n\r\n");
 }
 
-auto action_drop(entity_id_t eid, name_t obj) -> void {
+static auto action_drop(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
   object_id_t *lso = ent.objects;
   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
@@ -455,7 +480,7 @@ auto action_drop(entity_id_t eid, name_t obj) -> void {
   uart_send_str("\r\n\r\n");
 }
 
-auto action_go(entity_id_t eid, direction_t dir) -> void {
+static auto action_go(entity_id_t eid, direction_t dir) -> void {
   entity &ent = entities[eid];
   location &loc = locations[ent.location];
   location_id_t const to = loc.exits[dir];
@@ -469,7 +494,7 @@ auto action_go(entity_id_t eid, direction_t dir) -> void {
   }
 }
 
-auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
+static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
   entity &ent = entities[eid];
   location const &loc = locations[ent.location];
   entity_id_t const *lse = loc.entities;
@@ -499,7 +524,7 @@ auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
   uart_send_str(" is not here\r\n\r\n");
 }
 
-auto print_help() -> void {
+static auto print_help() -> void {
   uart_send_str(
       "\r\ncommand:\r\n  n: go north\r\n  e: go east\r\n  s: go south\r\n  w: "
       "go west\r\n  i: "
@@ -508,29 +533,112 @@ auto print_help() -> void {
       "message\r\n\r\n");
 }
 
-auto input(input_buffer &buf) -> void {
+static auto input(input_buffer &buf) -> void {
+  static bool input_0x1B = false;
+  static bool input_0x5B = false;
+  static bool input_0x33 = false;
+
   buf.reset();
   while (true) {
     char const ch = uart_read_char();
     // uart_send_hex_byte(ch);
     // uart_send_char(' ');
-    // continue;
+    if (ch == 0x1B) {
+      // escape sequence
+      input_0x1B = true;
+      continue;
+    }
+    if (input_0x1B) {
+      // is in escape sequence
+      if (ch == 0x5B) {
+        // note: sent by linux terminal
+        input_0x5B = true;
+        continue;
+      }
+      if (ch == 0x44) {
+        // 0x1B (0x5B) 0x44
+        // arrow left
+        if (buf.move_cursor_left()) {
+          uart_send_char(0x1B);
+          if (input_0x5B) {
+            uart_send_char(0x5B);
+          }
+          uart_send_char(0x44);
+        }
+        input_0x1B = false;
+        input_0x5B = false;
+        continue;
+      }
+      if (ch == 0x43) {
+        // 0x1B (0x5B) 0x43
+        // arrow right
+        if (buf.move_cursor_right()) {
+          uart_send_char(0x1B);
+          if (input_0x5B) {
+            uart_send_char(0x5B);
+          }
+          uart_send_char(0x43);
+        }
+        input_0x1B = false;
+        input_0x5B = false;
+        continue;
+      }
+      if (ch == 0x33) {
+        input_0x33 = true;
+        continue;
+      }
+      if (input_0x33) {
+        // in escape sequence 0x1B 0x33
+        if (ch == 0x7e) {
+          // escape sequence 0x1B 0x33 0x7E
+          // delete
+          buf.del();
+          for (uint32_t i = buf.index(); i < buf.end_index(); ++i) {
+            uart_send_char(buf.line()[i]);
+          }
+          uart_send_char(' ');
+          uart_send_move_back(buf.end_index() - buf.index() + 1);
+          input_0x1B = false;
+          input_0x33 = false;
+          continue;
+        } else {
+          input_0x1B = false;
+          input_0x33 = false;
+          continue;
+        }
+      } else {
+        input_0x1B = false;
+        continue;
+      }
+    }
     if (ch == CHAR_BACKSPACE) {
       if (buf.backspace()) {
         uart_send_char(ch);
+        char const *line = buf.line();
+        for (uint32_t i = buf.index(); i < buf.end_index(); ++i) {
+          uart_send_char(line[i]);
+        }
+        uart_send_char(' ');
+        uart_send_move_back(buf.end_index() - buf.index() + 1);
+        // +1 to compensate for the ' ' that erases the trailing output
       }
     } else if (ch == CHAR_CARRIAGE_RETURN || buf.is_full()) {
       buf.set_eos();
       return;
     } else {
-      buf.insert(ch);
       uart_send_char(ch);
+      buf.insert(ch);
+      char const *line = buf.line();
+      for (uint32_t i = buf.index(); i < buf.end_index(); ++i) {
+        uart_send_char(line[i]);
+      }
+      uart_send_move_back(buf.end_index() - buf.index());
     }
-    led_set(~(uint8_t)buf.end_index());
+    // led_set(~(uint8_t)buf.end_index());
   }
 }
 
-auto strings_equal(char const *s1, char const *s2) -> bool {
+static auto strings_equal(char const *s1, char const *s2) -> bool {
   while (true) {
     if (*s1 - *s2)
       return false;
@@ -541,12 +649,12 @@ auto strings_equal(char const *s1, char const *s2) -> bool {
   }
 }
 
-auto uart_send_hex_byte(char const ch) -> void {
+static auto uart_send_hex_byte(char const ch) -> void {
   uart_send_hex_nibble((ch & 0xf0) >> 4);
   uart_send_hex_nibble(ch & 0x0f);
 }
 
-auto uart_send_hex_nibble(char const nibble) -> void {
+static auto uart_send_hex_nibble(char const nibble) -> void {
   if (nibble < 10) {
     uart_send_char('0' + nibble);
   } else {

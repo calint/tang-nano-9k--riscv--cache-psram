@@ -30,6 +30,12 @@ void uart_send_str(const char *str) { printf("%s", str); }
 
 char uart_read_char() { return (char)getchar(); }
 
-void led_set(unsigned char bits) {}
+void led_set(uint8_t bits) {}
+
+auto uart_send_move_back(uint32_t const n) -> void {
+  for (uint32_t i = 0; i < n; ++i) {
+    putchar('\b');
+  }
+}
 
 void action_mem_test() { printf("memory test not supported\n"); }
