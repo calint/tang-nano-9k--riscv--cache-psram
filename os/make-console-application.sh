@@ -14,6 +14,7 @@ g++ -std=c++23 \
     -Wconversion \
     -Wshadow \
     -Wno-unused-parameter \
+    -Wno-unused-function \
     console-application.cpp -o $BIN 
 
 ls -l $BIN

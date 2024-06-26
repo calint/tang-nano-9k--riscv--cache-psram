@@ -112,13 +112,7 @@ public:
 
   auto set_eos() -> void { line_[end_] = '\0'; }
 
-  auto line() -> char * { return line_; }
-
   auto is_full() -> bool { return end_ == sizeof(line_) - 1; }
-
-  auto end_index() -> uint32_t { return end_; }
-
-  auto index() -> uint32_t { return ix_; }
 
   auto move_cursor_left() -> bool {
     if (ix_ == 0) {
@@ -137,6 +131,16 @@ public:
     ++ix_;
     return true;
   }
+
+  auto send_from_index_to_end(void (*f)(char)) -> void {
+    for (uint32_t i = ix_; i < end_; ++i) {
+      f(line_[i]);
+    }
+  }
+
+  auto characters_after_cursor() -> uint32_t { return end_ - ix_; }
+
+  auto line() -> char * { return line_; }
 };
 
 struct object {
@@ -541,8 +545,6 @@ static auto input(input_buffer &buf) -> void {
   buf.reset();
   while (true) {
     char const ch = uart_read_char();
-    // uart_send_hex_byte(ch);
-    // uart_send_char(' ');
     if (ch == 0x1B) {
       // escape sequence
       input_0x1B = true;
@@ -551,12 +553,13 @@ static auto input(input_buffer &buf) -> void {
     if (input_0x1B) {
       // is in escape sequence
       if (ch == 0x5B) {
+        // in escape sequence: 0x1B 0x5B
         // note: sent by linux terminal
         input_0x5B = true;
         continue;
       }
       if (ch == 0x44) {
-        // 0x1B (0x5B) 0x44
+        // in escape sequence: 0x1B (0x5B) 0x44
         // arrow left
         if (buf.move_cursor_left()) {
           uart_send_char(0x1B);
@@ -570,7 +573,7 @@ static auto input(input_buffer &buf) -> void {
         continue;
       }
       if (ch == 0x43) {
-        // 0x1B (0x5B) 0x43
+        // in escape sequence:0x1B (0x5B) 0x43
         // arrow right
         if (buf.move_cursor_right()) {
           uart_send_char(0x1B);
@@ -584,42 +587,36 @@ static auto input(input_buffer &buf) -> void {
         continue;
       }
       if (ch == 0x33) {
+        // in escape sequence:0x1B (0x5B) 0x33
         input_0x33 = true;
         continue;
       }
       if (input_0x33) {
-        // in escape sequence 0x1B 0x33
+        // in escape sequence: 0x1B (0x5B) 0x33
         if (ch == 0x7e) {
-          // escape sequence 0x1B 0x33 0x7E
+          // escape sequence 0x1B (0x5B) 0x33 0x7E
           // delete
           buf.del();
-          for (uint32_t i = buf.index(); i < buf.end_index(); ++i) {
-            uart_send_char(buf.line()[i]);
-          }
+          buf.send_from_index_to_end([](char c) { uart_send_char(c); });
           uart_send_char(' ');
-          uart_send_move_back(buf.end_index() - buf.index() + 1);
-          input_0x1B = false;
-          input_0x33 = false;
-          continue;
-        } else {
-          input_0x1B = false;
-          input_0x33 = false;
-          continue;
+          uart_send_move_back(buf.characters_after_cursor() + 1);
         }
-      } else {
         input_0x1B = false;
+        input_0x5B = false;
+        input_0x33 = false;
         continue;
       }
+      // unrecognized escape sequence; reset
+      input_0x1B = false;
+      input_0x5B = false;
+      continue;
     }
     if (ch == CHAR_BACKSPACE) {
       if (buf.backspace()) {
         uart_send_char(ch);
-        char const *line = buf.line();
-        for (uint32_t i = buf.index(); i < buf.end_index(); ++i) {
-          uart_send_char(line[i]);
-        }
+        buf.send_from_index_to_end([](char c) { uart_send_char(c); });
         uart_send_char(' ');
-        uart_send_move_back(buf.end_index() - buf.index() + 1);
+        uart_send_move_back(buf.characters_after_cursor() + 1);
         // +1 to compensate for the ' ' that erases the trailing output
       }
     } else if (ch == CHAR_CARRIAGE_RETURN || buf.is_full()) {
@@ -628,11 +625,8 @@ static auto input(input_buffer &buf) -> void {
     } else {
       uart_send_char(ch);
       buf.insert(ch);
-      char const *line = buf.line();
-      for (uint32_t i = buf.index(); i < buf.end_index(); ++i) {
-        uart_send_char(line[i]);
-      }
-      uart_send_move_back(buf.end_index() - buf.index());
+      buf.send_from_index_to_end([](char const c) { uart_send_char(c); });
+      uart_send_move_back(buf.characters_after_cursor());
     }
     // led_set(~(uint8_t)buf.end_index());
   }
