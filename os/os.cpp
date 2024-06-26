@@ -7,9 +7,9 @@ constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
 
 #include "os_common.hpp"
 
-void led_set(unsigned char bits) { *LED = bits; }
+auto led_set(unsigned char bits) -> void { *LED = bits; }
 
-void uart_send_str(char const *str) {
+auto uart_send_str(char const *str) -> void {
   while (*str) {
     while (*UART_OUT)
       ;
@@ -17,20 +17,20 @@ void uart_send_str(char const *str) {
   }
 }
 
-void uart_send_char(char const ch) {
+auto uart_send_char(char const ch) -> void {
   while (*UART_OUT)
     ;
   *UART_OUT = ch;
 }
 
-char uart_read_char() {
+auto uart_read_char() -> char {
   char ch;
   while ((ch = *UART_IN) == 0)
     ;
   return ch;
 }
 
-void action_mem_test() {
+auto action_mem_test() -> void {
   uart_send_str("testing memory (write)\r\n");
   char *ptr = (char *)0x10000;
   char const *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
@@ -51,7 +51,7 @@ void action_mem_test() {
 }
 
 // built-in function called by compiler
-extern "C" void *memset(void *str, int ch, int n) {
+extern "C" auto memset(void *str, int ch, int n) -> void * {
   char *ptr = reinterpret_cast<char *>(str);
   while (n--) {
     *ptr++ = (char)ch;

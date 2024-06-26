@@ -1386,7 +1386,7 @@ Disassembly of section .text:
     14e4:	00008067          	ret
 
 000014e8 <_Z7led_seth>:
-# void led_set(unsigned char bits) { *LED = bits; }
+# auto led_set(unsigned char bits) -> void { *LED = bits; }
     14e8:	fe010113          	add	sp,sp,-32
     14ec:	00812e23          	sw	s0,28(sp)
     14f0:	02010413          	add	s0,sp,32
@@ -1401,7 +1401,7 @@ Disassembly of section .text:
     1514:	00008067          	ret
 
 00001518 <_Z13uart_send_strPKc>:
-# void uart_send_str(char const *str) {
+# auto uart_send_str(char const *str) -> void {
     1518:	fe010113          	add	sp,sp,-32
     151c:	00812e23          	sw	s0,28(sp)
     1520:	02010413          	add	s0,sp,32
@@ -1435,7 +1435,7 @@ Disassembly of section .text:
     157c:	00008067          	ret
 
 00001580 <_Z14uart_send_charc>:
-# void uart_send_char(char const ch) {
+# auto uart_send_char(char const ch) -> void {
     1580:	fe010113          	add	sp,sp,-32
     1584:	00812e23          	sw	s0,28(sp)
     1588:	02010413          	add	s0,sp,32
@@ -1460,7 +1460,7 @@ Disassembly of section .text:
     15c8:	00008067          	ret
 
 000015cc <_Z14uart_read_charv>:
-# char uart_read_char() {
+# auto uart_read_char() -> char {
     15cc:	fe010113          	add	sp,sp,-32
     15d0:	00812e23          	sw	s0,28(sp)
     15d4:	02010413          	add	s0,sp,32
@@ -1482,7 +1482,7 @@ Disassembly of section .text:
     1608:	00008067          	ret
 
 0000160c <_Z15action_mem_testv>:
-# void action_mem_test() {
+# auto action_mem_test() -> void {
     160c:	fe010113          	add	sp,sp,-32
     1610:	00112e23          	sw	ra,28(sp)
     1614:	00812c23          	sw	s0,24(sp)
@@ -1562,7 +1562,7 @@ Disassembly of section .text:
     16f8:	00008067          	ret
 
 000016fc <memset>:
-# extern "C" void *memset(void *str, int ch, int n) {
+# extern "C" auto memset(void *str, int ch, int n) -> void * {
     16fc:	fd010113          	add	sp,sp,-48
     1700:	02812623          	sw	s0,44(sp)
     1704:	03010413          	add	s0,sp,48
