@@ -98,8 +98,8 @@ void action_go(entity_id_t eid, direction_t dir);
 void action_drop(entity_id_t eid, name_t obj);
 void action_take(entity_id_t eid, name_t obj);
 void action_mem_test();
-void input(input_buffer *buf);
-void handle_input(entity_id_t eid, input_buffer *buf);
+void input(input_buffer &buf);
+void handle_input(entity_id_t eid, input_buffer &buf);
 bool strings_equal(const char *s1, const char *s2);
 
 extern "C" void run() {
@@ -118,9 +118,9 @@ extern "C" void run() {
     print_location(ent->location, active_entity);
     uart_send_str(ent->name);
     uart_send_str(" > ");
-    input(&inbuf);
+    input(inbuf);
     uart_send_str("\r\n");
-    handle_input(active_entity, &inbuf);
+    handle_input(active_entity, inbuf);
     if (active_entity == 1)
       active_entity = 2;
     else
@@ -128,9 +128,9 @@ extern "C" void run() {
   }
 }
 
-void handle_input(entity_id_t eid, input_buffer *buf) {
+void handle_input(entity_id_t eid, input_buffer &buf) {
   const char *words[8];
-  char *ptr = buf->line;
+  char *ptr = buf.line;
   unsigned nwords = 0;
   while (1) {
     words[nwords++] = ptr;
@@ -432,28 +432,28 @@ void print_help() {
       "message\r\n\r\n");
 }
 
-void input(input_buffer *buf) {
+void input(input_buffer &buf) {
   while (1) {
     const char ch = uart_read_char();
     // uart_send_hex_byte(ch);
     // uart_send_char(' ');
     // continue;
     if (ch == CHAR_BACKSPACE) {
-      if (buf->ix > 0) {
-        buf->ix--;
+      if (buf.ix > 0) {
+        buf.ix--;
         uart_send_char(ch);
       }
-    } else if (ch == CHAR_CARRIAGE_RETURN || buf->ix == sizeof(buf->line) - 1) {
+    } else if (ch == CHAR_CARRIAGE_RETURN || buf.ix == sizeof(buf.line) - 1) {
       // -1 since last char must be 0
-      buf->line[buf->ix] = 0;
-      buf->ix = 0;
+      buf.line[buf.ix] = 0;
+      buf.ix = 0;
       return;
     } else {
-      buf->line[buf->ix] = ch;
-      buf->ix++;
+      buf.line[buf.ix] = ch;
+      buf.ix++;
       uart_send_char(ch);
     }
-    led_set(~buf->ix);
+    led_set(~buf.ix);
   }
 }
 

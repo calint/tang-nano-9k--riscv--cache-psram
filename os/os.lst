@@ -62,7 +62,7 @@ Disassembly of section .text:
       bc:	f9440793          	add	a5,s0,-108
       c0:	00078513          	mv	a0,a5
       c4:	00001097          	auipc	ra,0x1
-      c8:	1a4080e7          	jalr	420(ra) # 1268 <_Z5inputP12input_buffer>
+      c8:	1a4080e7          	jalr	420(ra) # 1268 <_Z5inputR12input_buffer>
       cc:	000027b7          	lui	a5,0x2
       d0:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
       d4:	00001097          	auipc	ra,0x1
@@ -72,7 +72,7 @@ Disassembly of section .text:
       e4:	00070593          	mv	a1,a4
       e8:	00078513          	mv	a0,a5
       ec:	00000097          	auipc	ra,0x0
-      f0:	02c080e7          	jalr	44(ra) # 118 <_Z12handle_inputhP12input_buffer>
+      f0:	02c080e7          	jalr	44(ra) # 118 <_Z12handle_inputhR12input_buffer>
       f4:	fef44703          	lbu	a4,-17(s0)
       f8:	00100793          	li	a5,1
       fc:	00f71863          	bne	a4,a5,10c <run+0x104>
@@ -83,7 +83,7 @@ Disassembly of section .text:
      110:	fef407a3          	sb	a5,-17(s0)
      114:	f45ff06f          	j	58 <run+0x50>
 
-00000118 <_Z12handle_inputhP12input_buffer>:
+00000118 <_Z12handle_inputhR12input_buffer>:
      118:	fb010113          	add	sp,sp,-80
      11c:	04112623          	sw	ra,76(sp)
      120:	04812423          	sw	s0,72(sp)
@@ -102,20 +102,20 @@ Disassembly of section .text:
      154:	ff078793          	add	a5,a5,-16
      158:	008787b3          	add	a5,a5,s0
      15c:	fce7ac23          	sw	a4,-40(a5)
-     160:	0100006f          	j	170 <_Z12handle_inputhP12input_buffer+0x58>
+     160:	0100006f          	j	170 <_Z12handle_inputhR12input_buffer+0x58>
      164:	fec42783          	lw	a5,-20(s0)
      168:	00178793          	add	a5,a5,1
      16c:	fef42623          	sw	a5,-20(s0)
      170:	fec42783          	lw	a5,-20(s0)
      174:	0007c783          	lbu	a5,0(a5)
-     178:	00078a63          	beqz	a5,18c <_Z12handle_inputhP12input_buffer+0x74>
+     178:	00078a63          	beqz	a5,18c <_Z12handle_inputhR12input_buffer+0x74>
      17c:	fec42783          	lw	a5,-20(s0)
      180:	0007c703          	lbu	a4,0(a5)
      184:	02000793          	li	a5,32
-     188:	fcf71ee3          	bne	a4,a5,164 <_Z12handle_inputhP12input_buffer+0x4c>
+     188:	fcf71ee3          	bne	a4,a5,164 <_Z12handle_inputhR12input_buffer+0x4c>
      18c:	fec42783          	lw	a5,-20(s0)
      190:	0007c783          	lbu	a5,0(a5)
-     194:	02078c63          	beqz	a5,1cc <_Z12handle_inputhP12input_buffer+0xb4>
+     194:	02078c63          	beqz	a5,1cc <_Z12handle_inputhR12input_buffer+0xb4>
      198:	fec42783          	lw	a5,-20(s0)
      19c:	00078023          	sb	zero,0(a5)
      1a0:	fec42783          	lw	a5,-20(s0)
@@ -123,12 +123,12 @@ Disassembly of section .text:
      1a8:	fef42623          	sw	a5,-20(s0)
      1ac:	fe842703          	lw	a4,-24(s0)
      1b0:	00800793          	li	a5,8
-     1b4:	f8f716e3          	bne	a4,a5,140 <_Z12handle_inputhP12input_buffer+0x28>
+     1b4:	f8f716e3          	bne	a4,a5,140 <_Z12handle_inputhR12input_buffer+0x28>
      1b8:	000027b7          	lui	a5,0x2
      1bc:	ac878513          	add	a0,a5,-1336 # 1ac8 <_Z15action_mem_testv+0x4dc>
      1c0:	00001097          	auipc	ra,0x1
      1c4:	338080e7          	jalr	824(ra) # 14f8 <_Z13uart_send_strPKc>
-     1c8:	0080006f          	j	1d0 <_Z12handle_inputhP12input_buffer+0xb8>
+     1c8:	0080006f          	j	1d0 <_Z12handle_inputhR12input_buffer+0xb8>
      1cc:	00000013          	nop
      1d0:	fc842703          	lw	a4,-56(s0)
      1d4:	000027b7          	lui	a5,0x2
@@ -137,10 +137,10 @@ Disassembly of section .text:
      1e0:	00001097          	auipc	ra,0x1
      1e4:	1a4080e7          	jalr	420(ra) # 1384 <_Z13strings_equalPKcS0_>
      1e8:	00050793          	mv	a5,a0
-     1ec:	00078863          	beqz	a5,1fc <_Z12handle_inputhP12input_buffer+0xe4>
+     1ec:	00078863          	beqz	a5,1fc <_Z12handle_inputhR12input_buffer+0xe4>
      1f0:	00001097          	auipc	ra,0x1
      1f4:	044080e7          	jalr	68(ra) # 1234 <_Z10print_helpv>
-     1f8:	2a00006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     1f8:	2a00006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      1fc:	fc842703          	lw	a4,-56(s0)
      200:	000027b7          	lui	a5,0x2
      204:	af478593          	add	a1,a5,-1292 # 1af4 <_Z15action_mem_testv+0x508>
@@ -148,7 +148,7 @@ Disassembly of section .text:
      20c:	00001097          	auipc	ra,0x1
      210:	178080e7          	jalr	376(ra) # 1384 <_Z13strings_equalPKcS0_>
      214:	00050793          	mv	a5,a0
-     218:	02078463          	beqz	a5,240 <_Z12handle_inputhP12input_buffer+0x128>
+     218:	02078463          	beqz	a5,240 <_Z12handle_inputhR12input_buffer+0x128>
      21c:	fbf44783          	lbu	a5,-65(s0)
      220:	00078513          	mv	a0,a5
      224:	00000097          	auipc	ra,0x0
@@ -157,7 +157,7 @@ Disassembly of section .text:
      230:	ac478513          	add	a0,a5,-1340 # 1ac4 <_Z15action_mem_testv+0x4d8>
      234:	00001097          	auipc	ra,0x1
      238:	2c4080e7          	jalr	708(ra) # 14f8 <_Z13uart_send_strPKc>
-     23c:	25c0006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     23c:	25c0006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      240:	fc842703          	lw	a4,-56(s0)
      244:	000027b7          	lui	a5,0x2
      248:	af878593          	add	a1,a5,-1288 # 1af8 <_Z15action_mem_testv+0x50c>
@@ -165,22 +165,22 @@ Disassembly of section .text:
      250:	00001097          	auipc	ra,0x1
      254:	134080e7          	jalr	308(ra) # 1384 <_Z13strings_equalPKcS0_>
      258:	00050793          	mv	a5,a0
-     25c:	04078063          	beqz	a5,29c <_Z12handle_inputhP12input_buffer+0x184>
+     25c:	04078063          	beqz	a5,29c <_Z12handle_inputhR12input_buffer+0x184>
      260:	fe842703          	lw	a4,-24(s0)
      264:	00100793          	li	a5,1
-     268:	00e7ec63          	bltu	a5,a4,280 <_Z12handle_inputhP12input_buffer+0x168>
+     268:	00e7ec63          	bltu	a5,a4,280 <_Z12handle_inputhR12input_buffer+0x168>
      26c:	000027b7          	lui	a5,0x2
      270:	afc78513          	add	a0,a5,-1284 # 1afc <_Z15action_mem_testv+0x510>
      274:	00001097          	auipc	ra,0x1
      278:	284080e7          	jalr	644(ra) # 14f8 <_Z13uart_send_strPKc>
-     27c:	21c0006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     27c:	21c0006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      280:	fcc42703          	lw	a4,-52(s0)
      284:	fbf44783          	lbu	a5,-65(s0)
      288:	00070593          	mv	a1,a4
      28c:	00078513          	mv	a0,a5
      290:	00001097          	auipc	ra,0x1
      294:	950080e7          	jalr	-1712(ra) # be0 <_Z11action_takehPKc>
-     298:	2000006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     298:	2000006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      29c:	fc842703          	lw	a4,-56(s0)
      2a0:	000027b7          	lui	a5,0x2
      2a4:	b0c78593          	add	a1,a5,-1268 # 1b0c <_Z15action_mem_testv+0x520>
@@ -188,22 +188,22 @@ Disassembly of section .text:
      2ac:	00001097          	auipc	ra,0x1
      2b0:	0d8080e7          	jalr	216(ra) # 1384 <_Z13strings_equalPKcS0_>
      2b4:	00050793          	mv	a5,a0
-     2b8:	04078063          	beqz	a5,2f8 <_Z12handle_inputhP12input_buffer+0x1e0>
+     2b8:	04078063          	beqz	a5,2f8 <_Z12handle_inputhR12input_buffer+0x1e0>
      2bc:	fe842703          	lw	a4,-24(s0)
      2c0:	00100793          	li	a5,1
-     2c4:	00e7ec63          	bltu	a5,a4,2dc <_Z12handle_inputhP12input_buffer+0x1c4>
+     2c4:	00e7ec63          	bltu	a5,a4,2dc <_Z12handle_inputhR12input_buffer+0x1c4>
      2c8:	000027b7          	lui	a5,0x2
      2cc:	b1078513          	add	a0,a5,-1264 # 1b10 <_Z15action_mem_testv+0x524>
      2d0:	00001097          	auipc	ra,0x1
      2d4:	228080e7          	jalr	552(ra) # 14f8 <_Z13uart_send_strPKc>
-     2d8:	1c00006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     2d8:	1c00006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      2dc:	fcc42703          	lw	a4,-52(s0)
      2e0:	fbf44783          	lbu	a5,-65(s0)
      2e4:	00070593          	mv	a1,a4
      2e8:	00078513          	mv	a0,a5
      2ec:	00001097          	auipc	ra,0x1
      2f0:	a5c080e7          	jalr	-1444(ra) # d48 <_Z11action_drophPKc>
-     2f4:	1a40006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     2f4:	1a40006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      2f8:	fc842703          	lw	a4,-56(s0)
      2fc:	000027b7          	lui	a5,0x2
      300:	b2078593          	add	a1,a5,-1248 # 1b20 <_Z15action_mem_testv+0x534>
@@ -211,13 +211,13 @@ Disassembly of section .text:
      308:	00001097          	auipc	ra,0x1
      30c:	07c080e7          	jalr	124(ra) # 1384 <_Z13strings_equalPKcS0_>
      310:	00050793          	mv	a5,a0
-     314:	00078e63          	beqz	a5,330 <_Z12handle_inputhP12input_buffer+0x218>
+     314:	00078e63          	beqz	a5,330 <_Z12handle_inputhR12input_buffer+0x218>
      318:	fbf44783          	lbu	a5,-65(s0)
      31c:	00000593          	li	a1,0
      320:	00078513          	mv	a0,a5
      324:	00001097          	auipc	ra,0x1
      328:	b9c080e7          	jalr	-1124(ra) # ec0 <_Z9action_gohh>
-     32c:	16c0006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     32c:	16c0006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      330:	fc842703          	lw	a4,-56(s0)
      334:	000027b7          	lui	a5,0x2
      338:	b2478593          	add	a1,a5,-1244 # 1b24 <_Z15action_mem_testv+0x538>
@@ -225,13 +225,13 @@ Disassembly of section .text:
      340:	00001097          	auipc	ra,0x1
      344:	044080e7          	jalr	68(ra) # 1384 <_Z13strings_equalPKcS0_>
      348:	00050793          	mv	a5,a0
-     34c:	00078e63          	beqz	a5,368 <_Z12handle_inputhP12input_buffer+0x250>
+     34c:	00078e63          	beqz	a5,368 <_Z12handle_inputhR12input_buffer+0x250>
      350:	fbf44783          	lbu	a5,-65(s0)
      354:	00100593          	li	a1,1
      358:	00078513          	mv	a0,a5
      35c:	00001097          	auipc	ra,0x1
      360:	b64080e7          	jalr	-1180(ra) # ec0 <_Z9action_gohh>
-     364:	1340006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     364:	1340006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      368:	fc842703          	lw	a4,-56(s0)
      36c:	000027b7          	lui	a5,0x2
      370:	b2878593          	add	a1,a5,-1240 # 1b28 <_Z15action_mem_testv+0x53c>
@@ -239,13 +239,13 @@ Disassembly of section .text:
      378:	00001097          	auipc	ra,0x1
      37c:	00c080e7          	jalr	12(ra) # 1384 <_Z13strings_equalPKcS0_>
      380:	00050793          	mv	a5,a0
-     384:	00078e63          	beqz	a5,3a0 <_Z12handle_inputhP12input_buffer+0x288>
+     384:	00078e63          	beqz	a5,3a0 <_Z12handle_inputhR12input_buffer+0x288>
      388:	fbf44783          	lbu	a5,-65(s0)
      38c:	00200593          	li	a1,2
      390:	00078513          	mv	a0,a5
      394:	00001097          	auipc	ra,0x1
      398:	b2c080e7          	jalr	-1236(ra) # ec0 <_Z9action_gohh>
-     39c:	0fc0006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     39c:	0fc0006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      3a0:	fc842703          	lw	a4,-56(s0)
      3a4:	000027b7          	lui	a5,0x2
      3a8:	b2c78593          	add	a1,a5,-1236 # 1b2c <_Z15action_mem_testv+0x540>
@@ -253,13 +253,13 @@ Disassembly of section .text:
      3b0:	00001097          	auipc	ra,0x1
      3b4:	fd4080e7          	jalr	-44(ra) # 1384 <_Z13strings_equalPKcS0_>
      3b8:	00050793          	mv	a5,a0
-     3bc:	00078e63          	beqz	a5,3d8 <_Z12handle_inputhP12input_buffer+0x2c0>
+     3bc:	00078e63          	beqz	a5,3d8 <_Z12handle_inputhR12input_buffer+0x2c0>
      3c0:	fbf44783          	lbu	a5,-65(s0)
      3c4:	00300593          	li	a1,3
      3c8:	00078513          	mv	a0,a5
      3cc:	00001097          	auipc	ra,0x1
      3d0:	af4080e7          	jalr	-1292(ra) # ec0 <_Z9action_gohh>
-     3d4:	0c40006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     3d4:	0c40006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      3d8:	fc842703          	lw	a4,-56(s0)
      3dc:	000027b7          	lui	a5,0x2
      3e0:	b3078593          	add	a1,a5,-1232 # 1b30 <_Z15action_mem_testv+0x544>
@@ -267,23 +267,23 @@ Disassembly of section .text:
      3e8:	00001097          	auipc	ra,0x1
      3ec:	f9c080e7          	jalr	-100(ra) # 1384 <_Z13strings_equalPKcS0_>
      3f0:	00050793          	mv	a5,a0
-     3f4:	06078463          	beqz	a5,45c <_Z12handle_inputhP12input_buffer+0x344>
+     3f4:	06078463          	beqz	a5,45c <_Z12handle_inputhR12input_buffer+0x344>
      3f8:	fe842703          	lw	a4,-24(s0)
      3fc:	00100793          	li	a5,1
-     400:	00e7ec63          	bltu	a5,a4,418 <_Z12handle_inputhP12input_buffer+0x300>
+     400:	00e7ec63          	bltu	a5,a4,418 <_Z12handle_inputhR12input_buffer+0x300>
      404:	000027b7          	lui	a5,0x2
      408:	b3478513          	add	a0,a5,-1228 # 1b34 <_Z15action_mem_testv+0x548>
      40c:	00001097          	auipc	ra,0x1
      410:	0ec080e7          	jalr	236(ra) # 14f8 <_Z13uart_send_strPKc>
-     414:	0840006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     414:	0840006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      418:	fe842703          	lw	a4,-24(s0)
      41c:	00200793          	li	a5,2
-     420:	00e7ec63          	bltu	a5,a4,438 <_Z12handle_inputhP12input_buffer+0x320>
+     420:	00e7ec63          	bltu	a5,a4,438 <_Z12handle_inputhR12input_buffer+0x320>
      424:	000027b7          	lui	a5,0x2
      428:	b4478513          	add	a0,a5,-1212 # 1b44 <_Z15action_mem_testv+0x558>
      42c:	00001097          	auipc	ra,0x1
      430:	0cc080e7          	jalr	204(ra) # 14f8 <_Z13uart_send_strPKc>
-     434:	0640006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     434:	0640006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      438:	fcc42703          	lw	a4,-52(s0)
      43c:	fd042683          	lw	a3,-48(s0)
      440:	fbf44783          	lbu	a5,-65(s0)
@@ -292,7 +292,7 @@ Disassembly of section .text:
      44c:	00078513          	mv	a0,a5
      450:	00001097          	auipc	ra,0x1
      454:	ba8080e7          	jalr	-1112(ra) # ff8 <_Z11action_givehPKcS0_>
-     458:	0400006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     458:	0400006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      45c:	fc842703          	lw	a4,-56(s0)
      460:	000027b7          	lui	a5,0x2
      464:	b5878593          	add	a1,a5,-1192 # 1b58 <_Z15action_mem_testv+0x56c>
@@ -300,10 +300,10 @@ Disassembly of section .text:
      46c:	00001097          	auipc	ra,0x1
      470:	f18080e7          	jalr	-232(ra) # 1384 <_Z13strings_equalPKcS0_>
      474:	00050793          	mv	a5,a0
-     478:	00078863          	beqz	a5,488 <_Z12handle_inputhP12input_buffer+0x370>
+     478:	00078863          	beqz	a5,488 <_Z12handle_inputhR12input_buffer+0x370>
      47c:	00001097          	auipc	ra,0x1
      480:	170080e7          	jalr	368(ra) # 15ec <_Z15action_mem_testv>
-     484:	0140006f          	j	498 <_Z12handle_inputhP12input_buffer+0x380>
+     484:	0140006f          	j	498 <_Z12handle_inputhR12input_buffer+0x380>
      488:	000027b7          	lui	a5,0x2
      48c:	b5c78513          	add	a0,a5,-1188 # 1b5c <_Z15action_mem_testv+0x570>
      490:	00001097          	auipc	ra,0x1
@@ -1217,7 +1217,7 @@ Disassembly of section .text:
     1260:	01010113          	add	sp,sp,16
     1264:	00008067          	ret
 
-00001268 <_Z5inputP12input_buffer>:
+00001268 <_Z5inputR12input_buffer>:
     1268:	fd010113          	add	sp,sp,-48
     126c:	02112623          	sw	ra,44(sp)
     1270:	02812423          	sw	s0,40(sp)
@@ -1229,10 +1229,10 @@ Disassembly of section .text:
     1288:	fef407a3          	sb	a5,-17(s0)
     128c:	fef44703          	lbu	a4,-17(s0)
     1290:	07f00793          	li	a5,127
-    1294:	02f71e63          	bne	a4,a5,12d0 <_Z5inputP12input_buffer+0x68>
+    1294:	02f71e63          	bne	a4,a5,12d0 <_Z5inputR12input_buffer+0x68>
     1298:	fdc42783          	lw	a5,-36(s0)
     129c:	0507c783          	lbu	a5,80(a5)
-    12a0:	0a078a63          	beqz	a5,1354 <_Z5inputP12input_buffer+0xec>
+    12a0:	0a078a63          	beqz	a5,1354 <_Z5inputR12input_buffer+0xec>
     12a4:	fdc42783          	lw	a5,-36(s0)
     12a8:	0507c783          	lbu	a5,80(a5)
     12ac:	fff78793          	add	a5,a5,-1
@@ -1243,14 +1243,14 @@ Disassembly of section .text:
     12c0:	00078513          	mv	a0,a5
     12c4:	00000097          	auipc	ra,0x0
     12c8:	29c080e7          	jalr	668(ra) # 1560 <_Z14uart_send_charc>
-    12cc:	0880006f          	j	1354 <_Z5inputP12input_buffer+0xec>
+    12cc:	0880006f          	j	1354 <_Z5inputR12input_buffer+0xec>
     12d0:	fef44703          	lbu	a4,-17(s0)
     12d4:	00d00793          	li	a5,13
-    12d8:	00f70a63          	beq	a4,a5,12ec <_Z5inputP12input_buffer+0x84>
+    12d8:	00f70a63          	beq	a4,a5,12ec <_Z5inputR12input_buffer+0x84>
     12dc:	fdc42783          	lw	a5,-36(s0)
     12e0:	0507c703          	lbu	a4,80(a5)
     12e4:	04f00793          	li	a5,79
-    12e8:	02f71463          	bne	a4,a5,1310 <_Z5inputP12input_buffer+0xa8>
+    12e8:	02f71463          	bne	a4,a5,1310 <_Z5inputR12input_buffer+0xa8>
     12ec:	fdc42783          	lw	a5,-36(s0)
     12f0:	0507c783          	lbu	a5,80(a5)
     12f4:	00078713          	mv	a4,a5
@@ -1259,7 +1259,7 @@ Disassembly of section .text:
     1300:	00078023          	sb	zero,0(a5)
     1304:	fdc42783          	lw	a5,-36(s0)
     1308:	04078823          	sb	zero,80(a5)
-    130c:	0680006f          	j	1374 <_Z5inputP12input_buffer+0x10c>
+    130c:	0680006f          	j	1374 <_Z5inputR12input_buffer+0x10c>
     1310:	fdc42783          	lw	a5,-36(s0)
     1314:	0507c783          	lbu	a5,80(a5)
     1318:	00078713          	mv	a4,a5
@@ -1284,7 +1284,7 @@ Disassembly of section .text:
     1364:	00078513          	mv	a0,a5
     1368:	00000097          	auipc	ra,0x0
     136c:	160080e7          	jalr	352(ra) # 14c8 <_Z7led_seth>
-    1370:	f0dff06f          	j	127c <_Z5inputP12input_buffer+0x14>
+    1370:	f0dff06f          	j	127c <_Z5inputR12input_buffer+0x14>
     1374:	02c12083          	lw	ra,44(sp)
     1378:	02812403          	lw	s0,40(sp)
     137c:	03010113          	add	sp,sp,48

@@ -1,5 +1,5 @@
 //
-// source file for the FPGA build
+// source for the FPGA build
 //
 #include "os_config.hpp"
 

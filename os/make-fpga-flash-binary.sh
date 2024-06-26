@@ -26,7 +26,7 @@ cd $(dirname "$0")
 PATH=$PATH:~/riscv/install/rv32i/bin
 BIN=os
 
-riscv32-unknown-elf-g++ \
+riscv32-unknown-elf-g++ -std=c++23 \
 	-O0 \
 	-g \
 	-nostartfiles \
