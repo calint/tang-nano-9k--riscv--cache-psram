@@ -51,7 +51,14 @@ constexpr uint32_t LOCATION_MAX_ENTITIES = 8;
 constexpr uint32_t LOCATION_MAX_EXITS = 6;
 constexpr uint32_t ENTITY_MAX_OBJECTS = 32;
 
-class input_buffer final {
+static auto strings_equal(char const *s1, char const *s2) -> bool;
+static auto string_copy(char const *src, uint32_t src_len, char *dst) -> void {
+  while (src_len--) {
+    *dst++ = *src++;
+  }
+}
+
+class command_buffer final {
   char line_[80]{};
   uint8_t ix_{};
   uint8_t end_{};
@@ -141,6 +148,29 @@ public:
   auto characters_after_cursor() -> uint32_t { return end_ - ix_; }
 
   auto line() -> char * { return line_; }
+
+  auto input_length() -> uint32_t { return end_; }
+};
+
+class command_history final {
+  char history_[8][80]{};
+  uint8_t ix_ = 0;
+
+public:
+  auto add_if_not_same_as_last(char const *buf,
+                               uint32_t const buf_len) -> void {
+    if (ix_ == 0) {
+      string_copy(buf, buf_len, history_[ix_]);
+      return;
+    }
+
+    if (strings_equal(history_[ix_], buf)) {
+      return;
+    }
+
+    ++ix_;
+    string_copy(buf, buf_len, history_[ix_]);
+  }
 };
 
 struct object {
@@ -201,16 +231,15 @@ static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void;
 static auto action_go(entity_id_t eid, direction_t dir) -> void;
 static auto action_drop(entity_id_t eid, name_t obj) -> void;
 static auto action_take(entity_id_t eid, name_t obj) -> void;
-static auto input(input_buffer &buf) -> void;
-static auto handle_input(entity_id_t eid, input_buffer &buf) -> void;
-static auto strings_equal(char const *s1, char const *s2) -> bool;
+static auto input(command_buffer &buf) -> void;
+static auto handle_input(entity_id_t eid, command_buffer &buf) -> void;
 static auto action_mem_test() -> void;
 
 extern "C" auto run() -> void {
   led_set(0); // turn all leds on
 
   entity_id_t active_entity = 1;
-  input_buffer inbuf{};
+  command_buffer inbuf{};
 
   uart_send_str(ascii_art);
   uart_send_str(hello);
@@ -230,7 +259,7 @@ extern "C" auto run() -> void {
   }
 }
 
-static auto handle_input(entity_id_t eid, input_buffer &buf) -> void {
+static auto handle_input(entity_id_t eid, command_buffer &buf) -> void {
   char const *words[8];
   char *ptr = buf.line();
   unsigned nwords = 0;
@@ -537,7 +566,7 @@ static auto print_help() -> void {
       "message\r\n\r\n");
 }
 
-static auto input(input_buffer &buf) -> void {
+static auto input(command_buffer &buf) -> void {
   static bool input_0x1B = false;
   static bool input_0x5B = false;
   static bool input_0x33 = false;
@@ -628,7 +657,7 @@ static auto input(input_buffer &buf) -> void {
       buf.send_from_index_to_end([](char const c) { uart_send_char(c); });
       uart_send_move_back(buf.characters_after_cursor());
     }
-    // led_set(~(uint8_t)buf.end_index());
+    led_set(~uint8_t(buf.input_length()));
   }
 }
 
