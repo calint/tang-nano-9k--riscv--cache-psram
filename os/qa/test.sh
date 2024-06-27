@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 cd $(dirname "$0")
-#set -x
 
-../os < test.in > test.out
+../os-console < test.in > test.out
 
 if cmp -s test.diff test.out; then
     echo "test: OK"

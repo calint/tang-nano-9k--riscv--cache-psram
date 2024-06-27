@@ -65,6 +65,6 @@ chmod -x $BIN.bin
 riscv32-unknown-elf-objdump --source-comment -Sr $BIN > $BIN.lst || true
 riscv32-unknown-elf-objdump -s --section=.rodata --section=.data --section=.bss $BIN > $BIN.dat || true
 
-# rm $BIN
+rm $BIN
 
 ls -l $BIN.bin $BIN.lst $BIN.dat

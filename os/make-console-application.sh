@@ -5,7 +5,7 @@
 set -e
 cd $(dirname "$0")
 
-BIN=os
+BIN=os-console
 
 g++ -std=c++23 \
     -O0 \
