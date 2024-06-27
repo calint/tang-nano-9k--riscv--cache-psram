@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # note: when script fails `cat` process might be active reading from TTY 
 #  do `ps aux | grep cat` and terminate the process
