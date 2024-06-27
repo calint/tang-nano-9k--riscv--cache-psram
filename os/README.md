@@ -42,15 +42,17 @@
   - for consistency, `const` is written after the type such as `char const *ptr` instead of `const char *ptr` and `float const x` instead of `const float x`
   - idea is that type name is an annotation that can be replaced by `auto`
 * `unsigned` is used where negative values don't make sense
-* use of public members in classes
-  - "Plain Old C++ Object" or "POCO" is preferred
-  - public members are moved to private scope when not used outside the class
-  - when a change to a public member triggers other actions, accessors are written, and member is moved to private scope
 * `++i` instead of `i++`
   - for consistency with incrementing iterators, all increments and decrements are done in prefix
-* all class members and variables are initialized for clarity although redundant
+* all members and variables are initialized for clarity although redundant
+  - some exceptions regarding buffers applied
 * naming convention:
-  - verbose
+  - descriptive and verbose
   - snake case
   - lower case
   - private members have suffix `_`
+* use of public members in classes
+  - public members are moved to private scope when not used outside the class
+  - when a change to a public member triggers other actions, accessors are written, and member is moved to private scope
+* "Plain Old C++ Object" preferred
+* "Rule of None" preferred
