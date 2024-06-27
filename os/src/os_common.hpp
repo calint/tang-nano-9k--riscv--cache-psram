@@ -139,7 +139,7 @@ public:
 template <class Type, int Size> class list {
 public:
   Type data[Size]{};
-  size_t len = 0;
+  size_t len{};
 
   auto add(Type elem) -> bool {
     if (len == Size - 1) {
