@@ -38,7 +38,7 @@ static void uart_send_char(const char ch) {
 
 static void uart_send_str(const char *str) { printf("%s", str); }
 
-static char uart_read_char() { return (char)getchar(); }
+static char uart_read_char() { return char(getchar()); }
 
 static void led_set(uint8_t bits) {}
 
