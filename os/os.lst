@@ -14,10 +14,10 @@ Disassembly of section .text:
        4:	024000ef          	jal	28 <run>
 
 00000008 <_ZL4exiti>:
-# // console build automatically initialize bss section
+# // freestanding does not automatically initialize bss section
 # 
 # static auto startup_init_statics() -> void;
-# // console build automatically initiate statics
+# // freestanding does not automatically initiate statics
 # 
 # static auto exit(int code) -> void {}
        8:	fe010113          	add	sp,sp,-32 # 1fffe0 <__bss_end+0x1fc8cc>

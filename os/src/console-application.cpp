@@ -8,10 +8,10 @@
 #include <unistd.h>
 
 static auto startup_init_bss() -> void {}
-// note: bss section is initialized by environment
+// note: bss section is initialized by the environment
 
 static auto startup_init_statics() -> void {}
-// freestanding does not initiate statics
+// note: statics are initiated by the C++ runtime
 
 static constexpr char CHAR_CARRIAGE_RETURN = 0x0a;
 // console application uses newline
