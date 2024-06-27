@@ -2,8 +2,8 @@
 // source for console build
 //
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
-#include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
 
