@@ -240,16 +240,6 @@ static auto uart_send_move_back(uint32_t n) -> void;
 static auto print_help() -> void;
 static auto print_location(location_id_t lid,
                            entity_id_t eid_exclude_from_output) -> void;
-static auto add_object_to_list(object_id_t list[], uint32_t list_len,
-                               object_id_t oid) -> bool;
-static auto remove_object_from_list_by_index(object_id_t list[],
-                                             uint32_t ix) -> void;
-static auto add_entity_to_list(entity_id_t list[], uint32_t list_len,
-                               entity_id_t eid) -> bool;
-static auto remove_entity_from_list_by_index(entity_id_t list[],
-                                             uint32_t ix) -> void;
-static auto remove_entity_from_list(entity_id_t list[], uint32_t list_len,
-                                    entity_id_t eid) -> void;
 static auto action_inventory(entity_id_t eid) -> void;
 static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void;
 static auto action_go(entity_id_t eid, direction_t dir) -> void;
@@ -433,72 +423,6 @@ static auto action_inventory(entity_id_t eid) -> void {
     uart_send_str("nothing");
   }
   uart_send_str("\r\n");
-}
-
-static auto remove_object_from_list_by_index(object_id_t list[],
-                                             uint32_t ix) -> void {
-  object_id_t *ptr = &list[ix];
-  while (true) {
-    *ptr = *(ptr + 1);
-    if (!*ptr)
-      return;
-    ptr++;
-  }
-}
-
-static auto add_object_to_list(object_id_t list[], uint32_t list_len,
-                               object_id_t oid) -> bool {
-  // list_len - 1 since last element has to be 0
-  for (uint32_t i = 0; i < list_len - 1; i++) {
-    if (list[i])
-      continue;
-    list[i] = oid;
-    list[i + 1] = 0;
-    return true;
-  }
-  uart_send_str("space full\r\n");
-  return false;
-}
-
-static auto add_entity_to_list(entity_id_t list[], uint32_t list_len,
-                               entity_id_t eid) -> bool {
-  // list_len - 1 since last element has to be 0
-  for (uint32_t i = 0; i < list_len - 1; i++) {
-    if (list[i])
-      continue;
-    list[i] = eid;
-    list[i + 1] = 0;
-    return true;
-  }
-  uart_send_str("location full\r\n");
-  return false;
-}
-
-static auto remove_entity_from_list(entity_id_t list[], uint32_t list_len,
-                                    entity_id_t eid) -> void {
-  // list_len - 1 since last element has to be 0
-  for (uint32_t i = 0; i < list_len - 1; i++) {
-    if (list[i] != eid)
-      continue;
-    // list_len - 1 since last element has to be 0
-    for (uint32_t j = i; j < list_len - 1; j++) {
-      list[j] = list[j + 1];
-      if (!list[j])
-        return;
-    }
-  }
-  uart_send_str("entity not here\r\n");
-}
-
-static auto remove_entity_from_list_by_index(entity_id_t list[],
-                                             uint32_t ix) -> void {
-  entity_id_t *ptr = &list[ix];
-  while (true) {
-    *ptr = *(ptr + 1);
-    if (!*ptr)
-      return;
-    ptr++;
-  }
 }
 
 static auto action_take(entity_id_t eid, name_t obj) -> void {

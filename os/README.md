@@ -1,10 +1,11 @@
 # "operating system"
 
-## configuration and build
+## configuration
 `configuration.py` is applied by `configuration-apply.py` and generates files:
 * `os_config.hpp` - addresses to LEDs, UART and top of memory
 * `os_start.S` - setup stack before `os_common.hpp` `run()`
 
+## build
 `./make-fpga-flash-binary.sh` compiles `os.cpp` and generates:
 * `os.bin` - binary to be flashed on FPGA
 * `os.lst` - assembler with source annotations
@@ -14,7 +15,7 @@
 * `os` - executable binary of console application
 
 ## source
-* `os_common.hpp` - common source for console and freestanding version
+* `os_common.hpp` - common source for console and freestanding build
 * `os.cpp` - source for freestanding build
 * `console-application.cpp` - source for console build
 
