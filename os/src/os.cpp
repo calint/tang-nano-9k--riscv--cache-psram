@@ -15,10 +15,10 @@ using uint64_t = unsigned long long;
 using size_t = uint32_t;
 
 static auto startup_init_bss() -> void;
-// freestanding does not automatically initialize bss section
+// console build automatically initialize bss section
 
 static auto startup_init_statics() -> void;
-// freestanding does not automatically initiate statics
+// console build automatically initiate statics
 
 static auto exit(int code) -> void {}
 // FPGA has no exit
