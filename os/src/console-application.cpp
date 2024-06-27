@@ -28,7 +28,7 @@ int main() {
   run();
 }
 
-static void uart_send_char(const char ch) {
+static void uart_send_char(char const ch) {
   if (ch == CHAR_BACKSPACE) {
     printf("\b \b");
   } else {
@@ -40,6 +40,6 @@ static void uart_send_str(char const *str) { printf("%s", str); }
 
 static char uart_read_char() { return char(getchar()); }
 
-static void led_set(uint8_t bits) {}
+static void led_set(uint8_t const bits) {}
 
 static void action_mem_test() { printf("memory test not supported\n"); }
