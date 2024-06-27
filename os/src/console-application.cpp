@@ -1,6 +1,8 @@
 //
 // source for console build
 //
+#include <cstdint>
+#include <cstdlib>
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
@@ -16,7 +18,7 @@ static auto startup_init_bss() -> void {}
 int main() {
   struct termios term {};
   tcgetattr(STDIN_FILENO, &term);
-  term.c_lflag &= ~(unsigned)(ICANON | ECHO);
+  term.c_lflag &= ~unsigned(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &term);
 
   run();

@@ -43,11 +43,13 @@ riscv32-unknown-elf-g++ -std=c++23 \
 	-Wconversion \
 	-Wshadow \
 	-Wno-unused-function \
+	-Wno-unused-parameter \
 	-fno-zero-initialized-in-bss \
 	-Wl,-T,linker.ld \
 	-Wl,--no-relax \
 	-Wl,--no-warn-rwx-segment \
-	os_start.S os.cpp -o $BIN
+	-o $BIN \
+	src/os_start.S src/os.cpp
 
 # note: without -fno-zero-initialized-in-bss static bool initiated to false are not exported in the binary
 

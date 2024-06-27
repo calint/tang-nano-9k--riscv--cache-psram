@@ -2,8 +2,8 @@
 
 ## configuration
 `configuration.py` is applied by `configuration-apply.py` and generates files:
-* `os_config.hpp` - addresses to LEDs, UART and top of memory
-* `os_start.S` - setup stack before `os_common.hpp` `run()`
+* `src/os_config.hpp` - addresses to LEDs, UART and top of memory
+* `src/os_start.S` - setup stack before `os_common.hpp` `run()`
 
 ## build
 `./make-fpga-flash-binary.sh` compiles `os.cpp` and generates:
@@ -14,10 +14,15 @@
 `./make-console-application.sh` compiles `console-application.cpp` and generates:
 * `os` - executable binary of console application
 
-## source
+## /src/
+* `os_config.hpp` - generated from `configuration.py`
+* `os_start.S` - generated from `configuration.py`
 * `os_common.hpp` - common source for console and freestanding build
 * `os.cpp` - source for freestanding build
 * `console-application.cpp` - source for console build
+
+## /qa/
+* `test.sh` for end-to-end test
 
 ## disclaimers
 * source in `hpp` files

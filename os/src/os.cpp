@@ -5,16 +5,34 @@
 
 constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
 
+// symbols to mark start and end of bss section
 extern char __bss_start;
 extern char __bss_end;
 
+// zero bss section
 static auto startup_init_bss() -> void {
   for (char *bss = &__bss_start; bss < &__bss_end; ++bss) {
     *bss = 0;
   }
 }
 
+// FPGA has no exit
+static auto exit(int code) -> void {}
+
+// standard types
+using int8_t = char;
+using uint8_t = unsigned char;
+using int16_t = short;
+using uint16_t = unsigned short;
+using int32_t = int;
+using uint32_t = unsigned int;
+using int64_t = long long;
+using uint64_t = unsigned long long;
+
+// common source
 #include "os_common.hpp"
+
+// FPGA I/O
 
 static auto led_set(uint8_t bits) -> void { *LED = bits; }
 
@@ -39,10 +57,13 @@ static auto uart_read_char() -> char {
   return ch;
 }
 
+// simple test of FPGA memory
 static auto action_mem_test() -> void {
   uart_send_str("testing memory (write)\r\n");
   char *ptr = (char *)0x10000;
-  char const *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
+  char const *end = (char *)MEMORY_TOP - 1024;
+  // -1024 to avoid the stack
+  // ?? don't forget about this when the application grows
   char ch = 0;
   while (ptr < end) {
     *ptr++ = ch++;

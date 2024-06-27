@@ -13,9 +13,10 @@ g++ -std=c++23 \
     -Wall -Wextra -pedantic \
     -Wconversion \
     -Wshadow \
-    -Wno-unused-parameter \
     -Wno-unused-function \
-    console-application.cpp -o $BIN 
+    -Wno-unused-parameter \
+    -o $BIN \
+    src/console-application.cpp
 
 ls -l $BIN
 
