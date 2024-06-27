@@ -17,7 +17,7 @@ using size_t = uint32_t;
 static auto startup_init_bss() -> void;
 // freestanding does not automatically initialize bss section
 
-static auto startup_init_statics() -> void {}
+static auto startup_init_statics() -> void;
 // freestanding does not automatically initiate statics
 
 static auto exit(int code) -> void {}
@@ -94,3 +94,5 @@ extern char __bss_end;
 static auto startup_init_bss() -> void {
   memset(&__bss_start, 0, &__bss_end - &__bss_start);
 }
+
+static auto startup_init_statics() -> void {}
