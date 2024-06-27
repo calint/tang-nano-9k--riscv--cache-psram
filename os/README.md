@@ -6,8 +6,8 @@
 * `os.lst` - assembler with source annotations
 * `os.dat` - data sections of binary
 
-`./make-console-application.sh` compiles `src/console-application.cpp` and generates:
-* `console-application` - executable binary of console application
+`./make-console-application.sh` compiles `src/console_application.cpp` and generates:
+* `console_application` - executable binary of console application
 
 ## configuration
 `../configuration.py` is applied by `../configuration-apply.py` and generates files:
