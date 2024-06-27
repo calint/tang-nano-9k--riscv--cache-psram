@@ -1,4 +1,4 @@
-# osqa - "operating system"
+# "operating system" - osqa
 
 ## build
 `./make-fpga-flash-binary.sh` compiles `src/os.cpp` and generates:
