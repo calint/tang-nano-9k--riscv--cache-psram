@@ -572,9 +572,6 @@ static auto print_help() -> void {
 }
 
 static char input_escape_sequence[8];
-// note: must specify initializer or the binary section the variable
-//        is placed in does not get initialized, assumes OS zero initializes
-//         it, however the FPGA memory copied from flash is 0xff by default
 static auto input_escape_sequence_clear() -> void {
   for (uint32_t i = 0; i < sizeof(input_escape_sequence); ++i) {
     input_escape_sequence[i] = '0';
