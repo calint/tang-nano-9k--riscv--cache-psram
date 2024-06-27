@@ -3,25 +3,6 @@
 //
 #include "os_config.hpp"
 
-constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
-
-// symbols to mark start and end of bss section
-extern char __bss_start;
-extern char __bss_end;
-
-// zero bss section
-static auto startup_init_bss() -> void {
-  for (char *bss = &__bss_start; bss < &__bss_end; ++bss) {
-    *bss = 0;
-  }
-}
-
-// freestanding does not automatically initiate statics
-static auto startup_init_statics() -> void {}
-
-// FPGA has no exit
-static auto exit(int code) -> void {}
-
 // standard types
 using int8_t = char;
 using uint8_t = unsigned char;
@@ -33,8 +14,20 @@ using int64_t = long long;
 using uint64_t = unsigned long long;
 using size_t = uint32_t;
 
-// common source
+static auto startup_init_bss() -> void;
+// freestanding does not automatically initialize bss section
+
+static auto startup_init_statics() -> void {}
+// freestanding does not automatically initiate statics
+
+static auto exit(int code) -> void {}
+// FPGA has no exit
+
+static constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
+// freestanding serial terminal uses carriage return for newline
+
 #include "os_common.hpp"
+// the platform independent source
 
 // FPGA I/O
 
@@ -88,7 +81,16 @@ static auto action_mem_test() -> void {
 extern "C" auto memset(void *str, int ch, int n) -> void * {
   char *ptr = reinterpret_cast<char *>(str);
   while (n--) {
-    *ptr++ = (char)ch;
+    *ptr++ = char(ch);
   }
   return str;
+}
+
+// symbols to mark start and end of bss section
+extern char __bss_start;
+extern char __bss_end;
+
+// zero bss section
+static auto startup_init_bss() -> void {
+  memset(&__bss_start, 0, &__bss_end - &__bss_start);
 }
