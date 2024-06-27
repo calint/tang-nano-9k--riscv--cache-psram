@@ -7,4 +7,4 @@
 *.vvp
 *.vcd
 /os/os
-/os/os-console
+/os/console_application

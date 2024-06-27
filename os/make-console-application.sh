@@ -5,7 +5,7 @@
 set -e
 cd $(dirname "$0")
 
-BIN=os-console
+BIN=console_application
 
 g++ -std=c++23 \
     -O0 \
@@ -16,7 +16,7 @@ g++ -std=c++23 \
     -Wno-unused-function \
     -Wno-unused-parameter \
     -o $BIN \
-    src/console-application.cpp
+    src/console_application.cpp
 
 ls -l $BIN
 

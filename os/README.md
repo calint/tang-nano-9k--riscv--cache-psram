@@ -7,7 +7,7 @@
 * `os.dat` - data sections of binary
 
 `./make-console-application.sh` compiles `src/console-application.cpp` and generates:
-* `os-console` - executable binary of console application
+* `console-application` - executable binary of console application
 
 ## configuration
 `../configuration.py` is applied by `../configuration-apply.py` and generates files:
