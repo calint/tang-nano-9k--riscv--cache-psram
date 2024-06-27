@@ -52,6 +52,7 @@ constexpr uint32_t LOCATION_MAX_EXITS = 6;
 constexpr uint32_t ENTITY_MAX_OBJECTS = 32;
 
 static auto strings_equal(char const *s1, char const *s2) -> bool;
+
 static auto string_copy(char const *src, uint32_t src_len, char *dst) -> void {
   while (src_len--) {
     *dst++ = *src++;
@@ -237,8 +238,10 @@ static auto action_mem_test() -> void;
 
 extern "C" auto run() -> void {
   startup_init_bss();
+  // initiates bss section to zeros
 
-  led_set(0); // turn all leds on
+  led_set(0);
+  // turn all leds on
 
   entity_id_t active_entity = 1;
   command_buffer inbuf{};
@@ -264,7 +267,7 @@ extern "C" auto run() -> void {
 static auto handle_input(entity_id_t eid, command_buffer &buf) -> void {
   char const *words[8];
   char *ptr = buf.line();
-  unsigned nwords = 0;
+  uint32_t nwords = 0;
   while (true) {
     words[nwords++] = ptr;
     while (*ptr && *ptr != ' ') {
@@ -272,14 +275,14 @@ static auto handle_input(entity_id_t eid, command_buffer &buf) -> void {
     }
     if (!*ptr)
       break;
-    *ptr = 0;
+    *ptr = '\0';
     ptr++;
     if (nwords == sizeof(words) / sizeof(char const *)) {
       uart_send_str("too many words, some ignored\r\n\r\n");
       break;
     }
   }
-  for (unsigned i = 0; i < nwords; i++) {
+  for (uint32_t i = 0; i < nwords; i++) {
     uart_send_str(words[i]);
     uart_send_str("\r\n");
   }
@@ -335,7 +338,7 @@ static auto print_location(location_id_t lid,
   // print objects in location
   bool add_list_sep = false;
   object_id_t const *lso = loc.objects;
-  for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+  for (uint32_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
     object_id_t const oid = lso[i];
     if (!oid)
       break;
@@ -354,7 +357,7 @@ static auto print_location(location_id_t lid,
   // print entities in location
   add_list_sep = false;
   entity_id_t const *lse = loc.entities;
-  for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+  for (uint32_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     entity_id_t const eid = lse[i];
     if (!eid)
       break;
@@ -374,7 +377,7 @@ static auto print_location(location_id_t lid,
   // print exits from location
   add_list_sep = false;
   uart_send_str("exits: ");
-  for (unsigned i = 0; i < LOCATION_MAX_EXITS; i++) {
+  for (uint32_t i = 0; i < LOCATION_MAX_EXITS; i++) {
     if (!loc.exits[i])
       continue;
     if (add_list_sep) {
@@ -394,7 +397,7 @@ static auto action_inventory(entity_id_t eid) -> void {
   uart_send_str("u have: ");
   bool add_list_sep = false;
   object_id_t const *lso = entities[eid].objects;
-  for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+  for (uint32_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
     object_id_t const oid = lso[i];
     if (!oid)
       break;
@@ -412,7 +415,7 @@ static auto action_inventory(entity_id_t eid) -> void {
 }
 
 static auto remove_object_from_list_by_index(object_id_t list[],
-                                             unsigned ix) -> void {
+                                             uint32_t ix) -> void {
   object_id_t *ptr = &list[ix];
   while (true) {
     *ptr = *(ptr + 1);
@@ -422,10 +425,10 @@ static auto remove_object_from_list_by_index(object_id_t list[],
   }
 }
 
-static auto add_object_to_list(object_id_t list[], unsigned list_len,
+static auto add_object_to_list(object_id_t list[], uint32_t list_len,
                                object_id_t oid) -> bool {
   // list_len - 1 since last element has to be 0
-  for (unsigned i = 0; i < list_len - 1; i++) {
+  for (uint32_t i = 0; i < list_len - 1; i++) {
     if (list[i])
       continue;
     list[i] = oid;
@@ -436,10 +439,10 @@ static auto add_object_to_list(object_id_t list[], unsigned list_len,
   return false;
 }
 
-static auto add_entity_to_list(entity_id_t list[], unsigned list_len,
+static auto add_entity_to_list(entity_id_t list[], uint32_t list_len,
                                entity_id_t eid) -> bool {
   // list_len - 1 since last element has to be 0
-  for (unsigned i = 0; i < list_len - 1; i++) {
+  for (uint32_t i = 0; i < list_len - 1; i++) {
     if (list[i])
       continue;
     list[i] = eid;
@@ -450,14 +453,14 @@ static auto add_entity_to_list(entity_id_t list[], unsigned list_len,
   return false;
 }
 
-static auto remove_entity_from_list(entity_id_t list[], unsigned list_len,
+static auto remove_entity_from_list(entity_id_t list[], uint32_t list_len,
                                     entity_id_t eid) -> void {
   // list_len - 1 since last element has to be 0
-  for (unsigned i = 0; i < list_len - 1; i++) {
+  for (uint32_t i = 0; i < list_len - 1; i++) {
     if (list[i] != eid)
       continue;
     // list_len - 1 since last element has to be 0
-    for (unsigned j = i; j < list_len - 1; j++) {
+    for (uint32_t j = i; j < list_len - 1; j++) {
       list[j] = list[j + 1];
       if (!list[j])
         return;
@@ -467,7 +470,7 @@ static auto remove_entity_from_list(entity_id_t list[], unsigned list_len,
 }
 
 static auto remove_entity_from_list_by_index(entity_id_t list[],
-                                             unsigned ix) -> void {
+                                             uint32_t ix) -> void {
   entity_id_t *ptr = &list[ix];
   while (true) {
     *ptr = *(ptr + 1);
@@ -480,7 +483,7 @@ static auto remove_entity_from_list_by_index(entity_id_t list[],
 static auto action_take(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
   object_id_t *lso = locations[ent.location].objects;
-  for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+  for (uint32_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
     object_id_t const oid = lso[i];
     if (!oid)
       break;
@@ -498,7 +501,7 @@ static auto action_take(entity_id_t eid, name_t obj) -> void {
 static auto action_drop(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
   object_id_t *lso = ent.objects;
-  for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+  for (uint32_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
     object_id_t const oid = lso[i];
     if (!oid)
       break;
@@ -533,14 +536,14 @@ static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
   entity &ent = entities[eid];
   location const &loc = locations[ent.location];
   entity_id_t const *lse = loc.entities;
-  for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+  for (uint32_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     if (!lse[i])
       break;
     entity &to = entities[lse[i]];
     if (!strings_equal(to.name, to_ent))
       continue;
     object_id_t *lso = ent.objects;
-    for (unsigned j = 0; j < ENTITY_MAX_OBJECTS; j++) {
+    for (uint32_t j = 0; j < ENTITY_MAX_OBJECTS; j++) {
       object_id_t const oid = lso[j];
       if (!oid)
         break;

@@ -48,11 +48,11 @@ Disassembly of section .text:
       58:	00008067          	ret
 
 0000005c <_ZL11string_copyPKcjPc>:
-# constexpr uint32_t LOCATION_MAX_ENTITIES = 8;
 # constexpr uint32_t LOCATION_MAX_EXITS = 6;
 # constexpr uint32_t ENTITY_MAX_OBJECTS = 32;
 # 
 # static auto strings_equal(char const *s1, char const *s2) -> bool;
+# 
 # static auto string_copy(char const *src, uint32_t src_len, char *dst) -> void {
       5c:	fe010113          	add	sp,sp,-32
       60:	00812e23          	sw	s0,28(sp)
@@ -100,11 +100,13 @@ Disassembly of section .text:
 #   startup_init_bss();
       d4:	00000097          	auipc	ra,0x0
       d8:	f34080e7          	jalr	-204(ra) # 8 <_ZL16startup_init_bssv>
+#   // initiates bss section to zeros
 # 
-#   led_set(0); // turn all leds on
+#   led_set(0);
       dc:	00000513          	li	a0,0
       e0:	00002097          	auipc	ra,0x2
       e4:	994080e7          	jalr	-1644(ra) # 1a74 <_ZL7led_seth>
+#   // turn all leds on
 # 
 #   entity_id_t active_entity = 1;
       e8:	00100793          	li	a5,1
@@ -210,7 +212,7 @@ Disassembly of section .text:
      214:	00002097          	auipc	ra,0x2
      218:	034080e7          	jalr	52(ra) # 2248 <_ZN14command_buffer4lineEv>
      21c:	fea42623          	sw	a0,-20(s0)
-#   unsigned nwords = 0;
+#   uint32_t nwords = 0;
      220:	fe042423          	sw	zero,-24(s0)
 #   while (true) {
 #     words[nwords++] = ptr;
@@ -242,7 +244,7 @@ Disassembly of section .text:
      274:	0007c783          	lbu	a5,0(a5)
      278:	02078c63          	beqz	a5,2b0 <_ZL12handle_inputhR14command_buffer+0xbc>
 #       break;
-#     *ptr = 0;
+#     *ptr = '\0';
      27c:	fec42783          	lw	a5,-20(s0)
      280:	00078023          	sb	zero,0(a5)
 #     ptr++;
@@ -264,7 +266,7 @@ Disassembly of section .text:
      2b0:	00000013          	nop
 #     }
 #   }
-#   for (unsigned i = 0; i < nwords; i++) {
+#   for (uint32_t i = 0; i < nwords; i++) {
      2b4:	fe042223          	sw	zero,-28(s0)
      2b8:	0400006f          	j	2f8 <_ZL12handle_inputhR14command_buffer+0x104>
 #     uart_send_str(words[i]);
@@ -281,7 +283,7 @@ Disassembly of section .text:
      2e0:	67c78513          	add	a0,a5,1660 # 267c <_ZN14command_buffer12input_lengthEv+0x410>
      2e4:	00001097          	auipc	ra,0x1
      2e8:	7c0080e7          	jalr	1984(ra) # 1aa4 <_ZL13uart_send_strPKc>
-#   for (unsigned i = 0; i < nwords; i++) {
+#   for (uint32_t i = 0; i < nwords; i++) {
      2ec:	fe442783          	lw	a5,-28(s0)
      2f0:	00178793          	add	a5,a5,1
      2f4:	fef42223          	sw	a5,-28(s0)
@@ -562,7 +564,7 @@ Disassembly of section .text:
      664:	fdc42783          	lw	a5,-36(s0)
      668:	00478793          	add	a5,a5,4
      66c:	fcf42c23          	sw	a5,-40(s0)
-#   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
      670:	fe042423          	sw	zero,-24(s0)
      674:	0740006f          	j	6e8 <_ZL14print_locationhh+0x10c>
 #     object_id_t const oid = lso[i];
@@ -599,7 +601,7 @@ Disassembly of section .text:
      6d0:	00078513          	mv	a0,a5
      6d4:	00001097          	auipc	ra,0x1
      6d8:	3d0080e7          	jalr	976(ra) # 1aa4 <_ZL13uart_send_strPKc>
-#   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
      6dc:	fe842783          	lw	a5,-24(s0)
      6e0:	00178793          	add	a5,a5,1
      6e4:	fef42423          	sw	a5,-24(s0)
@@ -634,7 +636,7 @@ Disassembly of section .text:
      730:	fdc42783          	lw	a5,-36(s0)
      734:	08478793          	add	a5,a5,132
      738:	fcf42823          	sw	a5,-48(s0)
-#   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
      73c:	fe042223          	sw	zero,-28(s0)
      740:	0940006f          	j	7d4 <_ZL14print_locationhh+0x1f8>
 #     entity_id_t const eid = lse[i];
@@ -682,7 +684,7 @@ Disassembly of section .text:
      7c0:	0080006f          	j	7c8 <_ZL14print_locationhh+0x1ec>
 #       continue;
      7c4:	00000013          	nop
-#   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
      7c8:	fe442783          	lw	a5,-28(s0)
      7cc:	00178793          	add	a5,a5,1
      7d0:	fef42223          	sw	a5,-28(s0)
@@ -711,7 +713,7 @@ Disassembly of section .text:
      808:	75078513          	add	a0,a5,1872 # 2750 <_ZN14command_buffer12input_lengthEv+0x4e4>
      80c:	00001097          	auipc	ra,0x1
      810:	298080e7          	jalr	664(ra) # 1aa4 <_ZL13uart_send_strPKc>
-#   for (unsigned i = 0; i < LOCATION_MAX_EXITS; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_EXITS; i++) {
      814:	fe042023          	sw	zero,-32(s0)
      818:	0740006f          	j	88c <_ZL14print_locationhh+0x2b0>
 #     if (!loc.exits[i])
@@ -748,7 +750,7 @@ Disassembly of section .text:
      878:	0080006f          	j	880 <_ZL14print_locationhh+0x2a4>
 #       continue;
      87c:	00000013          	nop
-#   for (unsigned i = 0; i < LOCATION_MAX_EXITS; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_EXITS; i++) {
      880:	fe042783          	lw	a5,-32(s0)
      884:	00178793          	add	a5,a5,1
      888:	fef42023          	sw	a5,-32(s0)
@@ -806,7 +808,7 @@ Disassembly of section .text:
      924:	00e787b3          	add	a5,a5,a4
      928:	00578793          	add	a5,a5,5
      92c:	fef42223          	sw	a5,-28(s0)
-#   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+#   for (uint32_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
      930:	fe042423          	sw	zero,-24(s0)
      934:	0740006f          	j	9a8 <_ZL16action_inventoryh+0xcc>
 #     object_id_t const oid = lso[i];
@@ -843,7 +845,7 @@ Disassembly of section .text:
      990:	00078513          	mv	a0,a5
      994:	00001097          	auipc	ra,0x1
      998:	110080e7          	jalr	272(ra) # 1aa4 <_ZL13uart_send_strPKc>
-#   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+#   for (uint32_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
      99c:	fe842783          	lw	a5,-24(s0)
      9a0:	00178793          	add	a5,a5,1
      9a4:	fef42423          	sw	a5,-24(s0)
@@ -880,7 +882,7 @@ Disassembly of section .text:
 00000a00 <_ZL32remove_object_from_list_by_indexPhj>:
 # 
 # static auto remove_object_from_list_by_index(object_id_t list[],
-#                                              unsigned ix) -> void {
+#                                              uint32_t ix) -> void {
      a00:	fd010113          	add	sp,sp,-48
      a04:	02812623          	sw	s0,44(sp)
      a08:	03010413          	add	s0,sp,48
@@ -918,7 +920,7 @@ Disassembly of section .text:
 
 00000a60 <_ZL18add_object_to_listPhjh>:
 # 
-# static auto add_object_to_list(object_id_t list[], unsigned list_len,
+# static auto add_object_to_list(object_id_t list[], uint32_t list_len,
 #                                object_id_t oid) -> bool {
      a60:	fd010113          	add	sp,sp,-48
      a64:	02112623          	sw	ra,44(sp)
@@ -929,7 +931,7 @@ Disassembly of section .text:
      a78:	00060793          	mv	a5,a2
      a7c:	fcf40ba3          	sb	a5,-41(s0)
 #   // list_len - 1 since last element has to be 0
-#   for (unsigned i = 0; i < list_len - 1; i++) {
+#   for (uint32_t i = 0; i < list_len - 1; i++) {
      a80:	fe042623          	sw	zero,-20(s0)
      a84:	0580006f          	j	adc <_ZL18add_object_to_listPhjh+0x7c>
 #     if (list[i])
@@ -956,7 +958,7 @@ Disassembly of section .text:
      ac8:	0380006f          	j	b00 <_ZL18add_object_to_listPhjh+0xa0>
 #       continue;
      acc:	00000013          	nop
-#   for (unsigned i = 0; i < list_len - 1; i++) {
+#   for (uint32_t i = 0; i < list_len - 1; i++) {
      ad0:	fec42783          	lw	a5,-20(s0)
      ad4:	00178793          	add	a5,a5,1
      ad8:	fef42623          	sw	a5,-20(s0)
@@ -981,7 +983,7 @@ Disassembly of section .text:
 
 00000b14 <_ZL18add_entity_to_listPhjh>:
 # 
-# static auto add_entity_to_list(entity_id_t list[], unsigned list_len,
+# static auto add_entity_to_list(entity_id_t list[], uint32_t list_len,
 #                                entity_id_t eid) -> bool {
      b14:	fd010113          	add	sp,sp,-48
      b18:	02112623          	sw	ra,44(sp)
@@ -992,7 +994,7 @@ Disassembly of section .text:
      b2c:	00060793          	mv	a5,a2
      b30:	fcf40ba3          	sb	a5,-41(s0)
 #   // list_len - 1 since last element has to be 0
-#   for (unsigned i = 0; i < list_len - 1; i++) {
+#   for (uint32_t i = 0; i < list_len - 1; i++) {
      b34:	fe042623          	sw	zero,-20(s0)
      b38:	0580006f          	j	b90 <_ZL18add_entity_to_listPhjh+0x7c>
 #     if (list[i])
@@ -1019,7 +1021,7 @@ Disassembly of section .text:
      b7c:	0380006f          	j	bb4 <_ZL18add_entity_to_listPhjh+0xa0>
 #       continue;
      b80:	00000013          	nop
-#   for (unsigned i = 0; i < list_len - 1; i++) {
+#   for (uint32_t i = 0; i < list_len - 1; i++) {
      b84:	fec42783          	lw	a5,-20(s0)
      b88:	00178793          	add	a5,a5,1
      b8c:	fef42623          	sw	a5,-20(s0)
@@ -1044,7 +1046,7 @@ Disassembly of section .text:
 
 00000bc8 <_ZL23remove_entity_from_listPhjh>:
 # 
-# static auto remove_entity_from_list(entity_id_t list[], unsigned list_len,
+# static auto remove_entity_from_list(entity_id_t list[], uint32_t list_len,
 #                                     entity_id_t eid) -> void {
      bc8:	fd010113          	add	sp,sp,-48
      bcc:	02112623          	sw	ra,44(sp)
@@ -1055,7 +1057,7 @@ Disassembly of section .text:
      be0:	00060793          	mv	a5,a2
      be4:	fcf40ba3          	sb	a5,-41(s0)
 #   // list_len - 1 since last element has to be 0
-#   for (unsigned i = 0; i < list_len - 1; i++) {
+#   for (uint32_t i = 0; i < list_len - 1; i++) {
      be8:	fe042623          	sw	zero,-20(s0)
      bec:	0900006f          	j	c7c <_ZL23remove_entity_from_listPhjh+0xb4>
 #     if (list[i] != eid)
@@ -1067,7 +1069,7 @@ Disassembly of section .text:
      c04:	06f71463          	bne	a4,a5,c6c <_ZL23remove_entity_from_listPhjh+0xa4>
 #       continue;
 #     // list_len - 1 since last element has to be 0
-#     for (unsigned j = i; j < list_len - 1; j++) {
+#     for (uint32_t j = i; j < list_len - 1; j++) {
      c08:	fec42783          	lw	a5,-20(s0)
      c0c:	fef42423          	sw	a5,-24(s0)
      c10:	0480006f          	j	c58 <_ZL23remove_entity_from_listPhjh+0x90>
@@ -1087,7 +1089,7 @@ Disassembly of section .text:
      c40:	00f707b3          	add	a5,a4,a5
      c44:	0007c783          	lbu	a5,0(a5)
      c48:	04078c63          	beqz	a5,ca0 <_ZL23remove_entity_from_listPhjh+0xd8>
-#     for (unsigned j = i; j < list_len - 1; j++) {
+#     for (uint32_t j = i; j < list_len - 1; j++) {
      c4c:	fe842783          	lw	a5,-24(s0)
      c50:	00178793          	add	a5,a5,1
      c54:	fef42423          	sw	a5,-24(s0)
@@ -1098,7 +1100,7 @@ Disassembly of section .text:
      c68:	0080006f          	j	c70 <_ZL23remove_entity_from_listPhjh+0xa8>
 #       continue;
      c6c:	00000013          	nop
-#   for (unsigned i = 0; i < list_len - 1; i++) {
+#   for (uint32_t i = 0; i < list_len - 1; i++) {
      c70:	fec42783          	lw	a5,-20(s0)
      c74:	00178793          	add	a5,a5,1
      c78:	fef42623          	sw	a5,-20(s0)
@@ -1126,7 +1128,7 @@ Disassembly of section .text:
 00000cb4 <_ZL32remove_entity_from_list_by_indexPhj>:
 # 
 # static auto remove_entity_from_list_by_index(entity_id_t list[],
-#                                              unsigned ix) -> void {
+#                                              uint32_t ix) -> void {
      cb4:	fd010113          	add	sp,sp,-48
      cb8:	02812623          	sw	s0,44(sp)
      cbc:	03010413          	add	s0,sp,48
@@ -1197,7 +1199,7 @@ Disassembly of section .text:
      d80:	00e787b3          	add	a5,a5,a4
      d84:	00478793          	add	a5,a5,4
      d88:	fef42223          	sw	a5,-28(s0)
-#   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
      d8c:	fe042623          	sw	zero,-20(s0)
      d90:	0a40006f          	j	e34 <_ZL11action_takehPKc+0x120>
 #     object_id_t const oid = lso[i];
@@ -1247,7 +1249,7 @@ Disassembly of section .text:
      e20:	0480006f          	j	e68 <_ZL11action_takehPKc+0x154>
 #       continue;
      e24:	00000013          	nop
-#   for (unsigned i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
      e28:	fec42783          	lw	a5,-20(s0)
      e2c:	00178793          	add	a5,a5,1
      e30:	fef42623          	sw	a5,-20(s0)
@@ -1300,7 +1302,7 @@ Disassembly of section .text:
      ebc:	fe842783          	lw	a5,-24(s0)
      ec0:	00578793          	add	a5,a5,5
      ec4:	fef42223          	sw	a5,-28(s0)
-#   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+#   for (uint32_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
      ec8:	fe042623          	sw	zero,-20(s0)
      ecc:	0d00006f          	j	f9c <_ZL11action_drophPKc+0x120>
 #     object_id_t const oid = lso[i];
@@ -1362,7 +1364,7 @@ Disassembly of section .text:
      f88:	0580006f          	j	fe0 <_ZL11action_drophPKc+0x164>
 #       continue;
      f8c:	00000013          	nop
-#   for (unsigned i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+#   for (uint32_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
      f90:	fec42783          	lw	a5,-20(s0)
      f94:	00178793          	add	a5,a5,1
      f98:	fef42623          	sw	a5,-20(s0)
@@ -1529,7 +1531,7 @@ Disassembly of section .text:
     11a4:	fe042783          	lw	a5,-32(s0)
     11a8:	08478793          	add	a5,a5,132
     11ac:	fcf42e23          	sw	a5,-36(s0)
-#   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     11b0:	fe042623          	sw	zero,-20(s0)
     11b4:	16c0006f          	j	1320 <_ZL11action_givehPKcS0_+0x1f4>
 #     if (!lse[i])
@@ -1569,7 +1571,7 @@ Disassembly of section .text:
     1228:	fe442783          	lw	a5,-28(s0)
     122c:	00578793          	add	a5,a5,5
     1230:	fcf42a23          	sw	a5,-44(s0)
-#     for (unsigned j = 0; j < ENTITY_MAX_OBJECTS; j++) {
+#     for (uint32_t j = 0; j < ENTITY_MAX_OBJECTS; j++) {
     1234:	fe042423          	sw	zero,-24(s0)
     1238:	0a40006f          	j	12dc <_ZL11action_givehPKcS0_+0x1b0>
 #       object_id_t const oid = lso[j];
@@ -1619,7 +1621,7 @@ Disassembly of section .text:
     12c8:	08c0006f          	j	1354 <_ZL11action_givehPKcS0_+0x228>
 #         continue;
     12cc:	00000013          	nop
-#     for (unsigned j = 0; j < ENTITY_MAX_OBJECTS; j++) {
+#     for (uint32_t j = 0; j < ENTITY_MAX_OBJECTS; j++) {
     12d0:	fe842783          	lw	a5,-24(s0)
     12d4:	00178793          	add	a5,a5,1
     12d8:	fef42423          	sw	a5,-24(s0)
@@ -1643,7 +1645,7 @@ Disassembly of section .text:
     130c:	04c0006f          	j	1358 <_ZL11action_givehPKcS0_+0x22c>
 #       continue;
     1310:	00000013          	nop
-#   for (unsigned i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+#   for (uint32_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     1314:	fec42783          	lw	a5,-20(s0)
     1318:	00178793          	add	a5,a5,1
     131c:	fef42623          	sw	a5,-20(s0)
