@@ -20,7 +20,7 @@ static auto startup_init_bss() -> void;
 static auto startup_init_statics() -> void;
 // freestanding does not automatically initiate statics
 
-static auto exit(int code) -> void {}
+static auto exit(int code) -> void;
 // FPGA has no exit
 
 static constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
@@ -96,3 +96,5 @@ static auto startup_init_bss() -> void {
 }
 
 static auto startup_init_statics() -> void {}
+
+static auto exit(int code) -> void {}
