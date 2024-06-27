@@ -12,6 +12,9 @@ constexpr char CHAR_CARRIAGE_RETURN = 0x0a;
 static auto startup_init_bss() -> void {}
 // note: bss section is initialized by environment
 
+static auto startup_init_statics() -> void {}
+// freestanding does not initiate statics
+
 #include "os_common.hpp"
 // the platform independent source
 

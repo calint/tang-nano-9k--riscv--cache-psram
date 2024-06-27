@@ -247,6 +247,9 @@ extern "C" auto run() -> void {
   startup_init_bss();
   // initiates bss section to zeros
 
+  startup_init_statics();
+  // initiate statics in freestanding build
+
   led_set(0);
   // turn all leds on
 
