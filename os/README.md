@@ -6,12 +6,12 @@
 * `src/os_start.S` - setup stack before `os_common.hpp` `run()`
 
 ## build
-`./make-fpga-flash-binary.sh` compiles `os.cpp` and generates:
+`./make-fpga-flash-binary.sh` compiles `src/os.cpp` and generates:
 * `os.bin` - binary to be flashed on FPGA
 * `os.lst` - assembler with source annotations
 * `os.dat` - data sections of binary
 
-`./make-console-application.sh` compiles `console-application.cpp` and generates:
+`./make-console-application.sh` compiles `src/console-application.cpp` and generates:
 * `os` - executable binary of console application
 
 ## /src/
