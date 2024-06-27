@@ -7,6 +7,8 @@
 
 constexpr char CHAR_CARRIAGE_RETURN = 0x0a;
 
+static auto startup_init_bss() -> void {}
+
 #include "os_common.hpp"
 
 int main() {

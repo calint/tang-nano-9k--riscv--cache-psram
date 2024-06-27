@@ -5,6 +5,15 @@
 
 constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
 
+extern char __bss_start;
+extern char __bss_end;
+
+static auto startup_init_bss() -> void {
+  for (char *bss = &__bss_start; bss < &__bss_end; ++bss) {
+    *bss = 0;
+  }
+}
+
 #include "os_common.hpp"
 
 auto led_set(uint8_t bits) -> void { *LED = bits; }

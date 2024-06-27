@@ -236,6 +236,8 @@ static auto handle_input(entity_id_t eid, command_buffer &buf) -> void;
 static auto action_mem_test() -> void;
 
 extern "C" auto run() -> void {
+  startup_init_bss();
+
   led_set(0); // turn all leds on
 
   entity_id_t active_entity = 1;
@@ -277,10 +279,10 @@ static auto handle_input(entity_id_t eid, command_buffer &buf) -> void {
       break;
     }
   }
-  // for (unsigned i = 0; i < nwords; i++) {
-  //   uart_send_str(words[i]);
-  //   uart_send_str("\r\n");
-  // }
+  for (unsigned i = 0; i < nwords; i++) {
+    uart_send_str(words[i]);
+    uart_send_str("\r\n");
+  }
   if (strings_equal(words[0], "help")) {
     print_help();
   } else if (strings_equal(words[0], "i")) {
@@ -566,79 +568,78 @@ static auto print_help() -> void {
       "message\r\n\r\n");
 }
 
+static char input_escape_sequence[8];
+// note: must specify initializer or the binary section the variable
+//        is placed in does not get initialized, assumes OS zero initializes
+//         it, however the FPGA memory copied from flash is 0xff by default
+static auto input_escape_sequence_clear() -> void {
+  for (uint32_t i = 0; i < sizeof(input_escape_sequence); ++i) {
+    input_escape_sequence[i] = '0';
+  }
+}
 static auto input(command_buffer &buf) -> void {
-  static bool input_0x1B = false;
-  static bool input_0x5B = false;
-  static bool input_0x33 = false;
-
   buf.reset();
   while (true) {
     char const ch = uart_read_char();
     if (ch == 0x1B) {
       // escape sequence
-      input_0x1B = true;
+      input_escape_sequence[0] = 0x1B;
       continue;
     }
-    if (input_0x1B) {
+    if (input_escape_sequence[0] == 0x1B) {
       // is in escape sequence
       if (ch == 0x5B) {
         // in escape sequence: 0x1B 0x5B
         // note: sent by linux terminal
-        input_0x5B = true;
+        input_escape_sequence[1] = 0x5B;
         continue;
       }
-      if (ch == 0x44) {
-        // in escape sequence: 0x1B (0x5B) 0x44
-        // arrow left
-        if (buf.move_cursor_left()) {
-          uart_send_char(0x1B);
-          if (input_0x5B) {
+      if (input_escape_sequence[1] == 0x5B) {
+        // in escape sequence: 0x1B 0x5B
+        if (ch == 0x44) {
+          // in escape sequence: 0x1B 0x5B 0x44
+          // arrow left
+          if (buf.move_cursor_left()) {
+            uart_send_char(0x1B);
             uart_send_char(0x5B);
+            uart_send_char(0x44);
           }
-          uart_send_char(0x44);
+          input_escape_sequence_clear();
+          continue;
         }
-        input_0x1B = false;
-        input_0x5B = false;
-        continue;
-      }
-      if (ch == 0x43) {
-        // in escape sequence:0x1B (0x5B) 0x43
-        // arrow right
-        if (buf.move_cursor_right()) {
-          uart_send_char(0x1B);
-          if (input_0x5B) {
+        if (ch == 0x43) {
+          // in escape sequence:0x1B 0x5B 0x43
+          // arrow right
+          if (buf.move_cursor_right()) {
+            uart_send_char(0x1B);
             uart_send_char(0x5B);
+            uart_send_char(0x43);
           }
-          uart_send_char(0x43);
+          input_escape_sequence_clear();
+          continue;
         }
-        input_0x1B = false;
-        input_0x5B = false;
-        continue;
-      }
-      if (ch == 0x33) {
-        // in escape sequence:0x1B (0x5B) 0x33
-        input_0x33 = true;
-        continue;
-      }
-      if (input_0x33) {
-        // in escape sequence: 0x1B (0x5B) 0x33
-        if (ch == 0x7e) {
-          // escape sequence 0x1B (0x5B) 0x33 0x7E
-          // delete
-          buf.del();
-          buf.send_from_index_to_end([](char c) { uart_send_char(c); });
-          uart_send_char(' ');
-          uart_send_move_back(buf.characters_after_cursor() + 1);
+        if (ch == 0x33) {
+          // in escape sequence:0x1B 0x5B 0x33
+          input_escape_sequence[2] = 0x33;
+          continue;
         }
-        input_0x1B = false;
-        input_0x5B = false;
-        input_0x33 = false;
+        if (input_escape_sequence[2] == 0x33) {
+          // in escape sequence: 0x1B 0x5B 0x33
+          if (ch == 0x7e) {
+            // escape sequence 0x1B 0x5B 0x33 0x7E
+            // delete
+            buf.del();
+            buf.send_from_index_to_end([](char c) { uart_send_char(c); });
+            uart_send_char(' ');
+            uart_send_move_back(buf.characters_after_cursor() + 1);
+          }
+          input_escape_sequence_clear();
+          continue;
+        }
+        // unrecognized escape sequence; reset
+        input_escape_sequence_clear();
         continue;
       }
-      // unrecognized escape sequence; reset
-      input_0x1B = false;
-      input_0x5B = false;
-      continue;
     }
     if (ch == CHAR_BACKSPACE) {
       if (buf.backspace()) {
