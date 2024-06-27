@@ -1,11 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 #
 # note: when script fails `cat` process might be active reading from TTY 
 #  do `ps aux | grep cat` and terminate the process
 #
 set -e
 cd $(dirname "$0")
-#set -x
 
 TTY=/dev/ttyUSB1
 BAUD=115200
