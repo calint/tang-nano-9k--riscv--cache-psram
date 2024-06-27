@@ -15,11 +15,11 @@
 * `src/os_start.S` - setup stack before `os_common.hpp` `run()`
 
 ## /src/
+* `os_common.hpp` - common source for console and freestanding build
 * `os_config.hpp` - see __configuration__
 * `os_start.S` - see __configuration__
-* `os_common.hpp` - common source for console and freestanding build
 * `os.cpp` - source for freestanding build
-* `console-application.cpp` - source for console build
+* `console_application.cpp` - source for console build
 
 ## /qa/
 * `test.sh` for end-to-end test
