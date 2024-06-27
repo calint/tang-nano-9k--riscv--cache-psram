@@ -1,22 +1,22 @@
 # "operating system"
 
-## configuration
-`configuration.py` is applied by `configuration-apply.py` and generates files:
-* `src/os_config.hpp` - addresses to LEDs, UART and top of memory
-* `src/os_start.S` - setup stack before `os_common.hpp` `run()`
-
 ## build
 `./make-fpga-flash-binary.sh` compiles `src/os.cpp` and generates:
-* `os.bin` - binary to be flashed on FPGA
+* `os.bin` - binary to be flashed to FPGA
 * `os.lst` - assembler with source annotations
 * `os.dat` - data sections of binary
 
 `./make-console-application.sh` compiles `src/console-application.cpp` and generates:
-* `os` - executable binary of console application
+* `os-console` - executable binary of console application
+
+## configuration
+`../configuration.py` is applied by `../configuration-apply.py` and generates files:
+* `src/os_config.hpp` - addresses to LEDs, UART and top of memory
+* `src/os_start.S` - setup stack before `os_common.hpp` `run()`
 
 ## /src/
-* `os_config.hpp` - generated from `configuration.py`
-* `os_start.S` - generated from `configuration.py`
+* `os_config.hpp` - see __configuration__
+* `os_start.S` - see __configuration__
 * `os_common.hpp` - common source for console and freestanding build
 * `os.cpp` - source for freestanding build
 * `console-application.cpp` - source for console build
@@ -43,8 +43,14 @@
   - idea is that type name is an annotation that can be replaced by `auto`
 * `unsigned` is used where negative values don't make sense
 * use of public members in classes
+  - "Plain Old C++ Object" or "POCO" is preferred
   - public members are moved to private scope when not used outside the class
   - when a change to a public member triggers other actions, accessors are written, and member is moved to private scope
 * `++i` instead of `i++`
   - for consistency with incrementing iterators, all increments and decrements are done in prefix
 * all class members and variables are initialized for clarity although redundant
+* naming convention:
+  - verbose
+  - snake case
+  - lower case
+  - private members have suffix `_`
