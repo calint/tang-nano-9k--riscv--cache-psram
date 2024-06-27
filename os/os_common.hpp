@@ -577,6 +577,9 @@ static auto input_escape_sequence_clear() -> void {
     input_escape_sequence[i] = '0';
   }
 }
+
+static auto uart_send_move_back(uint32_t const n) -> void;
+
 static auto input(command_buffer &buf) -> void {
   buf.reset();
   while (true) {
@@ -683,5 +686,11 @@ static auto uart_send_hex_nibble(char const nibble) -> void {
     uart_send_char('0' + nibble);
   } else {
     uart_send_char('A' + (nibble - 10));
+  }
+}
+
+static auto uart_send_move_back(uint32_t const n) -> void {
+  for (uint32_t i = 0; i < n; ++i) {
+    uart_send_char('\b');
   }
 }

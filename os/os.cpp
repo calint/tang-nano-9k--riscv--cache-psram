@@ -16,9 +16,9 @@ static auto startup_init_bss() -> void {
 
 #include "os_common.hpp"
 
-auto led_set(uint8_t bits) -> void { *LED = bits; }
+static auto led_set(uint8_t bits) -> void { *LED = bits; }
 
-auto uart_send_str(char const *str) -> void {
+static auto uart_send_str(char const *str) -> void {
   while (*str) {
     while (*UART_OUT)
       ;
@@ -26,20 +26,20 @@ auto uart_send_str(char const *str) -> void {
   }
 }
 
-auto uart_send_char(char const ch) -> void {
+static auto uart_send_char(char const ch) -> void {
   while (*UART_OUT)
     ;
   *UART_OUT = ch;
 }
 
-auto uart_read_char() -> char {
+static auto uart_read_char() -> char {
   char ch;
   while ((ch = *UART_IN) == 0)
     ;
   return ch;
 }
 
-auto action_mem_test() -> void {
+static auto action_mem_test() -> void {
   uart_send_str("testing memory (write)\r\n");
   char *ptr = (char *)0x10000;
   char const *end = (char *)MEMORY_TOP - 1024; // -1024 to avoid the stack
@@ -57,12 +57,6 @@ auto action_mem_test() -> void {
     }
   }
   uart_send_str("testing memory succeeded\r\n");
-}
-
-auto uart_send_move_back(uint32_t const n) -> void {
-  for (uint32_t i = 0; i < n; ++i) {
-    uart_send_char('\b');
-  }
 }
 
 // built-in function called by compiler
