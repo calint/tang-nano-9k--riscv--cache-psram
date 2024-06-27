@@ -2173,10 +2173,10 @@ Disassembly of section .text:
     1940:	a5478513          	add	a0,a5,-1452 # 2a54 <_ZN4listIhLi8EE6removeEh+0x6e8>
     1944:	00000097          	auipc	ra,0x0
     1948:	ef4080e7          	jalr	-268(ra) # 1838 <_ZL13uart_send_strPKc>
-#   char *ptr = (char *)0x10000;
+#   char *ptr = reinterpret_cast<char *>(0x10000);
     194c:	000107b7          	lui	a5,0x10
     1950:	fef42623          	sw	a5,-20(s0)
-#   char const *end = (char *)MEMORY_TOP - 1024;
+#   char const *end = reinterpret_cast<char *>(MEMORY_TOP - 1024);
     1954:	002007b7          	lui	a5,0x200
     1958:	c0078793          	add	a5,a5,-1024 # 1ffc00 <__bss_end+0x1fc4ec>
     195c:	fef42223          	sw	a5,-28(s0)
@@ -2204,7 +2204,7 @@ Disassembly of section .text:
     1994:	a7078513          	add	a0,a5,-1424 # 2a70 <_ZN4listIhLi8EE6removeEh+0x704>
     1998:	00000097          	auipc	ra,0x0
     199c:	ea0080e7          	jalr	-352(ra) # 1838 <_ZL13uart_send_strPKc>
-#   ptr = (char *)0x10000;
+#   ptr = reinterpret_cast<char *>(0x10000);
     19a0:	000107b7          	lui	a5,0x10
     19a4:	fef42623          	sw	a5,-20(s0)
 #   ch = 0;

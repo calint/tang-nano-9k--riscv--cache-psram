@@ -64,8 +64,8 @@ static auto uart_read_char() -> char {
 // simple test of FPGA memory
 static auto action_mem_test() -> void {
   uart_send_str("testing memory (write)\r\n");
-  char *ptr = (char *)0x10000;
-  char const *end = (char *)MEMORY_TOP - 1024;
+  char *ptr = reinterpret_cast<char *>(0x10000);
+  char const *end = reinterpret_cast<char *>(MEMORY_TOP - 1024);
   // -1024 to avoid the stack
   // ?? don't forget about this when the application grows
   char ch = 0;
@@ -73,7 +73,7 @@ static auto action_mem_test() -> void {
     *ptr++ = ch++;
   }
   uart_send_str("testing memory (read)\r\n");
-  ptr = (char *)0x10000;
+  ptr = reinterpret_cast<char *>(0x10000);
   ch = 0;
   while (ptr < end) {
     if (*ptr++ != ch++) {
