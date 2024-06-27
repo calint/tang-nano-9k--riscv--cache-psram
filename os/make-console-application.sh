@@ -20,4 +20,3 @@ g++ -std=c++23 \
 
 ls -l $BIN
 
-./$BIN

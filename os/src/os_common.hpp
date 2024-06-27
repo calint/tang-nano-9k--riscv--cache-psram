@@ -37,10 +37,10 @@ using entity_id_t = uint8_t;
 using direction_t = uint8_t;
 
 constexpr char CHAR_BACKSPACE = 0x7f;
-constexpr uint32_t LOCATION_MAX_OBJECTS = 128;
-constexpr uint32_t LOCATION_MAX_ENTITIES = 8;
-constexpr uint32_t LOCATION_MAX_EXITS = 6;
-constexpr uint32_t ENTITY_MAX_OBJECTS = 32;
+constexpr size_t LOCATION_MAX_OBJECTS = 128;
+constexpr size_t LOCATION_MAX_ENTITIES = 8;
+constexpr size_t LOCATION_MAX_EXITS = 6;
+constexpr size_t ENTITY_MAX_OBJECTS = 32;
 
 class command_buffer final {
   char line_[80]{};
@@ -61,7 +61,7 @@ public:
     }
 
     ++end_;
-    for (uint32_t i = end_; i > cursor_; --i) {
+    for (size_t i = end_; i > cursor_; --i) {
       line_[i] = line_[i - 1];
     }
     line_[cursor_] = ch;
@@ -80,7 +80,7 @@ public:
       return true;
     }
 
-    for (uint32_t i = cursor_ - 1; i < end_; ++i) {
+    for (size_t i = cursor_ - 1; i < end_; ++i) {
       line_[i] = line_[i + 1];
     }
     --cursor_;
@@ -93,7 +93,7 @@ public:
       return;
     }
 
-    for (uint32_t i = cursor_ + 1; i < end_; ++i) {
+    for (size_t i = cursor_ + 1; i < end_; ++i) {
       line_[i - 1] = line_[i];
     }
     --end_;
@@ -124,22 +124,22 @@ public:
   }
 
   auto apply_on_chars_from_cursor_to_end(void (*f)(char)) -> void {
-    for (uint32_t i = cursor_; i < end_; ++i) {
+    for (size_t i = cursor_; i < end_; ++i) {
       f(line_[i]);
     }
   }
 
-  auto characters_after_cursor() -> uint32_t { return end_ - cursor_; }
+  auto characters_after_cursor() -> size_t { return end_ - cursor_; }
 
   auto command_line() -> char * { return line_; }
 
-  auto input_length() -> uint32_t { return end_; }
+  auto input_length() -> size_t { return end_; }
 };
 
 template <class Type, int Size> class list {
 public:
   Type data[Size]{};
-  uint32_t len = 0;
+  size_t len = 0;
 
   auto add(Type elem) -> bool {
     if (len == Size - 1) {
@@ -152,12 +152,12 @@ public:
   }
 
   auto remove(Type elem) -> bool {
-    for (uint32_t i = 0; i < Size - 1; ++i) {
+    for (size_t i = 0; i < Size - 1; ++i) {
       if (data[i] != elem) {
         continue;
       }
       // list_len - 1 since last element has to be 0
-      for (uint32_t j = i; j < Size - 1; ++j) {
+      for (size_t j = i; j < Size - 1; ++j) {
         data[j] = data[j + 1];
         if (data[j] == Type{}) {
           len = j;
@@ -168,7 +168,7 @@ public:
     return false;
   }
 
-  auto remove_by_index(uint32_t i) -> void {
+  auto remove_by_index(size_t i) -> void {
     while (true) {
       data[i] = data[i + 1];
       if (data[i] == Type{}) {
@@ -179,7 +179,7 @@ public:
     }
   }
 
-  auto at(uint32_t const i) -> Type {
+  auto at(size_t const i) -> Type {
     if (i > Size - 1) {
       return {};
     }
@@ -206,14 +206,15 @@ struct location {
   name_t name{};
   list<object_id_t, LOCATION_MAX_OBJECTS> objects{};
   list<object_id_t, LOCATION_MAX_ENTITIES> entities{};
-  location_id_t exits[LOCATION_MAX_EXITS]{};
+  list<location_id_t, LOCATION_MAX_EXITS> exits{};
 };
 
-static location locations[] = {{"", {}, {0}, {0}},
-                               {"roome", {}, {{1}, 1}, {2, 3, 0, 4}},
-                               {"office", {{1, 3}, 2}, {{2}, 1}, {0, 0, 1}},
-                               {"bathroom", {}, {0}, {0}},
-                               {"kitchen", {}, {0}, {0, 1}}};
+static location locations[] = {
+    {"", {}, {0}, {0}},
+    {"roome", {}, {{1}, 1}, {{2, 3, 0, 4}, 4}},
+    {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
+    {"bathroom", {}, {0}, {{}}},
+    {"kitchen", {}, {0}, {{0, 1}, 2}}};
 
 static char const *exit_names[] = {"north", "east", "south",
                                    "west",  "up",   "down"};
@@ -225,7 +226,7 @@ static auto uart_send_char(char ch) -> void;
 static auto uart_read_char() -> char;
 static auto uart_send_hex_byte(char ch) -> void;
 static auto uart_send_hex_nibble(char nibble) -> void;
-static auto uart_send_move_back(uint32_t n) -> void;
+static auto uart_send_move_back(size_t n) -> void;
 
 // API
 static auto print_help() -> void;
@@ -240,7 +241,7 @@ static auto input(command_buffer &buf) -> void;
 static auto handle_input(entity_id_t eid, command_buffer &buf) -> void;
 static auto action_mem_test() -> void;
 static auto strings_equal(char const *s1, char const *s2) -> bool;
-static auto string_copy(char const *src, uint32_t src_len, char *dst) -> void;
+static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
 
 extern "C" auto run() -> void {
   startup_init_bss();
@@ -273,7 +274,7 @@ extern "C" auto run() -> void {
 static auto handle_input(entity_id_t eid, command_buffer &buf) -> void {
   char const *words[8];
   char *ptr = buf.command_line();
-  uint32_t nwords = 0;
+  size_t nwords = 0;
   while (true) {
     words[nwords++] = ptr;
     while (*ptr && *ptr != ' ') {
@@ -288,7 +289,7 @@ static auto handle_input(entity_id_t eid, command_buffer &buf) -> void {
       break;
     }
   }
-  // for (uint32_t i = 0; i < nwords; i++) {
+  // for (size_t i = 0; i < nwords; i++) {
   //   uart_send_str(words[i]);
   //   uart_send_str("\r\n");
   // }
@@ -344,7 +345,7 @@ static auto print_location(location_id_t lid,
   // print objects at location
   int counter = 0;
   list<object_id_t, LOCATION_MAX_OBJECTS> &lso = loc.objects;
-  for (uint32_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+  for (size_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
     object_id_t const oid = lso.at(i);
     if (!oid) {
       break;
@@ -362,7 +363,7 @@ static auto print_location(location_id_t lid,
   // print entities in location
   counter = false;
   list<object_id_t, LOCATION_MAX_ENTITIES> &lse = loc.entities;
-  for (uint32_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+  for (size_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     entity_id_t const eid = lse.at(i);
     if (!eid) {
       break;
@@ -382,9 +383,10 @@ static auto print_location(location_id_t lid,
   // print exits from location
   counter = 0;
   uart_send_str("exits: ");
-  for (uint32_t i = 0; i < LOCATION_MAX_EXITS; i++) {
-    if (!loc.exits[i])
+  for (size_t i = 0; i < LOCATION_MAX_EXITS; i++) {
+    if (!loc.exits.at(i)) {
       continue;
+    }
     if (counter++) {
       uart_send_str(", ");
     }
@@ -400,7 +402,7 @@ static auto action_inventory(entity_id_t eid) -> void {
   uart_send_str("u have: ");
   int counter = 0;
   list<object_id_t, ENTITY_MAX_OBJECTS> &ls = entities[eid].objects;
-  for (uint32_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+  for (size_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
     object_id_t const oid = ls.at(i);
     if (!oid) {
       break;
@@ -420,7 +422,7 @@ static auto action_take(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
   list<object_id_t, LOCATION_MAX_OBJECTS> &lso =
       locations[ent.location].objects;
-  for (uint32_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+  for (size_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
     object_id_t const oid = lso.at(i);
     if (!oid) {
       break;
@@ -440,7 +442,7 @@ static auto action_take(entity_id_t eid, name_t obj) -> void {
 static auto action_drop(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
   list<object_id_t, ENTITY_MAX_OBJECTS> &lso = ent.objects;
-  for (uint32_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+  for (size_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
     object_id_t const oid = lso.at(i);
     if (!oid) {
       break;
@@ -461,7 +463,7 @@ static auto action_drop(entity_id_t eid, name_t obj) -> void {
 static auto action_go(entity_id_t eid, direction_t dir) -> void {
   entity &ent = entities[eid];
   location &loc = locations[ent.location];
-  location_id_t const to = loc.exits[dir];
+  location_id_t const to = loc.exits.at(dir);
   if (!to) {
     uart_send_str("cannot go there\r\n\r\n");
     return;
@@ -476,7 +478,7 @@ static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
   entity &ent = entities[eid];
   location &loc = locations[ent.location];
   list<object_id_t, LOCATION_MAX_ENTITIES> &lse = loc.entities;
-  for (uint32_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+  for (size_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     if (!lse.at(i)) {
       break;
     }
@@ -485,7 +487,7 @@ static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
       continue;
     }
     list<object_id_t, ENTITY_MAX_OBJECTS> &lso = ent.objects;
-    for (uint32_t j = 0; j < ENTITY_MAX_OBJECTS; j++) {
+    for (size_t j = 0; j < ENTITY_MAX_OBJECTS; j++) {
       object_id_t const oid = lso.at(j);
       if (!oid) {
         break;
@@ -517,12 +519,12 @@ static auto print_help() -> void {
 
 static char input_escape_sequence[8];
 static auto input_escape_sequence_clear() -> void {
-  for (uint32_t i = 0; i < sizeof(input_escape_sequence); ++i) {
+  for (size_t i = 0; i < sizeof(input_escape_sequence); ++i) {
     input_escape_sequence[i] = '0';
   }
 }
 
-static auto uart_send_move_back(uint32_t const n) -> void;
+static auto uart_send_move_back(size_t const n) -> void;
 
 static auto input(command_buffer &buf) -> void {
   buf.reset();
@@ -623,7 +625,7 @@ static auto strings_equal(char const *s1, char const *s2) -> bool {
   }
 }
 
-static auto string_copy(char const *src, uint32_t src_len, char *dst) -> void {
+static auto string_copy(char const *src, size_t src_len, char *dst) -> void {
   while (src_len--) {
     *dst++ = *src++;
   }
@@ -642,8 +644,8 @@ static auto uart_send_hex_nibble(char const nibble) -> void {
   }
 }
 
-static auto uart_send_move_back(uint32_t const n) -> void {
-  for (uint32_t i = 0; i < n; ++i) {
+static auto uart_send_move_back(size_t const n) -> void {
+  for (size_t i = 0; i < n; ++i) {
     uart_send_char('\b');
   }
 }
