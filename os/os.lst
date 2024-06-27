@@ -49,7 +49,7 @@ Disassembly of section .text:
 
 0000005c <_ZL20startup_init_staticsv>:
 # 
-# // freestanding does not initiate statics
+# // freestanding does not automatically initiate statics
 # static auto startup_init_statics() -> void {}
       5c:	ff010113          	add	sp,sp,-16
       60:	00812623          	sw	s0,12(sp)

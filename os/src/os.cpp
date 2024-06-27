@@ -16,7 +16,7 @@ static auto startup_init_bss() -> void {
   }
 }
 
-// freestanding does not initiate statics
+// freestanding does not automatically initiate statics
 static auto startup_init_statics() -> void {}
 
 // FPGA has no exit
