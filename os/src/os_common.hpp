@@ -606,8 +606,8 @@ static auto strings_equal(char const *s1, char const *s2) -> bool {
     if (!*s1 && !*s2) {
       return true;
     }
-    s1++;
-    s2++;
+    ++s1;
+    ++s2;
   }
 }
 
@@ -618,7 +618,7 @@ static auto string_copy(char const *src, size_t src_len, char *dst) -> void {
 }
 
 static auto uart_send_hex_byte(char const ch) -> void {
-  uart_send_hex_nibble((ch & 0xf0) >> 4);
+  uart_send_hex_nibble(ch >> 4);
   uart_send_hex_nibble(ch & 0x0f);
 }
 
