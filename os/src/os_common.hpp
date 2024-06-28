@@ -162,11 +162,15 @@ public:
     return false;
   }
 
-  auto remove_at_index(size_t ix) -> void {
+  auto remove_at_index(size_t ix) -> bool {
+    if (len == 0) {
+      return false;
+    }
     --len;
     for (size_t i = ix; i < len; ++i) {
       data[i] = data[i + 1];
     }
+    return true;
   }
 
   auto at(size_t const ix) const -> Type {

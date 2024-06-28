@@ -14,7 +14,7 @@ Disassembly of section .text:
        4:	004000ef          	jal	8 <run>
 
 00000008 <run>:
-       8:	f9010113          	add	sp,sp,-112 # 1fff90 <__bss_end+0x1fc4e0>
+       8:	f9010113          	add	sp,sp,-112 # 1fff90 <__bss_end+0x1fc4b8>
        c:	06112623          	sw	ra,108(sp)
       10:	06812423          	sw	s0,104(sp)
       14:	07010413          	add	s0,sp,112
@@ -35,12 +35,12 @@ Disassembly of section .text:
       50:	00002097          	auipc	ra,0x2
       54:	930080e7          	jalr	-1744(ra) # 1980 <memset>
       58:	000047b7          	lui	a5,0x4
-      5c:	aa47a783          	lw	a5,-1372(a5) # 3aa4 <_ZL9ascii_art>
+      5c:	acc7a783          	lw	a5,-1332(a5) # 3acc <_ZL9ascii_art>
       60:	00078513          	mv	a0,a5
       64:	00001097          	auipc	ra,0x1
       68:	738080e7          	jalr	1848(ra) # 179c <_ZL13uart_send_strPKc>
       6c:	000047b7          	lui	a5,0x4
-      70:	aa07a783          	lw	a5,-1376(a5) # 3aa0 <_ZL5hello>
+      70:	ac87a783          	lw	a5,-1336(a5) # 3ac8 <_ZL5hello>
       74:	00078513          	mv	a0,a5
       78:	00001097          	auipc	ra,0x1
       7c:	724080e7          	jalr	1828(ra) # 179c <_ZL13uart_send_strPKc>
@@ -52,7 +52,7 @@ Disassembly of section .text:
       94:	40e787b3          	sub	a5,a5,a4
       98:	00279793          	sll	a5,a5,0x2
       9c:	00003737          	lui	a4,0x3
-      a0:	6e470713          	add	a4,a4,1764 # 36e4 <_ZL8entities>
+      a0:	70c70713          	add	a4,a4,1804 # 370c <_ZL8entities>
       a4:	00e787b3          	add	a5,a5,a4
       a8:	fef42423          	sw	a5,-24(s0)
       ac:	fe842783          	lw	a5,-24(s0)
@@ -68,7 +68,7 @@ Disassembly of section .text:
       d4:	00001097          	auipc	ra,0x1
       d8:	6c8080e7          	jalr	1736(ra) # 179c <_ZL13uart_send_strPKc>
       dc:	000037b7          	lui	a5,0x3
-      e0:	a4078513          	add	a0,a5,-1472 # 2a40 <_ZNK4listIhLi8EE2atEj+0x42c>
+      e0:	a6878513          	add	a0,a5,-1432 # 2a68 <_ZNK4listIhLi8EE2atEj+0x42c>
       e4:	00001097          	auipc	ra,0x1
       e8:	6b8080e7          	jalr	1720(ra) # 179c <_ZL13uart_send_strPKc>
       ec:	f9440793          	add	a5,s0,-108
@@ -76,7 +76,7 @@ Disassembly of section .text:
       f4:	00001097          	auipc	ra,0x1
       f8:	14c080e7          	jalr	332(ra) # 1240 <_ZL5inputR14command_buffer>
       fc:	000037b7          	lui	a5,0x3
-     100:	a4478513          	add	a0,a5,-1468 # 2a44 <_ZNK4listIhLi8EE2atEj+0x430>
+     100:	a6c78513          	add	a0,a5,-1428 # 2a6c <_ZNK4listIhLi8EE2atEj+0x430>
      104:	00001097          	auipc	ra,0x1
      108:	698080e7          	jalr	1688(ra) # 179c <_ZL13uart_send_strPKc>
      10c:	f9440713          	add	a4,s0,-108
@@ -139,14 +139,14 @@ Disassembly of section .text:
      1e8:	00800793          	li	a5,8
      1ec:	f8f714e3          	bne	a4,a5,174 <_ZL12handle_inputhR14command_buffer+0x30>
      1f0:	000037b7          	lui	a5,0x3
-     1f4:	a4878513          	add	a0,a5,-1464 # 2a48 <_ZNK4listIhLi8EE2atEj+0x434>
+     1f4:	a7078513          	add	a0,a5,-1424 # 2a70 <_ZNK4listIhLi8EE2atEj+0x434>
      1f8:	00001097          	auipc	ra,0x1
      1fc:	5a4080e7          	jalr	1444(ra) # 179c <_ZL13uart_send_strPKc>
      200:	0080006f          	j	208 <_ZL12handle_inputhR14command_buffer+0xc4>
      204:	00000013          	nop
      208:	fc842703          	lw	a4,-56(s0)
      20c:	000037b7          	lui	a5,0x3
-     210:	a6c78593          	add	a1,a5,-1428 # 2a6c <_ZNK4listIhLi8EE2atEj+0x458>
+     210:	a9478593          	add	a1,a5,-1388 # 2a94 <_ZNK4listIhLi8EE2atEj+0x458>
      214:	00070513          	mv	a0,a4
      218:	00001097          	auipc	ra,0x1
      21c:	350080e7          	jalr	848(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -157,7 +157,7 @@ Disassembly of section .text:
      230:	2bc0006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      234:	fc842703          	lw	a4,-56(s0)
      238:	000037b7          	lui	a5,0x3
-     23c:	a7478593          	add	a1,a5,-1420 # 2a74 <_ZNK4listIhLi8EE2atEj+0x460>
+     23c:	a9c78593          	add	a1,a5,-1380 # 2a9c <_ZNK4listIhLi8EE2atEj+0x460>
      240:	00070513          	mv	a0,a4
      244:	00001097          	auipc	ra,0x1
      248:	324080e7          	jalr	804(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -168,13 +168,13 @@ Disassembly of section .text:
      25c:	00000097          	auipc	ra,0x0
      260:	674080e7          	jalr	1652(ra) # 8d0 <_ZL16action_inventoryh>
      264:	000037b7          	lui	a5,0x3
-     268:	a4478513          	add	a0,a5,-1468 # 2a44 <_ZNK4listIhLi8EE2atEj+0x430>
+     268:	a6c78513          	add	a0,a5,-1428 # 2a6c <_ZNK4listIhLi8EE2atEj+0x430>
      26c:	00001097          	auipc	ra,0x1
      270:	530080e7          	jalr	1328(ra) # 179c <_ZL13uart_send_strPKc>
      274:	2780006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      278:	fc842703          	lw	a4,-56(s0)
      27c:	000037b7          	lui	a5,0x3
-     280:	a7878593          	add	a1,a5,-1416 # 2a78 <_ZNK4listIhLi8EE2atEj+0x464>
+     280:	aa078593          	add	a1,a5,-1376 # 2aa0 <_ZNK4listIhLi8EE2atEj+0x464>
      284:	00070513          	mv	a0,a4
      288:	00001097          	auipc	ra,0x1
      28c:	2e0080e7          	jalr	736(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -184,7 +184,7 @@ Disassembly of section .text:
      29c:	00100793          	li	a5,1
      2a0:	00e7ec63          	bltu	a5,a4,2b8 <_ZL12handle_inputhR14command_buffer+0x174>
      2a4:	000037b7          	lui	a5,0x3
-     2a8:	a7c78513          	add	a0,a5,-1412 # 2a7c <_ZNK4listIhLi8EE2atEj+0x468>
+     2a8:	aa478513          	add	a0,a5,-1372 # 2aa4 <_ZNK4listIhLi8EE2atEj+0x468>
      2ac:	00001097          	auipc	ra,0x1
      2b0:	4f0080e7          	jalr	1264(ra) # 179c <_ZL13uart_send_strPKc>
      2b4:	2380006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
@@ -197,7 +197,7 @@ Disassembly of section .text:
      2d0:	21c0006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      2d4:	fc842703          	lw	a4,-56(s0)
      2d8:	000037b7          	lui	a5,0x3
-     2dc:	a8c78593          	add	a1,a5,-1396 # 2a8c <_ZNK4listIhLi8EE2atEj+0x478>
+     2dc:	ab478593          	add	a1,a5,-1356 # 2ab4 <_ZNK4listIhLi8EE2atEj+0x478>
      2e0:	00070513          	mv	a0,a4
      2e4:	00001097          	auipc	ra,0x1
      2e8:	284080e7          	jalr	644(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -207,7 +207,7 @@ Disassembly of section .text:
      2f8:	00100793          	li	a5,1
      2fc:	00e7ec63          	bltu	a5,a4,314 <_ZL12handle_inputhR14command_buffer+0x1d0>
      300:	000037b7          	lui	a5,0x3
-     304:	a9078513          	add	a0,a5,-1392 # 2a90 <_ZNK4listIhLi8EE2atEj+0x47c>
+     304:	ab878513          	add	a0,a5,-1352 # 2ab8 <_ZNK4listIhLi8EE2atEj+0x47c>
      308:	00001097          	auipc	ra,0x1
      30c:	494080e7          	jalr	1172(ra) # 179c <_ZL13uart_send_strPKc>
      310:	1dc0006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
@@ -220,7 +220,7 @@ Disassembly of section .text:
      32c:	1c00006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      330:	fc842703          	lw	a4,-56(s0)
      334:	000037b7          	lui	a5,0x3
-     338:	aa078593          	add	a1,a5,-1376 # 2aa0 <_ZNK4listIhLi8EE2atEj+0x48c>
+     338:	ac878593          	add	a1,a5,-1336 # 2ac8 <_ZNK4listIhLi8EE2atEj+0x48c>
      33c:	00070513          	mv	a0,a4
      340:	00001097          	auipc	ra,0x1
      344:	228080e7          	jalr	552(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -234,7 +234,7 @@ Disassembly of section .text:
      364:	1880006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      368:	fc842703          	lw	a4,-56(s0)
      36c:	000037b7          	lui	a5,0x3
-     370:	aa478593          	add	a1,a5,-1372 # 2aa4 <_ZNK4listIhLi8EE2atEj+0x490>
+     370:	acc78593          	add	a1,a5,-1332 # 2acc <_ZNK4listIhLi8EE2atEj+0x490>
      374:	00070513          	mv	a0,a4
      378:	00001097          	auipc	ra,0x1
      37c:	1f0080e7          	jalr	496(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -248,7 +248,7 @@ Disassembly of section .text:
      39c:	1500006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      3a0:	fc842703          	lw	a4,-56(s0)
      3a4:	000037b7          	lui	a5,0x3
-     3a8:	aa878593          	add	a1,a5,-1368 # 2aa8 <_ZNK4listIhLi8EE2atEj+0x494>
+     3a8:	ad078593          	add	a1,a5,-1328 # 2ad0 <_ZNK4listIhLi8EE2atEj+0x494>
      3ac:	00070513          	mv	a0,a4
      3b0:	00001097          	auipc	ra,0x1
      3b4:	1b8080e7          	jalr	440(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -262,7 +262,7 @@ Disassembly of section .text:
      3d4:	1180006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      3d8:	fc842703          	lw	a4,-56(s0)
      3dc:	000037b7          	lui	a5,0x3
-     3e0:	aac78593          	add	a1,a5,-1364 # 2aac <_ZNK4listIhLi8EE2atEj+0x498>
+     3e0:	ad478593          	add	a1,a5,-1324 # 2ad4 <_ZNK4listIhLi8EE2atEj+0x498>
      3e4:	00070513          	mv	a0,a4
      3e8:	00001097          	auipc	ra,0x1
      3ec:	180080e7          	jalr	384(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -276,7 +276,7 @@ Disassembly of section .text:
      40c:	0e00006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      410:	fc842703          	lw	a4,-56(s0)
      414:	000037b7          	lui	a5,0x3
-     418:	ab078593          	add	a1,a5,-1360 # 2ab0 <_ZNK4listIhLi8EE2atEj+0x49c>
+     418:	ad878593          	add	a1,a5,-1320 # 2ad8 <_ZNK4listIhLi8EE2atEj+0x49c>
      41c:	00070513          	mv	a0,a4
      420:	00001097          	auipc	ra,0x1
      424:	148080e7          	jalr	328(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -286,7 +286,7 @@ Disassembly of section .text:
      434:	00100793          	li	a5,1
      438:	00e7ec63          	bltu	a5,a4,450 <_ZL12handle_inputhR14command_buffer+0x30c>
      43c:	000037b7          	lui	a5,0x3
-     440:	ab478513          	add	a0,a5,-1356 # 2ab4 <_ZNK4listIhLi8EE2atEj+0x4a0>
+     440:	adc78513          	add	a0,a5,-1316 # 2adc <_ZNK4listIhLi8EE2atEj+0x4a0>
      444:	00001097          	auipc	ra,0x1
      448:	358080e7          	jalr	856(ra) # 179c <_ZL13uart_send_strPKc>
      44c:	0a00006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
@@ -294,7 +294,7 @@ Disassembly of section .text:
      454:	00200793          	li	a5,2
      458:	00e7ec63          	bltu	a5,a4,470 <_ZL12handle_inputhR14command_buffer+0x32c>
      45c:	000037b7          	lui	a5,0x3
-     460:	ac478513          	add	a0,a5,-1340 # 2ac4 <_ZNK4listIhLi8EE2atEj+0x4b0>
+     460:	aec78513          	add	a0,a5,-1300 # 2aec <_ZNK4listIhLi8EE2atEj+0x4b0>
      464:	00001097          	auipc	ra,0x1
      468:	338080e7          	jalr	824(ra) # 179c <_ZL13uart_send_strPKc>
      46c:	0800006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
@@ -309,7 +309,7 @@ Disassembly of section .text:
      490:	05c0006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      494:	fc842703          	lw	a4,-56(s0)
      498:	000037b7          	lui	a5,0x3
-     49c:	ad878593          	add	a1,a5,-1320 # 2ad8 <_ZNK4listIhLi8EE2atEj+0x4c4>
+     49c:	b0078593          	add	a1,a5,-1280 # 2b00 <_ZNK4listIhLi8EE2atEj+0x4c4>
      4a0:	00070513          	mv	a0,a4
      4a4:	00001097          	auipc	ra,0x1
      4a8:	0c4080e7          	jalr	196(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -320,7 +320,7 @@ Disassembly of section .text:
      4bc:	0300006f          	j	4ec <_ZL12handle_inputhR14command_buffer+0x3a8>
      4c0:	fc842703          	lw	a4,-56(s0)
      4c4:	000037b7          	lui	a5,0x3
-     4c8:	adc78593          	add	a1,a5,-1316 # 2adc <_ZNK4listIhLi8EE2atEj+0x4c8>
+     4c8:	b0478593          	add	a1,a5,-1276 # 2b04 <_ZNK4listIhLi8EE2atEj+0x4c8>
      4cc:	00070513          	mv	a0,a4
      4d0:	00001097          	auipc	ra,0x1
      4d4:	098080e7          	jalr	152(ra) # 1568 <_ZL13strings_equalPKcS0_>
@@ -351,12 +351,12 @@ Disassembly of section .text:
      530:	0ff7f793          	zext.b	a5,a5
      534:	00078a63          	beqz	a5,548 <_ZZL14print_locationhhENKUlhE_clEh+0x4c>
      538:	000037b7          	lui	a5,0x3
-     53c:	ae078513          	add	a0,a5,-1312 # 2ae0 <_ZNK4listIhLi8EE2atEj+0x4cc>
+     53c:	b0878513          	add	a0,a5,-1272 # 2b08 <_ZNK4listIhLi8EE2atEj+0x4cc>
      540:	00001097          	auipc	ra,0x1
      544:	25c080e7          	jalr	604(ra) # 179c <_ZL13uart_send_strPKc>
      548:	feb44783          	lbu	a5,-21(s0)
      54c:	00003737          	lui	a4,0x3
-     550:	6d470713          	add	a4,a4,1748 # 36d4 <_ZL7objects>
+     550:	6fc70713          	add	a4,a4,1788 # 36fc <_ZL7objects>
      554:	00279793          	sll	a5,a5,0x2
      558:	00f707b3          	add	a5,a4,a5
      55c:	0007a783          	lw	a5,0(a5)
@@ -394,12 +394,12 @@ Disassembly of section .text:
      5d4:	0ff7f793          	zext.b	a5,a5
      5d8:	00078a63          	beqz	a5,5ec <_ZZL14print_locationhhENKUlhE0_clEh+0x68>
      5dc:	000037b7          	lui	a5,0x3
-     5e0:	ae078513          	add	a0,a5,-1312 # 2ae0 <_ZNK4listIhLi8EE2atEj+0x4cc>
+     5e0:	b0878513          	add	a0,a5,-1272 # 2b08 <_ZNK4listIhLi8EE2atEj+0x4cc>
      5e4:	00001097          	auipc	ra,0x1
      5e8:	1b8080e7          	jalr	440(ra) # 179c <_ZL13uart_send_strPKc>
      5ec:	feb44703          	lbu	a4,-21(s0)
      5f0:	000037b7          	lui	a5,0x3
-     5f4:	6e478693          	add	a3,a5,1764 # 36e4 <_ZL8entities>
+     5f4:	70c78693          	add	a3,a5,1804 # 370c <_ZL8entities>
      5f8:	00070793          	mv	a5,a4
      5fc:	00179793          	sll	a5,a5,0x1
      600:	00e787b3          	add	a5,a5,a4
@@ -434,11 +434,11 @@ Disassembly of section .text:
      66c:	00e787b3          	add	a5,a5,a4
      670:	00579793          	sll	a5,a5,0x5
      674:	00003737          	lui	a4,0x3
-     678:	76870713          	add	a4,a4,1896 # 3768 <_ZL9locations>
+     678:	79070713          	add	a4,a4,1936 # 3790 <_ZL9locations>
      67c:	00e787b3          	add	a5,a5,a4
      680:	fef42223          	sw	a5,-28(s0)
      684:	000037b7          	lui	a5,0x3
-     688:	ae478513          	add	a0,a5,-1308 # 2ae4 <_ZNK4listIhLi8EE2atEj+0x4d0>
+     688:	b0c78513          	add	a0,a5,-1268 # 2b0c <_ZNK4listIhLi8EE2atEj+0x4d0>
      68c:	00001097          	auipc	ra,0x1
      690:	110080e7          	jalr	272(ra) # 179c <_ZL13uart_send_strPKc>
      694:	fe442783          	lw	a5,-28(s0)
@@ -447,7 +447,7 @@ Disassembly of section .text:
      6a0:	00001097          	auipc	ra,0x1
      6a4:	0fc080e7          	jalr	252(ra) # 179c <_ZL13uart_send_strPKc>
      6a8:	000037b7          	lui	a5,0x3
-     6ac:	aec78513          	add	a0,a5,-1300 # 2aec <_ZNK4listIhLi8EE2atEj+0x4d8>
+     6ac:	b1478513          	add	a0,a5,-1260 # 2b14 <_ZNK4listIhLi8EE2atEj+0x4d8>
      6b0:	00001097          	auipc	ra,0x1
      6b4:	0ec080e7          	jalr	236(ra) # 179c <_ZL13uart_send_strPKc>
      6b8:	fc042823          	sw	zero,-48(s0)
@@ -461,11 +461,11 @@ Disassembly of section .text:
      6d8:	fd042783          	lw	a5,-48(s0)
      6dc:	00079a63          	bnez	a5,6f0 <_ZL14print_locationhh+0xb4>
      6e0:	000037b7          	lui	a5,0x3
-     6e4:	af478513          	add	a0,a5,-1292 # 2af4 <_ZNK4listIhLi8EE2atEj+0x4e0>
+     6e4:	b1c78513          	add	a0,a5,-1252 # 2b1c <_ZNK4listIhLi8EE2atEj+0x4e0>
      6e8:	00001097          	auipc	ra,0x1
      6ec:	0b4080e7          	jalr	180(ra) # 179c <_ZL13uart_send_strPKc>
      6f0:	000037b7          	lui	a5,0x3
-     6f4:	a4478513          	add	a0,a5,-1468 # 2a44 <_ZNK4listIhLi8EE2atEj+0x430>
+     6f4:	a6c78513          	add	a0,a5,-1428 # 2a6c <_ZNK4listIhLi8EE2atEj+0x430>
      6f8:	00001097          	auipc	ra,0x1
      6fc:	0a4080e7          	jalr	164(ra) # 179c <_ZL13uart_send_strPKc>
      700:	fc042623          	sw	zero,-52(s0)
@@ -483,12 +483,12 @@ Disassembly of section .text:
      730:	fcc42783          	lw	a5,-52(s0)
      734:	00078a63          	beqz	a5,748 <_ZL14print_locationhh+0x10c>
      738:	000037b7          	lui	a5,0x3
-     73c:	afc78513          	add	a0,a5,-1284 # 2afc <_ZNK4listIhLi8EE2atEj+0x4e8>
+     73c:	b2478513          	add	a0,a5,-1244 # 2b24 <_ZNK4listIhLi8EE2atEj+0x4e8>
      740:	00001097          	auipc	ra,0x1
      744:	05c080e7          	jalr	92(ra) # 179c <_ZL13uart_send_strPKc>
      748:	fe042623          	sw	zero,-20(s0)
      74c:	000037b7          	lui	a5,0x3
-     750:	b0878513          	add	a0,a5,-1272 # 2b08 <_ZNK4listIhLi8EE2atEj+0x4f4>
+     750:	b3078513          	add	a0,a5,-1232 # 2b30 <_ZNK4listIhLi8EE2atEj+0x4f4>
      754:	00001097          	auipc	ra,0x1
      758:	048080e7          	jalr	72(ra) # 179c <_ZL13uart_send_strPKc>
      75c:	fe442783          	lw	a5,-28(s0)
@@ -515,11 +515,11 @@ Disassembly of section .text:
      7b0:	0ff7f793          	zext.b	a5,a5
      7b4:	00078a63          	beqz	a5,7c8 <_ZL14print_locationhh+0x18c>
      7b8:	000037b7          	lui	a5,0x3
-     7bc:	ae078513          	add	a0,a5,-1312 # 2ae0 <_ZNK4listIhLi8EE2atEj+0x4cc>
+     7bc:	b0878513          	add	a0,a5,-1272 # 2b08 <_ZNK4listIhLi8EE2atEj+0x4cc>
      7c0:	00001097          	auipc	ra,0x1
      7c4:	fdc080e7          	jalr	-36(ra) # 179c <_ZL13uart_send_strPKc>
      7c8:	000047b7          	lui	a5,0x4
-     7cc:	a8878713          	add	a4,a5,-1400 # 3a88 <_ZL10exit_names>
+     7cc:	ab078713          	add	a4,a5,-1360 # 3ab0 <_ZL10exit_names>
      7d0:	fe842783          	lw	a5,-24(s0)
      7d4:	00279793          	sll	a5,a5,0x2
      7d8:	00f707b3          	add	a5,a4,a5
@@ -538,11 +538,11 @@ Disassembly of section .text:
      80c:	fec42783          	lw	a5,-20(s0)
      810:	00079a63          	bnez	a5,824 <_ZL14print_locationhh+0x1e8>
      814:	000037b7          	lui	a5,0x3
-     818:	b1078513          	add	a0,a5,-1264 # 2b10 <_ZNK4listIhLi8EE2atEj+0x4fc>
+     818:	b3878513          	add	a0,a5,-1224 # 2b38 <_ZNK4listIhLi8EE2atEj+0x4fc>
      81c:	00001097          	auipc	ra,0x1
      820:	f80080e7          	jalr	-128(ra) # 179c <_ZL13uart_send_strPKc>
      824:	000037b7          	lui	a5,0x3
-     828:	a4478513          	add	a0,a5,-1468 # 2a44 <_ZNK4listIhLi8EE2atEj+0x430>
+     828:	a6c78513          	add	a0,a5,-1428 # 2a6c <_ZNK4listIhLi8EE2atEj+0x430>
      82c:	00001097          	auipc	ra,0x1
      830:	f70080e7          	jalr	-144(ra) # 179c <_ZL13uart_send_strPKc>
      834:	00000013          	nop
@@ -568,12 +568,12 @@ Disassembly of section .text:
      87c:	0ff7f793          	zext.b	a5,a5
      880:	00078a63          	beqz	a5,894 <_ZZL16action_inventoryhENKUlhE_clEh+0x4c>
      884:	000037b7          	lui	a5,0x3
-     888:	ae078513          	add	a0,a5,-1312 # 2ae0 <_ZNK4listIhLi8EE2atEj+0x4cc>
+     888:	b0878513          	add	a0,a5,-1272 # 2b08 <_ZNK4listIhLi8EE2atEj+0x4cc>
      88c:	00001097          	auipc	ra,0x1
      890:	f10080e7          	jalr	-240(ra) # 179c <_ZL13uart_send_strPKc>
      894:	feb44783          	lbu	a5,-21(s0)
      898:	00003737          	lui	a4,0x3
-     89c:	6d470713          	add	a4,a4,1748 # 36d4 <_ZL7objects>
+     89c:	6fc70713          	add	a4,a4,1788 # 36fc <_ZL7objects>
      8a0:	00279793          	sll	a5,a5,0x2
      8a4:	00f707b3          	add	a5,a4,a5
      8a8:	0007a783          	lw	a5,0(a5)
@@ -595,7 +595,7 @@ Disassembly of section .text:
      8e0:	00050793          	mv	a5,a0
      8e4:	fcf40fa3          	sb	a5,-33(s0)
      8e8:	000037b7          	lui	a5,0x3
-     8ec:	b1878513          	add	a0,a5,-1256 # 2b18 <_ZNK4listIhLi8EE2atEj+0x504>
+     8ec:	b4078513          	add	a0,a5,-1216 # 2b40 <_ZNK4listIhLi8EE2atEj+0x504>
      8f0:	00001097          	auipc	ra,0x1
      8f4:	eac080e7          	jalr	-340(ra) # 179c <_ZL13uart_send_strPKc>
      8f8:	fe042623          	sw	zero,-20(s0)
@@ -607,7 +607,7 @@ Disassembly of section .text:
      910:	40e787b3          	sub	a5,a5,a4
      914:	00279793          	sll	a5,a5,0x2
      918:	00003737          	lui	a4,0x3
-     91c:	6e470713          	add	a4,a4,1764 # 36e4 <_ZL8entities>
+     91c:	70c70713          	add	a4,a4,1804 # 370c <_ZL8entities>
      920:	00e787b3          	add	a5,a5,a4
      924:	00878793          	add	a5,a5,8
      928:	fec40713          	add	a4,s0,-20
@@ -618,11 +618,11 @@ Disassembly of section .text:
      93c:	fec42783          	lw	a5,-20(s0)
      940:	00079a63          	bnez	a5,954 <_ZL16action_inventoryh+0x84>
      944:	000037b7          	lui	a5,0x3
-     948:	af478513          	add	a0,a5,-1292 # 2af4 <_ZNK4listIhLi8EE2atEj+0x4e0>
+     948:	b1c78513          	add	a0,a5,-1252 # 2b1c <_ZNK4listIhLi8EE2atEj+0x4e0>
      94c:	00001097          	auipc	ra,0x1
      950:	e50080e7          	jalr	-432(ra) # 179c <_ZL13uart_send_strPKc>
      954:	000037b7          	lui	a5,0x3
-     958:	a4478513          	add	a0,a5,-1468 # 2a44 <_ZNK4listIhLi8EE2atEj+0x430>
+     958:	a6c78513          	add	a0,a5,-1428 # 2a6c <_ZNK4listIhLi8EE2atEj+0x430>
      95c:	00001097          	auipc	ra,0x1
      960:	e40080e7          	jalr	-448(ra) # 179c <_ZL13uart_send_strPKc>
      964:	00000013          	nop
@@ -647,7 +647,7 @@ Disassembly of section .text:
      9a8:	40e787b3          	sub	a5,a5,a4
      9ac:	00279793          	sll	a5,a5,0x2
      9b0:	00003737          	lui	a4,0x3
-     9b4:	6e470713          	add	a4,a4,1764 # 36e4 <_ZL8entities>
+     9b4:	70c70713          	add	a4,a4,1804 # 370c <_ZL8entities>
      9b8:	00e787b3          	add	a5,a5,a4
      9bc:	fef42423          	sw	a5,-24(s0)
      9c0:	fe842783          	lw	a5,-24(s0)
@@ -658,7 +658,7 @@ Disassembly of section .text:
      9d4:	00e787b3          	add	a5,a5,a4
      9d8:	00579793          	sll	a5,a5,0x5
      9dc:	00003737          	lui	a4,0x3
-     9e0:	76870713          	add	a4,a4,1896 # 3768 <_ZL9locations>
+     9e0:	79070713          	add	a4,a4,1936 # 3790 <_ZL9locations>
      9e4:	00e787b3          	add	a5,a5,a4
      9e8:	00478793          	add	a5,a5,4
      9ec:	fef42223          	sw	a5,-28(s0)
@@ -676,7 +676,7 @@ Disassembly of section .text:
      a1c:	fcf40fa3          	sb	a5,-33(s0)
      a20:	fdf44783          	lbu	a5,-33(s0)
      a24:	00003737          	lui	a4,0x3
-     a28:	6d470713          	add	a4,a4,1748 # 36d4 <_ZL7objects>
+     a28:	6fc70713          	add	a4,a4,1788 # 36fc <_ZL7objects>
      a2c:	00279793          	sll	a5,a5,0x2
      a30:	00f707b3          	add	a5,a4,a5
      a34:	0007a783          	lw	a5,0(a5)
@@ -713,7 +713,7 @@ Disassembly of section .text:
      ab0:	00001097          	auipc	ra,0x1
      ab4:	cec080e7          	jalr	-788(ra) # 179c <_ZL13uart_send_strPKc>
      ab8:	000037b7          	lui	a5,0x3
-     abc:	b2478513          	add	a0,a5,-1244 # 2b24 <_ZNK4listIhLi8EE2atEj+0x510>
+     abc:	b4c78513          	add	a0,a5,-1204 # 2b4c <_ZNK4listIhLi8EE2atEj+0x510>
      ac0:	00001097          	auipc	ra,0x1
      ac4:	cdc080e7          	jalr	-804(ra) # 179c <_ZL13uart_send_strPKc>
      ac8:	0080006f          	j	ad0 <_ZL11action_takehPKc+0x158>
@@ -739,7 +739,7 @@ Disassembly of section .text:
      b10:	40e787b3          	sub	a5,a5,a4
      b14:	00279793          	sll	a5,a5,0x2
      b18:	00003737          	lui	a4,0x3
-     b1c:	6e470713          	add	a4,a4,1764 # 36e4 <_ZL8entities>
+     b1c:	70c70713          	add	a4,a4,1804 # 370c <_ZL8entities>
      b20:	00e787b3          	add	a5,a5,a4
      b24:	fef42423          	sw	a5,-24(s0)
      b28:	fe842783          	lw	a5,-24(s0)
@@ -747,19 +747,19 @@ Disassembly of section .text:
      b30:	fef42223          	sw	a5,-28(s0)
      b34:	fe442503          	lw	a0,-28(s0)
      b38:	00002097          	auipc	ra,0x2
-     b3c:	804080e7          	jalr	-2044(ra) # 233c <_ZNK4listIhLi32EE6lengthEv>
+     b3c:	818080e7          	jalr	-2024(ra) # 2350 <_ZNK4listIhLi32EE6lengthEv>
      b40:	fea42023          	sw	a0,-32(s0)
      b44:	fe042623          	sw	zero,-20(s0)
      b48:	0c00006f          	j	c08 <_ZL11action_drophPKc+0x128>
      b4c:	fec42583          	lw	a1,-20(s0)
      b50:	fe442503          	lw	a0,-28(s0)
      b54:	00002097          	auipc	ra,0x2
-     b58:	810080e7          	jalr	-2032(ra) # 2364 <_ZNK4listIhLi32EE2atEj>
+     b58:	824080e7          	jalr	-2012(ra) # 2378 <_ZNK4listIhLi32EE2atEj>
      b5c:	00050793          	mv	a5,a0
      b60:	fcf40fa3          	sb	a5,-33(s0)
      b64:	fdf44783          	lbu	a5,-33(s0)
      b68:	00003737          	lui	a4,0x3
-     b6c:	6d470713          	add	a4,a4,1748 # 36d4 <_ZL7objects>
+     b6c:	6fc70713          	add	a4,a4,1788 # 36fc <_ZL7objects>
      b70:	00279793          	sll	a5,a5,0x2
      b74:	00f707b3          	add	a5,a4,a5
      b78:	0007a783          	lw	a5,0(a5)
@@ -779,20 +779,20 @@ Disassembly of section .text:
      bb0:	00e787b3          	add	a5,a5,a4
      bb4:	00579793          	sll	a5,a5,0x5
      bb8:	00003737          	lui	a4,0x3
-     bbc:	76870713          	add	a4,a4,1896 # 3768 <_ZL9locations>
+     bbc:	79070713          	add	a4,a4,1936 # 3790 <_ZL9locations>
      bc0:	00e787b3          	add	a5,a5,a4
      bc4:	00478793          	add	a5,a5,4
      bc8:	fdf44703          	lbu	a4,-33(s0)
      bcc:	00070593          	mv	a1,a4
      bd0:	00078513          	mv	a0,a5
      bd4:	00001097          	auipc	ra,0x1
-     bd8:	7dc080e7          	jalr	2012(ra) # 23b0 <_ZN4listIhLi128EE3addEh>
+     bd8:	7f0080e7          	jalr	2032(ra) # 23c4 <_ZN4listIhLi128EE3addEh>
      bdc:	00050793          	mv	a5,a0
      be0:	06078263          	beqz	a5,c44 <_ZL11action_drophPKc+0x164>
      be4:	fec42583          	lw	a1,-20(s0)
      be8:	fe442503          	lw	a0,-28(s0)
      bec:	00002097          	auipc	ra,0x2
-     bf0:	834080e7          	jalr	-1996(ra) # 2420 <_ZN4listIhLi32EE15remove_at_indexEj>
+     bf0:	848080e7          	jalr	-1976(ra) # 2434 <_ZN4listIhLi32EE15remove_at_indexEj>
      bf4:	0500006f          	j	c44 <_ZL11action_drophPKc+0x164>
      bf8:	00000013          	nop
      bfc:	fec42783          	lw	a5,-20(s0)
@@ -802,14 +802,14 @@ Disassembly of section .text:
      c0c:	fe042783          	lw	a5,-32(s0)
      c10:	f2f76ee3          	bltu	a4,a5,b4c <_ZL11action_drophPKc+0x6c>
      c14:	000037b7          	lui	a5,0x3
-     c18:	b3478513          	add	a0,a5,-1228 # 2b34 <_ZNK4listIhLi8EE2atEj+0x520>
+     c18:	b5c78513          	add	a0,a5,-1188 # 2b5c <_ZNK4listIhLi8EE2atEj+0x520>
      c1c:	00001097          	auipc	ra,0x1
      c20:	b80080e7          	jalr	-1152(ra) # 179c <_ZL13uart_send_strPKc>
      c24:	fc842503          	lw	a0,-56(s0)
      c28:	00001097          	auipc	ra,0x1
      c2c:	b74080e7          	jalr	-1164(ra) # 179c <_ZL13uart_send_strPKc>
      c30:	000037b7          	lui	a5,0x3
-     c34:	b4478513          	add	a0,a5,-1212 # 2b44 <_ZNK4listIhLi8EE2atEj+0x530>
+     c34:	b6c78513          	add	a0,a5,-1172 # 2b6c <_ZNK4listIhLi8EE2atEj+0x530>
      c38:	00001097          	auipc	ra,0x1
      c3c:	b64080e7          	jalr	-1180(ra) # 179c <_ZL13uart_send_strPKc>
      c40:	0080006f          	j	c48 <_ZL11action_drophPKc+0x168>
@@ -837,7 +837,7 @@ Disassembly of section .text:
      c90:	40e787b3          	sub	a5,a5,a4
      c94:	00279793          	sll	a5,a5,0x2
      c98:	00003737          	lui	a4,0x3
-     c9c:	6e470713          	add	a4,a4,1764 # 36e4 <_ZL8entities>
+     c9c:	70c70713          	add	a4,a4,1804 # 370c <_ZL8entities>
      ca0:	00e787b3          	add	a5,a5,a4
      ca4:	fef42623          	sw	a5,-20(s0)
      ca8:	fec42783          	lw	a5,-20(s0)
@@ -848,7 +848,7 @@ Disassembly of section .text:
      cbc:	00e787b3          	add	a5,a5,a4
      cc0:	00579793          	sll	a5,a5,0x5
      cc4:	00003737          	lui	a4,0x3
-     cc8:	76870713          	add	a4,a4,1896 # 3768 <_ZL9locations>
+     cc8:	79070713          	add	a4,a4,1936 # 3790 <_ZL9locations>
      ccc:	00e787b3          	add	a5,a5,a4
      cd0:	fef42423          	sw	a5,-24(s0)
      cd4:	fe842783          	lw	a5,-24(s0)
@@ -863,7 +863,7 @@ Disassembly of section .text:
      cf8:	fe744783          	lbu	a5,-25(s0)
      cfc:	00079c63          	bnez	a5,d14 <_ZL9action_gohh+0xbc>
      d00:	000037b7          	lui	a5,0x3
-     d04:	b4c78513          	add	a0,a5,-1204 # 2b4c <_ZNK4listIhLi8EE2atEj+0x538>
+     d04:	b7478513          	add	a0,a5,-1164 # 2b74 <_ZNK4listIhLi8EE2atEj+0x538>
      d08:	00001097          	auipc	ra,0x1
      d0c:	a94080e7          	jalr	-1388(ra) # 179c <_ZL13uart_send_strPKc>
      d10:	0700006f          	j	d80 <_ZL9action_gohh+0x128>
@@ -874,14 +874,14 @@ Disassembly of section .text:
      d24:	00579793          	sll	a5,a5,0x5
      d28:	08078713          	add	a4,a5,128
      d2c:	000037b7          	lui	a5,0x3
-     d30:	76878793          	add	a5,a5,1896 # 3768 <_ZL9locations>
+     d30:	79078793          	add	a5,a5,1936 # 3790 <_ZL9locations>
      d34:	00f707b3          	add	a5,a4,a5
      d38:	00878793          	add	a5,a5,8
      d3c:	fdf44703          	lbu	a4,-33(s0)
      d40:	00070593          	mv	a1,a4
      d44:	00078513          	mv	a0,a5
      d48:	00001097          	auipc	ra,0x1
-     d4c:	760080e7          	jalr	1888(ra) # 24a8 <_ZN4listIhLi8EE3addEh>
+     d4c:	788080e7          	jalr	1928(ra) # 24d0 <_ZN4listIhLi8EE3addEh>
      d50:	00050793          	mv	a5,a0
      d54:	02078663          	beqz	a5,d80 <_ZL9action_gohh+0x128>
      d58:	fe842783          	lw	a5,-24(s0)
@@ -890,7 +890,7 @@ Disassembly of section .text:
      d64:	00070593          	mv	a1,a4
      d68:	00078513          	mv	a0,a5
      d6c:	00001097          	auipc	ra,0x1
-     d70:	7ac080e7          	jalr	1964(ra) # 2518 <_ZN4listIhLi8EE6removeEh>
+     d70:	7d4080e7          	jalr	2004(ra) # 2540 <_ZN4listIhLi8EE6removeEh>
      d74:	fec42783          	lw	a5,-20(s0)
      d78:	fe744703          	lbu	a4,-25(s0)
      d7c:	00e78223          	sb	a4,4(a5)
@@ -916,7 +916,7 @@ Disassembly of section .text:
      dc4:	40e787b3          	sub	a5,a5,a4
      dc8:	00279793          	sll	a5,a5,0x2
      dcc:	00003737          	lui	a4,0x3
-     dd0:	6e470713          	add	a4,a4,1764 # 36e4 <_ZL8entities>
+     dd0:	70c70713          	add	a4,a4,1804 # 370c <_ZL8entities>
      dd4:	00e787b3          	add	a5,a5,a4
      dd8:	fef42223          	sw	a5,-28(s0)
      ddc:	fe442783          	lw	a5,-28(s0)
@@ -927,7 +927,7 @@ Disassembly of section .text:
      df0:	00e787b3          	add	a5,a5,a4
      df4:	00579793          	sll	a5,a5,0x5
      df8:	00003737          	lui	a4,0x3
-     dfc:	76870713          	add	a4,a4,1896 # 3768 <_ZL9locations>
+     dfc:	79070713          	add	a4,a4,1936 # 3790 <_ZL9locations>
      e00:	00e787b3          	add	a5,a5,a4
      e04:	fef42023          	sw	a5,-32(s0)
      e08:	fe042783          	lw	a5,-32(s0)
@@ -935,14 +935,14 @@ Disassembly of section .text:
      e10:	fcf42e23          	sw	a5,-36(s0)
      e14:	fdc42503          	lw	a0,-36(s0)
      e18:	00001097          	auipc	ra,0x1
-     e1c:	7d4080e7          	jalr	2004(ra) # 25ec <_ZNK4listIhLi8EE6lengthEv>
+     e1c:	7fc080e7          	jalr	2044(ra) # 2614 <_ZNK4listIhLi8EE6lengthEv>
      e20:	fca42c23          	sw	a0,-40(s0)
      e24:	fe042623          	sw	zero,-20(s0)
      e28:	1640006f          	j	f8c <_ZL11action_givehPKcS0_+0x1fc>
      e2c:	fec42583          	lw	a1,-20(s0)
      e30:	fdc42503          	lw	a0,-36(s0)
-     e34:	00001097          	auipc	ra,0x1
-     e38:	7e0080e7          	jalr	2016(ra) # 2614 <_ZNK4listIhLi8EE2atEj>
+     e34:	00002097          	auipc	ra,0x2
+     e38:	808080e7          	jalr	-2040(ra) # 263c <_ZNK4listIhLi8EE2atEj>
      e3c:	00050793          	mv	a5,a0
      e40:	00078713          	mv	a4,a5
      e44:	00070793          	mv	a5,a4
@@ -952,7 +952,7 @@ Disassembly of section .text:
      e54:	40e787b3          	sub	a5,a5,a4
      e58:	00279793          	sll	a5,a5,0x2
      e5c:	00003737          	lui	a4,0x3
-     e60:	6e470713          	add	a4,a4,1764 # 36e4 <_ZL8entities>
+     e60:	70c70713          	add	a4,a4,1804 # 370c <_ZL8entities>
      e64:	00e787b3          	add	a5,a5,a4
      e68:	fcf42a23          	sw	a5,-44(s0)
      e6c:	fd442783          	lw	a5,-44(s0)
@@ -970,19 +970,19 @@ Disassembly of section .text:
      e9c:	fcf42823          	sw	a5,-48(s0)
      ea0:	fd042503          	lw	a0,-48(s0)
      ea4:	00001097          	auipc	ra,0x1
-     ea8:	498080e7          	jalr	1176(ra) # 233c <_ZNK4listIhLi32EE6lengthEv>
+     ea8:	4ac080e7          	jalr	1196(ra) # 2350 <_ZNK4listIhLi32EE6lengthEv>
      eac:	fca42623          	sw	a0,-52(s0)
      eb0:	fe042423          	sw	zero,-24(s0)
      eb4:	09c0006f          	j	f50 <_ZL11action_givehPKcS0_+0x1c0>
      eb8:	fe842583          	lw	a1,-24(s0)
      ebc:	fd042503          	lw	a0,-48(s0)
      ec0:	00001097          	auipc	ra,0x1
-     ec4:	4a4080e7          	jalr	1188(ra) # 2364 <_ZNK4listIhLi32EE2atEj>
+     ec4:	4b8080e7          	jalr	1208(ra) # 2378 <_ZNK4listIhLi32EE2atEj>
      ec8:	00050793          	mv	a5,a0
      ecc:	fcf405a3          	sb	a5,-53(s0)
      ed0:	fcb44783          	lbu	a5,-53(s0)
      ed4:	00003737          	lui	a4,0x3
-     ed8:	6d470713          	add	a4,a4,1748 # 36d4 <_ZL7objects>
+     ed8:	6fc70713          	add	a4,a4,1788 # 36fc <_ZL7objects>
      edc:	00279793          	sll	a5,a5,0x2
      ee0:	00f707b3          	add	a5,a4,a5
      ee4:	0007a783          	lw	a5,0(a5)
@@ -1006,7 +1006,7 @@ Disassembly of section .text:
      f2c:	fe842583          	lw	a1,-24(s0)
      f30:	fd042503          	lw	a0,-48(s0)
      f34:	00001097          	auipc	ra,0x1
-     f38:	4ec080e7          	jalr	1260(ra) # 2420 <_ZN4listIhLi32EE15remove_at_indexEj>
+     f38:	500080e7          	jalr	1280(ra) # 2434 <_ZN4listIhLi32EE15remove_at_indexEj>
      f3c:	07c0006f          	j	fb8 <_ZL11action_givehPKcS0_+0x228>
      f40:	00000013          	nop
      f44:	fe842783          	lw	a5,-24(s0)
@@ -1019,7 +1019,7 @@ Disassembly of section .text:
      f60:	00001097          	auipc	ra,0x1
      f64:	83c080e7          	jalr	-1988(ra) # 179c <_ZL13uart_send_strPKc>
      f68:	000037b7          	lui	a5,0x3
-     f6c:	b6078513          	add	a0,a5,-1184 # 2b60 <_ZNK4listIhLi8EE2atEj+0x54c>
+     f6c:	b8878513          	add	a0,a5,-1144 # 2b88 <_ZNK4listIhLi8EE2atEj+0x54c>
      f70:	00001097          	auipc	ra,0x1
      f74:	82c080e7          	jalr	-2004(ra) # 179c <_ZL13uart_send_strPKc>
      f78:	0440006f          	j	fbc <_ZL11action_givehPKcS0_+0x22c>
@@ -1034,7 +1034,7 @@ Disassembly of section .text:
      f9c:	00001097          	auipc	ra,0x1
      fa0:	800080e7          	jalr	-2048(ra) # 179c <_ZL13uart_send_strPKc>
      fa4:	000037b7          	lui	a5,0x3
-     fa8:	b7878513          	add	a0,a5,-1160 # 2b78 <_ZNK4listIhLi8EE2atEj+0x564>
+     fa8:	ba078513          	add	a0,a5,-1120 # 2ba0 <_ZNK4listIhLi8EE2atEj+0x564>
      fac:	00000097          	auipc	ra,0x0
      fb0:	7f0080e7          	jalr	2032(ra) # 179c <_ZL13uart_send_strPKc>
      fb4:	0080006f          	j	fbc <_ZL11action_givehPKcS0_+0x22c>
@@ -1050,7 +1050,7 @@ Disassembly of section .text:
      fd4:	00812423          	sw	s0,8(sp)
      fd8:	01010413          	add	s0,sp,16
      fdc:	000037b7          	lui	a5,0x3
-     fe0:	b8c78513          	add	a0,a5,-1140 # 2b8c <_ZNK4listIhLi8EE2atEj+0x578>
+     fe0:	bb478513          	add	a0,a5,-1100 # 2bb4 <_ZNK4listIhLi8EE2atEj+0x578>
      fe4:	00000097          	auipc	ra,0x0
      fe8:	7b8080e7          	jalr	1976(ra) # 179c <_ZL13uart_send_strPKc>
      fec:	00000013          	nop
@@ -1066,7 +1066,7 @@ Disassembly of section .text:
     100c:	fe042623          	sw	zero,-20(s0)
     1010:	0240006f          	j	1034 <_ZL27input_escape_sequence_clearv+0x34>
     1014:	000047b7          	lui	a5,0x4
-    1018:	aa878713          	add	a4,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    1018:	ad078713          	add	a4,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     101c:	fec42783          	lw	a5,-20(s0)
     1020:	00f707b3          	add	a5,a4,a5
     1024:	00078023          	sb	zero,0(a5)
@@ -1240,12 +1240,12 @@ Disassembly of section .text:
     1274:	01b00793          	li	a5,27
     1278:	00f71c63          	bne	a4,a5,1290 <_ZL5inputR14command_buffer+0x50>
     127c:	000047b7          	lui	a5,0x4
-    1280:	aa878793          	add	a5,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    1280:	ad078793          	add	a5,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     1284:	01b00713          	li	a4,27
     1288:	00e78023          	sb	a4,0(a5)
     128c:	2c80006f          	j	1554 <_ZL5inputR14command_buffer+0x314>
     1290:	000047b7          	lui	a5,0x4
-    1294:	aa878793          	add	a5,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    1294:	ad078793          	add	a5,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     1298:	0007c703          	lbu	a4,0(a5)
     129c:	01b00793          	li	a5,27
     12a0:	16f71263          	bne	a4,a5,1404 <_ZL5inputR14command_buffer+0x1c4>
@@ -1253,12 +1253,12 @@ Disassembly of section .text:
     12a8:	05b00793          	li	a5,91
     12ac:	00f71c63          	bne	a4,a5,12c4 <_ZL5inputR14command_buffer+0x84>
     12b0:	000047b7          	lui	a5,0x4
-    12b4:	aa878793          	add	a5,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    12b4:	ad078793          	add	a5,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     12b8:	05b00713          	li	a4,91
     12bc:	00e780a3          	sb	a4,1(a5)
     12c0:	2940006f          	j	1554 <_ZL5inputR14command_buffer+0x314>
     12c4:	000047b7          	lui	a5,0x4
-    12c8:	aa878793          	add	a5,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    12c8:	ad078793          	add	a5,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     12cc:	0017c703          	lbu	a4,1(a5)
     12d0:	05b00793          	li	a5,91
     12d4:	12f71863          	bne	a4,a5,1404 <_ZL5inputR14command_buffer+0x1c4>
@@ -1271,7 +1271,7 @@ Disassembly of section .text:
     12f0:	00050793          	mv	a5,a0
     12f4:	00078a63          	beqz	a5,1308 <_ZL5inputR14command_buffer+0xc8>
     12f8:	000037b7          	lui	a5,0x3
-    12fc:	c6878513          	add	a0,a5,-920 # 2c68 <_ZNK4listIhLi8EE2atEj+0x654>
+    12fc:	c9078513          	add	a0,a5,-880 # 2c90 <_ZNK4listIhLi8EE2atEj+0x654>
     1300:	00000097          	auipc	ra,0x0
     1304:	49c080e7          	jalr	1180(ra) # 179c <_ZL13uart_send_strPKc>
     1308:	00000097          	auipc	ra,0x0
@@ -1286,7 +1286,7 @@ Disassembly of section .text:
     132c:	00050793          	mv	a5,a0
     1330:	00078a63          	beqz	a5,1344 <_ZL5inputR14command_buffer+0x104>
     1334:	000037b7          	lui	a5,0x3
-    1338:	c6c78513          	add	a0,a5,-916 # 2c6c <_ZNK4listIhLi8EE2atEj+0x658>
+    1338:	c9478513          	add	a0,a5,-876 # 2c94 <_ZNK4listIhLi8EE2atEj+0x658>
     133c:	00000097          	auipc	ra,0x0
     1340:	460080e7          	jalr	1120(ra) # 179c <_ZL13uart_send_strPKc>
     1344:	00000097          	auipc	ra,0x0
@@ -1296,12 +1296,12 @@ Disassembly of section .text:
     1354:	03300793          	li	a5,51
     1358:	00f71c63          	bne	a4,a5,1370 <_ZL5inputR14command_buffer+0x130>
     135c:	000047b7          	lui	a5,0x4
-    1360:	aa878793          	add	a5,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    1360:	ad078793          	add	a5,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     1364:	03300713          	li	a4,51
     1368:	00e78123          	sb	a4,2(a5)
     136c:	1e80006f          	j	1554 <_ZL5inputR14command_buffer+0x314>
     1370:	000047b7          	lui	a5,0x4
-    1374:	aa878793          	add	a5,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    1374:	ad078793          	add	a5,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     1378:	0027c703          	lbu	a4,2(a5)
     137c:	03300793          	li	a5,51
     1380:	06f71c63          	bne	a4,a5,13f8 <_ZL5inputR14command_buffer+0x1b8>
@@ -1670,7 +1670,7 @@ Disassembly of section .text:
     189c:	02010413          	add	s0,sp,32
 #   uart_send_str("testing memory (write)\r\n");
     18a0:	000037b7          	lui	a5,0x3
-    18a4:	c7078513          	add	a0,a5,-912 # 2c70 <_ZNK4listIhLi8EE2atEj+0x65c>
+    18a4:	c9878513          	add	a0,a5,-872 # 2c98 <_ZNK4listIhLi8EE2atEj+0x65c>
     18a8:	00000097          	auipc	ra,0x0
     18ac:	ef4080e7          	jalr	-268(ra) # 179c <_ZL13uart_send_strPKc>
 #   char *ptr = reinterpret_cast<char *>(0x10000);
@@ -1678,7 +1678,7 @@ Disassembly of section .text:
     18b4:	fef42623          	sw	a5,-20(s0)
 #   char const *end = reinterpret_cast<char *>(MEMORY_TOP - 1024);
     18b8:	002007b7          	lui	a5,0x200
-    18bc:	c0078793          	add	a5,a5,-1024 # 1ffc00 <__bss_end+0x1fc150>
+    18bc:	c0078793          	add	a5,a5,-1024 # 1ffc00 <__bss_end+0x1fc128>
     18c0:	fef42223          	sw	a5,-28(s0)
 #   char ch = 0;
     18c4:	fe0405a3          	sb	zero,-21(s0)
@@ -1698,7 +1698,7 @@ Disassembly of section .text:
     18f0:	fcf76ee3          	bltu	a4,a5,18cc <_ZL15action_mem_testv+0x3c>
 #   uart_send_str("testing memory (read)\r\n");
     18f4:	000037b7          	lui	a5,0x3
-    18f8:	c8c78513          	add	a0,a5,-884 # 2c8c <_ZNK4listIhLi8EE2atEj+0x678>
+    18f8:	cb478513          	add	a0,a5,-844 # 2cb4 <_ZNK4listIhLi8EE2atEj+0x678>
     18fc:	00000097          	auipc	ra,0x0
     1900:	ea0080e7          	jalr	-352(ra) # 179c <_ZL13uart_send_strPKc>
 #   ptr = reinterpret_cast<char *>(0x10000);
@@ -1710,7 +1710,7 @@ Disassembly of section .text:
     1910:	0440006f          	j	1954 <_ZL15action_mem_testv+0xc4>
 #     if (*ptr++ != ch++) {
     1914:	fec42783          	lw	a5,-20(s0)
-    1918:	00178713          	add	a4,a5,1 # 10001 <__bss_end+0xc551>
+    1918:	00178713          	add	a4,a5,1 # 10001 <__bss_end+0xc529>
     191c:	fee42623          	sw	a4,-20(s0)
     1920:	0007c703          	lbu	a4,0(a5)
     1924:	feb44783          	lbu	a5,-21(s0)
@@ -1722,7 +1722,7 @@ Disassembly of section .text:
     193c:	00078c63          	beqz	a5,1954 <_ZL15action_mem_testv+0xc4>
 #       uart_send_str("!!! test memory failed\r\n");
     1940:	000037b7          	lui	a5,0x3
-    1944:	ca478513          	add	a0,a5,-860 # 2ca4 <_ZNK4listIhLi8EE2atEj+0x690>
+    1944:	ccc78513          	add	a0,a5,-820 # 2ccc <_ZNK4listIhLi8EE2atEj+0x690>
     1948:	00000097          	auipc	ra,0x0
     194c:	e54080e7          	jalr	-428(ra) # 179c <_ZL13uart_send_strPKc>
 #       return;
@@ -1733,7 +1733,7 @@ Disassembly of section .text:
     195c:	faf76ce3          	bltu	a4,a5,1914 <_ZL15action_mem_testv+0x84>
 #   uart_send_str("testing memory succeeded\r\n");
     1960:	000037b7          	lui	a5,0x3
-    1964:	cc078513          	add	a0,a5,-832 # 2cc0 <_ZNK4listIhLi8EE2atEj+0x6ac>
+    1964:	ce878513          	add	a0,a5,-792 # 2ce8 <_ZNK4listIhLi8EE2atEj+0x6ac>
     1968:	00000097          	auipc	ra,0x0
     196c:	e34080e7          	jalr	-460(ra) # 179c <_ZL13uart_send_strPKc>
 # }
@@ -1785,14 +1785,14 @@ Disassembly of section .text:
     19f4:	01010413          	add	s0,sp,16
 #   memset(&__bss_start, 0, &__bss_end - &__bss_start);
     19f8:	000047b7          	lui	a5,0x4
-    19fc:	ab078713          	add	a4,a5,-1360 # 3ab0 <__bss_end>
+    19fc:	ad878713          	add	a4,a5,-1320 # 3ad8 <__bss_end>
     1a00:	000047b7          	lui	a5,0x4
-    1a04:	aa878793          	add	a5,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    1a04:	ad078793          	add	a5,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     1a08:	40f707b3          	sub	a5,a4,a5
     1a0c:	00078613          	mv	a2,a5
     1a10:	00000593          	li	a1,0
     1a14:	000047b7          	lui	a5,0x4
-    1a18:	aa878513          	add	a0,a5,-1368 # 3aa8 <_ZL21input_escape_sequence>
+    1a18:	ad078513          	add	a0,a5,-1328 # 3ad0 <_ZL21input_escape_sequence>
     1a1c:	00000097          	auipc	ra,0x0
     1a20:	f64080e7          	jalr	-156(ra) # 1980 <memset>
 # }
@@ -2460,247 +2460,257 @@ Disassembly of section .text:
     22c4:	fcb42c23          	sw	a1,-40(s0)
     22c8:	fdc42783          	lw	a5,-36(s0)
     22cc:	0807a783          	lw	a5,128(a5)
-    22d0:	fff78713          	add	a4,a5,-1
-    22d4:	fdc42783          	lw	a5,-36(s0)
-    22d8:	08e7a023          	sw	a4,128(a5)
-    22dc:	fd842783          	lw	a5,-40(s0)
-    22e0:	fef42623          	sw	a5,-20(s0)
-    22e4:	0340006f          	j	2318 <_ZN4listIhLi128EE15remove_at_indexEj+0x64>
-    22e8:	fec42783          	lw	a5,-20(s0)
-    22ec:	00178793          	add	a5,a5,1
-    22f0:	fdc42703          	lw	a4,-36(s0)
-    22f4:	00f707b3          	add	a5,a4,a5
-    22f8:	0007c703          	lbu	a4,0(a5)
-    22fc:	fdc42683          	lw	a3,-36(s0)
-    2300:	fec42783          	lw	a5,-20(s0)
-    2304:	00f687b3          	add	a5,a3,a5
-    2308:	00e78023          	sb	a4,0(a5)
-    230c:	fec42783          	lw	a5,-20(s0)
-    2310:	00178793          	add	a5,a5,1
-    2314:	fef42623          	sw	a5,-20(s0)
-    2318:	fdc42783          	lw	a5,-36(s0)
-    231c:	0807a783          	lw	a5,128(a5)
-    2320:	fec42703          	lw	a4,-20(s0)
-    2324:	fcf762e3          	bltu	a4,a5,22e8 <_ZN4listIhLi128EE15remove_at_indexEj+0x34>
-    2328:	00000013          	nop
-    232c:	00000013          	nop
-    2330:	02c12403          	lw	s0,44(sp)
-    2334:	03010113          	add	sp,sp,48
-    2338:	00008067          	ret
+    22d0:	00079663          	bnez	a5,22dc <_ZN4listIhLi128EE15remove_at_indexEj+0x28>
+    22d4:	00000793          	li	a5,0
+    22d8:	0680006f          	j	2340 <_ZN4listIhLi128EE15remove_at_indexEj+0x8c>
+    22dc:	fdc42783          	lw	a5,-36(s0)
+    22e0:	0807a783          	lw	a5,128(a5)
+    22e4:	fff78713          	add	a4,a5,-1
+    22e8:	fdc42783          	lw	a5,-36(s0)
+    22ec:	08e7a023          	sw	a4,128(a5)
+    22f0:	fd842783          	lw	a5,-40(s0)
+    22f4:	fef42623          	sw	a5,-20(s0)
+    22f8:	0340006f          	j	232c <_ZN4listIhLi128EE15remove_at_indexEj+0x78>
+    22fc:	fec42783          	lw	a5,-20(s0)
+    2300:	00178793          	add	a5,a5,1
+    2304:	fdc42703          	lw	a4,-36(s0)
+    2308:	00f707b3          	add	a5,a4,a5
+    230c:	0007c703          	lbu	a4,0(a5)
+    2310:	fdc42683          	lw	a3,-36(s0)
+    2314:	fec42783          	lw	a5,-20(s0)
+    2318:	00f687b3          	add	a5,a3,a5
+    231c:	00e78023          	sb	a4,0(a5)
+    2320:	fec42783          	lw	a5,-20(s0)
+    2324:	00178793          	add	a5,a5,1
+    2328:	fef42623          	sw	a5,-20(s0)
+    232c:	fdc42783          	lw	a5,-36(s0)
+    2330:	0807a783          	lw	a5,128(a5)
+    2334:	fec42703          	lw	a4,-20(s0)
+    2338:	fcf762e3          	bltu	a4,a5,22fc <_ZN4listIhLi128EE15remove_at_indexEj+0x48>
+    233c:	00100793          	li	a5,1
+    2340:	00078513          	mv	a0,a5
+    2344:	02c12403          	lw	s0,44(sp)
+    2348:	03010113          	add	sp,sp,48
+    234c:	00008067          	ret
 
-0000233c <_ZNK4listIhLi32EE6lengthEv>:
-    233c:	fe010113          	add	sp,sp,-32
-    2340:	00812e23          	sw	s0,28(sp)
-    2344:	02010413          	add	s0,sp,32
-    2348:	fea42623          	sw	a0,-20(s0)
-    234c:	fec42783          	lw	a5,-20(s0)
-    2350:	0207a783          	lw	a5,32(a5)
-    2354:	00078513          	mv	a0,a5
-    2358:	01c12403          	lw	s0,28(sp)
-    235c:	02010113          	add	sp,sp,32
-    2360:	00008067          	ret
+00002350 <_ZNK4listIhLi32EE6lengthEv>:
+    2350:	fe010113          	add	sp,sp,-32
+    2354:	00812e23          	sw	s0,28(sp)
+    2358:	02010413          	add	s0,sp,32
+    235c:	fea42623          	sw	a0,-20(s0)
+    2360:	fec42783          	lw	a5,-20(s0)
+    2364:	0207a783          	lw	a5,32(a5)
+    2368:	00078513          	mv	a0,a5
+    236c:	01c12403          	lw	s0,28(sp)
+    2370:	02010113          	add	sp,sp,32
+    2374:	00008067          	ret
 
-00002364 <_ZNK4listIhLi32EE2atEj>:
-    2364:	fe010113          	add	sp,sp,-32
-    2368:	00812e23          	sw	s0,28(sp)
-    236c:	02010413          	add	s0,sp,32
-    2370:	fea42623          	sw	a0,-20(s0)
-    2374:	feb42423          	sw	a1,-24(s0)
-    2378:	fec42783          	lw	a5,-20(s0)
-    237c:	0207a783          	lw	a5,32(a5)
-    2380:	fe842703          	lw	a4,-24(s0)
-    2384:	00f77c63          	bgeu	a4,a5,239c <_ZNK4listIhLi32EE2atEj+0x38>
-    2388:	fec42703          	lw	a4,-20(s0)
-    238c:	fe842783          	lw	a5,-24(s0)
-    2390:	00f707b3          	add	a5,a4,a5
-    2394:	0007c783          	lbu	a5,0(a5)
-    2398:	0080006f          	j	23a0 <_ZNK4listIhLi32EE2atEj+0x3c>
-    239c:	00000793          	li	a5,0
-    23a0:	00078513          	mv	a0,a5
-    23a4:	01c12403          	lw	s0,28(sp)
-    23a8:	02010113          	add	sp,sp,32
-    23ac:	00008067          	ret
+00002378 <_ZNK4listIhLi32EE2atEj>:
+    2378:	fe010113          	add	sp,sp,-32
+    237c:	00812e23          	sw	s0,28(sp)
+    2380:	02010413          	add	s0,sp,32
+    2384:	fea42623          	sw	a0,-20(s0)
+    2388:	feb42423          	sw	a1,-24(s0)
+    238c:	fec42783          	lw	a5,-20(s0)
+    2390:	0207a783          	lw	a5,32(a5)
+    2394:	fe842703          	lw	a4,-24(s0)
+    2398:	00f77c63          	bgeu	a4,a5,23b0 <_ZNK4listIhLi32EE2atEj+0x38>
+    239c:	fec42703          	lw	a4,-20(s0)
+    23a0:	fe842783          	lw	a5,-24(s0)
+    23a4:	00f707b3          	add	a5,a4,a5
+    23a8:	0007c783          	lbu	a5,0(a5)
+    23ac:	0080006f          	j	23b4 <_ZNK4listIhLi32EE2atEj+0x3c>
+    23b0:	00000793          	li	a5,0
+    23b4:	00078513          	mv	a0,a5
+    23b8:	01c12403          	lw	s0,28(sp)
+    23bc:	02010113          	add	sp,sp,32
+    23c0:	00008067          	ret
 
-000023b0 <_ZN4listIhLi128EE3addEh>:
-    23b0:	fe010113          	add	sp,sp,-32
-    23b4:	00812e23          	sw	s0,28(sp)
-    23b8:	02010413          	add	s0,sp,32
-    23bc:	fea42623          	sw	a0,-20(s0)
-    23c0:	00058793          	mv	a5,a1
-    23c4:	fef405a3          	sb	a5,-21(s0)
-    23c8:	fec42783          	lw	a5,-20(s0)
-    23cc:	0807a703          	lw	a4,128(a5)
-    23d0:	07f00793          	li	a5,127
-    23d4:	00f71663          	bne	a4,a5,23e0 <_ZN4listIhLi128EE3addEh+0x30>
-    23d8:	00000793          	li	a5,0
-    23dc:	0340006f          	j	2410 <_ZN4listIhLi128EE3addEh+0x60>
-    23e0:	fec42783          	lw	a5,-20(s0)
-    23e4:	0807a783          	lw	a5,128(a5)
-    23e8:	fec42703          	lw	a4,-20(s0)
-    23ec:	00f707b3          	add	a5,a4,a5
-    23f0:	feb44703          	lbu	a4,-21(s0)
-    23f4:	00e78023          	sb	a4,0(a5)
-    23f8:	fec42783          	lw	a5,-20(s0)
-    23fc:	0807a783          	lw	a5,128(a5)
-    2400:	00178713          	add	a4,a5,1
-    2404:	fec42783          	lw	a5,-20(s0)
-    2408:	08e7a023          	sw	a4,128(a5)
-    240c:	00100793          	li	a5,1
-    2410:	00078513          	mv	a0,a5
-    2414:	01c12403          	lw	s0,28(sp)
-    2418:	02010113          	add	sp,sp,32
-    241c:	00008067          	ret
+000023c4 <_ZN4listIhLi128EE3addEh>:
+    23c4:	fe010113          	add	sp,sp,-32
+    23c8:	00812e23          	sw	s0,28(sp)
+    23cc:	02010413          	add	s0,sp,32
+    23d0:	fea42623          	sw	a0,-20(s0)
+    23d4:	00058793          	mv	a5,a1
+    23d8:	fef405a3          	sb	a5,-21(s0)
+    23dc:	fec42783          	lw	a5,-20(s0)
+    23e0:	0807a703          	lw	a4,128(a5)
+    23e4:	07f00793          	li	a5,127
+    23e8:	00f71663          	bne	a4,a5,23f4 <_ZN4listIhLi128EE3addEh+0x30>
+    23ec:	00000793          	li	a5,0
+    23f0:	0340006f          	j	2424 <_ZN4listIhLi128EE3addEh+0x60>
+    23f4:	fec42783          	lw	a5,-20(s0)
+    23f8:	0807a783          	lw	a5,128(a5)
+    23fc:	fec42703          	lw	a4,-20(s0)
+    2400:	00f707b3          	add	a5,a4,a5
+    2404:	feb44703          	lbu	a4,-21(s0)
+    2408:	00e78023          	sb	a4,0(a5)
+    240c:	fec42783          	lw	a5,-20(s0)
+    2410:	0807a783          	lw	a5,128(a5)
+    2414:	00178713          	add	a4,a5,1
+    2418:	fec42783          	lw	a5,-20(s0)
+    241c:	08e7a023          	sw	a4,128(a5)
+    2420:	00100793          	li	a5,1
+    2424:	00078513          	mv	a0,a5
+    2428:	01c12403          	lw	s0,28(sp)
+    242c:	02010113          	add	sp,sp,32
+    2430:	00008067          	ret
 
-00002420 <_ZN4listIhLi32EE15remove_at_indexEj>:
-    2420:	fd010113          	add	sp,sp,-48
-    2424:	02812623          	sw	s0,44(sp)
-    2428:	03010413          	add	s0,sp,48
-    242c:	fca42e23          	sw	a0,-36(s0)
-    2430:	fcb42c23          	sw	a1,-40(s0)
-    2434:	fdc42783          	lw	a5,-36(s0)
-    2438:	0207a783          	lw	a5,32(a5)
-    243c:	fff78713          	add	a4,a5,-1
-    2440:	fdc42783          	lw	a5,-36(s0)
-    2444:	02e7a023          	sw	a4,32(a5)
-    2448:	fd842783          	lw	a5,-40(s0)
-    244c:	fef42623          	sw	a5,-20(s0)
-    2450:	0340006f          	j	2484 <_ZN4listIhLi32EE15remove_at_indexEj+0x64>
-    2454:	fec42783          	lw	a5,-20(s0)
-    2458:	00178793          	add	a5,a5,1
-    245c:	fdc42703          	lw	a4,-36(s0)
-    2460:	00f707b3          	add	a5,a4,a5
-    2464:	0007c703          	lbu	a4,0(a5)
-    2468:	fdc42683          	lw	a3,-36(s0)
-    246c:	fec42783          	lw	a5,-20(s0)
-    2470:	00f687b3          	add	a5,a3,a5
-    2474:	00e78023          	sb	a4,0(a5)
-    2478:	fec42783          	lw	a5,-20(s0)
-    247c:	00178793          	add	a5,a5,1
-    2480:	fef42623          	sw	a5,-20(s0)
-    2484:	fdc42783          	lw	a5,-36(s0)
-    2488:	0207a783          	lw	a5,32(a5)
-    248c:	fec42703          	lw	a4,-20(s0)
-    2490:	fcf762e3          	bltu	a4,a5,2454 <_ZN4listIhLi32EE15remove_at_indexEj+0x34>
-    2494:	00000013          	nop
-    2498:	00000013          	nop
-    249c:	02c12403          	lw	s0,44(sp)
-    24a0:	03010113          	add	sp,sp,48
-    24a4:	00008067          	ret
+00002434 <_ZN4listIhLi32EE15remove_at_indexEj>:
+    2434:	fd010113          	add	sp,sp,-48
+    2438:	02812623          	sw	s0,44(sp)
+    243c:	03010413          	add	s0,sp,48
+    2440:	fca42e23          	sw	a0,-36(s0)
+    2444:	fcb42c23          	sw	a1,-40(s0)
+    2448:	fdc42783          	lw	a5,-36(s0)
+    244c:	0207a783          	lw	a5,32(a5)
+    2450:	00079663          	bnez	a5,245c <_ZN4listIhLi32EE15remove_at_indexEj+0x28>
+    2454:	00000793          	li	a5,0
+    2458:	0680006f          	j	24c0 <_ZN4listIhLi32EE15remove_at_indexEj+0x8c>
+    245c:	fdc42783          	lw	a5,-36(s0)
+    2460:	0207a783          	lw	a5,32(a5)
+    2464:	fff78713          	add	a4,a5,-1
+    2468:	fdc42783          	lw	a5,-36(s0)
+    246c:	02e7a023          	sw	a4,32(a5)
+    2470:	fd842783          	lw	a5,-40(s0)
+    2474:	fef42623          	sw	a5,-20(s0)
+    2478:	0340006f          	j	24ac <_ZN4listIhLi32EE15remove_at_indexEj+0x78>
+    247c:	fec42783          	lw	a5,-20(s0)
+    2480:	00178793          	add	a5,a5,1
+    2484:	fdc42703          	lw	a4,-36(s0)
+    2488:	00f707b3          	add	a5,a4,a5
+    248c:	0007c703          	lbu	a4,0(a5)
+    2490:	fdc42683          	lw	a3,-36(s0)
+    2494:	fec42783          	lw	a5,-20(s0)
+    2498:	00f687b3          	add	a5,a3,a5
+    249c:	00e78023          	sb	a4,0(a5)
+    24a0:	fec42783          	lw	a5,-20(s0)
+    24a4:	00178793          	add	a5,a5,1
+    24a8:	fef42623          	sw	a5,-20(s0)
+    24ac:	fdc42783          	lw	a5,-36(s0)
+    24b0:	0207a783          	lw	a5,32(a5)
+    24b4:	fec42703          	lw	a4,-20(s0)
+    24b8:	fcf762e3          	bltu	a4,a5,247c <_ZN4listIhLi32EE15remove_at_indexEj+0x48>
+    24bc:	00100793          	li	a5,1
+    24c0:	00078513          	mv	a0,a5
+    24c4:	02c12403          	lw	s0,44(sp)
+    24c8:	03010113          	add	sp,sp,48
+    24cc:	00008067          	ret
 
-000024a8 <_ZN4listIhLi8EE3addEh>:
-    24a8:	fe010113          	add	sp,sp,-32
-    24ac:	00812e23          	sw	s0,28(sp)
-    24b0:	02010413          	add	s0,sp,32
-    24b4:	fea42623          	sw	a0,-20(s0)
-    24b8:	00058793          	mv	a5,a1
-    24bc:	fef405a3          	sb	a5,-21(s0)
-    24c0:	fec42783          	lw	a5,-20(s0)
-    24c4:	0087a703          	lw	a4,8(a5)
-    24c8:	00700793          	li	a5,7
-    24cc:	00f71663          	bne	a4,a5,24d8 <_ZN4listIhLi8EE3addEh+0x30>
-    24d0:	00000793          	li	a5,0
-    24d4:	0340006f          	j	2508 <_ZN4listIhLi8EE3addEh+0x60>
-    24d8:	fec42783          	lw	a5,-20(s0)
-    24dc:	0087a783          	lw	a5,8(a5)
-    24e0:	fec42703          	lw	a4,-20(s0)
-    24e4:	00f707b3          	add	a5,a4,a5
-    24e8:	feb44703          	lbu	a4,-21(s0)
-    24ec:	00e78023          	sb	a4,0(a5)
-    24f0:	fec42783          	lw	a5,-20(s0)
-    24f4:	0087a783          	lw	a5,8(a5)
-    24f8:	00178713          	add	a4,a5,1
-    24fc:	fec42783          	lw	a5,-20(s0)
-    2500:	00e7a423          	sw	a4,8(a5)
-    2504:	00100793          	li	a5,1
-    2508:	00078513          	mv	a0,a5
-    250c:	01c12403          	lw	s0,28(sp)
-    2510:	02010113          	add	sp,sp,32
-    2514:	00008067          	ret
+000024d0 <_ZN4listIhLi8EE3addEh>:
+    24d0:	fe010113          	add	sp,sp,-32
+    24d4:	00812e23          	sw	s0,28(sp)
+    24d8:	02010413          	add	s0,sp,32
+    24dc:	fea42623          	sw	a0,-20(s0)
+    24e0:	00058793          	mv	a5,a1
+    24e4:	fef405a3          	sb	a5,-21(s0)
+    24e8:	fec42783          	lw	a5,-20(s0)
+    24ec:	0087a703          	lw	a4,8(a5)
+    24f0:	00700793          	li	a5,7
+    24f4:	00f71663          	bne	a4,a5,2500 <_ZN4listIhLi8EE3addEh+0x30>
+    24f8:	00000793          	li	a5,0
+    24fc:	0340006f          	j	2530 <_ZN4listIhLi8EE3addEh+0x60>
+    2500:	fec42783          	lw	a5,-20(s0)
+    2504:	0087a783          	lw	a5,8(a5)
+    2508:	fec42703          	lw	a4,-20(s0)
+    250c:	00f707b3          	add	a5,a4,a5
+    2510:	feb44703          	lbu	a4,-21(s0)
+    2514:	00e78023          	sb	a4,0(a5)
+    2518:	fec42783          	lw	a5,-20(s0)
+    251c:	0087a783          	lw	a5,8(a5)
+    2520:	00178713          	add	a4,a5,1
+    2524:	fec42783          	lw	a5,-20(s0)
+    2528:	00e7a423          	sw	a4,8(a5)
+    252c:	00100793          	li	a5,1
+    2530:	00078513          	mv	a0,a5
+    2534:	01c12403          	lw	s0,28(sp)
+    2538:	02010113          	add	sp,sp,32
+    253c:	00008067          	ret
 
-00002518 <_ZN4listIhLi8EE6removeEh>:
-    2518:	fd010113          	add	sp,sp,-48
-    251c:	02812623          	sw	s0,44(sp)
-    2520:	03010413          	add	s0,sp,48
-    2524:	fca42e23          	sw	a0,-36(s0)
-    2528:	00058793          	mv	a5,a1
-    252c:	fcf40da3          	sb	a5,-37(s0)
-    2530:	fe042623          	sw	zero,-20(s0)
-    2534:	0940006f          	j	25c8 <_ZN4listIhLi8EE6removeEh+0xb0>
-    2538:	fdc42703          	lw	a4,-36(s0)
-    253c:	fec42783          	lw	a5,-20(s0)
-    2540:	00f707b3          	add	a5,a4,a5
-    2544:	0007c783          	lbu	a5,0(a5)
-    2548:	fdb44703          	lbu	a4,-37(s0)
-    254c:	06f71663          	bne	a4,a5,25b8 <_ZN4listIhLi8EE6removeEh+0xa0>
-    2550:	fdc42783          	lw	a5,-36(s0)
-    2554:	0087a783          	lw	a5,8(a5)
-    2558:	fff78713          	add	a4,a5,-1
-    255c:	fdc42783          	lw	a5,-36(s0)
-    2560:	00e7a423          	sw	a4,8(a5)
+00002540 <_ZN4listIhLi8EE6removeEh>:
+    2540:	fd010113          	add	sp,sp,-48
+    2544:	02812623          	sw	s0,44(sp)
+    2548:	03010413          	add	s0,sp,48
+    254c:	fca42e23          	sw	a0,-36(s0)
+    2550:	00058793          	mv	a5,a1
+    2554:	fcf40da3          	sb	a5,-37(s0)
+    2558:	fe042623          	sw	zero,-20(s0)
+    255c:	0940006f          	j	25f0 <_ZN4listIhLi8EE6removeEh+0xb0>
+    2560:	fdc42703          	lw	a4,-36(s0)
     2564:	fec42783          	lw	a5,-20(s0)
-    2568:	fef42423          	sw	a5,-24(s0)
-    256c:	0340006f          	j	25a0 <_ZN4listIhLi8EE6removeEh+0x88>
-    2570:	fe842783          	lw	a5,-24(s0)
-    2574:	00178793          	add	a5,a5,1
-    2578:	fdc42703          	lw	a4,-36(s0)
-    257c:	00f707b3          	add	a5,a4,a5
-    2580:	0007c703          	lbu	a4,0(a5)
-    2584:	fdc42683          	lw	a3,-36(s0)
-    2588:	fe842783          	lw	a5,-24(s0)
-    258c:	00f687b3          	add	a5,a3,a5
-    2590:	00e78023          	sb	a4,0(a5)
-    2594:	fe842783          	lw	a5,-24(s0)
-    2598:	00178793          	add	a5,a5,1
-    259c:	fef42423          	sw	a5,-24(s0)
-    25a0:	fdc42783          	lw	a5,-36(s0)
-    25a4:	0087a783          	lw	a5,8(a5)
-    25a8:	fe842703          	lw	a4,-24(s0)
-    25ac:	fcf762e3          	bltu	a4,a5,2570 <_ZN4listIhLi8EE6removeEh+0x58>
-    25b0:	00100793          	li	a5,1
-    25b4:	0280006f          	j	25dc <_ZN4listIhLi8EE6removeEh+0xc4>
-    25b8:	00000013          	nop
-    25bc:	fec42783          	lw	a5,-20(s0)
+    2568:	00f707b3          	add	a5,a4,a5
+    256c:	0007c783          	lbu	a5,0(a5)
+    2570:	fdb44703          	lbu	a4,-37(s0)
+    2574:	06f71663          	bne	a4,a5,25e0 <_ZN4listIhLi8EE6removeEh+0xa0>
+    2578:	fdc42783          	lw	a5,-36(s0)
+    257c:	0087a783          	lw	a5,8(a5)
+    2580:	fff78713          	add	a4,a5,-1
+    2584:	fdc42783          	lw	a5,-36(s0)
+    2588:	00e7a423          	sw	a4,8(a5)
+    258c:	fec42783          	lw	a5,-20(s0)
+    2590:	fef42423          	sw	a5,-24(s0)
+    2594:	0340006f          	j	25c8 <_ZN4listIhLi8EE6removeEh+0x88>
+    2598:	fe842783          	lw	a5,-24(s0)
+    259c:	00178793          	add	a5,a5,1
+    25a0:	fdc42703          	lw	a4,-36(s0)
+    25a4:	00f707b3          	add	a5,a4,a5
+    25a8:	0007c703          	lbu	a4,0(a5)
+    25ac:	fdc42683          	lw	a3,-36(s0)
+    25b0:	fe842783          	lw	a5,-24(s0)
+    25b4:	00f687b3          	add	a5,a3,a5
+    25b8:	00e78023          	sb	a4,0(a5)
+    25bc:	fe842783          	lw	a5,-24(s0)
     25c0:	00178793          	add	a5,a5,1
-    25c4:	fef42623          	sw	a5,-20(s0)
+    25c4:	fef42423          	sw	a5,-24(s0)
     25c8:	fdc42783          	lw	a5,-36(s0)
     25cc:	0087a783          	lw	a5,8(a5)
-    25d0:	fec42703          	lw	a4,-20(s0)
-    25d4:	f6f762e3          	bltu	a4,a5,2538 <_ZN4listIhLi8EE6removeEh+0x20>
-    25d8:	00000793          	li	a5,0
-    25dc:	00078513          	mv	a0,a5
-    25e0:	02c12403          	lw	s0,44(sp)
-    25e4:	03010113          	add	sp,sp,48
-    25e8:	00008067          	ret
-
-000025ec <_ZNK4listIhLi8EE6lengthEv>:
-    25ec:	fe010113          	add	sp,sp,-32
-    25f0:	00812e23          	sw	s0,28(sp)
-    25f4:	02010413          	add	s0,sp,32
-    25f8:	fea42623          	sw	a0,-20(s0)
-    25fc:	fec42783          	lw	a5,-20(s0)
-    2600:	0087a783          	lw	a5,8(a5)
+    25d0:	fe842703          	lw	a4,-24(s0)
+    25d4:	fcf762e3          	bltu	a4,a5,2598 <_ZN4listIhLi8EE6removeEh+0x58>
+    25d8:	00100793          	li	a5,1
+    25dc:	0280006f          	j	2604 <_ZN4listIhLi8EE6removeEh+0xc4>
+    25e0:	00000013          	nop
+    25e4:	fec42783          	lw	a5,-20(s0)
+    25e8:	00178793          	add	a5,a5,1
+    25ec:	fef42623          	sw	a5,-20(s0)
+    25f0:	fdc42783          	lw	a5,-36(s0)
+    25f4:	0087a783          	lw	a5,8(a5)
+    25f8:	fec42703          	lw	a4,-20(s0)
+    25fc:	f6f762e3          	bltu	a4,a5,2560 <_ZN4listIhLi8EE6removeEh+0x20>
+    2600:	00000793          	li	a5,0
     2604:	00078513          	mv	a0,a5
-    2608:	01c12403          	lw	s0,28(sp)
-    260c:	02010113          	add	sp,sp,32
+    2608:	02c12403          	lw	s0,44(sp)
+    260c:	03010113          	add	sp,sp,48
     2610:	00008067          	ret
 
-00002614 <_ZNK4listIhLi8EE2atEj>:
+00002614 <_ZNK4listIhLi8EE6lengthEv>:
     2614:	fe010113          	add	sp,sp,-32
     2618:	00812e23          	sw	s0,28(sp)
     261c:	02010413          	add	s0,sp,32
     2620:	fea42623          	sw	a0,-20(s0)
-    2624:	feb42423          	sw	a1,-24(s0)
-    2628:	fec42783          	lw	a5,-20(s0)
-    262c:	0087a783          	lw	a5,8(a5)
-    2630:	fe842703          	lw	a4,-24(s0)
-    2634:	00f77c63          	bgeu	a4,a5,264c <_ZNK4listIhLi8EE2atEj+0x38>
-    2638:	fec42703          	lw	a4,-20(s0)
-    263c:	fe842783          	lw	a5,-24(s0)
-    2640:	00f707b3          	add	a5,a4,a5
-    2644:	0007c783          	lbu	a5,0(a5)
-    2648:	0080006f          	j	2650 <_ZNK4listIhLi8EE2atEj+0x3c>
-    264c:	00000793          	li	a5,0
-    2650:	00078513          	mv	a0,a5
-    2654:	01c12403          	lw	s0,28(sp)
-    2658:	02010113          	add	sp,sp,32
-    265c:	00008067          	ret
+    2624:	fec42783          	lw	a5,-20(s0)
+    2628:	0087a783          	lw	a5,8(a5)
+    262c:	00078513          	mv	a0,a5
+    2630:	01c12403          	lw	s0,28(sp)
+    2634:	02010113          	add	sp,sp,32
+    2638:	00008067          	ret
+
+0000263c <_ZNK4listIhLi8EE2atEj>:
+    263c:	fe010113          	add	sp,sp,-32
+    2640:	00812e23          	sw	s0,28(sp)
+    2644:	02010413          	add	s0,sp,32
+    2648:	fea42623          	sw	a0,-20(s0)
+    264c:	feb42423          	sw	a1,-24(s0)
+    2650:	fec42783          	lw	a5,-20(s0)
+    2654:	0087a783          	lw	a5,8(a5)
+    2658:	fe842703          	lw	a4,-24(s0)
+    265c:	00f77c63          	bgeu	a4,a5,2674 <_ZNK4listIhLi8EE2atEj+0x38>
+    2660:	fec42703          	lw	a4,-20(s0)
+    2664:	fe842783          	lw	a5,-24(s0)
+    2668:	00f707b3          	add	a5,a4,a5
+    266c:	0007c783          	lbu	a5,0(a5)
+    2670:	0080006f          	j	2678 <_ZNK4listIhLi8EE2atEj+0x3c>
+    2674:	00000793          	li	a5,0
+    2678:	00078513          	mv	a0,a5
+    267c:	01c12403          	lw	s0,28(sp)
+    2680:	02010113          	add	sp,sp,32
+    2684:	00008067          	ret
