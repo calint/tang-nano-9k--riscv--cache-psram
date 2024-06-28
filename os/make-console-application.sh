@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# builds console version of "os"
+# builds console version
 #
 set -e
 cd $(dirname "$0")
