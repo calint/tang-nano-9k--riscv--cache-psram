@@ -205,7 +205,7 @@ static entity entities[] = {
 struct location {
   name_t name{};
   list<object_id_t, LOCATION_MAX_OBJECTS> objects{};
-  list<object_id_t, LOCATION_MAX_ENTITIES> entities{};
+  list<entity_id_t, LOCATION_MAX_ENTITIES> entities{};
   list<location_id_t, LOCATION_MAX_EXITS> exits{};
 };
 
