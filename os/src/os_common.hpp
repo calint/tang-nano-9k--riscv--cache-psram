@@ -103,7 +103,7 @@ public:
 
   auto set_eos() -> void { line_[end_] = '\0'; }
 
-  auto is_full() -> bool { return end_ == sizeof(line_) - 1; }
+  auto is_full() const -> bool { return end_ == sizeof(line_) - 1; }
 
   auto move_cursor_left() -> bool {
     if (cursor_ == 0) {
@@ -123,17 +123,17 @@ public:
     return true;
   }
 
-  auto apply_on_chars_from_cursor_to_end(void (*f)(char)) -> void {
+  auto apply_on_chars_from_cursor_to_end(void (*f)(char)) const -> void {
     for (size_t i = cursor_; i < end_; ++i) {
       f(line_[i]);
     }
   }
 
-  auto characters_after_cursor() -> size_t { return end_ - cursor_; }
+  auto characters_after_cursor() const -> size_t { return end_ - cursor_; }
 
-  auto command_line() -> char * { return line_; }
+  auto command_line() const -> char * { return line_; }
 
-  auto input_length() -> size_t { return end_; }
+  auto input_length() const -> size_t { return end_; }
 };
 
 template <class Type, int Size> class list {
@@ -354,9 +354,6 @@ static auto print_location(location_id_t lid,
     size_t const n = lso.length();
     for (size_t i = 0; i < n; i++) {
       object_id_t const oid = lso.at(i);
-      if (!oid) {
-        break;
-      }
       if (counter++) {
         uart_send_str(", ");
       }
@@ -374,9 +371,6 @@ static auto print_location(location_id_t lid,
     size_t const n = lse.length();
     for (size_t i = 0; i < n; i++) {
       entity_id_t const eid = lse.at(i);
-      if (!eid) {
-        break;
-      }
       if (eid == eid_exclude_from_output) {
         continue;
       }
@@ -418,9 +412,6 @@ static auto action_inventory(entity_id_t eid) -> void {
   size_t const n = ls.length();
   for (size_t i = 0; i < n; i++) {
     object_id_t const oid = ls.at(i);
-    if (!oid) {
-      break;
-    }
     if (counter++) {
       uart_send_str(", ");
     }
@@ -438,9 +429,6 @@ static auto action_take(entity_id_t eid, name_t obj) -> void {
   size_t const n = lso.length();
   for (size_t i = 0; i < n; i++) {
     object_id_t const oid = lso.at(i);
-    if (!oid) {
-      break;
-    }
     if (!strings_equal(objects[oid].name, obj)) {
       continue;
     }
@@ -459,9 +447,6 @@ static auto action_drop(entity_id_t eid, name_t obj) -> void {
   size_t const n = lso.length();
   for (size_t i = 0; i < n; i++) {
     object_id_t const oid = lso.at(i);
-    if (!oid) {
-      break;
-    }
     if (!strings_equal(objects[oid].name, obj)) {
       continue;
     }
@@ -495,9 +480,6 @@ static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
   auto &lse = loc.entities;
   size_t const n = lse.length();
   for (size_t i = 0; i < n; i++) {
-    if (!lse.at(i)) {
-      break;
-    }
     entity &to = entities[lse.at(i)];
     if (!strings_equal(to.name, to_ent)) {
       continue;
@@ -505,9 +487,6 @@ static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
     list<object_id_t, ENTITY_MAX_OBJECTS> &lso = ent.objects;
     for (size_t j = 0; j < ENTITY_MAX_OBJECTS; j++) {
       object_id_t const oid = lso.at(j);
-      if (!oid) {
-        break;
-      }
       if (!strings_equal(objects[oid].name, obj)) {
         continue;
       }
