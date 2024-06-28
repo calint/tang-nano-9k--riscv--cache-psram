@@ -233,12 +233,13 @@ static auto print_help() -> void;
 static auto print_location(location_id_t lid,
                            entity_id_t eid_exclude_from_output) -> void;
 static auto action_inventory(entity_id_t eid) -> void;
-static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void;
+static auto action_give(entity_id_t eid, name_t obj_nm,
+                        name_t to_ent_nm) -> void;
 static auto action_go(entity_id_t eid, direction_t dir) -> void;
-static auto action_drop(entity_id_t eid, name_t obj) -> void;
-static auto action_take(entity_id_t eid, name_t obj) -> void;
-static auto input(command_buffer &buf) -> void;
-static auto handle_input(entity_id_t eid, command_buffer &buf) -> void;
+static auto action_drop(entity_id_t eid, name_t obj_nm) -> void;
+static auto action_take(entity_id_t eid, name_t obj_nm) -> void;
+static auto input(command_buffer &cmd_buf) -> void;
+static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
 static auto strings_equal(char const *s1, char const *s2) -> bool;
 static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
 
