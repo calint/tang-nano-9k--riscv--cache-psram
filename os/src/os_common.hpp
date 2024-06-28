@@ -191,7 +191,7 @@ struct object {
   name_t name{};
 };
 
-static object objects[] = {{""}, {"notebook"}, {"mirror"}, {"lighter"}};
+static object objects[] = {{}, {"notebook"}, {"mirror"}, {"lighter"}};
 
 struct entity {
   name_t name{};
@@ -199,8 +199,7 @@ struct entity {
   list<object_id_t, ENTITY_MAX_OBJECTS> objects{};
 };
 
-static entity entities[] = {
-    {"", 0, {{}, 0}}, {"me", 1, {{2}, 1}}, {"u", 2, {{}, 0}}};
+static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {{}, 0}}};
 
 struct location {
   name_t name{};
