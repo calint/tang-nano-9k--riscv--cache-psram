@@ -517,8 +517,6 @@ static auto input_escape_sequence_clear() -> void {
   }
 }
 
-static auto uart_send_move_back(size_t const n) -> void;
-
 static auto input(command_buffer &cmd_buf) -> void {
   cmd_buf.reset();
   while (true) {
