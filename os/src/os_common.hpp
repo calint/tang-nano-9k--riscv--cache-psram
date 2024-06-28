@@ -428,13 +428,13 @@ static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_str("\r\n");
 }
 
-static auto action_take(entity_id_t const eid, name_t const obj) -> void {
+static auto action_take(entity_id_t const eid, name_t const obj_nm) -> void {
   entity &ent = entities[eid];
   auto &ls = locations[ent.location].objects;
   size_t const n = ls.length();
   for (size_t i = 0; i < n; ++i) {
     object_id_t const oid = ls.at(i);
-    if (!strings_equal(objects[oid].name, obj)) {
+    if (!strings_equal(objects[oid].name, obj_nm)) {
       continue;
     }
     if (ent.objects.add(oid)) {
@@ -442,17 +442,17 @@ static auto action_take(entity_id_t const eid, name_t const obj) -> void {
     }
     return;
   }
-  uart_send_str(obj);
+  uart_send_str(obj_nm);
   uart_send_str(" not here\r\n\r\n");
 }
 
-static auto action_drop(entity_id_t const eid, name_t const obj) -> void {
+static auto action_drop(entity_id_t const eid, name_t const obj_nm) -> void {
   entity &ent = entities[eid];
   auto &ls = ent.objects;
   size_t const n = ls.length();
   for (size_t i = 0; i < n; ++i) {
     object_id_t const oid = ls.at(i);
-    if (!strings_equal(objects[oid].name, obj)) {
+    if (!strings_equal(objects[oid].name, obj_nm)) {
       continue;
     }
     if (locations[ent.location].objects.add(oid)) {
@@ -461,7 +461,7 @@ static auto action_drop(entity_id_t const eid, name_t const obj) -> void {
     return;
   }
   uart_send_str("u don't have ");
-  uart_send_str(obj);
+  uart_send_str(obj_nm);
   uart_send_str("\r\n\r\n");
 }
 
@@ -479,22 +479,22 @@ static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
   }
 }
 
-static auto action_give(entity_id_t const eid, name_t const obj,
-                        name_t const to_ent) -> void {
+static auto action_give(entity_id_t const eid, name_t const obj_nm,
+                        name_t const to_ent_nm) -> void {
   entity &ent = entities[eid];
   location &loc = locations[ent.location];
   auto &lse = loc.entities;
   size_t const n = lse.length();
   for (size_t i = 0; i < n; ++i) {
     entity &to = entities[lse.at(i)];
-    if (!strings_equal(to.name, to_ent)) {
+    if (!strings_equal(to.name, to_ent_nm)) {
       continue;
     }
     auto &lso = ent.objects;
     size_t const m = lso.length();
     for (size_t j = 0; j < m; j++) {
       object_id_t const oid = lso.at(j);
-      if (!strings_equal(objects[oid].name, obj)) {
+      if (!strings_equal(objects[oid].name, obj_nm)) {
         continue;
       }
       if (to.objects.add(oid)) {
@@ -502,11 +502,11 @@ static auto action_give(entity_id_t const eid, name_t const obj,
       }
       return;
     }
-    uart_send_str(obj);
+    uart_send_str(obj_nm);
     uart_send_str(" not in inventory\r\n\r\n");
     return;
   }
-  uart_send_str(to_ent);
+  uart_send_str(to_ent_nm);
   uart_send_str(" is not here\r\n\r\n");
 }
 
