@@ -19,9 +19,9 @@ Disassembly of section .text:
       10:	06812423          	sw	s0,104(sp)
       14:	07010413          	add	s0,sp,112
       18:	00002097          	auipc	ra,0x2
-      1c:	9fc080e7          	jalr	-1540(ra) # 1a14 <_ZL8init_bssv>
+      1c:	9fc080e7          	jalr	-1540(ra) # 1a14 <_ZL12initiate_bssv>
       20:	00002097          	auipc	ra,0x2
-      24:	a44080e7          	jalr	-1468(ra) # 1a64 <_ZL12init_staticsv>
+      24:	a44080e7          	jalr	-1468(ra) # 1a64 <_ZL16initiate_staticsv>
       28:	00000513          	li	a0,0
       2c:	00001097          	auipc	ra,0x1
       30:	76c080e7          	jalr	1900(ra) # 1798 <_ZL7led_seth>
@@ -1788,8 +1788,8 @@ Disassembly of section .text:
     1a0c:	03010113          	add	sp,sp,48
     1a10:	00008067          	ret
 
-00001a14 <_ZL8init_bssv>:
-# static auto init_bss() -> void {
+00001a14 <_ZL12initiate_bssv>:
+# static auto initiate_bss() -> void {
     1a14:	ff010113          	add	sp,sp,-16
     1a18:	00112623          	sw	ra,12(sp)
     1a1c:	00812423          	sw	s0,8(sp)
@@ -1813,8 +1813,8 @@ Disassembly of section .text:
     1a5c:	01010113          	add	sp,sp,16
     1a60:	00008067          	ret
 
-00001a64 <_ZL12init_staticsv>:
-# static auto init_statics() -> void {}
+00001a64 <_ZL16initiate_staticsv>:
+# static auto initiate_statics() -> void {}
     1a64:	ff010113          	add	sp,sp,-16
     1a68:	00812623          	sw	s0,12(sp)
     1a6c:	01010413          	add	s0,sp,16

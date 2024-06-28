@@ -244,10 +244,10 @@ static auto strings_equal(char const *s1, char const *s2) -> bool;
 static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
 
 extern "C" auto run() -> void {
-  init_bss();
+  initiate_bss();
   // initiates bss section to zeros in freestanding build
 
-  init_statics();
+  initiate_statics();
   // initiate statics in freestanding build
 
   led_set(0);
