@@ -276,7 +276,7 @@ extern "C" auto run() -> void {
   }
 }
 
-static auto handle_input(entity_id_t eid, command_buffer &buf) -> void {
+static auto handle_input(entity_id_t const eid, command_buffer &buf) -> void {
   char const *words[8];
   char *ptr = buf.command_line();
   size_t nwords = 0;
@@ -340,8 +340,8 @@ static auto handle_input(entity_id_t eid, command_buffer &buf) -> void {
   }
 }
 
-static auto print_location(location_id_t lid,
-                           entity_id_t eid_exclude_from_output) -> void {
+static auto print_location(location_id_t const lid,
+                           entity_id_t const eid_exclude_from_output) -> void {
   location &loc = locations[lid];
   uart_send_str("u r in ");
   uart_send_str(loc.name);
@@ -364,6 +364,7 @@ static auto print_location(location_id_t lid,
     }
     uart_send_str("\r\n");
   }
+
   // print entities in location
   {
     uint32_t counter = 0;
@@ -383,6 +384,7 @@ static auto print_location(location_id_t lid,
       uart_send_str(" is here\r\n");
     }
   }
+
   // print exits from location
   {
     uint32_t counter = 0;
@@ -405,7 +407,7 @@ static auto print_location(location_id_t lid,
   }
 }
 
-static auto action_inventory(entity_id_t eid) -> void {
+static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_str("u have: ");
   uint32_t counter = 0;
   auto &ls = entities[eid].objects;
@@ -423,7 +425,7 @@ static auto action_inventory(entity_id_t eid) -> void {
   uart_send_str("\r\n");
 }
 
-static auto action_take(entity_id_t eid, name_t obj) -> void {
+static auto action_take(entity_id_t const eid, name_t const obj) -> void {
   entity &ent = entities[eid];
   auto &lso = locations[ent.location].objects;
   size_t const n = lso.length();
@@ -441,7 +443,7 @@ static auto action_take(entity_id_t eid, name_t obj) -> void {
   uart_send_str(" not here\r\n\r\n");
 }
 
-static auto action_drop(entity_id_t eid, name_t obj) -> void {
+static auto action_drop(entity_id_t const eid, name_t const obj) -> void {
   entity &ent = entities[eid];
   auto &lso = ent.objects;
   size_t const n = lso.length();
@@ -460,7 +462,7 @@ static auto action_drop(entity_id_t eid, name_t obj) -> void {
   uart_send_str("\r\n\r\n");
 }
 
-static auto action_go(entity_id_t eid, direction_t dir) -> void {
+static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
   entity &ent = entities[eid];
   location &loc = locations[ent.location];
   location_id_t const to = loc.exits.at(dir);
@@ -474,7 +476,8 @@ static auto action_go(entity_id_t eid, direction_t dir) -> void {
   }
 }
 
-static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
+static auto action_give(entity_id_t const eid, name_t const obj,
+                        name_t const to_ent) -> void {
   entity &ent = entities[eid];
   location &loc = locations[ent.location];
   auto &lse = loc.entities;
