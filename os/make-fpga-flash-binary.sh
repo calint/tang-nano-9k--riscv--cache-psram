@@ -44,6 +44,7 @@ riscv32-unknown-elf-g++ -std=c++23 \
 	-Wshadow \
 	-Wno-unused-function \
 	-Wno-unused-parameter \
+	-Wno-stringop-overflow \
 	-fno-zero-initialized-in-bss \
 	-Wl,-T,linker.ld \
 	-Wl,--no-relax \
