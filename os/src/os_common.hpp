@@ -267,10 +267,7 @@ extern "C" auto run() -> void {
     input(cmd_buf);
     uart_send_str("\r\n");
     handle_input(active_entity, cmd_buf);
-    if (active_entity == 1)
-      active_entity = 2;
-    else
-      active_entity = 1;
+    active_entity = active_entity == 1 ? 2 : 1;
   }
 }
 
