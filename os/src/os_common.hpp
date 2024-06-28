@@ -277,7 +277,8 @@ static auto handle_input(entity_id_t const eid,
   char *ptr = cmd_buf.command_line();
   size_t nwords = 0;
   while (true) {
-    words[nwords++] = ptr;
+    words[nwords] = ptr;
+    ++nwords;
     while (*ptr && *ptr != ' ') {
       ++ptr;
     }
@@ -510,7 +511,7 @@ static auto print_help() -> void {
 static char input_escape_sequence[8];
 static auto input_escape_sequence_clear() -> void {
   for (size_t i = 0; i < sizeof(input_escape_sequence); ++i) {
-    input_escape_sequence[i] = '0';
+    input_escape_sequence[i] = '\0';
   }
 }
 
@@ -524,10 +525,9 @@ static auto input(command_buffer &cmd_buf) -> void {
       continue;
     }
     if (input_escape_sequence[0] == 0x1B) {
-      // is in escape sequence
+      // in escape sequence: 0x1B
       if (ch == 0x5B) {
         // in escape sequence: 0x1B 0x5B
-        // note: sent by linux terminal
         input_escape_sequence[1] = 0x5B;
         continue;
       }
@@ -537,33 +537,29 @@ static auto input(command_buffer &cmd_buf) -> void {
           // in escape sequence: 0x1B 0x5B 0x44
           // arrow left
           if (cmd_buf.move_cursor_left()) {
-            uart_send_char(0x1B);
-            uart_send_char(0x5B);
-            uart_send_char(0x44);
+            uart_send_str("\x1B\x5B\x44");
           }
           input_escape_sequence_clear();
           continue;
         }
         if (ch == 0x43) {
-          // in escape sequence:0x1B 0x5B 0x43
+          // in escape sequence: 0x1B 0x5B 0x43
           // arrow right
           if (cmd_buf.move_cursor_right()) {
-            uart_send_char(0x1B);
-            uart_send_char(0x5B);
-            uart_send_char(0x43);
+            uart_send_str("\x1B\x5B\x43");
           }
           input_escape_sequence_clear();
           continue;
         }
         if (ch == 0x33) {
-          // in escape sequence:0x1B 0x5B 0x33
+          // in escape sequence: 0x1B 0x5B 0x33
           input_escape_sequence[2] = 0x33;
           continue;
         }
         if (input_escape_sequence[2] == 0x33) {
           // in escape sequence: 0x1B 0x5B 0x33
           if (ch == 0x7e) {
-            // escape sequence 0x1B 0x5B 0x33 0x7E
+            // in escape sequence: 0x1B 0x5B 0x33 0x7E
             // delete
             cmd_buf.del();
             cmd_buf.apply_on_chars_from_cursor_to_end(
