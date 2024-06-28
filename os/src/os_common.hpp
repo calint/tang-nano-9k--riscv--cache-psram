@@ -131,7 +131,7 @@ public:
 
   auto characters_after_cursor() const -> size_t { return end_ - cursor_; }
 
-  auto command_line() const -> char * { return line_; }
+  auto command_line() -> char * { return line_; }
 
   auto input_length() const -> size_t { return end_; }
 };
@@ -487,8 +487,9 @@ static auto action_give(entity_id_t const eid, name_t const obj,
     if (!strings_equal(to.name, to_ent)) {
       continue;
     }
-    list<object_id_t, ENTITY_MAX_OBJECTS> &lso = ent.objects;
-    for (size_t j = 0; j < ENTITY_MAX_OBJECTS; j++) {
+    auto &lso = ent.objects;
+    size_t const m = lso.length();
+    for (size_t j = 0; j < m; j++) {
       object_id_t const oid = lso.at(j);
       if (!strings_equal(objects[oid].name, obj)) {
         continue;
