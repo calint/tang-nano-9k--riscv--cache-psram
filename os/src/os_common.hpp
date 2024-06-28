@@ -109,7 +109,6 @@ public:
     if (cursor_ == 0) {
       return false;
     }
-
     --cursor_;
     return true;
   }
@@ -118,7 +117,6 @@ public:
     if (cursor_ == end_) {
       return false;
     }
-
     ++cursor_;
     return true;
   }
@@ -147,50 +145,42 @@ public:
     }
     data[len] = elem;
     ++len;
-    data[len] = {};
     return true;
   }
 
   auto remove(Type elem) -> bool {
-    for (size_t i = 0; i < Size - 1; ++i) {
+    for (size_t i = 0; i < len; ++i) {
       if (data[i] != elem) {
         continue;
       }
-      // list_len - 1 since last element has to be 0
-      for (size_t j = i; j < Size - 1; ++j) {
+      --len;
+      for (size_t j = i; j < len; ++j) {
         data[j] = data[j + 1];
-        if (data[j] == Type{}) {
-          len = j;
-          return true;
-        }
       }
+      return true;
     }
     return false;
   }
 
-  auto remove_by_index(size_t i) -> void {
-    while (true) {
+  auto remove_at_index(size_t ix) -> void {
+    --len;
+    for (size_t i = ix; i < len; ++i) {
       data[i] = data[i + 1];
-      if (data[i] == Type{}) {
-        len = i;
-        return;
-      }
-      ++i;
     }
   }
 
   auto at(size_t const i) const -> Type {
-    if (i > Size - 1) {
-      return {};
+    if (i < len) {
+      return data[i];
     }
-    return data[i];
+    return {};
   }
 
   auto length() const -> size_t { return len; }
 
-  template <typename Func> auto for_each_until_false(Func func) const -> void {
+  template <typename Func> auto for_each_until_false(Func f) const -> void {
     for (object_id_t i = 0; i < len; ++i) {
-      if (!func(data[i])) {
+      if (!f(data[i])) {
         return;
       }
     }
@@ -264,7 +254,7 @@ extern "C" auto run() -> void {
   // turn all leds on
 
   entity_id_t active_entity = 1;
-  command_buffer cmdbuf{};
+  command_buffer cmd_buf{};
 
   uart_send_str(ascii_art);
   uart_send_str(hello);
@@ -274,9 +264,9 @@ extern "C" auto run() -> void {
     print_location(ent.location, active_entity);
     uart_send_str(ent.name);
     uart_send_str(" > ");
-    input(cmdbuf);
+    input(cmd_buf);
     uart_send_str("\r\n");
-    handle_input(active_entity, cmdbuf);
+    handle_input(active_entity, cmd_buf);
     if (active_entity == 1)
       active_entity = 2;
     else
@@ -284,9 +274,10 @@ extern "C" auto run() -> void {
   }
 }
 
-static auto handle_input(entity_id_t const eid, command_buffer &buf) -> void {
+static auto handle_input(entity_id_t const eid,
+                         command_buffer &cmd_buf) -> void {
   char const *words[8];
-  char *ptr = buf.command_line();
+  char *ptr = cmd_buf.command_line();
   size_t nwords = 0;
   while (true) {
     words[nwords++] = ptr;
@@ -394,10 +385,10 @@ static auto print_location(location_id_t const lid,
   {
     uint32_t counter = 0;
     uart_send_str("exits: ");
-    auto &ls = loc.exits;
-    size_t const n = ls.length();
+    auto &lse = loc.exits;
+    size_t const n = lse.length();
     for (size_t i = 0; i < n; ++i) {
-      if (!ls.at(i)) {
+      if (!lse.at(i)) {
         continue;
       }
       if (counter++) {
@@ -430,15 +421,15 @@ static auto action_inventory(entity_id_t const eid) -> void {
 
 static auto action_take(entity_id_t const eid, name_t const obj_nm) -> void {
   entity &ent = entities[eid];
-  auto &ls = locations[ent.location].objects;
-  size_t const n = ls.length();
+  auto &lso = locations[ent.location].objects;
+  size_t const n = lso.length();
   for (size_t i = 0; i < n; ++i) {
-    object_id_t const oid = ls.at(i);
+    object_id_t const oid = lso.at(i);
     if (!strings_equal(objects[oid].name, obj_nm)) {
       continue;
     }
     if (ent.objects.add(oid)) {
-      ls.remove_by_index(i);
+      lso.remove_at_index(i);
     }
     return;
   }
@@ -448,15 +439,15 @@ static auto action_take(entity_id_t const eid, name_t const obj_nm) -> void {
 
 static auto action_drop(entity_id_t const eid, name_t const obj_nm) -> void {
   entity &ent = entities[eid];
-  auto &ls = ent.objects;
-  size_t const n = ls.length();
+  auto &lso = ent.objects;
+  size_t const n = lso.length();
   for (size_t i = 0; i < n; ++i) {
-    object_id_t const oid = ls.at(i);
+    object_id_t const oid = lso.at(i);
     if (!strings_equal(objects[oid].name, obj_nm)) {
       continue;
     }
     if (locations[ent.location].objects.add(oid)) {
-      ls.remove_by_index(i);
+      lso.remove_at_index(i);
     }
     return;
   }
@@ -498,7 +489,7 @@ static auto action_give(entity_id_t const eid, name_t const obj_nm,
         continue;
       }
       if (to.objects.add(oid)) {
-        lso.remove_by_index(j);
+        lso.remove_at_index(j);
       }
       return;
     }
@@ -528,8 +519,8 @@ static auto input_escape_sequence_clear() -> void {
 
 static auto uart_send_move_back(size_t const n) -> void;
 
-static auto input(command_buffer &buf) -> void {
-  buf.reset();
+static auto input(command_buffer &cmd_buf) -> void {
+  cmd_buf.reset();
   while (true) {
     char const ch = uart_read_char();
     if (ch == 0x1B) {
@@ -550,7 +541,7 @@ static auto input(command_buffer &buf) -> void {
         if (ch == 0x44) {
           // in escape sequence: 0x1B 0x5B 0x44
           // arrow left
-          if (buf.move_cursor_left()) {
+          if (cmd_buf.move_cursor_left()) {
             uart_send_char(0x1B);
             uart_send_char(0x5B);
             uart_send_char(0x44);
@@ -561,7 +552,7 @@ static auto input(command_buffer &buf) -> void {
         if (ch == 0x43) {
           // in escape sequence:0x1B 0x5B 0x43
           // arrow right
-          if (buf.move_cursor_right()) {
+          if (cmd_buf.move_cursor_right()) {
             uart_send_char(0x1B);
             uart_send_char(0x5B);
             uart_send_char(0x43);
@@ -579,11 +570,11 @@ static auto input(command_buffer &buf) -> void {
           if (ch == 0x7e) {
             // escape sequence 0x1B 0x5B 0x33 0x7E
             // delete
-            buf.del();
-            buf.apply_on_chars_from_cursor_to_end(
+            cmd_buf.del();
+            cmd_buf.apply_on_chars_from_cursor_to_end(
                 [](char c) { uart_send_char(c); });
             uart_send_char(' ');
-            uart_send_move_back(buf.characters_after_cursor() + 1);
+            uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
           }
           input_escape_sequence_clear();
           continue;
@@ -594,25 +585,25 @@ static auto input(command_buffer &buf) -> void {
       }
     }
     if (ch == CHAR_BACKSPACE) {
-      if (buf.backspace()) {
+      if (cmd_buf.backspace()) {
         uart_send_char(ch);
-        buf.apply_on_chars_from_cursor_to_end(
+        cmd_buf.apply_on_chars_from_cursor_to_end(
             [](char c) { uart_send_char(c); });
         uart_send_char(' ');
-        uart_send_move_back(buf.characters_after_cursor() + 1);
+        uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
         // +1 to compensate for the ' ' that erases the trailing output
       }
-    } else if (ch == CHAR_CARRIAGE_RETURN || buf.is_full()) {
-      buf.set_eos();
+    } else if (ch == CHAR_CARRIAGE_RETURN || cmd_buf.is_full()) {
+      cmd_buf.set_eos();
       return;
     } else {
       uart_send_char(ch);
-      buf.insert(ch);
-      buf.apply_on_chars_from_cursor_to_end(
+      cmd_buf.insert(ch);
+      cmd_buf.apply_on_chars_from_cursor_to_end(
           [](char const c) { uart_send_char(c); });
-      uart_send_move_back(buf.characters_after_cursor());
+      uart_send_move_back(cmd_buf.characters_after_cursor());
     }
-    led_set(~uint8_t(buf.input_length()));
+    led_set(~uint8_t(cmd_buf.input_length()));
   }
 }
 
