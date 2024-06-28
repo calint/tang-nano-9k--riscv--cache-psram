@@ -187,6 +187,15 @@ public:
   }
 
   auto length() const -> size_t { return len; }
+
+  template <typename Func> bool for_each_until_false(Func func) const {
+    for (object_id_t i = 0; i < len; ++i) {
+      if (!func(data[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
 };
 
 struct object {
@@ -350,15 +359,13 @@ static auto print_location(location_id_t const lid,
   // print objects at location
   {
     uint32_t counter = 0;
-    auto &ls = loc.objects;
-    size_t const n = ls.length();
-    for (size_t i = 0; i < n; ++i) {
-      object_id_t const oid = ls.at(i);
+    loc.objects.for_each_until_false([&](object_id_t const id) {
       if (counter++) {
         uart_send_str(", ");
       }
-      uart_send_str(objects[oid].name);
-    }
+      uart_send_str(objects[id].name);
+      return true;
+    });
     if (!counter) {
       uart_send_str("nothing");
     }
@@ -368,18 +375,16 @@ static auto print_location(location_id_t const lid,
   // print entities in location
   {
     uint32_t counter = 0;
-    auto &ls = loc.entities;
-    size_t const n = ls.length();
-    for (size_t i = 0; i < n; ++i) {
-      entity_id_t const eid = ls.at(i);
-      if (eid == eid_exclude_from_output) {
-        continue;
+    loc.entities.for_each_until_false([&](location_id_t const id) {
+      if (id == eid_exclude_from_output) {
+        return true;
       }
       if (counter++) {
         uart_send_str(", ");
       }
-      uart_send_str(entities[eid].name);
-    }
+      uart_send_str(entities[id].name);
+      return true;
+    });
     if (counter != 0) {
       uart_send_str(" is here\r\n");
     }
@@ -410,15 +415,13 @@ static auto print_location(location_id_t const lid,
 static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_str("u have: ");
   uint32_t counter = 0;
-  auto &ls = entities[eid].objects;
-  size_t const n = ls.length();
-  for (size_t i = 0; i < n; ++i) {
-    object_id_t const oid = ls.at(i);
+  entities[eid].objects.for_each_until_false([&](object_id_t const id) {
     if (counter++) {
       uart_send_str(", ");
     }
-    uart_send_str(objects[oid].name);
-  }
+    uart_send_str(objects[id].name);
+    return true;
+  });
   if (counter == 0) {
     uart_send_str("nothing");
   }
