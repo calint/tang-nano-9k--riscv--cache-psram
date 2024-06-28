@@ -179,12 +179,14 @@ public:
     }
   }
 
-  auto at(size_t const i) -> Type {
+  auto at(size_t const i) const -> Type {
     if (i > Size - 1) {
       return {};
     }
     return data[i];
   }
+
+  auto length() const -> size_t { return len; }
 };
 
 struct object {
@@ -346,66 +348,75 @@ static auto print_location(location_id_t lid,
   uart_send_str("\r\nu c: ");
 
   // print objects at location
-  int counter = 0;
-  auto &lso = loc.objects;
-  for (size_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
-    object_id_t const oid = lso.at(i);
-    if (!oid) {
-      break;
+  {
+    uint32_t counter = 0;
+    auto &lso = loc.objects;
+    size_t const n = lso.length();
+    for (size_t i = 0; i < n; i++) {
+      object_id_t const oid = lso.at(i);
+      if (!oid) {
+        break;
+      }
+      if (counter++) {
+        uart_send_str(", ");
+      }
+      uart_send_str(objects[oid].name);
     }
-    if (counter++) {
-      uart_send_str(", ");
+    if (!counter) {
+      uart_send_str("nothing");
     }
-    uart_send_str(objects[oid].name);
+    uart_send_str("\r\n");
   }
-  if (!counter) {
-    uart_send_str("nothing");
-  }
-  uart_send_str("\r\n");
-
   // print entities in location
-  counter = false;
-  auto &lse = loc.entities;
-  for (size_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
-    entity_id_t const eid = lse.at(i);
-    if (!eid) {
-      break;
+  {
+    uint32_t counter = 0;
+    auto &lse = loc.entities;
+    size_t const n = lse.length();
+    for (size_t i = 0; i < n; i++) {
+      entity_id_t const eid = lse.at(i);
+      if (!eid) {
+        break;
+      }
+      if (eid == eid_exclude_from_output) {
+        continue;
+      }
+      if (counter++) {
+        uart_send_str(", ");
+      }
+      uart_send_str(entities[eid].name);
     }
-    if (eid == eid_exclude_from_output) {
-      continue;
+    if (counter != 0) {
+      uart_send_str(" is here\r\n");
     }
-    if (counter++) {
-      uart_send_str(", ");
-    }
-    uart_send_str(entities[eid].name);
   }
-  if (counter != 0) {
-    uart_send_str(" is here\r\n");
-  }
-
   // print exits from location
-  counter = 0;
-  uart_send_str("exits: ");
-  for (size_t i = 0; i < LOCATION_MAX_EXITS; i++) {
-    if (!loc.exits.at(i)) {
-      continue;
+  {
+    uint32_t counter = 0;
+    uart_send_str("exits: ");
+    auto &lsx = loc.exits;
+    size_t const n = lsx.length();
+    for (size_t i = 0; i < n; i++) {
+      if (!lsx.at(i)) {
+        continue;
+      }
+      if (counter++) {
+        uart_send_str(", ");
+      }
+      uart_send_str(exit_names[i]);
     }
-    if (counter++) {
-      uart_send_str(", ");
+    if (counter == 0) {
+      uart_send_str("none");
     }
-    uart_send_str(exit_names[i]);
+    uart_send_str("\r\n");
   }
-  if (counter == 0) {
-    uart_send_str("none");
-  }
-  uart_send_str("\r\n");
 }
 
 static auto action_inventory(entity_id_t eid) -> void {
   uart_send_str("u have: ");
-  int counter = 0;
+  uint32_t counter = 0;
   auto &ls = entities[eid].objects;
-  for (size_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+  size_t const n = ls.length();
+  for (size_t i = 0; i < n; i++) {
     object_id_t const oid = ls.at(i);
     if (!oid) {
       break;
@@ -424,7 +435,8 @@ static auto action_inventory(entity_id_t eid) -> void {
 static auto action_take(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
   auto &lso = locations[ent.location].objects;
-  for (size_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
+  size_t const n = lso.length();
+  for (size_t i = 0; i < n; i++) {
     object_id_t const oid = lso.at(i);
     if (!oid) {
       break;
@@ -444,7 +456,8 @@ static auto action_take(entity_id_t eid, name_t obj) -> void {
 static auto action_drop(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
   auto &lso = ent.objects;
-  for (size_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
+  size_t const n = lso.length();
+  for (size_t i = 0; i < n; i++) {
     object_id_t const oid = lso.at(i);
     if (!oid) {
       break;
@@ -480,7 +493,8 @@ static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
   entity &ent = entities[eid];
   location &loc = locations[ent.location];
   auto &lse = loc.entities;
-  for (size_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
+  size_t const n = lse.length();
+  for (size_t i = 0; i < n; i++) {
     if (!lse.at(i)) {
       break;
     }
