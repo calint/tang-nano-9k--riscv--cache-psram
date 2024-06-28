@@ -350,10 +350,10 @@ static auto print_location(location_id_t const lid,
   // print objects at location
   {
     uint32_t counter = 0;
-    auto &lso = loc.objects;
-    size_t const n = lso.length();
+    auto &ls = loc.objects;
+    size_t const n = ls.length();
     for (size_t i = 0; i < n; ++i) {
-      object_id_t const oid = lso.at(i);
+      object_id_t const oid = ls.at(i);
       if (counter++) {
         uart_send_str(", ");
       }
@@ -368,10 +368,10 @@ static auto print_location(location_id_t const lid,
   // print entities in location
   {
     uint32_t counter = 0;
-    auto &lse = loc.entities;
-    size_t const n = lse.length();
+    auto &ls = loc.entities;
+    size_t const n = ls.length();
     for (size_t i = 0; i < n; ++i) {
-      entity_id_t const eid = lse.at(i);
+      entity_id_t const eid = ls.at(i);
       if (eid == eid_exclude_from_output) {
         continue;
       }
@@ -389,10 +389,10 @@ static auto print_location(location_id_t const lid,
   {
     uint32_t counter = 0;
     uart_send_str("exits: ");
-    auto &lsx = loc.exits;
-    size_t const n = lsx.length();
+    auto &ls = loc.exits;
+    size_t const n = ls.length();
     for (size_t i = 0; i < n; ++i) {
-      if (!lsx.at(i)) {
+      if (!ls.at(i)) {
         continue;
       }
       if (counter++) {
@@ -427,15 +427,15 @@ static auto action_inventory(entity_id_t const eid) -> void {
 
 static auto action_take(entity_id_t const eid, name_t const obj) -> void {
   entity &ent = entities[eid];
-  auto &lso = locations[ent.location].objects;
-  size_t const n = lso.length();
+  auto &ls = locations[ent.location].objects;
+  size_t const n = ls.length();
   for (size_t i = 0; i < n; ++i) {
-    object_id_t const oid = lso.at(i);
+    object_id_t const oid = ls.at(i);
     if (!strings_equal(objects[oid].name, obj)) {
       continue;
     }
     if (ent.objects.add(oid)) {
-      lso.remove_by_index(i);
+      ls.remove_by_index(i);
     }
     return;
   }
@@ -445,15 +445,15 @@ static auto action_take(entity_id_t const eid, name_t const obj) -> void {
 
 static auto action_drop(entity_id_t const eid, name_t const obj) -> void {
   entity &ent = entities[eid];
-  auto &lso = ent.objects;
-  size_t const n = lso.length();
+  auto &ls = ent.objects;
+  size_t const n = ls.length();
   for (size_t i = 0; i < n; ++i) {
-    object_id_t const oid = lso.at(i);
+    object_id_t const oid = ls.at(i);
     if (!strings_equal(objects[oid].name, obj)) {
       continue;
     }
     if (locations[ent.location].objects.add(oid)) {
-      lso.remove_by_index(i);
+      ls.remove_by_index(i);
     }
     return;
   }
