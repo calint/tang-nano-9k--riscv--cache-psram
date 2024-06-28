@@ -615,10 +615,12 @@ static auto input(command_buffer &buf) -> void {
 
 static auto strings_equal(char const *s1, char const *s2) -> bool {
   while (true) {
-    if (*s1 - *s2)
+    if (*s1 != *s2) {
       return false;
-    if (!*s1 && !*s2)
+    }
+    if (!*s1 && !*s2) {
       return true;
+    }
     s1++;
     s2++;
   }
