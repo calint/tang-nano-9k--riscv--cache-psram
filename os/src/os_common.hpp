@@ -254,7 +254,7 @@ extern "C" auto run() -> void {
   // turn all leds on
 
   entity_id_t active_entity = 1;
-  command_buffer inbuf{};
+  command_buffer cmdbuf{};
 
   uart_send_str(ascii_art);
   uart_send_str(hello);
@@ -264,9 +264,9 @@ extern "C" auto run() -> void {
     print_location(ent.location, active_entity);
     uart_send_str(ent.name);
     uart_send_str(" > ");
-    input(inbuf);
+    input(cmdbuf);
     uart_send_str("\r\n");
-    handle_input(active_entity, inbuf);
+    handle_input(active_entity, cmdbuf);
     if (active_entity == 1)
       active_entity = 2;
     else
@@ -347,7 +347,7 @@ static auto print_location(location_id_t lid,
 
   // print objects at location
   int counter = 0;
-  list<object_id_t, LOCATION_MAX_OBJECTS> &lso = loc.objects;
+  auto &lso = loc.objects;
   for (size_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
     object_id_t const oid = lso.at(i);
     if (!oid) {
@@ -365,7 +365,7 @@ static auto print_location(location_id_t lid,
 
   // print entities in location
   counter = false;
-  list<object_id_t, LOCATION_MAX_ENTITIES> &lse = loc.entities;
+  auto &lse = loc.entities;
   for (size_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     entity_id_t const eid = lse.at(i);
     if (!eid) {
@@ -404,7 +404,7 @@ static auto print_location(location_id_t lid,
 static auto action_inventory(entity_id_t eid) -> void {
   uart_send_str("u have: ");
   int counter = 0;
-  list<object_id_t, ENTITY_MAX_OBJECTS> &ls = entities[eid].objects;
+  auto &ls = entities[eid].objects;
   for (size_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
     object_id_t const oid = ls.at(i);
     if (!oid) {
@@ -423,8 +423,7 @@ static auto action_inventory(entity_id_t eid) -> void {
 
 static auto action_take(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
-  list<object_id_t, LOCATION_MAX_OBJECTS> &lso =
-      locations[ent.location].objects;
+  auto &lso = locations[ent.location].objects;
   for (size_t i = 0; i < LOCATION_MAX_OBJECTS; i++) {
     object_id_t const oid = lso.at(i);
     if (!oid) {
@@ -444,7 +443,7 @@ static auto action_take(entity_id_t eid, name_t obj) -> void {
 
 static auto action_drop(entity_id_t eid, name_t obj) -> void {
   entity &ent = entities[eid];
-  list<object_id_t, ENTITY_MAX_OBJECTS> &lso = ent.objects;
+  auto &lso = ent.objects;
   for (size_t i = 0; i < ENTITY_MAX_OBJECTS; i++) {
     object_id_t const oid = lso.at(i);
     if (!oid) {
@@ -480,7 +479,7 @@ static auto action_go(entity_id_t eid, direction_t dir) -> void {
 static auto action_give(entity_id_t eid, name_t obj, name_t to_ent) -> void {
   entity &ent = entities[eid];
   location &loc = locations[ent.location];
-  list<object_id_t, LOCATION_MAX_ENTITIES> &lse = loc.entities;
+  auto &lse = loc.entities;
   for (size_t i = 0; i < LOCATION_MAX_ENTITIES; i++) {
     if (!lse.at(i)) {
       break;
