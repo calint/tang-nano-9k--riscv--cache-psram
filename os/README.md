@@ -43,10 +43,10 @@
   - idea is that type name is an annotation that can be replaced by `auto`
 * `unsigned` is used where negative values don't make sense
 * `++i` instead of `i++`
-  - for consistency with incrementing iterators, all increments and decrements are done in prefix
+  - for consistency with incrementing iterators, increments and decrements are done in prefix
 * casting such as `char(getchar())` is ok for readability
   - `reinterpret_cast` used when syntax does not allow otherwise
-* all members and variables are initialized for clarity although redundant
+* members and variables are initialized for clarity although redundant
   - some exceptions regarding buffers applied
 * naming convention:
   - descriptive and verbose
