@@ -226,6 +226,7 @@ static auto uart_read_char() -> char;
 static auto uart_send_hex_byte(char ch) -> void;
 static auto uart_send_hex_nibble(char nibble) -> void;
 static auto uart_send_move_back(size_t n) -> void;
+static auto action_mem_test() -> void;
 
 // API
 static auto print_help() -> void;
@@ -238,15 +239,14 @@ static auto action_drop(entity_id_t eid, name_t obj) -> void;
 static auto action_take(entity_id_t eid, name_t obj) -> void;
 static auto input(command_buffer &buf) -> void;
 static auto handle_input(entity_id_t eid, command_buffer &buf) -> void;
-static auto action_mem_test() -> void;
 static auto strings_equal(char const *s1, char const *s2) -> bool;
 static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
 
 extern "C" auto run() -> void {
-  startup_init_bss();
-  // initiates bss section to zeros
+  init_bss();
+  // initiates bss section to zeros in freestanding build
 
-  startup_init_statics();
+  init_statics();
   // initiate statics in freestanding build
 
   led_set(0);

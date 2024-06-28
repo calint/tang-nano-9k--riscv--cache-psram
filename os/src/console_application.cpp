@@ -7,10 +7,10 @@
 #include <termios.h>
 #include <unistd.h>
 
-static auto startup_init_bss() -> void {}
+static auto init_bss() -> void {}
 // note: bss section is initialized by the environment
 
-static auto startup_init_statics() -> void {}
+static auto init_statics() -> void {}
 // note: statics are initiated by the C++ runtime
 
 static constexpr char CHAR_CARRIAGE_RETURN = 0x0a;
