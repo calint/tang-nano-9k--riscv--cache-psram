@@ -1823,24 +1823,24 @@ Disassembly of section .text:
     1a70:	00008067          	ret
 
 00001a74 <_ZNK4listIhLi128EE20for_each_until_falseIZL14print_locationhhEUlhE_EEvT_>:
-#     return {};
 #   }
 # 
 #   auto length() const -> size_t { return len; }
 # 
-#   template <typename Func> auto for_each_until_false(Func f) const -> void {
+#   template <typename Function>
+#   auto for_each_until_false(Function f) const -> void {
     1a74:	fd010113          	add	sp,sp,-48
     1a78:	02112623          	sw	ra,44(sp)
     1a7c:	02812423          	sw	s0,40(sp)
     1a80:	03010413          	add	s0,sp,48
     1a84:	fca42e23          	sw	a0,-36(s0)
     1a88:	fcb42c23          	sw	a1,-40(s0)
-#     for (object_id_t i = 0; i < len; ++i) {
-    1a8c:	fe0407a3          	sb	zero,-17(s0)
+#     for (size_t i = 0; i < len; ++i) {
+    1a8c:	fe042623          	sw	zero,-20(s0)
     1a90:	0440006f          	j	1ad4 <_ZNK4listIhLi128EE20for_each_until_falseIZL14print_locationhhEUlhE_EEvT_+0x60>
 #       if (!f(data[i])) {
-    1a94:	fef44783          	lbu	a5,-17(s0)
-    1a98:	fdc42703          	lw	a4,-36(s0)
+    1a94:	fdc42703          	lw	a4,-36(s0)
+    1a98:	fec42783          	lw	a5,-20(s0)
     1a9c:	00f707b3          	add	a5,a4,a5
     1aa0:	0007c703          	lbu	a4,0(a5)
     1aa4:	fd840793          	add	a5,s0,-40
@@ -1852,13 +1852,13 @@ Disassembly of section .text:
     1abc:	0017c793          	xor	a5,a5,1
     1ac0:	0ff7f793          	zext.b	a5,a5
     1ac4:	02079263          	bnez	a5,1ae8 <_ZNK4listIhLi128EE20for_each_until_falseIZL14print_locationhhEUlhE_EEvT_+0x74>
-#     for (object_id_t i = 0; i < len; ++i) {
-    1ac8:	fef44783          	lbu	a5,-17(s0)
+#     for (size_t i = 0; i < len; ++i) {
+    1ac8:	fec42783          	lw	a5,-20(s0)
     1acc:	00178793          	add	a5,a5,1
-    1ad0:	fef407a3          	sb	a5,-17(s0)
-    1ad4:	fef44703          	lbu	a4,-17(s0)
-    1ad8:	fdc42783          	lw	a5,-36(s0)
-    1adc:	0807a783          	lw	a5,128(a5)
+    1ad0:	fef42623          	sw	a5,-20(s0)
+    1ad4:	fdc42783          	lw	a5,-36(s0)
+    1ad8:	0807a783          	lw	a5,128(a5)
+    1adc:	fec42703          	lw	a4,-20(s0)
     1ae0:	faf76ae3          	bltu	a4,a5,1a94 <_ZNK4listIhLi128EE20for_each_until_falseIZL14print_locationhhEUlhE_EEvT_+0x20>
     1ae4:	0080006f          	j	1aec <_ZNK4listIhLi128EE20for_each_until_falseIZL14print_locationhhEUlhE_EEvT_+0x78>
 #         return;
@@ -1872,7 +1872,7 @@ Disassembly of section .text:
     1af8:	00008067          	ret
 
 00001afc <_ZNK4listIhLi8EE20for_each_until_falseIZL14print_locationhhEUlhE0_EEvT_>:
-#   template <typename Func> auto for_each_until_false(Func f) const -> void {
+#   auto for_each_until_false(Function f) const -> void {
     1afc:	fd010113          	add	sp,sp,-48
     1b00:	02112623          	sw	ra,44(sp)
     1b04:	02812423          	sw	s0,40(sp)
@@ -1880,12 +1880,12 @@ Disassembly of section .text:
     1b0c:	fca42e23          	sw	a0,-36(s0)
     1b10:	fcb42a23          	sw	a1,-44(s0)
     1b14:	fcc42c23          	sw	a2,-40(s0)
-#     for (object_id_t i = 0; i < len; ++i) {
-    1b18:	fe0407a3          	sb	zero,-17(s0)
+#     for (size_t i = 0; i < len; ++i) {
+    1b18:	fe042623          	sw	zero,-20(s0)
     1b1c:	0440006f          	j	1b60 <_ZNK4listIhLi8EE20for_each_until_falseIZL14print_locationhhEUlhE0_EEvT_+0x64>
 #       if (!f(data[i])) {
-    1b20:	fef44783          	lbu	a5,-17(s0)
-    1b24:	fdc42703          	lw	a4,-36(s0)
+    1b20:	fdc42703          	lw	a4,-36(s0)
+    1b24:	fec42783          	lw	a5,-20(s0)
     1b28:	00f707b3          	add	a5,a4,a5
     1b2c:	0007c703          	lbu	a4,0(a5)
     1b30:	fd440793          	add	a5,s0,-44
@@ -1897,13 +1897,13 @@ Disassembly of section .text:
     1b48:	0017c793          	xor	a5,a5,1
     1b4c:	0ff7f793          	zext.b	a5,a5
     1b50:	02079263          	bnez	a5,1b74 <_ZNK4listIhLi8EE20for_each_until_falseIZL14print_locationhhEUlhE0_EEvT_+0x78>
-#     for (object_id_t i = 0; i < len; ++i) {
-    1b54:	fef44783          	lbu	a5,-17(s0)
+#     for (size_t i = 0; i < len; ++i) {
+    1b54:	fec42783          	lw	a5,-20(s0)
     1b58:	00178793          	add	a5,a5,1
-    1b5c:	fef407a3          	sb	a5,-17(s0)
-    1b60:	fef44703          	lbu	a4,-17(s0)
-    1b64:	fdc42783          	lw	a5,-36(s0)
-    1b68:	0087a783          	lw	a5,8(a5)
+    1b5c:	fef42623          	sw	a5,-20(s0)
+    1b60:	fdc42783          	lw	a5,-36(s0)
+    1b64:	0087a783          	lw	a5,8(a5)
+    1b68:	fec42703          	lw	a4,-20(s0)
     1b6c:	faf76ae3          	bltu	a4,a5,1b20 <_ZNK4listIhLi8EE20for_each_until_falseIZL14print_locationhhEUlhE0_EEvT_+0x24>
     1b70:	0080006f          	j	1b78 <_ZNK4listIhLi8EE20for_each_until_falseIZL14print_locationhhEUlhE0_EEvT_+0x7c>
 #         return;
@@ -1915,19 +1915,19 @@ Disassembly of section .text:
     1b84:	00008067          	ret
 
 00001b88 <_ZNK4listIhLi32EE20for_each_until_falseIZL16action_inventoryhEUlhE_EEvT_>:
-#   template <typename Func> auto for_each_until_false(Func f) const -> void {
+#   auto for_each_until_false(Function f) const -> void {
     1b88:	fd010113          	add	sp,sp,-48
     1b8c:	02112623          	sw	ra,44(sp)
     1b90:	02812423          	sw	s0,40(sp)
     1b94:	03010413          	add	s0,sp,48
     1b98:	fca42e23          	sw	a0,-36(s0)
     1b9c:	fcb42c23          	sw	a1,-40(s0)
-#     for (object_id_t i = 0; i < len; ++i) {
-    1ba0:	fe0407a3          	sb	zero,-17(s0)
+#     for (size_t i = 0; i < len; ++i) {
+    1ba0:	fe042623          	sw	zero,-20(s0)
     1ba4:	0440006f          	j	1be8 <_ZNK4listIhLi32EE20for_each_until_falseIZL16action_inventoryhEUlhE_EEvT_+0x60>
 #       if (!f(data[i])) {
-    1ba8:	fef44783          	lbu	a5,-17(s0)
-    1bac:	fdc42703          	lw	a4,-36(s0)
+    1ba8:	fdc42703          	lw	a4,-36(s0)
+    1bac:	fec42783          	lw	a5,-20(s0)
     1bb0:	00f707b3          	add	a5,a4,a5
     1bb4:	0007c703          	lbu	a4,0(a5)
     1bb8:	fd840793          	add	a5,s0,-40
@@ -1939,13 +1939,13 @@ Disassembly of section .text:
     1bd0:	0017c793          	xor	a5,a5,1
     1bd4:	0ff7f793          	zext.b	a5,a5
     1bd8:	02079263          	bnez	a5,1bfc <_ZNK4listIhLi32EE20for_each_until_falseIZL16action_inventoryhEUlhE_EEvT_+0x74>
-#     for (object_id_t i = 0; i < len; ++i) {
-    1bdc:	fef44783          	lbu	a5,-17(s0)
+#     for (size_t i = 0; i < len; ++i) {
+    1bdc:	fec42783          	lw	a5,-20(s0)
     1be0:	00178793          	add	a5,a5,1
-    1be4:	fef407a3          	sb	a5,-17(s0)
-    1be8:	fef44703          	lbu	a4,-17(s0)
-    1bec:	fdc42783          	lw	a5,-36(s0)
-    1bf0:	0207a783          	lw	a5,32(a5)
+    1be4:	fef42623          	sw	a5,-20(s0)
+    1be8:	fdc42783          	lw	a5,-36(s0)
+    1bec:	0207a783          	lw	a5,32(a5)
+    1bf0:	fec42703          	lw	a4,-20(s0)
     1bf4:	faf76ae3          	bltu	a4,a5,1ba8 <_ZNK4listIhLi32EE20for_each_until_falseIZL16action_inventoryhEUlhE_EEvT_+0x20>
     1bf8:	0080006f          	j	1c00 <_ZNK4listIhLi32EE20for_each_until_falseIZL16action_inventoryhEUlhE_EEvT_+0x78>
 #         return;

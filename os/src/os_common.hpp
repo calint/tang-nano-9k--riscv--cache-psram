@@ -178,8 +178,9 @@ public:
 
   auto length() const -> size_t { return len; }
 
-  template <typename Func> auto for_each_until_false(Func f) const -> void {
-    for (object_id_t i = 0; i < len; ++i) {
+  template <typename Function>
+  auto for_each_until_false(Function f) const -> void {
+    for (size_t i = 0; i < len; ++i) {
       if (!f(data[i])) {
         return;
       }
