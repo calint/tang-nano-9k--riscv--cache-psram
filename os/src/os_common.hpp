@@ -210,7 +210,7 @@ struct location {
 };
 
 static location locations[] = {
-    {""},
+    {},
     {"roome", {}, {{1}, 1}, {{2, 3, 0, 4}, 4}},
     {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
     {"bathroom"},
