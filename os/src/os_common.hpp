@@ -352,7 +352,7 @@ static auto print_location(location_id_t const lid,
     uint32_t counter = 0;
     auto &lso = loc.objects;
     size_t const n = lso.length();
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; ++i) {
       object_id_t const oid = lso.at(i);
       if (counter++) {
         uart_send_str(", ");
@@ -370,7 +370,7 @@ static auto print_location(location_id_t const lid,
     uint32_t counter = 0;
     auto &lse = loc.entities;
     size_t const n = lse.length();
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; ++i) {
       entity_id_t const eid = lse.at(i);
       if (eid == eid_exclude_from_output) {
         continue;
@@ -391,7 +391,7 @@ static auto print_location(location_id_t const lid,
     uart_send_str("exits: ");
     auto &lsx = loc.exits;
     size_t const n = lsx.length();
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; ++i) {
       if (!lsx.at(i)) {
         continue;
       }
@@ -412,7 +412,7 @@ static auto action_inventory(entity_id_t const eid) -> void {
   uint32_t counter = 0;
   auto &ls = entities[eid].objects;
   size_t const n = ls.length();
-  for (size_t i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; ++i) {
     object_id_t const oid = ls.at(i);
     if (counter++) {
       uart_send_str(", ");
@@ -429,7 +429,7 @@ static auto action_take(entity_id_t const eid, name_t const obj) -> void {
   entity &ent = entities[eid];
   auto &lso = locations[ent.location].objects;
   size_t const n = lso.length();
-  for (size_t i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; ++i) {
     object_id_t const oid = lso.at(i);
     if (!strings_equal(objects[oid].name, obj)) {
       continue;
@@ -447,7 +447,7 @@ static auto action_drop(entity_id_t const eid, name_t const obj) -> void {
   entity &ent = entities[eid];
   auto &lso = ent.objects;
   size_t const n = lso.length();
-  for (size_t i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; ++i) {
     object_id_t const oid = lso.at(i);
     if (!strings_equal(objects[oid].name, obj)) {
       continue;
@@ -482,7 +482,7 @@ static auto action_give(entity_id_t const eid, name_t const obj,
   location &loc = locations[ent.location];
   auto &lse = loc.entities;
   size_t const n = lse.length();
-  for (size_t i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; ++i) {
     entity &to = entities[lse.at(i)];
     if (!strings_equal(to.name, to_ent)) {
       continue;
