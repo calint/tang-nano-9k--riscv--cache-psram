@@ -210,11 +210,11 @@ struct location {
 };
 
 static location locations[] = {
-    {"", {}, {0}, {0}},
+    {""},
     {"roome", {}, {{1}, 1}, {{2, 3, 0, 4}, 4}},
     {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
-    {"bathroom", {}, {0}, {{}}},
-    {"kitchen", {}, {0}, {{0, 1}, 2}}};
+    {"bathroom"},
+    {"kitchen", {}, {}, {{0, 1}, 2}}};
 
 static char const *exit_names[] = {"north", "east", "south",
                                    "west",  "up",   "down"};
