@@ -169,9 +169,9 @@ public:
     }
   }
 
-  auto at(size_t const i) const -> Type {
-    if (i < len) {
-      return data[i];
+  auto at(size_t const ix) const -> Type {
+    if (ix < len) {
+      return data[ix];
     }
     return {};
   }
