@@ -292,12 +292,13 @@ static auto handle_input(entity_id_t const eid, command_buffer &buf) -> void {
   while (true) {
     words[nwords++] = ptr;
     while (*ptr && *ptr != ' ') {
-      ptr++;
+      ++ptr;
     }
-    if (!*ptr)
+    if (!*ptr) {
       break;
+    }
     *ptr = '\0';
-    ptr++;
+    ++ptr;
     if (nwords == sizeof(words) / sizeof(char const *)) {
       uart_send_str("too many words, some ignored\r\n\r\n");
       break;
