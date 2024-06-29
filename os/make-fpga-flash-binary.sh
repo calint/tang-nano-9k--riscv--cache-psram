@@ -29,10 +29,10 @@ BIN=os
 riscv32-unknown-elf-g++ -std=c++23 \
     -O3 \
     -g \
-    -ffreestanding \
-    -nostdlib \
     -march=rv32i \
     -mabi=ilp32 \
+    -ffreestanding \
+    -nostdlib \
     -Wfatal-errors \
     -Wall -Wextra -pedantic \
     -Wconversion \
@@ -45,10 +45,10 @@ riscv32-unknown-elf-g++ -std=c++23 \
     -o $BIN \
     src/os_start.S src/os.cpp
 
-# see "man g++"" for these options that are optional:
-#    -mstrict-align \
+# see "man g++"" for these optional options:
 #    -fno-toplevel-reorder \
 #    -fno-pic \
+#    -mstrict-align \
 # see "man ld" for:
 #    -Wl,--no-relax \
 
