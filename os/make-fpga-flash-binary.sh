@@ -41,7 +41,6 @@ riscv32-unknown-elf-g++ -std=c++23 \
     -Wno-unused-parameter \
     -Wno-stringop-overflow \
     -Wl,-T,linker.ld \
-    -Wl,--no-relax \
     -Wl,--no-warn-rwx-segment \
     -o $BIN \
     src/os_start.S src/os.cpp
@@ -50,6 +49,8 @@ riscv32-unknown-elf-g++ -std=c++23 \
 #    -mstrict-align \
 #    -fno-toplevel-reorder \
 #    -fno-pic \
+# see "man ld" for:
+#    -Wl,--no-relax \
 
 rm $BIN.bin $BIN.lst $BIN.dat || true
 
