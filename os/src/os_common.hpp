@@ -37,6 +37,7 @@ using entity_id_t = uint8_t;
 using direction_t = uint8_t;
 
 constexpr char CHAR_BACKSPACE = 0x7f;
+constexpr char CHAR_TAB = 0x09;
 constexpr size_t LOCATION_MAX_OBJECTS = 128;
 constexpr size_t LOCATION_MAX_ENTITIES = 8;
 constexpr size_t LOCATION_MAX_EXITS = 6;
@@ -121,7 +122,7 @@ public:
     return true;
   }
 
-  auto apply_on_chars_from_cursor_to_end(void (*f)(char)) const -> void {
+  auto apply_on_chars_from_cursor_to_end(auto &&f) const -> void {
     for (size_t i = cursor_; i < end_; ++i) {
       f(line_[i]);
     }
@@ -182,8 +183,7 @@ public:
 
   auto length() const -> size_t { return len; }
 
-  template <typename Function>
-  auto for_each_until_false(Function f) const -> void {
+  auto for_each_until_false(auto &&f) const -> void {
     for (size_t i = 0; i < len; ++i) {
       if (!f(data[i])) {
         return;
@@ -589,6 +589,8 @@ static auto input(command_buffer &cmd_buf) -> void {
         uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
         // +1 to compensate for the ' ' that erases the trailing output
       }
+    } else if (ch == CHAR_TAB) {
+      // ignore tab for now
     } else if (ch == CHAR_CARRIAGE_RETURN || cmd_buf.is_full()) {
       cmd_buf.set_eos();
       return;

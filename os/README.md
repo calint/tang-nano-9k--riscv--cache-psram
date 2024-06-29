@@ -28,7 +28,7 @@
 * source in `hpp` files
   - unified build viewing the program as one file
   - gives compiler opportunity to optimize in a broader context
-  - increases compile time and is not scalable; however, this application is smallish
+  - increases compile time and is not scalable; however, compilation time for this application is negligible
 * use of `static` storage and function declarations
   - gives compiler opportunity to optimize
 * include order relevant

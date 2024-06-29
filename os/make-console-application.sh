@@ -8,7 +8,7 @@ cd $(dirname "$0")
 BIN=console_application
 
 g++ -std=c++23 \
-    -O0 \
+    -O3 \
     -g \
     -Wall -Wextra -pedantic \
     -Wconversion \

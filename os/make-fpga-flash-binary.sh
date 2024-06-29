@@ -27,7 +27,7 @@ PATH=$PATH:~/riscv/install/rv32i/bin
 BIN=os
 
 riscv32-unknown-elf-g++ -std=c++23 \
-	-O0 \
+	-O3 \
 	-g \
 	-nostartfiles \
 	-ffreestanding \

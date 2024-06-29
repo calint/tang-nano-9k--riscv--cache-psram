@@ -2,15 +2,15 @@
 
 static const char *hello = "welcome to adventure #4\r\n    type 'help'\r\n\r\n";
 
-static const char *ascii_art =
+static char const *ascii_art =
     "                                  oOo.o.\r\n"
     "         frameless osca          oOo.oOo\r\n"
     "      __________________________  .oOo.\r\n"
     "     O\\        -_   .. \\    ___ \\   ||\r\n"
-    "    O  \\    risc-v      \\   \\ \\\\ \\ //\\\\\r\n"
-    "   o   /\\    fpga        \\   \\|\\\\ \\\r\n"
-    "  .   //\\\\    overview    \\   ||   \\\r\n"
-    "   .  \\\\/\\\\                \\  \\_\\   \\\r\n"
+    "    O  \\                \\   \\ \\\\ \\ //\\\\\r\n"
+    "   o   /\\    risc-v      \\   \\|\\\\ \\\r\n"
+    "  .   //\\\\    fpga        \\   ||   \\\r\n"
+    "   .  \\\\/\\\\    overview    \\  \\_\\   \\\r\n"
     "    .  \\\\//\\________________\\________\\\r\n"
     "     .  \\/_/, \\\\\\--\\\\..\\\\ - /\\_____  /\r\n"
     "      .  \\ \\ . \\\\\\__\\\\__\\\\./ / \\__/ /\r\n"
