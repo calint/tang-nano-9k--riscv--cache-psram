@@ -27,33 +27,29 @@ PATH=$PATH:~/riscv/install/rv32i/bin
 BIN=os
 
 riscv32-unknown-elf-g++ -std=c++23 \
-	-O3 \
-	-g \
-	-nostartfiles \
-	-ffreestanding \
-	-nostdlib \
-	-fno-toplevel-reorder \
-	-fno-pic \
-	-march=rv32i \
-	-mabi=ilp32 \
-	-mstrict-align \
-	-Wfatal-errors \
-	-Wall -Wextra -pedantic \
-	-Wconversion \
-	-Wshadow \
-	-Wno-unused-function \
-	-Wno-unused-parameter \
-	-Wno-stringop-overflow \
-	-fno-zero-initialized-in-bss \
-	-Wl,-T,linker.ld \
-	-Wl,--no-relax \
-	-Wl,--no-warn-rwx-segment \
-	-o $BIN \
-	src/os_start.S src/os.cpp
+    -O3 \
+    -g \
+    -ffreestanding \
+    -nostdlib \
+    -march=rv32i \
+    -mabi=ilp32 \
+    -Wfatal-errors \
+    -Wall -Wextra -pedantic \
+    -Wconversion \
+    -Wshadow \
+    -Wno-unused-function \
+    -Wno-unused-parameter \
+    -Wno-stringop-overflow \
+    -Wl,-T,linker.ld \
+    -Wl,--no-relax \
+    -Wl,--no-warn-rwx-segment \
+    -o $BIN \
+    src/os_start.S src/os.cpp
 
-# note: without -fno-zero-initialized-in-bss static bool initiated to false are not exported in the binary
-
-#	-Wpadded \
+# see "man g++"" for these options that are optional:
+#    -mstrict-align \
+#    -fno-toplevel-reorder \
+#    -fno-pic \
 
 rm $BIN.bin $BIN.lst $BIN.dat || true
 
