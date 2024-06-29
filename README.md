@@ -78,6 +78,9 @@ welcome to adventure #4
 [ ] read LEDs
 [ ] investigate and try to recreate the "// ??" issue in 'ramio'
     => the simulation works as expected
+[ ] fix red hold and recovery paths (not involved in running CPU, ignored)
+[ ]   psram: CALIB
+[ ]   psram: RESET 
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
 
 next step
