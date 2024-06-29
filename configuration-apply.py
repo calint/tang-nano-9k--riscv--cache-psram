@@ -1,7 +1,10 @@
 #!/bin/python3
 # generates configuration files for Verilog source and 'os'
-
 import configuration as cfg
+import os
+
+script_dir = os.path.dirname(os.path.realpath(__file__))
+os.chdir(script_dir)
 
 with open('os/src/os_start.S', 'w') as file:
     file.write('# generated - do not edit (see `configuration.py`)\n')
