@@ -26,6 +26,8 @@
 
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/serial-terminal-settings/1.png)
 
+* press button S1 to reset and view the prompt (does not reset RAM)
+
 ## Source
 * SystemVerilog adhering to most of style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
 
