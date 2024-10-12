@@ -26,7 +26,7 @@
 
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/serial-terminal-settings/1.png)
 
-* press button S1 to reset and view the greeting (does not reset RAM)
+* press button S1 to reset and view the greeting
 
 ## Greeting
 ```
