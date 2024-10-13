@@ -19,7 +19,7 @@ static constexpr char CHAR_CARRIAGE_RETURN = 0x0a;
 #include "os_common.hpp"
 // the platform independent source
 
-int main() {
+auto main() -> int {
   struct termios term {};
   tcgetattr(STDIN_FILENO, &term);
   term.c_lflag &= ~unsigned(ICANON | ECHO);
@@ -28,7 +28,7 @@ int main() {
   run();
 }
 
-static void uart_send_char(char const ch) {
+static auto uart_send_char(char const ch) -> void {
   if (ch == CHAR_BACKSPACE) {
     printf("\b \b");
   } else {
@@ -36,10 +36,10 @@ static void uart_send_char(char const ch) {
   }
 }
 
-static void uart_send_str(char const *str) { printf("%s", str); }
+static auto uart_send_str(char const *str) -> void { printf("%s", str); }
 
-static char uart_read_char() { return char(getchar()); }
+static auto uart_read_char() -> char { return char(getchar()); }
 
-static void led_set(uint8_t const bits) {}
+static auto led_set(uint8_t const bits) -> void {}
 
-static void action_mem_test() { printf("memory test not supported\n"); }
+static auto action_mem_test() -> void { printf("memory test not supported\n"); }
