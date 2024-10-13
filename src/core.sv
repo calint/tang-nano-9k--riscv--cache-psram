@@ -85,7 +85,7 @@ module core #(
   wire [4:0] rs2 = ir[24:20];  // source register 2
   wire [4:0] rd = ir[11:7];  // destination register
   wire [4:0] opcode = ir[6:2];  // note: lowest 2'b11 of instruction ignored
-  wire [2:0] funct3 = ramio_data_out[14:12];
+  wire [2:0] funct3 = ir[14:12];
   // immediate encodings
   wire [31:0] U_imm20 = {ir[31:12], {12{1'b0}}};
   wire signed [31:0] I_imm12 = {{21{ir[31]}}, ir[30:20]};
