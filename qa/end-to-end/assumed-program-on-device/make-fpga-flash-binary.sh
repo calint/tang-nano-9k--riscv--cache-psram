@@ -26,26 +26,31 @@ cd $(dirname "$0")
 PATH=$PATH:~/riscv/install/rv32i/bin
 BIN=os
 
-riscv32-unknown-elf-gcc \
-	-O3 \
-	-g \
-	-nostartfiles \
-	-ffreestanding \
-	-nostdlib \
-	-fno-toplevel-reorder \
-	-fno-pic \
-	-march=rv32i \
-	-mabi=ilp32 \
-	-mstrict-align \
-	-Wfatal-errors \
-	-Wall -Wextra -pedantic \
-	-Wconversion \
-	-Wshadow \
-	-Wl,-Ttext=0x0 \
-	-Wl,--no-relax \
-	os_start.S os.c -o $BIN
+riscv32-unknown-elf-g++ -std=c++23 \
+    -O3 \
+    -g \
+    -march=rv32i \
+    -mabi=ilp32 \
+    -ffreestanding \
+    -nostdlib \
+    -fno-toplevel-reorder \
+    -Wfatal-errors \
+    -Wall -Wextra -pedantic \
+    -Wconversion \
+    -Wshadow \
+    -Wno-unused-function \
+    -Wno-unused-parameter \
+    -Wno-stringop-overflow \
+    -Wl,-T,linker.ld \
+    -Wl,--no-warn-rwx-segment \
+    -o $BIN \
+    src/os_start.S src/os.cpp
 
-#	-Wpadded \
+# see "man g++"" for these optional options:
+#    -fno-pic \
+#    -mstrict-align \
+# see "man ld" for:
+#    -Wl,--no-relax \
 
 rm $BIN.bin $BIN.lst $BIN.dat || true
 
