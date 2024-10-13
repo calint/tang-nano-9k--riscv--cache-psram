@@ -136,9 +136,6 @@ module ramio #(
 
         // convert input to cache interface expected byte enabled 4-bytes word
         unique case (write_type)
-          2'b00: begin  // none
-            cache_write_enable = 4'b0000;
-          end
           2'b01: begin  // byte
             unique case (address[1:0])
               2'b00: begin
