@@ -33,6 +33,7 @@ riscv32-unknown-elf-g++ -std=c++23 \
     -mabi=ilp32 \
     -ffreestanding \
     -nostdlib \
+    -fno-toplevel-reorder \
     -Wfatal-errors \
     -Wall -Wextra -pedantic \
     -Wconversion \
@@ -46,7 +47,6 @@ riscv32-unknown-elf-g++ -std=c++23 \
     src/os_start.S src/os.cpp
 
 # see "man g++"" for these optional options:
-#    -fno-toplevel-reorder \
 #    -fno-pic \
 #    -mstrict-align \
 # see "man ld" for:
