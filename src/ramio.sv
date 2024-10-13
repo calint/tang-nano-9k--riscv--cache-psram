@@ -126,59 +126,61 @@ module ramio #(
     cache_write_enable = 0;
     cache_data_in = 0;
 
-    if (address == AddressUartOut || address == AddressUartIn || address == AddressLed) begin
-      // don't trigger cache when accessing I/O
-    end else begin
-      cache_enable = 1;
-      // note: could be done in either 'always_comb', however this block checks
-      //  address with both UART and LED
+    if (enable) begin
+      if (address == AddressUartOut || address == AddressUartIn || address == AddressLed) begin
+        // don't trigger cache when accessing I/O
+      end else begin
+        cache_enable = 1;
+        // note: could be done in either 'always_comb', however this block checks
+        //  address with both UART and LED
 
-      // convert input to cache interface expected byte enabled 4-bytes word
-      unique case (write_type)
-        2'b00: begin  // none
-          cache_write_enable = 4'b0000;
-        end
-        2'b01: begin  // byte
-          unique case (address[1:0])
-            2'b00: begin
-              cache_write_enable = 4'b0001;
-              cache_data_in[7:0] = data_in[7:0];
-            end
-            2'b01: begin
-              cache_write_enable  = 4'b0010;
-              cache_data_in[15:8] = data_in[7:0];
-            end
-            2'b10: begin
-              cache_write_enable   = 4'b0100;
-              cache_data_in[23:16] = data_in[7:0];
-            end
-            2'b11: begin
-              cache_write_enable   = 4'b1000;
-              cache_data_in[31:24] = data_in[7:0];
-            end
-          endcase
-        end
-        2'b10: begin  // half word
-          unique case (address[1:0])
-            2'b00: begin
-              cache_write_enable  = 4'b0011;
-              cache_data_in[15:0] = data_in[15:0];
-            end
-            2'b01: ;  // ? error
-            2'b10: begin
-              cache_write_enable   = 4'b1100;
-              cache_data_in[31:16] = data_in[15:0];
-            end
-            2'b11: ;  // ? error
-          endcase
-        end
-        2'b11: begin  // word
-          // ? assert(addr_lower_w==0)
-          cache_write_enable = 4'b1111;
-          cache_data_in = data_in;
-        end
-        default: ;  // ? error
-      endcase
+        // convert input to cache interface expected byte enabled 4-bytes word
+        unique case (write_type)
+          2'b00: begin  // none
+            cache_write_enable = 4'b0000;
+          end
+          2'b01: begin  // byte
+            unique case (address[1:0])
+              2'b00: begin
+                cache_write_enable = 4'b0001;
+                cache_data_in[7:0] = data_in[7:0];
+              end
+              2'b01: begin
+                cache_write_enable  = 4'b0010;
+                cache_data_in[15:8] = data_in[7:0];
+              end
+              2'b10: begin
+                cache_write_enable   = 4'b0100;
+                cache_data_in[23:16] = data_in[7:0];
+              end
+              2'b11: begin
+                cache_write_enable   = 4'b1000;
+                cache_data_in[31:24] = data_in[7:0];
+              end
+            endcase
+          end
+          2'b10: begin  // half word
+            unique case (address[1:0])
+              2'b00: begin
+                cache_write_enable  = 4'b0011;
+                cache_data_in[15:0] = data_in[15:0];
+              end
+              2'b01: ;  // ? error
+              2'b10: begin
+                cache_write_enable   = 4'b1100;
+                cache_data_in[31:16] = data_in[15:0];
+              end
+              2'b11: ;  // ? error
+            endcase
+          end
+          2'b11: begin  // word
+            // ? assert(addr_lower_w==0)
+            cache_write_enable = 4'b1111;
+            cache_data_in = data_in;
+          end
+          default: ;  // ? error
+        endcase
+      end
     end
   end
 
@@ -198,71 +200,72 @@ module ramio #(
 `endif
     // create the 'data_out' based on the 'address'
     data_out = 0;
-
-    if (address == AddressUartOut && read_type[1:0] == 2'b01) begin
-      // if read byte from 'uarttx' (read_type[2] flags signed)
-      data_out = read_type[2] ? 
+    if (enable) begin
+      if (address == AddressUartOut && read_type[1:0] == 2'b01) begin
+        // if read byte from 'uarttx' (read_type[2] flags signed)
+        data_out = read_type[2] ? 
                     {{24{uarttx_data_sending[7]}}, uarttx_data_sending} : 
                     {{24{1'b0}}, uarttx_data_sending};
 
-    end else if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
-      // if read byte from 'uartrx' (read_type[2] flags signed)
-      data_out = read_type[2] ? 
+      end else if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
+        // if read byte from 'uartrx' (read_type[2] flags signed)
+        data_out = read_type[2] ? 
                     {{24{uartrx_data_received[7]}}, uartrx_data_received} :
                     {{24{1'b0}}, uartrx_data_received};
 
-    end else begin
-      // read from ram
-      unique casez (read_type)
-        3'b?01: begin  // byte
-          unique case (address[1:0])
-            2'b00: begin
-              data_out = read_type[2] ? 
+      end else begin
+        // read from ram
+        unique casez (read_type)
+          3'b?01: begin  // byte
+            unique case (address[1:0])
+              2'b00: begin
+                data_out = read_type[2] ? 
               {{24{cache_data_out[7]}}, cache_data_out[7:0]} :
               {{24{1'b0}}, cache_data_out[7:0]};
-            end
-            2'b01: begin
-              data_out = read_type[2] ? 
+              end
+              2'b01: begin
+                data_out = read_type[2] ? 
               {{24{cache_data_out[15]}}, cache_data_out[15:8]} :
               {{24{1'b0}}, cache_data_out[15:8]};
-            end
-            2'b10: begin
-              data_out = read_type[2] ? 
+              end
+              2'b10: begin
+                data_out = read_type[2] ? 
               {{24{cache_data_out[23]}}, cache_data_out[23:16]} :
               {{24{1'b0}}, cache_data_out[23:16]};
-            end
-            2'b11: begin
-              data_out = read_type[2] ? 
+              end
+              2'b11: begin
+                data_out = read_type[2] ? 
               {{24{cache_data_out[31]}}, cache_data_out[31:24]} :
               {{24{1'b0}}, cache_data_out[31:24]};
-            end
-          endcase
-        end
+              end
+            endcase
+          end
 
-        3'b?10: begin  // half word
-          unique case (address[1:0])
-            2'b00: begin
-              data_out = read_type[2] ? 
+          3'b?10: begin  // half word
+            unique case (address[1:0])
+              2'b00: begin
+                data_out = read_type[2] ? 
               {{16{cache_data_out[15]}}, cache_data_out[15:0]} :
               {{16{1'b0}}, cache_data_out[15:0]};
-            end
-            2'b01: data_out = 0;  // ? error
-            2'b10: begin
-              data_out = read_type[2] ? 
+              end
+              2'b01: data_out = 0;  // ? error
+              2'b10: begin
+                data_out = read_type[2] ? 
               {{16{cache_data_out[31]}}, cache_data_out[31:16]} :
               {{16{1'b0}}, cache_data_out[31:16]};
-            end
-            2'b11: data_out = 0;  // ? error
-          endcase
-        end
+              end
+              2'b11: data_out = 0;  // ? error
+            endcase
+          end
 
-        3'b111: begin  // word
-          // ? assert(addr_lower_w==0)
-          data_out = cache_data_out;
-        end
+          3'b111: begin  // word
+            // ? assert(addr_lower_w==0)
+            data_out = cache_data_out;
+          end
 
-        default: ;
-      endcase
+          default: ;
+        endcase
+      end
     end
   end
 
@@ -289,41 +292,43 @@ module ramio #(
       uartrx_data_received <= 0;
       uartrx_go <= 1;
     end else begin
-      // if read from UART then reset the read data
-      if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
-        uartrx_data_received <= 0;
+      if (enable) begin
+        // if read from UART then reset the read data
+        if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
+          uartrx_data_received <= 0;
 
-      end else if (uartrx_go && uartrx_data_ready) begin
-        // ?? unclear why necessary in an 'else if' instead of stand-alone 'if'
-        // ??  to avoid characters being dropped from 'uartrx'
+        end else if (uartrx_go && uartrx_data_ready) begin
+          // ?? unclear why necessary in an 'else if' instead of stand-alone 'if'
+          // ??  to avoid characters being dropped from 'uartrx'
 
-        // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
-        //  note: read data can be overrun
-        uartrx_data_received <= uartrx_data;
-        uartrx_go <= 0;
-      end
+          // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
+          //  note: read data can be overrun
+          uartrx_data_received <= uartrx_data;
+          uartrx_go <= 0;
+        end
 
-      // if previous cycle acknowledged receiving data
-      //  then start receiving next data (uartrx_go = 1)
-      if (!uartrx_go) begin
-        uartrx_go <= 1;
-      end
+        // if previous cycle acknowledged receiving data
+        //  then start receiving next data (uartrx_go = 1)
+        if (!uartrx_go) begin
+          uartrx_go <= 1;
+        end
 
-      // if UART is done sending data then acknowledge (uarttx_go = 0)
-      if (uarttx_go && !uarttx_bsy) begin
-        uarttx_go <= 0;
-        uarttx_data_sending <= 0;
-      end
+        // if UART is done sending data then acknowledge (uarttx_go = 0)
+        if (uarttx_go && !uarttx_bsy) begin
+          uarttx_go <= 0;
+          uarttx_data_sending <= 0;
+        end
 
-      // if writing to UART out
-      if (address == AddressUartOut && write_type == 2'b01) begin
-        uarttx_data_sending <= data_in[7:0];
-        uarttx_go <= 1;
-      end
+        // if writing to UART out
+        if (address == AddressUartOut && write_type == 2'b01) begin
+          uarttx_data_sending <= data_in[7:0];
+          uarttx_go <= 1;
+        end
 
-      // if writing to LEDs
-      if (address == AddressLed && write_type == 2'b01) begin
-        led <= data_in[3:0];
+        // if writing to LEDs
+        if (address == AddressLed && write_type == 2'b01) begin
+          led <= data_in[3:0];
+        end
       end
     end
   end
