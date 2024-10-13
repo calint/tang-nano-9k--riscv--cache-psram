@@ -81,16 +81,15 @@ module core #(
   // CPU state
   logic [31:0] pc;  // program counter
   logic [31:0] ir;  // instruction register
-  logic [4:0] rs1;  // source register 1
-  logic [4:0] rs2;  // source register 2
-  logic [4:0] rd;  // destination register
-  logic [6:0] opcode;
-  logic [2:0] funct3;
-  logic [6:0] funct7;
+  wire [4:0] rs1 = ir[19:15];  // source register 1
+  wire [4:0] rs2 = ir[24:20];  // source register 2
+  wire [4:0] rd = ir[11:7];  // destination register
+  wire [4:0] opcode = ir[6:2];  // note: lowest 2'b11 of instruction ignored
+  wire [2:0] funct3 = ramio_data_out[14:12];
   // immediate encodings
   wire [31:0] U_imm20 = {ir[31:12], {12{1'b0}}};
-  wire signed [31:0] I_imm12 = {{20{ir[31]}}, ir[31:20]};
-  wire signed [31:0] S_imm12 = {{20{ir[31]}}, ir[31:25], ir[11:7]};
+  wire signed [31:0] I_imm12 = {{21{ir[31]}}, ir[30:20]};
+  wire signed [31:0] S_imm12 = {{21{ir[31]}}, ir[30:25], ir[11:7]};
   wire signed [31:0] B_imm12 = {{20{ir[31]}}, ir[7], ir[30:25], ir[11:8], 1'b0};
   wire signed [31:0] J_imm20 = {{12{ir[31]}}, ir[19:12], ir[20], ir[30:21], 1'b0};
   // registers output data
@@ -231,12 +230,6 @@ module core #(
 `endif
             // copy instruction slices from RAM output to registers
             ir <= ramio_data_out;
-            rs1 <= ramio_data_out[19:15];
-            rs2 <= ramio_data_out[24:20];
-            rd <= ramio_data_out[11:7];
-            opcode <= ramio_data_out[6:0];
-            funct3 <= ramio_data_out[14:12];
-            funct7 <= ramio_data_out[31:25];
 
             // disable RAM next cycle
             ramio_enable <= 0;
@@ -257,11 +250,11 @@ module core #(
 
           // execute instruction (part 1)
           unique case (opcode)
-            7'b0110111: begin  // LUI
+            5'b01101: begin  // LUI
               rd_data_in <= U_imm20;
               rd_write_enable <= 1;
             end
-            7'b0010011: begin  // logical ops immediate
+            5'b00100: begin  // logical ops immediate
               rd_write_enable <= 1;
               unique case (funct3)
                 3'b000: begin  // ADDI
@@ -291,7 +284,7 @@ module core #(
                 default: led <= 0;  // error
               endcase  // case (funct3)
             end
-            7'b0110011: begin  // logical ops
+            5'b01100: begin  // logical ops
               rd_write_enable <= 1;
               unique case (funct3)
                 3'b000: begin  // ADD and SUB
@@ -321,7 +314,7 @@ module core #(
                 default: led <= 0;  // error
               endcase  // case (funct3)
             end
-            7'b0100011: begin  // store
+            5'b01000: begin  // store
               ramio_read_type <= 0;
               ramio_address   <= rs1_data_out + S_imm12;
               ramio_data_in   <= rs2_data_out;
@@ -339,7 +332,7 @@ module core #(
               endcase  // case (funct3)
               state <= CpuStore;
             end
-            7'b0000011: begin  // load
+            5'b00000: begin  // load
               ramio_write_type <= 0;
               ramio_address <= rs1_data_out + I_imm12;
               unique case (funct3)
@@ -362,23 +355,23 @@ module core #(
               endcase  // case (funct3)
               state <= CpuLoad;
             end
-            7'b0010111: begin  // AUIPC
+            5'b00101: begin  // AUIPC
               rd_data_in <= pc + U_imm20;
               rd_write_enable <= 1;
             end
-            7'b1101111: begin  // JAL
+            5'b11011: begin  // JAL
               rd_data_in <= pc + 4;
               rd_write_enable <= 1;
               ramio_address <= pc + J_imm20;
               pc <= pc + J_imm20;
             end
-            7'b1100111: begin  // JALR
+            5'b11001: begin  // JALR
               rd_data_in <= pc + 4;
               rd_write_enable <= 1;
               ramio_address <= rs1_data_out + I_imm12;
               pc <= rs1_data_out + I_imm12;
             end
-            7'b1100011: begin  // branches
+            5'b11000: begin  // branches
               unique case (funct3)
                 3'b000: begin  // BEQ
                   if (rs1_data_out == rs2_data_out) begin
