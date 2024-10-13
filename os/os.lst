@@ -10,8 +10,8 @@ Disassembly of section .text:
 # _start:
 #     li sp, 0x200000
        0:	00200137          	lui	sp,0x200
-#     jal ra, run
-       4:	2dc000ef          	jal	2e0 <run>
+#     jal zero, run
+       4:	2dc0006f          	j	2e0 <run>
 
 00000008 <_ZL9action_gohh>:
        8:	00151713          	sll	a4,a0,0x1

@@ -11,7 +11,7 @@ with open('os/src/os_start.S', 'w') as file:
     file.write('.global _start\n')
     file.write('_start:\n')
     file.write('    li sp, {}\n'.format(hex(2**cfg.RAM_ADDRESS_BITWIDTH)))
-    file.write('    jal ra, run\n')
+    file.write('    jal zero, run\n')
 
 with open('os/src/os_config.hpp', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
