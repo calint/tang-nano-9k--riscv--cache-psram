@@ -228,7 +228,7 @@ module core #(
 `ifdef DBG
             $display("fetched: %h", ramio_data_out);
 `endif
-            // copy instruction slices from RAM output to registers
+            // copy instruction from RAM output
             ir <= ramio_data_out;
 
             // disable RAM next cycle
