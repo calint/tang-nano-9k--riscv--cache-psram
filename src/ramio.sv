@@ -289,43 +289,41 @@ module ramio #(
       uartrx_data_received <= 0;
       uartrx_go <= 1;
     end else begin
-      if (enable) begin
-        // if read from UART then reset the read data
-        if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
-          uartrx_data_received <= 0;
+      // if read from UART then reset the read data
+      if (address == AddressUartIn && read_type[1:0] == 2'b01) begin
+        uartrx_data_received <= 0;
 
-        end else if (uartrx_go && uartrx_data_ready) begin
-          // ?? unclear why necessary in an 'else if' instead of stand-alone 'if'
-          // ??  to avoid characters being dropped from 'uartrx'
+      end else if (uartrx_go && uartrx_data_ready) begin
+        // ?? unclear why necessary in an 'else if' instead of stand-alone 'if'
+        // ??  to avoid characters being dropped from 'uartrx'
 
-          // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
-          //  note: read data can be overrun
-          uartrx_data_received <= uartrx_data;
-          uartrx_go <= 0;
-        end
+        // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
+        //  note: read data can be overrun
+        uartrx_data_received <= uartrx_data;
+        uartrx_go <= 0;
+      end
 
-        // if previous cycle acknowledged receiving data
-        //  then start receiving next data (uartrx_go = 1)
-        if (!uartrx_go) begin
-          uartrx_go <= 1;
-        end
+      // if previous cycle acknowledged receiving data
+      //  then start receiving next data (uartrx_go = 1)
+      if (!uartrx_go) begin
+        uartrx_go <= 1;
+      end
 
-        // if UART is done sending data then acknowledge (uarttx_go = 0)
-        if (uarttx_go && !uarttx_bsy) begin
-          uarttx_go <= 0;
-          uarttx_data_sending <= 0;
-        end
+      // if UART is done sending data then acknowledge (uarttx_go = 0)
+      if (uarttx_go && !uarttx_bsy) begin
+        uarttx_go <= 0;
+        uarttx_data_sending <= 0;
+      end
 
-        // if writing to UART out
-        if (address == AddressUartOut && write_type == 2'b01) begin
-          uarttx_data_sending <= data_in[7:0];
-          uarttx_go <= 1;
-        end
+      // if writing to UART out
+      if (address == AddressUartOut && write_type == 2'b01) begin
+        uarttx_data_sending <= data_in[7:0];
+        uarttx_go <= 1;
+      end
 
-        // if writing to LEDs
-        if (address == AddressLed && write_type == 2'b01) begin
-          led <= data_in[3:0];
-        end
+      // if writing to LEDs
+      if (address == AddressLed && write_type == 2'b01) begin
+        led <= data_in[3:0];
       end
     end
   end
@@ -393,7 +391,7 @@ module ramio #(
       // current data being received, is incomplete until 'data_ready' asserted
 
       .data_ready(uartrx_data_ready)
-      // enabled when a fulle byte of 'data' has been received
+      // enabled when a full byte of 'data' has been received
   );
 
 endmodule
