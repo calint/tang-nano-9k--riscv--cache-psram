@@ -94,7 +94,9 @@ next step
 [ ]   1+ cycle load op
 [ ] FSM in always_comb?
 [ ] dual channel 4 MB PSRAM
-[ ] step 12: fully pipe-lined core
+
+step 12
+[ ] fully pipe-lined core
 [ ] consider FIFO in UART
 -------------------------------------------------------------------------------------------------------------
 [x] study why terminal drops characters
