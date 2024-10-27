@@ -87,6 +87,7 @@ welcome to adventure #4
 [ ]   psram: RESET 
 
 next step
+[ ] reduce execution by one cycle by doing CpuExecute in CpuFetch when ramio_data_out_ready
 [ ] always_comb based CPU
 [ ]   1 cycle ALU op
 [ ]   1+ cycle store op
