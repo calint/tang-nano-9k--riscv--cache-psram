@@ -87,7 +87,9 @@ welcome to adventure #4
 [ ]   psram: RESET 
 
 next step
-[ ] reduce execution by one cycle by doing CpuExecute in CpuFetch when ramio_data_out_ready
+[ ] reduce execution cycle by one step by doing CpuExecute in CpuFetch when ramio_data_out_ready
+
+step 12
 [ ] always_comb based CPU
 [ ]   1 cycle ALU op
 [ ]   1+ cycle store op
@@ -95,7 +97,7 @@ next step
 [ ] FSM in always_comb?
 [ ] dual channel 4 MB PSRAM
 
-step 12
+step 13
 [ ] fully pipe-lined core
 [ ] consider FIFO in UART
 -------------------------------------------------------------------------------------------------------------
