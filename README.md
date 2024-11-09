@@ -88,7 +88,7 @@ welcome to adventure #4
 
 next step
 [ ] reduce execution cycle by one step by doing CpuExecute in CpuFetch when ramio_data_out_ready
-    => registers would be a 2 port read 1 port write in one cycle
+    => registers module would be a 2 port read, 1 port write per cycle
 
 step 12
 [ ] always_comb based CPU
