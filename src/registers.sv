@@ -42,12 +42,6 @@ module registers #(
   assign rs1_data_out = rs1 == 0 ? 0 : data[rs1];
   assign rs2_data_out = rs2 == 0 ? 0 : data[rs2];
 
-  initial begin
-    for (int i = 0; i < 2 ** AddressBitWidth; i++) begin
-      data[i] = 0;
-    end
-  end
-
   always_ff @(posedge clk) begin
 `ifdef DBG
     if (rd_write_enable) begin
