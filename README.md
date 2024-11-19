@@ -97,6 +97,8 @@ step 12
 [ ]   1+ cycle load op
 [ ] FSM in always_comb?
 [ ] dual channel 4 MB PSRAM
+    => reasonable cache size does not fit in fpga resources
+    => study cache synthesized as block ram
 
 step 13
 [ ] fully pipe-lined core
