@@ -1,5 +1,8 @@
 # "operating system" - osqa
 
+## prerequisites
+`riscv64-elf-g++` toolchain is installed
+
 ## build
 `./make-fpga-flash-binary.sh` compiles `src/os.cpp` and generates:
 * `os.bin` - binary to be flashed to FPGA
