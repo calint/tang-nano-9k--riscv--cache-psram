@@ -17,7 +17,7 @@ OBJCOPY=riscv64-elf-objcopy
 OBJDUMP=riscv64-elf-objdump
 
 $CC -std=c++23 \
-    -O3 \
+    -Os \
     -g \
     -march=rv32i \
     -mabi=ilp32 \

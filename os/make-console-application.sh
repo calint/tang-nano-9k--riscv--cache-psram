@@ -14,7 +14,7 @@ cd $(dirname "$0")
 BIN=console_application
 
 g++ -std=c++23 \
-    -O3 \
+    -Os \
     -g \
     -fno-rtti \
     -fno-exceptions \
