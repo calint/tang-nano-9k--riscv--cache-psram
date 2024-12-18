@@ -76,6 +76,7 @@ welcome to adventure #4
 ```
 -------------------------------------------------------------------------------------------------------------
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
+    => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] study why BAUD rate less than 2400 does not work
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
