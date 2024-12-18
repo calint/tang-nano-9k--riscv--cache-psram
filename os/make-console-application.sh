@@ -5,6 +5,9 @@
 # note: assumes running in visual studio code terminal window
 #       regarding encoding of backspace and delete
 #
+# tools used:
+#        g++: 14.2.1
+#
 set -e
 cd $(dirname "$0")
 
