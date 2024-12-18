@@ -248,7 +248,7 @@ static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
 static auto strings_equal(char const *s1, char const *s2) -> bool;
 static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
 
-extern "C" auto run() -> void {
+extern "C" [[noreturn]] auto run() -> void {
   initiate_bss();
   // initiates bss section to zeros in freestanding build
 
