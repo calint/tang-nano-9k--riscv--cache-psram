@@ -25,8 +25,9 @@ $CC -std=c++23 \
     -nostdlib \
     -fno-toplevel-reorder \
     -Wfatal-errors \
-    -Wall -Wextra -pedantic \
+    -Wall -Wextra -Wpedantic \
     -Wconversion \
+    -Wsign-conversion \
     -Wshadow \
     -Wno-unused-function \
     -Wno-unused-parameter \

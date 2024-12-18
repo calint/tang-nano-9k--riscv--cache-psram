@@ -135,7 +135,7 @@ public:
   auto input_length() const -> size_t { return end_; }
 };
 
-template <class Type, int Size> class list {
+template <class Type, unsigned Size> class list {
 public:
   Type data[Size]{};
   size_t len{};
