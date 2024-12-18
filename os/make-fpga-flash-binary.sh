@@ -23,6 +23,8 @@ $CC -std=c++23 \
     -mabi=ilp32 \
     -ffreestanding \
     -nostdlib \
+    -fno-rtti \
+    -fno-exceptions \
     -fno-toplevel-reorder \
     -Wfatal-errors \
     -Wall -Wextra -Wpedantic \

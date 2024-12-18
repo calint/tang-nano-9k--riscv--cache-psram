@@ -16,6 +16,8 @@ BIN=console_application
 g++ -std=c++23 \
     -O3 \
     -g \
+    -fno-rtti \
+    -fno-exceptions \
     -Wall -Wextra -Wpedantic \
     -Wconversion \
     -Wsign-conversion \
