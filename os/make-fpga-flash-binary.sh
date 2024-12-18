@@ -3,30 +3,20 @@
 # builds binary to be flashed on FPGA
 #
 # tools used:
-#       riscv32-unknown-elf-gcc: (g2ee5e430018) 12.2.0
-#   riscv32-unknown-elf-objcopy: GNU objcopy (GNU Binutils) 2.40.0.20230214
-#   riscv32-unknown-elf-objdump: GNU objdump (GNU Binutils) 2.40.0.2023021
-#                           xxd: 2022-01-14 by Juergen Weigert et al.
-#                           awk: GNU Awk 5.2.1, API 3.2, PMA Avon 8-g1, (GNU MPFR 4.2.1, GNU MP 6.3.0)
-#
-# installing toolchain:
-#   RISC-V GNU Compiler Toolchain
-#   https://github.com/riscv-collab/riscv-gnu-toolchain
-#   ./configure --prefix=~/riscv/install --with-arch=rv32i --with-abi=ilp32
-#
-#   Compiling Freestanding RISC-V Programs
-#   https://www.youtube.com/watch?v=ODn7vnWOptM
-#
-#   RISC-V Assembly Language Programming: A.1 The GNU Toolchain
-#   https://github.com/johnwinans/rvalp/releases/download/v0.14/rvalp.pdf
+#       riscv64-elf-g++: 14.1.0
+#   riscv64-elf-objcopy: 2.42
+#   riscv64-elf-objdump: 2.42
 #
 set -e
 cd $(dirname "$0")
 
-PATH=$PATH:~/riscv/install/rv32i/bin
 BIN=os
 
-riscv32-unknown-elf-g++ -std=c++23 \
+CC=riscv64-elf-g++
+OBJCOPY=riscv64-elf-objcopy
+OBJDUMP=riscv64-elf-objdump
+
+$CC -std=c++23 \
     -O3 \
     -g \
     -march=rv32i \
@@ -54,14 +44,14 @@ riscv32-unknown-elf-g++ -std=c++23 \
 
 rm $BIN.bin $BIN.lst $BIN.dat || true
 
-riscv32-unknown-elf-objcopy $BIN -O binary $BIN.bin
+$OBJCOPY $BIN -O binary $BIN.bin
 
 chmod -x $BIN.bin
 
-# riscv32-unknown-elf-objdump -Mnumeric,no-aliases --source-comment -Sr $BIN > $BIN.lst
-riscv32-unknown-elf-objdump --source-comment -Sr $BIN > $BIN.lst || true
-riscv32-unknown-elf-objdump -s --section=.rodata --section=.data --section=.bss $BIN > $BIN.dat || true
+# $OBJDUMP -Mnumeric,no-aliases --source-comment -Sr $BIN > $BIN.lst
+$OBJDUMP --source-comment -Sr $BIN > $BIN.lst
+$OBJDUMP -s --section=.rodata --section=.srodata --section=.data --section=.sdata --section=.bss $BIN > $BIN.dat
 
-rm $BIN
+#rm $BIN
 
 ls -l $BIN.bin $BIN.lst $BIN.dat

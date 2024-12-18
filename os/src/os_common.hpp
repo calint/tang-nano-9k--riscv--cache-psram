@@ -36,12 +36,12 @@ using object_id_t = uint8_t;
 using entity_id_t = uint8_t;
 using direction_t = uint8_t;
 
-constexpr char CHAR_BACKSPACE = 0x7f;
-constexpr char CHAR_TAB = 0x09;
-constexpr size_t LOCATION_MAX_OBJECTS = 128;
-constexpr size_t LOCATION_MAX_ENTITIES = 8;
-constexpr size_t LOCATION_MAX_EXITS = 6;
-constexpr size_t ENTITY_MAX_OBJECTS = 32;
+static constexpr char CHAR_BACKSPACE = 0x7f;
+static constexpr char CHAR_TAB = 0x09;
+static constexpr size_t LOCATION_MAX_OBJECTS = 128;
+static constexpr size_t LOCATION_MAX_ENTITIES = 8;
+static constexpr size_t LOCATION_MAX_EXITS = 6;
+static constexpr size_t ENTITY_MAX_OBJECTS = 32;
 
 class command_buffer final {
   char line_[80]{};

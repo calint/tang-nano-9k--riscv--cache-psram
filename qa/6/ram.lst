@@ -87,37 +87,37 @@ Disassembly of section .text:
 
 00000400 <lbl_jal>:
  400:	00008067          	jalr	x0,0(x1)
- 404:	0000                	.2byte	0x0
+ 404:	0000                	.insn	2, 0x
 	...
 
 00000408 <lbl_beq>:
  408:	ca1ff06f          	jal	x0,a8 <lbl1>
- 40c:	0000                	.2byte	0x0
+ 40c:	0000                	.insn	2, 0x
 	...
 
 00000410 <lbl_bne>:
  410:	c9dff06f          	jal	x0,ac <lbl2>
- 414:	0000                	.2byte	0x0
+ 414:	0000                	.insn	2, 0x
 	...
 
 00000418 <lbl_blt>:
  418:	c99ff06f          	jal	x0,b0 <lbl3>
- 41c:	0000                	.2byte	0x0
+ 41c:	0000                	.insn	2, 0x
 	...
 
 00000420 <lbl_bge>:
  420:	c95ff06f          	jal	x0,b4 <lbl4>
- 424:	0000                	.2byte	0x0
+ 424:	0000                	.insn	2, 0x
 	...
 
 00000428 <lbl_bltu>:
  428:	c91ff06f          	jal	x0,b8 <lbl5>
- 42c:	0000                	.2byte	0x0
+ 42c:	0000                	.insn	2, 0x
 	...
 
 00000430 <lbl_bgeu>:
  430:	c8dff06f          	jal	x0,bc <lbl6>
- 434:	0000                	.2byte	0x0
+ 434:	0000                	.insn	2, 0x
 	...
 
 00000438 <lbl_auipc>:
