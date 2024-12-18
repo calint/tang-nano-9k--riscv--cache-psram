@@ -2,6 +2,9 @@
 #
 # builds console version
 #
+# note: assumes running in visual studio code terminal window
+#       regarding encoding of backspace and delete
+#
 set -e
 cd $(dirname "$0")
 
