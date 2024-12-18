@@ -75,6 +75,7 @@ welcome to adventure #4
 ## Todo
 ```
 -------------------------------------------------------------------------------------------------------------
+[ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] study why BAUD rate less than 2400 does not work
 [ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
