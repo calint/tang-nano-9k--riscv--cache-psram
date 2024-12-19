@@ -144,7 +144,7 @@ public:
   auto input_length() const -> size_t { return end_; }
 };
 
-template <class Type, unsigned Size> class list {
+template <class Type, unsigned Size> class list final {
 public:
   Type data[Size]{};
   size_t len{};
@@ -201,13 +201,13 @@ public:
   }
 };
 
-struct object {
+struct object final {
   name_t name{};
 };
 
 static object objects[] = {{}, {"notebook"}, {"mirror"}, {"lighter"}};
 
-struct entity {
+struct entity final {
   name_t name{};
   location_id_t location{};
   list<object_id_t, ENTITY_MAX_OBJECTS> objects{};
@@ -215,7 +215,7 @@ struct entity {
 
 static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
 
-struct location {
+struct location final {
   name_t name{};
   list<object_id_t, LOCATION_MAX_OBJECTS> objects{};
   list<entity_id_t, LOCATION_MAX_ENTITIES> entities{};
