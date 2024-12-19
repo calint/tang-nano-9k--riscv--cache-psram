@@ -14,6 +14,13 @@ using int64_t = long long;
 using uint64_t = unsigned long long;
 using size_t = uint32_t;
 
+// symbols that mark start and end of bss section
+extern char __bss_start;
+extern char __bss_end;
+
+// symbol that marks the start of heap memory
+extern char __heap_start;
+
 static auto initiate_bss() -> void;
 // freestanding does not automatically initialize bss section
 
@@ -57,7 +64,7 @@ static auto uart_read_char() -> char {
 // simple test of FPGA memory
 static auto action_mem_test() -> void {
   uart_send_str("testing memory (write)\r\n");
-  char *ptr = reinterpret_cast<char *>(0x10000);
+  char *ptr = reinterpret_cast<char *>(__heap_start);
   char const *end = reinterpret_cast<char *>(MEMORY_TOP - 1024);
   // -1024 to avoid the stack
   // ?? don't forget about this when the application grows
@@ -66,7 +73,7 @@ static auto action_mem_test() -> void {
     *ptr++ = ch++;
   }
   uart_send_str("testing memory (read)\r\n");
-  ptr = reinterpret_cast<char *>(0x10000);
+  ptr = reinterpret_cast<char *>(__heap_start);
   ch = 0;
   while (ptr < end) {
     if (*ptr++ != ch++) {
@@ -85,13 +92,6 @@ extern "C" auto memset(void *str, int ch, int n) -> void * {
   }
   return str;
 }
-
-// symbols that mark start and end of bss section
-extern char __bss_start;
-extern char __bss_end;
-
-// symbol that marks the start of heap memory
-extern char __heap_start;
 
 // zero bss section
 static auto initiate_bss() -> void {
