@@ -43,6 +43,15 @@ static constexpr size_t LOCATION_MAX_ENTITIES = 8;
 static constexpr size_t LOCATION_MAX_EXITS = 6;
 static constexpr size_t ENTITY_MAX_OBJECTS = 32;
 
+// note: defines are not stored in data segment thus gives a slightly smaller
+// binary. in this case 20 B smaller
+// #define CHAR_BACKSPACE 0x7f
+// #define CHAR_TAB 0x09
+// #define LOCATION_MAX_OBJECTS 128
+// #define LOCATION_MAX_ENTITIES 8
+// #define LOCATION_MAX_EXITS 6
+// #define ENTITY_MAX_OBJECTS 32
+
 class command_buffer final {
   char line_[80]{};
   uint8_t cursor_{};
