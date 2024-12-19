@@ -14,6 +14,6 @@ i
 t notebok\033[Do
 i
 d noteboook\033[D\033[D\e[3~
-i
-i
+i\x7f\x7f\x7fi
+i\033[D\033[D\e[3~i
 q

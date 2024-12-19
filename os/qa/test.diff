@@ -124,14 +124,14 @@ u r in office
 u c: notebook
 u is here
 exits: south
-me > i
+me > i  i
 u have: lighter
 
 u r in office
 u c: notebook
 me is here
 exits: south
-u > i
+u > i[D i
 u have: mirror
 
 u r in office
