@@ -9,4 +9,11 @@ d lighter
 t lighter
 i
 i
+d notebook\x7fk
+i
+t notebok\033[Do
+i
+d noteboook\033[D\033[D\e[3~
+i
+i
 q
