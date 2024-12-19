@@ -18,10 +18,24 @@ g++ -std=c++23 \
     -g \
     -fno-rtti \
     -fno-exceptions \
+    -fno-toplevel-reorder \
+    -Wfatal-errors \
     -Wall -Wextra -Wpedantic \
+    -Wshadow \
+    -Wnon-virtual-dtor \
+    -Wcast-align \
+    -Woverloaded-virtual \
     -Wconversion \
     -Wsign-conversion \
-    -Wshadow \
+    -Wmisleading-indentation \
+    -Wduplicated-cond \
+    -Wduplicated-branches \
+    -Wlogical-op \
+    -Wnull-dereference \
+    -Wuseless-cast \
+    -Wdouble-promotion \
+    -Wformat=2 \
+    -Wimplicit-fallthrough \
     -Wno-unused-function \
     -Wno-unused-parameter \
     -o $BIN \

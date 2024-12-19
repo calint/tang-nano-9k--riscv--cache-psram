@@ -28,12 +28,23 @@ $CC -std=c++23 \
     -fno-toplevel-reorder \
     -Wfatal-errors \
     -Wall -Wextra -Wpedantic \
+    -Wshadow \
+    -Wnon-virtual-dtor \
+    -Wcast-align \
+    -Woverloaded-virtual \
     -Wconversion \
     -Wsign-conversion \
-    -Wshadow \
+    -Wmisleading-indentation \
+    -Wduplicated-cond \
+    -Wduplicated-branches \
+    -Wlogical-op \
+    -Wnull-dereference \
+    -Wuseless-cast \
+    -Wdouble-promotion \
+    -Wformat=2 \
+    -Wimplicit-fallthrough \
     -Wno-unused-function \
     -Wno-unused-parameter \
-    -Wno-stringop-overflow \
     -Wl,-T,linker.ld \
     -Wl,--no-warn-rwx-segment \
     -o $BIN \
