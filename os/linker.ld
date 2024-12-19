@@ -7,13 +7,21 @@ SECTIONS
     .text : {
         *(.text*)
     }
- 
+
     .rodata : {
         *(.rodata*)
     }
 
+    .srodata : {
+        *(.srodata*)
+    }
+
     .data : {
         *(.data*)
+    }
+
+    .sdata : {
+        *(.sdata*)
     }
 
     .bss : {
