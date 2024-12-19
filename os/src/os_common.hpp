@@ -224,27 +224,28 @@ static char const *exit_names[] = {"north", "east", "south",
                                    "west",  "up",   "down"};
 
 // implemented in platform dependent source
-static auto led_set(uint8_t bits) -> void;
+static auto led_set(uint8_t const bits) -> void;
 static auto uart_send_str(char const *str) -> void;
-static auto uart_send_char(char ch) -> void;
+static auto uart_send_char(char const ch) -> void;
 static auto uart_read_char() -> char;
-static auto uart_send_hex_byte(char ch) -> void;
-static auto uart_send_hex_nibble(char nibble) -> void;
-static auto uart_send_move_back(size_t n) -> void;
+static auto uart_send_hex_byte(char const ch) -> void;
+static auto uart_send_hex_nibble(char const nibble) -> void;
+static auto uart_send_move_back(size_t const n) -> void;
 static auto action_mem_test() -> void;
 
 // API
 static auto print_help() -> void;
-static auto print_location(location_id_t lid,
-                           entity_id_t eid_exclude_from_output) -> void;
-static auto action_inventory(entity_id_t eid) -> void;
-static auto action_give(entity_id_t eid, name_t obj_nm,
-                        name_t to_ent_nm) -> void;
-static auto action_go(entity_id_t eid, direction_t dir) -> void;
-static auto action_drop(entity_id_t eid, name_t obj_nm) -> void;
-static auto action_take(entity_id_t eid, name_t obj_nm) -> void;
+static auto print_location(location_id_t const lid,
+                           entity_id_t const eid_exclude_from_output) -> void;
+static auto action_inventory(entity_id_t const eid) -> void;
+static auto action_give(entity_id_t const eid, name_t const obj_nm,
+                        name_t const to_ent_nm) -> void;
+static auto action_go(entity_id_t const eid, direction_t const dir) -> void;
+static auto action_drop(entity_id_t const eid, name_t const obj_nm) -> void;
+static auto action_take(entity_id_t const eid, name_t const obj_nm) -> void;
 static auto input(command_buffer &cmd_buf) -> void;
-static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
+static auto handle_input(entity_id_t const eid,
+                         command_buffer &cmd_buf) -> void;
 static auto strings_equal(char const *s1, char const *s2) -> bool;
 static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
 
