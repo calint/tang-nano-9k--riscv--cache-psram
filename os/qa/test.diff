@@ -138,4 +138,9 @@ u r in office
 u c: notebook
 u is here
 exits: south
-me > q
+me > t o[Dno[Ctebook
+u r in office
+u c: nothing
+me is here
+exits: south
+u > q
