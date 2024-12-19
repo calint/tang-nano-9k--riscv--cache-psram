@@ -86,9 +86,12 @@ extern "C" auto memset(void *str, int ch, int n) -> void * {
   return str;
 }
 
-// symbols to mark start and end of bss section
+// symbols that mark start and end of bss section
 extern char __bss_start;
 extern char __bss_end;
+
+// symbol that marks the start of heap memory
+extern char __heap_start;
 
 // zero bss section
 static auto initiate_bss() -> void {
