@@ -7,7 +7,7 @@
 * cache to 2 MB of on-board burst PSRAM
 * explore the FPGA board
 
-## Gowin EDA 1.9.9.03 Project Configuration
+## Gowin EDA 1.9.10.03 Education Build (77527) Project Configuration
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/1.png)
 
 ![2](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/2.png)
