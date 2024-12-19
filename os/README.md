@@ -1,13 +1,14 @@
 # "operating system" - osqa
 
 ## prerequisites
-`riscv64-elf-gcc` toolchain is installed
+`riscv64-elf-gcc` toolchain
 
 ## build
 `./make-fpga-flash-binary.sh` compiles `src/os.cpp` and generates:
 * `os.bin` - binary to be flashed to FPGA
 * `os.lst` - assembler with source annotations
 * `os.dat` - data sections of binary
+* `os` - elf file
 
 `./make-console-application.sh` compiles `src/console_application.cpp` and generates:
 * `console_application` - executable binary of console application
