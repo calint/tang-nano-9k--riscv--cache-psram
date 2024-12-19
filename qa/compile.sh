@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-# * compiles specified source to risc-v binary
-# * extracts '.mem' file from binary to be included by the simulation
+# compiles specified source to risc-v rv32i binary
+# extracts '.mem' file from binary to be included by the simulation
 #
 # tools used:
 #       riscv64-elf-g++: 14.1.0
