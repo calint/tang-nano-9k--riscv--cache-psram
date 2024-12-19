@@ -28,6 +28,7 @@ $CC -std=c++23 \
     -fno-toplevel-reorder \
     -Wfatal-errors \
     -Wall -Wextra -Wpedantic \
+    -Werror \
     -Wshadow \
     -Wnon-virtual-dtor \
     -Wcast-align \
