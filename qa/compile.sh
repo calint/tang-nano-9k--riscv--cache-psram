@@ -41,4 +41,3 @@ xxd -p -c 1 -e $BIN.bin | awk '{print $2}' > $BIN.mem
 ls -la $BIN.bin $BIN.mem $BIN.lst
 rm $BIN
 rm $BIN.bin
-
