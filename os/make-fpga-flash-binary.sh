@@ -17,10 +17,10 @@ OBJCOPY=riscv64-elf-objcopy
 OBJDUMP=riscv64-elf-objdump
 
 $CC -std=c++23 \
-    -Os \
-    -g \
     -march=rv32i \
     -mabi=ilp32 \
+    -Os \
+    -g \
     -ffreestanding \
     -nostdlib \
     -fno-rtti \

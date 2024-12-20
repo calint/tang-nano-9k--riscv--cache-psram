@@ -20,20 +20,20 @@ SRC=$1
 BIN=${SRC%.*}
 
 # -mstrict-align \
-$CC \
-	-O2 \
-	-nostartfiles \
-	-ffreestanding \
-	-nostdlib \
-	-fno-pic \
-	-march=rv32i \
-	-mabi=ilp32 \
-	-Wfatal-errors \
-	-Wall -Wextra -pedantic \
-	-Wl,-Ttext=0x0 \
-	-Wl,--no-relax \
-	-fno-toplevel-reorder \
-	$SRC -o $BIN
+$CC  -std=c++23 \
+    -march=rv32i \
+    -mabi=ilp32 \
+    -O0 \
+    -ffreestanding \
+    -nostartfiles \
+    -nostdlib \
+    -fno-pic \
+    -Wfatal-errors \
+    -Wall -Wextra -pedantic \
+    -Wl,-Ttext=0x0 \
+    -Wl,--no-relax \
+    -fno-toplevel-reorder \
+    -o $BIN $SRC
 
 $OBJCOPY $BIN -O binary $BIN.bin
 $OBJDUMP -Mnumeric,no-aliases -dr $BIN > $BIN.lst
