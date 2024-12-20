@@ -20,7 +20,7 @@ SRC=$1
 BIN=${SRC%.*}
 
 # -mstrict-align \
-$CC  -std=c++23 \
+$CC -std=c++23 \
     -march=rv32i \
     -mabi=ilp32 \
     -O0 \
