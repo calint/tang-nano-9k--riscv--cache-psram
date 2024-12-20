@@ -20,8 +20,8 @@ g++ -std=c++23 \
     -fno-exceptions \
     -fno-toplevel-reorder \
     -Wfatal-errors \
-    -Wall -Wextra -Wpedantic \
     -Werror \
+    -Wall -Wextra -Wpedantic \
     -Wshadow \
     -Wnon-virtual-dtor \
     -Wcast-align \

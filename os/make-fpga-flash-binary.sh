@@ -27,8 +27,8 @@ $CC -std=c++23 \
     -fno-exceptions \
     -fno-toplevel-reorder \
     -Wfatal-errors \
-    -Wall -Wextra -Wpedantic \
     -Werror \
+    -Wall -Wextra -Wpedantic \
     -Wshadow \
     -Wnon-virtual-dtor \
     -Wcast-align \
@@ -53,6 +53,7 @@ $CC -std=c++23 \
 
 # see "man g++"" for these optional options:
 #    -fno-pic \
+#    -fPIC \
 #    -mstrict-align \
 # see "man ld" for:
 #    -Wl,--no-relax \
