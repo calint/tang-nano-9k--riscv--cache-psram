@@ -350,6 +350,8 @@ static auto handle_input(entity_id_t const eid,
     action_mem_test();
   } else if (strings_equal(words[0], "q")) {
     exit(0);
+  } else {
+    uart_send_str("not understood\r\n\r\n");
   }
 }
 
