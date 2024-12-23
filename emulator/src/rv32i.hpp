@@ -28,9 +28,9 @@ public:
   auto tick() -> cpu_status {
     regs_[0] = 0;
     uint32_t instruction = 0;
-    if (rv32i::bus_status status =
+    if (rv32i::bus_status s =
             bus_(pc_, bus_op_width::WORD, false, instruction)) {
-      return status;
+      return s;
     }
 #ifdef RV32I_DEBUG
     printf("pc 0x%08x instr 0x%08x ", pc, instruction);
@@ -271,8 +271,8 @@ public:
         printf("sb %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
         uint32_t value = regs_[rs2] & 0xFF;
-        if (bus_status status = bus_(address, BYTE, true, value)) {
-          return 0x1000 + status;
+        if (bus_status s = bus_(address, BYTE, true, value)) {
+          return 0x1000 + s;
         }
         break;
       }
@@ -282,8 +282,8 @@ public:
         printf("sh %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
         uint32_t value = regs_[rs2] & 0xFFFF;
-        if (bus_status status = bus_(address, HALF_WORD, true, value)) {
-          return 0x1000 + status;
+        if (bus_status s = bus_(address, HALF_WORD, true, value)) {
+          return 0x1000 + s;
         }
         break;
       }
@@ -292,8 +292,8 @@ public:
 #ifdef RV32I_DEBUG
         printf("sw %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
-        if (bus_status status = bus_(address, WORD, true, regs_[rs2])) {
-          return 0x1000 + status;
+        if (bus_status s = bus_(address, WORD, true, regs_[rs2])) {
+          return 0x1000 + s;
         }
         break;
       }
@@ -318,8 +318,8 @@ public:
         printf("lb %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         uint32_t loaded = 0;
-        if (bus_status status = bus_(address, BYTE, false, loaded)) {
-          return 0x1000 + status;
+        if (bus_status s = bus_(address, BYTE, false, loaded)) {
+          return 0x1000 + s;
         }
         regs_[rd] = loaded & 0x80 ? 0xFFFFFF00 | loaded : loaded;
         break;
@@ -330,8 +330,8 @@ public:
         printf("lh %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         uint32_t loaded = 0;
-        if (bus_status status = bus_(address, HALF_WORD, false, loaded)) {
-          return 0x1000 + status;
+        if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
+          return 0x1000 + s;
         }
         regs_[rd] = loaded & 0x8000 ? 0xFFFF0000 | loaded : loaded;
         break;
@@ -342,8 +342,8 @@ public:
         printf("lw %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         uint32_t loaded = 0;
-        if (bus_status status = bus_(address, WORD, false, loaded)) {
-          return 0x1000 + status;
+        if (bus_status s = bus_(address, WORD, false, loaded)) {
+          return 0x1000 + s;
         }
         regs_[rd] = loaded;
         break;
@@ -354,8 +354,8 @@ public:
         printf("lbu %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         uint32_t loaded = 0;
-        if (bus_status status = bus_(address, BYTE, false, loaded)) {
-          return 0x1000 + status;
+        if (bus_status s = bus_(address, BYTE, false, loaded)) {
+          return 0x1000 + s;
         }
         regs_[rd] = loaded;
         break;
@@ -366,8 +366,8 @@ public:
         printf("lhu %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         uint32_t loaded = 0;
-        if (bus_status status = bus_(address, HALF_WORD, false, loaded)) {
-          return 0x1000 + status;
+        if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
+          return 0x1000 + s;
         }
         regs_[rd] = loaded;
         break;
