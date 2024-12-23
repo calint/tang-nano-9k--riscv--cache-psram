@@ -532,87 +532,81 @@ static auto input_escape_sequence_clear() -> void {
   }
 }
 
+enum class input_state { normal, escape, escape_bracket };
+
 static auto input(command_buffer &cmd_buf) -> void {
   cmd_buf.reset();
+  input_state state = input_state::normal;
+  int param = 0; // parameter in escape sequence
+
   while (true) {
     char const ch = uart_read_char();
-    if (ch == 0x1B) {
-      // escape sequence
-      input_escape_sequence[0] = 0x1B;
-      continue;
-    }
-    if (input_escape_sequence[0] == 0x1B) {
-      // in escape sequence: 0x1B
-      if (ch == 0x5B) {
-        // in escape sequence: 0x1B 0x5B
-        input_escape_sequence[1] = 0x5B;
-        continue;
+    switch (state) {
+
+    case input_state::normal:
+      if (ch == 0x1B) {
+        state = input_state::escape;
+      } else if (ch == CHAR_BACKSPACE) {
+        if (cmd_buf.backspace()) {
+          uart_send_char(ch);
+          cmd_buf.apply_on_chars_from_cursor_to_end(
+              [](char c) { uart_send_char(c); });
+          uart_send_char(' ');
+          uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
+        }
+      } else if (ch == CHAR_CARRIAGE_RETURN || cmd_buf.is_full()) {
+        cmd_buf.set_eos();
+        return;
+      } else {
+        uart_send_char(ch);
+        cmd_buf.insert(ch);
+        cmd_buf.apply_on_chars_from_cursor_to_end(
+            [](char const c) { uart_send_char(c); });
+        uart_send_move_back(cmd_buf.characters_after_cursor());
       }
-      if (input_escape_sequence[1] == 0x5B) {
-        // in escape sequence: 0x1B 0x5B
-        if (ch == 0x44) {
-          // in escape sequence: 0x1B 0x5B 0x44
-          // arrow left
+      break;
+
+    case input_state::escape:
+      if (ch == 0x5B) {
+        state = input_state::escape_bracket;
+      } else {
+        state = input_state::normal;
+      }
+      break;
+
+    case input_state::escape_bracket:
+      if (ch >= '0' && ch <= '9') {
+        param = param * 10 + (ch - '0');
+      } else {
+        switch (ch) {
+        case 'D': // arrow left
           if (cmd_buf.move_cursor_left()) {
             uart_send_str("\x1B\x5B\x44");
           }
-          input_escape_sequence_clear();
-          continue;
-        }
-        if (ch == 0x43) {
-          // in escape sequence: 0x1B 0x5B 0x43
-          // arrow right
+          break;
+        case 'C': // arrow right
           if (cmd_buf.move_cursor_right()) {
             uart_send_str("\x1B\x5B\x43");
           }
-          input_escape_sequence_clear();
-          continue;
-        }
-        if (ch == 0x33) {
-          // in escape sequence: 0x1B 0x5B 0x33
-          input_escape_sequence[2] = 0x33;
-          continue;
-        }
-        if (input_escape_sequence[2] == 0x33) {
-          // in escape sequence: 0x1B 0x5B 0x33
-          if (ch == 0x7e) {
-            // in escape sequence: 0x1B 0x5B 0x33 0x7E
-            // delete
+          break;
+        case '~':           // delete
+          if (param == 3) { // delete key
             cmd_buf.del();
             cmd_buf.apply_on_chars_from_cursor_to_end(
                 [](char c) { uart_send_char(c); });
             uart_send_char(' ');
             uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
           }
-          input_escape_sequence_clear();
-          continue;
+          break;
+        default:
+          break;
         }
-        // unrecognized escape sequence; reset
-        input_escape_sequence_clear();
-        continue;
+        state = input_state::normal;
+        param = 0; // Reset parameter
       }
+      break;
     }
-    if (ch == CHAR_BACKSPACE) {
-      if (cmd_buf.backspace()) {
-        uart_send_char(ch);
-        cmd_buf.apply_on_chars_from_cursor_to_end(
-            [](char c) { uart_send_char(c); });
-        uart_send_char(' ');
-        uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
-        // +1 to compensate for the ' ' that erases the trailing output
-      }
-    } else if (ch == CHAR_TAB) {
-      // ignore tab for now
-    } else if (ch == CHAR_CARRIAGE_RETURN || cmd_buf.is_full()) {
-      cmd_buf.set_eos();
-      return;
-    } else {
-      uart_send_char(ch);
-      cmd_buf.insert(ch);
-      cmd_buf.apply_on_chars_from_cursor_to_end(
-          [](char const c) { uart_send_char(c); });
-      uart_send_move_back(cmd_buf.characters_after_cursor());
-    }
+
     led_set(~uint8_t(cmd_buf.input_length()));
   }
 }
