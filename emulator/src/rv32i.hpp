@@ -490,39 +490,61 @@ public:
   }
 
   static auto constexpr U_imm20_from(uint32_t const instruction) -> uint32_t {
-    return instruction & 0xFFFFF000;
+    return extract_bits(instruction, 12, 31, 12);
   }
 
   static auto constexpr I_imm12_from(uint32_t const instruction) -> int32_t {
-    return (instruction & 0x80000000) ? 0xFFFFF000 | instruction >> 20
-                                      : instruction >> 20;
+    uint32_t const bits = extract_bits(instruction, 20, 31, 0);
+    if (instruction & 0x8000'0000) {
+      return 0xFFFF'F000 | bits;
+    } else {
+      return bits;
+    }
   }
 
   static auto constexpr S_imm12_from(uint32_t const instruction) -> int32_t {
-    return (instruction & 0x80000000)
-               ? 0xFFFFF000 | ((instruction >> 7) & 0x1F) |
-                     ((instruction >> 20) & 0xFE0)
-               : ((instruction >> 7) & 0x1F) | ((instruction >> 20) & 0xFE0);
+    uint32_t const bits = extract_bits(instruction, 7, 11, 0) |
+                          extract_bits(instruction, 25, 31, 5);
+    if (instruction & 0x8000'0000) {
+      return 0xFFFF'F000 | bits;
+    } else {
+      return bits;
+    }
   }
 
   static auto constexpr B_imm12_from(uint32_t const instruction) -> int32_t {
-    return (instruction & 0x80000000)
-               ? 0xFFFFE000 | ((instruction << 4) & 0x800) |
-                     ((instruction >> 7) & 0x1E) |
-                     ((instruction >> 20) & 0x7E0) |
-                     ((instruction >> 19) & 0x1000)
-               : ((instruction << 4) & 0x800) | ((instruction >> 7) & 0x1E) |
-                     ((instruction >> 20) & 0x7E0) |
-                     ((instruction >> 19) & 0x1000);
+    uint32_t const bits = extract_bits(instruction, 8, 11, 1) |
+                          extract_bits(instruction, 25, 30, 5) |
+                          extract_bits(instruction, 7, 7, 11) |
+                          extract_bits(instruction, 31, 31, 12);
+    if (instruction & 0x8000'0000) {
+      return 0xFFFF'F000 | bits;
+    } else {
+      return bits;
+    }
   }
 
   static auto constexpr J_imm20_from(uint32_t const instruction) -> int32_t {
-    return (instruction & 0x80000000)
-               ? 0xFFE00000 | ((instruction >> 20) & 0x7FE) |
-                     ((instruction >> 9) & 0x800) | (instruction & 0xFF000) |
-                     ((instruction >> 11) & 0x100000)
-               : ((instruction >> 20) & 0x7FE) | ((instruction >> 9) & 0x800) |
-                     (instruction & 0xFF000) | ((instruction >> 11) & 0x100000);
+    uint32_t const bits = extract_bits(instruction, 21, 30, 1) |
+                          extract_bits(instruction, 20, 20, 11) |
+                          extract_bits(instruction, 12, 19, 12) |
+                          extract_bits(instruction, 31, 31, 20);
+    if (instruction & 0x8000'0000) {
+      return 0xFFF0'0000 | bits;
+    } else {
+      return bits;
+    }
+  }
+
+  // util
+  static constexpr uint32_t extract_bits(uint32_t const instruction,
+                                         uint32_t const from_bit_num,
+                                         uint32_t const through_bit_num,
+                                         uint32_t const place_at) {
+    uint32_t const mask = (1u << (through_bit_num - from_bit_num + 1)) - 1;
+    uint32_t const shifted = instruction >> from_bit_num;
+    uint32_t const masked = shifted & mask;
+    return masked << place_at;
   }
 
   // see: /notes/riscv-docs/rv32i-base-instruction-set.png
