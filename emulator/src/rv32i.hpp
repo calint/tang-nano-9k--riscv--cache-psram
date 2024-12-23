@@ -77,11 +77,9 @@ public:
       : pc{initial_pc}, bus{bus_callback} {}
 
   auto tick() -> unsigned {
-    using enum rv32i_bus_op_width;
-
     regs[0] = 0x0;
     unsigned instruction = 0;
-    if (unsigned error = bus(pc, WORD, 0, instruction)) {
+    if (unsigned error = bus(pc, rv32i_bus_op_width::WORD, 0, instruction)) {
       return error;
     }
 #ifdef RV32I_DEBUG
@@ -91,6 +89,7 @@ public:
     switch (OPCODE) {
     case 0x3: // load
     {
+      using enum rv32i_bus_op_width;
       unsigned const RS1 = RS1_from(instruction);
       unsigned const RD = RD_from(instruction);
       int const I_IMM = I_imm12_from(instruction);
@@ -154,6 +153,7 @@ public:
     }
     case 0x23: // store
     {
+      using enum rv32i_bus_op_width;
       unsigned const RS1 = RS1_from(instruction);
       unsigned const RS2 = RS2_from(instruction);
       int const S_IMM = S_imm12_from(instruction);
