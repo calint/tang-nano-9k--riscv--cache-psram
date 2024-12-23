@@ -2,6 +2,9 @@
 set -e
 cd $(dirname "$0")
 
+#echo "Making emulator"
+#../../emulator/make.sh
+
 echo "Running test for 5 seconds"
 echo -e "$(cat test.in)" | timeout 5 ../../emulator/osqa ../os.bin > test.out || true
 
