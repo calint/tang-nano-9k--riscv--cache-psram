@@ -11,17 +11,6 @@ using bus = unsigned (*)(unsigned address, bus_op_width width, bool is_store,
                          unsigned &data);
 
 class cpu final {
-  static auto constexpr RS1_from(unsigned const instruction) -> unsigned {
-    return (instruction >> 15) & 0x1F;
-  }
-
-  static auto constexpr RS2_from(unsigned const instruction) -> unsigned {
-    return (instruction >> 20) & 0x1F;
-  }
-
-  static auto constexpr RD_from(unsigned const instruction) -> unsigned {
-    return (instruction >> 7) & 0x1F;
-  }
 
   static auto constexpr OPCODE_from(unsigned const instruction) -> unsigned {
     return instruction & 0x7F;
@@ -33,6 +22,18 @@ class cpu final {
 
   static auto constexpr FUNCT7_from(unsigned const instruction) -> unsigned {
     return (instruction >> 25) & 0x7F;
+  }
+
+  static auto constexpr RS1_from(unsigned const instruction) -> unsigned {
+    return (instruction >> 15) & 0x1F;
+  }
+
+  static auto constexpr RS2_from(unsigned const instruction) -> unsigned {
+    return (instruction >> 20) & 0x1F;
+  }
+
+  static auto constexpr RD_from(unsigned const instruction) -> unsigned {
+    return (instruction >> 7) & 0x1F;
   }
 
   static auto constexpr U_imm20_from(unsigned const instruction) -> unsigned {
