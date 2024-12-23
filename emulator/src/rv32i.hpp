@@ -519,6 +519,8 @@ public:
                           extract_bits(instruction, 31, 31, 12);
     if (instruction & 0x8000'0000) {
       return 0xffff'e000 | bits;
+      // note: not 0xffff'f000 because of the always 0 first bit
+      // making the immediate value 13 bits
     } else {
       return bits;
     }
@@ -531,6 +533,8 @@ public:
                           extract_bits(instruction, 31, 31, 20);
     if (instruction & 0x8000'0000) {
       return 0xffe0'0000 | bits;
+      // note: not 0xfff0'0000 because of the always 0 first bit
+      // making the immediate value 13 bits
     } else {
       return bits;
     }
