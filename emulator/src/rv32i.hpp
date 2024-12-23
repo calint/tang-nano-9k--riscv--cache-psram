@@ -525,6 +525,7 @@ public:
                      (instruction & 0xFF000) | ((instruction >> 11) & 0x100000);
   }
 
+  // see: /notes/riscv-docs/rv32i-base-instruction-set.png
   static uint32_t constexpr OPCODE_LUI = 0b01101'11;
 
   static uint32_t constexpr OPCODE_LOGICAL_IMM = 0b00100'11;
@@ -536,20 +537,20 @@ public:
   static uint32_t constexpr FUNCT3_ANDI = 0b111;
   static uint32_t constexpr FUNCT3_SLLI = 0b001;
   static uint32_t constexpr FUNCT3_SRLI_SRAI = 0b101;
-  static uint32_t constexpr FUNCT7_SRLI = 0;
-  static uint32_t constexpr FUNCT7_SRAI = 0x20;
+  static uint32_t constexpr FUNCT7_SRLI = 0b000'0000;
+  static uint32_t constexpr FUNCT7_SRAI = 0b010'0000;
 
   static uint32_t constexpr OPCODE_LOGICAL = 0b01100'11;
   static uint32_t constexpr FUNCT3_ADD_SUB = 0;
-  static uint32_t constexpr FUNCT7_ADD = 0;
-  static uint32_t constexpr FUNCT7_SUB = 0x20;
+  static uint32_t constexpr FUNCT7_ADD = 0b000'0000;
+  static uint32_t constexpr FUNCT7_SUB = 0b010'0000;
   static uint32_t constexpr FUNCT3_SLL = 0b001;
   static uint32_t constexpr FUNCT3_SLT = 0b010;
   static uint32_t constexpr FUNCT3_SLTU = 0b011;
   static uint32_t constexpr FUNCT3_XOR = 0b100;
   static uint32_t constexpr FUNCT3_SRL_SRA = 0b101;
-  static uint32_t constexpr FUNCT7_SRL = 0;
-  static uint32_t constexpr FUNCT7_SRA = 0x20;
+  static uint32_t constexpr FUNCT7_SRL = 0b000'0000;
+  static uint32_t constexpr FUNCT7_SRA = 0b010'0000;
   static uint32_t constexpr FUNCT3_OR = 0b110;
   static uint32_t constexpr FUNCT3_AND = 0b111;
 
