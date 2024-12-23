@@ -7,16 +7,16 @@
 // #define RISCV_DEBUG
 #include "riscv.hpp"
 
-#define LED 0xffffffff
-#define UART_OUT 0xfffffffe
-#define UART_IN 0xfffffffd
+unsigned constexpr LED = 0xffffffff;
+unsigned constexpr UART_OUT = 0xfffffffe;
+unsigned constexpr UART_IN = 0xfffffffd;
 
-std::vector<int8_t> ram(2 * 1024 * 1024, -1);
+static std::vector<int8_t> ram(2 * 1024 * 1024, -1);
 
-struct termios oldt;
+static struct termios saved_termio;
 
-unsigned bus(const unsigned address, const bus_op_width bus_op_width,
-             const bool is_store, unsigned *const data) {
+auto bus(unsigned const address, bus_op_width const bus_op_width,
+         bool const is_store, unsigned *const data) -> unsigned {
 
   unsigned const width = static_cast<unsigned>(bus_op_width);
   if (address + width > ram.size() && address != UART_OUT &&
@@ -26,7 +26,7 @@ unsigned bus(const unsigned address, const bus_op_width bus_op_width,
 
   if (is_store) {
     if (address == UART_OUT) {
-      const char ch = static_cast<char>(*data & 0xFF);
+      char const ch = static_cast<char>(*data & 0xFF);
       if (ch == 0x7f) {
         // convert from serial to terminal
         std::cout << "\b \b";
@@ -47,7 +47,7 @@ unsigned bus(const unsigned address, const bus_op_width bus_op_width,
     if (address == UART_OUT) {
       *data = 0;
     } else if (address == UART_IN) {
-      const int ch = getchar();
+      int const ch = getchar();
       if (ch == EOF) {
         *data = 0;
       } else {
@@ -81,20 +81,20 @@ auto main(int argc, char **argv) -> int {
   }
 
   struct termios newt;
-  tcgetattr(STDIN_FILENO, &oldt);
-  newt = oldt;
+  tcgetattr(STDIN_FILENO, &saved_termio);
+  newt = saved_termio;
   newt.c_lflag &= ~(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
-  atexit([]() -> void { tcsetattr(STDIN_FILENO, TCSANOW, &oldt); });
+  atexit([]() -> void { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termio); });
 
-  std::ifstream file(argv[1], std::ios::binary | std::ios::ate);
+  std::ifstream file{argv[1], std::ios::binary | std::ios::ate};
   if (!file) {
     std::cerr << "Error opening file" << std::endl;
     return 1;
   }
 
-  const std::streamsize size = file.tellg();
+  std::streamsize const size = file.tellg();
   file.seekg(0, std::ios::beg);
 
   if (size > static_cast<std::streamsize>(ram.size())) {

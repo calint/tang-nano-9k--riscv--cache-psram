@@ -36,16 +36,16 @@
 
 enum class bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
 
-using rv32i_bus_callback = unsigned (*)(unsigned address, bus_op_width width,
-                                        bool is_store, unsigned *data);
+using rv32i_bus = unsigned (*)(unsigned address, bus_op_width width,
+                               bool is_store, unsigned *data);
 
 class rv32i {
   unsigned regs[32]{};
   unsigned pc{};
-  rv32i_bus_callback bus{};
+  rv32i_bus bus{};
 
 public:
-  rv32i(rv32i_bus_callback bus_callback, unsigned initial_pc = 0)
+  rv32i(rv32i_bus bus_callback, unsigned initial_pc = 0)
       : pc{initial_pc}, bus{bus_callback} {}
 
   auto tick() -> unsigned {
