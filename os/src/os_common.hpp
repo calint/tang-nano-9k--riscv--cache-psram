@@ -537,7 +537,7 @@ enum class input_state { normal, escape, escape_bracket };
 static auto input(command_buffer &cmd_buf) -> void {
   cmd_buf.reset();
   input_state state = input_state::normal;
-  int param = 0; // parameter in escape sequence
+  int escape_sequence_parameter = 0;
 
   while (true) {
     char const ch = uart_read_char();
@@ -576,7 +576,7 @@ static auto input(command_buffer &cmd_buf) -> void {
 
     case input_state::escape_bracket:
       if (ch >= '0' && ch <= '9') {
-        param = param * 10 + (ch - '0');
+        escape_sequence_parameter = escape_sequence_parameter * 10 + (ch - '0');
       } else {
         switch (ch) {
         case 'D': // arrow left
@@ -591,8 +591,9 @@ static auto input(command_buffer &cmd_buf) -> void {
           }
           break;
 
-        case '~':           // delete
-          if (param == 3) { // delete key
+        case '~': // delete
+          if (escape_sequence_parameter == 3) {
+            // delete key
             cmd_buf.del();
             cmd_buf.apply_on_chars_from_cursor_to_end(
                 [](char c) { uart_send_char(c); });
@@ -606,7 +607,7 @@ static auto input(command_buffer &cmd_buf) -> void {
         }
 
         state = input_state::normal;
-        param = 0;
+        escape_sequence_parameter = 0;
       }
       break;
     }

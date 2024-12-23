@@ -1306,7 +1306,7 @@ Disassembly of section .text:
      d20:	04050823          	sb	zero,80(a0)
 #   cmd_buf.reset();
 #   input_state state = input_state::normal;
-#   int param = 0; // parameter in escape sequence
+#   int escape_sequence_parameter = 0;
      d24:	00000993          	li	s3,0
 #   input_state state = input_state::normal;
      d28:	00000913          	li	s2,0
@@ -1324,7 +1324,7 @@ Disassembly of section .text:
 #     case input_state::escape_bracket:
 #       if (ch >= '0' && ch <= '9') {
      d34:	00900b13          	li	s6,9
-#         param = param * 10 + (ch - '0');
+#         escape_sequence_parameter = escape_sequence_parameter * 10 + (ch - '0');
 #       } else {
 #         switch (ch) {
      d38:	04400b93          	li	s7,68
@@ -1338,8 +1338,8 @@ Disassembly of section .text:
 #           }
 #           break;
 # 
-#         case '~':           // delete
-#           if (param == 3) { // delete key
+#         case '~': // delete
+#           if (escape_sequence_parameter == 3) {
      d44:	00300d13          	li	s10,3
 #     char const ch = uart_read_char();
      d48:	370000ef          	jal	10b8 <_ZL14uart_read_charv>
@@ -1504,7 +1504,7 @@ Disassembly of section .text:
      ed4:	fd050713          	addi	a4,a0,-48
      ed8:	0ff77793          	zext.b	a5,a4
      edc:	00fb6c63          	bltu	s6,a5,ef4 <_ZL5inputR14command_buffer+0x210>
-#         param = param * 10 + (ch - '0');
+#         escape_sequence_parameter = escape_sequence_parameter * 10 + (ch - '0');
      ee0:	00299793          	slli	a5,s3,0x2
      ee4:	013787b3          	add	a5,a5,s3
      ee8:	00179793          	slli	a5,a5,0x1
@@ -1516,7 +1516,7 @@ Disassembly of section .text:
      efc:	05950663          	beq	a0,s9,f48 <_ZL5inputR14command_buffer+0x264>
      f00:	04300793          	li	a5,67
      f04:	02f50463          	beq	a0,a5,f2c <_ZL5inputR14command_buffer+0x248>
-#         param = 0;
+#         escape_sequence_parameter = 0;
      f08:	00000993          	li	s3,0
      f0c:	eb5ff06f          	j	dc0 <_ZL5inputR14command_buffer+0xdc>
 #     if (cursor_ == 0) {
@@ -1542,7 +1542,7 @@ Disassembly of section .text:
 #             uart_send_str("\x1B\x5B\x43");
      f40:	80c50513          	addi	a0,a0,-2036 # 180c <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x660>
      f44:	fe1ff06f          	j	f24 <_ZL5inputR14command_buffer+0x240>
-#           if (param == 3) { // delete key
+#           if (escape_sequence_parameter == 3) {
      f48:	fda990e3          	bne	s3,s10,f08 <_ZL5inputR14command_buffer+0x224>
 #     if (cursor_ == end_) {
      f4c:	05044783          	lbu	a5,80(s0)
