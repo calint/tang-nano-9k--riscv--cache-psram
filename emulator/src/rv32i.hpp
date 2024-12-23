@@ -542,10 +542,10 @@ public:
     }
   }
 
-  static constexpr uint32_t extract_bits(uint32_t const instruction,
-                                         uint32_t const from_bit_num,
-                                         uint32_t const through_bit_num,
-                                         uint32_t const place_at) {
+  static auto constexpr extract_bits(uint32_t const instruction,
+                                     uint32_t const from_bit_num,
+                                     uint32_t const through_bit_num,
+                                     uint32_t const place_at) -> uint32_t {
     uint32_t const mask = (1u << (through_bit_num - from_bit_num + 1)) - 1;
     uint32_t const shifted = instruction >> from_bit_num;
     uint32_t const masked = shifted & mask;
