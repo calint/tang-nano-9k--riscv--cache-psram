@@ -3,83 +3,86 @@
 
 #pragma once
 
-static auto constexpr RS1_from(unsigned const instruction) -> unsigned {
-  return (instruction >> 15) & 0x1F;
-}
+namespace rv32i {
 
-static auto constexpr RS2_from(unsigned const instruction) -> unsigned {
-  return (instruction >> 20) & 0x1F;
-}
+enum class bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
 
-static auto constexpr RD_from(unsigned const instruction) -> unsigned {
-  return (instruction >> 7) & 0x1F;
-}
+using bus = unsigned (*)(unsigned address, bus_op_width width, bool is_store,
+                         unsigned &data);
 
-static auto constexpr OPCODE_from(unsigned const instruction) -> unsigned {
-  return instruction & 0x7F;
-}
+class core {
+  static auto constexpr RS1_from(unsigned const instruction) -> unsigned {
+    return (instruction >> 15) & 0x1F;
+  }
 
-static auto constexpr FUNCT3_from(unsigned const instruction) -> unsigned {
-  return (instruction >> 12) & 0x7;
-}
+  static auto constexpr RS2_from(unsigned const instruction) -> unsigned {
+    return (instruction >> 20) & 0x1F;
+  }
 
-static auto constexpr FUNCT7_from(unsigned const instruction) -> unsigned {
-  return (instruction >> 25) & 0x7F;
-}
+  static auto constexpr RD_from(unsigned const instruction) -> unsigned {
+    return (instruction >> 7) & 0x1F;
+  }
 
-static auto constexpr U_imm20_from(unsigned const instruction) -> unsigned {
-  return instruction & 0xFFFFF000;
-}
+  static auto constexpr OPCODE_from(unsigned const instruction) -> unsigned {
+    return instruction & 0x7F;
+  }
 
-static auto constexpr I_imm12_from(unsigned const instruction) -> int {
-  return (instruction & 0x80000000) ? 0xFFFFF000 | instruction >> 20
-                                    : instruction >> 20;
-}
+  static auto constexpr FUNCT3_from(unsigned const instruction) -> unsigned {
+    return (instruction >> 12) & 0x7;
+  }
 
-static auto constexpr S_imm12_from(unsigned const instruction) -> int {
-  return (instruction & 0x80000000)
-             ? 0xFFFFF000 | ((instruction >> 7) & 0x1F) |
-                   ((instruction >> 20) & 0xFE0)
-             : ((instruction >> 7) & 0x1F) | ((instruction >> 20) & 0xFE0);
-}
+  static auto constexpr FUNCT7_from(unsigned const instruction) -> unsigned {
+    return (instruction >> 25) & 0x7F;
+  }
 
-static auto constexpr B_imm12_from(unsigned const instruction) -> int {
-  return (instruction & 0x80000000)
-             ? 0xFFFFE000 | ((instruction << 4) & 0x800) |
-                   ((instruction >> 7) & 0x1E) | ((instruction >> 20) & 0x7E0) |
-                   ((instruction >> 19) & 0x1000)
-             : ((instruction << 4) & 0x800) | ((instruction >> 7) & 0x1E) |
-                   ((instruction >> 20) & 0x7E0) |
-                   ((instruction >> 19) & 0x1000);
-}
+  static auto constexpr U_imm20_from(unsigned const instruction) -> unsigned {
+    return instruction & 0xFFFFF000;
+  }
 
-static auto constexpr J_imm20_from(unsigned const instruction) -> int {
-  return (instruction & 0x80000000)
-             ? 0xFFE00000 | ((instruction >> 20) & 0x7FE) |
-                   ((instruction >> 9) & 0x800) | (instruction & 0xFF000) |
-                   ((instruction >> 11) & 0x100000)
-             : ((instruction >> 20) & 0x7FE) | ((instruction >> 9) & 0x800) |
-                   (instruction & 0xFF000) | ((instruction >> 11) & 0x100000);
-}
+  static auto constexpr I_imm12_from(unsigned const instruction) -> int {
+    return (instruction & 0x80000000) ? 0xFFFFF000 | instruction >> 20
+                                      : instruction >> 20;
+  }
 
-enum class rv32i_bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
+  static auto constexpr S_imm12_from(unsigned const instruction) -> int {
+    return (instruction & 0x80000000)
+               ? 0xFFFFF000 | ((instruction >> 7) & 0x1F) |
+                     ((instruction >> 20) & 0xFE0)
+               : ((instruction >> 7) & 0x1F) | ((instruction >> 20) & 0xFE0);
+  }
 
-using rv32i_bus = unsigned (*)(unsigned address, rv32i_bus_op_width width,
-                               bool is_store, unsigned &data);
+  static auto constexpr B_imm12_from(unsigned const instruction) -> int {
+    return (instruction & 0x80000000)
+               ? 0xFFFFE000 | ((instruction << 4) & 0x800) |
+                     ((instruction >> 7) & 0x1E) |
+                     ((instruction >> 20) & 0x7E0) |
+                     ((instruction >> 19) & 0x1000)
+               : ((instruction << 4) & 0x800) | ((instruction >> 7) & 0x1E) |
+                     ((instruction >> 20) & 0x7E0) |
+                     ((instruction >> 19) & 0x1000);
+  }
 
-class rv32i {
-  unsigned regs[32]{};
-  unsigned pc{};
-  rv32i_bus bus{};
+  static auto constexpr J_imm20_from(unsigned const instruction) -> int {
+    return (instruction & 0x80000000)
+               ? 0xFFE00000 | ((instruction >> 20) & 0x7FE) |
+                     ((instruction >> 9) & 0x800) | (instruction & 0xFF000) |
+                     ((instruction >> 11) & 0x100000)
+               : ((instruction >> 20) & 0x7FE) | ((instruction >> 9) & 0x800) |
+                     (instruction & 0xFF000) | ((instruction >> 11) & 0x100000);
+  }
+
+  unsigned regs_[32]{};
+  unsigned pc_{};
+  bus bus_{};
 
 public:
-  rv32i(rv32i_bus bus_callback, unsigned initial_pc = 0)
-      : pc{initial_pc}, bus{bus_callback} {}
+  core(bus const bus_callback, unsigned const initial_pc = 0)
+      : pc_{initial_pc}, bus_{bus_callback} {}
 
   auto tick() -> unsigned {
-    regs[0] = 0x0;
+    regs_[0] = 0;
     unsigned instruction = 0;
-    if (unsigned error = bus(pc, rv32i_bus_op_width::WORD, 0, instruction)) {
+    if (unsigned error = bus_(pc_, bus_op_width::WORD, 0, instruction)) {
       return error;
     }
 #ifdef RV32I_DEBUG
@@ -89,11 +92,11 @@ public:
     switch (opcode) {
     case 0x3: // load
     {
-      using enum rv32i_bus_op_width;
+      using enum bus_op_width;
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rd = RD_from(instruction);
       int const I_imm12 = I_imm12_from(instruction);
-      unsigned const address = regs[rs1] + I_imm12;
+      unsigned const address = regs_[rs1] + I_imm12;
       unsigned const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case 0x0: // LB
@@ -102,8 +105,8 @@ public:
         printf("lb %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus(address, BYTE, false, loaded);
-        regs[rd] = loaded & 0x80 ? 0xFFFFFF00 | loaded : loaded;
+        bus_(address, BYTE, false, loaded);
+        regs_[rd] = loaded & 0x80 ? 0xFFFFFF00 | loaded : loaded;
         break;
       }
       case 0x1: // LH
@@ -112,8 +115,8 @@ public:
         printf("lh %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus(address, HALF_WORD, false, loaded);
-        regs[rd] = loaded & 0x8000 ? 0xFFFF0000 | loaded : loaded;
+        bus_(address, HALF_WORD, false, loaded);
+        regs_[rd] = loaded & 0x8000 ? 0xFFFF0000 | loaded : loaded;
         break;
       }
       case 0x2: // LW
@@ -122,8 +125,8 @@ public:
         printf("lw %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus(address, WORD, false, loaded);
-        regs[rd] = loaded;
+        bus_(address, WORD, false, loaded);
+        regs_[rd] = loaded;
         break;
       }
       case 0x4: // LBU
@@ -132,8 +135,8 @@ public:
         printf("lbu %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus(address, BYTE, false, loaded);
-        regs[rd] = loaded;
+        bus_(address, BYTE, false, loaded);
+        regs_[rd] = loaded;
         break;
       }
       case 0x5: // LHU
@@ -142,8 +145,8 @@ public:
         printf("lhu %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus(address, HALF_WORD, false, loaded);
-        regs[rd] = loaded;
+        bus_(address, HALF_WORD, false, loaded);
+        regs_[rd] = loaded;
         break;
       }
       default:
@@ -153,11 +156,11 @@ public:
     }
     case 0x23: // store
     {
-      using enum rv32i_bus_op_width;
+      using enum bus_op_width;
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rs2 = RS2_from(instruction);
       int const S_imm12 = S_imm12_from(instruction);
-      unsigned const address = regs[rs1] + S_imm12;
+      unsigned const address = regs_[rs1] + S_imm12;
       unsigned const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case 0x0: // SB
@@ -165,8 +168,8 @@ public:
 #ifdef RV32I_DEBUG
         printf("sb %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
-        unsigned value = regs[rs2] & 0xFF;
-        bus(address, BYTE, true, value);
+        unsigned value = regs_[rs2] & 0xFF;
+        bus_(address, BYTE, true, value);
         break;
       }
       case 0x1: // SH
@@ -174,8 +177,8 @@ public:
 #ifdef RV32I_DEBUG
         printf("sh %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
-        unsigned value = regs[rs2] & 0xFFFF;
-        bus(address, HALF_WORD, true, value);
+        unsigned value = regs_[rs2] & 0xFFFF;
+        bus_(address, HALF_WORD, true, value);
         break;
       }
       case 0x2: // SW
@@ -183,7 +186,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("sw %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
-        bus(address, WORD, true, regs[rs2]);
+        bus_(address, WORD, true, regs_[rs2]);
         break;
       }
       default:
@@ -203,7 +206,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("addi %i,%i\n", rs1, I_imm12);
 #endif
-        regs[rd] = (int)regs[rs1] + I_imm12;
+        regs_[rd] = (int)regs_[rs1] + I_imm12;
         break;
       }
       case 0x2: // SLTI
@@ -211,7 +214,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("slti %i,%i\n", rs1, I_imm12);
 #endif
-        regs[rd] = (int)regs[rs1] < I_imm12 ? 1 : 0;
+        regs_[rd] = (int)regs_[rs1] < I_imm12 ? 1 : 0;
         break;
       }
       case 0x3: // SLTIU
@@ -219,7 +222,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("sltiu %i,%i\n", rs1, I_imm12);
 #endif
-        regs[rd] = regs[rs1] < unsigned(I_imm12) ? 1 : 0;
+        regs_[rd] = regs_[rs1] < unsigned(I_imm12) ? 1 : 0;
         break;
       }
       case 0x4: // XORI
@@ -227,7 +230,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("xori %i,%i\n", rs1, I_imm12);
 #endif
-        regs[rd] = regs[rs1] ^ unsigned(I_imm12);
+        regs_[rd] = regs_[rs1] ^ unsigned(I_imm12);
         break;
       }
       case 0x6: // ORI
@@ -235,7 +238,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("ori %i,%i\n", rs1, I_imm12);
 #endif
-        regs[rd] = regs[rs1] | unsigned(I_imm12);
+        regs_[rd] = regs_[rs1] | unsigned(I_imm12);
         break;
       }
       case 0x7: // ANDI
@@ -243,7 +246,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("andi %i,%i\n", rs1, I_imm12);
 #endif
-        regs[rd] = regs[rs1] & unsigned(I_imm12);
+        regs_[rd] = regs_[rs1] & unsigned(I_imm12);
         break;
       }
       case 0x1: // SLLI
@@ -253,7 +256,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("slli %i,%i\n", rs1, RS2);
 #endif
-        regs[rd] = regs[rs1] << RS2;
+        regs_[rd] = regs_[rs1] << RS2;
         break;
       }
       case 0x5: // SRLI/SRAI
@@ -266,7 +269,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("srli %i,%i\n", rs1, rs2);
 #endif
-          regs[rd] = regs[rs1] >> rs2;
+          regs_[rd] = regs_[rs1] >> rs2;
           break;
         }
         case 0x20: // SRAI
@@ -274,7 +277,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("srai %i,%i\n", rs1, rs2);
 #endif
-          regs[rd] = (int)regs[rs1] >> rs2;
+          regs_[rd] = (int)regs_[rs1] >> rs2;
           break;
         }
         default:
@@ -304,7 +307,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("add %i,%i\n", rs1, rs2);
 #endif
-          regs[rd] = regs[rs1] + regs[rs2];
+          regs_[rd] = regs_[rs1] + regs_[rs2];
           break;
         }
         case 0x20: // SUB
@@ -312,7 +315,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("sub %i,%i\n", rs1, rs2);
 #endif
-          regs[rd] = regs[rs1] - regs[rs2];
+          regs_[rd] = regs_[rs1] - regs_[rs2];
           break;
         }
         default:
@@ -325,7 +328,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("sll %i,%i\n", rs1, rs2);
 #endif
-        regs[rd] = regs[rs1] << (regs[rs2] & 0x1f);
+        regs_[rd] = regs_[rs1] << (regs_[rs2] & 0x1f);
         break;
       }
       case 0x2: // SLT
@@ -333,7 +336,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("slt %i,%i\n", rs1, rs2);
 #endif
-        regs[rd] = (int)regs[rs1] < (int)regs[rs2] ? 1 : 0;
+        regs_[rd] = (int)regs_[rs1] < (int)regs_[rs2] ? 1 : 0;
         break;
       }
       case 0x3: // SLTU
@@ -341,7 +344,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("sltu %i,%i\n", rs1, rs2);
 #endif
-        regs[rd] = regs[rs1] < regs[rs2] ? 1 : 0;
+        regs_[rd] = regs_[rs1] < regs_[rs2] ? 1 : 0;
         break;
       }
       case 0x4: // XOR
@@ -349,7 +352,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("xor %i,%i\n", rs1, rs2);
 #endif
-        regs[rd] = regs[rs1] ^ regs[rs2];
+        regs_[rd] = regs_[rs1] ^ regs_[rs2];
         break;
       }
       case 0x5: // SRL / SRA
@@ -361,7 +364,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("srl %i,%i\n", rs1, rs2);
 #endif
-          regs[rd] = regs[rs1] >> (regs[rs2] & 0x1f);
+          regs_[rd] = regs_[rs1] >> (regs_[rs2] & 0x1f);
           break;
         }
         case 0x20: // SRA
@@ -369,7 +372,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("sra %i,%i\n", rs1, rs2);
 #endif
-          regs[rd] = (int)regs[rs1] >> (regs[rs2] & 0x1f);
+          regs_[rd] = (int)regs_[rs1] >> (regs_[rs2] & 0x1f);
           break;
         }
         default:
@@ -382,7 +385,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("or %i,%i\n", rs1, rs2);
 #endif
-        regs[rd] = regs[rs1] | regs[rs2];
+        regs_[rd] = regs_[rs1] | regs_[rs2];
         break;
       }
       case 0x7: // AND
@@ -390,7 +393,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("and %i,%i\n", rs1, rs2);
 #endif
-        regs[rd] = regs[rs1] & regs[rs2];
+        regs_[rd] = regs_[rs1] & regs_[rs2];
         break;
       }
       default:
@@ -406,7 +409,7 @@ public:
 #ifdef RV32I_DEBUG
       printf("lui 0x%x,0x%x\n", rd, U_imm20 >> 12);
 #endif
-      regs[rd] = U_imm20;
+      regs_[rd] = U_imm20;
       break;
     }
 
@@ -417,7 +420,7 @@ public:
 #ifdef RV32I_DEBUG
       printf("auipc 0x%x,0x%x\n", rd, U_imm20 >> 12);
 #endif
-      regs[rd] = pc + U_imm20;
+      regs_[rd] = pc_ + U_imm20;
       break;
     }
 
@@ -428,9 +431,9 @@ public:
 #ifdef RV32I_DEBUG
       printf("jal 0x%x,0x%x\n", rd, J_imm20);
 #endif
-      regs[rd] = pc + 4;
-      pc += J_imm20 - 4;
-      // note: pc is incremented by 4 after the instruction
+      regs_[rd] = pc_ + 4;
+      pc_ += J_imm20 - 4;
+      // note: pc_ is incremented by 4 after the instruction
       break;
     }
 
@@ -442,9 +445,9 @@ public:
 #ifdef RV32I_DEBUG
       printf("jalr 0x%x,0x%x,0x%x\n", rd, rs1, I_imm12);
 #endif
-      regs[rd] = pc + 4;
-      pc = regs[rs1] + I_imm12 - 4;
-      // note: pc is incremented by 4 after the instruction
+      regs_[rd] = pc_ + 4;
+      pc_ = regs_[rs1] + I_imm12 - 4;
+      // note: pc_ is incremented by 4 after the instruction
       break;
     }
 
@@ -460,9 +463,9 @@ public:
 #ifdef RV32I_DEBUG
         printf("beq %i,%i\n", rs1, rs2);
 #endif
-        if (regs[rs1] == regs[rs2]) {
-          pc += B_imm12 - 4;
-          // note: pc is incremented by 4 after the instruction
+        if (regs_[rs1] == regs_[rs2]) {
+          pc_ += B_imm12 - 4;
+          // note: pc_ is incremented by 4 after the instruction
         }
         break;
       }
@@ -471,9 +474,9 @@ public:
 #ifdef RV32I_DEBUG
         printf("bne %i,%i\n", rs1, rs2);
 #endif
-        if (regs[rs1] != regs[rs2]) {
-          pc += B_imm12 - 4;
-          // note: pc is incremented by 4 after the instruction
+        if (regs_[rs1] != regs_[rs2]) {
+          pc_ += B_imm12 - 4;
+          // note: pc_ is incremented by 4 after the instruction
         }
         break;
       }
@@ -482,9 +485,9 @@ public:
 #ifdef RV32I_DEBUG
         printf("blt %i,%i\n", rs1, rs2);
 #endif
-        if ((int)regs[rs1] < (int)regs[rs2]) {
-          pc += B_imm12 - 4;
-          // note: pc is incremented by 4 after the instruction
+        if ((int)regs_[rs1] < (int)regs_[rs2]) {
+          pc_ += B_imm12 - 4;
+          // note: pc_ is incremented by 4 after the instruction
         }
         break;
       }
@@ -493,8 +496,8 @@ public:
 #ifdef RV32I_DEBUG
         printf("bge %i,%i\n", rs1, rs2);
 #endif
-        if ((int)regs[rs1] >= (int)regs[rs2]) {
-          pc += B_imm12 - 4;
+        if ((int)regs_[rs1] >= (int)regs_[rs2]) {
+          pc_ += B_imm12 - 4;
           // note: pc is incremented by 4 after the instruction
         }
         break;
@@ -504,8 +507,8 @@ public:
 #ifdef RV32I_DEBUG
         printf("bltu %i,%i,%i\n", rs1, rs2, (int)B_imm12);
 #endif
-        if (regs[rs1] < regs[rs2]) {
-          pc += B_imm12 - 4;
+        if (regs_[rs1] < regs_[rs2]) {
+          pc_ += B_imm12 - 4;
         }
         break;
       }
@@ -514,8 +517,8 @@ public:
 #ifdef RV32I_DEBUG
         printf("bgeu %i,%i\n", rs1, rs2);
 #endif
-        if (regs[rs1] >= regs[rs2]) {
-          pc += B_imm12 - 4;
+        if (regs_[rs1] >= regs_[rs2]) {
+          pc_ += B_imm12 - 4;
         }
         break;
       }
@@ -528,7 +531,8 @@ public:
       return 0x18;
     }
 
-    pc += 4;
+    pc_ += 4;
     return 0;
   }
 };
+} // namespace rv32i

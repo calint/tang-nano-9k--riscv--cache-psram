@@ -15,7 +15,7 @@ static std::vector<int8_t> ram(2 * 1024 * 1024, -1);
 
 static struct termios saved_termio;
 
-auto bus(unsigned const address, rv32i_bus_op_width const op_width,
+auto bus(unsigned const address, rv32i::bus_op_width const op_width,
          bool const is_store, unsigned &data) -> unsigned {
 
   unsigned const width = static_cast<unsigned>(op_width);
@@ -110,7 +110,7 @@ auto main(int argc, char **argv) -> int {
 
   file.close();
 
-  rv32i cpu{bus};
+  rv32i::core cpu{bus};
 
   while (true) {
     if (const unsigned err = cpu.tick()) {
