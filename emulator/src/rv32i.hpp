@@ -82,7 +82,7 @@ public:
   auto tick() -> unsigned {
     regs_[0] = 0;
     unsigned instruction = 0;
-    if (unsigned error = bus_(pc_, bus_op_width::WORD, 0, instruction)) {
+    if (unsigned error = bus_(pc_, bus_op_width::WORD, false, instruction)) {
       return error;
     }
 #ifdef RV32I_DEBUG
