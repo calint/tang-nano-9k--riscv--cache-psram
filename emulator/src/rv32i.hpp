@@ -91,110 +91,18 @@ public:
 #endif
     unsigned const opcode = OPCODE_from(instruction);
     switch (opcode) {
-    case 0x3: // load
+
+    case 0x37: // LUI
     {
-      using enum bus_op_width;
-      unsigned const rs1 = RS1_from(instruction);
       unsigned const rd = RD_from(instruction);
-      int const I_imm12 = I_imm12_from(instruction);
-      unsigned const address = regs_[rs1] + I_imm12;
-      unsigned const funct3 = FUNCT3_from(instruction);
-      switch (funct3) {
-      case 0x0: // LB
-      {
+      unsigned const U_imm20 = U_imm20_from(instruction);
 #ifdef RV32I_DEBUG
-        printf("lb %i,%i,0x%x\n", rs1, rd, I_imm12);
+      printf("lui 0x%x,0x%x\n", rd, U_imm20 >> 12);
 #endif
-        unsigned loaded = 0;
-        bus_(address, BYTE, false, loaded);
-        regs_[rd] = loaded & 0x80 ? 0xFFFFFF00 | loaded : loaded;
-        break;
-      }
-      case 0x1: // LH
-      {
-#ifdef RV32I_DEBUG
-        printf("lh %i,%i,0x%x\n", rs1, rd, I_imm12);
-#endif
-        unsigned loaded = 0;
-        bus_(address, HALF_WORD, false, loaded);
-        regs_[rd] = loaded & 0x8000 ? 0xFFFF0000 | loaded : loaded;
-        break;
-      }
-      case 0x2: // LW
-      {
-#ifdef RV32I_DEBUG
-        printf("lw %i,%i,0x%x\n", rs1, rd, I_imm12);
-#endif
-        unsigned loaded = 0;
-        bus_(address, WORD, false, loaded);
-        regs_[rd] = loaded;
-        break;
-      }
-      case 0x4: // LBU
-      {
-#ifdef RV32I_DEBUG
-        printf("lbu %i,%i,0x%x\n", rs1, rd, I_imm12);
-#endif
-        unsigned loaded = 0;
-        bus_(address, BYTE, false, loaded);
-        regs_[rd] = loaded;
-        break;
-      }
-      case 0x5: // LHU
-      {
-#ifdef RV32I_DEBUG
-        printf("lhu %i,%i,0x%x\n", rs1, rd, I_imm12);
-#endif
-        unsigned loaded = 0;
-        bus_(address, HALF_WORD, false, loaded);
-        regs_[rd] = loaded;
-        break;
-      }
-      default:
-        return 0x10;
-      }
+      regs_[rd] = U_imm20;
       break;
     }
-    case 0x23: // store
-    {
-      using enum bus_op_width;
-      unsigned const rs1 = RS1_from(instruction);
-      unsigned const rs2 = RS2_from(instruction);
-      int const S_imm12 = S_imm12_from(instruction);
-      unsigned const address = regs_[rs1] + S_imm12;
-      unsigned const funct3 = FUNCT3_from(instruction);
-      switch (funct3) {
-      case 0x0: // SB
-      {
-#ifdef RV32I_DEBUG
-        printf("sb %i,%i,0x%x\n", rs1, rs2, S_imm12);
-#endif
-        unsigned value = regs_[rs2] & 0xFF;
-        bus_(address, BYTE, true, value);
-        break;
-      }
-      case 0x1: // SH
-      {
-#ifdef RV32I_DEBUG
-        printf("sh %i,%i,0x%x\n", rs1, rs2, S_imm12);
-#endif
-        unsigned value = regs_[rs2] & 0xFFFF;
-        bus_(address, HALF_WORD, true, value);
-        break;
-      }
-      case 0x2: // SW
-      {
-#ifdef RV32I_DEBUG
-        printf("sw %i,%i,0x%x\n", rs1, rs2, S_imm12);
-#endif
-        bus_(address, WORD, true, regs_[rs2]);
-        break;
-      }
-      default:
-        return 0x11;
-      }
-      break;
-    }
+    //----------------------------------------------------------------
     case 0x13: // immediate arithmetic
     {
       unsigned const rs1 = RS1_from(instruction);
@@ -223,7 +131,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("sltiu %i,%i\n", rs1, I_imm12);
 #endif
-        regs_[rd] = regs_[rs1] < unsigned(I_imm12) ? 1 : 0;
+        regs_[rd] = unsigned(regs_[rs1]) < unsigned(I_imm12) ? 1 : 0;
         break;
       }
       case 0x4: // XORI
@@ -290,7 +198,7 @@ public:
       }
       break;
     }
-
+    //----------------------------------------------------------------
     case 0x33: // register arithmetic
     {
       unsigned const rs1 = RS1_from(instruction);
@@ -401,18 +309,113 @@ public:
       }
       break;
     }
-
-    case 0x37: // LUI
+    //----------------------------------------------------------------
+    case 0x23: // store
     {
-      unsigned const rd = RD_from(instruction);
-      unsigned const U_imm20 = U_imm20_from(instruction);
+      using enum bus_op_width;
+      unsigned const rs1 = RS1_from(instruction);
+      unsigned const rs2 = RS2_from(instruction);
+      int const S_imm12 = S_imm12_from(instruction);
+      unsigned const address = regs_[rs1] + S_imm12;
+      unsigned const funct3 = FUNCT3_from(instruction);
+      switch (funct3) {
+      case 0x0: // SB
+      {
 #ifdef RV32I_DEBUG
-      printf("lui 0x%x,0x%x\n", rd, U_imm20 >> 12);
+        printf("sb %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
-      regs_[rd] = U_imm20;
+        unsigned value = regs_[rs2] & 0xFF;
+        bus_(address, BYTE, true, value);
+        break;
+      }
+      case 0x1: // SH
+      {
+#ifdef RV32I_DEBUG
+        printf("sh %i,%i,0x%x\n", rs1, rs2, S_imm12);
+#endif
+        unsigned value = regs_[rs2] & 0xFFFF;
+        bus_(address, HALF_WORD, true, value);
+        break;
+      }
+      case 0x2: // SW
+      {
+#ifdef RV32I_DEBUG
+        printf("sw %i,%i,0x%x\n", rs1, rs2, S_imm12);
+#endif
+        bus_(address, WORD, true, regs_[rs2]);
+        break;
+      }
+      default:
+        return 0x11;
+      }
       break;
     }
-
+    //----------------------------------------------------------------
+    case 0x3: // load
+    {
+      using enum bus_op_width;
+      unsigned const rs1 = RS1_from(instruction);
+      unsigned const rd = RD_from(instruction);
+      int const I_imm12 = I_imm12_from(instruction);
+      unsigned const address = regs_[rs1] + I_imm12;
+      unsigned const funct3 = FUNCT3_from(instruction);
+      switch (funct3) {
+      case 0x0: // LB
+      {
+#ifdef RV32I_DEBUG
+        printf("lb %i,%i,0x%x\n", rs1, rd, I_imm12);
+#endif
+        unsigned loaded = 0;
+        bus_(address, BYTE, false, loaded);
+        regs_[rd] = loaded & 0x80 ? 0xFFFFFF00 | loaded : loaded;
+        break;
+      }
+      case 0x1: // LH
+      {
+#ifdef RV32I_DEBUG
+        printf("lh %i,%i,0x%x\n", rs1, rd, I_imm12);
+#endif
+        unsigned loaded = 0;
+        bus_(address, HALF_WORD, false, loaded);
+        regs_[rd] = loaded & 0x8000 ? 0xFFFF0000 | loaded : loaded;
+        break;
+      }
+      case 0x2: // LW
+      {
+#ifdef RV32I_DEBUG
+        printf("lw %i,%i,0x%x\n", rs1, rd, I_imm12);
+#endif
+        unsigned loaded = 0;
+        bus_(address, WORD, false, loaded);
+        regs_[rd] = loaded;
+        break;
+      }
+      case 0x4: // LBU
+      {
+#ifdef RV32I_DEBUG
+        printf("lbu %i,%i,0x%x\n", rs1, rd, I_imm12);
+#endif
+        unsigned loaded = 0;
+        bus_(address, BYTE, false, loaded);
+        regs_[rd] = loaded;
+        break;
+      }
+      case 0x5: // LHU
+      {
+#ifdef RV32I_DEBUG
+        printf("lhu %i,%i,0x%x\n", rs1, rd, I_imm12);
+#endif
+        unsigned loaded = 0;
+        bus_(address, HALF_WORD, false, loaded);
+        regs_[rd] = loaded;
+        break;
+      }
+      default:
+        return 0x10;
+      }
+      break;
+    }
+    //----------------------------------------------------------------
     case 0x17: // AUIPC
     {
       unsigned const rd = RD_from(instruction);
@@ -423,7 +426,7 @@ public:
       regs_[rd] = pc_ + U_imm20;
       break;
     }
-
+    //----------------------------------------------------------------
     case 0x6F: // JAL
     {
       unsigned const rd = RD_from(instruction);
@@ -436,7 +439,7 @@ public:
       // note: pc_ is incremented by 4 after the instruction
       break;
     }
-
+    //----------------------------------------------------------------
     case 0x67: // JALR
     {
       unsigned const rs1 = RS1_from(instruction);
@@ -450,7 +453,7 @@ public:
       // note: pc_ is incremented by 4 after the instruction
       break;
     }
-
+    //----------------------------------------------------------------
     case 0x63: // branching
     {
       unsigned const rs1 = RS1_from(instruction);
