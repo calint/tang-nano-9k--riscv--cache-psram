@@ -525,9 +525,9 @@ public:
                      (instruction & 0xFF000) | ((instruction >> 11) & 0x100000);
   }
 
-  static uint32_t constexpr OPCODE_LUI = 0x37;
+  static uint32_t constexpr OPCODE_LUI = 0b01101'11;
 
-  static uint32_t constexpr OPCODE_LOGICAL_IMM = 0x13;
+  static uint32_t constexpr OPCODE_LOGICAL_IMM = 0b00100'11;
   static uint32_t constexpr FUNCT3_ADDI = 0;
   static uint32_t constexpr FUNCT3_SLTI = 2;
   static uint32_t constexpr FUNCT3_SLTIU = 3;
@@ -539,7 +539,7 @@ public:
   static uint32_t constexpr FUNCT7_SRLI = 0;
   static uint32_t constexpr FUNCT7_SRAI = 0x20;
 
-  static uint32_t constexpr OPCODE_LOGICAL = 0x33;
+  static uint32_t constexpr OPCODE_LOGICAL = 0b01100'11;
   static uint32_t constexpr FUNCT3_ADD_SUB = 0;
   static uint32_t constexpr FUNCT7_ADD = 0;
   static uint32_t constexpr FUNCT7_SUB = 0x20;
@@ -553,25 +553,25 @@ public:
   static uint32_t constexpr FUNCT3_OR = 6;
   static uint32_t constexpr FUNCT3_AND = 7;
 
-  static uint32_t constexpr OPCODE_STORE = 0x23;
+  static uint32_t constexpr OPCODE_STORE = 0b01000'11;
   static uint32_t constexpr FUNCT3_SB = 0;
   static uint32_t constexpr FUNCT3_SH = 1;
   static uint32_t constexpr FUNCT3_SW = 2;
 
-  static uint32_t constexpr OPCODE_LOAD = 3;
+  static uint32_t constexpr OPCODE_LOAD = 0b00000'11;
   static uint32_t constexpr FUNCT3_LB = 0;
   static uint32_t constexpr FUNCT3_LH = 1;
   static uint32_t constexpr FUNCT3_LW = 2;
   static uint32_t constexpr FUNCT3_LBU = 4;
   static uint32_t constexpr FUNCT3_LHU = 5;
 
-  static uint32_t constexpr OPCODE_AUIPC = 0x17;
+  static uint32_t constexpr OPCODE_AUIPC = 0b00101'11;
 
-  static uint32_t constexpr OPCODE_JAL = 0x6F;
+  static uint32_t constexpr OPCODE_JAL = 0b11011'11;
 
-  static uint32_t constexpr OPCODE_JALR = 0x67;
+  static uint32_t constexpr OPCODE_JALR = 0b11001'11;
 
-  static uint32_t constexpr OPCODE_BRANCH = 0x63;
+  static uint32_t constexpr OPCODE_BRANCH = 0b11000'11;
   static uint32_t constexpr FUNCT3_BEQ = 0;
   static uint32_t constexpr FUNCT3_BNE = 1;
   static uint32_t constexpr FUNCT3_BLT = 4;
