@@ -30,7 +30,7 @@ public:
     uint32_t instruction = 0;
     if (rv32i::bus_status s =
             bus_(pc_, bus_op_width::WORD, false, instruction)) {
-      return s;
+      return 0x1000 + s;
     }
 #ifdef RV32I_DEBUG
     printf("pc 0x%08x instr 0x%08x ", pc, instruction);
