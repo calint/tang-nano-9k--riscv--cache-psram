@@ -7,18 +7,18 @@
 // #define RV32I_DEBUG
 #include "rv32i.hpp"
 
-unsigned constexpr LED = 0xffffffff;
-unsigned constexpr UART_OUT = 0xfffffffe;
-unsigned constexpr UART_IN = 0xfffffffd;
+uint32_t constexpr LED = 0xffffffff;
+uint32_t constexpr UART_OUT = 0xfffffffe;
+uint32_t constexpr UART_IN = 0xfffffffd;
 
 static std::vector<int8_t> ram(2 * 1024 * 1024, -1);
 
 static struct termios saved_termios;
 
-auto bus(unsigned const address, rv32i::bus_op_width const op_width,
-         bool const is_store, unsigned &data) -> rv32i::bus_status {
+auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
+         bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
-  unsigned const width = static_cast<unsigned>(op_width);
+  uint32_t const width = static_cast<uint32_t>(op_width);
   if (address + width > ram.size() && address != UART_OUT &&
       address != UART_IN && address != LED) {
     return 1;
@@ -39,7 +39,7 @@ auto bus(unsigned const address, rv32i::bus_op_width const op_width,
     } else if (address == LED) {
       // do nothing when writing to address LED
     } else {
-      for (unsigned i = 0; i < width; ++i) {
+      for (uint32_t i = 0; i < width; ++i) {
         ram[address + i] = int8_t(data >> (i * 8));
       }
     }
@@ -66,7 +66,7 @@ auto bus(unsigned const address, rv32i::bus_op_width const op_width,
       // do nothing when reading from address LED
     } else {
       data = 0;
-      for (unsigned i = 0; i < width; ++i) {
+      for (uint32_t i = 0; i < width; ++i) {
         data |= (ram[address + i] & 0xFF) << (i * 8);
       }
     }
