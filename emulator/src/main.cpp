@@ -1,16 +1,16 @@
 #include <fstream>
-#include <iostream>
 #include <termios.h>
 #include <unistd.h>
 #include <vector>
 // #define RV32I_DEBUG
 #include "rv32i.hpp"
 
+uint32_t constexpr RAM_SIZE_BYTES = 2 * 1024 * 1024;
 uint32_t constexpr LED = 0xffffffff;
 uint32_t constexpr UART_OUT = 0xfffffffe;
 uint32_t constexpr UART_IN = 0xfffffffd;
 
-static std::vector<int8_t> ram(2 * 1024 * 1024, -1);
+static std::vector<int8_t> ram(RAM_SIZE_BYTES, -1);
 
 static struct termios saved_termios;
 
@@ -28,11 +28,11 @@ auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       char const ch = static_cast<char>(data & 0xFF);
       if (ch == 0x7f) {
         // convert from serial to terminal
-        std::cout << "\b \b";
+        std::printf("\b \b");
       } else {
-        std::cout << ch;
+        std::putchar(ch);
       }
-      std::cout.flush();
+      std::fflush(stdout);
     } else if (address == UART_IN) {
       // do nothing when writing to address UART_IN
     } else if (address == LED) {
@@ -76,7 +76,7 @@ auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
 
 auto main(int argc, char **argv) -> int {
   if (argc != 2) {
-    std::cerr << "Usage: " << argv[0] << " <firmware.bin>" << std::endl;
+    std::printf("Usage: %s <firmware.bin>\n", argv[0]);
     return 1;
   }
 
@@ -90,7 +90,7 @@ auto main(int argc, char **argv) -> int {
 
   std::ifstream file{argv[1], std::ios::binary | std::ios::ate};
   if (!file) {
-    std::cerr << "Error opening file" << std::endl;
+    std::printf("Error opening file '%s'\n", argv[1]);
     return 1;
   }
 
@@ -98,12 +98,13 @@ auto main(int argc, char **argv) -> int {
   file.seekg(0, std::ios::beg);
 
   if (size > static_cast<std::streamsize>(ram.size())) {
-    std::cerr << "Firmware size exceeds RAM size" << std::endl;
+    std::printf("Firmware size (%zu B) exceeds RAM size (%zu B)\n", size,
+                ram.size());
     return 1;
   }
 
   if (!file.read(reinterpret_cast<char *>(ram.data()), size)) {
-    std::cerr << "Error reading file" << std::endl;
+    std::printf("Error reading file '%s'\n", argv[1]);
     return 1;
   }
 
@@ -113,7 +114,7 @@ auto main(int argc, char **argv) -> int {
 
   while (true) {
     if (rv32i::cpu_status const s = cpu.tick()) {
-      std::cout << "CPU error: " << s << std::endl;
+      std::printf("CPU error: 0x%04x\n", s);
       return s;
     }
   }
