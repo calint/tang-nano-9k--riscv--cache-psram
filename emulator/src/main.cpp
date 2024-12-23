@@ -13,7 +13,7 @@ unsigned constexpr UART_IN = 0xfffffffd;
 
 static std::vector<int8_t> ram(2 * 1024 * 1024, -1);
 
-static struct termios saved_termio;
+static struct termios saved_termios;
 
 auto bus(unsigned const address, rv32i::bus_op_width const op_width,
          bool const is_store, unsigned &data) -> unsigned {
@@ -82,12 +82,12 @@ auto main(int argc, char **argv) -> int {
   }
 
   struct termios newt;
-  tcgetattr(STDIN_FILENO, &saved_termio);
-  newt = saved_termio;
+  tcgetattr(STDIN_FILENO, &saved_termios);
+  newt = saved_termios;
   newt.c_lflag &= ~(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
-  atexit([]() { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termio); });
+  atexit([]() { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
 
   std::ifstream file{argv[1], std::ios::binary | std::ios::ate};
   if (!file) {
