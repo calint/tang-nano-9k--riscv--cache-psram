@@ -15,10 +15,10 @@ static std::vector<int8_t> ram(2 * 1024 * 1024, -1);
 
 static struct termios saved_termio;
 
-auto bus(unsigned const address, bus_op_width const bus_op_width,
+auto bus(unsigned const address, bus_op_width const op_width,
          bool const is_store, unsigned &data) -> unsigned {
 
-  unsigned const width = static_cast<unsigned>(bus_op_width);
+  unsigned const width = static_cast<unsigned>(op_width);
   if (address + width > ram.size() && address != UART_OUT &&
       address != UART_IN && address != LED) {
     return 1;
