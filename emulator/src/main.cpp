@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <vector>
 // #define RISCV_DEBUG
-#include "riscv.h"
+#include "riscv.hpp"
 
 #define LED 0xffffffff
 #define UART_OUT 0xfffffffe
@@ -15,15 +15,17 @@ std::vector<int8_t> ram(2 * 1024 * 1024, -1);
 
 struct termios oldt;
 
-rv_uint32 ram_access(const rv_uint32 addr, const RISCV_BUSWIDTH width,
-                     const rv_uint32 is_store, rv_uint32 *const data) {
-  if (addr + width > ram.size() && addr != UART_OUT && addr != UART_IN &&
-      addr != LED) {
+unsigned bus(const unsigned address, const bus_op_width bus_op_width,
+             const bool is_store, unsigned *const data) {
+
+  unsigned const width = static_cast<unsigned>(bus_op_width);
+  if (address + width > ram.size() && address != UART_OUT &&
+      address != UART_IN && address != LED) {
     return 1;
   }
 
   if (is_store) {
-    if (addr == UART_OUT) {
+    if (address == UART_OUT) {
       const char ch = static_cast<char>(*data & 0xFF);
       if (ch == 0x7f) {
         // convert from serial to terminal
@@ -32,19 +34,19 @@ rv_uint32 ram_access(const rv_uint32 addr, const RISCV_BUSWIDTH width,
         std::cout << ch;
       }
       std::cout.flush();
-    } else if (addr == UART_IN) {
+    } else if (address == UART_IN) {
       // do nothing when writing to address UART_IN
-    } else if (addr == LED) {
+    } else if (address == LED) {
       // do nothing when writing to address LED
     } else {
-      for (rv_uint32 i = 0; i < width; ++i) {
-        ram[addr + i] = (*data >> (i * 8)) & 0xFF;
+      for (unsigned i = 0; i < width; ++i) {
+        ram[address + i] = (*data >> (i * 8)) & 0xFF;
       }
     }
   } else {
-    if (addr == UART_OUT) {
+    if (address == UART_OUT) {
       *data = 0;
-    } else if (addr == UART_IN) {
+    } else if (address == UART_IN) {
       const int ch = getchar();
       if (ch == EOF) {
         *data = 0;
@@ -59,12 +61,12 @@ rv_uint32 ram_access(const rv_uint32 addr, const RISCV_BUSWIDTH width,
           *data = ch;
         }
       }
-    } else if (addr == LED) {
+    } else if (address == LED) {
       // do nothing when reading from address LED
     } else {
       *data = 0;
-      for (rv_uint32 i = 0; i < width; ++i) {
-        *data |= (ram[addr + i] & 0xFF) << (i * 8);
+      for (unsigned i = 0; i < width; ++i) {
+        *data |= (ram[address + i] & 0xFF) << (i * 8);
       }
     }
   }
@@ -107,11 +109,10 @@ auto main(int argc, char **argv) -> int {
 
   file.close();
 
-  RISCV cpu;
-  riscv_init(&cpu, ram_access, 0x0);
+  rv32i cpu{bus, 0x0};
 
   while (true) {
-    if (const rv_uint32 err = riscv_cycle(&cpu)) {
+    if (const unsigned err = cpu.tick()) {
       std::cout << "Error: " << err << std::endl;
       return err;
     }
