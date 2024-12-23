@@ -37,7 +37,7 @@
 enum class bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
 
 using rv32i_bus = unsigned (*)(unsigned address, bus_op_width width,
-                               bool is_store, unsigned *data);
+                               bool is_store, unsigned &data);
 
 class rv32i {
   unsigned regs[32]{};
@@ -53,7 +53,7 @@ public:
 
     regs[0] = 0x0;
     unsigned instruction = 0;
-    if (unsigned error = bus(pc, WORD, 0, &instruction)) {
+    if (unsigned error = bus(pc, WORD, 0, instruction)) {
       return error;
     }
 #ifdef RISCV_DEBUG
@@ -70,7 +70,7 @@ public:
         printf("lb %i,%i,0x%x\n", RS1, RD, (int)I_IMM);
 #endif
         unsigned loaded = 0;
-        bus(addr, BYTE, false, &loaded);
+        bus(addr, BYTE, false, loaded);
         regs[RD] = loaded & 0x80 ? 0xFFFFFF00 | loaded : loaded;
         break;
       }
@@ -80,7 +80,7 @@ public:
         printf("lh %i,%i,0x%x\n", RS1, RD, (int)I_IMM);
 #endif
         unsigned loaded = 0;
-        bus(addr, HALF_WORD, false, &loaded);
+        bus(addr, HALF_WORD, false, loaded);
         regs[RD] = loaded & 0x8000 ? 0xFFFF0000 | loaded : loaded;
         break;
       }
@@ -90,7 +90,7 @@ public:
         printf("lw %i,%i,0x%x\n", RS1, RD, (int)I_IMM);
 #endif
         unsigned loaded = 0;
-        bus(addr, WORD, false, &loaded);
+        bus(addr, WORD, false, loaded);
         regs[RD] = loaded;
         break;
       }
@@ -100,7 +100,7 @@ public:
         printf("lbu %i,%i,0x%x\n", RS1, RD, (int)I_IMM);
 #endif
         unsigned loaded = 0;
-        bus(addr, BYTE, false, &loaded);
+        bus(addr, BYTE, false, loaded);
         regs[RD] = loaded;
         break;
       }
@@ -110,7 +110,7 @@ public:
         printf("lhu %i,%i,0x%x\n", RS1, RD, (int)I_IMM);
 #endif
         unsigned loaded = 0;
-        bus(addr, HALF_WORD, false, &loaded);
+        bus(addr, HALF_WORD, false, loaded);
         regs[RD] = loaded;
         break;
       }
@@ -128,8 +128,8 @@ public:
 #ifdef RISCV_DEBUG
         printf("sb %i,%i,0x%x\n", RS1, RS2, (int)S_IMM);
 #endif
-        unsigned val = regs[RS2] & 0xFF;
-        bus(addr, BYTE, true, &val);
+        unsigned value = regs[RS2] & 0xFF;
+        bus(addr, BYTE, true, value);
         break;
       }
       case 0x1: // SH
@@ -137,8 +137,8 @@ public:
 #ifdef RISCV_DEBUG
         printf("sh %i,%i,0x%x\n", RS1, RS2, (int)S_IMM);
 #endif
-        unsigned val = regs[RS2] & 0xFFFF;
-        bus(addr, HALF_WORD, true, &val);
+        unsigned value = regs[RS2] & 0xFFFF;
+        bus(addr, HALF_WORD, true, value);
         break;
       }
       case 0x2: // SW
@@ -146,7 +146,7 @@ public:
 #ifdef RISCV_DEBUG
         printf("sw %i,%i,0x%x\n", RS1, RS2, (int)S_IMM);
 #endif
-        bus(addr, WORD, true, &regs[RS2]);
+        bus(addr, WORD, true, regs[RS2]);
         break;
       }
       default:
