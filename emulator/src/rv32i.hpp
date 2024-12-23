@@ -439,6 +439,7 @@ public:
 #endif
         if (regs_[rs1] < regs_[rs2]) {
           pc_ += B_imm12 - 4;
+          // note: pc is incremented by 4 after the instruction
         }
         break;
       }
@@ -448,6 +449,7 @@ public:
 #endif
         if (regs_[rs1] >= regs_[rs2]) {
           pc_ += B_imm12 - 4;
+          // note: pc is incremented by 4 after the instruction
         }
         break;
       }
