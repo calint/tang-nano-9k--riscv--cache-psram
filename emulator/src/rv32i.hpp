@@ -103,7 +103,7 @@ public:
       break;
     }
     //----------------------------------------------------------------
-    case 0x13: // immediate arithmetic
+    case 0x13: // logical ops immediate
     {
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rd = RD_from(instruction);
@@ -199,7 +199,7 @@ public:
       break;
     }
     //----------------------------------------------------------------
-    case 0x33: // register arithmetic
+    case 0x33: // logical ops
     {
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rs2 = RS2_from(instruction);
@@ -454,7 +454,7 @@ public:
       break;
     }
     //----------------------------------------------------------------
-    case 0x63: // branching
+    case 0x63: // branches
     {
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rs2 = RS2_from(instruction);
