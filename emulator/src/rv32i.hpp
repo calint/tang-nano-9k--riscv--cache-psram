@@ -40,19 +40,19 @@ class cpu final {
     return instruction & 0xFFFFF000;
   }
 
-  static auto constexpr I_imm12_from(unsigned const instruction) -> int {
+  static auto constexpr I_imm12_from(unsigned const instruction) -> signed {
     return (instruction & 0x80000000) ? 0xFFFFF000 | instruction >> 20
                                       : instruction >> 20;
   }
 
-  static auto constexpr S_imm12_from(unsigned const instruction) -> int {
+  static auto constexpr S_imm12_from(unsigned const instruction) -> signed {
     return (instruction & 0x80000000)
                ? 0xFFFFF000 | ((instruction >> 7) & 0x1F) |
                      ((instruction >> 20) & 0xFE0)
                : ((instruction >> 7) & 0x1F) | ((instruction >> 20) & 0xFE0);
   }
 
-  static auto constexpr B_imm12_from(unsigned const instruction) -> int {
+  static auto constexpr B_imm12_from(unsigned const instruction) -> signed {
     return (instruction & 0x80000000)
                ? 0xFFFFE000 | ((instruction << 4) & 0x800) |
                      ((instruction >> 7) & 0x1E) |
@@ -63,7 +63,7 @@ class cpu final {
                      ((instruction >> 19) & 0x1000);
   }
 
-  static auto constexpr J_imm20_from(unsigned const instruction) -> int {
+  static auto constexpr J_imm20_from(unsigned const instruction) -> signed {
     return (instruction & 0x80000000)
                ? 0xFFE00000 | ((instruction >> 20) & 0x7FE) |
                      ((instruction >> 9) & 0x800) | (instruction & 0xFF000) |
@@ -107,7 +107,7 @@ public:
     {
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rd = RD_from(instruction);
-      int const I_imm12 = I_imm12_from(instruction);
+      signed const I_imm12 = I_imm12_from(instruction);
       unsigned const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case 0x0: // ADDI
@@ -315,7 +315,7 @@ public:
       using enum bus_op_width;
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rs2 = RS2_from(instruction);
-      int const S_imm12 = S_imm12_from(instruction);
+      signed const S_imm12 = S_imm12_from(instruction);
       unsigned const address = regs_[rs1] + S_imm12;
       unsigned const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
@@ -356,7 +356,7 @@ public:
       using enum bus_op_width;
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rd = RD_from(instruction);
-      int const I_imm12 = I_imm12_from(instruction);
+      signed const I_imm12 = I_imm12_from(instruction);
       unsigned const address = regs_[rs1] + I_imm12;
       unsigned const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
@@ -430,7 +430,7 @@ public:
     case 0x6F: // JAL
     {
       unsigned const rd = RD_from(instruction);
-      int const J_imm20 = J_imm20_from(instruction);
+      signed const J_imm20 = J_imm20_from(instruction);
 #ifdef RV32I_DEBUG
       printf("jal 0x%x,0x%x\n", rd, J_imm20);
 #endif
@@ -444,7 +444,7 @@ public:
     {
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rd = RD_from(instruction);
-      int const I_imm12 = I_imm12_from(instruction);
+      signed const I_imm12 = I_imm12_from(instruction);
 #ifdef RV32I_DEBUG
       printf("jalr 0x%x,0x%x,0x%x\n", rd, rs1, I_imm12);
 #endif
@@ -458,7 +458,7 @@ public:
     {
       unsigned const rs1 = RS1_from(instruction);
       unsigned const rs2 = RS2_from(instruction);
-      int const B_imm12 = B_imm12_from(instruction);
+      signed const B_imm12 = B_imm12_from(instruction);
       unsigned const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case 0x0: // BEQ
