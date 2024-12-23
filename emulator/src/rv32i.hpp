@@ -528,14 +528,14 @@ public:
   static uint32_t constexpr OPCODE_LUI = 0b01101'11;
 
   static uint32_t constexpr OPCODE_LOGICAL_IMM = 0b00100'11;
-  static uint32_t constexpr FUNCT3_ADDI = 0;
-  static uint32_t constexpr FUNCT3_SLTI = 2;
-  static uint32_t constexpr FUNCT3_SLTIU = 3;
-  static uint32_t constexpr FUNCT3_XORI = 4;
-  static uint32_t constexpr FUNCT3_ORI = 6;
-  static uint32_t constexpr FUNCT3_ANDI = 7;
-  static uint32_t constexpr FUNCT3_SLLI = 1;
-  static uint32_t constexpr FUNCT3_SRLI_SRAI = 5;
+  static uint32_t constexpr FUNCT3_ADDI = 0b000;
+  static uint32_t constexpr FUNCT3_SLTI = 0b010;
+  static uint32_t constexpr FUNCT3_SLTIU = 0b011;
+  static uint32_t constexpr FUNCT3_XORI = 0b100;
+  static uint32_t constexpr FUNCT3_ORI = 0b110;
+  static uint32_t constexpr FUNCT3_ANDI = 0b111;
+  static uint32_t constexpr FUNCT3_SLLI = 0b001;
+  static uint32_t constexpr FUNCT3_SRLI_SRAI = 0b101;
   static uint32_t constexpr FUNCT7_SRLI = 0;
   static uint32_t constexpr FUNCT7_SRAI = 0x20;
 
@@ -543,27 +543,27 @@ public:
   static uint32_t constexpr FUNCT3_ADD_SUB = 0;
   static uint32_t constexpr FUNCT7_ADD = 0;
   static uint32_t constexpr FUNCT7_SUB = 0x20;
-  static uint32_t constexpr FUNCT3_SLL = 1;
-  static uint32_t constexpr FUNCT3_SLT = 2;
-  static uint32_t constexpr FUNCT3_SLTU = 3;
-  static uint32_t constexpr FUNCT3_XOR = 4;
-  static uint32_t constexpr FUNCT3_SRL_SRA = 5;
+  static uint32_t constexpr FUNCT3_SLL = 0b001;
+  static uint32_t constexpr FUNCT3_SLT = 0b010;
+  static uint32_t constexpr FUNCT3_SLTU = 0b011;
+  static uint32_t constexpr FUNCT3_XOR = 0b100;
+  static uint32_t constexpr FUNCT3_SRL_SRA = 0b101;
   static uint32_t constexpr FUNCT7_SRL = 0;
   static uint32_t constexpr FUNCT7_SRA = 0x20;
-  static uint32_t constexpr FUNCT3_OR = 6;
-  static uint32_t constexpr FUNCT3_AND = 7;
+  static uint32_t constexpr FUNCT3_OR = 0b110;
+  static uint32_t constexpr FUNCT3_AND = 0b111;
 
   static uint32_t constexpr OPCODE_STORE = 0b01000'11;
-  static uint32_t constexpr FUNCT3_SB = 0;
-  static uint32_t constexpr FUNCT3_SH = 1;
-  static uint32_t constexpr FUNCT3_SW = 2;
+  static uint32_t constexpr FUNCT3_SB = 0b000;
+  static uint32_t constexpr FUNCT3_SH = 0b001;
+  static uint32_t constexpr FUNCT3_SW = 0b010;
 
   static uint32_t constexpr OPCODE_LOAD = 0b00000'11;
-  static uint32_t constexpr FUNCT3_LB = 0;
-  static uint32_t constexpr FUNCT3_LH = 1;
-  static uint32_t constexpr FUNCT3_LW = 2;
-  static uint32_t constexpr FUNCT3_LBU = 4;
-  static uint32_t constexpr FUNCT3_LHU = 5;
+  static uint32_t constexpr FUNCT3_LB = 0b000;
+  static uint32_t constexpr FUNCT3_LH = 0b001;
+  static uint32_t constexpr FUNCT3_LW = 0b010;
+  static uint32_t constexpr FUNCT3_LBU = 0b100;
+  static uint32_t constexpr FUNCT3_LHU = 0b101;
 
   static uint32_t constexpr OPCODE_AUIPC = 0b00101'11;
 
@@ -572,12 +572,12 @@ public:
   static uint32_t constexpr OPCODE_JALR = 0b11001'11;
 
   static uint32_t constexpr OPCODE_BRANCH = 0b11000'11;
-  static uint32_t constexpr FUNCT3_BEQ = 0;
-  static uint32_t constexpr FUNCT3_BNE = 1;
-  static uint32_t constexpr FUNCT3_BLT = 4;
-  static uint32_t constexpr FUNCT3_BGE = 5;
-  static uint32_t constexpr FUNCT3_BLTU = 6;
-  static uint32_t constexpr FUNCT3_BGEU = 7;
+  static uint32_t constexpr FUNCT3_BEQ = 0b000;
+  static uint32_t constexpr FUNCT3_BNE = 0b001;
+  static uint32_t constexpr FUNCT3_BLT = 0b100;
+  static uint32_t constexpr FUNCT3_BGE = 0b101;
+  static uint32_t constexpr FUNCT3_BLTU = 0b110;
+  static uint32_t constexpr FUNCT3_BGEU = 0b111;
 };
 
 } // namespace rv32i
