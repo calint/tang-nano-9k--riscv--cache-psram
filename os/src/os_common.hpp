@@ -541,8 +541,8 @@ static auto input(command_buffer &cmd_buf) -> void {
 
   while (true) {
     char const ch = uart_read_char();
-    switch (state) {
 
+    switch (state) {
     case input_state::normal:
       if (ch == 0x1B) {
         state = input_state::escape;
@@ -584,11 +584,13 @@ static auto input(command_buffer &cmd_buf) -> void {
             uart_send_str("\x1B\x5B\x44");
           }
           break;
+
         case 'C': // arrow right
           if (cmd_buf.move_cursor_right()) {
             uart_send_str("\x1B\x5B\x43");
           }
           break;
+
         case '~':           // delete
           if (param == 3) { // delete key
             cmd_buf.del();
@@ -598,11 +600,13 @@ static auto input(command_buffer &cmd_buf) -> void {
             uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
           }
           break;
+
         default:
           break;
         }
+
         state = input_state::normal;
-        param = 0; // Reset parameter
+        param = 0;
       }
       break;
     }

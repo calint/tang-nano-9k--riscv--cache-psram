@@ -1313,6 +1313,7 @@ Disassembly of section .text:
 # 
 #   while (true) {
 #     char const ch = uart_read_char();
+# 
 #     switch (state) {
      d2c:	00100a13          	li	s4,1
      d30:	00200a93          	li	s5,2
@@ -1333,10 +1334,10 @@ Disassembly of section .text:
      d3c:	00002c37          	lui	s8,0x2
 #         switch (ch) {
      d40:	07e00c93          	li	s9,126
-#           if (cmd_buf.move_cursor_right()) {
 #             uart_send_str("\x1B\x5B\x43");
 #           }
 #           break;
+# 
 #         case '~':           // delete
 #           if (param == 3) { // delete key
      d44:	00300d13          	li	s10,3
@@ -1390,11 +1391,11 @@ Disassembly of section .text:
      db8:	00150513          	addi	a0,a0,1
 #         uart_send_move_back(cmd_buf.characters_after_cursor());
      dbc:	284000ef          	jal	1040 <_ZL19uart_send_move_backj>
-#           }
-#           break;
+# 
 #         default:
 #           break;
 #         }
+# 
 #         state = input_state::normal;
      dc0:	00000913          	li	s2,0
      dc4:	0fc0006f          	j	ec0 <_ZL5inputR14command_buffer+0x1dc>
@@ -1515,7 +1516,7 @@ Disassembly of section .text:
      efc:	05950663          	beq	a0,s9,f48 <_ZL5inputR14command_buffer+0x264>
      f00:	04300793          	li	a5,67
      f04:	02f50463          	beq	a0,a5,f2c <_ZL5inputR14command_buffer+0x248>
-#         param = 0; // Reset parameter
+#         param = 0;
      f08:	00000993          	li	s3,0
      f0c:	eb5ff06f          	j	dc0 <_ZL5inputR14command_buffer+0xdc>
 #     if (cursor_ == 0) {
