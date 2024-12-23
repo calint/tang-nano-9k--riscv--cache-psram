@@ -535,4 +535,5 @@ public:
     return 0;
   }
 };
+
 } // namespace rv32i
