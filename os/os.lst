@@ -1718,59 +1718,57 @@ Disassembly of section .text:
 # static auto action_mem_test() -> void {
     10b0:	00812423          	sw	s0,8(sp)
     10b4:	00112623          	sw	ra,12(sp)
-#   char *ptr = reinterpret_cast<char *>(__heap_start);
-    10b8:	00002437          	lui	s0,0x2
 #   uart_send_str("testing memory (write)\r\n");
-    10bc:	fa9ff0ef          	jal	1064 <_ZL13uart_send_strPKc>
-#   char *ptr = reinterpret_cast<char *>(__heap_start);
-    10c0:	c4844683          	lbu	a3,-952(s0) # 1c48 <__bss_end>
+    10b8:	fadff0ef          	jal	1064 <_ZL13uart_send_strPKc>
+#   char *ptr = &__heap_start;
+    10bc:	00002437          	lui	s0,0x2
 #   while (ptr < end) {
-    10c4:	00200737          	lui	a4,0x200
-    10c8:	bff70713          	addi	a4,a4,-1025 # 1ffbff <__bss_end+0x1fdfb7>
-#   char *ptr = reinterpret_cast<char *>(__heap_start);
-    10cc:	00068793          	mv	a5,a3
+    10c0:	00200737          	lui	a4,0x200
+#   char *ptr = &__heap_start;
+    10c4:	c4840793          	addi	a5,s0,-952 # 1c48 <__bss_end>
+#   char ch = 0;
+    10c8:	00000693          	li	a3,0
+    10cc:	c4840413          	addi	s0,s0,-952
 #   while (ptr < end) {
-    10d0:	40d785b3          	sub	a1,a5,a3
-#     *ptr++ = ch++;
-    10d4:	00078613          	mv	a2,a5
-    10d8:	00b60023          	sb	a1,0(a2)
-    10dc:	00178793          	addi	a5,a5,1
-#   while (ptr < end) {
-    10e0:	fef778e3          	bgeu	a4,a5,10d0 <_ZL15action_mem_testv+0x2c>
+    10d0:	bff70713          	addi	a4,a4,-1025 # 1ffbff <__bss_end+0x1fdfb7>
+    10d4:	02f77663          	bgeu	a4,a5,1100 <_ZL15action_mem_testv+0x5c>
 #   uart_send_str("testing memory (read)\r\n");
-    10e4:	00002537          	lui	a0,0x2
-    10e8:	80850513          	addi	a0,a0,-2040 # 1808 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x680>
-    10ec:	f79ff0ef          	jal	1064 <_ZL13uart_send_strPKc>
-#   ptr = reinterpret_cast<char *>(__heap_start);
-    10f0:	c4844603          	lbu	a2,-952(s0)
+    10d8:	00002537          	lui	a0,0x2
+    10dc:	80850513          	addi	a0,a0,-2040 # 1808 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x680>
+    10e0:	f85ff0ef          	jal	1064 <_ZL13uart_send_strPKc>
 #   while (ptr < end) {
-    10f4:	002006b7          	lui	a3,0x200
-    10f8:	bff68693          	addi	a3,a3,-1025 # 1ffbff <__bss_end+0x1fdfb7>
-#   ptr = reinterpret_cast<char *>(__heap_start);
-    10fc:	00060793          	mv	a5,a2
-#     if (*ptr++ != ch++) {
-    1100:	00078593          	mv	a1,a5
+    10e4:	002006b7          	lui	a3,0x200
+#   ptr = &__heap_start;
+    10e8:	00040793          	mv	a5,s0
+#   while (ptr < end) {
+    10ec:	bff68693          	addi	a3,a3,-1025 # 1ffbff <__bss_end+0x1fdfb7>
+    10f0:	02f6f263          	bgeu	a3,a5,1114 <_ZL15action_mem_testv+0x70>
+#   uart_send_str("testing memory succeeded\r\n");
+    10f4:	00002537          	lui	a0,0x2
+    10f8:	83c50513          	addi	a0,a0,-1988 # 183c <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x6b4>
+    10fc:	0380006f          	j	1134 <_ZL15action_mem_testv+0x90>
+#     *ptr++ = ch++;
+    1100:	00168613          	addi	a2,a3,1
     1104:	00178793          	addi	a5,a5,1
-    1108:	40c78733          	sub	a4,a5,a2
-    110c:	0005c583          	lbu	a1,0(a1)
-    1110:	fff70713          	addi	a4,a4,-1
-    1114:	0ff77713          	zext.b	a4,a4
-    1118:	00e58e63          	beq	a1,a4,1134 <_ZL15action_mem_testv+0x90>
+    1108:	fed78fa3          	sb	a3,-1(a5)
+    110c:	0ff67693          	zext.b	a3,a2
+    1110:	fc5ff06f          	j	10d4 <_ZL15action_mem_testv+0x30>
+#     if (*ptr++ != ch++) {
+    1114:	00178793          	addi	a5,a5,1
+    1118:	40878733          	sub	a4,a5,s0
+    111c:	fff7c603          	lbu	a2,-1(a5)
+    1120:	fff70713          	addi	a4,a4,-1
+    1124:	0ff77713          	zext.b	a4,a4
+    1128:	fce604e3          	beq	a2,a4,10f0 <_ZL15action_mem_testv+0x4c>
 #       uart_send_str("!!! test memory failed\r\n");
-    111c:	00002537          	lui	a0,0x2
-    1120:	82050513          	addi	a0,a0,-2016 # 1820 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x698>
+    112c:	00002537          	lui	a0,0x2
+    1130:	82050513          	addi	a0,a0,-2016 # 1820 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x698>
 # }
-    1124:	00812403          	lw	s0,8(sp)
-    1128:	00c12083          	lw	ra,12(sp)
-    112c:	01010113          	addi	sp,sp,16
+    1134:	00812403          	lw	s0,8(sp)
+    1138:	00c12083          	lw	ra,12(sp)
+    113c:	01010113          	addi	sp,sp,16
 #   uart_send_str("testing memory succeeded\r\n");
-    1130:	f35ff06f          	j	1064 <_ZL13uart_send_strPKc>
-#   while (ptr < end) {
-    1134:	fcf6f6e3          	bgeu	a3,a5,1100 <_ZL15action_mem_testv+0x5c>
-#   uart_send_str("testing memory succeeded\r\n");
-    1138:	00002537          	lui	a0,0x2
-    113c:	83c50513          	addi	a0,a0,-1988 # 183c <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x6b4>
-    1140:	fe5ff06f          	j	1124 <_ZL15action_mem_testv+0x80>
+    1140:	f25ff06f          	j	1064 <_ZL13uart_send_strPKc>
 
 00001144 <memset>:
 #   while (n--) {
