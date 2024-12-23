@@ -10,7 +10,7 @@ enum class bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
 using bus = unsigned (*)(unsigned address, bus_op_width width, bool is_store,
                          unsigned &data);
 
-class core {
+class cpu {
   static auto constexpr RS1_from(unsigned const instruction) -> unsigned {
     return (instruction >> 15) & 0x1F;
   }
@@ -76,7 +76,7 @@ class core {
   bus bus_{};
 
 public:
-  core(bus const bus_callback, unsigned const initial_pc = 0)
+  cpu(bus const bus_callback, unsigned const initial_pc = 0)
       : pc_{initial_pc}, bus_{bus_callback} {}
 
   auto tick() -> unsigned {

@@ -110,7 +110,7 @@ auto main(int argc, char **argv) -> int {
 
   file.close();
 
-  rv32i::core cpu{bus};
+  rv32i::cpu cpu{bus};
 
   while (true) {
     if (const unsigned err = cpu.tick()) {
