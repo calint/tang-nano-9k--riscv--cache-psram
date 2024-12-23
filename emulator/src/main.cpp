@@ -4,8 +4,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <vector>
-// #define RISCV_DEBUG
-#include "riscv.hpp"
+// #define RV32I_DEBUG
+#include "rv32i.hpp"
 
 unsigned constexpr LED = 0xffffffff;
 unsigned constexpr UART_OUT = 0xfffffffe;
@@ -15,7 +15,7 @@ static std::vector<int8_t> ram(2 * 1024 * 1024, -1);
 
 static struct termios saved_termio;
 
-auto bus(unsigned const address, bus_op_width const op_width,
+auto bus(unsigned const address, rv32i_bus_op_width const op_width,
          bool const is_store, unsigned &data) -> unsigned {
 
   unsigned const width = static_cast<unsigned>(op_width);
