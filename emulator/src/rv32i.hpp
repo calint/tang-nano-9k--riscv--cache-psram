@@ -206,7 +206,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("addi %i,%i\n", rs1, I_imm12);
 #endif
-        regs_[rd] = (int)regs_[rs1] + I_imm12;
+        regs_[rd] = signed(regs_[rs1]) + I_imm12;
         break;
       }
       case 0x2: // SLTI
@@ -214,7 +214,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("slti %i,%i\n", rs1, I_imm12);
 #endif
-        regs_[rd] = (int)regs_[rs1] < I_imm12 ? 1 : 0;
+        regs_[rd] = signed(regs_[rs1]) < I_imm12 ? 1 : 0;
         break;
       }
       case 0x3: // SLTIU
@@ -277,7 +277,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("srai %i,%i\n", rs1, rs2);
 #endif
-          regs_[rd] = (int)regs_[rs1] >> rs2;
+          regs_[rd] = signed(regs_[rs1]) >> rs2;
           break;
         }
         default:
@@ -336,7 +336,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("slt %i,%i\n", rs1, rs2);
 #endif
-        regs_[rd] = (int)regs_[rs1] < (int)regs_[rs2] ? 1 : 0;
+        regs_[rd] = signed(regs_[rs1]) < signed(regs_[rs2]) ? 1 : 0;
         break;
       }
       case 0x3: // SLTU
@@ -372,7 +372,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("sra %i,%i\n", rs1, rs2);
 #endif
-          regs_[rd] = (int)regs_[rs1] >> (regs_[rs2] & 0x1f);
+          regs_[rd] = signed(regs_[rs1]) >> (regs_[rs2] & 0x1f);
           break;
         }
         default:
@@ -485,7 +485,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("blt %i,%i\n", rs1, rs2);
 #endif
-        if ((int)regs_[rs1] < (int)regs_[rs2]) {
+        if (signed(regs_[rs1]) < signed(regs_[rs2])) {
           pc_ += B_imm12 - 4;
           // note: pc_ is incremented by 4 after the instruction
         }
@@ -496,7 +496,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("bge %i,%i\n", rs1, rs2);
 #endif
-        if ((int)regs_[rs1] >= (int)regs_[rs2]) {
+        if (signed(regs_[rs1]) >= signed(regs_[rs2])) {
           pc_ += B_imm12 - 4;
           // note: pc is incremented by 4 after the instruction
         }
@@ -505,7 +505,7 @@ public:
       case 0x6: // BLTU
       {
 #ifdef RV32I_DEBUG
-        printf("bltu %i,%i,%i\n", rs1, rs2, (int)B_imm12);
+        printf("bltu %i,%i,%i\n", rs1, rs2, B_imm12);
 #endif
         if (regs_[rs1] < regs_[rs2]) {
           pc_ += B_imm12 - 4;
