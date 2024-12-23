@@ -40,7 +40,7 @@ auto bus(unsigned const address, rv32i::bus_op_width const op_width,
       // do nothing when writing to address LED
     } else {
       for (unsigned i = 0; i < width; ++i) {
-        ram[address + i] = (data >> (i * 8)) & 0xFF;
+        ram[address + i] = char(data >> (i * 8));
       }
     }
   } else {
