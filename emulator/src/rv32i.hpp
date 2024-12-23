@@ -9,8 +9,8 @@ enum class bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
 
 using bus_status = unsigned;
 
-using bus = bus_status (*)(unsigned address, bus_op_width width, bool is_store,
-                           unsigned &data);
+using bus = auto (*)(unsigned address, bus_op_width width, bool is_store,
+                     unsigned &data) -> bus_status;
 
 using cpu_status = unsigned;
 
