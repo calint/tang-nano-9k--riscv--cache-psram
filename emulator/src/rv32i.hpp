@@ -93,7 +93,7 @@ public:
       unsigned const RS1 = RS1_from(instruction);
       unsigned const RD = RD_from(instruction);
       int const I_IMM = I_imm12_from(instruction);
-      unsigned addr = regs[RS1] + I_IMM;
+      unsigned const addr = regs[RS1] + I_IMM;
       unsigned const FUNCT3 = FUNCT3_from(instruction);
       switch (FUNCT3) {
       case 0x0: // LB
@@ -157,7 +157,7 @@ public:
       unsigned const RS1 = RS1_from(instruction);
       unsigned const RS2 = RS2_from(instruction);
       int const S_IMM = S_imm12_from(instruction);
-      unsigned addr = regs[RS1] + S_IMM;
+      unsigned const addr = regs[RS1] + S_IMM;
       unsigned const FUNCT3 = FUNCT3_from(instruction);
       switch (FUNCT3) {
       case 0x0: // SB
