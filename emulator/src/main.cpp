@@ -113,9 +113,9 @@ auto main(int argc, char **argv) -> int {
   rv32i::cpu cpu{bus};
 
   while (true) {
-    if (rv32i::cpu_status const error = cpu.tick()) {
-      std::cout << "CPU error: " << error << std::endl;
-      return error;
+    if (rv32i::cpu_status const status = cpu.tick()) {
+      std::cout << "CPU error: " << status << std::endl;
+      return status;
     }
   }
 
