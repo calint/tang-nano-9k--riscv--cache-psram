@@ -70,4 +70,4 @@ $OBJDUMP -s --section=.rodata --section=.srodata --section=.data --section=.sdat
 
 #rm $BIN
 
-ls -l $BIN.bin $BIN.lst $BIN.dat
+ls --color -l $BIN.bin $BIN.lst $BIN.dat

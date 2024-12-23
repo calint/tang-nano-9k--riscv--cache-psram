@@ -65,7 +65,7 @@ static auto uart_read_char() -> char {
 static auto action_mem_test() -> void {
   uart_send_str("testing memory (write)\r\n");
   char *ptr = &__heap_start;
-  char const *end = reinterpret_cast<char *>(MEMORY_TOP - 1024);
+  char const *const end = reinterpret_cast<char *>(MEMORY_TOP - 1024);
   // -1024 to avoid the stack
   // ?? don't forget about this when the application grows
   char ch = 0;
