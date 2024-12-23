@@ -466,7 +466,7 @@ public:
   }
 
   static auto constexpr OPCODE_from(uint32_t const instruction) -> uint32_t {
-    return instruction & 0x7F;
+    return instruction & 0x7f;
   }
 
   static auto constexpr FUNCT3_from(uint32_t const instruction) -> uint32_t {
@@ -474,19 +474,19 @@ public:
   }
 
   static auto constexpr FUNCT7_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 25) & 0x7F;
+    return (instruction >> 25) & 0x7f;
   }
 
   static auto constexpr RS1_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 15) & 0x1F;
+    return (instruction >> 15) & 0x1f;
   }
 
   static auto constexpr RS2_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 20) & 0x1F;
+    return (instruction >> 20) & 0x1f;
   }
 
   static auto constexpr RD_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 7) & 0x1F;
+    return (instruction >> 7) & 0x1f;
   }
 
   static auto constexpr U_imm20_from(uint32_t const instruction) -> uint32_t {
@@ -496,7 +496,7 @@ public:
   static auto constexpr I_imm12_from(uint32_t const instruction) -> int32_t {
     uint32_t const bits = extract_bits(instruction, 20, 31, 0);
     if (instruction & 0x8000'0000) {
-      return 0xFFFF'F000 | bits;
+      return 0xffff'f000 | bits;
     } else {
       return bits;
     }
@@ -506,7 +506,7 @@ public:
     uint32_t const bits = extract_bits(instruction, 7, 11, 0) |
                           extract_bits(instruction, 25, 31, 5);
     if (instruction & 0x8000'0000) {
-      return 0xFFFF'F000 | bits;
+      return 0xffff'f000 | bits;
     } else {
       return bits;
     }
@@ -518,7 +518,7 @@ public:
                           extract_bits(instruction, 7, 7, 11) |
                           extract_bits(instruction, 31, 31, 12);
     if (instruction & 0x8000'0000) {
-      return 0xFFFF'F000 | bits;
+      return 0xffff'e000 | bits;
     } else {
       return bits;
     }
@@ -530,7 +530,7 @@ public:
                           extract_bits(instruction, 12, 19, 12) |
                           extract_bits(instruction, 31, 31, 20);
     if (instruction & 0x8000'0000) {
-      return 0xFFF0'0000 | bits;
+      return 0xffe0'0000 | bits;
     } else {
       return bits;
     }
