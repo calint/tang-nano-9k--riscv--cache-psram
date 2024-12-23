@@ -17,66 +17,6 @@ using cpu_status = uint32_t;
 
 class cpu final {
 
-  static auto constexpr OPCODE_from(uint32_t const instruction) -> uint32_t {
-    return instruction & 0x7F;
-  }
-
-  static auto constexpr FUNCT3_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 12) & 0x7;
-  }
-
-  static auto constexpr FUNCT7_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 25) & 0x7F;
-  }
-
-  static auto constexpr RS1_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 15) & 0x1F;
-  }
-
-  static auto constexpr RS2_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 20) & 0x1F;
-  }
-
-  static auto constexpr RD_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 7) & 0x1F;
-  }
-
-  static auto constexpr U_imm20_from(uint32_t const instruction) -> uint32_t {
-    return instruction & 0xFFFFF000;
-  }
-
-  static auto constexpr I_imm12_from(uint32_t const instruction) -> int32_t {
-    return (instruction & 0x80000000) ? 0xFFFFF000 | instruction >> 20
-                                      : instruction >> 20;
-  }
-
-  static auto constexpr S_imm12_from(uint32_t const instruction) -> int32_t {
-    return (instruction & 0x80000000)
-               ? 0xFFFFF000 | ((instruction >> 7) & 0x1F) |
-                     ((instruction >> 20) & 0xFE0)
-               : ((instruction >> 7) & 0x1F) | ((instruction >> 20) & 0xFE0);
-  }
-
-  static auto constexpr B_imm12_from(uint32_t const instruction) -> int32_t {
-    return (instruction & 0x80000000)
-               ? 0xFFFFE000 | ((instruction << 4) & 0x800) |
-                     ((instruction >> 7) & 0x1E) |
-                     ((instruction >> 20) & 0x7E0) |
-                     ((instruction >> 19) & 0x1000)
-               : ((instruction << 4) & 0x800) | ((instruction >> 7) & 0x1E) |
-                     ((instruction >> 20) & 0x7E0) |
-                     ((instruction >> 19) & 0x1000);
-  }
-
-  static auto constexpr J_imm20_from(uint32_t const instruction) -> int32_t {
-    return (instruction & 0x80000000)
-               ? 0xFFE00000 | ((instruction >> 20) & 0x7FE) |
-                     ((instruction >> 9) & 0x800) | (instruction & 0xFF000) |
-                     ((instruction >> 11) & 0x100000)
-               : ((instruction >> 20) & 0x7FE) | ((instruction >> 9) & 0x800) |
-                     (instruction & 0xFF000) | ((instruction >> 11) & 0x100000);
-  }
-
   bus bus_{};
   uint32_t pc_{};
   uint32_t regs_[32]{};
@@ -108,8 +48,8 @@ public:
       regs_[rd] = U_imm20;
       break;
     }
-    //----------------------------------------------------------------
-    case 0x13: // logical ops immediate
+    //-----------------------------------------------------------------------
+    case 0x13: //                                       logical ops immediate
     {
       uint32_t const rs1 = RS1_from(instruction);
       uint32_t const rd = RD_from(instruction);
@@ -204,8 +144,8 @@ public:
       }
       break;
     }
-    //----------------------------------------------------------------
-    case 0x33: // logical ops
+    //-----------------------------------------------------------------------
+    case 0x33: //                                                 logical ops
     {
       uint32_t const rs1 = RS1_from(instruction);
       uint32_t const rs2 = RS2_from(instruction);
@@ -315,8 +255,8 @@ public:
       }
       break;
     }
-    //----------------------------------------------------------------
-    case 0x23: // store
+    //-----------------------------------------------------------------------
+    case 0x23: //                                                       store
     {
       using enum bus_op_width;
       uint32_t const rs1 = RS1_from(instruction);
@@ -362,8 +302,8 @@ public:
       }
       break;
     }
-    //----------------------------------------------------------------
-    case 0x3: // load
+    //-----------------------------------------------------------------------
+    case 0x3: //                                                         load
     {
       using enum bus_op_width;
       uint32_t const rs1 = RS1_from(instruction);
@@ -437,8 +377,8 @@ public:
       }
       break;
     }
-    //----------------------------------------------------------------
-    case 0x17: // AUIPC
+    //-----------------------------------------------------------------------
+    case 0x17: //                                                       AUIPC
     {
       uint32_t const rd = RD_from(instruction);
       uint32_t const U_imm20 = U_imm20_from(instruction);
@@ -448,8 +388,8 @@ public:
       regs_[rd] = pc_ + U_imm20;
       break;
     }
-    //----------------------------------------------------------------
-    case 0x6F: // JAL
+    //-----------------------------------------------------------------------
+    case 0x6F: //                                                         JAL
     {
       uint32_t const rd = RD_from(instruction);
       int32_t const J_imm20 = J_imm20_from(instruction);
@@ -461,8 +401,8 @@ public:
       // note: pc_ is incremented by 4 after the instruction
       break;
     }
-    //----------------------------------------------------------------
-    case 0x67: // JALR
+    //-----------------------------------------------------------------------
+    case 0x67: //                                                        JALR
     {
       uint32_t const rs1 = RS1_from(instruction);
       uint32_t const rd = RD_from(instruction);
@@ -475,8 +415,8 @@ public:
       // note: pc_ is incremented by 4 after the instruction
       break;
     }
-    //----------------------------------------------------------------
-    case 0x63: // branches
+    //-----------------------------------------------------------------------
+    case 0x63: //                                                    branches
     {
       uint32_t const rs1 = RS1_from(instruction);
       uint32_t const rs2 = RS2_from(instruction);
@@ -552,13 +492,73 @@ public:
       }
       break;
     }
-    //----------------------------------------------------------------
+    //-----------------------------------------------------------------------
     default:
       return 0x18;
     }
 
     pc_ += 4;
     return 0;
+  }
+
+  static auto constexpr OPCODE_from(uint32_t const instruction) -> uint32_t {
+    return instruction & 0x7F;
+  }
+
+  static auto constexpr FUNCT3_from(uint32_t const instruction) -> uint32_t {
+    return (instruction >> 12) & 0x7;
+  }
+
+  static auto constexpr FUNCT7_from(uint32_t const instruction) -> uint32_t {
+    return (instruction >> 25) & 0x7F;
+  }
+
+  static auto constexpr RS1_from(uint32_t const instruction) -> uint32_t {
+    return (instruction >> 15) & 0x1F;
+  }
+
+  static auto constexpr RS2_from(uint32_t const instruction) -> uint32_t {
+    return (instruction >> 20) & 0x1F;
+  }
+
+  static auto constexpr RD_from(uint32_t const instruction) -> uint32_t {
+    return (instruction >> 7) & 0x1F;
+  }
+
+  static auto constexpr U_imm20_from(uint32_t const instruction) -> uint32_t {
+    return instruction & 0xFFFFF000;
+  }
+
+  static auto constexpr I_imm12_from(uint32_t const instruction) -> int32_t {
+    return (instruction & 0x80000000) ? 0xFFFFF000 | instruction >> 20
+                                      : instruction >> 20;
+  }
+
+  static auto constexpr S_imm12_from(uint32_t const instruction) -> int32_t {
+    return (instruction & 0x80000000)
+               ? 0xFFFFF000 | ((instruction >> 7) & 0x1F) |
+                     ((instruction >> 20) & 0xFE0)
+               : ((instruction >> 7) & 0x1F) | ((instruction >> 20) & 0xFE0);
+  }
+
+  static auto constexpr B_imm12_from(uint32_t const instruction) -> int32_t {
+    return (instruction & 0x80000000)
+               ? 0xFFFFE000 | ((instruction << 4) & 0x800) |
+                     ((instruction >> 7) & 0x1E) |
+                     ((instruction >> 20) & 0x7E0) |
+                     ((instruction >> 19) & 0x1000)
+               : ((instruction << 4) & 0x800) | ((instruction >> 7) & 0x1E) |
+                     ((instruction >> 20) & 0x7E0) |
+                     ((instruction >> 19) & 0x1000);
+  }
+
+  static auto constexpr J_imm20_from(uint32_t const instruction) -> int32_t {
+    return (instruction & 0x80000000)
+               ? 0xFFE00000 | ((instruction >> 20) & 0x7FE) |
+                     ((instruction >> 9) & 0x800) | (instruction & 0xFF000) |
+                     ((instruction >> 11) & 0x100000)
+               : ((instruction >> 20) & 0x7FE) | ((instruction >> 9) & 0x800) |
+                     (instruction & 0xFF000) | ((instruction >> 11) & 0x100000);
   }
 };
 
