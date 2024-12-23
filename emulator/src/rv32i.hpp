@@ -71,13 +71,13 @@ class cpu {
                      (instruction & 0xFF000) | ((instruction >> 11) & 0x100000);
   }
 
-  unsigned regs_[32]{};
-  unsigned pc_{};
   bus bus_{};
+  unsigned pc_{};
+  unsigned regs_[32]{};
 
 public:
   cpu(bus const bus_callback, unsigned const initial_pc = 0)
-      : pc_{initial_pc}, bus_{bus_callback} {}
+      : bus_{bus_callback}, pc_{initial_pc} {}
 
   auto tick() -> unsigned {
     regs_[0] = 0;
