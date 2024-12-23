@@ -532,20 +532,20 @@ static auto input_escape_sequence_clear() -> void {
   }
 }
 
-enum class input_state { normal, escape, escape_bracket };
+enum class input_state { NORMAL, ESCAPE, ESCAPE_BRACKET };
 
 static auto input(command_buffer &cmd_buf) -> void {
   cmd_buf.reset();
-  input_state state = input_state::normal;
+  input_state state = input_state::NORMAL;
   int escape_sequence_parameter = 0;
 
   while (true) {
     char const ch = uart_read_char();
 
     switch (state) {
-    case input_state::normal:
+    case input_state::NORMAL:
       if (ch == 0x1B) {
-        state = input_state::escape;
+        state = input_state::ESCAPE;
       } else if (ch == CHAR_BACKSPACE) {
         if (cmd_buf.backspace()) {
           uart_send_char(ch);
@@ -566,15 +566,15 @@ static auto input(command_buffer &cmd_buf) -> void {
       }
       break;
 
-    case input_state::escape:
+    case input_state::ESCAPE:
       if (ch == 0x5B) {
-        state = input_state::escape_bracket;
+        state = input_state::ESCAPE_BRACKET;
       } else {
-        state = input_state::normal;
+        state = input_state::NORMAL;
       }
       break;
 
-    case input_state::escape_bracket:
+    case input_state::ESCAPE_BRACKET:
       if (ch >= '0' && ch <= '9') {
         escape_sequence_parameter = escape_sequence_parameter * 10 + (ch - '0');
       } else {
@@ -606,7 +606,7 @@ static auto input(command_buffer &cmd_buf) -> void {
           break;
         }
 
-        state = input_state::normal;
+        state = input_state::NORMAL;
         escape_sequence_parameter = 0;
       }
       break;

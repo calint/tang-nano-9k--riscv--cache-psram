@@ -1284,7 +1284,7 @@ Disassembly of section .text:
 
 00000ce4 <_ZL5inputR14command_buffer>:
 # 
-# enum class input_state { normal, escape, escape_bracket };
+# enum class input_state { NORMAL, ESCAPE, ESCAPE_BRACKET };
 # 
 # static auto input(command_buffer &cmd_buf) -> void {
      ce4:	fd010113          	addi	sp,sp,-48
@@ -1305,10 +1305,10 @@ Disassembly of section .text:
      d1c:	040508a3          	sb	zero,81(a0)
      d20:	04050823          	sb	zero,80(a0)
 #   cmd_buf.reset();
-#   input_state state = input_state::normal;
+#   input_state state = input_state::NORMAL;
 #   int escape_sequence_parameter = 0;
      d24:	00000993          	li	s3,0
-#   input_state state = input_state::normal;
+#   input_state state = input_state::NORMAL;
      d28:	00000913          	li	s2,0
 # 
 #   while (true) {
@@ -1317,11 +1317,11 @@ Disassembly of section .text:
 #     switch (state) {
      d2c:	00100a13          	li	s4,1
      d30:	00200a93          	li	s5,2
-#         state = input_state::normal;
+#         state = input_state::NORMAL;
 #       }
 #       break;
 # 
-#     case input_state::escape_bracket:
+#     case input_state::ESCAPE_BRACKET:
 #       if (ch >= '0' && ch <= '9') {
      d34:	00900b13          	li	s6,9
 #         escape_sequence_parameter = escape_sequence_parameter * 10 + (ch - '0');
@@ -1396,7 +1396,7 @@ Disassembly of section .text:
 #           break;
 #         }
 # 
-#         state = input_state::normal;
+#         state = input_state::NORMAL;
      dc0:	00000913          	li	s2,0
      dc4:	0fc0006f          	j	ec0 <_ZL5inputR14command_buffer+0x1dc>
 #       line_[i] = line_[i + 1];
@@ -1574,7 +1574,7 @@ Disassembly of section .text:
      f98:	fed78fa3          	sb	a3,-1(a5)
 #     for (size_t i = cursor_ + 1; i < end_; ++i) {
      f9c:	fbdff06f          	j	f58 <_ZL5inputR14command_buffer+0x274>
-#         state = input_state::escape;
+#         state = input_state::ESCAPE;
      fa0:	00100913          	li	s2,1
      fa4:	f1dff06f          	j	ec0 <_ZL5inputR14command_buffer+0x1dc>
 
