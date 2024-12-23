@@ -253,14 +253,13 @@ public:
       case 0x1: // SLLI
       {
         unsigned const RS2 = RS2_from(instruction);
-
 #ifdef RV32I_DEBUG
         printf("slli %i,%i\n", rs1, RS2);
 #endif
         regs_[rd] = regs_[rs1] << RS2;
         break;
       }
-      case 0x5: // SRLI/SRAI
+      case 0x5: // SRLI / SRAI
       {
         unsigned const rs2 = RS2_from(instruction);
         unsigned const funct7 = FUNCT7_from(instruction);
@@ -308,7 +307,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("add %i,%i\n", rs1, rs2);
 #endif
-          regs_[rd] = regs_[rs1] + regs_[rs2];
+          regs_[rd] = signed(regs_[rs1]) + signed(regs_[rs2]);
           break;
         }
         case 0x20: // SUB
@@ -316,7 +315,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("sub %i,%i\n", rs1, rs2);
 #endif
-          regs_[rd] = regs_[rs1] - regs_[rs2];
+          regs_[rd] = signed(regs_[rs1]) - signed(regs_[rs2]);
           break;
         }
         default:
