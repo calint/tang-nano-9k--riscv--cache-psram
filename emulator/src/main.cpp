@@ -87,7 +87,7 @@ auto main(int argc, char **argv) -> int {
   newt.c_lflag &= ~(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
-  atexit([]() -> void { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termio); });
+  atexit([]() { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termio); });
 
   std::ifstream file{argv[1], std::ios::binary | std::ios::ate};
   if (!file) {
