@@ -536,7 +536,6 @@ public:
     }
   }
 
-  // util
   static constexpr uint32_t extract_bits(uint32_t const instruction,
                                          uint32_t const from_bit_num,
                                          uint32_t const through_bit_num,
