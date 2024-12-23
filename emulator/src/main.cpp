@@ -114,7 +114,7 @@ auto main(int argc, char **argv) -> int {
 
   while (true) {
     if (unsigned const error = cpu.tick()) {
-      std::cout << "Error: " << error << std::endl;
+      std::cout << "CPU error: " << error << std::endl;
       return error;
     }
   }
