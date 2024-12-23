@@ -1,0 +1,154 @@
+                                  oOo.o.
+         frameless osca          oOo.oOo
+      __________________________  .oOo.
+     O\        -_   .. \    ___ \   ||
+    O  \                \   \ \\ \ //\\
+   o   /\    risc-v      \   \|\\ \
+  .   //\\    fpga        \   ||   \
+   .  \\/\\    overview    \  \_\   \
+    .  \\//\________________\________\
+     .  \/_/, \\\--\\..\\ - /\_____  /
+      .  \ \ . \\\__\\__\\./ / \__/ /
+       .  \ \ , \    \\ ///./ ,/./ /
+        .  \ \___\ sticky notes / /
+         .  \/\________________/ /
+    ./\.  . / /                 /
+    /--\   .\/_________________/
+         ___.                 .
+        |o o|. . . . . . . . .
+        /| |\ . .
+    ____       . .
+   |O  O|       . .
+   |_ -_|        . .
+    /||\
+      ___
+     /- -\
+    /\_-_/\
+      | |
+
+welcome to adventure #4
+    type 'help'
+
+u r in roome
+u c: nothing
+exits: north, east, west
+me > i
+u have: mirror
+
+u r in office
+u c: notebook, lighter
+exits: south
+u > t notebook
+u r in roome
+u c: nothing
+exits: north, east, west
+me > n
+u r in office
+u c: lighter
+me is here
+exits: south
+u > t lighter
+u r in office
+u c: nothing
+u is here
+exits: south
+me > g mirror u
+u r in office
+u c: nothing
+me is here
+exits: south
+u > i
+u have: notebook, lighter, mirror
+
+u r in office
+u c: nothing
+u is here
+exits: south
+me > i
+u have: nothing
+
+u r in office
+u c: nothing
+me is here
+exits: south
+u > d lighter
+u r in office
+u c: lighter
+u is here
+exits: south
+me > t lighter
+u r in office
+u c: nothing
+me is here
+exits: south
+u > i
+u have: notebook, mirror
+
+u r in office
+u c: nothing
+u is here
+exits: south
+me > i
+u have: lighter
+
+u r in office
+u c: nothing
+me is here
+exits: south
+u > d notebook  k
+u r in office
+u c: notebook
+u is here
+exits: south
+me > i
+u have: lighter
+
+u r in office
+u c: notebook
+me is here
+exits: south
+u > t notebok[Dok
+u r in office
+u c: nothing
+u is here
+exits: south
+me > i
+u have: lighter
+
+u r in office
+u c: nothing
+me is here
+exits: south
+u > d noteboook[D[Dk 
+u r in office
+u c: notebook
+u is here
+exits: south
+me > i  i
+u have: lighter
+
+u r in office
+u c: notebook
+me is here
+exits: south
+u > i[D i
+u have: mirror
+
+u r in office
+u c: notebook
+u is here
+exits: south
+me > t o[Dno[Ctebook
+u r in office
+u c: nothing
+me is here
+exits: south
+u > m
+testing memory (write)
+testing memory (read)
+testing memory succeeded
+u r in office
+u c: nothing
+u is here
+exits: south
+me > 

@@ -8,5 +8,4 @@ Emulates the FPGA program.
 `./osqa ../os/os.bin` to run the FPGA compiled binary.
 
 # note
-* intended to be run in Visual Code for special characters to work
 * `src/riscv.h` is from https://github.com/alexriegler12/riscv with some minor adaptation
