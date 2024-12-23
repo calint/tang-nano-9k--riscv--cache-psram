@@ -7,8 +7,12 @@ namespace rv32i {
 
 enum class bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
 
-using bus = unsigned (*)(unsigned address, bus_op_width width, bool is_store,
-                         unsigned &data);
+using bus_status = unsigned;
+
+using bus = bus_status (*)(unsigned address, bus_op_width width, bool is_store,
+                           unsigned &data);
+
+using cpu_status = unsigned;
 
 class cpu final {
 
@@ -80,11 +84,12 @@ public:
   cpu(bus const bus_callback, unsigned const initial_pc = 0)
       : bus_{bus_callback}, pc_{initial_pc} {}
 
-  auto tick() -> unsigned {
+  auto tick() -> cpu_status {
     regs_[0] = 0;
     unsigned instruction = 0;
-    if (unsigned error = bus_(pc_, bus_op_width::WORD, false, instruction)) {
-      return error;
+    if (rv32i::bus_status status =
+            bus_(pc_, bus_op_width::WORD, false, instruction)) {
+      return status;
     }
 #ifdef RV32I_DEBUG
     printf("pc 0x%08x instr 0x%08x ", pc, instruction);
@@ -325,7 +330,9 @@ public:
         printf("sb %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
         unsigned value = regs_[rs2] & 0xFF;
-        bus_(address, BYTE, true, value);
+        if (bus_status status = bus_(address, BYTE, true, value)) {
+          return 0x1000 + status;
+        }
         break;
       }
       case 0x1: // SH
@@ -334,7 +341,9 @@ public:
         printf("sh %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
         unsigned value = regs_[rs2] & 0xFFFF;
-        bus_(address, HALF_WORD, true, value);
+        if (bus_status status = bus_(address, HALF_WORD, true, value)) {
+          return 0x1000 + status;
+        }
         break;
       }
       case 0x2: // SW
@@ -342,7 +351,9 @@ public:
 #ifdef RV32I_DEBUG
         printf("sw %i,%i,0x%x\n", rs1, rs2, S_imm12);
 #endif
-        bus_(address, WORD, true, regs_[rs2]);
+        if (bus_status status = bus_(address, WORD, true, regs_[rs2])) {
+          return 0x1000 + status;
+        }
         break;
       }
       default:
@@ -366,7 +377,9 @@ public:
         printf("lb %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus_(address, BYTE, false, loaded);
+        if (bus_status status = bus_(address, BYTE, false, loaded)) {
+          return 0x1000 + status;
+        }
         regs_[rd] = loaded & 0x80 ? 0xFFFFFF00 | loaded : loaded;
         break;
       }
@@ -376,7 +389,9 @@ public:
         printf("lh %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus_(address, HALF_WORD, false, loaded);
+        if (bus_status status = bus_(address, HALF_WORD, false, loaded)) {
+          return 0x1000 + status;
+        }
         regs_[rd] = loaded & 0x8000 ? 0xFFFF0000 | loaded : loaded;
         break;
       }
@@ -386,7 +401,9 @@ public:
         printf("lw %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus_(address, WORD, false, loaded);
+        if (bus_status status = bus_(address, WORD, false, loaded)) {
+          return 0x1000 + status;
+        }
         regs_[rd] = loaded;
         break;
       }
@@ -396,7 +413,9 @@ public:
         printf("lbu %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus_(address, BYTE, false, loaded);
+        if (bus_status status = bus_(address, BYTE, false, loaded)) {
+          return 0x1000 + status;
+        }
         regs_[rd] = loaded;
         break;
       }
@@ -406,7 +425,9 @@ public:
         printf("lhu %i,%i,0x%x\n", rs1, rd, I_imm12);
 #endif
         unsigned loaded = 0;
-        bus_(address, HALF_WORD, false, loaded);
+        if (bus_status status = bus_(address, HALF_WORD, false, loaded)) {
+          return 0x1000 + status;
+        }
         regs_[rd] = loaded;
         break;
       }

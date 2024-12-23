@@ -16,7 +16,7 @@ static std::vector<int8_t> ram(2 * 1024 * 1024, -1);
 static struct termios saved_termios;
 
 auto bus(unsigned const address, rv32i::bus_op_width const op_width,
-         bool const is_store, unsigned &data) -> unsigned {
+         bool const is_store, unsigned &data) -> rv32i::bus_status {
 
   unsigned const width = static_cast<unsigned>(op_width);
   if (address + width > ram.size() && address != UART_OUT &&
@@ -113,7 +113,7 @@ auto main(int argc, char **argv) -> int {
   rv32i::cpu cpu{bus};
 
   while (true) {
-    if (unsigned const error = cpu.tick()) {
+    if (rv32i::cpu_status const error = cpu.tick()) {
       std::cout << "CPU error: " << error << std::endl;
       return error;
     }
