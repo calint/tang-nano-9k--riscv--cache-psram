@@ -50,12 +50,12 @@ public:
 
   auto tick() -> unsigned {
     using enum bus_op_width;
+
     regs[0] = 0x0;
     unsigned instruction = 0;
-    unsigned errorcode = bus(pc, WORD, 0, &instruction);
-    if (errorcode != 0) {
-      pc += 4;
-      return errorcode;
+    unsigned error = bus(pc, WORD, 0, &instruction);
+    if (error) {
+      return error;
     }
 #ifdef RISCV_DEBUG
     printf("pc 0x%08x instr 0x%08x ", pc, instruction);
