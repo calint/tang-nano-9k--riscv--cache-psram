@@ -557,6 +557,7 @@ public:
   static uint32_t constexpr FUNCT3_SB = 0;
   static uint32_t constexpr FUNCT3_SH = 1;
   static uint32_t constexpr FUNCT3_SW = 2;
+
   static uint32_t constexpr OPCODE_LOAD = 3;
   static uint32_t constexpr FUNCT3_LB = 0;
   static uint32_t constexpr FUNCT3_LH = 1;
