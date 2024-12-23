@@ -53,8 +53,7 @@ public:
 
     regs[0] = 0x0;
     unsigned instruction = 0;
-    unsigned error = bus(pc, WORD, 0, &instruction);
-    if (error) {
+    if (unsigned error = bus(pc, WORD, 0, &instruction)) {
       return error;
     }
 #ifdef RISCV_DEBUG
