@@ -13,8 +13,6 @@ using bus_status = uint32_t;
 using bus = auto (*)(uint32_t address, bus_op_width op_width, bool is_store,
                      uint32_t &data) -> bus_status;
 
-using cpu_status = uint32_t;
-
 class cpu final {
 
   bus bus_{};
@@ -22,10 +20,12 @@ class cpu final {
   uint32_t regs_[32]{};
 
 public:
+  using status = uint32_t;
+
   cpu(bus const bus_callback, uint32_t const initial_pc = 0)
       : bus_{bus_callback}, pc_{initial_pc} {}
 
-  auto tick() -> cpu_status {
+  auto tick() -> status {
     regs_[0] = 0;
     uint32_t next_pc = pc_ + 4;
     uint32_t instruction = 0;
