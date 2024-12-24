@@ -68,7 +68,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     } else {
       data = 0;
       for (uint32_t i = 0; i < width; ++i) {
-        data |= (ram[address + i] & 0xFF) << (i * 8);
+        data |= (ram[address + i] & 0xff) << (i * 8);
       }
     }
   }
