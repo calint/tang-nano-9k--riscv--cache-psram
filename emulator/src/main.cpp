@@ -86,7 +86,7 @@ auto main(int argc, char **argv) -> int {
   newt.c_lflag &= ~(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
-  // reset terminal settings on exit
+  // reset terminal settings at exit
   atexit([]() { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
 
   // load firmware
