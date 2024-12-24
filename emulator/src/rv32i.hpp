@@ -1,5 +1,5 @@
 // from https://github.com/alexriegler12/riscv
-//  converted to C++23 + some refinements
+//  re-written to C++23 with modifications
 
 #pragma once
 #include <cstdint>
