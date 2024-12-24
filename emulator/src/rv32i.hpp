@@ -503,7 +503,7 @@ public:
   static auto constexpr I_imm12_from(uint32_t const instruction) -> int32_t {
     uint32_t const bits = extract_bits(instruction, 20, 31, 0);
     if (instruction & 0x8000'0000) {
-      // negated
+      // sign extend
       return 0xffff'f000 | bits;
     } else {
       return bits;
@@ -514,7 +514,7 @@ public:
     uint32_t const bits = extract_bits(instruction, 7, 11, 0) |
                           extract_bits(instruction, 25, 31, 5);
     if (instruction & 0x8000'0000) {
-      // negated
+      // sign extend
       return 0xffff'f000 | bits;
     } else {
       return bits;
@@ -527,10 +527,10 @@ public:
                           extract_bits(instruction, 7, 7, 11) |
                           extract_bits(instruction, 31, 31, 12);
     if (instruction & 0x8000'0000) {
-      // negated
+      // sign extend
       return 0xffff'e000 | bits;
       // note: not 0xffff'f000 because of the always 0 first bit
-      // making the immediate value 13 bits
+      //       making the immediate value 13 bits
     } else {
       return bits;
     }
@@ -542,10 +542,10 @@ public:
                           extract_bits(instruction, 12, 19, 12) |
                           extract_bits(instruction, 31, 31, 20);
     if (instruction & 0x8000'0000) {
-      // negated
+      // sign extend
       return 0xffe0'0000 | bits;
       // note: not 0xfff0'0000 because of the always 0 first bit
-      // making the immediate value 13 bits
+      //       making the immediate value 13 bits
     } else {
       return bits;
     }
