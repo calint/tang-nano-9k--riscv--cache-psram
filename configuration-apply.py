@@ -15,11 +15,24 @@ with open('os/src/os_start.S', 'w') as file:
 
 with open('os/src/os_config.hpp', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
-    file.write('#define LED ((char volatile *)0xffffffff)\n')
-    file.write('#define UART_OUT ((char volatile *)0xfffffffe)\n')
-    file.write('#define UART_IN ((char volatile *)0xfffffffd)\n')
+    file.write('#pragma once\n')
+    file.write('#define LED ((char volatile *)0xffff\'ffff)\n')
+    file.write('#define UART_OUT ((char volatile *)0xffff\'fffe)\n')
+    file.write('#define UART_IN ((char volatile *)0xffff\'fffd)\n')
     file.write('#define MEMORY_TOP {}\n'.format(
         hex(2**cfg.RAM_ADDRESS_BITWIDTH)))
+
+with open('emulator/src/main_config.hpp', 'w') as file:
+    file.write('// generated - do not edit (see `configuration.py`)\n')
+    file.write('#pragma once\n')
+    file.write('#include <cstdint>\n\n')
+    file.write('// memory map\n')
+    file.write('std::uint32_t constexpr LED = 0xffff\'ffff;\n')
+    file.write('std::uint32_t constexpr UART_OUT = 0xffff\'fffe;\n')
+    file.write('std::uint32_t constexpr UART_IN = 0xffff\'fffd;\n')
+    file.write('std::uint32_t constexpr MEMORY_TOP = {};\n'.format(
+        hex(2**cfg.RAM_ADDRESS_BITWIDTH)))
+
 
 with open('src/configuration.sv', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
@@ -41,4 +54,4 @@ with open('src/configuration.sv', 'w') as file:
     file.write('\n')
     file.write('endpackage\n')
 
-print("generated: src/configuration.sv, os/src/os_start.S, os/src/os_config.hpp")
+print("generated: src/configuration.sv, os/src/os_start.S, os/src/os_config.hpp. emulator/src/main_config.hpp")
