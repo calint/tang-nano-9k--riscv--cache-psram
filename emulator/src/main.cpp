@@ -3,16 +3,11 @@
 #include <unistd.h>
 #include <vector>
 // #define RV32I_DEBUG
+#include "main_config.hpp"
 #include "rv32i.hpp"
 
-// FPGA memory map
-uint32_t constexpr RAM_SIZE_BYTES = 2 * 1024 * 1024;
-uint32_t constexpr LED = 0xffffffff;
-uint32_t constexpr UART_OUT = 0xfffffffe;
-uint32_t constexpr UART_IN = 0xfffffffd;
-
 // initialize RAM with -1 being the default value from flash
-static std::vector<int8_t> ram(RAM_SIZE_BYTES, -1);
+static std::vector<int8_t> ram(MEMORY_TOP, -1);
 
 // preserved terminal settings
 static struct termios saved_termios;
@@ -22,7 +17,7 @@ auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
          bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
   uint32_t const width = static_cast<uint32_t>(op_width);
-  if (address + width > ram.size() && address != UART_OUT &&
+  if (address + width > MEMORY_TOP && address != UART_OUT &&
       address != UART_IN && address != LED) {
     return 1;
   }
