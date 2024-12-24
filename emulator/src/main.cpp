@@ -100,6 +100,11 @@ auto main(int argc, char **argv) -> int {
   }
 
   streamsize const size = file.tellg();
+  if (size == -1) {
+    printf("Error determining size of file '%s'\n", argv[1]);
+    return 1;
+  }
+
   if (size > streamsize(ram.size())) {
     printf("Firmware size (%zu B) exceeds RAM size (%zu B)\n", size,
            ram.size());
@@ -107,6 +112,10 @@ auto main(int argc, char **argv) -> int {
   }
 
   file.seekg(0, ios::beg);
+  if (file.fail()) {
+    printf("Error seeking to beginning of file '%s'\n", argv[1]);
+    return 1;
+  }
 
   if (!file.read(reinterpret_cast<char *>(ram.data()), size)) {
     printf("Error reading file '%s'\n", argv[1]);
