@@ -5,6 +5,7 @@
   - increases compile time and is not scalable; however, compilation time for this application is negligible
 * use of `static` storage and function declarations
   - gives compiler opportunity to optimize
+* functions are declared with trailing return type that is specified
 * include order relevant
   - subsystems are included in dependency order making the program readable top-down
 * `inline` functions
