@@ -248,7 +248,7 @@ public:
 #ifdef RV32I_DEBUG
         std::printf("sb x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
-        uint32_t value = regs_[rs2] & 0xFF;
+        uint32_t value = regs_[rs2] & 0xff;
         if (bus_status s = bus_(address, BYTE, true, value)) {
           return 0x1000 + s;
         }
@@ -258,7 +258,7 @@ public:
 #ifdef RV32I_DEBUG
         std::printf("sh x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
-        uint32_t value = regs_[rs2] & 0xFFFF;
+        uint32_t value = regs_[rs2] & 0xffff;
         if (bus_status s = bus_(address, HALF_WORD, true, value)) {
           return 0x1000 + s;
         }
@@ -296,7 +296,7 @@ public:
         if (bus_status s = bus_(address, BYTE, false, loaded)) {
           return 0x1000 + s;
         }
-        regs_[rd] = loaded & 0x80 ? 0xFFFFFF00 | loaded : loaded;
+        regs_[rd] = loaded & 0x80 ? 0xffff'ff00 | loaded : loaded;
         break;
       }
       case FUNCT3_LH: {
@@ -307,7 +307,7 @@ public:
         if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
           return 0x1000 + s;
         }
-        regs_[rd] = loaded & 0x8000 ? 0xFFFF0000 | loaded : loaded;
+        regs_[rd] = loaded & 0x8000 ? 0xffff'0000 | loaded : loaded;
         break;
       }
       case FUNCT3_LW: {
