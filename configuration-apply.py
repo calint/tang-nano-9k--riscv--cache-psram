@@ -19,7 +19,7 @@ with open('os/src/os_config.hpp', 'w') as file:
     file.write('#define LED ((char volatile *)0xffff\'ffff)\n')
     file.write('#define UART_OUT ((char volatile *)0xffff\'fffe)\n')
     file.write('#define UART_IN ((char volatile *)0xffff\'fffd)\n')
-    file.write('#define MEMORY_TOP {}\n'.format(
+    file.write('#define MEMORY_END {}\n'.format(
         hex(2**cfg.RAM_ADDRESS_BITWIDTH)))
 
 with open('emulator/src/main_config.hpp', 'w') as file:
@@ -30,7 +30,7 @@ with open('emulator/src/main_config.hpp', 'w') as file:
     file.write('std::uint32_t constexpr LED = 0xffff\'ffff;\n')
     file.write('std::uint32_t constexpr UART_OUT = 0xffff\'fffe;\n')
     file.write('std::uint32_t constexpr UART_IN = 0xffff\'fffd;\n')
-    file.write('std::uint32_t constexpr MEMORY_TOP = {};\n'.format(
+    file.write('std::uint32_t constexpr MEMORY_END = {};\n'.format(
         hex(2**cfg.RAM_ADDRESS_BITWIDTH)))
 
 

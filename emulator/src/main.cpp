@@ -11,7 +11,7 @@
 using namespace std;
 
 // initialize RAM with -1 being the default value from flash
-static vector<int8_t> ram(MEMORY_TOP, -1);
+static vector<int8_t> ram(MEMORY_END, -1);
 
 // preserved terminal settings
 static struct termios saved_termios;

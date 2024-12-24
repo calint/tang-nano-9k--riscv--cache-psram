@@ -6,4 +6,4 @@
 std::uint32_t constexpr LED = 0xffff'ffff;
 std::uint32_t constexpr UART_OUT = 0xffff'fffe;
 std::uint32_t constexpr UART_IN = 0xffff'fffd;
-std::uint32_t constexpr MEMORY_TOP = 0x200000;
+std::uint32_t constexpr MEMORY_END = 0x200000;
