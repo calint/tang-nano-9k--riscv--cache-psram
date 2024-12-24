@@ -10,7 +10,7 @@ enum class bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
 
 using bus_status = uint32_t;
 
-using bus = auto (*)(uint32_t address, bus_op_width width, bool is_store,
+using bus = auto (*)(uint32_t address, bus_op_width op_width, bool is_store,
                      uint32_t &data) -> bus_status;
 
 using cpu_status = uint32_t;
