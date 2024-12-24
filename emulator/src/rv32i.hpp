@@ -462,6 +462,7 @@ public:
     return 0;
   }
 
+private:
   //
   // instruction decoding
   //  see: /notes/riscv-docs/rv32i-base-instruction-set.png

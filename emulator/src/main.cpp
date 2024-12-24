@@ -5,15 +5,19 @@
 // #define RV32I_DEBUG
 #include "rv32i.hpp"
 
+// FPGA memory map
 uint32_t constexpr RAM_SIZE_BYTES = 2 * 1024 * 1024;
 uint32_t constexpr LED = 0xffffffff;
 uint32_t constexpr UART_OUT = 0xfffffffe;
 uint32_t constexpr UART_IN = 0xfffffffd;
 
+// initialize RAM with -1 being the default value from flash
 static std::vector<int8_t> ram(RAM_SIZE_BYTES, -1);
 
+// preserved terminal settings
 static struct termios saved_termios;
 
+// bus callback
 auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
          bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
@@ -80,14 +84,17 @@ auto main(int argc, char **argv) -> int {
     return 1;
   }
 
+  // set no echo and non-canonical mode
   struct termios newt;
   tcgetattr(STDIN_FILENO, &saved_termios);
   newt = saved_termios;
   newt.c_lflag &= ~(ICANON | ECHO);
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
+  // reset terminal settings on exit
   atexit([]() { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
 
+  // load firmware
   std::ifstream file{argv[1], std::ios::binary | std::ios::ate};
   if (!file) {
     std::printf("Error opening file '%s'\n", argv[1]);
@@ -110,8 +117,8 @@ auto main(int argc, char **argv) -> int {
 
   file.close();
 
+  // run CPU
   rv32i::cpu cpu{bus};
-
   while (true) {
     if (rv32i::cpu_status const s = cpu.tick()) {
       std::printf("CPU error: 0x%04x\n", s);
