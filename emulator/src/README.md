@@ -21,7 +21,7 @@
 * `++i` instead of `i++`
   - for consistency with incrementing iterators, increments and decrements are done in prefix
 * casting such as `char(getchar())` is ok for readability
-  - `reinterpret_cast` used when syntax does not allow otherwise
+  - `static_cast` or  `reinterpret_cast` used when syntax does not allow otherwise
 * members and variables are initialized for clarity although redundant
   - some exceptions regarding buffers applied
 * naming convention:
