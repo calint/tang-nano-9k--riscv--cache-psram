@@ -17,7 +17,7 @@ auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
          bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
   uint32_t const width = static_cast<uint32_t>(op_width);
-  if (address + width > MEMORY_TOP && address != UART_OUT &&
+  if (address + width > ram.size() && address != UART_OUT &&
       address != UART_IN && address != LED) {
     return 1;
   }
@@ -113,7 +113,9 @@ auto main(int argc, char **argv) -> int {
   file.close();
 
   // run CPU
+
   rv32i::cpu cpu{bus};
+
   while (true) {
     if (rv32i::cpu_status const s = cpu.tick()) {
       std::printf("CPU error: 0x%04x\n", s);
