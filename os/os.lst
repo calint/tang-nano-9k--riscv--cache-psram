@@ -1839,11 +1839,11 @@ Disassembly of section .text:
     11dc:	00008067          	ret
 #       f(line_[i]);
     11e0:	009407b3          	add	a5,s0,s1
-#               [](char c) { uart_send_char(c); });
+#               [](char const c) { uart_send_char(c); });
     11e4:	0007c503          	lbu	a0,0(a5)
 #     for (size_t i = cursor_; i < end_; ++i) {
     11e8:	00148493          	addi	s1,s1,1
-#               [](char c) { uart_send_char(c); });
+#               [](char const c) { uart_send_char(c); });
     11ec:	ebdff0ef          	jal	10a8 <_ZL14uart_send_charc>
 #     for (size_t i = cursor_; i < end_; ++i) {
     11f0:	fd5ff06f          	j	11c4 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x18>

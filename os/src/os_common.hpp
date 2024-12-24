@@ -550,7 +550,7 @@ static auto input(command_buffer &cmd_buf) -> void {
         if (cmd_buf.backspace()) {
           uart_send_char(ch);
           cmd_buf.apply_on_chars_from_cursor_to_end(
-              [](char c) { uart_send_char(c); });
+              [](char const c) { uart_send_char(c); });
           uart_send_char(' ');
           uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
         }
