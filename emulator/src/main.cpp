@@ -13,8 +13,8 @@ static std::vector<int8_t> ram(MEMORY_TOP, -1);
 static struct termios saved_termios;
 
 // bus callback
-auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
-         bool const is_store, uint32_t &data) -> rv32i::bus_status {
+static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
+                bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
   uint32_t const width = static_cast<uint32_t>(op_width);
   if (address + width > ram.size() && address != UART_OUT &&
