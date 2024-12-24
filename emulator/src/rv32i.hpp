@@ -467,29 +467,38 @@ public:
     return 0;
   }
 
+  //
+  // instruction decoding
+  //  see: /notes/riscv-docs/rv32i-base-instruction-set.png
+  //
   static auto constexpr OPCODE_from(uint32_t const instruction) -> uint32_t {
-    return instruction & 0x7f;
+    return extract_bits(instruction, 0, 6, 0);
   }
 
   static auto constexpr FUNCT3_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 12) & 0x7;
+    return extract_bits(instruction, 12, 14, 0);
   }
 
   static auto constexpr FUNCT7_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 25) & 0x7f;
+    return extract_bits(instruction, 25, 31, 0);
   }
 
   static auto constexpr RS1_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 15) & 0x1f;
+    return extract_bits(instruction, 15, 19, 0);
   }
 
   static auto constexpr RS2_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 20) & 0x1f;
+    return extract_bits(instruction, 20, 24, 0);
   }
 
   static auto constexpr RD_from(uint32_t const instruction) -> uint32_t {
-    return (instruction >> 7) & 0x1f;
+    return extract_bits(instruction, 7, 11, 0);
   }
+
+  //
+  // immedidate encodings
+  //  see /notes/riscv-docs/riscv-immediate-encodings.png
+  //
 
   static auto constexpr U_imm20_from(uint32_t const instruction) -> uint32_t {
     return extract_bits(instruction, 12, 31, 12);
@@ -498,6 +507,7 @@ public:
   static auto constexpr I_imm12_from(uint32_t const instruction) -> int32_t {
     uint32_t const bits = extract_bits(instruction, 20, 31, 0);
     if (instruction & 0x8000'0000) {
+      // negated
       return 0xffff'f000 | bits;
     } else {
       return bits;
@@ -508,6 +518,7 @@ public:
     uint32_t const bits = extract_bits(instruction, 7, 11, 0) |
                           extract_bits(instruction, 25, 31, 5);
     if (instruction & 0x8000'0000) {
+      // negated
       return 0xffff'f000 | bits;
     } else {
       return bits;
@@ -520,6 +531,7 @@ public:
                           extract_bits(instruction, 7, 7, 11) |
                           extract_bits(instruction, 31, 31, 12);
     if (instruction & 0x8000'0000) {
+      // negated
       return 0xffff'e000 | bits;
       // note: not 0xffff'f000 because of the always 0 first bit
       // making the immediate value 13 bits
@@ -534,6 +546,7 @@ public:
                           extract_bits(instruction, 12, 19, 12) |
                           extract_bits(instruction, 31, 31, 20);
     if (instruction & 0x8000'0000) {
+      // negated
       return 0xffe0'0000 | bits;
       // note: not 0xfff0'0000 because of the always 0 first bit
       // making the immediate value 13 bits
