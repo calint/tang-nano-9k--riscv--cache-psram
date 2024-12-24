@@ -13,7 +13,7 @@
   - functions called from only one location should be inlined
 * `const` is preferred and used where applicable
 * `auto` is used when the type name is too verbose, such as iterators and templates; otherwise, types are spelled out for readability
-* use of `using namespace std;` is ok and used within namespace or implementation
+* `using namespace std;` is ok within namespace or implementation
 * right to left notation `Type const &inst` instead of `const Type &inst`
   - for consistency, `const` is written after the type such as `char const *ptr` instead of `const char *ptr` and `float const x` instead of `const float x`
   - rationale is that type name is an annotation that can be replaced by `auto`
