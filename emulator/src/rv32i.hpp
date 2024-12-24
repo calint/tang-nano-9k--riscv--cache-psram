@@ -2,9 +2,12 @@
 //  converted to C++23 + some refinements
 
 #pragma once
-#include <stdint.h>
+#include <cstdint>
+#include <cstdio>
 
 namespace rv32i {
+
+using namespace std;
 
 enum class bus_op_width { BYTE = 1, HALF_WORD = 2, WORD = 4 };
 
@@ -33,7 +36,7 @@ public:
       return 1000 + s;
     }
 #ifdef RV32I_DEBUG
-    std::printf("pc 0x%08x instr 0x%08x ", pc_, instruction);
+    printf("pc 0x%08x instr 0x%08x ", pc_, instruction);
 #endif
     uint32_t const opcode = OPCODE_from(instruction);
     switch (opcode) {
@@ -43,7 +46,7 @@ public:
       uint32_t const rd = RD_from(instruction);
       uint32_t const U_imm20 = U_imm20_from(instruction);
 #ifdef RV32I_DEBUG
-      std::printf("lui x%d, 0x%x\n", rd, U_imm20 >> 12);
+      printf("lui x%d, 0x%x\n", rd, U_imm20 >> 12);
 #endif
       regs_[rd] = U_imm20;
       break;
@@ -58,42 +61,42 @@ public:
       switch (funct3) {
       case FUNCT3_ADDI: {
 #ifdef RV32I_DEBUG
-        std::printf("addi x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("addi x%d, x%d, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] + I_imm12;
         break;
       }
       case FUNCT3_SLTI: {
 #ifdef RV32I_DEBUG
-        std::printf("slti x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("slti x%d, x%d, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = int32_t(regs_[rs1]) < I_imm12 ? 1 : 0;
         break;
       }
       case FUNCT3_SLTIU: {
 #ifdef RV32I_DEBUG
-        std::printf("sltiu x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("sltiu x%d, x%d, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] < uint32_t(I_imm12) ? 1 : 0;
         break;
       }
       case FUNCT3_XORI: {
 #ifdef RV32I_DEBUG
-        std::printf("xori x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("xori x%d, x%d, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] ^ I_imm12;
         break;
       }
       case FUNCT3_ORI: {
 #ifdef RV32I_DEBUG
-        std::printf("ori x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("ori x%d, x%d, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] | I_imm12;
         break;
       }
       case FUNCT3_ANDI: {
 #ifdef RV32I_DEBUG
-        std::printf("andi x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("andi x%d, x%d, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] & I_imm12;
         break;
@@ -101,7 +104,7 @@ public:
       case FUNCT3_SLLI: {
         uint32_t const rs2 = RS2_from(instruction);
 #ifdef RV32I_DEBUG
-        std::printf("slli x%d, x%d, %d\n", rd, rs1, rs2);
+        printf("slli x%d, x%d, %d\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] << rs2;
         break;
@@ -112,14 +115,14 @@ public:
         switch (funct7) {
         case FUNCT7_SRLI: {
 #ifdef RV32I_DEBUG
-          std::printf("srli x%d, x%d, %d\n", rd, rs1, rs2);
+          printf("srli x%d, x%d, %d\n", rd, rs1, rs2);
 #endif
           regs_[rd] = regs_[rs1] >> rs2;
           break;
         }
         case FUNCT7_SRAI: {
 #ifdef RV32I_DEBUG
-          std::printf("srai x%d, x%d, %d\n", rd, rs1, rs2);
+          printf("srai x%d, x%d, %d\n", rd, rs1, rs2);
 #endif
           regs_[rd] = int32_t(regs_[rs1]) >> rs2;
           break;
@@ -147,14 +150,14 @@ public:
         switch (FUNCT7) {
         case FUNCT7_ADD: {
 #ifdef RV32I_DEBUG
-          std::printf("add x%d, x%d, x%d\n", rd, rs1, rs2);
+          printf("add x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
           regs_[rd] = regs_[rs1] + regs_[rs2];
           break;
         }
         case FUNCT7_SUB: {
 #ifdef RV32I_DEBUG
-          std::printf("sub x%d, x%d, x%d\n", rd, rs1, rs2);
+          printf("sub x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
           regs_[rd] = regs_[rs1] - regs_[rs2];
           break;
@@ -166,28 +169,28 @@ public:
       }
       case FUNCT3_SLL: {
 #ifdef RV32I_DEBUG
-        std::printf("sll x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("sll x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] << (regs_[rs2] & 0x1f);
         break;
       }
       case FUNCT3_SLT: {
 #ifdef RV32I_DEBUG
-        std::printf("slt x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("slt x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
         regs_[rd] = int32_t(regs_[rs1]) < int32_t(regs_[rs2]) ? 1 : 0;
         break;
       }
       case FUNCT3_SLTU: {
 #ifdef RV32I_DEBUG
-        std::printf("sltu x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("sltu x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] < regs_[rs2] ? 1 : 0;
         break;
       }
       case FUNCT3_XOR: {
 #ifdef RV32I_DEBUG
-        std::printf("xor x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("xor x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] ^ regs_[rs2];
         break;
@@ -197,14 +200,14 @@ public:
         switch (funct7) {
         case FUNCT7_SRL: {
 #ifdef RV32I_DEBUG
-          std::printf("srl x%d, x%d, x%d\n", rd, rs1, rs2);
+          printf("srl x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
           regs_[rd] = regs_[rs1] >> (regs_[rs2] & 0x1f);
           break;
         }
         case FUNCT7_SRA: {
 #ifdef RV32I_DEBUG
-          std::printf("sra x%d, x%d, x%d\n", rd, rs1, rs2);
+          printf("sra x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
           regs_[rd] = int32_t(regs_[rs1]) >> (regs_[rs2] & 0x1f);
           break;
@@ -216,14 +219,14 @@ public:
       }
       case FUNCT3_OR: {
 #ifdef RV32I_DEBUG
-        std::printf("or x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("or x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] | regs_[rs2];
         break;
       }
       case FUNCT3_AND: {
 #ifdef RV32I_DEBUG
-        std::printf("and x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("and x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] & regs_[rs2];
         break;
@@ -245,7 +248,7 @@ public:
       switch (funct3) {
       case FUNCT3_SB: {
 #ifdef RV32I_DEBUG
-        std::printf("sb x%d, %d(x%d)\n", rs2, S_imm12, rs1);
+        printf("sb x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
         uint32_t value = regs_[rs2] & 0xff;
         if (bus_status s = bus_(address, BYTE, true, value)) {
@@ -255,7 +258,7 @@ public:
       }
       case FUNCT3_SH: {
 #ifdef RV32I_DEBUG
-        std::printf("sh x%d, %d(x%d)\n", rs2, S_imm12, rs1);
+        printf("sh x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
         uint32_t value = regs_[rs2] & 0xffff;
         if (bus_status s = bus_(address, HALF_WORD, true, value)) {
@@ -265,7 +268,7 @@ public:
       }
       case FUNCT3_SW: {
 #ifdef RV32I_DEBUG
-        std::printf("sw x%d, %d(x%d)\n", rs2, S_imm12, rs1);
+        printf("sw x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
         if (bus_status s = bus_(address, WORD, true, regs_[rs2])) {
           return 1300 + s;
@@ -289,7 +292,7 @@ public:
       switch (funct3) {
       case FUNCT3_LB: {
 #ifdef RV32I_DEBUG
-        std::printf("lb x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lb x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, BYTE, false, loaded)) {
@@ -300,7 +303,7 @@ public:
       }
       case FUNCT3_LH: {
 #ifdef RV32I_DEBUG
-        std::printf("lh x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lh x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
@@ -311,7 +314,7 @@ public:
       }
       case FUNCT3_LW: {
 #ifdef RV32I_DEBUG
-        std::printf("lw x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lw x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, WORD, false, loaded)) {
@@ -322,7 +325,7 @@ public:
       }
       case FUNCT3_LBU: {
 #ifdef RV32I_DEBUG
-        std::printf("lbu x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lbu x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, BYTE, false, loaded)) {
@@ -333,7 +336,7 @@ public:
       }
       case FUNCT3_LHU: {
 #ifdef RV32I_DEBUG
-        std::printf("lhu x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lhu x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
@@ -353,7 +356,7 @@ public:
       uint32_t const rd = RD_from(instruction);
       uint32_t const U_imm20 = U_imm20_from(instruction);
 #ifdef RV32I_DEBUG
-      std::printf("auipc x%d, 0x%x\n", rd, U_imm20 >> 12);
+      printf("auipc x%d, 0x%x\n", rd, U_imm20 >> 12);
 #endif
       regs_[rd] = pc_ + U_imm20;
       break;
@@ -364,7 +367,7 @@ public:
       uint32_t const rd = RD_from(instruction);
       int32_t const J_imm20 = J_imm20_from(instruction);
 #ifdef RV32I_DEBUG
-      std::printf("jal x%d, 0x%x\n", rd, pc_ + J_imm20);
+      printf("jal x%d, 0x%x\n", rd, pc_ + J_imm20);
 #endif
       regs_[rd] = pc_ + 4;
       next_pc = pc_ + J_imm20;
@@ -377,7 +380,7 @@ public:
       uint32_t const rd = RD_from(instruction);
       int32_t const I_imm12 = I_imm12_from(instruction);
 #ifdef RV32I_DEBUG
-      std::printf("jalr x%d, %d(x%d)\n", rd, I_imm12, rs1);
+      printf("jalr x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
       regs_[rd] = pc_ + 4;
       next_pc = regs_[rs1] + I_imm12;
@@ -393,7 +396,7 @@ public:
       switch (funct3) {
       case FUNCT3_BEQ: {
 #ifdef RV32I_DEBUG
-        std::printf("beq x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("beq x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] == regs_[rs2]) {
           next_pc = pc_ + B_imm12;
@@ -402,7 +405,7 @@ public:
       }
       case FUNCT3_BNE: {
 #ifdef RV32I_DEBUG
-        std::printf("bne x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("bne x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] != regs_[rs2]) {
           next_pc = pc_ + B_imm12;
@@ -412,7 +415,7 @@ public:
       }
       case FUNCT3_BLT: {
 #ifdef RV32I_DEBUG
-        std::printf("blt x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("blt x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (int32_t(regs_[rs1]) < int32_t(regs_[rs2])) {
           next_pc = pc_ + B_imm12;
@@ -421,7 +424,7 @@ public:
       }
       case FUNCT3_BGE: {
 #ifdef RV32I_DEBUG
-        std::printf("bge x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("bge x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (int32_t(regs_[rs1]) >= int32_t(regs_[rs2])) {
           next_pc = pc_ + B_imm12;
@@ -430,7 +433,7 @@ public:
       }
       case FUNCT3_BLTU: {
 #ifdef RV32I_DEBUG
-        std::printf("bltu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("bltu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] < regs_[rs2]) {
           next_pc = pc_ + B_imm12;
@@ -439,7 +442,7 @@ public:
       }
       case FUNCT3_BGEU: {
 #ifdef RV32I_DEBUG
-        std::printf("bgeu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("bgeu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] >= regs_[rs2]) {
           next_pc = pc_ + B_imm12;

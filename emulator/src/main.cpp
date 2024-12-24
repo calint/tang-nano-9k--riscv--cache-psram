@@ -1,13 +1,16 @@
+#include <cstdint>
+#include <cstdio>
 #include <fstream>
-#include <stdint.h>
 #include <termios.h>
 #include <vector>
 // #define RV32I_DEBUG
 #include "main_config.hpp"
 #include "rv32i.hpp"
 
+using namespace std;
+
 // initialize RAM with -1 being the default value from flash
-static std::vector<int8_t> ram(MEMORY_TOP, -1);
+static vector<int8_t> ram(MEMORY_TOP, -1);
 
 // preserved terminal settings
 static struct termios saved_termios;
@@ -27,11 +30,11 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       int const ch = data & 0xFF;
       if (ch == 0x7f) {
         // convert from serial to terminal
-        std::printf("\b \b");
+        printf("\b \b");
       } else {
-        std::putchar(ch);
+        putchar(ch);
       }
-      std::fflush(stdout);
+      fflush(stdout);
     } else if (address == UART_IN) {
       // do nothing when writing to address UART_IN
     } else if (address == LED) {
@@ -75,7 +78,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
 
 auto main(int argc, char **argv) -> int {
   if (argc != 2) {
-    std::printf("Usage: %s <firmware.bin>\n", argv[0]);
+    printf("Usage: %s <firmware.bin>\n", argv[0]);
     return 1;
   }
 
@@ -90,23 +93,23 @@ auto main(int argc, char **argv) -> int {
   atexit([] { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
 
   // load firmware
-  std::ifstream file{argv[1], std::ios::binary | std::ios::ate};
+  ifstream file{argv[1], ios::binary | ios::ate};
   if (!file) {
-    std::printf("Error opening file '%s'\n", argv[1]);
+    printf("Error opening file '%s'\n", argv[1]);
     return 1;
   }
 
-  std::streamsize const size = file.tellg();
-  file.seekg(0, std::ios::beg);
+  streamsize const size = file.tellg();
+  file.seekg(0, ios::beg);
 
-  if (size > std::streamsize(ram.size())) {
-    std::printf("Firmware size (%zu B) exceeds RAM size (%zu B)\n", size,
-                ram.size());
+  if (size > streamsize(ram.size())) {
+    printf("Firmware size (%zu B) exceeds RAM size (%zu B)\n", size,
+           ram.size());
     return 1;
   }
 
   if (!file.read(reinterpret_cast<char *>(ram.data()), size)) {
-    std::printf("Error reading file '%s'\n", argv[1]);
+    printf("Error reading file '%s'\n", argv[1]);
     return 1;
   }
 
@@ -118,7 +121,7 @@ auto main(int argc, char **argv) -> int {
 
   while (true) {
     if (rv32i::cpu::status const s = cpu.tick()) {
-      std::printf("CPU error: %d\n", s);
+      printf("CPU error: %d\n", s);
       return s;
     }
   }
