@@ -27,6 +27,7 @@ public:
 
   auto tick() -> cpu_status {
     regs_[0] = 0;
+    uint32_t next_pc = pc_ + 4;
     uint32_t instruction = 0;
     if (rv32i::bus_status s =
             bus_(pc_, bus_op_width::WORD, false, instruction)) {
@@ -367,8 +368,7 @@ public:
       std::printf("jal x%d, 0x%x\n", rd, pc_ + J_imm20);
 #endif
       regs_[rd] = pc_ + 4;
-      pc_ += J_imm20 - 4;
-      // note: pc_ is incremented by 4 after the instruction
+      next_pc = pc_ + J_imm20;
       break;
     }
     //-----------------------------------------------------------------------
@@ -381,8 +381,7 @@ public:
       std::printf("jalr x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
       regs_[rd] = pc_ + 4;
-      pc_ = regs_[rs1] + I_imm12 - 4;
-      // note: pc_ is incremented by 4 after the instruction
+      next_pc = regs_[rs1] + I_imm12;
       break;
     }
     //-----------------------------------------------------------------------
@@ -398,8 +397,7 @@ public:
         std::printf("beq x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] == regs_[rs2]) {
-          pc_ += B_imm12 - 4;
-          // note: pc_ is incremented by 4 after the instruction
+          next_pc = pc_ + B_imm12;
         }
         break;
       }
@@ -408,7 +406,7 @@ public:
         std::printf("bne x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] != regs_[rs2]) {
-          pc_ += B_imm12 - 4;
+          next_pc = pc_ + B_imm12;
           // note: pc_ is incremented by 4 after the instruction
         }
         break;
@@ -418,8 +416,7 @@ public:
         std::printf("blt x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (int32_t(regs_[rs1]) < int32_t(regs_[rs2])) {
-          pc_ += B_imm12 - 4;
-          // note: pc_ is incremented by 4 after the instruction
+          next_pc = pc_ + B_imm12;
         }
         break;
       }
@@ -428,8 +425,7 @@ public:
         std::printf("bge x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (int32_t(regs_[rs1]) >= int32_t(regs_[rs2])) {
-          pc_ += B_imm12 - 4;
-          // note: pc is incremented by 4 after the instruction
+          next_pc = pc_ + B_imm12;
         }
         break;
       }
@@ -438,8 +434,7 @@ public:
         std::printf("bltu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] < regs_[rs2]) {
-          pc_ += B_imm12 - 4;
-          // note: pc is incremented by 4 after the instruction
+          next_pc = pc_ + B_imm12;
         }
         break;
       }
@@ -448,7 +443,7 @@ public:
         std::printf("bgeu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] >= regs_[rs2]) {
-          pc_ += B_imm12 - 4;
+          next_pc = pc_ + B_imm12;
           // note: pc is incremented by 4 after the instruction
         }
         break;
@@ -463,7 +458,7 @@ public:
       return 0x18;
     }
 
-    pc_ += 4;
+    pc_ = next_pc;
     return 0;
   }
 
