@@ -63,8 +63,8 @@ welcome to adventure #4
 * other examples in `/notes/samples/`
   
 ## Emulator
-* a rv32i emulator and an implementation of FPGA configuration is in `/emulator/`
-* emulator can be used with generated firmware in `/os/`
+* a RV32I emulator with an implementation of the current FPGA configuration can be found in the `/emulator/` directory
+* the emulator can be used with generated firmware, such as `/os/os.bin`
 
 ## Configuration
 * see [`configuration.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration.py)
