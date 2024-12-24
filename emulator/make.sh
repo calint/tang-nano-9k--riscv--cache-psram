@@ -6,10 +6,13 @@
 set -e
 cd $(dirname "$0")
 
-g++ -std=c++23 -O3 -fno-rtti -fno-exceptions -Wfatal-errors -Werror -Wall -Wextra -Wpedantic \
+CMD="g++ -std=c++23 -O3 $@ -fno-rtti -fno-exceptions -Wfatal-errors -Werror -Wall -Wextra -Wpedantic \
     -Wswitch-default -Wconversion \
     -Wno-unused-parameter \
-    -o osqa src/main.cpp
+    -o osqa src/main.cpp"
+#echo
+#echo $CMD
+$CMD
 echo
 ls -la --color osqa
 echo
