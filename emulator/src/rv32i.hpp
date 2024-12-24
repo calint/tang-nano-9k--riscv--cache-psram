@@ -29,8 +29,7 @@ public:
     regs_[0] = 0;
     uint32_t next_pc = pc_ + 4;
     uint32_t instruction = 0;
-    if (rv32i::bus_status s =
-            bus_(pc_, bus_op_width::WORD, false, instruction)) {
+    if (bus_status s = bus_(pc_, bus_op_width::WORD, false, instruction)) {
       return 1000 + s;
     }
 #ifdef RV32I_DEBUG
