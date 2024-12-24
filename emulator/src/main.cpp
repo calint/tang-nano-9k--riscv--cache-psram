@@ -87,7 +87,7 @@ auto main(int argc, char **argv) -> int {
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
   // reset terminal settings at exit
-  atexit([]() { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
+  atexit([] { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
 
   // load firmware
   std::ifstream file{argv[1], std::ios::binary | std::ios::ate};
