@@ -492,7 +492,7 @@ public:
   }
 
   //
-  // immedidate encodings
+  // immedidates decoding
   //  see /notes/riscv-docs/riscv-immediate-encodings.png
   //
 
@@ -561,7 +561,11 @@ public:
     return masked << place_at;
   }
 
-  // see: /notes/riscv-docs/rv32i-base-instruction-set.png
+  //
+  // encoding bits
+  //  see: /notes/riscv-docs/rv32i-base-instruction-set.png
+  //
+
   static uint32_t constexpr OPCODE_LUI = 0b01101'11;
 
   static uint32_t constexpr OPCODE_LOGICAL_IMM = 0b00100'11;
