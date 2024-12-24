@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <fstream>
 #include <termios.h>
+#include <unistd.h>
 #include <vector>
 // #define RV32I_DEBUG
 #include "main_config.hpp"
