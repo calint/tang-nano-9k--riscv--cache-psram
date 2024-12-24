@@ -2,7 +2,7 @@
 set -e
 cd $(dirname "$0")
 
-g++ -std=c++23 -fno-rtti -fno-exceptions -Wfatal-errors -Werror -Wall -Wextra -Wpedantic \
+g++ -std=c++23 -O3 -fno-rtti -fno-exceptions -Wfatal-errors -Werror -Wall -Wextra -Wpedantic \
     -Wswitch-default -Wconversion \
     -Wno-unused-parameter \
     -o osqa src/main.cpp
