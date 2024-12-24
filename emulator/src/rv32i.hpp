@@ -2,7 +2,7 @@
 //  converted to C++23 + some refinements
 
 #pragma once
-#include <unistd.h>
+#include <stdint.h>
 
 namespace rv32i {
 
