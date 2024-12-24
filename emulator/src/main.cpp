@@ -84,16 +84,6 @@ auto main(int argc, char **argv) -> int {
     return 1;
   }
 
-  // set no echo and non-canonical mode
-  struct termios newt;
-  tcgetattr(STDIN_FILENO, &saved_termios);
-  newt = saved_termios;
-  newt.c_lflag &= ~(ICANON | ECHO);
-  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-
-  // reset terminal settings at exit
-  atexit([] { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
-
   // load firmware
   ifstream file{argv[1], ios::binary | ios::ate};
   if (!file) {
@@ -125,6 +115,16 @@ auto main(int argc, char **argv) -> int {
   }
 
   file.close();
+
+  // set no echo and non-canonical mode
+  struct termios newt;
+  tcgetattr(STDIN_FILENO, &saved_termios);
+  newt = saved_termios;
+  newt.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+  // reset terminal settings at exit
+  atexit([] { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
 
   // run CPU
 
