@@ -581,13 +581,13 @@ static auto input(command_buffer &cmd_buf) -> void {
         switch (ch) {
         case 'D': // arrow left
           if (cmd_buf.move_cursor_left()) {
-            uart_send_str("\x1B\x5B\x44");
+            uart_send_str("\x1B[D");
           }
           break;
 
         case 'C': // arrow right
           if (cmd_buf.move_cursor_right()) {
-            uart_send_str("\x1B\x5B\x43");
+            uart_send_str("\x1B[C");
           }
           break;
 

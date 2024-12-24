@@ -1330,11 +1330,11 @@ Disassembly of section .text:
      d38:	04400b93          	li	s7,68
 #         case 'D': // arrow left
 #           if (cmd_buf.move_cursor_left()) {
-#             uart_send_str("\x1B\x5B\x44");
+#             uart_send_str("\x1B[D");
      d3c:	00002c37          	lui	s8,0x2
 #         switch (ch) {
      d40:	07e00c93          	li	s9,126
-#             uart_send_str("\x1B\x5B\x43");
+#             uart_send_str("\x1B[C");
 #           }
 #           break;
 # 
@@ -1525,9 +1525,9 @@ Disassembly of section .text:
 #     --cursor_;
      f18:	fff78793          	addi	a5,a5,-1
      f1c:	04f40823          	sb	a5,80(s0)
-#             uart_send_str("\x1B\x5B\x44");
+#             uart_send_str("\x1B[D");
      f20:	808c0513          	addi	a0,s8,-2040 # 1808 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x65c>
-#             uart_send_str("\x1B\x5B\x43");
+#             uart_send_str("\x1B[C");
      f24:	164000ef          	jal	1088 <_ZL13uart_send_strPKc>
      f28:	fe1ff06f          	j	f08 <_ZL5inputR14command_buffer+0x224>
 #     if (cursor_ == end_) {
@@ -1535,11 +1535,11 @@ Disassembly of section .text:
      f30:	fcf70ce3          	beq	a4,a5,f08 <_ZL5inputR14command_buffer+0x224>
 #     ++cursor_;
      f34:	00178793          	addi	a5,a5,1
-#             uart_send_str("\x1B\x5B\x43");
+#             uart_send_str("\x1B[C");
      f38:	00002537          	lui	a0,0x2
 #     ++cursor_;
      f3c:	04f40823          	sb	a5,80(s0)
-#             uart_send_str("\x1B\x5B\x43");
+#             uart_send_str("\x1B[C");
      f40:	80c50513          	addi	a0,a0,-2036 # 180c <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x660>
      f44:	fe1ff06f          	j	f24 <_ZL5inputR14command_buffer+0x240>
 #           if (escape_sequence_parameter == 3) {
