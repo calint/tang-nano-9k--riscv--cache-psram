@@ -10,3 +10,4 @@ Emulates the FPGA program.
 ## todo
 [ ] building the immediate values can be done with 1 AND, 1 SHIFT per section
     using a hardcoded mask instead of current 3 SHIFT, 1 AND, 1 ADD, 1 SUB
+[ ] in debug mode print the values of used registers, immediate values and result
