@@ -24,7 +24,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
 
   if (is_store) {
     if (address == UART_OUT) {
-      char const ch = static_cast<char>(data & 0xFF);
+      int const ch = data & 0xFF;
       if (ch == 0x7f) {
         // convert from serial to terminal
         std::printf("\b \b");
@@ -99,7 +99,7 @@ auto main(int argc, char **argv) -> int {
   std::streamsize const size = file.tellg();
   file.seekg(0, std::ios::beg);
 
-  if (size > static_cast<std::streamsize>(ram.size())) {
+  if (size > std::streamsize(ram.size())) {
     std::printf("Firmware size (%zu B) exceeds RAM size (%zu B)\n", size,
                 ram.size());
     return 1;

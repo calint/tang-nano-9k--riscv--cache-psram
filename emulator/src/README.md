@@ -12,11 +12,12 @@
   - functions called from only one location should be inlined
 * `const` is preferred and used where applicable
 * `auto` is used when the type name is too verbose, such as iterators and templates; otherwise, types are spelled out for readability
-* sized integer types are used from `stdint.h` instead of `std::` for brevity
+* integer types are used from `stdint.h` instead of `cstdint` and `std::` prefix or built in types for brevity
+  - rationale is that commonly used terms should not be verbose
 * right to left notation `Type const &inst` instead of `const Type &inst`
   - for consistency, `const` is written after the type such as `char const *ptr` instead of `const char *ptr` and `float const x` instead of `const float x`
-  - idea is that type name is an annotation that can be replaced by `auto`
-  `unsigned types are used where negative values don't make sense
+  - rationale is that type name is an annotation that can be replaced by `auto`
+* unsigned types are used where negative values don't make sense
 * `++i` instead of `i++`
   - for consistency with incrementing iterators, increments and decrements are done in prefix
 * casting such as `char(getchar())` is ok for readability
