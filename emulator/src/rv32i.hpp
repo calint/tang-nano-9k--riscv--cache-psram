@@ -466,6 +466,7 @@ public:
   // instruction decoding
   //  see: /notes/riscv-docs/rv32i-base-instruction-set.png
   //
+
   static auto constexpr OPCODE_from(uint32_t const instruction) -> uint32_t {
     return extract_bits(instruction, 0, 6, 0);
   }
