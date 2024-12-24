@@ -118,7 +118,7 @@ auto main(int argc, char **argv) -> int {
 
   while (true) {
     if (rv32i::cpu_status const s = cpu.tick()) {
-      std::printf("CPU error: 0x%04x\n", s);
+      std::printf("CPU error: %d\n", s);
       return s;
     }
   }

@@ -31,7 +31,7 @@ public:
     uint32_t instruction = 0;
     if (rv32i::bus_status s =
             bus_(pc_, bus_op_width::WORD, false, instruction)) {
-      return 0x1000 + s;
+      return 1000 + s;
     }
 #ifdef RV32I_DEBUG
     std::printf("pc 0x%08x instr 0x%08x ", pc_, instruction);
@@ -126,12 +126,12 @@ public:
           break;
         }
         default:
-          return 0x12;
+          return 1;
         }
         break;
       }
       default:
-        return 0x13;
+        return 2;
       }
       break;
     }
@@ -161,7 +161,7 @@ public:
           break;
         }
         default:
-          return 0x14;
+          return 3;
         }
         break;
       }
@@ -211,7 +211,7 @@ public:
           break;
         }
         default:
-          return 0x15;
+          return 4;
         }
         break;
       }
@@ -230,7 +230,7 @@ public:
         break;
       }
       default:
-        return 0x16;
+        return 5;
       }
       break;
     }
@@ -250,7 +250,7 @@ public:
 #endif
         uint32_t value = regs_[rs2] & 0xff;
         if (bus_status s = bus_(address, BYTE, true, value)) {
-          return 0x1000 + s;
+          return 1100 + s;
         }
         break;
       }
@@ -260,7 +260,7 @@ public:
 #endif
         uint32_t value = regs_[rs2] & 0xffff;
         if (bus_status s = bus_(address, HALF_WORD, true, value)) {
-          return 0x1000 + s;
+          return 1200 + s;
         }
         break;
       }
@@ -269,12 +269,12 @@ public:
         std::printf("sw x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
         if (bus_status s = bus_(address, WORD, true, regs_[rs2])) {
-          return 0x1000 + s;
+          return 1300 + s;
         }
         break;
       }
       default:
-        return 0x11;
+        return 6;
       }
       break;
     }
@@ -294,7 +294,7 @@ public:
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, BYTE, false, loaded)) {
-          return 0x1000 + s;
+          return 1400 + s;
         }
         regs_[rd] = loaded & 0x80 ? 0xffff'ff00 | loaded : loaded;
         break;
@@ -305,7 +305,7 @@ public:
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
-          return 0x1000 + s;
+          return 1500 + s;
         }
         regs_[rd] = loaded & 0x8000 ? 0xffff'0000 | loaded : loaded;
         break;
@@ -316,7 +316,7 @@ public:
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, WORD, false, loaded)) {
-          return 0x1000 + s;
+          return 1600 + s;
         }
         regs_[rd] = loaded;
         break;
@@ -327,7 +327,7 @@ public:
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, BYTE, false, loaded)) {
-          return 0x1000 + s;
+          return 1700 + s;
         }
         regs_[rd] = loaded;
         break;
@@ -338,13 +338,13 @@ public:
 #endif
         uint32_t loaded = 0;
         if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
-          return 0x1000 + s;
+          return 1800 + s;
         }
         regs_[rd] = loaded;
         break;
       }
       default:
-        return 0x10;
+        return 7;
       }
       break;
     }
@@ -449,13 +449,13 @@ public:
         break;
       }
       default:
-        return 0x17;
+        return 8;
       }
       break;
     }
     //-----------------------------------------------------------------------
     default:
-      return 0x18;
+      return 9;
     }
 
     pc_ = next_pc;
