@@ -116,7 +116,7 @@ auto main(int argc, char **argv) -> int {
 
   file.close();
 
-  // set no echo and non-canonical mode
+  // configure terminal to not echo and enable non-blocking getchar()
   struct termios newt;
   tcgetattr(STDIN_FILENO, &saved_termios);
   newt = saved_termios;
