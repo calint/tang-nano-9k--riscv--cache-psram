@@ -5,13 +5,14 @@
 #include <unistd.h>
 #include <vector>
 // #define RV32I_DEBUG
-#include "main_config.hpp"
 #include "rv32i.hpp"
+//
+#include "main_config.hpp"
 
 using namespace std;
 
 // initialize RAM with -1 being the default value from flash
-static vector<int8_t> ram(MEMORY_END, -1);
+static vector<int8_t> ram(osqa::memory_end, -1);
 
 // preserved terminal settings
 static struct termios saved_termios;
@@ -21,13 +22,13 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
                 bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
   uint32_t const width = static_cast<uint32_t>(op_width);
-  if (address + width > ram.size() && address != UART_OUT &&
-      address != UART_IN && address != LED) {
+  if (address + width > ram.size() && address != osqa::uart_out &&
+      address != osqa::uart_in && address != osqa::led) {
     return 1;
   }
 
   if (is_store) {
-    if (address == UART_OUT) {
+    if (address == osqa::uart_out) {
       int const ch = data & 0xFF;
       if (ch == 0x7f) {
         // convert from serial to terminal
@@ -36,9 +37,9 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         putchar(ch);
       }
       fflush(stdout);
-    } else if (address == UART_IN) {
+    } else if (address == osqa::uart_in) {
       // do nothing when writing to address UART_IN
-    } else if (address == LED) {
+    } else if (address == osqa::led) {
       // do nothing when writing to address LED
     } else {
       for (uint32_t i = 0; i < width; ++i) {
@@ -47,9 +48,9 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     }
   } else {
     // read op
-    if (address == UART_OUT) {
+    if (address == osqa::uart_out) {
       data = 0;
-    } else if (address == UART_IN) {
+    } else if (address == osqa::uart_in) {
       int const ch = getchar();
       if (ch == EOF) {
         data = 0;
@@ -64,7 +65,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
           data = ch;
         }
       }
-    } else if (address == LED) {
+    } else if (address == osqa::led) {
       // do nothing when reading from address LED
     } else {
       data = 0;

@@ -26,12 +26,14 @@ with open('emulator/src/main_config.hpp', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
     file.write('#pragma once\n')
     file.write('#include <cstdint>\n\n')
+    file.write('namespace osqa {\n\n')
     file.write('// memory map\n')
-    file.write('std::uint32_t constexpr LED = 0xffff\'ffff;\n')
-    file.write('std::uint32_t constexpr UART_OUT = 0xffff\'fffe;\n')
-    file.write('std::uint32_t constexpr UART_IN = 0xffff\'fffd;\n')
-    file.write('std::uint32_t constexpr MEMORY_END = {};\n'.format(
+    file.write('std::uint32_t constexpr led = 0xffff\'ffff;\n')
+    file.write('std::uint32_t constexpr uart_out = 0xffff\'fffe;\n')
+    file.write('std::uint32_t constexpr uart_in = 0xffff\'fffd;\n')
+    file.write('std::uint32_t constexpr memory_end = {};\n'.format(
         hex(2**cfg.RAM_ADDRESS_BITWIDTH)))
+    file.write('\n} // namespace osqa\n')
 
 
 with open('src/configuration.sv', 'w') as file:
