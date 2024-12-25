@@ -52,6 +52,27 @@ static constexpr size_t ENTITY_MAX_OBJECTS = 32;
 // #define LOCATION_MAX_EXITS 6
 // #define ENTITY_MAX_OBJECTS 32
 
+template <typename T, typename U> struct is_same {
+  static constexpr bool value = false;
+};
+
+template <typename T> struct is_same<T, T> {
+  static constexpr bool value = true;
+};
+
+template <typename T, typename U>
+concept same_as = is_same<T, U>::value;
+
+template <typename Func, typename Arg>
+concept callable_returns_bool = requires(Func f, Arg arg) {
+  { f(arg) } -> same_as<bool>;
+};
+
+template <typename Func, typename Arg>
+concept callable_returns_void = requires(Func f, Arg arg) {
+  { f(arg) } -> same_as<void>;
+};
+
 class command_buffer final {
   char line_[80]{};
   uint8_t cursor_{};
@@ -131,7 +152,8 @@ public:
     return true;
   }
 
-  auto apply_on_chars_from_cursor_to_end(auto &&f) const -> void {
+  auto apply_on_chars_from_cursor_to_end(
+      callable_returns_void<char> auto &&f) const -> void {
     for (size_t i = cursor_; i < end_; ++i) {
       f(line_[i]);
     }
@@ -173,7 +195,7 @@ public:
   }
 
   auto remove_at_index(size_t ix) -> bool {
-    if (len == 0) {
+    if (len == 0 || ix >= len) {
       return false;
     }
     --len;
@@ -192,7 +214,8 @@ public:
 
   auto length() const -> size_t { return len; }
 
-  auto for_each_until_false(auto &&f) const -> void {
+  auto
+  for_each_until_false(callable_returns_bool<Type> auto &&f) const -> void {
     for (size_t i = 0; i < len; ++i) {
       if (!f(data[i])) {
         return;
