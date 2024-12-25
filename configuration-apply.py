@@ -1,5 +1,5 @@
 #!/bin/python3
-# generates configuration files for Verilog source and 'os'
+# generates configuration files for Verilog source, 'os' and 'emulator'
 import configuration as cfg
 import os
 
