@@ -26,10 +26,11 @@ module cache #(
     // note: 1 less than spec because the counter starts 1 cycle late (13)
 
     parameter int unsigned RamAddressingMode = 0
-    // note: 3: RAM has 64 bit words
-    //       2: RAM has 32 bit words
-    //       1: RAM has 16 bit words
-    //       0: RAM has 8 bit words
+    // amount of data stored per address
+    //       0: 1 B (byte addressed)
+    //       1: 2 B
+    //       2: 4 B
+    //       3: 8 B
 ) (
     input wire rst_n,
     input wire clk,
