@@ -67,3 +67,28 @@ start Gowin EDA on Arch Linux:
 LD_PRELOAD=/usr/lib/libfreetype.so ~/apps/gowin/IDE/bin/gw_ide
 
 -------------------------------------------------------------
+
+template <typename T, typename U> struct is_same {
+  static constexpr bool value = false;
+};
+
+template <typename T> struct is_same<T, T> {
+  static constexpr bool value = true;
+};
+
+template <typename T, typename U>
+constexpr bool is_same_v = is_same<T, U>::value;
+
+template <typename F, typename T>
+concept function_one_arg_returns_bool =
+    requires(F f, T arg) { requires is_same_v<decltype(f(arg)), bool>; };
+...
+  auto for_each_until_false(function_one_arg_returns_bool<Type> auto &&f) const
+      -> void {
+    for (size_t i = 0; i < len; ++i) {
+      if (!f(data[i])) {
+        return;
+      }
+    }
+  }
+...
