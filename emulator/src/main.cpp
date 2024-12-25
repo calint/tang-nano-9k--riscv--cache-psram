@@ -52,19 +52,22 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       data = 0;
     } else if (address == osqa::uart_in) {
       int const ch = getchar();
-      if (ch == EOF) {
+      // convert terminal to serial
+      switch (ch) {
+      case EOF: // not data available
         data = 0;
-      } else {
-        if (ch == '\n') {
-          // convert from terminal to serial key code
-          data = '\r';
-        } else if (ch == 0x08) {
-          // convert from terminal to serial key code
-          data = 0x7f;
-        } else {
-          data = ch;
-        }
+        break;
+      case '\n': // newline to carriage return
+        data = '\r';
+        break;
+      case 0x08: // backspace
+        data = 0x7f;
+        break;
+      default:
+        data = ch;
+        break;
       }
+      return 0;
     } else if (address == osqa::led) {
       // do nothing when reading from address LED
     } else {

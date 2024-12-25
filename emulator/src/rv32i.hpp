@@ -32,7 +32,8 @@ public:
     regs_[0] = 0;
     uint32_t next_pc = pc_ + 4;
     uint32_t instruction = 0;
-    if (bus_status s = bus_(pc_, bus_op_width::WORD, false, instruction)) {
+    if (bus_status const s =
+            bus_(pc_, bus_op_width::WORD, false, instruction)) {
       return 1000 + s;
     }
 #ifdef RV32I_DEBUG
@@ -251,7 +252,7 @@ public:
         printf("sb x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
         uint32_t value = regs_[rs2] & 0xff;
-        if (bus_status s = bus_(address, BYTE, true, value)) {
+        if (bus_status const s = bus_(address, BYTE, true, value)) {
           return 1100 + s;
         }
         break;
@@ -261,7 +262,7 @@ public:
         printf("sh x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
         uint32_t value = regs_[rs2] & 0xffff;
-        if (bus_status s = bus_(address, HALF_WORD, true, value)) {
+        if (bus_status const s = bus_(address, HALF_WORD, true, value)) {
           return 1200 + s;
         }
         break;
@@ -270,7 +271,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("sw x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
-        if (bus_status s = bus_(address, WORD, true, regs_[rs2])) {
+        if (bus_status const s = bus_(address, WORD, true, regs_[rs2])) {
           return 1300 + s;
         }
         break;
@@ -295,7 +296,7 @@ public:
         printf("lb x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
-        if (bus_status s = bus_(address, BYTE, false, loaded)) {
+        if (bus_status const s = bus_(address, BYTE, false, loaded)) {
           return 1400 + s;
         }
         regs_[rd] = loaded & 0x80 ? 0xffff'ff00 | loaded : loaded;
@@ -306,7 +307,7 @@ public:
         printf("lh x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
-        if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
+        if (bus_status const s = bus_(address, HALF_WORD, false, loaded)) {
           return 1500 + s;
         }
         regs_[rd] = loaded & 0x8000 ? 0xffff'0000 | loaded : loaded;
@@ -317,7 +318,7 @@ public:
         printf("lw x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
-        if (bus_status s = bus_(address, WORD, false, loaded)) {
+        if (bus_status const s = bus_(address, WORD, false, loaded)) {
           return 1600 + s;
         }
         regs_[rd] = loaded;
@@ -328,7 +329,7 @@ public:
         printf("lbu x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
-        if (bus_status s = bus_(address, BYTE, false, loaded)) {
+        if (bus_status const s = bus_(address, BYTE, false, loaded)) {
           return 1700 + s;
         }
         regs_[rd] = loaded;
@@ -339,7 +340,7 @@ public:
         printf("lhu x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
-        if (bus_status s = bus_(address, HALF_WORD, false, loaded)) {
+        if (bus_status const s = bus_(address, HALF_WORD, false, loaded)) {
           return 1800 + s;
         }
         regs_[rd] = loaded;
