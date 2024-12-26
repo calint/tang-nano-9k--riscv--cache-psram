@@ -7,6 +7,9 @@ git add . && git commit -m "." && git push
 # tag with date and time
 TAG=$(date "+%Y-%m-%d--%H-%M") && git tag $TAG && git push origin $TAG
 
+# to overwrite repository with current workspace
+git push origin main --force
+
 # in case the ttyUSBx hangs
 sudo modprobe -r xhci_pci && sleep 5 && sudo modprobe xhci_pci
 
