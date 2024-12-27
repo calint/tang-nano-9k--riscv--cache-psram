@@ -60,7 +60,7 @@ module testbench;
 
   ramio #(
       .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
-      .RamAddressingMode(3),  // 64 bit word RAM
+      .RamAddressingMode(3),  // 64 bits word per address in RAM 
       .CacheLineIndexBitWidth(1),
       .ClockFrequencyHz(20_250_000),
       .BaudRate(20_250_000)
@@ -350,7 +350,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    while (core.state != core.CpuFetch) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
 
     // 78: 006a1a83 lh x21,6(x20) # x21 = [1006] = 0x00001
     while (core.state != core.CpuExecute) #clk_tk;
@@ -364,7 +364,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    while (core.state != core.CpuFetch) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
 
     // 80: 007a0a83 lb x21,7(x20) # x21 = [1007] = 0x01
     while (core.state != core.CpuExecute) #clk_tk;
@@ -424,7 +424,7 @@ module testbench;
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
-    while (core.state != core.CpuFetch) #clk_tk;
+    while (core.state != core.CpuExecute) #clk_tk;
     assert (core.registers.data[22] == 32'h0001_0000)
     else $error();
 
