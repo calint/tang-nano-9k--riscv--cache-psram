@@ -12,7 +12,7 @@ SRCPTH=../../src
 cd $1
 pwd
 
-iverilog -g2005-sv -Winfloop -pfileline=1 -o iverilog.vvp -s testbench testbench.sv \
+iverilog -g2012 -Winfloop -pfileline=1 -o iverilog.vvp -s testbench testbench.sv \
     $SRCPTH/bram.sv \
     $SRCPTH/cache.sv \
     $SRCPTH/ramio.sv \
