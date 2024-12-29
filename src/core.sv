@@ -99,7 +99,7 @@ module core #(
   logic [31:0] rd_data_in;
   logic rd_write_enable;
 
-  always_ff @(posedge clk or negedge rst_n) begin
+  always_ff @(posedge clk) begin
     if (!rst_n) begin
       ramio_enable <= 0;
       ramio_read_type <= 0;

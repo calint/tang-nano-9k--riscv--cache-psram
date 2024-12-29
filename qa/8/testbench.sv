@@ -109,7 +109,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 0)
-    else $error();
+    else $fatal;
 
     $finish;
 

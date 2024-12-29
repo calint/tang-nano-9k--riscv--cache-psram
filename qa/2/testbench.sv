@@ -69,34 +69,34 @@ module testbench;
     #clk_tk;
 
     assert (rd_data_valid)
-    else $error();
+    else $fatal;
 
     // first data
     assert (rd_data == 64'h3F5A2E14B7C6A980)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     // second data
     assert (rd_data == 64'h9D8E2F17AB4C3E6F)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     // third data
     assert (rd_data == 64'hA1C3F7E2D5B8A9C4)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     // fourth data
     assert (rd_data == 64'h7D4E9F2C1B6A3D8F)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     assert (!rd_data_valid)
-    else $error();
+    else $fatal;
 
     #clk_tk;
     #clk_tk;
@@ -118,34 +118,34 @@ module testbench;
     #clk_tk;
 
     assert (rd_data_valid)
-    else $error();
+    else $fatal;
 
     // first data
     assert (rd_data == 64'h6C4B9A8D2F5E3C7A)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     // second data
     assert (rd_data == 64'hE1A7D0B5C8F3E6A9)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     // third data
     assert (rd_data == 64'hF8E9D2C3B4A5F6E7)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     // fourth data
     assert (rd_data == 64'hD4E7F2C5B8A3D6E9)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     assert (!rd_data_valid)
-    else $error();
+    else $fatal;
 
     #clk_tk;
     #clk_tk;

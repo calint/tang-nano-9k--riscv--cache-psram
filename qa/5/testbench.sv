@@ -114,7 +114,7 @@ module testbench;
         #clk_tk_half;
       end
       assert (flash.data[i] == received_byte)
-      else $error();
+      else $fatal;
     end
 
     //----------------------------------------------------------

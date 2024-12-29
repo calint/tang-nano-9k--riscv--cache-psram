@@ -112,14 +112,14 @@ module testbench;
     #clk_tk;
     while (!data_out_ready) #clk_tk;
     assert (data_out == 1)
-    else $error();
+    else $fatal;
 
     address <= 8;
     write_enable <= 0;
     #clk_tk;
     while (!data_out_ready) #clk_tk;
     assert (data_out == 2)
-    else $error();
+    else $fatal;
 
     address <= 4;
     data_in <= 32'habcd_1234;
@@ -129,9 +129,9 @@ module testbench;
     write_enable <= 0;
     #clk_tk;
     assert (data_out_ready)
-    else $error();
+    else $fatal;
     assert (data_out == 32'habcd_1234)
-    else $error();
+    else $fatal;
 
 
     $finish;

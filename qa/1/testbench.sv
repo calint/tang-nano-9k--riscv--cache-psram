@@ -104,7 +104,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'hD5B8A9C4)
-    else $error();
+    else $fatal;
 
     // read address 8; cache hit; one cycle delay
     while (busy) #clk_tk;
@@ -113,7 +113,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 32'hAB4C3E6F && data_out_ready)
-    else $error();
+    else $fatal;
 
     // read; cache miss, invalid line
     while (busy) #clk_tk;
@@ -122,12 +122,12 @@ module testbench;
     #clk_tk;
 
     assert (!data_out_ready)
-    else $error();
+    else $fatal;
 
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'h2F5E3C7A && data_out_ready)
-    else $error();
+    else $fatal;
 
     // read; cache hit valid
     while (busy) #clk_tk;
@@ -136,7 +136,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 32'h9D8E2F17 && data_out_ready)
-    else $error();
+    else $fatal;
 
     // write byte; cache hit
     while (busy) #clk_tk;
@@ -152,7 +152,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 32'hAB4C3Ead && data_out_ready)
-    else $error();
+    else $fatal;
 
     // write half-word
     while (busy) #clk_tk;
@@ -168,7 +168,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 32'hAB4C8765 && data_out_ready)
-    else $error();
+    else $fatal;
 
     // write upper half-word
     while (busy) #clk_tk;
@@ -184,7 +184,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 32'hfeef8765 && data_out_ready)
-    else $error();
+    else $fatal;
 
     // write word; cache miss; evict then write
     while (busy) #clk_tk;
@@ -200,7 +200,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 32'habcdef12 && data_out_ready)
-    else $error();
+    else $fatal;
 
     // write word; cache hit
     while (busy) #clk_tk;
@@ -216,7 +216,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 32'h1b2d3f42 && data_out_ready)
-    else $error();
+    else $fatal;
 
     while (busy) #clk_tk;
     address <= 0;
@@ -225,7 +225,7 @@ module testbench;
     #clk_tk;
 
     assert (busy)
-    else $error();
+    else $fatal;
 
     while (busy) #clk_tk;
     address <= 8;
@@ -233,10 +233,10 @@ module testbench;
     #clk_tk;
 
     assert (data_out_ready)
-    else $error();
+    else $fatal;
 
     assert (data_out == 32'hfeef8765 && data_out_ready)
-    else $error();
+    else $fatal;
 
     // read last element in the cache line
     while (busy) #clk_tk;
@@ -245,10 +245,10 @@ module testbench;
     #clk_tk;
 
     assert (data_out_ready)
-    else $error();
+    else $fatal;
 
     assert (data_out == 32'h7D4E9F2C && data_out_ready)
-    else $error();
+    else $fatal;
 
     #clk_tk;
     #clk_tk;

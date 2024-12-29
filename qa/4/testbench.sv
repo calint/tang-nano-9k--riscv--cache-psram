@@ -110,7 +110,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'hD5B8A9C4)
-    else $error();
+    else $fatal;
 
     // read unsigned byte; cache hit
     address <= 17;
@@ -122,7 +122,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'h0000_00A9)
-    else $error();
+    else $fatal;
 
     // read unsigned short; cache hit
     address <= 18;
@@ -134,7 +134,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'h0000_D5B8)
-    else $error();
+    else $fatal;
 
     // write unsigned byte; cache hit
     enable <= 1;
@@ -155,7 +155,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'h0000_00ab)
-    else $error();
+    else $fatal;
 
     // write half-word; cache hit
     enable <= 1;
@@ -176,7 +176,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'h0000_1234)
-    else $error();
+    else $fatal;
 
     // write word; cache hit
     enable <= 1;
@@ -197,7 +197,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'habcd_1234)
-    else $error();
+    else $fatal;
 
     // write to UART
     enable <= 1;
@@ -212,55 +212,56 @@ module testbench;
     address <= 32'hffff_fffe;
     read_type <= 3'b001;
     write_type <= 0;
+    #clk_tk;
 
     // start bit
     #clk_tk;
     assert (uart_tx == 0)
-    else $error();
+    else $fatal;
     // bit 1
     #clk_tk;
     assert (uart_tx == 0)
-    else $error();
+    else $fatal;
     // bit 2
     #clk_tk;
     assert (uart_tx == 1)
-    else $error();
+    else $fatal;
     // bit 3
     #clk_tk;
     assert (uart_tx == 0)
-    else $error();
+    else $fatal;
     // bit 4
     #clk_tk;
     assert (uart_tx == 1)
-    else $error();
+    else $fatal;
     // bit 5
     #clk_tk;
     assert (uart_tx == 0)
-    else $error();
+    else $fatal;
     // bit 6
     #clk_tk;
     assert (uart_tx == 1)
-    else $error();
+    else $fatal;
     // bit 7
     #clk_tk;
     assert (uart_tx == 0)
-    else $error();
+    else $fatal;
     // stop bit
     #clk_tk;
     assert (uart_tx == 1)
-    else $error();
+    else $fatal;
     #clk_tk;
     assert (uart_tx == 1)
-    else $error();
+    else $fatal;
 
     #clk_tk;
     assert (ramio.uarttx.bsy == 0)
-    else $error();
+    else $fatal;
 
     #clk_tk;
 
     assert (ramio.uarttx_data_sending == 0)
-    else $error();
+    else $fatal;
 
     // start bit
     uart_rx <= 0;
@@ -296,7 +297,7 @@ module testbench;
     #clk_tk;  // 'ramio' transfers data from 'uartrx'
 
     assert (ramio.uartrx_data_ready && ramio.uartrx_data == 8'haa)
-    else $error();
+    else $fatal;
 
     // read from UART
     enable <= 1;
@@ -306,7 +307,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 8'haa)
-    else $error();
+    else $fatal;
 
     #clk_tk;  // 'ramio' clears data from 'uartrx'
 
@@ -318,7 +319,7 @@ module testbench;
     #clk_tk;
 
     assert (data_out == 0)
-    else $error();
+    else $fatal;
 
     // write unsigned byte; cache miss, eviction
     enable <= 1;
@@ -339,7 +340,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'h0000_00ab)
-    else $error();
+    else $fatal;
 
     // write half-word; cache hit
     enable <= 1;
@@ -360,7 +361,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'h0000_1234)
-    else $error();
+    else $fatal;
 
     // write word; cache hit
     enable <= 1;
@@ -381,7 +382,7 @@ module testbench;
     while (!data_out_ready) #clk_tk;
 
     assert (data_out == 32'habcd_1234)
-    else $error();
+    else $fatal;
 
     #clk_tk;
     #clk_tk;

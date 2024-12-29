@@ -149,20 +149,20 @@ module testbench;
     #clk_tk;
     #clk_tk;
     assert (core.registers.data[2] == 32'h0001_0000)
-    else $error();
+    else $fatal;
 
     // 4:	004000ef          	jal	x1,8 <run>
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     assert (core.pc == 8)
-    else $error();
+    else $fatal;
 
     // 8:	ff010113          	addi	x2,x2,-16 # fff0 <__global_pointer$+0xd75c>
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     assert (core.registers.data[2] == 32'h0000_fff0)
-    else $error();
+    else $fatal;
 
     // c:	00112623          	sw	x1,12(x2) # [0xfff0+12] = x1
     while (core.state != core.CpuExecute) #clk_tk;
@@ -177,34 +177,34 @@ module testbench;
     #clk_tk;
     #clk_tk;
     assert (core.registers.data[8] == 32'h0001_0000)
-    else $error();
+    else $fatal;
 
     // 18:	00000513          	addi	x10,x0,0
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     assert (core.registers.data[10] == 0)
-    else $error();
+    else $fatal;
 
     // 1c:	00000097          	auipc	x1,0x0
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     assert (core.registers.data[1] == 32'h0000_001c)
-    else $error();
+    else $fatal;
 
     // 20:	01c080e7          	jalr	x1,28(x1) # 38 <run+0x30>
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     assert (core.pc == 32'h0000_0038)
-    else $error();
+    else $fatal;
 
     // 38:	fd010113          	addi	x2,x2,-48 # 0xffc0
     while (core.state != core.CpuExecute) #clk_tk;
     #clk_tk;
     #clk_tk;
     assert (core.registers.data[2] == 32'h0000_ffc0)
-    else $error();
+    else $fatal;
 
     // 3c:	02812623          	sw	x8,44(x2) #   [0xffec] = 0x1'0000
     while (core.state != core.CpuExecute) #clk_tk;
@@ -216,7 +216,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     assert (core.registers.data[8] == 32'h0000_fff0)
-    else $error();
+    else $fatal;
 
     // 44:	fca42e23          	sw	x10,-36(x8) # [0xfff0 - 36] = [0xffcc] = 0
     while (core.state != core.CpuExecute) #clk_tk;
@@ -227,7 +227,7 @@ module testbench;
     #clk_tk;
     while (core.state != core.CpuExecute) #clk_tk;
     assert (core.registers.data[15] == 32'h0000_0000)
-    else $error();
+    else $fatal;
 
     $finish;
 
