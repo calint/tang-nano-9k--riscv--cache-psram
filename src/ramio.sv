@@ -293,6 +293,7 @@ module ramio #(
       uartrx_data_received <= 0;
       uartrx_go <= 1;
     end else begin
+      // reset flag that previous cycle was a 'uarttx_go'
       prev_cycle_uarttx_go <= 0;
 
       // if read from UART then reset the read data

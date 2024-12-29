@@ -39,6 +39,7 @@ module testbench;
 
     rst_n <= 0;
     #clk_tk;
+    #clk_tk;
     rst_n <= 1;
     #clk_tk;
 
