@@ -55,7 +55,7 @@ static auto uart_send_char(char const ch) -> void {
 }
 
 static auto uart_read_char() -> char {
-  short ch;
+  int ch;
   while ((ch = *UART_IN) == -1)
     ;
   return char(ch);

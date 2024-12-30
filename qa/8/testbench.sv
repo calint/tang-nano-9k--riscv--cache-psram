@@ -9,6 +9,9 @@ module testbench;
 
   localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 4;  // 2^4 * 8 B
 
+  localparam int unsigned UART_OUT_ADDRESS = 32'hffff_fff8;
+  localparam int unsigned UART_IN_ADDRESS = 32'hffff_fff4;
+
   logic rst_n;
   logic clk = 1;
   localparam int unsigned clk_tk = 36;
@@ -99,7 +102,7 @@ module testbench;
     while (br_busy) #clk_tk;
 
     // poll UART tx
-    address <= 32'hffff_fffe;
+    address <= UART_OUT_ADDRESS;
     read_type <= 3'b001;  // read unsigned byte
     write_type <= 2'b00;  // disable write
     enable <= 1;
@@ -108,7 +111,7 @@ module testbench;
 
     while (!data_out_ready) #clk_tk;
 
-    assert (data_out == 0)
+    assert (data_out == -1)
     else $fatal;
 
     $finish;

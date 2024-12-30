@@ -35,14 +35,14 @@ module ramio #(
     parameter int unsigned TopAddress = {AddressBitWidth{1'b1}},
     // last addressable byte
 
-    parameter int unsigned AddressLed = 32'hffff_fffe,
+    parameter int unsigned AddressLed = 32'hffff_fffc,
     // 4 LEDs in the lower nibble of the byte
     //  write only with 'sb'
 
-    parameter int unsigned AddressUartOut = 32'hffff_fffc,
+    parameter int unsigned AddressUartOut = 32'hffff_fff8,
     // note: byte must be read / written with 'lb' or 'lbu'
 
-    parameter int unsigned AddressUartIn = 32'hffff_fffa
+    parameter int unsigned AddressUartIn = 32'hffff_fff4
     // note: received byte must be read with 'lb' or 'lbu'
     //       received byte is set to 0 after read
 ) (
@@ -303,7 +303,7 @@ module ramio #(
 
         // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
         //  note: read data can be overrun
-        uartrx_data_received <= {{8{uartrx_data[7]}}, uartrx_data};
+        uartrx_data_received <= {{8'h00}, uartrx_data};
         uartrx_go <= 0;
       end
 

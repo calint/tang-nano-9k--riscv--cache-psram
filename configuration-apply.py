@@ -19,9 +19,9 @@ with open('os/src/os_start.S', 'w') as file:
 with open('os/src/os_config.hpp', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
     file.write('#pragma once\n')
-    file.write('#define LED ((unsigned short volatile *)0xffff\'fffe)\n')
-    file.write('#define UART_OUT ((short volatile *)0xffff\'fffc)\n')
-    file.write('#define UART_IN ((short volatile *)0xffff\'fffa)\n')
+    file.write('#define LED ((int volatile *)0xffff\'fffc)\n')
+    file.write('#define UART_OUT ((int volatile *)0xffff\'fff8)\n')
+    file.write('#define UART_IN ((int volatile *)0xffff\'fff4)\n')
     file.write('#define MEMORY_END {}\n'.format(hex(
         memory_end_address)))
 
@@ -31,9 +31,9 @@ with open('emulator/src/main_config.hpp', 'w') as file:
     file.write('#include <cstdint>\n\n')
     file.write('namespace osqa {\n\n')
     file.write('// memory map\n')
-    file.write('std::uint32_t constexpr led = 0xffff\'fffe;\n')
-    file.write('std::uint32_t constexpr uart_out = 0xffff\'fffc;\n')
-    file.write('std::uint32_t constexpr uart_in = 0xffff\'fffa;\n')
+    file.write('std::uint32_t constexpr led = 0xffff\'fffc;\n')
+    file.write('std::uint32_t constexpr uart_out = 0xffff\'fff8;\n')
+    file.write('std::uint32_t constexpr uart_in = 0xffff\'fff4;\n')
     file.write('std::uint32_t constexpr memory_end = {};\n'.format(hex(
         memory_end_address)))
     file.write('\n} // namespace osqa\n')

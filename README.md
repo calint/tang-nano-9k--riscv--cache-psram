@@ -77,7 +77,8 @@ welcome to adventure #4
 ## Todo
 ```
 -------------------------------------------------------------------------------------------------------------
-[ ] samples/echo: study why lhu, slli then srai instead of lw
+[x] samples/echo: study why lhu, slli then srai instead of lw
+    => signed short
 [x] uarttx: run on posedge clk
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
