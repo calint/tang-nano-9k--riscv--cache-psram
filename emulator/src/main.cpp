@@ -49,7 +49,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
   } else {
     // read op
     if (address == osqa::uart_out) {
-      data = -1;
+      data = 0xffff'ffff; // -1
     } else if (address == osqa::uart_in) {
       int const ch = getchar();
       // convert terminal to serial
