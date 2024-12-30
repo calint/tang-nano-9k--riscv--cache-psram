@@ -1,0 +1,7 @@
+
+firmware:     file format elf32-littleriscv
+
+Contents of section .rodata:
+ 00c4 48656c6c 6f20576f 726c640d 0a00      Hello World...  
+Contents of section .sdata:
+ 00d4 c4000000                             ....            

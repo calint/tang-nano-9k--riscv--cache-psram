@@ -1,0 +1,118 @@
+
+firmware:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+00000000 <_start>:
+# # generated - do not edit (see `configuration.py`)
+# .global _start
+# _start:
+#     li sp, 0x200000
+   0:	00200137          	lui	sp,0x200
+#     jal ra, run
+   4:	004000ef          	jal	8 <run>
+
+00000008 <run>:
+# 
+# void uart_send_str(const char *str);
+# void uart_send_char(char ch);
+# char uart_read_char();
+# 
+# extern "C" void run() {
+   8:	ff010113          	addi	sp,sp,-16 # 1ffff0 <__bss_end+0x1fff18>
+   c:	00912223          	sw	s1,4(sp)
+  10:	00112623          	sw	ra,12(sp)
+  14:	00812423          	sw	s0,8(sp)
+#   *LED = 0; // all leds on
+  18:	fe001f23          	sh	zero,-2(zero) # fffffffe <__bss_end+0xffffff26>
+# 
+#   uart_send_str(hello);
+  1c:	0d402503          	lw	a0,212(zero) # d4 <_ZL5hello>
+# 
+#   while (1) {
+#     const char ch = uart_read_char();
+#     uart_send_char(ch);
+#     if (ch == '\r') {
+  20:	00d00493          	li	s1,13
+#   uart_send_str(hello);
+  24:	02c000ef          	jal	50 <_Z13uart_send_strPKc>
+#     const char ch = uart_read_char();
+  28:	080000ef          	jal	a8 <_Z14uart_read_charv>
+  2c:	00050413          	mv	s0,a0
+#     uart_send_char(ch);
+  30:	054000ef          	jal	84 <_Z14uart_send_charc>
+#     if (ch == '\r') {
+  34:	00941663          	bne	s0,s1,40 <run+0x38>
+#       uart_send_char('\n');
+  38:	00a00513          	li	a0,10
+  3c:	048000ef          	jal	84 <_Z14uart_send_charc>
+#     }
+#     *LED = ch;
+  40:	01041413          	slli	s0,s0,0x10
+  44:	41045413          	srai	s0,s0,0x10
+  48:	fe801f23          	sh	s0,-2(zero) # fffffffe <__bss_end+0xffffff26>
+#   }
+  4c:	fddff06f          	j	28 <run+0x20>
+
+00000050 <_Z13uart_send_strPKc>:
+# }
+# 
+# void uart_send_str(const char *str) {
+#   while (*str) {
+#     while (*UART_OUT != -1)
+  50:	fff00693          	li	a3,-1
+#   while (*str) {
+  54:	00054783          	lbu	a5,0(a0)
+  58:	00079463          	bnez	a5,60 <_Z13uart_send_strPKc+0x10>
+#       ;
+#     *UART_OUT = *str;
+#     str++;
+#   }
+# }
+  5c:	00008067          	ret
+#     while (*UART_OUT != -1)
+  60:	ffc05703          	lhu	a4,-4(zero) # fffffffc <__bss_end+0xffffff24>
+  64:	01071713          	slli	a4,a4,0x10
+  68:	41075713          	srai	a4,a4,0x10
+  6c:	fed71ae3          	bne	a4,a3,60 <_Z13uart_send_strPKc+0x10>
+#     *UART_OUT = *str;
+  70:	01079793          	slli	a5,a5,0x10
+  74:	4107d793          	srai	a5,a5,0x10
+  78:	fef01e23          	sh	a5,-4(zero) # fffffffc <__bss_end+0xffffff24>
+#     str++;
+  7c:	00150513          	addi	a0,a0,1
+  80:	fd5ff06f          	j	54 <_Z13uart_send_strPKc+0x4>
+
+00000084 <_Z14uart_send_charc>:
+# 
+# void uart_send_char(const char ch) {
+#   while (*UART_OUT != -1)
+  84:	fff00713          	li	a4,-1
+  88:	ffc05783          	lhu	a5,-4(zero) # fffffffc <__bss_end+0xffffff24>
+  8c:	01079793          	slli	a5,a5,0x10
+  90:	4107d793          	srai	a5,a5,0x10
+  94:	fee79ae3          	bne	a5,a4,88 <_Z14uart_send_charc+0x4>
+#     ;
+#   *UART_OUT = ch;
+  98:	01051513          	slli	a0,a0,0x10
+  9c:	41055513          	srai	a0,a0,0x10
+  a0:	fea01e23          	sh	a0,-4(zero) # fffffffc <__bss_end+0xffffff24>
+# }
+  a4:	00008067          	ret
+
+000000a8 <_Z14uart_read_charv>:
+# 
+# char uart_read_char() {
+#   short ch = 0;
+#   while ((ch = *UART_IN) == -1)
+  a8:	fff00793          	li	a5,-1
+  ac:	ffa05503          	lhu	a0,-6(zero) # fffffffa <__bss_end+0xffffff22>
+  b0:	01051513          	slli	a0,a0,0x10
+  b4:	41055513          	srai	a0,a0,0x10
+  b8:	fef50ae3          	beq	a0,a5,ac <_Z14uart_read_charv+0x4>
+#     ;
+#   return char(ch);
+# }
+  bc:	0ff57513          	zext.b	a0,a0
+  c0:	00008067          	ret
