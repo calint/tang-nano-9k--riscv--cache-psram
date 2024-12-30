@@ -181,11 +181,11 @@ module ramio #(
     end
   end
 
-  logic [15:0] uarttx_data_sending;
+  logic [31:0] uarttx_data_sending;
   // data being sent by 'uarttx'
   //  -1 if idle
 
-  logic [15:0] uartrx_data_received;
+  logic [31:0] uartrx_data_received;
   // data copied from 'uartrx_data' when 'uartrx_data_ready' asserted
   //  -1 if none available
 
@@ -201,12 +201,12 @@ module ramio #(
     data_out = 0;
     if (enable) begin
       if (address == AddressUartOut && read_type != '0) begin
-        // any read from from 'uarttx' returns signed word
-        data_out = {{16{uarttx_data_sending[15]}}, uarttx_data_sending};
+        // any read from 'uarttx' returns signed word
+        data_out = uarttx_data_sending;
 
       end else if (address == AddressUartIn && read_type != '0) begin
         // any read from 'uartrx' returns signed word
-        data_out = {{16{uartrx_data_received[15]}}, uartrx_data_received};
+        data_out = uartrx_data_received;
 
       end else begin
         // read from ram
@@ -303,7 +303,7 @@ module ramio #(
 
         // if UART has data ready then copy the data and acknowledge (uartrx_go = 0)
         //  note: read data can be overrun
-        uartrx_data_received <= {{8'h00}, uartrx_data};
+        uartrx_data_received <= {{24'h00}, uartrx_data};
         uartrx_go <= 0;
       end
 
@@ -317,12 +317,12 @@ module ramio #(
       //  and set idle (0xffff)
       if (uarttx_go && !uarttx_bsy && !prev_cycle_uarttx_go) begin
         uarttx_go <= 0;
-        uarttx_data_sending <= 16'hffff;
+        uarttx_data_sending <= -1;
       end
 
       // if writing to UART out
       if (address == AddressUartOut && write_type != '0) begin
-        uarttx_data_sending <= {8'h00, data_in[7:0]};
+        uarttx_data_sending <= {24'h00, data_in[7:0]};
         uarttx_go <= 1;
         prev_cycle_uarttx_go <= 1;
       end

@@ -280,7 +280,7 @@ module testbench;
     else $fatal;
 
     #clk_tk;
-    assert (ramio.uarttx_data_sending == 16'hffff)
+    assert (ramio.uarttx_data_sending == -1)
     else $fatal;
 
     assert (data_out == -1)
