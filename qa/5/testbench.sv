@@ -17,7 +17,7 @@ module testbench;
   output logic flash_clk;
   input logic flash_miso;
   output logic flash_mosi;
-  output logic flash_cs;
+  output logic flash_cs_n;
 
   flash #(
       .DataFilePath("flash.mem"),
@@ -27,7 +27,7 @@ module testbench;
       .clk (flash_clk),
       .miso(flash_miso),
       .mosi(flash_mosi),
-      .cs  (flash_cs)
+      .cs_n(flash_cs_n)
   );
   //-------------------------------------------------
 
@@ -44,7 +44,7 @@ module testbench;
     #clk_tk;
 
     //----------------------------------------------------------
-    flash_cs   <= 0;
+    flash_cs_n <= 0;
 
     // send 8 bits command 0x3
     flash_mosi <= 0;  // bit 7

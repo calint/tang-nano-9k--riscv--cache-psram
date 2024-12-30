@@ -19,7 +19,7 @@ module top (
     output logic flash_clk,
     input  wire  flash_miso,
     output logic flash_mosi,
-    output logic flash_cs,
+    output logic flash_cs_n,
 
     // magic ports for PSRAM to be inferred
     output logic [ 1:0] O_psram_ck,
@@ -89,9 +89,6 @@ module top (
       .O_psram_reset_n
   );
 
-  localparam int unsigned CLOCK_FREQUENCY_HZ = 30_000_000;
-  // note: = br_clk_out = memory_clk / 2 = 60 / 2 = 30 MHz
-
   // ----------------------------------------------------------
   // -- ramio
   // ----------------------------------------------------------
@@ -108,7 +105,7 @@ module top (
       .RamAddressBitWidth(configuration::RAM_ADDRESS_BITWIDTH),
       .RamAddressingMode(0),  // addressing 8 bit words
       .CacheLineIndexBitWidth(configuration::CACHE_LINE_INDEX_BITWIDTH),
-      .ClockFrequencyHz(CLOCK_FREQUENCY_HZ),
+      .ClockFrequencyHz(configuration::CPU_FREQUENCY_HZ),
       .BaudRate(configuration::UART_BAUD_RATE)
   ) ramio (
       .rst_n(rst_n && rpll_lock && br_init_calib),
@@ -144,8 +141,8 @@ module top (
   // ----------------------------------------------------------
 
   core #(
-      .StartupWaitCycles (configuration::STARTUP_WAIT_CYCLES),
-      .FlashTransferBytes(configuration::FLASH_TRANSFER_BYTES)
+      .StartupWaitCycles(configuration::STARTUP_WAIT_CYCLES),
+      .FlashTransferByteCount(configuration::FLASH_TRANSFER_BYTE_COUNT)
   ) core (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
@@ -163,7 +160,7 @@ module top (
       .flash_clk,
       .flash_miso,
       .flash_mosi,
-      .flash_cs
+      .flash_cs_n
   );
 
   assign led[5] = ~ramio_busy;

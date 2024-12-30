@@ -4,24 +4,29 @@
 //
 // reviewed 2024-06-26
 //
-`timescale 100ps / 100ps
+`timescale 1ns / 1ps
 //
 `default_nettype none
-// `define DBG
-// `define INFO
+//`define DBG
+//`define INFO
 
 module flash #(
     parameter string DataFilePath = "",
     // initial RAM content; one byte per line in hex text
 
-    parameter int unsigned AddressBitWidth = 8
+    parameter int unsigned AddressBitWidth = 8,
+    // size of stored data in bit width; 2 ^ 8 = 256 B
+
+    parameter int unsigned AddressOffset = 0
+    // adjust requested address to the address space of data
+    // example: -10 translates requested address 10 to 0
 ) (
     input wire rst_n,
     input wire clk,
 
     output logic miso,
     input  wire  mosi,
-    input  wire  cs
+    input  wire  cs_n
 );
 
   localparam int unsigned DEPTH = 2 ** AddressBitWidth;
@@ -46,8 +51,9 @@ module flash #(
     $display("----------------------------------------");
     $display("  flash");
     $display("----------------------------------------");
-    $display("  data file: %s", DataFilePath);
-    $display("       size: %0d B", DEPTH);
+    $display("      data file: %s", DataFilePath);
+    $display("           size: %0d B", DEPTH);
+    $display(" address offset: %0h", AddressOffset);
     $display("----------------------------------------");
 `endif
     if (DataFilePath != "") begin
@@ -60,7 +66,7 @@ module flash #(
     if (!rst_n) begin
       counter <= 8 - 2;  // -2 because decrementing into negative
       address <= 0;
-      current_byte <= data[0];
+      current_byte <= 0;
       miso <= 0;
       state <= ReceiveCommand;
     end else begin
@@ -70,34 +76,36 @@ module flash #(
       unique case (state)
 
         ReceiveCommand: begin
-          if (!cs) begin
-            // note: assume 'read', the only command implemented
+          if (!cs_n) begin
+            // note: assumes 'read', the only command implemented
             counter <= counter - 1'b1;
             if (counter[8]) begin
-              counter <= 24 - 2;  // -2 because decrementing into negative
+              counter <= 24 - 2;
+              // 24 is size of address and -2 because decrementing into negative
               state   <= ReceiveAddress;
             end
           end
         end
 
         ReceiveAddress: begin
-          if (!cs) begin
+          if (!cs_n) begin
+            address <= {address[22:0], mosi};
             counter <= counter - 1'b1;
+            current_byte <= data[address];
             if (counter[8]) begin
               counter <= 7 - 2;
-              // 7 because first bit sent in this cycle
+              // 7 because first bit is sent in this cycle
               // -2 because decrementing into negative
-
               miso <= current_byte[7];
               current_byte <= {current_byte[6:0], 1'b0};
-              address <= address + 1'b1;
+              address <= address + AddressOffset + 1'b1;
               state <= SendData;
             end
           end
         end
 
         SendData: begin
-          if (!cs) begin
+          if (!cs_n) begin
             miso <= current_byte[7];
             current_byte <= {current_byte[6:0], 1'b0};
             counter <= counter - 1'b1;

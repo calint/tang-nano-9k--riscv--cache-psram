@@ -12,4 +12,4 @@ IO_LOC "uart_rx" 18;
 IO_LOC "flash_clk" 59;
 IO_LOC "flash_miso" 62;
 IO_LOC "flash_mosi" 61;
-IO_LOC "flash_cs" 60;
+IO_LOC "flash_cs_n" 60;

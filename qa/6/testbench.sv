@@ -93,7 +93,7 @@ module testbench;
   logic flash_clk;
   logic flash_miso;
   logic flash_mosi;
-  logic flash_cs;
+  logic flash_cs_n;
 
   flash #(
       .DataFilePath("ram.mem"),
@@ -103,13 +103,13 @@ module testbench;
       .clk (flash_clk),
       .miso(flash_miso),
       .mosi(flash_mosi),
-      .cs  (flash_cs)
+      .cs_n(flash_cs_n)
   );
 
   //------------------------------------------------------------------------
   core #(
-      .StartupWaitCycles (0),
-      .FlashTransferBytes(4096)
+      .StartupWaitCycles(0),
+      .FlashTransferByteCount(4096)
   ) core (
       .rst_n(rst_n && br_init_calib),
       .clk,
@@ -127,7 +127,7 @@ module testbench;
       .flash_clk,
       .flash_miso,
       .flash_mosi,
-      .flash_cs
+      .flash_cs_n
   );
   //------------------------------------------------------------------------
   assign led[5] = ~ramio_busy;

@@ -3,18 +3,22 @@
 //
 // reviewed 2024-06-24
 //
-`timescale 100ps / 100ps
+`timescale 1ns / 1ps
 //
 `default_nettype none
 // `define DBG
-// `define INFO
+//`define INFO
 
 module core #(
-    parameter int unsigned StartupWaitCycles = 1_000_000,
+    parameter int unsigned StartupWaitCycles = 10,
     // arbitrary number of cycles to wait for flash circuit to be initiated
 
-    parameter int unsigned FlashTransferBytes = 32'h0010_0000
+    parameter int unsigned FlashTransferFromAddress = 0,
+    // flash read start address
+
+    parameter int unsigned FlashTransferByteCount = 32'h0010_0000
     // number of bytes to transfer from flash to 'ramio'
+
 ) (
     input wire rst_n,
     input wire clk,
@@ -47,7 +51,7 @@ module core #(
     output logic flash_clk,
     input  wire  flash_miso,
     output logic flash_mosi,
-    output logic flash_cs
+    output logic flash_cs_n
 );
 
   // used while reading flash
@@ -111,7 +115,7 @@ module core #(
       flash_counter <= 0;
       flash_clk <= 0;
       flash_mosi <= 0;
-      flash_cs <= 1;
+      flash_cs_n <= 1;
 
       pc <= 0;
 
@@ -121,11 +125,14 @@ module core #(
 
     end else begin
 `ifdef DBG
-      $display("state: %0d", state);
+      $display("%m: %t: state: %0d", $time, state);
 `endif
       unique case (state)
 
         BootInit: begin
+`ifdef DBG
+          $display("%m: %t: flash counter: %0d", $time, flash_counter);
+`endif
           flash_counter <= flash_counter + 1;
           if (flash_counter >= StartupWaitCycles) begin
             flash_counter <= 0;
@@ -134,7 +141,7 @@ module core #(
         end
 
         BootLoadCommandToSend: begin
-          flash_cs <= 0;  // enable flash
+          flash_cs_n <= 0;  // enable flash
           flash_data_to_send[23-:8] <= 3;  // command 3: read
           flash_num_bits_to_send <= 8;
           state <= BootSend;
@@ -142,7 +149,7 @@ module core #(
         end
 
         BootLoadAddressToSend: begin
-          flash_data_to_send <= 0;  // address 0x0
+          flash_data_to_send <= FlashTransferFromAddress;
           flash_num_bits_to_send <= 24;
           flash_current_byte_num <= 0;
           state <= BootSend;
@@ -170,7 +177,7 @@ module core #(
           if (!flash_counter[0]) begin
             flash_clk <= 0;
             if (flash_counter[3:0] == 0 && flash_counter > 0) begin
-              // every 16'th clock cycle (8 bit * 2) read the current byte to data out
+              // every 16'th clock cycle (8 to flash) read the current byte to data out
               flash_data_out[flash_current_byte_num] <= flash_current_byte_out;
               flash_current_byte_num <= flash_current_byte_num + 1'b1;
               if (flash_current_byte_num == 3) begin
@@ -186,6 +193,10 @@ module core #(
 
         BootStartWrite: begin
           if (!ramio_busy) begin
+`ifdef DBG
+            $display("%m: %t: flash write 0%h = %h", $time, ramio_address_next, {
+                     flash_data_out[3], flash_data_out[2], flash_data_out[1], flash_data_out[0]});
+`endif
             ramio_enable <= 1;
             ramio_read_type <= 0;
             ramio_write_type <= 2'b11;
@@ -202,10 +213,10 @@ module core #(
           if (!ramio_busy) begin
             ramio_enable <= 0;
             flash_current_byte_num <= 0;
-            if (ramio_address_next < FlashTransferBytes) begin
+            if (ramio_address_next < FlashTransferByteCount) begin
               state <= BootReadData;
             end else begin
-              flash_cs <= 1;  // disable flash
+              flash_cs_n <= 1;  // disable flash
 
               // boot CPU at address 0x0
               ramio_enable <= 1;
@@ -226,7 +237,7 @@ module core #(
 
           if (ramio_data_out_ready) begin
 `ifdef DBG
-            $display("fetched: %h", ramio_data_out);
+            $display("%m: %t: pc: %h  instruction: %h", $time, pc, ramio_data_out);
 `endif
             // copy instruction from RAM output
             ir <= ramio_data_out;
@@ -433,7 +444,7 @@ module core #(
             rd_write_enable <= 1;
             rd_data_in <= ramio_data_out;
 `ifdef DBG
-            $display("write register[%0d] = 0x%h", rd, ramio_data_out);
+            $display("%m: %t: write register[%0d] = 0x%h", $time, rd, ramio_data_out);
 `endif
             // fetch next instruction
             // note: 'ramio' already enabled
