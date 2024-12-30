@@ -11,6 +11,6 @@ package configuration;
   parameter int unsigned UART_BAUD_RATE = 115200;
   parameter int unsigned FLASH_TRANSFER_FROM_ADDRESS = 32'h00000000;
   parameter int unsigned FLASH_TRANSFER_BYTE_COUNT = 32'h00200000;
-  parameter int unsigned STARTUP_WAIT_CYCLES = 0;
+  parameter int unsigned STARTUP_WAIT_CYCLES = 1000000;
 
 endpackage

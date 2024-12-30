@@ -6,16 +6,16 @@ BOARD_NAME = "tang_nano_9k"
 # used when generating files
 
 CLOCK_FREQUENCY_HZ = 27_000_000
-# frequency of in clock (signal 'clk')
+# frequency of in clock (signal 'clk', specification)
 
 CPU_FREQUENCY_HZ = 30_000_000
 # frequency that CPU runs on
 
 RAM_ADDRESS_BITWIDTH = 21
-# 2 ^ 21 x 32 b = 8 MB SDRAM (according to hardware)
+# 2 ^ 21 x 32 b = 8 MB SDRAM (specification)
 
 RAM_ADDRESSING_MODE = 0
-# amount of data stored per address
+# amount of data stored per address (specification)
 #    mode:
 #       0: 1 B (byte addressed)
 #       1: 2 B
@@ -41,5 +41,5 @@ FLASH_TRANSFER_FROM_ADDRESS = 0
 FLASH_TRANSFER_BYTE_COUNT = 0x0020_0000
 # number of bytes to transfer from flash at startup (2 MB)
 
-STARTUP_WAIT_CYCLES = 0  # 1_000_000
+STARTUP_WAIT_CYCLES = 1_000_000
 # cycles delay at startup for flash to be initiated
