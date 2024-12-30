@@ -201,16 +201,16 @@ module testbench;
 
     // write to UART
     enable <= 1;
-    address <= 32'hffff_fffe;
+    address <= 32'hffff_fffc;
     read_type <= 0;
-    write_type <= 2'b01;
+    write_type <= 3'b001;
     data_in <= 8'b1010_1010;
     #clk_tk;
 
     // poll UART tx for done
     enable <= 1;
-    address <= 32'hffff_fffe;
-    read_type <= 3'b001;
+    address <= 32'hffff_fffc;
+    read_type <= 3'b111;
     write_type <= 0;
     #clk_tk;
 
@@ -268,10 +268,10 @@ module testbench;
     else $fatal;
 
     #clk_tk;
-    assert (ramio.uarttx_data_sending == 0)
+    assert (ramio.uarttx_data_sending == 16'hffff)
     else $fatal;
 
-    assert (data_out == 0)
+    assert (data_out == -1)
     else $fatal;
 
     // start bit
@@ -305,7 +305,7 @@ module testbench;
     uart_rx <= 1;
     #clk_tk;
 
-    assert (data_out == 0)
+    assert (data_out == -1)
     else $fatal;
 
     #clk_tk;  // 'ramio' transfers data from 'uartrx'
@@ -315,24 +315,24 @@ module testbench;
 
     // read from UART
     enable <= 1;
-    address <= 32'hffff_fffd;
+    address <= 32'hffff_fffa;
     read_type <= 3'b001;
     write_type <= 0;
     #clk_tk;
 
-    assert (data_out == 8'haa)
+    assert (data_out[7:0] == 8'haa)
     else $fatal;
 
     #clk_tk;  // 'ramio' clears data from 'uartrx'
 
-    // read from UART again, should be 0
+    // read from UART again, should be -1
     enable <= 1;
-    address <= 32'hffff_fffd;
+    address <= 32'hffff_fffa;
     read_type <= 3'b001;
     write_type <= 0;
     #clk_tk;
 
-    assert (data_out == 0)
+    assert (data_out == -1)
     else $fatal;
 
     // write unsigned byte; cache miss, eviction

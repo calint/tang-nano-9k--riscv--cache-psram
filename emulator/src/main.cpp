@@ -54,8 +54,8 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       int const ch = getchar();
       // convert terminal to serial
       switch (ch) {
-      case EOF: // no data available
-        data = 0;
+      case EOF:             // no data available
+        data = 0xffff'ffff; // -1
         break;
       case '\n': // newline to carriage return
         data = '\r';

@@ -256,13 +256,13 @@ static char const *exit_names[] = {"north", "east", "south",
                                    "west",  "up",   "down"};
 
 // implemented in platform dependent source
-static auto led_set(uint8_t const bits) -> void;
+static auto led_set(uint16_t bits) -> void;
 static auto uart_send_str(char const *str) -> void;
-static auto uart_send_char(char const ch) -> void;
+static auto uart_send_char(char ch) -> void;
 static auto uart_read_char() -> char;
-static auto uart_send_hex_byte(char const ch) -> void;
-static auto uart_send_hex_nibble(char const nibble) -> void;
-static auto uart_send_move_back(size_t const n) -> void;
+static auto uart_send_hex_byte(char ch) -> void;
+static auto uart_send_hex_nibble(char nibble) -> void;
+static auto uart_send_move_back(size_t n) -> void;
 static auto action_mem_test() -> void;
 
 // API
