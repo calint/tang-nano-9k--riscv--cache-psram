@@ -1,3 +1,5 @@
+-------------------------------------------------------------
+
 # revert changes to last commit
 git reset --hard HEAD
 
@@ -12,57 +14,6 @@ git push origin main --force
 
 # in case the ttyUSBx hangs
 sudo modprobe -r xhci_pci && sleep 5 && sudo modprobe xhci_pci
-
--------------------------------------------------------------
-//
-// One line description of the module
-//
-`timescale 1ns / 1ps
-//
-`default_nettype none
-//`define DBG
-//`define INFO
-
-module my_module #(
-  parameter int unsigned  Width = 80,
-  parameter int unsigned  Height = 24
-) (
-  input              clk_i,
-  input              rst_ni,
-  input              req_valid_i,
-  input  [Width-1:0] req_data_i,
-  output             req_ready_o,
-  ...
-);
-
-  logic [Width-1:0] req_data_masked;
-
-  submodule u_submodule (
-    .clk_i,
-    .rst_ni,
-    .req_valid_i,
-    .req_data_i (req_data_masked),
-    .req_ready_o(req_ready),
-    .// ..
-  );
-
-  always_comb begin
-    req_data_masked = req_data_i;
-    case (fsm_state_q)
-      ST_IDLE: begin
-        req_data_masked = req_data_i & MASK_IDLE;
-        // ...
-      default: begin end
-    endcase
-  end
-
-  ...
-
-endmodule
-
-`undef INFO
-`undef DBG
-`default_nettype wire
 
 -------------------------------------------------------------
 
