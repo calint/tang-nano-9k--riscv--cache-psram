@@ -8,8 +8,8 @@ RAM_ADDRESS_BITWIDTH = 21
 UART_BAUD_RATE = 115200
 # 115200 baud, 8 bits, 1 stop bit, no parity
 
-CACHE_LINE_INDEX_BITWIDTH = 5
-# 2 ^ 5 * 32 = 1 KB unified instruction and data cache
+CACHE_LINE_INDEX_BITWIDTH = 7
+# 2 ^ 7 * 32 = 4 KB unified instruction and data cache
 # from 1 to 5: cache implemented with SSRAM
 #           6: leads to excessive build time
 #           7: cache implemented with some BSRAM
