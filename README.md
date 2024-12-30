@@ -4,7 +4,8 @@
 * RISC-V implementation of RV32I for application intended use
   - no `ecall`, `ebreak`, `fence` or counters
 * multi-cycle with ad-hoc pipeline
-* cache to 2 MB of on-board burst PSRAM
+* configurable unified instruction and data cache backed by 2 MB of on-board burst PSRAM
+* developing a back-to-basics freestanding bare metal C++23 application
 * explore the FPGA board
 
 ## Gowin EDA 1.9.10.03 Education Build (77527) Project Configuration
