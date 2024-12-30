@@ -246,21 +246,32 @@ module testbench;
     #clk_tk;
     assert (uart_tx == 0)
     else $fatal;
+
+    assert (data_out != 0)
+    else $fatal;
+
     // stop bit
     #clk_tk;
     assert (uart_tx == 1)
     else $fatal;
+
+    assert (data_out != 0)
+    else $fatal;
+
     #clk_tk;
     assert (uart_tx == 1)
     else $fatal;
 
     #clk_tk;
+
     assert (ramio.uarttx.bsy == 0)
     else $fatal;
 
     #clk_tk;
-
     assert (ramio.uarttx_data_sending == 0)
+    else $fatal;
+
+    assert (data_out == 0)
     else $fatal;
 
     // start bit
@@ -293,6 +304,9 @@ module testbench;
     // stop bit
     uart_rx <= 1;
     #clk_tk;
+
+    assert (data_out == 0)
+    else $fatal;
 
     #clk_tk;  // 'ramio' transfers data from 'uartrx'
 
