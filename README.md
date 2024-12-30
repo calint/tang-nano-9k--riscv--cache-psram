@@ -1,7 +1,7 @@
 # [Tang Nano 9K](https://www.aliexpress.com/item/1005003803994525.html)
 
 ## Intention
-* RISC-V implementation of rv32i for application intended use
+* RISC-V implementation of RV32I for application intended use
   - no `ecall`, `ebreak`, `fence` or counters
 * multi-cycle with ad-hoc pipeline
 * cache to 2 MB of on-board burst PSRAM
