@@ -20,68 +20,50 @@ Disassembly of section .text:
 # char uart_read_char();
 # 
 # extern "C" void run() {
-   8:	ff010113          	addi	sp,sp,-16 # 1ffff0 <__bss_end+0x1fff68>
-   c:	00912223          	sw	s1,4(sp)
-  10:	00112623          	sw	ra,12(sp)
-  14:	00812423          	sw	s0,8(sp)
+   8:	ff010113          	addi	sp,sp,-16 # 1ffff0 <__bss_end+0x1fff9c>
+   c:	00112623          	sw	ra,12(sp)
+  10:	00812423          	sw	s0,8(sp)
 #   *LED = 0; // all leds on
-  18:	fe001f23          	sh	zero,-2(zero) # fffffffe <__bss_end+0xffffff76>
+  14:	fe002e23          	sw	zero,-4(zero) # fffffffc <__bss_end+0xffffffa8>
 # 
 #   while (1) {
 #     const char ch = uart_read_char();
+  18:	028000ef          	jal	40 <_Z14uart_read_charv>
+  1c:	00050413          	mv	s0,a0
 #     uart_send_char(ch);
-#     if (ch == '\r') {
-  1c:	00d00493          	li	s1,13
-#     const char ch = uart_read_char();
-  20:	04c000ef          	jal	6c <_Z14uart_read_charv>
-  24:	00050413          	mv	s0,a0
-#     uart_send_char(ch);
-  28:	020000ef          	jal	48 <_Z14uart_send_charc>
-#     if (ch == '\r') {
-  2c:	00941663          	bne	s0,s1,38 <run+0x30>
-#       uart_send_char('\n');
-  30:	00a00513          	li	a0,10
-  34:	014000ef          	jal	48 <_Z14uart_send_charc>
-#     }
+  20:	00c000ef          	jal	2c <_Z14uart_send_charc>
 #     *LED = ch;
-  38:	01041413          	slli	s0,s0,0x10
-  3c:	41045413          	srai	s0,s0,0x10
-  40:	fe801f23          	sh	s0,-2(zero) # fffffffe <__bss_end+0xffffff76>
-#   }
-  44:	fddff06f          	j	20 <run+0x18>
+  24:	fe802e23          	sw	s0,-4(zero) # fffffffc <__bss_end+0xffffffa8>
+#   while (1) {
+  28:	ff1ff06f          	j	18 <run+0x10>
 
-00000048 <_Z14uart_send_charc>:
+0000002c <_Z14uart_send_charc>:
+#   }
 # }
 # 
 # void uart_send_char(const char ch) {
 #   // wait for UART to be idle
 #   while (*UART_OUT != -1)
-  48:	fff00713          	li	a4,-1
-  4c:	ffc05783          	lhu	a5,-4(zero) # fffffffc <__bss_end+0xffffff74>
-  50:	01079793          	slli	a5,a5,0x10
-  54:	4107d793          	srai	a5,a5,0x10
-  58:	fee79ae3          	bne	a5,a4,4c <_Z14uart_send_charc+0x4>
+  2c:	fff00793          	li	a5,-1
+  30:	ff802703          	lw	a4,-8(zero) # fffffff8 <__bss_end+0xffffffa4>
+  34:	fef71ee3          	bne	a4,a5,30 <_Z14uart_send_charc+0x4>
 #     ;
 #   *UART_OUT = ch;
-  5c:	01051513          	slli	a0,a0,0x10
-  60:	41055513          	srai	a0,a0,0x10
-  64:	fea01e23          	sh	a0,-4(zero) # fffffffc <__bss_end+0xffffff74>
+  38:	fea02c23          	sw	a0,-8(zero) # fffffff8 <__bss_end+0xffffffa4>
 # }
-  68:	00008067          	ret
+  3c:	00008067          	ret
 
-0000006c <_Z14uart_read_charv>:
+00000040 <_Z14uart_read_charv>:
 # 
 # char uart_read_char() {
-#   short ch = 0;
-#   // wait for UART to read receive data
+#   int ch = 0;
+#   // wait for UART to receive data
 #   while ((ch = *UART_IN) == -1)
-  6c:	fff00793          	li	a5,-1
-  70:	ffa05503          	lhu	a0,-6(zero) # fffffffa <__bss_end+0xffffff72>
-  74:	01051513          	slli	a0,a0,0x10
-  78:	41055513          	srai	a0,a0,0x10
-  7c:	fef50ae3          	beq	a0,a5,70 <_Z14uart_read_charv+0x4>
+  40:	fff00793          	li	a5,-1
+  44:	ff402503          	lw	a0,-12(zero) # fffffff4 <__bss_end+0xffffffa0>
+  48:	fef50ee3          	beq	a0,a5,44 <_Z14uart_read_charv+0x4>
 #     ;
 #   return char(ch);
 # }
-  80:	0ff57513          	zext.b	a0,a0
-  84:	00008067          	ret
+  4c:	0ff57513          	zext.b	a0,a0
+  50:	00008067          	ret

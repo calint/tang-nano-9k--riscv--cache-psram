@@ -1,6 +1,6 @@
-#define LED ((short volatile *)0xfffffffe)
-#define UART_OUT ((short volatile *)0xfffffffc)
-#define UART_IN ((short volatile *)0xfffffffa)
+#define LED ((volatile int *)0xffff'fffc)
+#define UART_OUT ((volatile int *)0xffff'fff8)
+#define UART_IN ((volatile int *)0xffff'fff4)
 #define MEMORY_TOP 0x200000
 
 void uart_send_char(char ch);
@@ -12,9 +12,6 @@ extern "C" void run() {
   while (1) {
     const char ch = uart_read_char();
     uart_send_char(ch);
-    if (ch == '\r') {
-      uart_send_char('\n');
-    }
     *LED = ch;
   }
 }
@@ -27,8 +24,8 @@ void uart_send_char(const char ch) {
 }
 
 char uart_read_char() {
-  short ch = 0;
-  // wait for UART to read receive data
+  int ch = 0;
+  // wait for UART to receive data
   while ((ch = *UART_IN) == -1)
     ;
   return char(ch);

@@ -10,11 +10,12 @@
 set -e
 cd $(dirname "$0")
 
-BIN=firmware
-
 CC=riscv64-elf-g++
 OBJCOPY=riscv64-elf-objcopy
 OBJDUMP=riscv64-elf-objdump
+
+SRC=echo.cpp
+BIN=firmware
 
 $CC -std=c++23 \
     -march=rv32i \
@@ -49,7 +50,7 @@ $CC -std=c++23 \
     -Wl,-T,linker.ld \
     -Wl,--no-warn-rwx-segment \
     -o $BIN \
-    os_start.S echo.c
+    os_start.S $SRC
 
 # see "man g++"" for these optional options:
 #    -fno-pic \

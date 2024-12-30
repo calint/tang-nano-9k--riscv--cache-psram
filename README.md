@@ -77,14 +77,10 @@ welcome to adventure #4
 ## Todo
 ```
 -------------------------------------------------------------------------------------------------------------
-[x] samples/echo: study why lhu, slli then srai instead of lw
-    => signed short
-[x] uarttx: run on posedge clk
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] study why BAUD rate less than 2400 does not work
-[ ] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
 [ ] read LEDs
 [ ] investigate and try to recreate the "// ??" issue in 'ramio'
     => the simulation works as expected
@@ -111,6 +107,11 @@ step 13
 [ ] fully pipe-lined core
 [ ] consider FIFO in UART
 -------------------------------------------------------------------------------------------------------------
+[x] samples/echo: study why lhu, slli then srai instead of lw
+    => signed short, make it into int
+[x] uarttx: run on posedge clk
+[x] UART read 'short' and return 0xffff for no data available or 0xXX for byte read including 0
+    => int instead makes the assembler code better
 [x] study why terminal drops characters
     => receive is being overrun but how can baud 9600 outpace 20 MHz?
        => due to 'uart_send_char()'?
