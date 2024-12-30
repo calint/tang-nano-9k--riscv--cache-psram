@@ -6,7 +6,7 @@
 // reviewed 2024-06-12
 // reviewed 2024-06-14
 //
-`timescale 100ps / 100ps
+`timescale 1ns / 1ps
 //
 `default_nettype none
 // `define DBG
