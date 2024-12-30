@@ -38,7 +38,7 @@ static constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
 
 // FPGA I/O
 
-static auto led_set(uint16_t const bits) -> void { *LED = bits; }
+static auto led_set(int32_t const bits) -> void { *LED = bits; }
 
 static auto uart_send_str(char const *str) -> void {
   while (*str) {
