@@ -42,5 +42,5 @@ g++ -std=c++23 \
     -o $BIN \
     src/console_application.cpp
 
-ls -l $BIN
+ls -l --color $BIN
 

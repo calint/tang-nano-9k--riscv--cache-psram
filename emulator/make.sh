@@ -13,6 +13,4 @@ CMD="g++ -std=c++23 -O3 $@ -fno-rtti -fno-exceptions -Wfatal-errors -Werror -Wal
 #echo
 #echo $CMD
 $CMD
-echo
 ls -la --color osqa
-echo
