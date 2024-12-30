@@ -199,6 +199,16 @@ module testbench;
     assert (data_out == 32'habcd_1234)
     else $fatal;
 
+    // assert UART tx to be idle
+    enable <= 1;
+    address <= 32'hffff_fffc;
+    read_type <= 3'b111;
+    write_type <= 0;
+    #clk_tk;
+    assert (data_out == -1)
+    else $fatal;
+
+
     // write to UART
     enable <= 1;
     address <= 32'hffff_fffc;

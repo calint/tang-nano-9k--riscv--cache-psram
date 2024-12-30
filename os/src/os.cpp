@@ -42,14 +42,14 @@ static auto led_set(uint16_t const bits) -> void { *LED = bits; }
 
 static auto uart_send_str(char const *str) -> void {
   while (*str) {
-    while (*UART_OUT)
+    while (*UART_OUT != -1)
       ;
     *UART_OUT = *str++;
   }
 }
 
 static auto uart_send_char(char const ch) -> void {
-  while (*UART_OUT)
+  while (*UART_OUT != -1)
     ;
   *UART_OUT = ch;
 }

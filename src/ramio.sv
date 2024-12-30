@@ -286,9 +286,9 @@ module ramio #(
   always_ff @(posedge clk) begin
     if (!rst_n) begin
       led <= 4'b1111;  // turn off all LEDs
-      uarttx_data_sending <= 0;
+      uarttx_data_sending <= -1;
       uarttx_go <= 0;
-      uartrx_data_received <= 0;
+      uartrx_data_received <= -1;
       uartrx_go <= 1;
     end else begin
       prev_cycle_uarttx_go <= 0;
@@ -322,7 +322,7 @@ module ramio #(
 
       // if writing to UART out
       if (address == AddressUartOut && write_type != '0) begin
-        uarttx_data_sending <= {{8{data_in[7]}}, data_in};
+        uarttx_data_sending <= {8'h00, data_in[7:0]};
         uarttx_go <= 1;
         prev_cycle_uarttx_go <= 1;
       end

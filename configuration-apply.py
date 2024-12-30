@@ -20,7 +20,7 @@ with open('os/src/os_config.hpp', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
     file.write('#pragma once\n')
     file.write('#define LED ((unsigned short volatile *)0xffff\'fffe)\n')
-    file.write('#define UART_OUT ((char volatile *)0xffff\'fffc)\n')
+    file.write('#define UART_OUT ((short volatile *)0xffff\'fffc)\n')
     file.write('#define UART_IN ((short volatile *)0xffff\'fffa)\n')
     file.write('#define MEMORY_END {}\n'.format(hex(
         memory_end_address)))
