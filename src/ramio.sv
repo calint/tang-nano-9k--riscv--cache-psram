@@ -36,15 +36,13 @@ module ramio #(
     // last addressable byte
 
     parameter int unsigned AddressLed = 32'hffff_fffc,
-    // 4 LEDs in the lower nibble of the byte
-    //  write only with 'sb'
+    // 4 LEDs in the lower nibble of the int
 
     parameter int unsigned AddressUartOut = 32'hffff_fff8,
-    // note: byte must be read / written with 'lb' or 'lbu'
+    // note: returns -1 if idle
 
     parameter int unsigned AddressUartIn = 32'hffff_fff4
-    // note: received byte must be read with 'lb' or 'lbu'
-    //       received byte is set to 0 after read
+    // note: is set to -1 after read
 ) (
     input wire rst_n,
     input wire clk,
