@@ -92,8 +92,8 @@ welcome to adventure #4
     =>    4800: ok
     =>    2400: ok
     =>    1200: leds change at key press, no display
-    =>     600: monoton output, no key press reaction
-    =>     300: monoton output, no key press reaction
+    =>     600: monotonous output, no key press reaction
+    =>     300: monotonous output, no key press reaction
 [ ] running samples/echo at baud rate
     note: in some cases putty has to be started, then closed, then re-started to work
     => 3686400: reacts to characters pressed, wrong output
