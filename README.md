@@ -104,7 +104,8 @@ welcome to adventure #4
     =>    9600: ok
     =>    4800: ok
     =>    2400: ok
-    =>    1200: not ok
+    =>    1200: not ok, "brick"
+    =>     300: not ok
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
