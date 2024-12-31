@@ -296,7 +296,6 @@ module ramio #(
       // if read from UART then reset the read data to -1
       if (address == AddressUartIn && read_type != '0) begin
         uartrx_data_received <= -1;
-
       end
 
       if (uartrx_go && uartrx_data_ready) begin
