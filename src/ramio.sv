@@ -37,6 +37,7 @@ module ramio #(
 
     parameter int unsigned AddressLed = 32'hffff_fffc,
     // 4 LEDs in the lower nibble of the int
+    // note: 0 is led on, 1 is led off
 
     parameter int unsigned AddressUartOut = 32'hffff_fff8,
     // note: returns -1 if idle
