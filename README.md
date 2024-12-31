@@ -77,6 +77,7 @@ welcome to adventure #4
 ## Todo
 ```
 -------------------------------------------------------------------------------------------------------------
+[ ] uarttx: optimize away the cycle between go=1 and busy=1 
 [ ] study why BAUD rate less than 2400 does not work
     note: in some cases putty has to be started, then closed, then re-started to work
     => 3686400: reacts to characters pressed, wrong output
