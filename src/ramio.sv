@@ -316,7 +316,7 @@ module ramio #(
       end
 
       // if UART is done sending data then acknowledge (uarttx_go = 0)
-      //  and set idle (0xffff)
+      //  and set idle (0xffff'ffff)
       if (uarttx_go && !uarttx_bsy && !prev_cycle_uarttx_go) begin
         uarttx_go <= 0;
         uarttx_data_sending <= -1;
