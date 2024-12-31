@@ -81,9 +81,21 @@ welcome to adventure #4
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] study why BAUD rate less than 2400 does not work
+    => 230400: scrambled in putty and cutecom
+    => 115200: ok
+    =>  57600: scrambled in putty and cutecom
+    =>  38400: ok
+    =>  19200: scrambled in putty and cutecom
+    =>   9600: scrambled in putty and cutecom
+    =>   4800: ok
+    =>   2400: scrambled in putty and cutecom
+    =>   1200: scrambled in putty and cutecom
+    =>    600:
+    =>    300:
 [ ] read LEDs
-[ ] investigate and try to recreate the "// ??" issue in 'ramio'
+[x] investigate and try to recreate the "// ??" issue in 'ramio'
     => the simulation works as expected
+    => Gowin EDA 1.9.10.03 seems to have fixed this
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
 [ ] fix red hold and recovery paths (not involved in running CPU, ignored)
 [ ]   psram: CALIB
