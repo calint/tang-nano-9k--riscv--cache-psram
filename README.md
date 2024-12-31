@@ -78,18 +78,22 @@ welcome to adventure #4
 ```
 -------------------------------------------------------------------------------------------------------------
 [ ] study why BAUD rate less than 2400 does not work
-    => 460800: scrambled in putty and cutecom
-    => 230400: scrambled in putty and cutecom
-    => 115200: ok
-    =>  57600: scrambled in putty and cutecom
-    =>  38400: ok
-    =>  19200: scrambled in putty and cutecom
-    =>   9600: scrambled in putty and cutecom
-    =>   4800: ok
-    =>   2400: scrambled in putty and cutecom
-    =>   1200: scrambled in putty and cutecom
-    =>    600: scrambled in cutecom, no output in putty
-    =>    300:
+    note: in some cases putty has to be started, then closed, then re-started to work
+    => 3686400: reacts to characters pressed, wrong output
+    => 1843200: reacts to characters pressed, wrong output
+    =>  921600: ok
+    =>  460800: ok
+    =>  230400: ok
+    =>  115200: ok
+    =>   57600: ok
+    =>   38400: ok
+    =>   19200: ok
+    =>    9600: ok
+    =>    4800: ok
+    =>    2400: ok
+    =>    1200: leds change at key press, no display
+    =>     600: monoton output, no key press reaction
+    =>     300: monoton output, no key press reaction
 [ ] running samples/echo at baud rate
     note: in some cases putty has to be started, then closed, then re-started to work
     => 3686400: reacts to characters pressed, wrong output

@@ -86,7 +86,7 @@ module uartrx #(
             // note: -1 because one of the ticks has been read before switching state
             bit_count <= bit_count + 1'b1;
             if (bit_count == 7) begin
-              // note: 7, not 8, because of NBA
+              // note: 7, not 8, because of NBA (non-blocking assignment)
               bit_count <= 0;
               state <= StopBit;
             end
@@ -105,7 +105,7 @@ module uartrx #(
 
         WaitForGoLow: begin
           if (!go) begin
-            data <= 0;
+            data <= 0;  // ? not necessary
             data_ready <= 0;
             state <= Idle;
           end

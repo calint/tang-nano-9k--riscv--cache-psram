@@ -564,7 +564,7 @@ static auto input(command_buffer &cmd_buf) -> void {
 
   while (true) {
     char const ch = uart_read_char();
-
+    led_set(~ch);
     switch (state) {
     case input_state::NORMAL:
       if (ch == 0x1B) {
@@ -634,8 +634,6 @@ static auto input(command_buffer &cmd_buf) -> void {
       }
       break;
     }
-
-    led_set(~uint8_t(cmd_buf.input_length()));
   }
 }
 
