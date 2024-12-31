@@ -78,7 +78,8 @@ welcome to adventure #4
 ```
 -------------------------------------------------------------------------------------------------------------
 [ ] uarttx: optimize away the cycle between go=1 and busy=1 
-[ ] study why BAUD rate less than 2400 does not work
+[x] study why BAUD rate less than 2400 does not work
+    => same issue in: https://github.com/sipeed/TangNano-9K-example/tree/main/uart 
     note: in some cases putty has to be started, then closed, then re-started to work
     => 3686400: reacts to characters pressed, wrong output
     => 1843200: reacts to characters pressed, wrong output
@@ -95,7 +96,7 @@ welcome to adventure #4
     =>    1200: leds change at key press, no display
     =>     600: monotonous output, no key press reaction
     =>     300: monotonous output, no key press reaction
-[ ] running samples/echo at baud rate
+    running samples/echo at baud rate
     note: in some cases putty has to be started, then closed, then re-started to work
     => 3686400: reacts to characters pressed, wrong output
     => 1843200: reacts to characters pressed, receives 0xe1 instead of 0x61 etc
