@@ -93,7 +93,7 @@ welcome to adventure #4
     =>    600:
     =>    300:
 [ ] read LEDs
-[x] investigate and try to recreate the "// ??" issue in 'ramio'
+[x] investigate and try to recreate the "// !!!" issue in 'ramio'
     => the simulation works as expected
     => Gowin EDA 1.9.10.03 seems to have fixed this
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
