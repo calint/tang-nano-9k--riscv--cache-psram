@@ -12,7 +12,8 @@ extern "C" void run() {
   while (1) {
     const char ch = uart_read_char();
     uart_send_char(ch);
-    *LED = ch;
+    *LED = ~ch;
+    // note: inverted because led on is 0 and off is 1
   }
 }
 

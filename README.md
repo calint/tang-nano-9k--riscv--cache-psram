@@ -78,6 +78,7 @@ welcome to adventure #4
 ```
 -------------------------------------------------------------------------------------------------------------
 [ ] study why BAUD rate less than 2400 does not work
+    => 460800: scrambled in putty and cutecom
     => 230400: scrambled in putty and cutecom
     => 115200: ok
     =>  57600: scrambled in putty and cutecom
@@ -87,8 +88,23 @@ welcome to adventure #4
     =>   4800: ok
     =>   2400: scrambled in putty and cutecom
     =>   1200: scrambled in putty and cutecom
-    =>    600:
+    =>    600: scrambled in cutcom, no output in putty
     =>    300:
+[ ] running samples/echo at baud rate
+    note: in some cases putty has to be started, then closed, the re-started to work
+    => 3686400: reacts to characters pressed, wrong output
+    => 1843200: reacts to characters pressed, receives 0xe1 instead of 0x61 etc
+    =>  921600: ok
+    =>  460800: ok? (occasional flukes)
+    =>  230400: ok
+    =>  115200: ok
+    =>   57600: ok
+    =>   38400: ok
+    =>   19200: ok
+    =>    9600: ok
+    =>    4800: ok
+    =>    2400: ok
+    =>    1200: not ok
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
