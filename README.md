@@ -88,10 +88,10 @@ welcome to adventure #4
     =>   4800: ok
     =>   2400: scrambled in putty and cutecom
     =>   1200: scrambled in putty and cutecom
-    =>    600: scrambled in cutcom, no output in putty
+    =>    600: scrambled in cutecom, no output in putty
     =>    300:
 [ ] running samples/echo at baud rate
-    note: in some cases putty has to be started, then closed, the re-started to work
+    note: in some cases putty has to be started, then closed, then re-started to work
     => 3686400: reacts to characters pressed, wrong output
     => 1843200: reacts to characters pressed, receives 0xe1 instead of 0x61 etc
     =>  921600: ok
