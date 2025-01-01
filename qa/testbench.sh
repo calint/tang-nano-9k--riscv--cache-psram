@@ -15,11 +15,11 @@ pwd
 iverilog -g2012 -Winfloop -pfileline=1 -o iverilog.vvp -s testbench testbench.sv \
     $SRCPTH/bram.sv \
     $SRCPTH/cache.sv \
-    $SRCPTH/ramio.sv \
     $SRCPTH/uarttx.sv \
     $SRCPTH/uartrx.sv \
-    $SRCPTH/core.sv \
+    $SRCPTH/ramio.sv \
     $SRCPTH/registers.sv \
+    $SRCPTH/core.sv \
     $SRCPTH/emulators/burst_ram.sv \
     $SRCPTH/emulators/flash.sv
 
