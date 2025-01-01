@@ -43,13 +43,11 @@ module registers #(
   assign rs2_data_out = rs2 == 0 ? 0 : data[rs2];
 
   always_ff @(posedge clk) begin
-`ifdef DBG
     if (rd_write_enable) begin
+`ifdef DBG
       $display("%0t: clk+: Registers (rs1,rs2,rd,we,rd_dat)=(%0h,%0h,%0h,%0d,%0h)", $time, rs1,
                rs2, rd, rd_write_enable, rd_data_in);
-    end
 `endif
-    if (rd_write_enable) begin
       data[rd] <= rd_data_in;
     end
   end
