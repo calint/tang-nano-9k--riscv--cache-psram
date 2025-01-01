@@ -58,7 +58,7 @@ $CC -std=c++23 \
 # see "man ld" for:
 #    -Wl,--no-relax \
 
-rm $BIN.bin $BIN.lst $BIN.dat || true
+rm -f $BIN.bin $BIN.lst $BIN.dat
 
 $OBJCOPY $BIN -O binary $BIN.bin
 
