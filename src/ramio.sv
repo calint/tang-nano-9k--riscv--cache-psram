@@ -88,9 +88,9 @@ module ramio #(
   logic cache_enable;
   // enables / disables 'cache' RAM operation
 
-  logic [DataBitWidth-1:0] cache_data_out;
-  logic cache_data_out_ready;
-  logic cache_busy;
+  wire [DataBitWidth-1:0] cache_data_out;
+  wire cache_data_out_ready;
+  wire cache_busy;
 
   logic [AddressBitWidth-1:0] cache_address;
   // 4-byte aligned address to RAM data

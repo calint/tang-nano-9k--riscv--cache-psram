@@ -33,10 +33,10 @@ module top (
   // ----------------------------------------------------------
   // -- Gowin_rPLL
   // ----------------------------------------------------------
-  logic rpll_lock;
-  logic rpll_clkout;
-  logic rpll_clkoutp;
-  logic rpll_clkoutd;
+  wire rpll_lock;
+  wire rpll_clkout;
+  wire rpll_clkoutp;
+  wire rpll_clkoutd;
 
   Gowin_rPLL rpll (
       .clkin(clk),  // 27 MHz
@@ -53,15 +53,15 @@ module top (
   wire br_memory_clk_p = rpll_clkoutp;
   wire br_clk_d = rpll_clkoutd;
   wire br_pll_lock = rpll_lock;
-  logic br_clk_out;
-  logic br_init_calib;
-  logic br_cmd;
-  logic br_cmd_en;
-  logic [20:0] br_addr;
-  logic [63:0] br_wr_data;
-  logic [7:0] br_data_mask;
-  logic [63:0] br_rd_data;
-  logic br_rd_data_valid;
+  wire br_clk_out;
+  wire br_init_calib;
+  wire br_cmd;
+  wire br_cmd_en;
+  wire [20:0] br_addr;
+  wire [63:0] br_wr_data;
+  wire [7:0] br_data_mask;
+  wire [63:0] br_rd_data;
+  wire br_rd_data_valid;
 
   PSRAM_Memory_Interface_HS_V2_Top br (
       .rst_n(rst_n),
@@ -92,14 +92,16 @@ module top (
   // ----------------------------------------------------------
   // -- ramio
   // ----------------------------------------------------------
-  logic ramio_enable;
-  logic [2:0] ramio_read_type;
-  logic [1:0] ramio_write_type;
-  logic [31:0] ramio_address;
-  logic [31:0] ramio_data_in;
-  logic [31:0] ramio_data_out;
-  logic ramio_data_out_ready;
-  logic ramio_busy;
+
+  // wires between 'ramio' and 'core'
+  wire ramio_enable;
+  wire [2:0] ramio_read_type;
+  wire [1:0] ramio_write_type;
+  wire [31:0] ramio_address;
+  wire [31:0] ramio_data_in;
+  wire [31:0] ramio_data_out;
+  wire ramio_data_out_ready;
+  wire ramio_busy;
 
   ramio #(
       .RamAddressBitWidth(configuration::RAM_ADDRESS_BITWIDTH),

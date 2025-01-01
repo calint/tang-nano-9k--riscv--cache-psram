@@ -117,7 +117,7 @@ module cache #(
 
   logic burst_is_writing;  // true if in burst write operation
 
-  logic [31:0] cached_tag_and_flags;
+  wire [31:0] cached_tag_and_flags;
   logic [3:0] tag_write_enable;  // true when cache hit; write to set line dirty
   logic [31:0] tag_data_in;  // tag and flags written when cache hit write
 
