@@ -17,7 +17,11 @@ module testbench;
   localparam int unsigned clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
-  // wires between burst_ram and cache
+  //------------------------------------------------------------------------
+  // burst_ram
+  //------------------------------------------------------------------------
+
+  // wires between 'burst_ram' and 'ramio'
   wire br_cmd;
   wire br_cmd_en;
   wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
@@ -46,6 +50,10 @@ module testbench;
       .init_calib(br_init_calib),
       .busy(br_busy)
   );
+
+  //------------------------------------------------------------------------
+  // ramio
+  //------------------------------------------------------------------------
 
   logic enable = 0;
   logic [1:0] write_type = 0;
@@ -90,14 +98,16 @@ module testbench;
       .br_rd_data_valid  // rd_data is valid
   );
 
+  //------------------------------------------------------------------------
+
   initial begin
     $dumpfile("log.vcd");
     $dumpvars(0, testbench);
 
     rst_n <= 0;
     #clk_tk;
-    rst_n <= 1;
     #clk_tk;
+    rst_n <= 1;
 
     // wait for burst RAM to initiate
     while (br_busy) #clk_tk;

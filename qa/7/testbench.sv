@@ -18,7 +18,10 @@ module testbench;
   logic uart_rx;
 
   //------------------------------------------------------------------------
-  // wires between burst_ram and cache
+  // burst_ram
+  //------------------------------------------------------------------------
+
+  // wires between 'burst_ram' and 'cache'
   wire br_cmd;
   wire br_cmd_en;
   wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
@@ -50,7 +53,10 @@ module testbench;
   );
 
   //------------------------------------------------------------------------
-  // wires between ramio and core
+  // ramio
+  //------------------------------------------------------------------------
+
+  // wires between 'ramio' and 'core'
   wire ramio_enable;
   wire [1:0] ramio_write_type;
   wire [2:0] ramio_read_type;
@@ -92,7 +98,10 @@ module testbench;
   );
 
   //------------------------------------------------------------------------
-  // wires between flash and core
+  // flash
+  //------------------------------------------------------------------------
+
+  // wires between 'flash' and 'core'
   wire flash_clk;
   wire flash_miso;
   wire flash_mosi;
@@ -108,7 +117,11 @@ module testbench;
       .mosi(flash_mosi),
       .cs_n(flash_cs_n)
   );
+
   //------------------------------------------------------------------------
+  // core
+  //------------------------------------------------------------------------
+
   core #(
       .StartupWaitCycles(0),
       .FlashTransferByteCount(4096)
@@ -131,17 +144,21 @@ module testbench;
       .flash_mosi,
       .flash_cs_n
   );
+
   //------------------------------------------------------------------------
+
   assign led[5] = ~ramio_busy;
+
   //------------------------------------------------------------------------
+
   initial begin
     $dumpfile("log.vcd");
     $dumpvars(0, testbench);
 
     rst_n <= 0;
     #clk_tk;
-    rst_n <= 1;
     #clk_tk;
+    rst_n <= 1;
 
     // wait for burst RAM to initiate
     while (br_busy) #clk_tk;

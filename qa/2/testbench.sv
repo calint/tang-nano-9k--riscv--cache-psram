@@ -12,6 +12,10 @@ module testbench;
   logic clk = 0;
   always #(clk_tk / 2) clk = ~clk;
 
+  //------------------------------------------------------------------------
+  // burst_ram
+  //------------------------------------------------------------------------
+
   logic cmd = 0;
   logic cmd_en = 0;
   logic [3:0] addr = 0;
@@ -41,14 +45,16 @@ module testbench;
       .busy
   );
 
+  //------------------------------------------------------------------------
+
   initial begin
     $dumpfile("log.vcd");
     $dumpvars(0, testbench);
 
-    // reset
     rst_n <= 0;
     #clk_tk;
-    #(clk_tk / 2);
+    #clk_tk;
+    // #(clk_tk / 2);
     rst_n <= 1;
 
     // wait for initiation to complete
@@ -59,10 +65,9 @@ module testbench;
     addr <= 0;
     cmd_en <= 1;
     #clk_tk;
-    cmd_en <= 0;
-    #clk_tk;
 
     // delay before burst (DELAY_BEFORE_RD_DATA_AVAILABLE)
+    cmd_en <= 0;
     #clk_tk;
     #clk_tk;
     #clk_tk;
@@ -108,10 +113,9 @@ module testbench;
     cmd <= 0;
     addr <= 32 / 8;  // 8 bytes words
     #clk_tk;
-    cmd_en <= 0;
-    #clk_tk;
 
     // delay before burst (DELAY_BEFORE_RD_DATA_AVAILABLE)
+    cmd_en <= 0;
     #clk_tk;
     #clk_tk;
     #clk_tk;

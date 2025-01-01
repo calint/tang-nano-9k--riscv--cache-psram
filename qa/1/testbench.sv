@@ -16,9 +16,12 @@ module testbench;
 
   wire clkin = clk;
   wire clkout = clk;
-  wire lock = 1;
 
-  // wires between burst_ram and cache
+  //------------------------------------------------------------------------
+  // burst_ram
+  //------------------------------------------------------------------------
+
+  // wires between 'burst_ram' and 'cache'
   wire br_cmd;
   wire br_cmd_en;
   wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
@@ -36,7 +39,7 @@ module testbench;
       .CyclesBeforeDataValid(6)
   ) burst_ram (
       .clk(clkout),
-      .rst_n(rst_n && lock),
+      .rst_n(rst_n),
       .cmd(br_cmd),  // 0: read, 1: write
       .cmd_en(br_cmd_en),  // 1: cmd and addr is valid
       .addr(br_addr),  // 8 bytes word
@@ -47,6 +50,10 @@ module testbench;
       .init_calib(br_init_calib),
       .busy(br_busy)
   );
+
+  //------------------------------------------------------------------------
+  // cache
+  //------------------------------------------------------------------------
 
   logic [31:0] address;
   wire [31:0] data_out;
@@ -62,7 +69,7 @@ module testbench;
       .RamAddressingMode(3)  // 64 bit words
   ) cache (
       .clk  (clkout),
-      .rst_n(rst_n && lock && br_init_calib),
+      .rst_n(rst_n && br_init_calib),
 
       .enable(enable),
       .write_enable(write_enable),
@@ -82,16 +89,19 @@ module testbench;
       .br_rd_data_valid(br_rd_data_valid)
   );
 
+  //------------------------------------------------------------------------
+
   initial begin
     $dumpfile("log.vcd");
     $dumpvars(0, testbench);
 
     rst_n <= 0;
     #clk_tk;
+    #clk_tk;
     rst_n <= 1;
 
     // wait for burst RAM to initiate
-    while (br_busy || !lock) #clk_tk;
+    while (br_busy) #clk_tk;
 
     // keep enabled
     enable <= 1;
