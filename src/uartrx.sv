@@ -105,7 +105,6 @@ module uartrx #(
 
         WaitForGoLow: begin
           if (!go) begin
-            data <= 0;  // ? not necessary
             data_ready <= 0;
             state <= Idle;
           end

@@ -67,7 +67,7 @@ chmod -x $BIN.bin
 
 #$OBJDUMP -Mnumeric,no-aliases --source-comment -Sr $BIN > $BIN.lst
 $OBJDUMP --source-comment -Sr $BIN > $BIN.lst
-$OBJDUMP -s --section=.rodata --section=.srodata --section=.data --section=.sdata --section=.bss --section=.sbss $BIN > $BIN.dat
+$OBJDUMP -s --section=.rodata --section=.srodata --section=.data --section=.sdata --section=.bss --section=.sbss $BIN > $BIN.dat || true
 
 rm $BIN
 
