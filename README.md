@@ -69,7 +69,7 @@ welcome to adventure #4
 
 ## Configuration
 * see [`configuration.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration.py)
-* [`configuration-apply.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration-apply.py) generates include files with constants in `/os/src/`, `/emulator/src/` and `/src/`
+* [`configuration-apply.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration-apply.py) generates include files with constants in `/os/src/`, `/emulator/src/`, `/src/` and clock constraint in `/tang_nano_9k.sdc`
 
 ## Source
 * SystemVerilog adhering to most of style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
