@@ -14,14 +14,14 @@ module testbench;
 
   logic rst_n;
   logic clk = 1;
-  localparam int unsigned clk_tk = 36;
+  localparam int unsigned clk_tk = 10;
   always #(clk_tk / 2) clk = ~clk;
 
   //------------------------------------------------------------------------
   // burst_ram
   //------------------------------------------------------------------------
 
-  // wires between burst_ram and cache
+  // wires between 'burst_ram' and 'cache'
   wire br_cmd;
   wire br_cmd_en;
   wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;

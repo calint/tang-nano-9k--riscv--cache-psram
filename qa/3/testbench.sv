@@ -11,7 +11,7 @@ module testbench;
 
   logic rst_n;
   logic clk = 1;
-  localparam int unsigned clk_tk = 36;
+  localparam int unsigned clk_tk = 10;
   always #(clk_tk / 2) clk = ~clk;
 
   //------------------------------------------------------------------------
