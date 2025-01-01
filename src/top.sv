@@ -33,6 +33,7 @@ module top (
   // ----------------------------------------------------------
   // -- Gowin_rPLL
   // ----------------------------------------------------------
+
   wire rpll_lock;
   wire rpll_clkout;
   wire rpll_clkoutp;
@@ -49,6 +50,7 @@ module top (
   // ----------------------------------------------------------
   // -- PSRAM_Memory_Interface_HS_V2_Top
   // ----------------------------------------------------------
+
   wire br_memory_clk = rpll_clkout;
   wire br_memory_clk_p = rpll_clkoutp;
   wire br_clk_d = rpll_clkoutd;
