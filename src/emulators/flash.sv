@@ -56,9 +56,16 @@ module flash #(
     $display(" address offset: %0h", AddressOffset);
     $display("----------------------------------------");
 `endif
+
+    // initial value of data on flash is -1
+    for (int i = 0; i < DEPTH; i++) begin
+      data[i] = -1;
+    end
+
     if (DataFilePath != "") begin
       $readmemh(DataFilePath, data);
     end
+
   end
 
   always_ff @(negedge clk or negedge rst_n) begin
