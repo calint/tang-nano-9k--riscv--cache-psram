@@ -12,6 +12,15 @@ module testbench;
   logic clk = 0;
   always #(clk_tk / 2) clk = ~clk;
 
+  logic cmd = 0;
+  logic cmd_en = 0;
+  logic [3:0] addr = 0;
+  wire [63:0] wr_data = 0;
+  logic [7:0] data_mask = 0;
+  logic [63:0] rd_data;
+  logic rd_data_valid;
+  wire busy;
+
   burst_ram #(
       .DataFilePath("ram.mem"),
       .AddressBitWidth(4),
@@ -31,15 +40,6 @@ module testbench;
       .rd_data_valid,
       .busy
   );
-
-  logic cmd = 0;
-  logic cmd_en = 0;
-  logic [3:0] addr = 0;
-  logic [63:0] wr_data = 0;
-  logic [7:0] data_mask = 0;
-  logic [63:0] rd_data;
-  logic rd_data_valid;
-  logic busy;
 
   initial begin
     $dumpfile("log.vcd");
@@ -152,6 +152,9 @@ module testbench;
     #clk_tk;
     #clk_tk;
 
+    $display("");
+    $display("PASSED");
+    $display("");
     $finish;
   end
 

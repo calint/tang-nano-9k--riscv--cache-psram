@@ -18,15 +18,16 @@ module testbench;
   wire clkout = clk;
   wire lock = 1;
 
-  logic br_cmd;
-  logic br_cmd_en;
-  logic [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
-  logic [63:0] br_wr_data;
-  logic [7:0] br_data_mask;
-  logic [63:0] br_rd_data;
-  logic br_rd_data_valid;
-  logic br_init_calib;
-  logic br_busy;
+  // wires between burst_ram and cache
+  wire br_cmd;
+  wire br_cmd_en;
+  wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
+  wire [63:0] br_wr_data;
+  wire [7:0] br_data_mask;
+  wire [63:0] br_rd_data;
+  wire br_rd_data_valid;
+  wire br_init_calib;
+  wire br_busy;
 
   burst_ram #(
       .DataFilePath("ram.mem"),  // initial RAM content
@@ -48,11 +49,11 @@ module testbench;
   );
 
   logic [31:0] address;
-  logic [31:0] data_out;
+  wire [31:0] data_out;
   logic data_out_ready;
   logic [31:0] data_in;
   logic [3:0] write_enable;
-  logic busy;
+  wire busy;
   logic enable;
 
   cache #(
@@ -255,6 +256,9 @@ module testbench;
     #clk_tk;
     #clk_tk;
 
+    $display("");
+    $display("PASSED");
+    $display("");
     $finish;
   end
 

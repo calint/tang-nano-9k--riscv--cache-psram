@@ -14,17 +14,16 @@ module testbench;
   localparam int unsigned clk_tk = 36;
   always #(clk_tk / 2) clk = ~clk;
 
-  logic lock = 1;
-
-  logic br_cmd;
-  logic br_cmd_en;
-  logic [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
-  logic [63:0] br_wr_data;
-  logic [7:0] br_data_mask;
-  logic [63:0] br_rd_data;
-  logic br_rd_data_valid;
-  logic br_init_calib;
-  logic br_busy;
+  // wires between burst_ram and cache
+  wire br_cmd;
+  wire br_cmd_en;
+  wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
+  wire [63:0] br_wr_data;
+  wire [7:0] br_data_mask;
+  wire [63:0] br_rd_data;
+  wire br_rd_data_valid;
+  wire br_init_calib;
+  wire br_busy;
 
   burst_ram #(
       .DataFilePath(""),  // initial RAM content
@@ -33,7 +32,7 @@ module testbench;
       .CyclesBeforeDataValid(6)
   ) burst_ram (
       .clk,
-      .rst_n(rst_n && lock),
+      .rst_n(rst_n),
       .cmd(br_cmd),  // 0: read, 1: write
       .cmd_en(br_cmd_en),  // 1: cmd and addr is valid
       .addr(br_addr),  // 8 bytes word
@@ -47,11 +46,11 @@ module testbench;
 
   logic [31:0] address;
   logic [31:0] address_next;
-  logic [31:0] data_out;
-  logic data_out_ready;
+  wire [31:0] data_out;
+  wire data_out_ready;
   logic [31:0] data_in;
   logic [3:0] write_enable;
-  logic busy;
+  wire busy;
   logic enable;
 
   cache #(
@@ -60,7 +59,7 @@ module testbench;
       .RamAddressingMode(3)  // 64 bit words
   ) cache (
       .clk(clk),
-      .rst_n(rst_n && lock && br_init_calib),
+      .rst_n(rst_n && br_init_calib),
       .enable(enable),
       .address(address),
       .data_out(data_out),
@@ -89,7 +88,7 @@ module testbench;
     #clk_tk;
 
     // wait for burst RAM to initiate
-    while (br_busy || !lock) #clk_tk;
+    while (br_busy) #clk_tk;
 
     enable <= 1;
 
@@ -133,7 +132,9 @@ module testbench;
     assert (data_out == 32'habcd_1234)
     else $fatal;
 
-
+    $display("");
+    $display("PASSED");
+    $display("");
     $finish;
   end
 

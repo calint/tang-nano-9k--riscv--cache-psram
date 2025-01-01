@@ -14,10 +14,10 @@ module testbench;
   always #(clk_tk_half) clk = ~clk;
 
   //-------------------------------------------------
-  output logic flash_clk;
-  input logic flash_miso;
-  output logic flash_mosi;
-  output logic flash_cs_n;
+  logic flash_clk;
+  wire  flash_miso;
+  logic flash_mosi;
+  logic flash_cs_n;
 
   flash #(
       .DataFilePath("flash.mem"),
@@ -118,10 +118,10 @@ module testbench;
       else $fatal;
     end
 
-    //----------------------------------------------------------
-
+    $display("");
+    $display("PASSED");
+    $display("");
     $finish;
-
   end
 
 endmodule
