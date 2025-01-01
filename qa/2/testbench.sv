@@ -54,8 +54,8 @@ module testbench;
     rst_n <= 0;
     #clk_tk;
     #clk_tk;
-    // #(clk_tk / 2);
     rst_n <= 1;
+    #clk_tk;
 
     // wait for initiation to complete
     while (busy) #clk_tk;

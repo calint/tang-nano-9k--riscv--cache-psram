@@ -160,6 +160,7 @@ module testbench;
     #clk_tk;
     #clk_tk;
     rst_n <= 1;
+    #clk_tk;
 
     // wait for burst RAM to initiate
     while (br_busy) #clk_tk;

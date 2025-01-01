@@ -45,12 +45,13 @@ module testbench;
     #clk_tk;
     #clk_tk;
     rst_n <= 1;
+    #clk_tk;
 
     flash_cs_n <= 0;
 
     // send 8 bits command 0x3
     flash_mosi <= 0;  // bit 7
-    flash_clk <= 1;
+    flash_clk  <= 1;
     #clk_tk_half;
     flash_clk <= 0;
     #clk_tk_half;
