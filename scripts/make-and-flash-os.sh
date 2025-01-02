@@ -30,10 +30,10 @@ FILE_SIZE=$(stat -c %s "$FIRMWARE_FILE")
 echo -e "\e[32m"
 echo "file: $FIRMWARE_FILE"
 echo "size: $FILE_SIZE B"
-echo " max: $BITSTREAM_FILE_MAX_SIZE_BYTES B"
+echo " max: $FIRMWARE_FILE_MAX_SIZE_BYTES B"
 echo -e "\e[0m"
 
-if [ "$FILE_SIZE" -gt "$BITSTREAM_FILE_MAX_SIZE_BYTES" ]; then
+if [ "$FILE_SIZE" -gt "$FIRMWARE_FILE_MAX_SIZE_BYTES" ]; then
     echo -e "\e[31mfirmware size exceeds allocated flash storage.\e[0m"
     exit 1
 fi
