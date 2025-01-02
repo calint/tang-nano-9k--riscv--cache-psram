@@ -7,7 +7,7 @@
 
 module testbench;
 
-  localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 4;  // 2^4 * 8 B
+  localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 4;  // 2 ^ 4 * 8 B = 128 B
 
   localparam int unsigned UART_OUT_ADDRESS = 32'hffff_fff8;
   localparam int unsigned UART_IN_ADDRESS = 32'hffff_fff4;
