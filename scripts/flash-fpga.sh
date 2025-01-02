@@ -5,7 +5,7 @@ cd $(dirname "$0")
 # default configuration
 BOARD_NAME="tangnano9k"
 BITSTREAM_FILE="impl/pnr/riscv.fs"
-BITSTREAM_FLASH_TO_EXTERNAL=0
+BITSTREAM_FLASH_TO_EXTERNAL=0 # 0 for internal flash, 1 for external flash
 
 # override configuration
 . ./configuration.sh

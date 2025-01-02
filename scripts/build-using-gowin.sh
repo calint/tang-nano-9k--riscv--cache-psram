@@ -4,7 +4,7 @@ cd $(dirname "$0")
 
 # default configuration
 BITSTREAM_FILE="impl/pnr/riscv.fs"
-BITSTREAM_FILE_MAX_SIZE_BYTES=4194304
+BITSTREAM_FILE_MAX_SIZE_BYTES=4194304 # 4MB
 
 # override configuration
 . ./configuration.sh
