@@ -12,7 +12,7 @@ BITSTREAM_FILE="impl/pnr/riscv.fs"
 cd ..
 
 echo
-echo flashing $BOARD_NAME with file $BITSTREAM_FILE
+echo "flashing '$BITSTREAM_FILE' to board '$BOARD_NAME'"
 echo
 
 openFPGALoader --board $BOARD_NAME --write-flash "$BITSTREAM_FILE"

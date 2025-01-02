@@ -28,7 +28,7 @@ EOF
 # check result
 if [ ! -f "$BITSTREAM_FILE" ]; then
     echo
-    echo -e "\e[31mbuild failed. bitstream file '$BITSTREAM_FILE' not created\e[0m"
+    echo -e "\e[31mbuild failed. bitstream file '$BITSTREAM_FILE' not created.\e[0m"
     exit 1
 fi
 
