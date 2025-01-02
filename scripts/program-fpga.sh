@@ -11,7 +11,7 @@ BITSTREAM_FILE="impl/pnr/riscv.fs"
 cd ..
 
 echo
-echo "programming board '$BOARD_NAME' with file '$BITSTREAM_FILE'"
+echo "programming board '$BOARD_NAME' with bitstream file '$BITSTREAM_FILE'"
 echo
 
 openFPGALoader --board $BOARD_NAME "$BITSTREAM_FILE"
