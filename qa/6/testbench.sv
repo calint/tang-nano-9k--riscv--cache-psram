@@ -19,6 +19,27 @@ module testbench;
   wire uart_rx;
 
   //------------------------------------------------------------------------
+  // flash
+  //------------------------------------------------------------------------
+
+  // wires between 'flash' and 'core'
+  wire flash_clk;
+  wire flash_miso;
+  wire flash_mosi;
+  wire flash_cs_n;
+
+  flash #(
+      .DataFilePath("ram.mem"),
+      .AddressBitWidth(12)  // 2 ^ 12 = 4 KB
+  ) flash (
+      .rst_n,
+      .clk (flash_clk),
+      .miso(flash_miso),
+      .mosi(flash_mosi),
+      .cs_n(flash_cs_n)
+  );
+
+  //------------------------------------------------------------------------
   // burst_ram
   //------------------------------------------------------------------------
 
@@ -96,27 +117,6 @@ module testbench;
       .br_data_mask,  // always 0 meaning write all bytes
       .br_rd_data,  // data out
       .br_rd_data_valid  // rd_data is valid
-  );
-
-  //------------------------------------------------------------------------
-  // flash
-  //------------------------------------------------------------------------
-
-  // wires between 'flash' and 'core'
-  wire flash_clk;
-  wire flash_miso;
-  wire flash_mosi;
-  wire flash_cs_n;
-
-  flash #(
-      .DataFilePath("ram.mem"),
-      .AddressBitWidth(12)  // in bytes 2^12 = 4096 B
-  ) flash (
-      .rst_n,
-      .clk (flash_clk),
-      .miso(flash_miso),
-      .mosi(flash_mosi),
-      .cs_n(flash_cs_n)
   );
 
   //------------------------------------------------------------------------
