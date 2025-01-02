@@ -1,6 +1,9 @@
 BOARD_NAME="tangnano9k"
 # used when flashing the bitstream to the FPGA
 
+BITSTREAM_FILE="impl/pnr/riscv.fs"
+# location of the bitstream file relative to project root
+
 BITSTREAM_FLASH_TO_EXTERNAL=0
 # 0 to flash the bitstream to the internal flash, 1 for the external flash
 
