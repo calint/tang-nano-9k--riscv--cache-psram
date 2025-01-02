@@ -2,6 +2,16 @@
 set -e
 cd $(dirname "$0")
 
+# default configuration
+BOARD_NAME="tangnano9k"
+BITSTREAM_FILE="impl/pnr/riscv.fs"
+
+. ./configuration.sh
+
 cd ..
 
-openFPGALoader impl/pnr/riscv.fs
+echo
+echo programming $BOARD_NAME with file $BITSTREAM_FILE
+echo
+
+openFPGALoader --board $BOARD_NAME "$BITSTREAM_FILE"
