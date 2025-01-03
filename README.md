@@ -16,6 +16,7 @@
 ![5](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/5.png)
 
 ## Howto
+* configure project as described above
 * build bitstream file in Gowin EDA
 * run `/scripts/flash-fpga.sh` to flash bitstream file 
 * then `/scripts/make-and-flash-os.sh` to flash program
