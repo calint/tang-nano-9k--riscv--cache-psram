@@ -2,9 +2,8 @@
 set -e
 cd $(dirname "$0")
 
-# default configuration
-BITSTREAM_FILE="impl/pnr/riscv.fs"
-BITSTREAM_FILE_MAX_SIZE_BYTES=4194304 # 4MB
+# apply configuration
+../configuration-apply.py
 
 # override configuration
 . ./configuration.sh
@@ -15,9 +14,6 @@ cd ..
 rm -rf impl/pnr/
 
 echo
-
-# apply configuration
-./configuration-apply.py
 
 # build
 gw_sh << EOF | grep -E 'WARN|ERROR|Bitstream generation completed'

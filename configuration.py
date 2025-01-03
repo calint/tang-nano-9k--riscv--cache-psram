@@ -2,8 +2,8 @@
 # if file changed run `configuration-apply.py` and rebuild
 #
 
-BOARD_NAME = "tang_nano_9k"
-# used when generating files
+BOARD_NAME = "tangnano9k"
+# used when flashing the bitstream to the FPGA and creating the SDC file
 
 CLOCK_FREQUENCY_HZ = 27_000_000
 # frequency of in clock (signal 'clk', specification)
@@ -43,3 +43,22 @@ FLASH_TRANSFER_BYTE_COUNT = 0x0020_0000
 
 STARTUP_WAIT_CYCLES = 1_000_000
 # cycles delay at startup for flash to be initiated
+
+#
+# scripts related configuration
+#
+
+BITSTREAM_FILE = "impl/pnr/riscv.fs"
+# location of the bitstream file relative to project root
+
+BITSTREAM_FLASH_TO_EXTERNAL = 0
+# 0 to flash the bitstream to the internal flash, 1 for the external flash
+
+BITSTREAM_FILE_MAX_SIZE_BYTES = 0x0040_0000
+# used to check if the bitstream size is within the limit of flash storage
+
+FIRMWARE_FILE_MAX_SIZE_BYTES = 0x0040_0000
+# used to check if the bitstream size is within the limit of flash storage
+
+FIRMWARE_FLASH_OFFSET = 0x0000_0000
+# used to specify the offset in the flash storage where the firmware will be written

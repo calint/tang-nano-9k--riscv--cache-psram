@@ -2,10 +2,6 @@
 set -e
 cd $(dirname "$0")
 
-# default configuration
-BOARD_NAME="tangnano9k"
-BITSTREAM_FILE="impl/pnr/riscv.fs"
-
 . ./configuration.sh
 
 cd ..

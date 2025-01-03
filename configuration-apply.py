@@ -111,5 +111,39 @@ with open(cfg.BOARD_NAME+'.sdc', 'w') as file:
     file.write('create_clock -name clk -period {:.4f} -waveform {{0 {:.4f}}} [get_ports {{clk}}]\n'.format(
         ClockPeriod, ClockWaveform))
 
+with open('scripts/configuration.sh', 'w') as file:
+    file.write('# generated - do not edit (see `configuration.py`)\n')
+    file.write('\n')
+    file.write('#\n')
+    file.write('# scripts related configurations\n')
+    file.write('#\n')
+    file.write('\n')
+    file.write('BOARD_NAME="{}"\n'.format(cfg.BOARD_NAME))
+    file.write('# used when flashing the bitstream to the FPGA\n')
+    file.write('\n')
+    file.write('BITSTREAM_FILE="{}"\n'.format(cfg.BITSTREAM_FILE))
+    file.write('# location of the bitstream file relative to project root\n')
+    file.write('\n')
+    file.write('BITSTREAM_FLASH_TO_EXTERNAL={}\n'.format(
+        cfg.BITSTREAM_FLASH_TO_EXTERNAL))
+    file.write(
+        '# 0 to flash the bitstream to the internal flash, 1 for the external flash\n')
+    file.write('\n')
+    file.write('BITSTREAM_FILE_MAX_SIZE_BYTES={}\n'.format(
+        cfg.BITSTREAM_FILE_MAX_SIZE_BYTES))
+    file.write(
+        '# used to check if the bitstream size is within the limit of flash storage\n')
+    file.write('\n')
+    file.write('FIRMWARE_FILE_MAX_SIZE_BYTES={}\n'.format(
+        cfg.FIRMWARE_FILE_MAX_SIZE_BYTES))
+    file.write(
+        '# used to check if the bitstream size is within the limit of flash storage\n')
+    file.write('\n')
+    file.write('FIRMWARE_FLASH_OFFSET=0x{:08x}\n'.format(
+        cfg.FIRMWARE_FLASH_OFFSET))
+    FIRMWARE_FLASH_OFFSET = 0x00000000
+    file.write(
+        '# used to specify the offset in the flash storage where the firmware will be written\n')
+
 print("generated:\n * /"+cfg.BOARD_NAME +
-      ".sdc\n * /src/configuration.sv\n * /os/src/os_start.S\n * /os/src/os_config.hpp\n * /emulator/src/main_config.hpp")
+      ".sdc\n * /src/configuration.sv\n * /os/src/os_start.S\n * /os/src/os_config.hpp\n * /emulator/src/main_config.hpp\n * /scripts/configuration.sh")

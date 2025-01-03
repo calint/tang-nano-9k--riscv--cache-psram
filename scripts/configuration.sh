@@ -1,3 +1,9 @@
+# generated - do not edit (see `configuration.py`)
+
+#
+# scripts related configurations
+#
+
 BOARD_NAME="tangnano9k"
 # used when flashing the bitstream to the FPGA
 
