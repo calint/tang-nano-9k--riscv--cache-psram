@@ -12,8 +12,6 @@ echo "building firmware"
 
 os/make-fpga-flash-binary.sh
 
-FIRMWARE_FILE="os/os.bin"
-
 # check result
 if [ ! -f "$FIRMWARE_FILE" ]; then
     echo

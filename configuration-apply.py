@@ -119,7 +119,8 @@ with open('scripts/configuration.sh', 'w') as file:
     file.write('#\n')
     file.write('\n')
     file.write('BOARD_NAME="{}"\n'.format(cfg.BOARD_NAME))
-    file.write('# used when flashing the bitstream to the FPGA\n')
+    file.write(
+        '# used when flashing the bitstream to the FPGA and generating SDC file\n')
     file.write('\n')
     file.write('BITSTREAM_FILE="{}"\n'.format(cfg.BITSTREAM_FILE))
     file.write('# location of the bitstream file relative to project root\n')
@@ -132,12 +133,17 @@ with open('scripts/configuration.sh', 'w') as file:
     file.write('BITSTREAM_FILE_MAX_SIZE_BYTES={}\n'.format(
         cfg.BITSTREAM_FILE_MAX_SIZE_BYTES))
     file.write(
-        '# used to check if the bitstream size is within the limit of flash storage\n')
+        '# used to check if the bitstream file size is within the limit of flash storage\n')
+    file.write('\n')
+    file.write('FIRMWARE_FILE="{}"\n'.format(
+        cfg.FIRMWARE_FILE))
+    file.write(
+        '# location of the firmware file relative to project root\n')
     file.write('\n')
     file.write('FIRMWARE_FILE_MAX_SIZE_BYTES={}\n'.format(
         cfg.FIRMWARE_FILE_MAX_SIZE_BYTES))
     file.write(
-        '# used to check if the bitstream size is within the limit of flash storage\n')
+        '# used to check if the firmware file size is within the limit of flash storage\n')
     file.write('\n')
     file.write('FIRMWARE_FLASH_OFFSET=0x{:08x}\n'.format(
         cfg.FIRMWARE_FLASH_OFFSET))

@@ -57,6 +57,9 @@ BITSTREAM_FLASH_TO_EXTERNAL = 0
 BITSTREAM_FILE_MAX_SIZE_BYTES = 0x0040_0000
 # used to check if the bitstream size is within the limit of flash storage
 
+FIRMWARE_FILE = "os/os.bin"
+# location of the firmware file relative to project root
+
 FIRMWARE_FILE_MAX_SIZE_BYTES = 0x0040_0000
 # used to check if the bitstream size is within the limit of flash storage
 
