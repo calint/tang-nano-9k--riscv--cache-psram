@@ -1,5 +1,5 @@
 //
-// RISC-V reduced rv32i for Tang Nano 9K
+// RISC-V reduced RV32I for Tang Nano 9K
 //
 // reviewed 2024-06-25
 //
