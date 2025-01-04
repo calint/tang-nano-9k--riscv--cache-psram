@@ -146,6 +146,7 @@ module top (
 
   core #(
       .StartupWaitCycles(configuration::STARTUP_WAIT_CYCLES),
+      .FlashTransferFromAddress(configuration::FLASH_TRANSFER_FROM_ADDRESS),
       .FlashTransferByteCount(configuration::FLASH_TRANSFER_BYTE_COUNT)
   ) core (
       .rst_n(rst_n && rpll_lock && br_init_calib),
