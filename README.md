@@ -81,6 +81,7 @@ welcome to adventure #4
 -------------------------------------------------------------------------------------------------------------
 [ ] uarttx: optimize away the cycle between go=1 and busy=1
     => cannot with only always_ff and running on posedge clk
+[ ] investigate and try to recreate the "// !!!" issue in 'ramio'
 [x] study why BAUD rate less than 2400 does not work
     => same issue in: https://github.com/sipeed/TangNano-9K-example/tree/main/uart 
     note: in some cases putty has to be started, then closed, then re-started to work
@@ -145,6 +146,7 @@ step 13
 [x] investigate and try to recreate the "// !!!" issue in 'ramio'
     => the simulation works as expected
     => Gowin EDA 1.9.10.03 seems to have fixed this
+    => occasionally problem reappears. created new open issue
 [x] samples/echo: study why lhu, slli then srai instead of lw
     => signed short, make it into int
 [x] uarttx: run on posedge clk
