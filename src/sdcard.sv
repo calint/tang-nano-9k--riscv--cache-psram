@@ -37,6 +37,8 @@ module sdcard #(
     input wire [3:0] sd_dat_i
 );
 
+  assign sd_dat_i[3:1] = '1;
+
   logic [7:0] buffer[512];
   logic [8:0] buffer_index;
 
