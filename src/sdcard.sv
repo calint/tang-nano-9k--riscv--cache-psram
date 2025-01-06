@@ -64,12 +64,14 @@ module sdcard #(
       u_sd_reader_rstart <= 0;
 
       case (state)
+
         Init: begin
           if (!u_sd_reader_rbusy) begin
             busy_o <= 0;
             state  <= Idle;
           end
         end
+
         Idle: begin
           if (cmd_i == 1) begin
             u_sd_reader_rstart <= 1;
@@ -81,6 +83,7 @@ module sdcard #(
             buffer_index <= buffer_index + 1'b1;
           end
         end
+
         ReadSDCard: begin
           if (u_sd_reader_outen) begin
             buffer[buffer_index] <= u_sd_reader_outbyte;
@@ -92,6 +95,7 @@ module sdcard #(
             busy_o <= 0;
             state  <= Idle;
           end
+
         end
       endcase
     end
