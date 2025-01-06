@@ -22,6 +22,7 @@ module sdcard #(
     input wire [31:0] sector_address_i,
 
     output logic [7:0] data_o,
+    // ??? why not word instead of byte
 
     output logic busy_o,
     // true while busy reading SD card
