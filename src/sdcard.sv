@@ -7,7 +7,7 @@
 //`define DBG
 //`define INFO
 
-module sd_card #(
+module sdcard #(
     parameter int unsigned ClockDivider = 2,
     parameter int unsigned Simulate = 0
 ) (

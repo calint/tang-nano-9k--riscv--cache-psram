@@ -54,10 +54,10 @@ module testbench;
   wire [3:0] card_stat_o;
   wire [1:0] card_type_o;
 
-  sd_card #(
+  sdcard #(
       .ClockDivider(2),
       .Simulate(1)
-  ) sd_card (
+  ) sdcard (
       .clk_i(clk),
       .rst_ni(rst_n),
       .cmd_i,
@@ -103,16 +103,16 @@ module testbench;
     //   $display("%0d: %h", i, sd_card.buffer[i]);
     // end
 
-    assert (sd_card.buffer[0] == 8'h42)
+    assert (sdcard.buffer[0] == 8'h42)
     else $fatal;
 
-    assert (sd_card.buffer[1] == 8'h20)
+    assert (sdcard.buffer[1] == 8'h20)
     else $fatal;
 
-    assert (sd_card.buffer[4] == 8'h00)
+    assert (sdcard.buffer[4] == 8'h00)
     else $fatal;
 
-    assert (sd_card.buffer[5] == 8'h6e)
+    assert (sdcard.buffer[5] == 8'h6e)
     else $fatal;
 
     cmd_i <= 2;
