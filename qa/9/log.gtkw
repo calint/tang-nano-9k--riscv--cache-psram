@@ -1,0 +1,58 @@
+[*]
+[*] GTKWave Analyzer v3.3.120 (w)1999-2024 BSI
+[*] Mon Jan  6 10:37:15 2025
+[*]
+[dumpfile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/9/log.vcd"
+[dumpfile_mtime] "Mon Jan  6 10:36:25 2025"
+[dumpfile_size] 9828768
+[savefile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/9/log.gtkw"
+[timestart] 2372492000
+[size] 2230 1344
+[pos] -1 -1
+*-14.759190 2372700000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] testbench.
+[treeopen] testbench.sd_card.
+[sst_width] 273
+[signals_width] 361
+[sst_expanded] 1
+[sst_vpaned_height] 415
+@28
+testbench.rst_n
+testbench.clk
+testbench.sd_card.u_sd_reader.rbusy
+@200
+-
+@28
+testbench.sd_card.busy_o
+testbench.rst_n
+testbench.cmd_i[1:0]
+@22
+testbench.sd_card.buffer_index[8:0]
+@23
+testbench.sd_card.data_o[7:0]
+@200
+-
+@28
+testbench.sd_card.u_sd_reader.rbusy
+testbench.sd_card.u_sd_reader.clk
+@200
+-
+@28
+testbench.sd_card.u_sd_reader_rbusy
+testbench.sd_card.u_sd_reader_outen
+testbench.sd_card.u_sd_reader_rdone
+testbench.sd_card.u_sd_reader_rstart
+@22
+testbench.sd_card.u_sd_reader_outbyte[7:0]
+testbench.sd_card.u_sd_reader_outaddr[8:0]
+testbench.sd_card.sector_address_i[31:0]
+@200
+-
+@28
+testbench.sd_fake_sdclk
+testbench.sd_fake_rom_req
+@22
+testbench.sd_fake_rom_addr[39:0]
+testbench.sd_fake_rom_data[15:0]
+[pattern_trace] 1
+[pattern_trace] 0
