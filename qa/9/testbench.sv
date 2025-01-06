@@ -72,7 +72,7 @@ module testbench;
       // interface to SD card
       .clk_sd_o(sd_fake_sdclk),
       .sd_cmd_io(sd_fake_sdcmd),
-      .sd_dat0_i(sd_fake_sddat[0])
+      .sd_dat_i(sd_fake_sddat)
   );
 
   assign sd_fake_sddat[3:1] = '0;
