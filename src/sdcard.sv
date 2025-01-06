@@ -88,6 +88,7 @@ module sdcard #(
           end
           if (u_sd_reader_rdone) begin
             // note: buffer_index har rolled over to 0
+            // ??? don't need to wait for 'rdone' to make buffer available for read
             busy_o <= 0;
             state  <= Idle;
           end
