@@ -75,7 +75,7 @@ module testbench;
       .sd_dat_i(sd_fake_sddat)
   );
 
-  assign sd_fake_sddat[3:1] = '0;
+  assign sd_fake_sddat[3:1] = '1;
 
   //------------------------------------------------------------------------
 
