@@ -39,8 +39,12 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
   if (is_store) {
     if (address == osqa::sdcard_read_sector) {
       size_t const ix = data * 512;
-      std::copy(sdcard.begin() + ix, sdcard.begin() + ix + sector_buffer.size(),
-                sector_buffer.begin());
+      auto const bgn = sdcard.begin() + ix;
+      auto const end = sdcard.begin() + ix + sector_buffer.size();
+      if (end > sdcard.end()) {
+        return 2;
+      }
+      std::copy(bgn, end, sector_buffer.begin());
     } else if (address == osqa::uart_out) {
       int const ch = data & 0xff;
       if (ch == 0x7f) {
@@ -64,8 +68,8 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     if (address == osqa::sdcard_busy) {
       data = 0;
     } else if (address == osqa::sdcard_next_byte) {
-      data = sector_buffer[sector_buffer_index];
-      sector_buffer_index = (sector_buffer_index + 1) % 512;
+      data = sector_buffer.at(sector_buffer_index);
+      sector_buffer_index = (sector_buffer_index + 1) % sector_buffer.size();
     } else if (address == osqa::uart_out) {
       data = 0xffff'ffff; // -1
     } else if (address == osqa::uart_in) {
