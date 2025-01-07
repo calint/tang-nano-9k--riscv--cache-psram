@@ -37,6 +37,9 @@ with open('emulator/src/main_config.hpp', 'w') as file:
     file.write('std::uint32_t constexpr led = 0xffff\'fffc;\n')
     file.write('std::uint32_t constexpr uart_out = 0xffff\'fff8;\n')
     file.write('std::uint32_t constexpr uart_in = 0xffff\'fff4;\n')
+    file.write('std::uint32_t constexpr sdcard_busy = 0xffff\'fff0;\n')
+    file.write('std::uint32_t constexpr sdcard_read_sector = 0xffff\'ffec;\n')
+    file.write('std::uint32_t constexpr sdcard_next_byte = 0xffff\'ffe8;\n')
     file.write('std::uint32_t constexpr memory_end = {};\n'.format(hex(
         memory_end_address)))
     file.write('\n} // namespace osqa\n')
