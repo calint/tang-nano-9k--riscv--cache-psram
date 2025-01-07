@@ -11,5 +11,5 @@ echo " * build emulator"
 
 echo " * test console application"
 qa-console/test.sh
-echo " * test os.bin using emulator"
+echo " * test 'os.bin' with sd card 'sample.txt' using emulator"
 qa-emulator/test.sh
