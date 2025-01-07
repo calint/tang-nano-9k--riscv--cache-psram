@@ -79,10 +79,37 @@ welcome to adventure #4
 ## Todo
 ```
 -------------------------------------------------------------------------------------------------------------
-[x] emulator: update to support sdcard
+[ ] ramio, sdcard: SDCARD_STATUS returning card_stat and card_type
 [ ] uarttx: optimize away the cycle between go=1 and busy=1
     => cannot with only always_ff and running on posedge clk
 [ ] investigate and try to recreate the "// !!!" issue in 'ramio'
+[ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
+    => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
+[ ] cat > /dev/ttyUSB1 should echo without dropping input
+[ ] read LEDs
+[ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
+[ ] fix red hold and recovery paths (not involved in running CPU, ignored)
+[ ]   psram: CALIB
+[ ]   psram: RESET 
+
+next step
+[ ] reduce execution cycle by one step by doing CpuExecute in CpuFetch when ramio_data_out_ready
+    => registers module would be a 2 port read, 1 port write per cycle
+
+step 12
+[ ] always_comb based CPU
+[ ]   1 cycle ALU op
+[ ]   1+ cycle store op
+[ ]   1+ cycle load op
+[ ] FSM in always_comb?
+[ ] dual channel 4 MB PSRAM
+    => reasonable cache size does not fit in fpga resources
+    => study cache synthesized as block ram
+
+step 13
+[ ] fully pipe-lined core
+[ ] consider FIFO in UART
+-------------------------------------------------------------------------------------------------------------
 [x] study why BAUD rate less than 2400 does not work
     => same issue in: https://github.com/sipeed/TangNano-9K-example/tree/main/uart 
     note: in some cases putty has to be started, then closed, then re-started to work
@@ -117,33 +144,7 @@ welcome to adventure #4
     =>    2400: ok
     =>    1200: not ok, "brick"
     =>     300: not ok
-[ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
-    => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
-[ ] cat > /dev/ttyUSB1 should echo without dropping input
-[ ] read LEDs
-[ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
-[ ] fix red hold and recovery paths (not involved in running CPU, ignored)
-[ ]   psram: CALIB
-[ ]   psram: RESET 
-
-next step
-[ ] reduce execution cycle by one step by doing CpuExecute in CpuFetch when ramio_data_out_ready
-    => registers module would be a 2 port read, 1 port write per cycle
-
-step 12
-[ ] always_comb based CPU
-[ ]   1 cycle ALU op
-[ ]   1+ cycle store op
-[ ]   1+ cycle load op
-[ ] FSM in always_comb?
-[ ] dual channel 4 MB PSRAM
-    => reasonable cache size does not fit in fpga resources
-    => study cache synthesized as block ram
-
-step 13
-[ ] fully pipe-lined core
-[ ] consider FIFO in UART
--------------------------------------------------------------------------------------------------------------
+[x] emulator: update to support sdcard
 [x] investigate and try to recreate the "// !!!" issue in 'ramio'
     => the simulation works as expected
     => Gowin EDA 1.9.10.03 seems to have fixed this
