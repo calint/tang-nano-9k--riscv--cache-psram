@@ -21,6 +21,11 @@ module top (
     output logic flash_mosi,
     output logic flash_cs_n,
 
+    output wire sd_clk,
+    output wire sd_mosi,
+    input  wire sd_miso,
+    output wire sd_cs,
+
     // magic ports for PSRAM to be inferred
     output logic [ 1:0] O_psram_ck,
     output logic [ 1:0] O_psram_ck_n,
@@ -29,6 +34,8 @@ module top (
     output logic [ 1:0] O_psram_reset_n,
     output logic [ 1:0] O_psram_cs_n
 );
+
+  assign sd_cs = 0;
 
   // ----------------------------------------------------------
   // -- Gowin_rPLL
@@ -110,7 +117,9 @@ module top (
       .RamAddressingMode(0),  // addressing 8 bit words
       .CacheLineIndexBitWidth(configuration::CACHE_LINE_INDEX_BITWIDTH),
       .ClockFrequencyHz(configuration::CPU_FREQUENCY_HZ),
-      .BaudRate(configuration::UART_BAUD_RATE)
+      .BaudRate(configuration::UART_BAUD_RATE),
+      .SDCardSimulate(0),
+      .SDCardClockDivider(2)
   ) ramio (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
@@ -137,7 +146,12 @@ module top (
       .br_wr_data,  // data to write
       .br_data_mask,  // always 0, meaning write all bytes
       .br_rd_data,  // data out
-      .br_rd_data_valid  // 'br_rd_data' is valid
+      .br_rd_data_valid,  // 'br_rd_data' is valid
+
+      // SD card wiring: prefix 'sd_'
+      .clk_sd_o (sd_clk),
+      .sd_cmd_io(sd_mosi),
+      .sd_dat_i ({1'b1, 1'b1, 1'b1, sd_miso})
   );
 
   // ----------------------------------------------------------

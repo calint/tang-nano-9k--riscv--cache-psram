@@ -13,3 +13,7 @@ IO_LOC "flash_clk" 59;
 IO_LOC "flash_miso" 62;
 IO_LOC "flash_mosi" 61;
 IO_LOC "flash_cs_n" 60;
+IO_LOC "sd_clk" 36; // PIN36_IOB29B_TF_SCLK
+IO_LOC "sd_mosi" 37; // PIN37_IOB31A_TF_MOSI
+IO_LOC "sd_miso" 39; // PIN39_IOB33A_TF_MISO
+IO_LOC "sd_cs" 38; // PIN38_IOB31B_TF_CS

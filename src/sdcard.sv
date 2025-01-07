@@ -16,6 +16,7 @@ module sdcard #(
     input wire rst_ni,
 
     input wire [1:0] cmd_i,
+    // 0: idle
     // 1: start read SD card at 'sector_address_i'
     // 2: write next byte from buffer to 'data_o'
 
@@ -33,11 +34,9 @@ module sdcard #(
 
     // interface to SD card
     output wire clk_sd_o,
-    inout sd_cmd_io,
+    inout wire sd_cmd_io,
     input wire [3:0] sd_dat_i
 );
-
-  assign sd_dat_i[3:1] = '1;
 
   logic [7:0] buffer[512];
   logic [8:0] buffer_index;
@@ -48,6 +47,7 @@ module sdcard #(
   wire u_sd_reader_outen;  // when outen=1, a byte of sector content is read out from outbyte
   wire [8:0] u_sd_reader_outaddr;  // outaddr from 0 to 511, because the sector size is 512
   wire [7:0] u_sd_reader_outbyte;
+  logic [31:0] u_sd_reader_rsector;
 
   typedef enum {
     Init,
@@ -57,10 +57,15 @@ module sdcard #(
 
   state_e state;
 
+  always_comb begin
+    data_o = buffer[buffer_index];
+  end
+
   always_ff @(posedge clk_i) begin
     if (!rst_ni) begin
       buffer_index <= 0;
       u_sd_reader_rstart <= 0;
+      u_sd_reader_rsector <= 0;
       busy_o <= 1;
       state <= Init;
     end else begin
@@ -77,12 +82,12 @@ module sdcard #(
 
         Idle: begin
           if (cmd_i == 1) begin
+            u_sd_reader_rsector <= sector_address_i;
             u_sd_reader_rstart <= 1;
             buffer_index <= 0;
             busy_o <= 1;
             state <= ReadSDCard;
           end else if (cmd_i == 2) begin
-            data_o <= buffer[buffer_index];
             buffer_index <= buffer_index + 1'b1;
           end
         end
@@ -119,7 +124,7 @@ module sdcard #(
       .card_type(card_type_o),  // 0=UNKNOWN, 1=SDv1, 2=SDv2, 3=SDHCv2
       // user read sector command interface (sync with clk)
       .rstart(u_sd_reader_rstart),
-      .rsector(sector_address_i),
+      .rsector(u_sd_reader_rsector),
       .rbusy(u_sd_reader_rbusy),
       .rdone(u_sd_reader_rdone),
       // sector data output interface (sync with clk)
