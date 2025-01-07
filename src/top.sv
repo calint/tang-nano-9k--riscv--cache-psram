@@ -12,9 +12,10 @@ module top (
     input wire clk,    // 27 MHz
 
     output logic [5:0] led,
-    input wire uart_rx,
-    output logic uart_tx,
     input wire btn1,
+
+    input  wire  uart_rx,
+    output logic uart_tx,
 
     output logic flash_cs_n,
     output logic flash_clk,
