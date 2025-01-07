@@ -23,10 +23,11 @@ module sdcard #(
 
     input wire [1:0] command,
     // 0: idle
-    // 1: start read SD card at 'sector_address'
-    // 2: write next byte from buffer to 'data_out'
+    // 1: start read of sector specified by 'sector_address'
+    // 2: update 'data_out' with next byte in buffer
 
     input wire [31:0] sector_address,
+    // sector to read with 'command' 1
 
     output logic [7:0] data_out,
     // ??? why not word instead of byte
