@@ -36,7 +36,9 @@ module top (
     output logic [ 1:0] O_psram_cs_n
 );
 
-  assign sd_cs_n = 0;
+  assign sd_cs_n = 1;
+  // note: sd_cs_n is connected to dat[3] and must be kept high
+  //       see: Tang_Nano_9k_3672_Schematic.pdf
 
   // ----------------------------------------------------------
   // -- Gowin_rPLL
