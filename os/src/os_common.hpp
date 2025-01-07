@@ -288,14 +288,14 @@ extern "C" [[noreturn]] auto run() -> void {
   initiate_statics();
   // initiate statics in freestanding build
 
-  led_set(0);
-  // turn all leds on
-
-  entity_id_t active_entity = 1;
-  command_buffer cmd_buf{};
+  led_set(0b0000);
+  // turn on all leds
 
   uart_send_str(ascii_art);
   uart_send_str(hello);
+
+  entity_id_t active_entity = 1;
+  command_buffer cmd_buf{};
 
   while (true) {
     entity const &ent = entities[active_entity];

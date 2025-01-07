@@ -17,9 +17,9 @@ module sdcard #(
 
     parameter int unsigned Simulate = 0
 ) (
-    input wire clk_i,
+    input wire clk,
 
-    input wire rst_ni,
+    input wire rst_n,
 
     input wire [1:0] cmd_i,
     // 0: idle
@@ -37,6 +37,7 @@ module sdcard #(
     output wire [3:0] card_stat_o,
 
     output wire [1:0] card_type_o,
+    // 0 = UNKNOWN, 1 = SDv1, 2 = SDv2, 3 = SDHCv2
 
     // interface to SD card
     output wire clk_sd_o,
@@ -67,8 +68,8 @@ module sdcard #(
     data_o = buffer[buffer_index];
   end
 
-  always_ff @(posedge clk_i) begin
-    if (!rst_ni) begin
+  always_ff @(posedge clk) begin
+    if (!rst_n) begin
       buffer_index <= 0;
       u_sd_reader_rstart <= 0;
       u_sd_reader_rsector <= 0;
@@ -119,8 +120,8 @@ module sdcard #(
       .CLK_DIV (ClockDivider),
       .SIMULATE(Simulate)
   ) u_sd_reader (
-      .clk(clk_i),
-      .rstn(rst_ni),
+      .clk(clk),
+      .rstn(rst_n),
       // SDcard signals (connect to SDcard), this design do not use sddat1~sddat3.
       .sdclk(clk_sd_o),
       .sdcmd(sd_cmd_io),

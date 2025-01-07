@@ -16,15 +16,15 @@ module top (
     output logic uart_tx,
     input wire btn1,
 
+    output logic flash_cs_n,
     output logic flash_clk,
     input  wire  flash_miso,
     output logic flash_mosi,
-    output logic flash_cs_n,
 
+    output wire sd_cs_n,
     output wire sd_clk,
     output wire sd_mosi,
     input  wire sd_miso,
-    output wire sd_cs,
 
     // magic ports for PSRAM to be inferred
     output logic [ 1:0] O_psram_ck,
@@ -35,7 +35,7 @@ module top (
     output logic [ 1:0] O_psram_cs_n
 );
 
-  assign sd_cs = 0;
+  assign sd_cs_n = 0;
 
   // ----------------------------------------------------------
   // -- Gowin_rPLL
@@ -151,7 +151,7 @@ module top (
       // SD card wiring: prefix 'sd_'
       .clk_sd_o (sd_clk),
       .sd_cmd_io(sd_mosi),
-      .sd_dat_i ({1'b1, 1'b1, 1'b1, sd_miso})
+      .sd_dat_i ({3'b111, sd_miso})
   );
 
   // ----------------------------------------------------------

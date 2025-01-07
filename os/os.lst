@@ -23,43 +23,44 @@ Disassembly of section .text:
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
       28:	168010ef          	jal	1190 <_ZL12initiate_bssv>
+#   // initiate statics in freestanding build
 # 
-#   led_set(0);
-#   // turn all leds on
-# 
-#   entity_id_t active_entity = 1;
-#   command_buffer cmd_buf{};
-      2c:	05200613          	li	a2,82
-      30:	00000593          	li	a1,0
-# static auto led_set(int32_t const bits) -> void { *LED = bits; }
-      34:	fe002e23          	sw	zero,-4(zero) # fffffffc <__bss_end+0xffffe354>
-      38:	00c10513          	addi	a0,sp,12
-      3c:	138010ef          	jal	1174 <memset>
+#   led_set(0b0000);
+#   // turn on all leds
 # 
 #   uart_send_str(ascii_art);
-      40:	000027b7          	lui	a5,0x2
-      44:	c9c7a503          	lw	a0,-868(a5) # 1c9c <_ZL9ascii_art>
-#   entity_id_t active_entity = 1;
-      48:	00100413          	li	s0,1
+      2c:	000027b7          	lui	a5,0x2
+# static auto led_set(int32_t const bits) -> void { *LED = bits; }
+      30:	fe002e23          	sw	zero,-4(zero) # fffffffc <__bss_end+0xffffe354>
+      34:	c9c7a503          	lw	a0,-868(a5) # 1c9c <_ZL9ascii_art>
 #   uart_send_str(hello);
+# 
+#   entity_id_t active_entity = 1;
+      38:	00100413          	li	s0,1
+#   command_buffer cmd_buf{};
 # 
 #   while (true) {
 #     entity const &ent = entities[active_entity];
 #     print_location(ent.location, active_entity);
-      4c:	00002ab7          	lui	s5,0x2
+      3c:	00002ab7          	lui	s5,0x2
 #   uart_send_str(ascii_art);
-      50:	038010ef          	jal	1088 <_ZL13uart_send_strPKc>
+      40:	048010ef          	jal	1088 <_ZL13uart_send_strPKc>
 #   uart_send_str(hello);
-      54:	000027b7          	lui	a5,0x2
-      58:	c987a503          	lw	a0,-872(a5) # 1c98 <_ZL5hello>
+      44:	000027b7          	lui	a5,0x2
+      48:	c987a503          	lw	a0,-872(a5) # 1c98 <_ZL5hello>
 #     uart_send_str(ent.name);
 #     uart_send_str(" > ");
-      5c:	00001a37          	lui	s4,0x1
+      4c:	00001a37          	lui	s4,0x1
 #     input(cmd_buf);
 #     uart_send_str("\r\n");
-      60:	000019b7          	lui	s3,0x1
+      50:	000019b7          	lui	s3,0x1
 #   uart_send_str(hello);
-      64:	024010ef          	jal	1088 <_ZL13uart_send_strPKc>
+      54:	034010ef          	jal	1088 <_ZL13uart_send_strPKc>
+#   command_buffer cmd_buf{};
+      58:	05200613          	li	a2,82
+      5c:	00000593          	li	a1,0
+      60:	00c10513          	addi	a0,sp,12
+      64:	110010ef          	jal	1174 <memset>
 #     handle_input(active_entity, cmd_buf);
 #     active_entity = active_entity == 1 ? 2 : 1;
       68:	00300913          	li	s2,3

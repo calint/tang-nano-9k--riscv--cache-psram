@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.120 (w)1999-2024 BSI
-[*] Tue Jan  7 02:19:31 2025
+[*] Tue Jan  7 06:28:17 2025
 [*]
 [dumpfile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/9/log.vcd"
-[dumpfile_mtime] "Tue Jan  7 02:19:21 2025"
-[dumpfile_size] 10074375
+[dumpfile_mtime] "Tue Jan  7 06:26:45 2025"
+[dumpfile_size] 10074309
 [savefile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/9/log.gtkw"
-[timestart] 1853257410
+[timestart] 1853019600
 [size] 2230 1344
-[pos] -1 -1
-*-14.101256 1853330000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] -2 -2
+*-16.101250 1853330000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] testbench.
 [treeopen] testbench.sdcard.
 [sst_width] 273
@@ -32,7 +32,9 @@ testbench.sdcard.cmd_i[1:0]
 testbench.sdcard.data_o[7:0]
 @28
 testbench.sdcard.busy_o
-@23
+@22
 testbench.sdcard.sector_address_i[31:0]
+@201
+-
 [pattern_trace] 1
 [pattern_trace] 0

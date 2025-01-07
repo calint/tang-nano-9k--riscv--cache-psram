@@ -44,6 +44,7 @@ $CC -std=c++23 \
     -Wdouble-promotion \
     -Wformat=2 \
     -Wimplicit-fallthrough \
+    -Wno-stringop-overflow \
     -Wno-unused-function \
     -Wno-unused-parameter \
     -Wl,-T,linker.ld \

@@ -157,6 +157,9 @@ module testbench;
     read_type <= 3'b111;
     #clk_tk;
 
+    assert (data_out_ready == 1)
+    else $fatal;
+
     while (data_out == 1) #clk_tk;
 
     // issue read sector command
@@ -167,12 +170,18 @@ module testbench;
     data_in <= 32'h4000;
     #clk_tk;
 
+    assert (data_out_ready == 1)
+    else $fatal;
+
     // wait for busy
     enable <= 1;
     address <= SD_CARD_BUSY_ADDRESS;
     write_type <= 0;
     read_type <= 3'b111;
     #clk_tk;
+
+    assert (data_out_ready == 1)
+    else $fatal;
 
     while (data_out == 1) #clk_tk;
 
@@ -182,6 +191,9 @@ module testbench;
     write_type <= 0;
     read_type <= 3'b111;
     #clk_tk;
+
+    assert (data_out_ready == 1)
+    else $fatal;
 
     assert (data_out == 8'h42)
     else $fatal;
@@ -193,6 +205,9 @@ module testbench;
     read_type <= 3'b111;
     #clk_tk;
 
+    assert (data_out_ready == 1)
+    else $fatal;
+
     assert (data_out == 8'h20)
     else $fatal;
 
@@ -203,6 +218,9 @@ module testbench;
     read_type <= 3'b111;
     #clk_tk;
 
+    assert (data_out_ready == 1)
+    else $fatal;
+
     // read next byte (3) from sector
     enable <= 1;
     address <= SD_CARD_NEXT_BYTE_ADDRESS;
@@ -210,12 +228,18 @@ module testbench;
     read_type <= 3'b111;
     #clk_tk;
 
+    assert (data_out_ready == 1)
+    else $fatal;
+
     // read next byte (4) from sector
     enable <= 1;
     address <= SD_CARD_NEXT_BYTE_ADDRESS;
     write_type <= 0;
     read_type <= 3'b111;
     #clk_tk;
+
+    assert (data_out_ready == 1)
+    else $fatal;
 
     assert (data_out == 8'h00)
     else $fatal;
@@ -226,6 +250,9 @@ module testbench;
     write_type <= 0;
     read_type <= 3'b111;
     #clk_tk;
+
+    assert (data_out_ready == 1)
+    else $fatal;
 
     assert (data_out == 8'h6e)
     else $fatal;
@@ -238,12 +265,18 @@ module testbench;
     data_in <= 32'h4040;
     #clk_tk;
 
+    assert (data_out_ready == 1)
+    else $fatal;
+
     // wait for busy
     enable <= 1;
     address <= SD_CARD_BUSY_ADDRESS;
     write_type <= 0;
     read_type <= 3'b111;
     #clk_tk;
+
+    assert (data_out_ready == 1)
+    else $fatal;
 
     while (data_out == 1) #clk_tk;
 
@@ -254,6 +287,9 @@ module testbench;
     read_type <= 3'b111;
     #clk_tk;
 
+    assert (data_out_ready == 1)
+    else $fatal;
+
     assert (data_out == 8'h2e)
     else $fatal;
 
@@ -263,6 +299,9 @@ module testbench;
     write_type <= 0;
     read_type <= 3'b111;
     #clk_tk;
+
+    assert (data_out_ready == 1)
+    else $fatal;
 
     assert (data_out == 8'h20)
     else $fatal;

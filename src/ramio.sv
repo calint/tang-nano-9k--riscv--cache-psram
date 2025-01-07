@@ -125,12 +125,18 @@ module ramio #(
   // forward 'busy' and 'data ready' signals from cache unless it is I/O
   assign busy = address == AddressUartOut || 
                 address == AddressUartIn || 
-                address == AddressLed 
+                address == AddressLed ||
+                address == AddressSDCardBusy ||
+                address == AddressSDCardReadSector ||
+                address == AddressSDCardNextByte
                 ? 0 : cache_busy;
 
   assign data_out_ready = address == AddressUartOut || 
                           address == AddressUartIn ||
-                          address == AddressLed
+                          address == AddressLed ||
+                          address == AddressSDCardBusy ||
+                          address == AddressSDCardReadSector ||
+                          address == AddressSDCardNextByte
                           ? 1 : cache_data_out_ready;
 
   // 'sdcard' related wirings and logic
@@ -140,6 +146,9 @@ module ramio #(
   wire sdcard_busy_o;
   wire [3:0] sdcard_card_stat_o;
   wire [1:0] sdcard_card_type_o;
+
+  //  assign led = sdcard_card_stat_o;
+  // assign led = {2'b11, sdcard_card_type_o};
 
   //
   // cache write
@@ -453,8 +462,8 @@ module ramio #(
       .Simulate(SDCardSimulate),
       .ClockDivider(SDCardClockDivider)
   ) sdcard (
-      .clk_i (clk),
-      .rst_ni(rst_n),
+      .clk  (clk),
+      .rst_n(rst_n),
 
       // SD card signals
       .clk_sd_o,

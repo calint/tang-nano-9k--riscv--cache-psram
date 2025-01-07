@@ -58,8 +58,8 @@ module testbench;
       .ClockDivider(2),
       .Simulate(1)
   ) sdcard (
-      .clk_i(clk),
-      .rst_ni(rst_n),
+      .clk(clk),
+      .rst_n(rst_n),
       .cmd_i,
       // 1: start read SD card at 'sector_address_i'
       // 2: write next byte from buffer to 'data_o'
