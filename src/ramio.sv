@@ -463,8 +463,8 @@ module ramio #(
       .Simulate(SDCardSimulate),
       .ClockDivider(SDCardClockDivider)
   ) sdcard (
-      .clk  (clk),
-      .rst_n(rst_n),
+      .clk,
+      .rst_n,
 
       // SD card signals
       .sd_clk,

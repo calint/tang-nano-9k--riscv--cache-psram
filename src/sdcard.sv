@@ -123,11 +123,11 @@ module sdcard #(
       .CLK_DIV (ClockDivider),
       .SIMULATE(Simulate)
   ) sd_reader (
-      .clk(clk),
-      .rstn(rst_n),
+      .clk,
+      .rstn  (rst_n),
       // SDcard signals (connect to SDcard), this design do not use sddat1~sddat3.
-      .sdclk(sd_clk),
-      .sdcmd(sd_mosi),
+      .sdclk (sd_clk),
+      .sdcmd (sd_mosi),
       .sddat0(sd_miso),  // FPGA only read SDDAT signal but never drive it
       // show card status
       .card_stat,  // show the sdcard initialize status
