@@ -71,7 +71,7 @@ module top (
 
   PSRAM_Memory_Interface_HS_Top br (
       .rst_n,
-      .clk,
+      .clk(br_memory_clk),
       .memory_clk(br_memory_clk),
       .clk_out(br_clk_out),  // memory_clk / 2 = 60 / 2 = 30 MHz
       .pll_lock(br_pll_lock),
