@@ -140,7 +140,7 @@ module ramio #(
                           ? 1 : cache_data_out_ready;
 
   // 'sdcard' related wirings and logic
-  logic [1:0] sdcard_cmd_i;
+  logic [1:0] sdcard_command;
   logic [31:0] sdcard_sector_address_i;
   wire [7:0] sdcard_data_o;
   wire sdcard_busy_o;
@@ -164,7 +164,7 @@ module ramio #(
     cache_write_enable = 0;
     cache_data_in = 0;
 
-    sdcard_cmd_i = 0;
+    sdcard_command = 0;
     sdcard_sector_address_i = 0;
 
     if (enable) begin
@@ -173,11 +173,11 @@ module ramio #(
         // don't trigger cache when accessing I/O or SDCard input ports
 
       end else if (address == AddressSDCardReadSector && write_type != '0) begin
-        sdcard_cmd_i = 1;
+        sdcard_command = 1;
         sdcard_sector_address_i = data_in;
 
       end else if (address == AddressSDCardNextByte && read_type != '0) begin
-        sdcard_cmd_i = 2;
+        sdcard_command = 2;
 
       end else begin
         cache_enable = 1;
@@ -472,7 +472,7 @@ module ramio #(
       .sd_miso,
 
       // interface
-      .cmd_i(sdcard_cmd_i),
+      .command(sdcard_command),
       .sector_address_i(sdcard_sector_address_i),
       .data_o(sdcard_data_o),
       .busy_o(sdcard_busy_o),

@@ -47,7 +47,7 @@ module testbench;
   //------------------------------------------------------------------------
 
   // wires and logics
-  logic [1:0] cmd_i;
+  logic [1:0] command;
   logic [31:0] sector_address_i;
   wire [7:0] data_o;
   wire busy_o;
@@ -60,7 +60,7 @@ module testbench;
   ) sdcard (
       .clk(clk),
       .rst_n(rst_n),
-      .cmd_i,
+      .command,
       // 1: start read SD card at 'sector_address_i'
       // 2: write next byte from buffer to 'data_o'
       .sector_address_i,
@@ -90,9 +90,9 @@ module testbench;
     while (busy_o) #clk_tk;
 
     sector_address_i <= 32'h4000;
-    cmd_i <= 1;
+    command <= 1;
     #clk_tk;
-    cmd_i <= 0;
+    command <= 0;
     #clk_tk;
 
     while (busy_o) #clk_tk;
@@ -113,19 +113,19 @@ module testbench;
     assert (sdcard.buffer[5] == 8'h6e)
     else $fatal;
 
-    cmd_i <= 2;
+    command <= 2;
     #clk_tk;
 
     assert (data_o == 8'h42)
     else $fatal;
 
-    cmd_i <= 2;
+    command <= 2;
     #clk_tk;
 
     assert (data_o == 8'h20)
     else $fatal;
 
-    cmd_i <= 0;
+    command <= 0;
     #clk_tk;
 
     $display("");

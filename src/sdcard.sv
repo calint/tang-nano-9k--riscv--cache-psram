@@ -21,7 +21,7 @@ module sdcard #(
 
     input wire rst_n,
 
-    input wire [1:0] cmd_i,
+    input wire [1:0] command,
     // 0: idle
     // 1: start read SD card at 'sector_address_i'
     // 2: write next byte from buffer to 'data_o'
@@ -89,13 +89,13 @@ module sdcard #(
         end
 
         Idle: begin
-          if (cmd_i == 1) begin
+          if (command == 1) begin
             sd_reader_rsector <= sector_address_i;
             sd_reader_rstart <= 1;
             buffer_index <= 0;
             busy_o <= 1;
             state <= ReadSDCard;
-          end else if (cmd_i == 2) begin
+          end else if (command == 2) begin
             buffer_index <= buffer_index + 1'b1;
           end
         end
