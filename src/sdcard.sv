@@ -24,11 +24,11 @@ module sdcard #(
     input wire [1:0] command,
     // 0: idle
     // 1: start read SD card at 'sector_address'
-    // 2: write next byte from buffer to 'data_o'
+    // 2: write next byte from buffer to 'data_out'
 
     input wire [31:0] sector_address,
 
-    output logic [7:0] data_o,
+    output logic [7:0] data_out,
     // ??? why not word instead of byte
 
     output logic busy_o,
@@ -66,7 +66,7 @@ module sdcard #(
   state_e state;
 
   always_comb begin
-    data_o = buffer[buffer_index];
+    data_out = buffer[buffer_index];
   end
 
   always_ff @(posedge clk) begin

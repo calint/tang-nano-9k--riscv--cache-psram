@@ -49,7 +49,7 @@ module testbench;
   // wires and logics
   logic [1:0] command;
   logic [31:0] sector_address;
-  wire [7:0] data_o;
+  wire [7:0] data_out;
   wire busy_o;
   wire [3:0] card_stat;
   wire [1:0] card_type_o;
@@ -62,9 +62,9 @@ module testbench;
       .rst_n(rst_n),
       .command,
       // 1: start read SD card at 'sector_address'
-      // 2: write next byte from buffer to 'data_o'
+      // 2: write next byte from buffer to 'data_out'
       .sector_address,
-      .data_o,
+      .data_out,
       .busy_o,
       // true while busy reading SD card
       .card_stat,
@@ -116,13 +116,13 @@ module testbench;
     command <= 2;
     #clk_tk;
 
-    assert (data_o == 8'h42)
+    assert (data_out == 8'h42)
     else $fatal;
 
     command <= 2;
     #clk_tk;
 
-    assert (data_o == 8'h20)
+    assert (data_out == 8'h20)
     else $fatal;
 
     command <= 0;
