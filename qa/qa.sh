@@ -2,7 +2,7 @@
 set -e
 cd $(dirname "$0")
 
-NUM_TESTS=9
+NUM_TESTS=10
 
 for i in $(seq 1 $NUM_TESTS); do
     echo -n "test $i: "

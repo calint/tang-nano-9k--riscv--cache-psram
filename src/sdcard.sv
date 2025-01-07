@@ -9,6 +9,12 @@
 
 module sdcard #(
     parameter int unsigned ClockDivider = 2,
+    // when clk =   0~ 25MHz , set 1,
+    // when clk =  25~ 50MHz , set 2,
+    // when clk =  50~100MHz , set 3,
+    // when clk = 100~200MHz , set 4,
+    // ......
+
     parameter int unsigned Simulate = 0
 ) (
     input wire clk_i,

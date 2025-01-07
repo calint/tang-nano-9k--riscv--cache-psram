@@ -46,13 +46,20 @@ module ramio #(
     // note: is set to -1 after read
 
     parameter int unsigned AddressSDCardBusy = 32'hffff_fff0,
+
     parameter int unsigned AddressSDCardReadSector = 32'hffff_ffec,
+
     parameter int unsigned AddressSDCardNextByte = 32'hffff_ffe8,
 
     parameter int unsigned SDCardSimulate = 0,
     // 1: if in simulation mode
 
     parameter int unsigned SDCardClockDivider = 2
+    // when clk =   0~ 25MHz , set 1,
+    // when clk =  25~ 50MHz , set 2,
+    // when clk =  50~100MHz , set 3,
+    // when clk = 100~200MHz , set 4,
+    // ......
 ) (
     input wire rst_n,
     input wire clk,
@@ -152,7 +159,7 @@ module ramio #(
 
     if (enable) begin
       if (address == AddressUartOut || address == AddressUartIn || address == AddressLed
-          || address == AddressSDCardBusy || address == AddressSDCardNextByte) begin
+          || address == AddressSDCardBusy) begin
         // don't trigger cache when accessing I/O or SDCard input ports
 
       end else if (address == AddressSDCardReadSector && write_type != '0) begin
