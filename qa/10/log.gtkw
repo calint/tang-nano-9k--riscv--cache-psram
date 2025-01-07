@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.120 (w)1999-2024 BSI
-[*] Tue Jan  7 03:48:08 2025
+[*] Tue Jan  7 03:51:22 2025
 [*]
 [dumpfile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/10/log.vcd"
-[dumpfile_mtime] "Tue Jan  7 03:46:06 2025"
-[dumpfile_size] 15920105
+[dumpfile_mtime] "Tue Jan  7 03:49:57 2025"
+[dumpfile_size] 20384939
 [savefile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/10/log.gtkw"
-[timestart] 1021155000
+[timestart] 1367415000
 [size] 2230 1344
 [pos] -1 -1
-*-14.885087 1021290000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.885087 1367590000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] testbench.
 [sst_width] 273
 [signals_width] 281
@@ -22,16 +22,16 @@ testbench.rst_n
 testbench.br_init_calib
 testbench.clk
 testbench.enable
+testbench.read_type[2:0]
+@29
+testbench.write_type[1:0]
 @22
 testbench.address[31:0]
 testbench.data_in[31:0]
-@23
 testbench.data_out[31:0]
 @28
 testbench.busy
 testbench.data_out_ready
-testbench.read_type[2:0]
-testbench.write_type[1:0]
 @200
 -
 -ramio

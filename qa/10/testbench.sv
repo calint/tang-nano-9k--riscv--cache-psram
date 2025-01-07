@@ -230,6 +230,43 @@ module testbench;
     assert (data_out == 8'h6e)
     else $fatal;
 
+    // issue read sector command
+    enable <= 1;
+    address <= SD_CARD_READ_SECTOR_ADDRESS;
+    write_type <= 2'b11;
+    read_type <= 3'b000;
+    data_in <= 32'h4040;
+    #clk_tk;
+
+    // wait for busy
+    enable <= 1;
+    address <= SD_CARD_BUSY_ADDRESS;
+    write_type <= 0;
+    read_type <= 3'b111;
+    #clk_tk;
+
+    while (data_out == 1) #clk_tk;
+
+    // read first byte (0) from sector
+    enable <= 1;
+    address <= SD_CARD_NEXT_BYTE_ADDRESS;
+    write_type <= 0;
+    read_type <= 3'b111;
+    #clk_tk;
+
+    assert (data_out == 8'h2e)
+    else $fatal;
+
+    // read next byte (1) from sector
+    enable <= 1;
+    address <= SD_CARD_NEXT_BYTE_ADDRESS;
+    write_type <= 0;
+    read_type <= 3'b111;
+    #clk_tk;
+
+    assert (data_out == 8'h20)
+    else $fatal;
+
     $display("");
     $display("PASSED");
     $display("");
