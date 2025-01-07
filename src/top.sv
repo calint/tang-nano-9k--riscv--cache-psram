@@ -149,9 +149,9 @@ module top (
       .br_rd_data_valid,  // 'br_rd_data' is valid
 
       // SD card wiring: prefix 'sd_'
-      .clk_sd_o (sd_clk),
-      .sd_cmd_io(sd_mosi),
-      .sd_dat_i ({3'b111, sd_miso})
+      .sd_clk_o (sd_clk),
+      .sd_mosi_o(sd_mosi),
+      .sd_miso_i(sd_miso)
   );
 
   // ----------------------------------------------------------

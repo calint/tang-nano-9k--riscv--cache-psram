@@ -40,9 +40,9 @@ module sdcard #(
     // 0 = UNKNOWN, 1 = SDv1, 2 = SDv2, 3 = SDHCv2
 
     // interface to SD card
-    output wire clk_sd_o,
-    inout wire sd_cmd_io,
-    input wire [3:0] sd_dat_i
+    output wire sd_clk_o,
+    output wire sd_mosi_o,
+    input  wire sd_miso_i
 );
 
   logic [7:0] buffer[512];
@@ -123,9 +123,9 @@ module sdcard #(
       .clk(clk),
       .rstn(rst_n),
       // SDcard signals (connect to SDcard), this design do not use sddat1~sddat3.
-      .sdclk(clk_sd_o),
-      .sdcmd(sd_cmd_io),
-      .sddat0(sd_dat_i[0]),  // FPGA only read SDDAT signal but never drive it
+      .sdclk(sd_clk_o),
+      .sdcmd(sd_mosi_o),
+      .sddat0(sd_miso_i),  // FPGA only read SDDAT signal but never drive it
       // show card status
       .card_stat(card_stat_o),  // show the sdcard initialize status
       .card_type(card_type_o),  // 0=UNKNOWN, 1=SDv1, 2=SDv2, 3=SDHCv2

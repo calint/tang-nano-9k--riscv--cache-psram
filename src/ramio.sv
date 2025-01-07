@@ -101,9 +101,9 @@ module ramio #(
     input wire br_rd_data_valid,  // rd_data is valid
 
     // SD card wiring: prefix 'sd_'
-    output wire clk_sd_o,
-    inout wire sd_cmd_io,
-    input wire [3:0] sd_dat_i
+    output wire sd_clk_o,
+    output wire sd_mosi_o,
+    input  wire sd_miso_i
 );
 
   logic cache_enable;
@@ -147,8 +147,9 @@ module ramio #(
   wire [3:0] sdcard_card_stat_o;
   wire [1:0] sdcard_card_type_o;
 
+  // ??? debugging sdcard
   //  assign led = sdcard_card_stat_o;
-  // assign led = {2'b11, sdcard_card_type_o};
+  assign led = {2'b11, sdcard_card_type_o};
 
   //
   // cache write
@@ -341,7 +342,7 @@ module ramio #(
 
   always_ff @(posedge clk) begin
     if (!rst_n) begin
-      led <= 4'b1111;  // turn off all LEDs
+      // led <= 4'b1111;  // turn off all LEDs
       uarttx_data_sending <= -1;
       uarttx_go <= 0;
       uartrx_data_received <= -1;
@@ -387,7 +388,7 @@ module ramio #(
 
       // if writing to LEDs
       if (address == AddressLed && write_type != '0) begin
-        led <= data_in[3:0];
+        // led <= data_in[3:0];
       end
     end
   end
@@ -466,9 +467,9 @@ module ramio #(
       .rst_n(rst_n),
 
       // SD card signals
-      .clk_sd_o,
-      .sd_cmd_io,
-      .sd_dat_i,
+      .sd_clk_o,
+      .sd_mosi_o,
+      .sd_miso_i,
 
       // interface
       .cmd_i(sdcard_cmd_i),
