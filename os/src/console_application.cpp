@@ -43,3 +43,12 @@ static auto uart_read_char() -> char { return char(getchar()); }
 static auto led_set(int32_t const bits) -> void {}
 
 static auto action_mem_test() -> void { printf("memory test not supported\n"); }
+
+static auto action_sdcard_test() -> void {
+  printf("sdcard test not supported\n");
+}
+
+static auto sdcard_read_blocking(size_t const sector,
+                                 int8_t *buffer512B) -> void {
+  printf("sdcard not supported");
+}

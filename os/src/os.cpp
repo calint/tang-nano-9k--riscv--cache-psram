@@ -84,6 +84,29 @@ static auto action_mem_test() -> void {
   uart_send_str("testing memory succeeded\r\n");
 }
 
+static auto action_sdcard_test() -> void {
+  static size_t page = 0;
+  int8_t buf[512];
+  sdcard_read_blocking(page, buf);
+  ++page;
+  for (size_t i = 0; i < sizeof(buf); ++i) {
+    uart_send_char(buf[i]);
+  }
+  uart_send_str("\r\n");
+}
+
+static auto sdcard_read_blocking(size_t const sector,
+                                 int8_t *buffer512B) -> void {
+  while (*SDCARD_BUSY)
+    ;
+  *SDCARD_READ_SECTOR = sector;
+  while (*SDCARD_BUSY)
+    ;
+  for (size_t i = 0; i < 512; ++i) {
+    *buffer512B++ = char(*SDCARD_NEXT_BYTE);
+  }
+}
+
 // built-in function called by compiler
 extern "C" auto memset(void *str, int ch, int n) -> void * {
   char *ptr = reinterpret_cast<char *>(str);
