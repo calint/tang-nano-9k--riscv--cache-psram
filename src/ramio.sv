@@ -148,8 +148,8 @@ module ramio #(
   wire [1:0] sdcard_card_type_o;
 
   // ??? debugging sdcard
-  //  assign led = sdcard_card_stat_o;
-  assign led = {2'b11, sdcard_card_type_o};
+  assign led = sdcard_card_stat_o;
+  // assign led = {2'b11, sdcard_card_type_o};
 
   //
   // cache write
