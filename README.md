@@ -66,7 +66,7 @@ welcome to adventure #4
   
 ## Emulator
 * a RV32I emulator with an implementation of the current FPGA configuration can be found in the `/emulator/` directory
-* the emulator can be used with generated firmware, such as `/os/os.bin`
+* the emulator can be used with generated firmware, such as `/os/os.bin`, along with an image of a SD card
 
 ## Configuration
 * see [`configuration.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration.py)
