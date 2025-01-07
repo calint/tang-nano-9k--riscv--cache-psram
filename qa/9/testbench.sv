@@ -113,17 +113,18 @@ module testbench;
     assert (sdcard.buffer[5] == 8'h6e)
     else $fatal;
 
-    assert (data_o == 8'h42)
-    else $fatal;
     cmd_i <= 2;
     #clk_tk;
-    cmd_i <= 0;
+
+    assert (data_o == 8'h42)
+    else $fatal;
+
+    cmd_i <= 2;
     #clk_tk;
 
     assert (data_o == 8'h20)
     else $fatal;
-    cmd_i <= 2;
-    #clk_tk;
+
     cmd_i <= 0;
     #clk_tk;
 
