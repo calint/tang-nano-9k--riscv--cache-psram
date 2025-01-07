@@ -12,7 +12,7 @@
         <File path="src/ip/FPGA-SDcard-Reader/sd_reader.v" type="file.verilog" enable="1"/>
         <File path="src/ip/FPGA-SDcard-Reader/sdcmd_ctrl.v" type="file.verilog" enable="1"/>
         <File path="src/ip/gowin_rpll/gowin_rpll.v" type="file.verilog" enable="1"/>
-        <File path="src/ip/psram_memory_interface_hs_v2/psram_memory_interface_hs_v2.v" type="file.verilog" enable="1"/>
+        <File path="src/ip/psram_memory_interface_hs/psram_memory_interface_hs.v" type="file.verilog" enable="1"/>
         <File path="src/ramio.sv" type="file.verilog" enable="1"/>
         <File path="src/registers.sv" type="file.verilog" enable="1"/>
         <File path="src/sdcard.sv" type="file.verilog" enable="1"/>

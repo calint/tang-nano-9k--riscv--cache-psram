@@ -46,24 +46,18 @@ module top (
 
   wire rpll_lock;
   wire rpll_clkout;
-  wire rpll_clkoutp;
-  wire rpll_clkoutd;
 
   Gowin_rPLL rpll (
       .clkin(clk),  // 27 MHz
-      .lock(rpll_lock),
       .clkout(rpll_clkout),  // 60 MHz
-      .clkoutp(rpll_clkoutp),  // clkout 60 MHz 90 degrees phased
-      .clkoutd(rpll_clkoutd)  // 60 / 4 = 15 MHz
+      .lock(rpll_lock)
   );
 
   // ----------------------------------------------------------
-  // -- PSRAM_Memory_Interface_HS_V2_Top
+  // -- PSRAM_Memory_Interface_HS_Top
   // ----------------------------------------------------------
 
   wire br_memory_clk = rpll_clkout;
-  wire br_memory_clk_p = rpll_clkoutp;
-  wire br_clk_d = rpll_clkoutd;
   wire br_pll_lock = rpll_lock;
   wire br_clk_out;
   wire br_init_calib;
@@ -75,11 +69,10 @@ module top (
   wire [63:0] br_rd_data;
   wire br_rd_data_valid;
 
-  PSRAM_Memory_Interface_HS_V2_Top br (
-      .rst_n(rst_n),
-      .clk_d(br_clk_d),
+  PSRAM_Memory_Interface_HS_Top br (
+      .rst_n,
+      .clk,
       .memory_clk(br_memory_clk),
-      .memory_clk_p(br_memory_clk_p),
       .clk_out(br_clk_out),  // memory_clk / 2 = 60 / 2 = 30 MHz
       .pll_lock(br_pll_lock),
       .init_calib(br_init_calib),

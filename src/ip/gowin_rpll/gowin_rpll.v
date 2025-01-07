@@ -1,32 +1,30 @@
 //Copyright (C)2014-2024 Gowin Semiconductor Corporation.
 //All rights reserved.
 //File Title: IP file
-//Tool Version: V1.9.9.03 (64-bit)
+//Tool Version: V1.9.10.03 Education
 //Part Number: GW1NR-LV9QN88PC6/I5
 //Device: GW1NR-9
 //Device Version: C
-//Created Time: Mon Jun 17 18:11:09 2024
+//Created Time: Tue Jan  7 23:22:17 2025
 
-module Gowin_rPLL (clkout, lock, clkoutp, clkoutd, clkin);
+module Gowin_rPLL (clkout, lock, clkin);
 
 output clkout;
 output lock;
-output clkoutp;
-output clkoutd;
 input clkin;
 
+wire clkoutp_o;
+wire clkoutd_o;
 wire clkoutd3_o;
-wire gw_vcc;
 wire gw_gnd;
 
-assign gw_vcc = 1'b1;
 assign gw_gnd = 1'b0;
 
 rPLL rpll_inst (
     .CLKOUT(clkout),
     .LOCK(lock),
-    .CLKOUTP(clkoutp),
-    .CLKOUTD(clkoutd),
+    .CLKOUTP(clkoutp_o),
+    .CLKOUTD(clkoutd_o),
     .CLKOUTD3(clkoutd3_o),
     .RESET(gw_gnd),
     .RESET_P(gw_gnd),
@@ -37,7 +35,7 @@ rPLL rpll_inst (
     .ODSEL({gw_gnd,gw_gnd,gw_gnd,gw_gnd,gw_gnd,gw_gnd}),
     .PSDA({gw_gnd,gw_gnd,gw_gnd,gw_gnd}),
     .DUTYDA({gw_gnd,gw_gnd,gw_gnd,gw_gnd}),
-    .FDLY({gw_vcc,gw_vcc,gw_vcc,gw_vcc})
+    .FDLY({gw_gnd,gw_gnd,gw_gnd,gw_gnd})
 );
 
 defparam rpll_inst.FCLKIN = "27";
@@ -47,8 +45,8 @@ defparam rpll_inst.DYN_FBDIV_SEL = "false";
 defparam rpll_inst.FBDIV_SEL = 19;
 defparam rpll_inst.DYN_ODIV_SEL = "false";
 defparam rpll_inst.ODIV_SEL = 8;
-defparam rpll_inst.PSDA_SEL = "0100";
-defparam rpll_inst.DYN_DA_EN = "false";
+defparam rpll_inst.PSDA_SEL = "0000";
+defparam rpll_inst.DYN_DA_EN = "true";
 defparam rpll_inst.DUTYDA_SEL = "1000";
 defparam rpll_inst.CLKOUT_FT_DIR = 1'b1;
 defparam rpll_inst.CLKOUTP_FT_DIR = 1'b1;
@@ -58,7 +56,7 @@ defparam rpll_inst.CLKFB_SEL = "internal";
 defparam rpll_inst.CLKOUT_BYPASS = "false";
 defparam rpll_inst.CLKOUTP_BYPASS = "false";
 defparam rpll_inst.CLKOUTD_BYPASS = "false";
-defparam rpll_inst.DYN_SDIV_SEL = 4;
+defparam rpll_inst.DYN_SDIV_SEL = 2;
 defparam rpll_inst.CLKOUTD_SRC = "CLKOUT";
 defparam rpll_inst.CLKOUTD3_SRC = "CLKOUT";
 defparam rpll_inst.DEVICE = "GW1NR-9C";
