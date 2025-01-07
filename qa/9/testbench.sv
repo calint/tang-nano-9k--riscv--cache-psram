@@ -51,7 +51,7 @@ module testbench;
   logic [31:0] sector_address_i;
   wire [7:0] data_o;
   wire busy_o;
-  wire [3:0] card_stat_o;
+  wire [3:0] card_stat;
   wire [1:0] card_type_o;
 
   sdcard #(
@@ -67,7 +67,7 @@ module testbench;
       .data_o,
       .busy_o,
       // true while busy reading SD card
-      .card_stat_o,
+      .card_stat,
       .card_type_o,
       // interface to SD card
       .sd_clk(sd_fake_sdclk),

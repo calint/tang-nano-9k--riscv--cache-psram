@@ -34,7 +34,7 @@ module sdcard #(
     output logic busy_o,
     // true while busy reading SD card
 
-    output wire [3:0] card_stat_o,
+    output wire [3:0] card_stat,
     // state of 'sd_reader'
 
     output wire [1:0] card_type_o,
@@ -128,7 +128,7 @@ module sdcard #(
       .sdcmd(sd_mosi),
       .sddat0(sd_miso),  // FPGA only read SDDAT signal but never drive it
       // show card status
-      .card_stat(card_stat_o),  // show the sdcard initialize status
+      .card_stat(card_stat),  // show the sdcard initialize status
       .card_type(card_type_o),  // 0=UNKNOWN, 1=SDv1, 2=SDv2, 3=SDHCv2
       // user read sector command interface (sync with clk)
       .rstart(sd_reader_rstart),

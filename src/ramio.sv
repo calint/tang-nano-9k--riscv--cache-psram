@@ -144,11 +144,11 @@ module ramio #(
   logic [31:0] sdcard_sector_address_i;
   wire [7:0] sdcard_data_o;
   wire sdcard_busy_o;
-  wire [3:0] sdcard_card_stat_o;
+  wire [3:0] sdcard_card_stat;
   wire [1:0] sdcard_card_type_o;
 
   // ??? debugging sdcard
-  assign led = sdcard_card_stat_o;
+  assign led = sdcard_card_stat;
   // assign led = {2'b11, sdcard_card_type_o};
 
   //
@@ -476,7 +476,7 @@ module ramio #(
       .sector_address_i(sdcard_sector_address_i),
       .data_o(sdcard_data_o),
       .busy_o(sdcard_busy_o),
-      .card_stat_o(sdcard_card_stat_o),
+      .card_stat(sdcard_card_stat),
       .card_type_o(sdcard_card_type_o)
   );
 endmodule
