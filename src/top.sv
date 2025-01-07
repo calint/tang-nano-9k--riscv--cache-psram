@@ -125,6 +125,8 @@ module top (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
 
+      .led(led[4:1]),
+
       // interface
       .enable(ramio_enable),
       .read_type(ramio_read_type),
@@ -135,8 +137,7 @@ module top (
       .data_out_ready(ramio_data_out_ready),
       .busy(ramio_busy),
 
-      .led(led[4:1]),
-
+      // UART wiring; prefix 'uart_'
       .uart_tx,
       .uart_rx,
 
@@ -166,7 +167,8 @@ module top (
   ) core (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),
-      .led  (led[0]),
+
+      .led(led[0]),
 
       .ramio_enable,
       .ramio_read_type,
