@@ -35,6 +35,7 @@ module sdcard #(
     // true while busy reading SD card
 
     output wire [3:0] card_stat_o,
+    // state of 'sd_reader'
 
     output wire [1:0] card_type_o,
     // 0 = UNKNOWN, 1 = SDv1, 2 = SDv2, 3 = SDHCv2
