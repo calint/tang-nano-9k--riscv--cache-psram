@@ -70,9 +70,9 @@ module testbench;
       .card_stat_o,
       .card_type_o,
       // interface to SD card
-      .sd_clk_o(sd_fake_sdclk),
-      .sd_mosi_o(sd_fake_sdcmd),
-      .sd_miso_i(sd_fake_sddat)
+      .sd_clk(sd_fake_sdclk),
+      .sd_mosi(sd_fake_sdcmd),
+      .sd_miso(sd_fake_sddat)
   );
 
   //------------------------------------------------------------------------

@@ -131,9 +131,9 @@ module testbench;
       .br_rd_data_valid,  // rd_data is valid
 
       // SD card wiring
-      .sd_clk_o (sd_fake_sdclk),
-      .sd_mosi_o(sd_fake_sdcmd),
-      .sd_miso_i(sd_fake_sddat[0])
+      .sd_clk (sd_fake_sdclk),
+      .sd_mosi(sd_fake_sdcmd),
+      .sd_miso(sd_fake_sddat[0])
   );
 
   //------------------------------------------------------------------------
