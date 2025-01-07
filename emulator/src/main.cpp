@@ -153,9 +153,9 @@ auto main(int argc, char **argv) -> int {
       return 1;
     }
 
-    if (size > streamsize(ram.size())) {
-      printf("Firmware size (%zu B) exceeds RAM size (%zu B)\n", size,
-             ram.size());
+    if (size > streamsize(sdcard.size())) {
+      printf("SD card file size (%zu B) exceeds SD card size (%zu B)\n", size,
+             sdcard.size());
       return 1;
     }
 
