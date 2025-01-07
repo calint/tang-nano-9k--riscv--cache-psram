@@ -52,7 +52,7 @@ module testbench;
   wire [7:0] data_out;
   wire busy;
   wire [3:0] card_stat;
-  wire [1:0] card_type_o;
+  wire [1:0] card_type;
 
   sdcard #(
       .ClockDivider(2),
@@ -68,7 +68,7 @@ module testbench;
       .busy,
       // true while busy reading SD card
       .card_stat,
-      .card_type_o,
+      .card_type,
       // interface to SD card
       .sd_clk(sd_fake_sdclk),
       .sd_mosi(sd_fake_sdcmd),
