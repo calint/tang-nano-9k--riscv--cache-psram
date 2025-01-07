@@ -141,7 +141,7 @@ module ramio #(
 
   // 'sdcard' related wirings and logic
   logic [1:0] sdcard_command;
-  logic [31:0] sdcard_sector_address_i;
+  logic [31:0] sdcard_sector_address;
   wire [7:0] sdcard_data_o;
   wire sdcard_busy_o;
   wire [3:0] sdcard_card_stat;
@@ -165,7 +165,7 @@ module ramio #(
     cache_data_in = 0;
 
     sdcard_command = 0;
-    sdcard_sector_address_i = 0;
+    sdcard_sector_address = 0;
 
     if (enable) begin
       if (address == AddressUartOut || address == AddressUartIn || address == AddressLed
@@ -174,7 +174,7 @@ module ramio #(
 
       end else if (address == AddressSDCardReadSector && write_type != '0) begin
         sdcard_command = 1;
-        sdcard_sector_address_i = data_in;
+        sdcard_sector_address = data_in;
 
       end else if (address == AddressSDCardNextByte && read_type != '0) begin
         sdcard_command = 2;
@@ -473,7 +473,7 @@ module ramio #(
 
       // interface
       .command(sdcard_command),
-      .sector_address_i(sdcard_sector_address_i),
+      .sector_address(sdcard_sector_address),
       .data_o(sdcard_data_o),
       .busy_o(sdcard_busy_o),
       .card_stat(sdcard_card_stat),

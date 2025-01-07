@@ -23,10 +23,10 @@ module sdcard #(
 
     input wire [1:0] command,
     // 0: idle
-    // 1: start read SD card at 'sector_address_i'
+    // 1: start read SD card at 'sector_address'
     // 2: write next byte from buffer to 'data_o'
 
-    input wire [31:0] sector_address_i,
+    input wire [31:0] sector_address,
 
     output logic [7:0] data_o,
     // ??? why not word instead of byte
@@ -90,7 +90,7 @@ module sdcard #(
 
         Idle: begin
           if (command == 1) begin
-            sd_reader_rsector <= sector_address_i;
+            sd_reader_rsector <= sector_address;
             sd_reader_rstart <= 1;
             buffer_index <= 0;
             busy_o <= 1;
