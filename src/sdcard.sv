@@ -16,6 +16,7 @@ module sdcard #(
     // ......
 
     parameter int unsigned Simulate = 0
+    // set 1 to shorten some delay cycles
 ) (
     input wire clk,
 
