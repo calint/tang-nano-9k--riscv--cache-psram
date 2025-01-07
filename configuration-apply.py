@@ -22,9 +22,9 @@ with open('os/src/os_config.hpp', 'w') as file:
     file.write('#define LED ((int volatile *)0xffff\'fffc)\n')
     file.write('#define UART_OUT ((int volatile *)0xffff\'fff8)\n')
     file.write('#define UART_IN ((int volatile *)0xffff\'fff4)\n')
-    file.write('#define SD_CARD_BUSY ((int volatile *)0xffff\'fff0)\n')
-    file.write('#define SD_CARD_READ_SECTOR ((int volatile *)0xffff\'ffec)\n')
-    file.write('#define SD_CARD_NEXT_BYTE ((int volatile *)0xffff\'ffe8)\n')
+    file.write('#define SDCARD_BUSY ((int volatile *)0xffff\'fff0)\n')
+    file.write('#define SDCARD_READ_SECTOR ((unsigned volatile *)0xffff\'ffec)\n')
+    file.write('#define SDCARD_NEXT_BYTE ((int volatile *)0xffff\'ffe8)\n')
     file.write('#define MEMORY_END {}\n'.format(hex(
         memory_end_address)))
 

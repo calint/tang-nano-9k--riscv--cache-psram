@@ -280,6 +280,7 @@ static auto handle_input(entity_id_t const eid,
                          command_buffer &cmd_buf) -> void;
 static auto strings_equal(char const *s1, char const *s2) -> bool;
 static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
+static auto sdcard_read_blocking(size_t sector, uint8_t *buffer512B) -> void;
 
 extern "C" [[noreturn]] auto run() -> void {
   initiate_bss();
@@ -672,5 +673,17 @@ static auto uart_send_hex_nibble(char const nibble) -> void {
 static auto uart_send_move_back(size_t const n) -> void {
   for (size_t i = 0; i < n; ++i) {
     uart_send_char('\b');
+  }
+}
+
+static auto sdcard_read_blocking(size_t const sector,
+                                 uint8_t *buffer512B) -> void {
+  while (*SDCARD_BUSY)
+    ;
+  *SDCARD_READ_SECTOR = sector;
+  while (*SDCARD_BUSY)
+    ;
+  for (size_t i = 0; i < 512; ++i) {
+    *buffer512B++ = char(*SDCARD_NEXT_BYTE);
   }
 }
