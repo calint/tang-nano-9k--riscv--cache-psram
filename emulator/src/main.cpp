@@ -39,7 +39,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
   if (is_store) {
     if (address == osqa::sdcard_read_sector) {
       size_t const ix = data * 512;
-      std::copy(sdcard.begin() + ix, sdcard.begin() + ix + 512,
+      std::copy(sdcard.begin() + ix, sdcard.begin() + ix + sector_buffer.size(),
                 sector_buffer.begin());
     } else if (address == osqa::uart_out) {
       int const ch = data & 0xff;
