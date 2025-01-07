@@ -50,7 +50,7 @@ module testbench;
   logic [1:0] command;
   logic [31:0] sector_address;
   wire [7:0] data_out;
-  wire busy_o;
+  wire busy;
   wire [3:0] card_stat;
   wire [1:0] card_type_o;
 
@@ -65,7 +65,7 @@ module testbench;
       // 2: write next byte from buffer to 'data_out'
       .sector_address,
       .data_out,
-      .busy_o,
+      .busy,
       // true while busy reading SD card
       .card_stat,
       .card_type_o,
@@ -87,7 +87,7 @@ module testbench;
     rst_n <= 1;
     #clk_tk;
 
-    while (busy_o) #clk_tk;
+    while (busy) #clk_tk;
 
     sector_address <= 32'h4000;
     command <= 1;
@@ -95,7 +95,7 @@ module testbench;
     command <= 0;
     #clk_tk;
 
-    while (busy_o) #clk_tk;
+    while (busy) #clk_tk;
 
     // for (int i = 0; i < 512; i++) begin
     //   $display("%0d: %h", i, sd_card.buffer[i]);

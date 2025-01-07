@@ -31,7 +31,7 @@ module sdcard #(
     output logic [7:0] data_out,
     // ??? why not word instead of byte
 
-    output logic busy_o,
+    output logic busy,
     // true while busy reading SD card
 
     output wire [3:0] card_stat,
@@ -74,7 +74,7 @@ module sdcard #(
       buffer_index <= 0;
       sd_reader_rstart <= 0;
       sd_reader_rsector <= 0;
-      busy_o <= 1;
+      busy <= 1;
       state <= Init;
     end else begin
       sd_reader_rstart <= 0;
@@ -83,8 +83,8 @@ module sdcard #(
 
         Init: begin
           if (!sd_reader_rbusy) begin
-            busy_o <= 0;
-            state  <= Idle;
+            busy  <= 0;
+            state <= Idle;
           end
         end
 
@@ -93,7 +93,7 @@ module sdcard #(
             sd_reader_rsector <= sector_address;
             sd_reader_rstart <= 1;
             buffer_index <= 0;
-            busy_o <= 1;
+            busy <= 1;
             state <= ReadSDCard;
           end else if (command == 2) begin
             buffer_index <= buffer_index + 1'b1;
@@ -108,8 +108,8 @@ module sdcard #(
           if (sd_reader_rdone) begin
             // note: buffer_index har rolled over to 0
             // ??? don't need to wait for 'rdone' to make buffer available for read
-            busy_o <= 0;
-            state  <= Idle;
+            busy  <= 0;
+            state <= Idle;
           end
 
         end
