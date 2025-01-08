@@ -75,6 +75,7 @@ module sdcard #(
       rd <= 0;
       wr <= 0;
       din <= 0;
+      buffer_index <= 0;
       state <= Init;
     end else begin
       rd <= 0;
@@ -90,7 +91,6 @@ module sdcard #(
         Idle: begin
           if (command == 1) begin
             rd <= 1;
-            buffer_index <= 0;
             address <= sector;
             state <= PreReadSector;
           end else if (command == 2) begin
@@ -99,8 +99,8 @@ module sdcard #(
         end
 
         PreReadSector: begin
-          // note: this state necessary because in this cycle 'sd_controller' state is IDLE 
-          //       about to switch to READ_BLOCK in next cycle and this not 'ready'
+          // note: this state is necessary because in this cycle 'sd_controller' state is IDLE 
+          //       with 'ready' asserted. next cycle state is READ_BLOCK and 'ready' de-asserted
           rd <= 0;
           state <= ReadSector;
         end
