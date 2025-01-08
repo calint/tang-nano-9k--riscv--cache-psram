@@ -18,7 +18,7 @@ static vector<int8_t> ram(osqa::memory_end, -1);
 static vector<int8_t> sdcard(1024 * 1024 * 1024, 0);
 
 // sdcard sector buffer
-static vector<int8_t> sector_buffer(512, 0);
+static array<int8_t, 512> sector_buffer;
 static size_t sector_buffer_index;
 
 // preserved terminal settings
@@ -38,13 +38,13 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
 
   if (is_store) {
     if (address == osqa::sdcard_read_sector) {
-      size_t const ix = data * 512;
+      size_t const ix = data * sector_buffer.size();
       auto const bgn = sdcard.begin() + ix;
       auto const end = sdcard.begin() + ix + sector_buffer.size();
       if (end > sdcard.end()) {
         return 2;
       }
-      std::copy(bgn, end, sector_buffer.begin());
+      std::copy(bgn, end, sector_buffer.data());
     } else if (address == osqa::uart_out) {
       int const ch = data & 0xff;
       if (ch == 0x7f) {
@@ -111,15 +111,17 @@ auto main(int argc, char **argv) -> int {
 
   // load firmware
   {
+    size_t const arg = 1;
+
     ifstream file{argv[1], ios::binary | ios::ate};
     if (!file) {
-      printf("Error opening file '%s'\n", argv[1]);
+      printf("Error opening file '%s'\n", argv[arg]);
       return 1;
     }
 
     streamsize const size = file.tellg();
     if (size == -1) {
-      printf("Error determining size of file '%s'\n", argv[1]);
+      printf("Error determining size of file '%s'\n", argv[arg]);
       return 1;
     }
 
@@ -131,7 +133,7 @@ auto main(int argc, char **argv) -> int {
 
     file.seekg(0, ios::beg);
     if (file.fail()) {
-      printf("Error seeking to beginning of file '%s'\n", argv[1]);
+      printf("Error seeking to beginning of file '%s'\n", argv[arg]);
       return 1;
     }
 
@@ -145,15 +147,17 @@ auto main(int argc, char **argv) -> int {
 
   // load sdcard
   {
+    size_t const arg = 2;
+
     ifstream file{argv[2], ios::binary | ios::ate};
     if (!file) {
-      printf("Error opening file '%s'\n", argv[2]);
+      printf("Error opening file '%s'\n", argv[arg]);
       return 1;
     }
 
     streamsize const size = file.tellg();
     if (size == -1) {
-      printf("Error determining size of file '%s'\n", argv[2]);
+      printf("Error determining size of file '%s'\n", argv[arg]);
       return 1;
     }
 
@@ -165,12 +169,12 @@ auto main(int argc, char **argv) -> int {
 
     file.seekg(0, ios::beg);
     if (file.fail()) {
-      printf("Error seeking to beginning of file '%s'\n", argv[2]);
+      printf("Error seeking to beginning of file '%s'\n", argv[arg]);
       return 1;
     }
 
     if (!file.read(reinterpret_cast<char *>(sdcard.data()), size)) {
-      printf("Error reading file '%s'\n", argv[2]);
+      printf("Error reading file '%s'\n", argv[arg]);
       return 1;
     }
 
