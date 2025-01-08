@@ -27,8 +27,6 @@ LD_PRELOAD=/usr/lib/libfreetype.so ~/apps/gowin/IDE/bin/gw_ide
 -------------------------------------------------------------
 
 https://github.com/harbaum/MiSTeryNano/blob/main/src/misc/sd_rw.v
-https://github.com/WangXuan95/FPGA-SDcard-Reader/blob/main/RTL/sd_reader.v
-https://github.com/ZipCPU/sdspi/blob/master/rtl/sdspi.v
-https://github.com/ZipCPU/sdspi/blob/master/rtl/sdio.v
-https://github.com/ZipCPU/sdspi/blob/master/bench/cpp/sdspisim.cpp
+https://github.com/WangXuan95/FPGA-SDcard-Reader/
+https://github.com/WangXuan95/FPGA-SDfake
 https://web.mit.edu/6.111/volume2/www/f2019/tools/sd_controller.v
