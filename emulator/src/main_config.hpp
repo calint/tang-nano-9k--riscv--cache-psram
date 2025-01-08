@@ -11,6 +11,7 @@ std::uint32_t constexpr uart_in = 0xffff'fff4;
 std::uint32_t constexpr sdcard_busy = 0xffff'fff0;
 std::uint32_t constexpr sdcard_read_sector = 0xffff'ffec;
 std::uint32_t constexpr sdcard_next_byte = 0xffff'ffe8;
+std::uint32_t constexpr sdcard_status = 0xffff'ffe4;
 std::uint32_t constexpr memory_end = 0x200000;
 
 } // namespace osqa

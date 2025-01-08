@@ -48,6 +48,10 @@ static auto action_sdcard_test() -> void {
   printf("sdcard test not supported\n");
 }
 
+static auto action_sdcard_status() -> void {
+  printf("sdcard status not supported\n");
+}
+
 static auto sdcard_read_blocking(size_t const sector,
                                  int8_t *buffer512B) -> void {
   printf("sdcard not supported");

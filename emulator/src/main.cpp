@@ -32,12 +32,14 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
   if (address + width > ram.size() && address != osqa::uart_out &&
       address != osqa::uart_in && address != osqa::led &&
       address != osqa::sdcard_busy && address != osqa::sdcard_read_sector &&
-      address != osqa::sdcard_next_byte) {
+      address != osqa::sdcard_next_byte && address != osqa::sdcard_status) {
     return 1;
   }
 
   if (is_store) {
-    if (address == osqa::sdcard_read_sector) {
+    if (address == osqa::sdcard_status) {
+      // does not support write
+    } else if (address == osqa::sdcard_read_sector) {
       size_t const ix = data * sector_buffer.size();
       auto const bgn = sdcard.begin() + ix;
       auto const end = sdcard.begin() + ix + sector_buffer.size();
@@ -55,7 +57,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       }
       fflush(stdout);
     } else if (address == osqa::uart_in) {
-      // do nothing when writing to address UART_IN
+      // does not support write
     } else if (address == osqa::led) {
       // do nothing when writing to address LED
     } else {
@@ -65,7 +67,9 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     }
   } else {
     // read op
-    if (address == osqa::sdcard_busy) {
+    if (address == osqa::sdcard_status) {
+      data = 0;
+    } else if (address == osqa::sdcard_busy) {
       data = 0;
     } else if (address == osqa::sdcard_next_byte) {
       data = sector_buffer.at(sector_buffer_index);

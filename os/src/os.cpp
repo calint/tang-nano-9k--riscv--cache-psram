@@ -95,6 +95,15 @@ static auto action_sdcard_test() -> void {
   uart_send_str("\r\n");
 }
 
+static auto action_sdcard_status() -> void {
+  int32_t const status = *SDCARD_STATUS;
+  uart_send_str("SD card status: ");
+  uart_send_hex_byte(char(status >> 8));
+  uart_send_char(' ');
+  uart_send_hex_byte(char(status));
+  uart_send_str("\r\n");
+}
+
 static auto sdcard_read_blocking(size_t const sector,
                                  int8_t *buffer512B) -> void {
   while (*SDCARD_BUSY)

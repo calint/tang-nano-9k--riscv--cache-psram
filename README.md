@@ -79,7 +79,6 @@ welcome to adventure #4
 ## Todo
 ```
 -------------------------------------------------------------------------------------------------------------
-[ ] ramio, sdcard: SDCARD_STATUS returning card_stat and card_type
 [ ] uarttx: optimize away the cycle between go=1 and busy=1
     => cannot with only always_ff and running on posedge clk
 [ ] investigate and try to recreate the "// !!!" issue in 'ramio'
@@ -110,6 +109,8 @@ step 13
 [ ] fully pipe-lined core
 [ ] consider FIFO in UART
 -------------------------------------------------------------------------------------------------------------
+[x] ramio, sdcard: SDCARD_STATUS returning card_stat and card_type
+    => returns int: lowest byte: state, second byte: card type
 [x] study why BAUD rate less than 2400 does not work
     => same issue in: https://github.com/sipeed/TangNano-9K-example/tree/main/uart 
     note: in some cases putty has to be started, then closed, then re-started to work
