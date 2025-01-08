@@ -350,7 +350,6 @@ module ramio #(
     end
   end
 
-
   logic       uarttx_go;
   // enable to start sending and disable to acknowledge that data has been sent
 
