@@ -264,8 +264,9 @@ static auto uart_send_hex_byte(char ch) -> void;
 static auto uart_send_hex_nibble(char nibble) -> void;
 static auto uart_send_move_back(size_t n) -> void;
 static auto action_mem_test() -> void;
-static auto action_sdcard_test() -> void;
 static auto action_sdcard_status() -> void;
+static auto action_sdcard_test_read() -> void;
+static auto action_sdcard_test_write() -> void;
 
 // API
 static auto print_help() -> void;
@@ -283,6 +284,8 @@ static auto handle_input(entity_id_t const eid,
 static auto strings_equal(char const *s1, char const *s2) -> bool;
 static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
 static auto sdcard_read_blocking(size_t sector, int8_t *buffer512B) -> void;
+static auto sdcard_write_blocking(size_t sector,
+                                  int8_t const *buffer512B) -> void;
 
 extern "C" [[noreturn]] auto run() -> void {
   initiate_bss();
@@ -374,10 +377,12 @@ static auto handle_input(entity_id_t const eid,
     action_give(eid, words[1], words[2]);
   } else if (strings_equal(words[0], "m")) {
     action_mem_test();
-  } else if (strings_equal(words[0], "sdp")) {
-    action_sdcard_test();
   } else if (strings_equal(words[0], "sds")) {
     action_sdcard_status();
+  } else if (strings_equal(words[0], "sdr")) {
+    action_sdcard_test_read();
+  } else if (strings_equal(words[0], "sdw")) {
+    action_sdcard_test_write();
   } else if (strings_equal(words[0], "q")) {
     exit(0);
   } else {

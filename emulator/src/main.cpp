@@ -32,13 +32,28 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
   if (address + width > ram.size() && address != osqa::uart_out &&
       address != osqa::uart_in && address != osqa::led &&
       address != osqa::sdcard_busy && address != osqa::sdcard_read_sector &&
-      address != osqa::sdcard_next_byte && address != osqa::sdcard_status) {
+      address != osqa::sdcard_next_byte && address != osqa::sdcard_status &&
+      address != osqa::sdcard_write_sector) {
     return 1;
   }
 
   if (is_store) {
     if (address == osqa::sdcard_status) {
       // does not support write
+
+    } else if (address == osqa::sdcard_next_byte) {
+      sector_buffer[sector_buffer_index] = char(data);
+      sector_buffer_index = (sector_buffer_index + 1) % sector_buffer.size();
+
+    } else if (address == osqa::sdcard_write_sector) {
+      auto const dst = sdcard.begin() + data * sector_buffer.size();
+      auto const bgn = sector_buffer.begin();
+      auto const end = sector_buffer.end();
+      if (dst + sector_buffer.size() > sdcard.end()) {
+        return 3;
+      }
+      std::copy(bgn, end, dst);
+
     } else if (address == osqa::sdcard_read_sector) {
       size_t const ix = data * sector_buffer.size();
       auto const bgn = sdcard.begin() + ix;
@@ -47,6 +62,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         return 2;
       }
       std::copy(bgn, end, sector_buffer.data());
+
     } else if (address == osqa::uart_out) {
       int const ch = data & 0xff;
       if (ch == 0x7f) {
@@ -56,10 +72,13 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         putchar(ch);
       }
       fflush(stdout);
+
     } else if (address == osqa::uart_in) {
       // does not support write
+
     } else if (address == osqa::led) {
       // do nothing when writing to address LED
+
     } else {
       for (uint32_t i = 0; i < width; ++i) {
         ram[address + i] = int8_t(data >> (i * 8));
@@ -69,13 +88,17 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     // read op
     if (address == osqa::sdcard_status) {
       data = 0;
+
     } else if (address == osqa::sdcard_busy) {
       data = 0;
+
     } else if (address == osqa::sdcard_next_byte) {
       data = sector_buffer.at(sector_buffer_index);
       sector_buffer_index = (sector_buffer_index + 1) % sector_buffer.size();
+
     } else if (address == osqa::uart_out) {
       data = 0xffff'ffff; // -1
+
     } else if (address == osqa::uart_in) {
       int const ch = getchar();
       // convert terminal to serial
@@ -94,6 +117,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         break;
       }
       return 0;
+
     } else if (address == osqa::led) {
       // do nothing when reading from address LED
     } else {

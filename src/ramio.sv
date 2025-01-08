@@ -53,6 +53,8 @@ module ramio #(
 
     parameter int unsigned AddressSDCardStatus = 32'hffff_ffe4,
 
+    parameter int unsigned AddressSDCardWriteSector = 32'hffff_ffe0,
+
     parameter int unsigned SDCardSimulate = 0,
     // 1: if in simulation mode
 
@@ -131,6 +133,7 @@ module ramio #(
                 address == AddressLed ||
                 address == AddressSDCardBusy ||
                 address == AddressSDCardReadSector ||
+                address == AddressSDCardWriteSector ||
                 address == AddressSDCardNextByte ||
                 address == AddressSDCardStatus
                 ? 0 : cache_busy;
@@ -140,14 +143,16 @@ module ramio #(
                           address == AddressLed ||
                           address == AddressSDCardBusy ||
                           address == AddressSDCardReadSector ||
+                          address == AddressSDCardWriteSector ||
                           address == AddressSDCardNextByte ||
                           address == AddressSDCardStatus
                           ? 1 : cache_data_out_ready;
 
   // 'sdcard' related wirings and logic
-  logic [1:0] sdcard_command;
+  logic [2:0] sdcard_command;
   logic [31:0] sdcard_sector;
   wire [7:0] sdcard_data_out;
+  logic [7:0] sdcard_data_in;
   wire sdcard_busy;
   wire [31:0] sdcard_status;
 
@@ -170,6 +175,7 @@ module ramio #(
 
     sdcard_command = 0;
     sdcard_sector = 0;
+    sdcard_data_in = 0;
 
     if (enable) begin
       if (
@@ -181,8 +187,16 @@ module ramio #(
       ) begin
         // don't trigger cache when accessing I/O or SDCard input ports
 
+      end else if (address == AddressSDCardNextByte && write_type != '0) begin
+        sdcard_command = 3;
+        sdcard_data_in = data_in[7:0];
+
       end else if (address == AddressSDCardReadSector && write_type != '0) begin
         sdcard_command = 1;
+        sdcard_sector  = data_in;
+
+      end else if (address == AddressSDCardWriteSector && write_type != '0) begin
+        sdcard_command = 4;
         sdcard_sector  = data_in;
 
       end else if (address == AddressSDCardNextByte && read_type != '0) begin
@@ -260,7 +274,10 @@ module ramio #(
     data_out = 0;
 
     if (enable) begin
-      if (address == AddressUartOut && read_type != '0) begin
+      if (address == AddressLed) begin
+        // don't trigger cache read when accessing led
+
+      end else if (address == AddressUartOut && read_type != '0) begin
         // any read from 'uarttx' returns signed word
         data_out = uarttx_data_sending;
 
@@ -271,11 +288,11 @@ module ramio #(
       end else if (address == AddressSDCardBusy && read_type != '0) begin
         data_out = sdcard_busy;
 
-      end else if (address == AddressSDCardNextByte && read_type != '0) begin
-        data_out = sdcard_data_out;
-
       end else if (address == AddressSDCardStatus && read_type != '0) begin
         data_out = sdcard_status;
+
+      end else if (address == AddressSDCardNextByte && read_type != '0) begin
+        data_out = sdcard_data_out;
 
       end else begin
         // read from ram
@@ -488,6 +505,7 @@ module ramio #(
       .command(sdcard_command),
       .sector(sdcard_sector),
       .data_out(sdcard_data_out),
+      .data_in(sdcard_data_in),
       .busy(sdcard_busy),
       .status(sdcard_status)
   );

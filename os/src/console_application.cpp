@@ -44,8 +44,12 @@ static auto led_set(int32_t const bits) -> void {}
 
 static auto action_mem_test() -> void { printf("memory test not supported\n"); }
 
-static auto action_sdcard_test() -> void {
-  printf("sdcard test not supported\n");
+static auto action_sdcard_test_read() -> void {
+  printf("sdcard test read not supported\n");
+}
+
+static auto action_sdcard_test_write() -> void {
+  printf("sdcard test write not supported\n");
 }
 
 static auto action_sdcard_status() -> void {
@@ -54,5 +58,10 @@ static auto action_sdcard_status() -> void {
 
 static auto sdcard_read_blocking(size_t const sector,
                                  int8_t *buffer512B) -> void {
-  printf("sdcard not supported");
+  printf("sdcard read not supported");
+}
+
+static auto sdcard_write_blocking(size_t const sector,
+                                  int8_t const *buffer512B) -> void {
+  printf("sdcard write not supported");
 }

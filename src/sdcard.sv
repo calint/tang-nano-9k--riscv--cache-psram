@@ -18,16 +18,20 @@ module sdcard #(
 
     input wire rst_n,
 
-    input wire [1:0] command,
+    input wire [2:0] command,
     // 0: idle
     // 1: start read of sector specified by 'sector'
     // 2: update 'data_out' with next byte in buffer
+    // 3: write to buffer and increment index
+    // 4: write buffer to sector
 
     input wire [31:0] sector,
     // sector to read with 'command' 1
 
     output wire [7:0] data_out,
     // ??? why not word instead of byte
+
+    input wire [7:0] data_in,
 
     output wire busy,
     // true while busy reading SD card
@@ -57,11 +61,15 @@ module sdcard #(
   wire ready;
   //
 
+  logic waiting_ready_for_next_byte;
+
   typedef enum {
     Init,
     Idle,
     PreReadSector,
-    ReadSector
+    ReadSector,
+    PreWriteSector,
+    WriteSector
   } state_e;
 
   state_e state;
@@ -87,13 +95,26 @@ module sdcard #(
         end
 
         Idle: begin
-          if (command == 1) begin
-            rd <= 1;
-            address <= sector;
-            state <= PreReadSector;
-          end else if (command == 2) begin
-            buffer_index <= buffer_index + 1'b1;
-          end
+          case (command)
+            1: begin  // read sector
+              rd <= 1;
+              address <= sector;
+              state <= PreReadSector;
+            end
+            2: begin  // advance buffer index
+              buffer_index <= buffer_index + 1'b1;
+            end
+            3: begin  // write to buffer
+              buffer[buffer_index] <= data_in;
+              buffer_index <= buffer_index + 1'b1;
+            end
+            4: begin  // write sector
+              wr <= 1;
+              waiting_ready_for_next_byte <= 1;
+              address <= sector;
+              state <= PreWriteSector;
+            end
+          endcase
         end
 
         PreReadSector: begin
@@ -108,6 +129,32 @@ module sdcard #(
           if (byte_available) begin
             buffer[buffer_index] <= dout;
             buffer_index <= buffer_index + 1'b1;
+          end
+
+          if (ready) begin
+            // note: buffer_index har rolled over to 0
+            state <= Idle;
+          end
+
+        end
+
+        PreWriteSector: begin
+          // note: this state is necessary because in this cycle 'sd_controller' state is IDLE 
+          //       with 'ready' asserted. next cycle state is WRITE_BLOCK_CMD and 'ready' de-asserted
+          wr <= 0;
+          state <= WriteSector;
+        end
+
+        WriteSector: begin
+
+          if (ready_for_next_byte && waiting_ready_for_next_byte) begin
+            din <= buffer[buffer_index];
+            buffer_index <= buffer_index + 1'b1;
+            waiting_ready_for_next_byte <= 0;
+          end
+
+          if (!ready_for_next_byte && !waiting_ready_for_next_byte) begin
+            waiting_ready_for_next_byte <= 1;
           end
 
           if (ready) begin
@@ -164,6 +211,7 @@ module sdcard #(
       .ready,  // HIGH if the SD card is ready for a read or write operation.
       .address,  // Memory address for read/write operation. This MUST 
       // be a multiple of 512 bytes, due to SD sectoring.
+      // note: on the card tested address is sector number starting at 0
       .status,  // For debug purposes: Current state of controller.
       .recv_data
   );
