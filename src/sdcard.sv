@@ -147,6 +147,8 @@ module sdcard #(
 
         WriteSector: begin
 
+          // note: 'ready_for_next_byte' lasts for several cycles so a switch is
+          //       needed to not write multiple times per 'ready_for_next_byte'
           if (ready_for_next_byte && waiting_ready_for_next_byte) begin
             din <= buffer[buffer_index];
             buffer_index <= buffer_index + 1'b1;
