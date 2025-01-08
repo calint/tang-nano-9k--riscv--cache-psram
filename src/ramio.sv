@@ -156,9 +156,14 @@ module ramio #(
   wire sdcard_busy;
   wire [31:0] sdcard_status;
 
-  // ??? debugging sdcard
-  // assign led = sdcard_card_stat;
-  // assign led = {2'b11, sdcard_card_type};
+  logic [31:0] uarttx_data_sending;
+  // data being sent by 'uarttx'
+  //  -1 if idle
+
+  logic [31:0] uartrx_data_received;
+  // data copied from 'uartrx_data' when 'uartrx_data_ready' asserted
+  //  -1 if none available
+
 
   //
   // cache write
@@ -254,24 +259,16 @@ module ramio #(
         endcase
       end
     end
-  end
 
-  logic [31:0] uarttx_data_sending;
-  // data being sent by 'uarttx'
-  //  -1 if idle
+    // 
+    // cache read
+    //  convert 'cache_data_out' according to 'read_type' and handle UART read requests
+    //
 
-  logic [31:0] uartrx_data_received;
-  // data copied from 'uartrx_data' when 'uartrx_data_ready' asserted
-  //  -1 if none available
-
-  // 
-  // cache read
-  //  convert 'cache_data_out' according to 'read_type' and handle UART read requests
-  //
-  always_comb begin
 `ifdef DBG
     $display("address: %h  read_type: %b", address, read_type);
 `endif
+
     // create the 'data_out' based on the 'address'
     data_out = 0;
 
