@@ -85,10 +85,10 @@ static auto action_mem_test() -> void {
 }
 
 static auto action_sdcard_test() -> void {
-  static size_t page = 0;
+  static size_t sector = 0;
   int8_t buf[512];
-  sdcard_read_blocking(page, buf);
-  ++page;
+  sdcard_read_blocking(sector, buf);
+  ++sector;
   for (size_t i = 0; i < sizeof(buf); ++i) {
     uart_send_char(buf[i]);
   }

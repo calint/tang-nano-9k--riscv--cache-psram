@@ -1820,25 +1820,25 @@ Disassembly of section .text:
 # static auto action_sdcard_test() -> void {
     11cc:	df010113          	addi	sp,sp,-528
     11d0:	21212023          	sw	s2,512(sp)
-#   sdcard_read_blocking(page, buf);
+#   sdcard_read_blocking(sector, buf);
     11d4:	00002937          	lui	s2,0x2
 # static auto action_sdcard_test() -> void {
     11d8:	20812423          	sw	s0,520(sp)
-#   sdcard_read_blocking(page, buf);
-    11dc:	e0c92403          	lw	s0,-500(s2) # 1e0c <_ZZL18action_sdcard_testvE4page>
+#   sdcard_read_blocking(sector, buf);
+    11dc:	e0c92403          	lw	s0,-500(s2) # 1e0c <_ZZL18action_sdcard_testvE6sector>
     11e0:	00010593          	mv	a1,sp
 # static auto action_sdcard_test() -> void {
     11e4:	20912223          	sw	s1,516(sp)
-#   sdcard_read_blocking(page, buf);
+#   sdcard_read_blocking(sector, buf);
     11e8:	00040513          	mv	a0,s0
-#   ++page;
+#   ++sector;
     11ec:	00140413          	addi	s0,s0,1
 # static auto action_sdcard_test() -> void {
     11f0:	20112623          	sw	ra,524(sp)
-#   sdcard_read_blocking(page, buf);
+#   sdcard_read_blocking(sector, buf);
     11f4:	00010493          	mv	s1,sp
     11f8:	094000ef          	jal	128c <_ZL20sdcard_read_blockingjPc>
-#   ++page;
+#   ++sector;
     11fc:	e0892623          	sw	s0,-500(s2)
 #   for (size_t i = 0; i < sizeof(buf); ++i) {
     1200:	00000413          	li	s0,0

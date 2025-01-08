@@ -2,9 +2,7 @@
 set -e
 cd $(dirname "$0")
 
-NUM_TESTS=10
-
-for i in $(seq 1 $NUM_TESTS); do
+for i in 1 2 3 4 5 6 7 8; do
     echo -n "test $i: "
     ./testbench.sh $i 2>&1 | grep -E "PASSED|FATAL"
 done

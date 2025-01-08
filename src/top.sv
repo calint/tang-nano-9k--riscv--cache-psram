@@ -111,7 +111,7 @@ module top (
       .ClockFrequencyHz(configuration::CPU_FREQUENCY_HZ),
       .BaudRate(configuration::UART_BAUD_RATE),
       .SDCardSimulate(0),
-      .SDCardClockDivider(2)
+      .SDCardClockDivider(0)  // at 30 MHz this works
   ) ramio (
       .rst_n(rst_n && rpll_lock && br_init_calib),
       .clk  (br_clk_out),

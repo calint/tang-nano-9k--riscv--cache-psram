@@ -30,3 +30,4 @@ https://github.com/harbaum/MiSTeryNano/blob/main/src/misc/sd_rw.v
 https://github.com/WangXuan95/FPGA-SDcard-Reader/
 https://github.com/WangXuan95/FPGA-SDfake
 https://web.mit.edu/6.111/volume2/www/f2019/tools/sd_controller.v
+https://github.com/regymm/mit_sd_controller_improved

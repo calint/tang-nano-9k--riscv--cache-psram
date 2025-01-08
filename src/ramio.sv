@@ -146,11 +146,10 @@ module ramio #(
 
   // 'sdcard' related wirings and logic
   logic [1:0] sdcard_command;
-  logic [31:0] sdcard_sector_address;
+  logic [31:0] sdcard_sector;
   wire [7:0] sdcard_data_out;
   wire sdcard_busy;
-  wire [3:0] sdcard_card_stat;
-  wire [1:0] sdcard_card_type;
+  wire [31:0] sdcard_status;
 
   // ??? debugging sdcard
   // assign led = sdcard_card_stat;
@@ -170,7 +169,7 @@ module ramio #(
     cache_data_in = 0;
 
     sdcard_command = 0;
-    sdcard_sector_address = 0;
+    sdcard_sector = 0;
 
     if (enable) begin
       if (
@@ -184,7 +183,7 @@ module ramio #(
 
       end else if (address == AddressSDCardReadSector && write_type != '0) begin
         sdcard_command = 1;
-        sdcard_sector_address = data_in;
+        sdcard_sector  = data_in;
 
       end else if (address == AddressSDCardNextByte && read_type != '0) begin
         sdcard_command = 2;
@@ -276,7 +275,7 @@ module ramio #(
         data_out = sdcard_data_out;
 
       end else if (address == AddressSDCardStatus && read_type != '0) begin
-        data_out = {6'b0, sdcard_card_type, 4'b0, sdcard_card_stat};
+        data_out = sdcard_status;
 
       end else begin
         // read from ram
@@ -487,12 +486,12 @@ module ramio #(
 
       // interface
       .command(sdcard_command),
-      .sector_address(sdcard_sector_address),
+      .sector(sdcard_sector),
       .data_out(sdcard_data_out),
       .busy(sdcard_busy),
-      .card_stat(sdcard_card_stat),
-      .card_type(sdcard_card_type)
+      .status(sdcard_status)
   );
+
 endmodule
 
 `undef DBG

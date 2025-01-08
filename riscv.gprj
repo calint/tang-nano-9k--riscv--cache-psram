@@ -9,10 +9,9 @@
         <File path="src/cache.sv" type="file.verilog" enable="1"/>
         <File path="src/configuration.sv" type="file.verilog" enable="1"/>
         <File path="src/core.sv" type="file.verilog" enable="1"/>
-        <File path="src/ip/FPGA-SDcard-Reader/sd_reader.v" type="file.verilog" enable="1"/>
-        <File path="src/ip/FPGA-SDcard-Reader/sdcmd_ctrl.v" type="file.verilog" enable="1"/>
         <File path="src/ip/gowin_rpll/gowin_rpll.v" type="file.verilog" enable="1"/>
         <File path="src/ip/psram_memory_interface_hs/psram_memory_interface_hs.v" type="file.verilog" enable="1"/>
+        <File path="src/ip/regymm/sd_controller.v" type="file.verilog" enable="1"/>
         <File path="src/ramio.sv" type="file.verilog" enable="1"/>
         <File path="src/registers.sv" type="file.verilog" enable="1"/>
         <File path="src/sdcard.sv" type="file.verilog" enable="1"/>

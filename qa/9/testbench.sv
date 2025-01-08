@@ -51,12 +51,11 @@ module testbench;
   logic [31:0] sector_address;
   wire [7:0] data_out;
   wire busy;
-  wire [3:0] card_stat;
-  wire [1:0] card_type;
+  wire [31:0] status;
   wire sd_cs_n;
 
   sdcard #(
-      .ClockDivider(2),
+      .ClockDivider(4),
       .Simulate(1)
   ) sdcard (
       .clk,
@@ -68,8 +67,7 @@ module testbench;
       .data_out,
       .busy,
       // true while busy reading SD card
-      .card_stat,
-      .card_type,
+      .status,
       // interface to SD card
       .sd_cs_n,
       .sd_clk (sd_fake_sdclk),
