@@ -70,7 +70,7 @@ module sd_controller #(
   reg [9:0] byte_counter;
   reg [9:0] bit_counter;
 
-  reg [26:0] boot_counter = 27'd100_000_000;
+  reg [26:0] boot_counter = Simulate ? 27'd10 : 27'd100_000_000;
   always @(posedge clk) begin
     if (reset == 1) begin
       state <= RST;
