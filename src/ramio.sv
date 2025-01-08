@@ -200,6 +200,8 @@ module ramio #(
         sdcard_sector  = data_in;
 
       end else if (address == AddressSDCardNextByte && read_type != '0) begin
+        // note: need to resolve the read here because 'sdcard_command' can only
+        //       be driven from 1 process
         sdcard_command = 2;
 
       end else begin
@@ -274,8 +276,12 @@ module ramio #(
     data_out = 0;
 
     if (enable) begin
-      if (address == AddressLed) begin
-        // don't trigger cache read when accessing led
+      if (
+        address == AddressLed || 
+        address == AddressSDCardReadSector || 
+        address == AddressSDCardWriteSector
+      ) begin
+        // don't trigger cache read when write only addresses
 
       end else if (address == AddressUartOut && read_type != '0) begin
         // any read from 'uarttx' returns signed word
