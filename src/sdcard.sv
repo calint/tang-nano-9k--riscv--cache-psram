@@ -71,14 +71,12 @@ module sdcard #(
 
   always_ff @(posedge clk) begin
     if (!rst_n) begin
-      buffer_index <= 0;
       rd <= 0;
       wr <= 0;
       din <= 0;
       buffer_index <= 0;
       state <= Init;
     end else begin
-      rd <= 0;
 
       case (state)
 
