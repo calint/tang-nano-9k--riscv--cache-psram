@@ -196,90 +196,71 @@ module ramio #(
         //
         //------------------------------------------------------------------
 
-        if (
-          address == AddressUartOut ||
-          address == AddressUartIn ||
-          address == AddressLed || 
-          address == AddressSDCardBusy ||
-          address == AddressSDCardStatus
-        ) begin
-          // don't trigger cache when accessing I/O or SDCard input ports
-
-        end else if (address == AddressSDCardNextByte) begin
-          sdcard_command = 3;
-          sdcard_data_in = data_in[7:0];
-
-        end else if (address == AddressSDCardReadSector) begin
-          sdcard_command = 1;
-          sdcard_sector  = data_in;
-
-        end else if (address == AddressSDCardWriteSector) begin
-          sdcard_command = 4;
-          sdcard_sector  = data_in;
-
-        end else begin
-
-          cache_enable = 1;
-
-          // convert input to cache interface expected byte enabled 4-bytes word
-          unique case (write_type)
-
-            2'b01: begin  // byte
-              unique case (address[1:0])
-
-                2'b00: begin
-                  cache_write_enable = 4'b0001;
-                  cache_data_in[7:0] = data_in[7:0];
-                end
-
-                2'b01: begin
-                  cache_write_enable  = 4'b0010;
-                  cache_data_in[15:8] = data_in[7:0];
-                end
-
-                2'b10: begin
-                  cache_write_enable   = 4'b0100;
-                  cache_data_in[23:16] = data_in[7:0];
-                end
-
-                2'b11: begin
-                  cache_write_enable   = 4'b1000;
-                  cache_data_in[31:24] = data_in[7:0];
-                end
-
-              endcase
-            end
-
-            2'b10: begin  // half word
-              unique case (address[1:0])
-
-                2'b00: begin
-                  cache_write_enable  = 4'b0011;
-                  cache_data_in[15:0] = data_in[15:0];
-                end
-
-                2'b01: ;  // ? error
-
-                2'b10: begin
-                  cache_write_enable   = 4'b1100;
-                  cache_data_in[31:16] = data_in[15:0];
-                end
-
-                2'b11: ;  // ? error
-
-              endcase
-            end
-
-            2'b11: begin  // word
-              // ? assert(addr_lower_w==0)
-              cache_write_enable = 4'b1111;
-              cache_data_in = data_in;
-            end
-
-            default: ;  // ? error
-
-          endcase
-        end
+        case (address)
+          AddressUartOut: ;
+          AddressUartIn: ;
+          AddressLed: ;
+          AddressSDCardBusy: ;
+          AddressSDCardStatus: ;
+          AddressSDCardNextByte: begin
+            sdcard_command = 3;
+            sdcard_data_in = data_in[7:0];
+          end
+          AddressSDCardReadSector: begin
+            sdcard_command = 1;
+            sdcard_sector  = data_in;
+          end
+          AddressSDCardWriteSector: begin
+            sdcard_command = 4;
+            sdcard_sector  = data_in;
+          end
+          default: begin
+            cache_enable = 1;
+            // convert input to cache interface expected byte enabled 4-bytes word
+            unique case (write_type)
+              2'b01: begin  // byte
+                unique case (address[1:0])
+                  2'b00: begin
+                    cache_write_enable = 4'b0001;
+                    cache_data_in[7:0] = data_in[7:0];
+                  end
+                  2'b01: begin
+                    cache_write_enable  = 4'b0010;
+                    cache_data_in[15:8] = data_in[7:0];
+                  end
+                  2'b10: begin
+                    cache_write_enable   = 4'b0100;
+                    cache_data_in[23:16] = data_in[7:0];
+                  end
+                  2'b11: begin
+                    cache_write_enable   = 4'b1000;
+                    cache_data_in[31:24] = data_in[7:0];
+                  end
+                endcase
+              end
+              2'b10: begin  // half word
+                unique case (address[1:0])
+                  2'b00: begin
+                    cache_write_enable  = 4'b0011;
+                    cache_data_in[15:0] = data_in[15:0];
+                  end
+                  2'b01: ;  // ? error
+                  2'b10: begin
+                    cache_write_enable   = 4'b1100;
+                    cache_data_in[31:16] = data_in[15:0];
+                  end
+                  2'b11: ;  // ? error
+                endcase
+              end
+              2'b11: begin  // word
+                // ? assert(addr_lower_w==0)
+                cache_write_enable = 4'b1111;
+                cache_data_in = data_in;
+              end
+              default: ;  // ? error
+            endcase
+          end
+        endcase
       end
 
       //------------------------------------------------------------------
@@ -291,90 +272,84 @@ module ramio #(
       //------------------------------------------------------------------
 
       if (read_type != '0) begin
-        if (
-          address == AddressLed || 
-          address == AddressSDCardReadSector || 
-          address == AddressSDCardWriteSector
-        ) begin
-          // don't trigger cache read when write only addresses
-
-        end else if (address == AddressUartOut) begin
-          // any read from 'uarttx' returns signed word
-          data_out = uarttx_data_sending;
-
-        end else if (address == AddressUartIn) begin
-          // any read from 'uartrx' returns signed word
-          data_out = uartrx_data_received;
-
-        end else if (address == AddressSDCardBusy) begin
-          data_out = sdcard_busy;
-
-        end else if (address == AddressSDCardStatus) begin
-          data_out = sdcard_status;
-
-        end else if (address == AddressSDCardNextByte) begin
-          data_out = sdcard_data_out;
-          sdcard_command = 2;
-
-        end else begin
-
-          cache_enable = 1;
-
-          // read from ram
-          unique casez (read_type)
-            3'b?01: begin  // byte
-              unique case (address[1:0])
-                2'b00: begin
-                  data_out = read_type[2] ? 
+        unique case (address)
+          AddressLed: ;
+          AddressSDCardReadSector: ;
+          AddressSDCardWriteSector: ;
+          AddressUartOut: begin
+            // any read from 'uarttx' returns signed word
+            data_out = uarttx_data_sending;
+          end
+          AddressUartIn: begin
+            // any read from 'uartrx' returns signed word
+            data_out = uartrx_data_received;
+          end
+          AddressSDCardBusy: begin
+            data_out = sdcard_busy;
+          end
+          AddressSDCardStatus: begin
+            data_out = sdcard_status;
+          end
+          AddressSDCardNextByte: begin
+            data_out = sdcard_data_out;
+            sdcard_command = 2;
+          end
+          default: begin
+            cache_enable = 1;
+            // read from ram
+            unique casez (read_type)
+              3'b?01: begin  // byte
+                unique case (address[1:0])
+                  2'b00: begin
+                    data_out = read_type[2] ? 
                     {{24{cache_data_out[7]}}, cache_data_out[7:0]} :
                     {{24{1'b0}}, cache_data_out[7:0]};
-                end
-                2'b01: begin
-                  data_out = read_type[2] ? 
+                  end
+                  2'b01: begin
+                    data_out = read_type[2] ? 
                     {{24{cache_data_out[15]}}, cache_data_out[15:8]} :
                     {{24{1'b0}}, cache_data_out[15:8]};
-                end
-                2'b10: begin
-                  data_out = read_type[2] ? 
+                  end
+                  2'b10: begin
+                    data_out = read_type[2] ? 
                     {{24{cache_data_out[23]}}, cache_data_out[23:16]} :
                     {{24{1'b0}}, cache_data_out[23:16]};
-                end
-                2'b11: begin
-                  data_out = read_type[2] ? 
+                  end
+                  2'b11: begin
+                    data_out = read_type[2] ? 
                     {{24{cache_data_out[31]}}, cache_data_out[31:24]} :
                     {{24{1'b0}}, cache_data_out[31:24]};
-                end
-              endcase
-            end
-
-            3'b?10: begin  // half word
-              unique case (address[1:0])
-                2'b00: begin
-                  data_out = read_type[2] ? 
+                  end
+                endcase
+              end
+              3'b?10: begin  // half word
+                unique case (address[1:0])
+                  2'b00: begin
+                    data_out = read_type[2] ? 
                     {{16{cache_data_out[15]}}, cache_data_out[15:0]} :
                     {{16{1'b0}}, cache_data_out[15:0]};
-                end
-                2'b01: data_out = 0;  // ? error
-                2'b10: begin
-                  data_out = read_type[2] ? 
+                  end
+                  2'b01: data_out = 0;  // ? error
+                  2'b10: begin
+                    data_out = read_type[2] ? 
                     {{16{cache_data_out[31]}}, cache_data_out[31:16]} :
                     {{16{1'b0}}, cache_data_out[31:16]};
-                end
-                2'b11: data_out = 0;  // ? error
-              endcase
-            end
-
-            3'b111: begin  // word
-              // ? assert(addr_lower_w==0)
-              data_out = cache_data_out;
-            end
-
-            default: ;
-          endcase
-        end
+                  end
+                  2'b11: data_out = 0;  // ? error
+                endcase
+              end
+              3'b111: begin  // word
+                // ? assert(addr_lower_w==0)
+                data_out = cache_data_out;
+              end
+              default: ;
+            endcase
+          end
+        endcase
       end
     end
   end
+
 
   logic       uarttx_go;
   // enable to start sending and disable to acknowledge that data has been sent
