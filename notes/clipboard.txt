@@ -26,49 +26,8 @@ LD_PRELOAD=/usr/lib/libfreetype.so ~/apps/gowin/IDE/bin/gw_ide
 
 -------------------------------------------------------------
 
-
-  led_set(0b0000);
-
-  uart_send_str("point 1\r\n");
-
-  char x = char(*SD_CARD_BUSY);
-
-  uart_send_str("point 1.1\r\n");
-
-  uart_send_char('0' + x);
-
-  while (*SD_CARD_BUSY) {
-    led_set(0b1110);
-  }
-
-  uart_send_str("point 2\r\n");
-
-  led_set(0b1010);
-
-  *SD_CARD_READ_SECTOR = 0;
-
-  uart_send_str("point 3\r\n");
-
-  while (*SD_CARD_BUSY) {
-    led_set(0b1101);
-  }
-
-  uart_send_str("point 4\r\n");
-
-  led_set(0b1001);
-
-  for (int i = 0; i < 512; i++) {
-    char ch = char(*SD_CARD_NEXT_BYTE);
-    uart_send_char(ch);
-    led_set(0b1011);
-  }
-
-  // *SD_CARD_READ_SECTOR = 1;
-  // while (*SD_CARD_BUSY) {
-  //   led_set(~8);
-  // }
-  // for (int i = 0; i < 512; i++) {
-  //   char ch = char(*SD_CARD_NEXT_BYTE);
-  //   uart_send_char(ch);
-  // }
-
+https://github.com/harbaum/MiSTeryNano/blob/main/src/misc/sd_rw.v
+https://github.com/WangXuan95/FPGA-SDcard-Reader/blob/main/RTL/sd_reader.v
+https://github.com/ZipCPU/sdspi/blob/master/rtl/sdspi.v
+https://github.com/ZipCPU/sdspi/blob/master/rtl/sdio.v
+https://web.mit.edu/6.111/volume2/www/f2019/tools/sd_controller.v
