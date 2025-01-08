@@ -105,7 +105,7 @@ module testbench;
       .ClockFrequencyHz(20_250_000),
       .BaudRate(20_250_000),
       .SDCardSimulate(1),
-      .SDCardClockDivider(1)
+      .SDCardClockDivider(0)
   ) ramio (
       .rst_n(rst_n && br_init_calib),
       .clk,

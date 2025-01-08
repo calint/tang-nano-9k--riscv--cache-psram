@@ -48,22 +48,22 @@ module testbench;
 
   // wires and logics
   logic [1:0] command;
-  logic [31:0] sector_address;
+  logic [31:0] sector;
   wire [7:0] data_out;
   wire busy;
   wire [31:0] status;
   wire sd_cs_n;
 
   sdcard #(
-      .ClockDivider(4),
+      .ClockDivider(0),
       .Simulate(1)
   ) sdcard (
       .clk,
       .rst_n,
       .command,
-      // 1: start read SD card at 'sector_address'
+      // 1: start read SD card at 'sector'
       // 2: write next byte from buffer to 'data_out'
-      .sector_address,
+      .sector,
       .data_out,
       .busy,
       // true while busy reading SD card
@@ -89,7 +89,7 @@ module testbench;
 
     while (busy) #clk_tk;
 
-    sector_address <= 32'h4000;
+    sector  <= 32'h4000;
     command <= 1;
     #clk_tk;
     command <= 0;
