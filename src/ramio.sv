@@ -153,7 +153,7 @@ module ramio #(
   wire [1:0] sdcard_card_type;
 
   // ??? debugging sdcard
-  assign led = sdcard_card_stat;
+  // assign led = sdcard_card_stat;
   // assign led = {2'b11, sdcard_card_type};
 
   //
@@ -401,7 +401,7 @@ module ramio #(
 
       // if writing to LEDs
       if (address == AddressLed && write_type != '0) begin
-        // led <= data_in[3:0];
+        led <= data_in[3:0];
       end
     end
   end
