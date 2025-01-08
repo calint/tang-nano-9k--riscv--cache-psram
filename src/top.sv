@@ -36,10 +36,6 @@ module top (
     output logic [ 1:0] O_psram_cs_n
 );
 
-  assign sd_cs_n = 0;
-  // note: sd_cs_n is connected to dat[3]
-  //       see: Tang_Nano_9k_3672_Schematic.pdf
-
   // ----------------------------------------------------------
   // -- Gowin_rPLL
   // ----------------------------------------------------------
@@ -146,6 +142,7 @@ module top (
       .br_rd_data_valid,  // 'br_rd_data' is valid
 
       // SD card wiring; prefix 'sd_'
+      .sd_cs_n,
       .sd_clk,
       .sd_mosi,
       .sd_miso

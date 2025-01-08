@@ -103,6 +103,7 @@ module ramio #(
     input wire br_rd_data_valid,  // rd_data is valid
 
     // SD card wiring: prefix 'sd_'
+    output wire sd_cs_n,
     output wire sd_clk,
     output wire sd_mosi,
     input  wire sd_miso
@@ -479,6 +480,7 @@ module ramio #(
       .rst_n,
 
       // SD card signals
+      .sd_cs_n,
       .sd_clk,
       .sd_mosi,
       .sd_miso,

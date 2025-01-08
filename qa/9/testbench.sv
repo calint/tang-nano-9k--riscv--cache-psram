@@ -53,13 +53,14 @@ module testbench;
   wire busy;
   wire [3:0] card_stat;
   wire [1:0] card_type;
+  wire sd_cs_n;
 
   sdcard #(
       .ClockDivider(2),
       .Simulate(1)
   ) sdcard (
-      .clk(clk),
-      .rst_n(rst_n),
+      .clk,
+      .rst_n,
       .command,
       // 1: start read SD card at 'sector_address'
       // 2: write next byte from buffer to 'data_out'
@@ -70,9 +71,10 @@ module testbench;
       .card_stat,
       .card_type,
       // interface to SD card
-      .sd_clk(sd_fake_sdclk),
+      .sd_cs_n,
+      .sd_clk (sd_fake_sdclk),
       .sd_mosi(sd_fake_sdcmd),
-      .sd_miso(sd_fake_sddat)
+      .sd_miso(sd_fake_sddat[0])
   );
 
   //------------------------------------------------------------------------

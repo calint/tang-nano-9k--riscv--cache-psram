@@ -43,9 +43,10 @@ module sdcard #(
     // 0 = UNKNOWN, 1 = SDv1, 2 = SDv2, 3 = SDHCv2
 
     // wires to SD card
-    output wire sd_clk,
-    output wire sd_mosi,
-    input  wire sd_miso
+    output logic sd_cs_n,
+    output wire  sd_clk,
+    output wire  sd_mosi,
+    input  wire  sd_miso
 );
 
   logic [7:0] buffer[512];
@@ -79,13 +80,16 @@ module sdcard #(
       rstart <= 0;
       rsector <= 0;
       busy <= 1;
+      sd_cs_n <= 1;
       state <= Init;
     end else begin
+
       rstart <= 0;
 
       case (state)
 
         Init: begin
+          sd_cs_n <= 0;
           if (!rbusy) begin
             busy  <= 0;
             state <= Idle;
