@@ -47,9 +47,10 @@ module testbench;
   //------------------------------------------------------------------------
 
   // wires and logics
-  logic [1:0] command;
+  logic [2:0] command;
   logic [31:0] sector;
   wire [7:0] data_out;
+  logic [7:0] data_in;
   wire busy;
   wire [31:0] status;
   wire sd_cs_n;
@@ -61,10 +62,13 @@ module testbench;
       .clk,
       .rst_n,
       .command,
-      // 1: start read SD card at 'sector'
-      // 2: write next byte from buffer to 'data_out'
-      .sector,
+      // 0: idle
+      // 1: start read of sector specified by 'sector'
+      // 2: update 'data_out' with next byte in buffer
+      // 3: write 'data_in' to buffer and increment index
+      // 4: write buffer to sector specified by 'sector'      .sector,
       .data_out,
+      .data_in,
       .busy,
       // true while busy reading SD card
       .status,
