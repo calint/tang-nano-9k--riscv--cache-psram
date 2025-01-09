@@ -373,7 +373,7 @@ module ramio #(
 
   always_ff @(posedge clk) begin
     if (!rst_n) begin
-      // led <= 4'b1111;  // turn off all LEDs
+      led <= 4'b1111;  // turn off all LEDs
       uarttx_data_sending <= -1;
       uarttx_go <= 0;
       uartrx_data_received <= -1;
