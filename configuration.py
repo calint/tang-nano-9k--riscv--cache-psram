@@ -38,7 +38,7 @@ CACHE_LINE_INDEX_BITWIDTH = 5
 FLASH_TRANSFER_FROM_ADDRESS = 0
 # flash read start address
 
-FLASH_TRANSFER_BYTE_COUNT = 0x0020_0000
+FLASH_TRANSFER_BYTE_COUNT = 0x20_0000
 # number of bytes to transfer from flash at startup (2 MB)
 
 STARTUP_WAIT_CYCLES = 1_000_000
@@ -54,14 +54,14 @@ BITSTREAM_FILE = "impl/pnr/riscv.fs"
 BITSTREAM_FLASH_TO_EXTERNAL = 0
 # 0 to flash the bitstream to the internal flash, 1 for the external flash
 
-BITSTREAM_FILE_MAX_SIZE_BYTES = 0x0040_0000
+BITSTREAM_FILE_MAX_SIZE_BYTES = 0x40_0000
 # used to check if the bitstream size is within the limit of flash storage
 
 FIRMWARE_FILE = "os/os.bin"
 # location of the firmware file relative to project root
 
-FIRMWARE_FILE_MAX_SIZE_BYTES = 0x0040_0000
+FIRMWARE_FILE_MAX_SIZE_BYTES = 0x40_0000
 # used to check if the bitstream size is within the limit of flash storage
 
-FIRMWARE_FLASH_OFFSET = 0x0000_0000
+FIRMWARE_FLASH_OFFSET = 0
 # used to specify the offset in the flash storage where the firmware will be written
