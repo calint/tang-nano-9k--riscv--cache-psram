@@ -36,9 +36,11 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
   if (is_store) {
     switch (address) {
     case osqa::sdcard_busy: {
+      // does not support write
       return 2;
     }
     case osqa::sdcard_status: {
+      // does not support write
       return 3;
     }
     case osqa::sdcard_next_byte: {
@@ -78,6 +80,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       break;
     }
     case osqa::uart_in: {
+      // does not support write
       return 4;
     }
     case osqa::led: {
