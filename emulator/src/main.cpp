@@ -34,14 +34,19 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
   }
 
   if (is_store) {
-    if (address == osqa::sdcard_status) {
-      // does not support write
-
-    } else if (address == osqa::sdcard_next_byte) {
+    switch (address) {
+    case osqa::sdcard_busy: {
+      return 2;
+    }
+    case osqa::sdcard_status: {
+      return 3;
+    }
+    case osqa::sdcard_next_byte: {
       sector_buffer[sector_buffer_index] = char(data);
       sector_buffer_index = (sector_buffer_index + 1) % sector_buffer.size();
-
-    } else if (address == osqa::sdcard_write_sector) {
+      break;
+    }
+    case osqa::sdcard_write_sector: {
       auto const dst = sdcard.begin() + data * sector_buffer.size();
       auto const bgn = sector_buffer.begin();
       auto const end = sector_buffer.end();
@@ -49,8 +54,9 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         return 3;
       }
       std::copy(bgn, end, dst);
-
-    } else if (address == osqa::sdcard_read_sector) {
+      break;
+    }
+    case osqa::sdcard_read_sector: {
       size_t const ix = data * sector_buffer.size();
       auto const bgn = sdcard.begin() + ix;
       auto const end = sdcard.begin() + ix + sector_buffer.size();
@@ -58,8 +64,9 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         return 2;
       }
       std::copy(bgn, end, sector_buffer.data());
-
-    } else if (address == osqa::uart_out) {
+      break;
+    }
+    case osqa::uart_out: {
       int const ch = data & 0xff;
       if (ch == 0x7f) {
         // convert from serial to terminal
@@ -68,34 +75,54 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         putchar(ch);
       }
       fflush(stdout);
-
-    } else if (address == osqa::uart_in) {
-      // does not support write
-
-    } else if (address == osqa::led) {
+      break;
+    }
+    case osqa::uart_in: {
+      return 4;
+    }
+    case osqa::led: {
       // do nothing when writing to address LED
-
-    } else {
+      break;
+    }
+    default: {
       for (uint32_t i = 0; i < width; ++i) {
         ram[address + i] = int8_t(data >> (i * 8));
       }
     }
+    }
   } else {
     // read op
-    if (address == osqa::sdcard_status) {
+    switch (address) {
+    case osqa::sdcard_status: {
       data = 0;
-
-    } else if (address == osqa::sdcard_busy) {
+      break;
+    }
+    case osqa::sdcard_busy: {
       data = 0;
-
-    } else if (address == osqa::sdcard_next_byte) {
+      break;
+    }
+    case osqa::sdcard_next_byte: {
       data = sector_buffer.at(sector_buffer_index);
       sector_buffer_index = (sector_buffer_index + 1) % sector_buffer.size();
-
-    } else if (address == osqa::uart_out) {
+      break;
+    }
+    case osqa::sdcard_read_sector: {
+      // does not support read
+      return 5;
+    }
+    case osqa::sdcard_write_sector: {
+      // does not support read
+      return 6;
+    }
+    case osqa::led: {
+      // does not support read
+      return 7;
+    }
+    case osqa::uart_out: {
       data = 0xffff'ffff; // -1
-
-    } else if (address == osqa::uart_in) {
+      break;
+    }
+    case osqa::uart_in: {
       int const ch = getchar();
       // convert terminal to serial
       switch (ch) {
@@ -112,15 +139,14 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         data = ch;
         break;
       }
-      return 0;
-
-    } else if (address == osqa::led) {
-      // do nothing when reading from address LED
-    } else {
+      break;
+    }
+    default: {
       data = 0;
       for (uint32_t i = 0; i < width; ++i) {
         data |= (ram[address + i] & 0xff) << (i * 8);
       }
+    }
     }
   }
 
