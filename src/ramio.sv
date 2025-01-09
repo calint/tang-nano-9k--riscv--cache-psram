@@ -58,15 +58,11 @@ module ramio #(
     parameter int unsigned AddressIOPortsStart = 32'hffff_ffe0,
     // where mapping of I/O ports start
 
-    parameter int unsigned SDCardSimulate = 0,
-    // 1: if in simulation mode
+    parameter bit SDCardSimulate = 0,
+    // 1: if in simulation mode shortening delay cycles
 
     parameter int unsigned SDCardClockDivider = 2
-    // when clk =   0~ 25MHz , set 1,
-    // when clk =  25~ 50MHz , set 2,
-    // when clk =  50~100MHz , set 3,
-    // when clk = 100~200MHz , set 4,
-    // ......
+    // 0 when clk = ~30MHz
 ) (
     input wire rst_n,
     input wire clk,
@@ -95,8 +91,15 @@ module ramio #(
     output logic [3:0] led,
     // I/O mapping of LEDs
 
+    // UART wiring: prefix 'uart_'
     output logic uart_tx,
     input  wire  uart_rx,
+
+    // SD card wiring: prefix 'sd_'
+    output wire sd_cs_n,
+    output wire sd_clk,
+    output wire sd_mosi,
+    input  wire sd_miso,
 
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write
@@ -105,13 +108,7 @@ module ramio #(
     output logic [63:0] br_wr_data,  // data to write
     output logic [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
-    input wire br_rd_data_valid,  // rd_data is valid
-
-    // SD card wiring: prefix 'sd_'
-    output wire sd_cs_n,
-    output wire sd_clk,
-    output wire sd_mosi,
-    input  wire sd_miso
+    input wire br_rd_data_valid  // rd_data is valid
 );
 
   logic cache_enable;
