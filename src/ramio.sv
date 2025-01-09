@@ -55,6 +55,9 @@ module ramio #(
 
     parameter int unsigned AddressSDCardWriteSector = 32'hffff_ffe0,
 
+    parameter int unsigned AddressIOPortsStart = 32'hffff_ffe0,
+    // where mapping of I/O ports start
+
     parameter int unsigned SDCardSimulate = 0,
     // 1: if in simulation mode
 
@@ -147,6 +150,11 @@ module ramio #(
                           address == AddressSDCardNextByte ||
                           address == AddressSDCardStatus
                           ? 1 : cache_data_out_ready;
+
+  // note: commented lines use 280 more LUT than the cumbersome code above
+
+  // assign busy = address >= AddressIOPortsStart ? 0 : cache_busy;
+  // assign data_out_ready = address >= AddressIOPortsStart ? 1 : cache_data_out_ready;
 
   // 'sdcard' related wirings and logic
   logic [2:0] sdcard_command;

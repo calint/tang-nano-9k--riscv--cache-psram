@@ -25,7 +25,7 @@ with open('os/src/os_config.hpp', 'w') as file:
     file.write('#define SDCARD_BUSY ((int volatile *)0xffff\'fff0)\n')
     file.write('#define SDCARD_READ_SECTOR ((unsigned volatile *)0xffff\'ffec)\n')
     file.write('#define SDCARD_NEXT_BYTE ((int volatile *)0xffff\'ffe8)\n')
-    file.write('#define SDCARD_STATUS ((int volatile *)0xffff\'ffe4)\n')
+    file.write('#define SDCARD_STATUS ((unsigned volatile *)0xffff\'ffe4)\n')
     file.write('#define SDCARD_WRITE_SECTOR ((unsigned volatile *)0xffff\'ffe0)\n')
     file.write('#define MEMORY_END {}\n'.format(hex(
         memory_end_address)))
@@ -44,6 +44,7 @@ with open('emulator/src/main_config.hpp', 'w') as file:
     file.write('std::uint32_t constexpr sdcard_next_byte = 0xffff\'ffe8;\n')
     file.write('std::uint32_t constexpr sdcard_status = 0xffff\'ffe4;\n')
     file.write('std::uint32_t constexpr sdcard_write_sector = 0xffff\'ffe0;\n')
+    file.write('std::uint32_t constexpr io_addresses_start = 0xffff\'ffe0;\n')
     file.write('std::uint32_t constexpr memory_end = {};\n'.format(hex(
         memory_end_address)))
     file.write('\n} // namespace osqa\n')

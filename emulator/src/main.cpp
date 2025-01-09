@@ -29,11 +29,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
                 bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
   uint32_t const width = static_cast<uint32_t>(op_width);
-  if (address + width > ram.size() && address != osqa::uart_out &&
-      address != osqa::uart_in && address != osqa::led &&
-      address != osqa::sdcard_busy && address != osqa::sdcard_read_sector &&
-      address != osqa::sdcard_next_byte && address != osqa::sdcard_status &&
-      address != osqa::sdcard_write_sector) {
+  if (address < osqa::io_addresses_start && address + width > ram.size()) {
     return 1;
   }
 

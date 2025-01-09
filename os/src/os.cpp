@@ -94,15 +94,18 @@ static auto action_sdcard_test_read() -> void {
 }
 
 static auto action_sdcard_test_write() -> void {
-  int8_t const buf[512] = "hello world! writing to SD card!   ... ...\r\n";
+  int8_t const buf[512] =
+      "Hello world! Writing to second sector on SD card!\r\n";
   sdcard_write_blocking(1, buf);
 }
 
 static auto action_sdcard_status() -> void {
-  int32_t const status = *SDCARD_STATUS;
-  uart_send_str("SD card status: ");
+  uint32_t const status = *SDCARD_STATUS;
+  uart_send_str("SDCARD_STATUS: 0x");
+  uart_send_hex_byte(char(status >> 24));
+  uart_send_hex_byte(char(status >> 16));
+  uart_send_char(':');
   uart_send_hex_byte(char(status >> 8));
-  uart_send_char(' ');
   uart_send_hex_byte(char(status));
   uart_send_str("\r\n");
 }

@@ -13,6 +13,7 @@ module sdcard #(
 
     parameter int unsigned ClockDivider = 4
     // generates slow clock for SD
+    //  0: ~30 MHz
 ) (
     input wire clk,
 
@@ -22,16 +23,17 @@ module sdcard #(
     // 0: idle
     // 1: start read of sector specified by 'sector'
     // 2: update 'data_out' with next byte in buffer
-    // 3: write to buffer and increment index
-    // 4: write buffer to sector
+    // 3: write 'data_in' to buffer and increment index
+    // 4: write buffer to sector specified by 'sector'
 
     input wire [31:0] sector,
-    // sector to read with 'command' 1
+    // sector to read with 'command' 1 and write with 'command' 3
 
     output wire [7:0] data_out,
-    // ??? why not word instead of byte
+    // data at current buffer index
 
     input wire [7:0] data_in,
+    // data to write when 'command' is 3
 
     output wire busy,
     // true while busy reading SD card
@@ -62,6 +64,8 @@ module sdcard #(
   //
 
   logic waiting_ready_for_next_byte;
+  // used to handle 'ready_for_next_byte' being asserted
+  // multiple cycles for same data
 
   typedef enum {
     Init,
@@ -77,6 +81,10 @@ module sdcard #(
   assign data_out = buffer[buffer_index];
   assign busy = state != Idle;
 
+  // wiring of 'sd_controller' status to 32 bit output
+  wire [4:0] status_in;
+  assign status = {27'b0, status_in};
+
   always_ff @(posedge clk) begin
     if (!rst_n) begin
       rd <= 0;
@@ -90,6 +98,7 @@ module sdcard #(
 
         Init: begin
           if (ready) begin
+            // wait for card to be ready
             state <= Idle;
           end
         end
@@ -170,7 +179,8 @@ module sdcard #(
     end
   end
 
-  // slow clock
+  // slow clock for 'sd_controller'
+  // 'ClockDivider' adjusted depending on 'clk' frequency
 
   logic [ClockDivider == 0 ? 0 : ClockDivider-1:0] counter;
   wire clk_pulse_slow = (counter == '0);
@@ -209,12 +219,12 @@ module sdcard #(
       .din,  // Data input for WRITE operation.
       .ready_for_next_byte,  // A new byte should be presented on [din].
 
-      .reset(!rst_n),  // Resets controller on assertion.
+      .reset (!rst_n),    // Resets controller on assertion.
       .ready,  // HIGH if the SD card is ready for a read or write operation.
       .address,  // Memory address for read/write operation. This MUST 
       // be a multiple of 512 bytes, due to SD sectoring.
-      // note: on the card tested address is sector number starting at 0
-      .status,  // For debug purposes: Current state of controller.
+      // note: on the card tested 'address' is sector number starting at 0
+      .status(status_in), // For debug purposes: Current state of controller.
       .recv_data
   );
 
