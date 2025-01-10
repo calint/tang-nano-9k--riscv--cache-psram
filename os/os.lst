@@ -14,12 +14,12 @@ Disassembly of section .text:
        4:	0040006f          	j	8 <run>
 
 00000008 <run>:
-#   sdcard_read_blocking(sector, buf);
-#   for (size_t i = 0; i < sizeof(buf); ++i) {
 #     uart_send_char(buf[i]);
 #   }
 #   uart_send_str("\r\n");
 # }
+# 
+# static auto action_sdcard_test_write(char const *words[],
        8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdef8>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
@@ -28,7 +28,7 @@ Disassembly of section .text:
       1c:	07412423          	sw	s4,104(sp)
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
-# 
+#                                      size_t nwords) -> void {
       28:	4e4010ef          	jal	150c <_ZL12initiate_bssv>
 #   // initiate statics in freestanding build
 # 
@@ -1991,7 +1991,6 @@ Disassembly of section .text:
     135c:	f9dff06f          	j	12f8 <_ZL23action_sdcard_test_readPPKcj+0x10>
 
 00001360 <_ZL24action_sdcard_test_writePPKcj>:
-# static auto action_sdcard_test_write(char const *words[],
 #                                      size_t nwords) -> void {
     1360:	de010113          	addi	sp,sp,-544
     1364:	20812c23          	sw	s0,536(sp)

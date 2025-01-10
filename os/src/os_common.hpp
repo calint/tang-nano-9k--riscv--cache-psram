@@ -53,6 +53,8 @@ static constexpr size_t ENTITY_MAX_OBJECTS = 32;
 // #define ENTITY_MAX_OBJECTS 32
 //
 
+#include "lib/concepts.hpp"
+//
 #include "lib/span.hpp"
 //
 #include "lib/command_buffer.hpp"

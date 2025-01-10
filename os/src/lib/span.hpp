@@ -1,7 +1,5 @@
 #pragma once
 
-#include "concepts.hpp"
-
 template <typename Type> class span {
   Type *const begin{};
   Type *const end{};
