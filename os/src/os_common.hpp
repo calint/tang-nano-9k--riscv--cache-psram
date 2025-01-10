@@ -73,6 +73,52 @@ concept callable_returns_void = requires(Func f, Arg arg) {
   { f(arg) } -> same_as<void>;
 };
 
+template <typename Type> struct span {
+  Type *const begin{};
+  Type *const end{};
+
+  span(Type *const span_begin, size_t const size)
+      : begin{span_begin}, end{span_begin + size} {}
+
+  auto size() const -> size_t { return end - begin; }
+
+  auto subspan(size_t const begin_index,
+               size_t const end_index) const -> span<Type> {
+    size_t const n = size();
+    if (begin_index > n || end_index > n || begin_index > end_index) {
+      return span<Type>{};
+    }
+    return span<Type>(begin + begin_index, begin + end_index);
+  }
+
+  auto subspan(Type const *const span_begin,
+               Type const *const span_end) const -> span<Type> {
+    if (span_begin > end || span_end > end || span_begin > span_end) {
+      return span<Type>{};
+    }
+    return span<Type>(span_begin, span_end);
+  }
+
+  auto for_each(callable_returns_void<Type> auto f) const -> void {
+    for (Type *it = begin; it < end; ++it) {
+      f(*it);
+    }
+  }
+
+  auto for_each_ref(callable_returns_void<Type &> auto f) const -> void {
+    for (Type *it = begin; it < end; ++it) {
+      f(*it);
+    }
+  }
+
+  auto
+  for_each_const_ref(callable_returns_void<Type const &> auto f) const -> void {
+    for (Type *it = begin; it < end; ++it) {
+      f(*it);
+    }
+  }
+};
+
 class command_buffer final {
   char line_[80]{};
   uint8_t cursor_{};
