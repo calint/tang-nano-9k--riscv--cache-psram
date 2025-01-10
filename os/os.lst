@@ -111,6 +111,9 @@ Disassembly of section .text:
       dc:	02112623          	sw	ra,44(sp)
       e0:	02812423          	sw	s0,40(sp)
       e4:	00010793          	mv	a5,sp
+#   // test.for_each([](char ch) { uart_send_char(ch); });
+#   // uart_send_str("\r\n");
+# 
 #   char const *words[8];
 #   char *ptr = cmd_buf.command_line();
 #   size_t nwords = 0;

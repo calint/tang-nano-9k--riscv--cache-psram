@@ -73,9 +73,15 @@ concept callable_returns_void = requires(Func f, Arg arg) {
   { f(arg) } -> same_as<void>;
 };
 
-template <typename Type> struct span {
+template <typename Type> class span {
   Type *const begin{};
   Type *const end{};
+
+public:
+  span() : begin{nullptr}, end{nullptr} {}
+
+  span(Type *const span_begin, Type *const span_end)
+      : begin{span_begin}, end{span_end} {}
 
   span(Type *const span_begin, size_t const size)
       : begin{span_begin}, end{span_begin + size} {}
@@ -88,7 +94,7 @@ template <typename Type> struct span {
     if (begin_index > n || end_index > n || begin_index > end_index) {
       return span<Type>{};
     }
-    return span<Type>(begin + begin_index, begin + end_index);
+    return span<Type>{begin + begin_index, begin + end_index};
   }
 
   auto subspan(Type const *const span_begin,
@@ -96,7 +102,28 @@ template <typename Type> struct span {
     if (span_begin > end || span_end > end || span_begin > span_end) {
       return span<Type>{};
     }
-    return span<Type>(span_begin, span_end);
+    return span<Type>{span_begin, span_end};
+  }
+
+  auto subspan_starting_at_index(size_t begin_index) const -> span<Type> {
+    if (begin_index > size()) {
+      return span<Type>{};
+    }
+    return span<Type>{begin + begin_index, end};
+  }
+
+  auto subspan_starting_at(Type *const span_begin) const -> span<Type> {
+    if (span_begin > end || span_begin < begin) {
+      return span<Type>{};
+    }
+    return span<Type>{span_begin, end};
+  }
+
+  auto subspan_ending_at(Type *const span_end) const -> span<Type> {
+    if (span_end > end || span_end < begin) {
+      return span<Type>{};
+    }
+    return span<Type>{begin, span_end};
   }
 
   auto for_each(callable_returns_void<Type> auto f) const -> void {
@@ -116,6 +143,39 @@ template <typename Type> struct span {
     for (Type *it = begin; it < end; ++it) {
       f(*it);
     }
+  }
+
+  auto
+  for_each_until_false(callable_returns_bool<Type> auto f) const -> Type * {
+    Type *it = begin;
+    for (; it < end; ++it) {
+      if (!f(*it)) {
+        return it;
+      }
+    }
+    return it;
+  }
+
+  auto for_each_ref_until_false(callable_returns_bool<Type &> auto f) const
+      -> Type * {
+    Type *it = begin;
+    for (; it < end; ++it) {
+      if (!f(*it)) {
+        return it;
+      }
+    }
+    return it;
+  }
+
+  auto for_each_const_ref_until_false(
+      callable_returns_bool<Type const &> auto f) const -> Type * {
+    Type *it = begin;
+    for (; it < end; ++it) {
+      if (!f(*it)) {
+        return it;
+      }
+    }
+    return it;
   }
 };
 
@@ -366,6 +426,18 @@ extern "C" [[noreturn]] auto run() -> void {
 
 static auto handle_input(entity_id_t const eid,
                          command_buffer &cmd_buf) -> void {
+
+  // span<char> line{cmd_buf.command_line(), cmd_buf.input_length()};
+  // char *command_word_end =
+  //     line.for_each_until_false([](char const ch) { return ch != ' '; });
+  // span<char> command_word = line.subspan_ending_at(command_word_end);
+  // span<char> arguments = line.subspan_starting_at(command_word_end);
+  // span<char> test = arguments;
+  // command_word.for_each([](char ch) { uart_send_char(ch); });
+  // uart_send_str("\r\n");
+  // test.for_each([](char ch) { uart_send_char(ch); });
+  // uart_send_str("\r\n");
+
   char const *words[8];
   char *ptr = cmd_buf.command_line();
   size_t nwords = 0;
