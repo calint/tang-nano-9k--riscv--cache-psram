@@ -77,6 +77,7 @@ welcome to adventure #4
 ## Todo
 ```
 -------------------------------------------------------------------------------------------------------------
+[ ] emulator: implement write sector to card file
 [ ] uarttx: optimize away the cycle between go=1 and busy=1
     => cannot with only always_ff and running on posedge clk
 [ ] investigate and try to recreate the "// !!!" issue in 'ramio'
