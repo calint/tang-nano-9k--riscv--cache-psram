@@ -104,4 +104,8 @@ public:
     }
     return it;
   }
+
+  auto is_within_span(Type const *const t) const -> bool {
+    return t >= begin && t <= end;
+  }
 };
