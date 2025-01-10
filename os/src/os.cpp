@@ -112,19 +112,41 @@ static auto action_mem_test() -> void {
   }
 }
 
-static auto action_sdcard_test_read() -> void {
-  int8_t buf[512];
-  sdcard_read_blocking(1, buf);
+static auto action_sdcard_test_read(char const *words[],
+                                    size_t nwords) -> void {
+  if (nwords < 2) {
+    uart_send_str("<sector>\r\n");
+    return;
+  }
+  size_t const sector = string_to_uint32(words[1]);
+  char buf[512];
+  sdcard_read_blocking(sector, buf);
   for (size_t i = 0; i < sizeof(buf); ++i) {
     uart_send_char(buf[i]);
   }
   uart_send_str("\r\n");
 }
 
-static auto action_sdcard_test_write() -> void {
-  int8_t const buf[512] =
-      "Hello world! Writing to second sector on SD card!\r\n";
-  sdcard_write_blocking(1, buf);
+static auto action_sdcard_test_write(char const *words[],
+                                     size_t nwords) -> void {
+  if (nwords < 3) {
+    uart_send_str("<sector> <word_0> <word_1> ...\r\n");
+    return;
+  }
+  // words[0]: command
+  // words[1]: sector
+  // words[2:nwords]: words
+  char buf[512]{};
+  char *buf_ptr = buf;
+  for (size_t i = 2; i < nwords; ++i) {
+    // note: command line is never bigger than the buffer
+    buf_ptr = string_copy_to_buffer(words[i], buf_ptr);
+    *buf_ptr = ' ';
+    ++buf_ptr;
+  }
+
+  size_t const sector = string_to_uint32(words[1]);
+  sdcard_write_blocking(sector, buf);
 }
 
 static auto action_sdcard_status() -> void {

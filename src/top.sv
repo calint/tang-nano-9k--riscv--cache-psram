@@ -22,10 +22,10 @@ module top (
     input  wire  flash_miso,
     output logic flash_mosi,
 
-    output wire sd_cs_n,
-    output wire sd_clk,
-    output wire sd_mosi,
-    input  wire sd_miso,
+    output logic sd_cs_n,
+    output logic sd_clk,
+    output logic sd_mosi,
+    input  wire  sd_miso,
 
     // magic ports for PSRAM to be inferred
     output logic [ 1:0] O_psram_ck,

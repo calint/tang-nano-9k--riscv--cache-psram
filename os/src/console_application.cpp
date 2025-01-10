@@ -44,11 +44,13 @@ static auto led_set(int32_t const bits) -> void {}
 
 static auto action_mem_test() -> void { printf("memory test not supported\n"); }
 
-static auto action_sdcard_test_read() -> void {
+static auto action_sdcard_test_read(char const *words[],
+                                    size_t const nwords) -> void {
   printf("sdcard test read not supported\n");
 }
 
-static auto action_sdcard_test_write() -> void {
+static auto action_sdcard_test_write(char const *words[],
+                                     size_t const nwords) -> void {
   printf("sdcard test write not supported\n");
 }
 

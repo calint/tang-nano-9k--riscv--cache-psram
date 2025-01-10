@@ -74,6 +74,12 @@ welcome to adventure #4
 ## Source
 * SystemVerilog adhering to most of style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
 
+## Coding Style
+* module names in lower snake case
+* logic and wires: descriptive verbose in lower snake case
+* all output ports are declared `logic`
+* all input ports are declared `wire`
+
 ## Todo
 ```
 -------------------------------------------------------------------------------------------------------------

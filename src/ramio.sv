@@ -93,10 +93,10 @@ module ramio #(
     input  wire  uart_rx,
 
     // SD card wiring: prefix 'sd_'
-    output wire sd_cs_n,
-    output wire sd_clk,
-    output wire sd_mosi,
-    input  wire sd_miso,
+    output logic sd_cs_n,
+    output logic sd_clk,
+    output logic sd_mosi,
+    input  wire  sd_miso,
 
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write

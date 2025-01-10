@@ -29,23 +29,23 @@ module sdcard #(
     input wire [31:0] sector,
     // sector to read with 'command' 1 and write with 'command' 3
 
-    output wire [7:0] data_out,
+    output logic [7:0] data_out,
     // data at current buffer index
 
     input wire [7:0] data_in,
     // data to write when 'command' is 3
 
-    output wire busy,
+    output logic busy,
     // true while busy reading SD card
 
-    output wire [31:0] status,
+    output logic [31:0] status,
     // state of 'sd_reader'
 
     // wires to SD card
-    output wire sd_cs_n,
-    output wire sd_clk,
-    output wire sd_mosi,
-    input  wire sd_miso
+    output logic sd_cs_n,
+    output logic sd_clk,
+    output logic sd_mosi,
+    input  wire  sd_miso
 );
 
   logic [7:0] buffer[512];
@@ -55,7 +55,7 @@ module sdcard #(
   logic rd;
   logic wr;
   wire [7:0] dout;
-  wire [7:0] recv_data;
+  wire [7:0] recv_data;  // unused
   logic [7:0] din;
   logic [31:0] address;
   wire byte_available;
