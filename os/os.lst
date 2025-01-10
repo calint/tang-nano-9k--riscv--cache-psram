@@ -14,6 +14,12 @@ Disassembly of section .text:
        4:	0040006f          	j	8 <run>
 
 00000008 <run>:
+#   sdcard_read_blocking(sector, buf);
+#   for (size_t i = 0; i < sizeof(buf); ++i) {
+#     uart_send_char(buf[i]);
+#   }
+#   uart_send_str("\r\n");
+# }
        8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdef8>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
@@ -22,6 +28,7 @@ Disassembly of section .text:
       1c:	07412423          	sw	s4,104(sp)
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
+# 
       28:	4e4010ef          	jal	150c <_ZL12initiate_bssv>
 #   // initiate statics in freestanding build
 # 
@@ -437,15 +444,18 @@ Disassembly of section .text:
      434:	00f40433          	add	s0,s0,a5
      438:	00042503          	lw	a0,0(s0)
      43c:	00040a93          	mv	s5,s0
+# 
+#   auto length() const -> size_t { return len; }
+# 
+#   auto
+#   for_each_until_false(callable_returns_bool<Type> auto &&f) const -> void {
 #     for (size_t i = 0; i < len; ++i) {
      440:	00040b93          	mv	s7,s0
-#   uart_send_str(loc.name);
      444:	515000ef          	jal	1158 <_ZL13uart_send_strPKc>
 #   uart_send_str("\r\nu c: ");
      448:	00002537          	lui	a0,0x2
      44c:	a5450513          	addi	a0,a0,-1452 # 1a54 <_ZN4listIhLj32EE15remove_at_indexEj.isra.0+0x4d8>
      450:	509000ef          	jal	1158 <_ZL13uart_send_strPKc>
-#     for (size_t i = 0; i < len; ++i) {
      454:	00000a13          	li	s4,0
      458:	d4048493          	addi	s1,s1,-704
 #   // print objects at location
@@ -458,7 +468,6 @@ Disassembly of section .text:
 #       }
 #       uart_send_str(objects[id].name);
      460:	00002cb7          	lui	s9,0x2
-#     for (size_t i = 0; i < len; ++i) {
      464:	08442783          	lw	a5,132(s0)
      468:	0cfa6a63          	bltu	s4,a5,53c <_ZL14print_locationhh+0x168>
 #       return true;
@@ -473,11 +482,8 @@ Disassembly of section .text:
 #     uart_send_str("\r\n");
      47c:	00002bb7          	lui	s7,0x2
      480:	990b8513          	addi	a0,s7,-1648 # 1990 <_ZN4listIhLj32EE15remove_at_indexEj.isra.0+0x414>
-#     for (size_t i = 0; i < len; ++i) {
      484:	01390a33          	add	s4,s2,s3
-#     uart_send_str("\r\n");
      488:	4d1000ef          	jal	1158 <_ZL13uart_send_strPKc>
-#     for (size_t i = 0; i < len; ++i) {
      48c:	005a1a13          	slli	s4,s4,0x5
 #   }
 # 
@@ -485,7 +491,6 @@ Disassembly of section .text:
 #   {
 #     uint32_t counter = 0;
      490:	00000793          	li	a5,0
-#     for (size_t i = 0; i < len; ++i) {
      494:	00000b13          	li	s6,0
      498:	01448a33          	add	s4,s1,s4
 #         return true;
@@ -497,7 +502,6 @@ Disassembly of section .text:
      49c:	00002c37          	lui	s8,0x2
 #         uart_send_str(", ");
      4a0:	00002cb7          	lui	s9,0x2
-#     for (size_t i = 0; i < len; ++i) {
      4a4:	090a2683          	lw	a3,144(s4)
      4a8:	0cdb6263          	bltu	s6,a3,56c <_ZL14print_locationhh+0x198>
 #       return true;
@@ -518,12 +522,9 @@ Disassembly of section .text:
 #     uint32_t counter = 0;
 #     uart_send_str("exits: ");
      4c4:	00002537          	lui	a0,0x2
-#   auto length() const -> size_t { return len; }
      4c8:	012484b3          	add	s1,s1,s2
-#     uart_send_str("exits: ");
      4cc:	a7450513          	addi	a0,a0,-1420 # 1a74 <_ZN4listIhLj32EE15remove_at_indexEj.isra.0+0x4f8>
      4d0:	489000ef          	jal	1158 <_ZL13uart_send_strPKc>
-#   auto length() const -> size_t { return len; }
      4d4:	09c4a983          	lw	s3,156(s1)
 #     auto &lse = loc.exits;
 #     size_t const n = lse.length();
@@ -674,7 +675,6 @@ Disassembly of section .text:
 #     }
 #     uart_send_str(objects[id].name);
      658:	00002ab7          	lui	s5,0x2
-#     for (size_t i = 0; i < len; ++i) {
      65c:	0289a783          	lw	a5,40(s3)
      660:	04f4e063          	bltu	s1,a5,6a0 <_ZL16action_inventoryh+0xa4>
 #     return true;
@@ -876,27 +876,18 @@ Disassembly of section .text:
      880:	02812423          	sw	s0,40(sp)
 #   auto length() const -> size_t { return len; }
      884:	00151413          	slli	s0,a0,0x1
-# static auto action_drop(entity_id_t const eid, name_t const obj_nm) -> void {
      888:	02912223          	sw	s1,36(sp)
-#   auto length() const -> size_t { return len; }
      88c:	00a404b3          	add	s1,s0,a0
      890:	00249493          	slli	s1,s1,0x2
-# static auto action_drop(entity_id_t const eid, name_t const obj_nm) -> void {
      894:	01412c23          	sw	s4,24(sp)
-#   auto length() const -> size_t { return len; }
      898:	40a484b3          	sub	s1,s1,a0
      89c:	00002a37          	lui	s4,0x2
-# static auto action_drop(entity_id_t const eid, name_t const obj_nm) -> void {
      8a0:	03212023          	sw	s2,32(sp)
-#   auto length() const -> size_t { return len; }
      8a4:	00249493          	slli	s1,s1,0x2
      8a8:	cbca0913          	addi	s2,s4,-836 # 1cbc <_ZL8entities>
      8ac:	00990933          	add	s2,s2,s1
-# static auto action_drop(entity_id_t const eid, name_t const obj_nm) -> void {
      8b0:	01812423          	sw	s8,8(sp)
-#   auto length() const -> size_t { return len; }
      8b4:	02892c03          	lw	s8,40(s2)
-# static auto action_drop(entity_id_t const eid, name_t const obj_nm) -> void {
      8b8:	01312e23          	sw	s3,28(sp)
      8bc:	01512a23          	sw	s5,20(sp)
      8c0:	01712623          	sw	s7,12(sp)
@@ -1003,9 +994,7 @@ Disassembly of section .text:
 # }
      9dc:	00c12b83          	lw	s7,12(sp)
      9e0:	01812a03          	lw	s4,24(sp)
-#     ++len;
      9e4:	08e7a223          	sw	a4,132(a5)
-# }
      9e8:	03010113          	addi	sp,sp,48
 #       lso.remove_at_index(i);
      9ec:	3910006f          	j	157c <_ZN4listIhLj32EE15remove_at_indexEj.isra.0>
@@ -1198,7 +1187,6 @@ Disassembly of section .text:
 #   for (size_t i = 0; i < n; ++i) {
      bf0:	001c0c13          	addi	s8,s8,1
      bf4:	fb5ff06f          	j	ba8 <_ZL11action_givehPKcS0_+0x84>
-#   auto length() const -> size_t { return len; }
      bf8:	01540433          	add	s0,s0,s5
      bfc:	00241413          	slli	s0,s0,0x2
      c00:	41540433          	sub	s0,s0,s5
@@ -1278,9 +1266,7 @@ Disassembly of section .text:
 # }
      ce8:	01812a03          	lw	s4,24(sp)
      cec:	01012b03          	lw	s6,16(sp)
-#     ++len;
      cf0:	02e7a423          	sw	a4,40(a5)
-# }
      cf4:	03010113          	addi	sp,sp,48
 #         lso.remove_at_index(j);
      cf8:	0850006f          	j	157c <_ZN4listIhLj32EE15remove_at_indexEj.isra.0>
@@ -1341,6 +1327,11 @@ Disassembly of section .text:
      d7c:	02112623          	sw	ra,44(sp)
      d80:	03212023          	sw	s2,32(sp)
      d84:	00050413          	mv	s0,a0
+#       line_[i - 1] = line_[i];
+#     }
+#     --end_;
+#   }
+# 
 #   auto reset() -> void { cursor_ = end_ = 0; }
      d88:	040508a3          	sb	zero,81(a0)
      d8c:	04050823          	sb	zero,80(a0)
@@ -1425,6 +1416,11 @@ Disassembly of section .text:
 #           uart_send_char(' ');
      e1c:	02000513          	li	a0,32
      e20:	35c000ef          	jal	117c <_ZL14uart_send_charc>
+#     for (size_t i = cursor_; i < end_; ++i) {
+#       f(line_[i]);
+#     }
+#   }
+# 
 #   auto characters_after_cursor() const -> size_t { return end_ - cursor_; }
      e24:	05144503          	lbu	a0,81(s0)
      e28:	05044783          	lbu	a5,80(s0)
@@ -1455,7 +1451,6 @@ Disassembly of section .text:
      e68:	00d00713          	li	a4,13
 #     if (cursor_ == end_) {
      e6c:	05144783          	lbu	a5,81(s0)
-#       } else if (ch == CHAR_CARRIAGE_RETURN || cmd_buf.is_full()) {
      e70:	00e50663          	beq	a0,a4,e7c <_ZL5inputR14command_buffer+0x12c>
      e74:	04f00493          	li	s1,79
      e78:	04979263          	bne	a5,s1,ebc <_ZL5inputR14command_buffer+0x16c>
@@ -1573,11 +1568,8 @@ Disassembly of section .text:
      fa4:	fcf708e3          	beq	a4,a5,f74 <_ZL5inputR14command_buffer+0x224>
 #     ++cursor_;
      fa8:	00178793          	addi	a5,a5,1
-#             uart_send_str("\x1B[C");
      fac:	00002537          	lui	a0,0x2
-#     ++cursor_;
      fb0:	04f40823          	sb	a5,80(s0)
-#             uart_send_str("\x1B[C");
      fb4:	bd050513          	addi	a0,a0,-1072 # 1bd0 <_ZN4listIhLj32EE15remove_at_indexEj.isra.0+0x654>
      fb8:	fddff06f          	j	f94 <_ZL5inputR14command_buffer+0x244>
 #           if (escape_sequence_parameter == 3) {
@@ -1999,6 +1991,7 @@ Disassembly of section .text:
     135c:	f9dff06f          	j	12f8 <_ZL23action_sdcard_test_readPPKcj+0x10>
 
 00001360 <_ZL24action_sdcard_test_writePPKcj>:
+# static auto action_sdcard_test_write(char const *words[],
 #                                      size_t nwords) -> void {
     1360:	de010113          	addi	sp,sp,-544
     1364:	20812c23          	sw	s0,536(sp)
@@ -2009,6 +2002,11 @@ Disassembly of section .text:
 #   if (nwords < 3) {
     1378:	00200413          	li	s0,2
     137c:	02b46463          	bltu	s0,a1,13a4 <_ZL24action_sdcard_test_writePPKcj+0x44>
+#     ++buf_ptr;
+#   }
+# 
+#   size_t const sector = string_to_uint32(words[1]);
+#   sdcard_write_blocking(sector, buf);
 # }
     1380:	21812403          	lw	s0,536(sp)
     1384:	21c12083          	lw	ra,540(sp)
@@ -2063,9 +2061,11 @@ Disassembly of section .text:
     140c:	00008067          	ret
 
 00001410 <_ZL20action_sdcard_statusv>:
+# 
 # static auto action_sdcard_status() -> void {
     1410:	ff010113          	addi	sp,sp,-16
     1414:	00812423          	sw	s0,8(sp)
+#   uint32_t const status = *SDCARD_STATUS;
 #   uart_send_str("SDCARD_STATUS: 0x");
     1418:	00002537          	lui	a0,0x2
 #   uint32_t const status = *SDCARD_STATUS;
@@ -2093,6 +2093,7 @@ Disassembly of section .text:
 #   uart_send_hex_byte(char(status));
     1454:	0ff47513          	zext.b	a0,s0
     1458:	c71ff0ef          	jal	10c8 <_ZL18uart_send_hex_bytec>
+#   uart_send_str("\r\n");
 # }
     145c:	00812403          	lw	s0,8(sp)
     1460:	00c12083          	lw	ra,12(sp)
@@ -2105,15 +2106,21 @@ Disassembly of section .text:
     1470:	ce9ff06f          	j	1158 <_ZL13uart_send_strPKc>
 
 00001474 <_ZL20sdcard_read_blockingjPc>:
+# 
+# static auto sdcard_read_blocking(size_t const sector,
+#                                  int8_t *buffer512B) -> void {
 #   while (*SDCARD_BUSY)
     1474:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdf68>
     1478:	fe079ee3          	bnez	a5,1474 <_ZL20sdcard_read_blockingjPc>
+#     ;
 #   *SDCARD_READ_SECTOR = sector;
     147c:	fea02623          	sw	a0,-20(zero) # ffffffec <__bss_end+0xffffdf64>
 #   while (*SDCARD_BUSY)
     1480:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdf68>
     1484:	fe079ee3          	bnez	a5,1480 <_ZL20sdcard_read_blockingjPc+0xc>
     1488:	20058793          	addi	a5,a1,512
+#     ;
+#   for (size_t i = 0; i < 512; ++i) {
 #     *buffer512B = char(*SDCARD_NEXT_BYTE);
     148c:	fe802703          	lw	a4,-24(zero) # ffffffe8 <__bss_end+0xffffdf60>
 #     ++buffer512B;
@@ -2122,14 +2129,20 @@ Disassembly of section .text:
     1494:	fee58fa3          	sb	a4,-1(a1)
 #   for (size_t i = 0; i < 512; ++i) {
     1498:	feb79ae3          	bne	a5,a1,148c <_ZL20sdcard_read_blockingjPc+0x18>
+#   }
 # }
     149c:	00008067          	ret
 
 000014a0 <_ZL21sdcard_write_blockingjPKc>:
+# 
+# static auto sdcard_write_blocking(size_t const sector,
+#                                   int8_t const *buffer512B) -> void {
 #   while (*SDCARD_BUSY)
     14a0:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdf68>
     14a4:	fe079ee3          	bnez	a5,14a0 <_ZL21sdcard_write_blockingjPKc>
     14a8:	20058793          	addi	a5,a1,512
+#     ;
+#   for (size_t i = 0; i < 512; ++i) {
 #     *SDCARD_NEXT_BYTE = *buffer512B;
     14ac:	0005c703          	lbu	a4,0(a1)
 #     ++buffer512B;
@@ -2138,21 +2151,31 @@ Disassembly of section .text:
     14b4:	fee02423          	sw	a4,-24(zero) # ffffffe8 <__bss_end+0xffffdf60>
 #   for (size_t i = 0; i < 512; ++i) {
     14b8:	feb79ae3          	bne	a5,a1,14ac <_ZL21sdcard_write_blockingjPKc+0xc>
+#   }
 #   *SDCARD_WRITE_SECTOR = sector;
     14bc:	fea02023          	sw	a0,-32(zero) # ffffffe0 <__bss_end+0xffffdf58>
 #   while (*SDCARD_BUSY)
     14c0:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdf68>
     14c4:	fe079ee3          	bnez	a5,14c0 <_ZL21sdcard_write_blockingjPKc+0x20>
+#     ;
 # }
     14c8:	00008067          	ret
 
 000014cc <memset>:
+# 
+# // built-in function called by compiler
+# extern "C" auto memset(void *str, int ch, int n) -> void * {
+#   char *ptr = reinterpret_cast<char *>(str);
 #   while (n--) {
     14cc:	00c50633          	add	a2,a0,a2
 #   char *ptr = reinterpret_cast<char *>(str);
     14d0:	00050793          	mv	a5,a0
 #   while (n--) {
     14d4:	00c79463          	bne	a5,a2,14dc <memset+0x10>
+#     *ptr = char(ch);
+#     ++ptr;
+#   }
+#   return str;
 # }
     14d8:	00008067          	ret
 #     *ptr = char(ch);
@@ -2162,9 +2185,19 @@ Disassembly of section .text:
     14e4:	ff1ff06f          	j	14d4 <memset+0x8>
 
 000014e8 <memcpy>:
+# 
+# // built-in function called by compiler
+# extern "C" auto memcpy(void *dst, void const *src, size_t n) -> void * {
+#   char *p1 = reinterpret_cast<char *>(dst);
+#   char const *p2 = reinterpret_cast<char const *>(src);
 #   while (n--) {
     14e8:	00000793          	li	a5,0
     14ec:	00f61463          	bne	a2,a5,14f4 <memcpy+0xc>
+#     *p1 = *p2;
+#     ++p1;
+#     ++p2;
+#   }
+#   return dst;
 # }
     14f0:	00008067          	ret
 #     *p1 = *p2;
@@ -2177,6 +2210,9 @@ Disassembly of section .text:
     1508:	fe5ff06f          	j	14ec <memcpy+0x4>
 
 0000150c <_ZL12initiate_bssv>:
+# 
+# // zero bss section
+# static auto initiate_bss() -> void {
 #   memset(&__bss_start, 0, &__bss_end - &__bss_start);
     150c:	00002537          	lui	a0,0x2
     1510:	000027b7          	lui	a5,0x2
@@ -2188,10 +2224,13 @@ Disassembly of section .text:
     1528:	fa5ff06f          	j	14cc <memset>
 
 0000152c <_ZL16initiate_staticsv>:
+# }
+# 
 # static auto initiate_statics() -> void {}
     152c:	00008067          	ret
 
 00001530 <_ZL4exiti>:
+# 
     1530:	00008067          	ret
 
 00001534 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0>:
@@ -2219,9 +2258,7 @@ Disassembly of section .text:
     156c:	0007c503          	lbu	a0,0(a5)
 #     for (size_t i = cursor_; i < end_; ++i) {
     1570:	00148493          	addi	s1,s1,1
-#               [](char const c) { uart_send_char(c); });
     1574:	c09ff0ef          	jal	117c <_ZL14uart_send_charc>
-#     for (size_t i = cursor_; i < end_; ++i) {
     1578:	fd5ff06f          	j	154c <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x18>
 
 0000157c <_ZN4listIhLj32EE15remove_at_indexEj.isra.0>:
