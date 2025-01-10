@@ -11,15 +11,13 @@
 ## Gowin EDA 1.9.10.03 Education Build (77527) Project Configuration
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/1.png)
 
-![3](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/3.png)
-
-![5](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/5.png)
+![2](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/2.png)
 
 ## Howto
 * configure project as described above
 * build bitstream
-* run `/scripts/flash-fpga.sh` to flash bitstream file 
-* then `/scripts/make-and-flash-os.sh` to flash program
+* run `/scripts/flash-fpga.sh` to flash bitstream file or `/scripts/program-fpga.sh`
+* then `/scripts/make-and-flash-os.sh` to flash firmware
 * connect with serial terminal to the tty (e.g. `/dev/ttyUSB1`) at 115200 baud, 8 bit data, 1 stop bit, no parity, no flow control
 
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/serial-terminal-settings/1.png)
