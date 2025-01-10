@@ -2,6 +2,8 @@
 set -e
 cd $(dirname "$0")
 
+echo
+
 # apply configuration
 ../configuration-apply.py
 

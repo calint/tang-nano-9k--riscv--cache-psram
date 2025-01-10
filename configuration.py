@@ -27,6 +27,7 @@ UART_BAUD_RATE = 115200
 
 CACHE_COLUMN_INDEX_BITWIDTH = 3
 # 2 ^ 3 = 8 entries (32 B) per cache line
+# hardcoded. setting has no effect.
 
 CACHE_LINE_INDEX_BITWIDTH = 5
 # 2 ^ 5 * 32 = 1 KB unified instruction and data cache
