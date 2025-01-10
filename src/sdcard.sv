@@ -8,7 +8,7 @@
 //`define INFO
 
 module sdcard #(
-    parameter int unsigned Simulate = 0,
+    parameter bit Simulate = 0,
     // set 1 to shorten some delay cycles
 
     parameter int unsigned ClockDivider = 4
