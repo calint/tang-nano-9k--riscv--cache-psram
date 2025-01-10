@@ -72,8 +72,8 @@ static auto action_mem_test() -> void {
   // uart_send_hex_byte(char(uint32_t(ptr) >> 8));
   // uart_send_hex_byte(char(uint32_t(ptr)));
   // uart_send_str("\r\n");
-  char const *const end = reinterpret_cast<char *>(MEMORY_END - 4096);
-  // ??? 4096 bytes reserved for stack, something more solid would be better
+  char const *const end = reinterpret_cast<char *>(MEMORY_END - 0x1'0000);
+  // ??? 0x1'0000 bytes reserved for stack, something more solid would be better
   // ??? don't forget about this when the application grows
   char ch = 0;
   while (ptr < end) {
