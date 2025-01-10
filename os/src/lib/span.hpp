@@ -19,38 +19,38 @@ public:
                size_t const end_index) const -> span<Type> {
     size_t const n = size();
     if (begin_index > n || end_index > n || begin_index > end_index) {
-      return span<Type>{};
+      return {};
     }
-    return span<Type>{begin + begin_index, begin + end_index};
+    return {begin + begin_index, begin + end_index};
   }
 
   auto subspan(Type const *const span_begin,
                Type const *const span_end) const -> span<Type> {
     if (span_begin > end || span_end > end || span_begin > span_end) {
-      return span<Type>{};
+      return {};
     }
-    return span<Type>{span_begin, span_end};
+    return {span_begin, span_end};
   }
 
   auto subspan_starting_at_index(size_t begin_index) const -> span<Type> {
     if (begin_index > size()) {
-      return span<Type>{};
+      return {};
     }
-    return span<Type>{begin + begin_index, end};
+    return {begin + begin_index, end};
   }
 
   auto subspan_starting_at(Type *const span_begin) const -> span<Type> {
     if (span_begin > end || span_begin < begin) {
-      return span<Type>{};
+      return {};
     }
-    return span<Type>{span_begin, end};
+    return {span_begin, end};
   }
 
   auto subspan_ending_at(Type *const span_end) const -> span<Type> {
     if (span_end > end || span_end < begin) {
-      return span<Type>{};
+      return {};
     }
-    return span<Type>{begin, span_end};
+    return {begin, span_end};
   }
 
   auto for_each(callable_returns_void<Type> auto f) const -> void {
