@@ -75,11 +75,12 @@ welcome to adventure #4
 * SystemVerilog adhering to most of style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
 
 ## Coding Style
+* no default nettype
 * module names in lower snake case
-* logic and wires: descriptive verbose
+* output ports declared `logic`
+* input ports declared `wire`
 * inputs and outputs descriptive verbose in lower snake case
-* all output ports are declared `logic`
-* all input ports are declared `wire`
+* logic and wires: descriptive verbose
 
 ## Todo
 ```
