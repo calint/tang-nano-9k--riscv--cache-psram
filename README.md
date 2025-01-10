@@ -76,7 +76,8 @@ welcome to adventure #4
 
 ## Coding Style
 * module names in lower snake case
-* logic and wires: descriptive verbose in lower snake case
+* logic and wires: descriptive verbose
+* inputs and outputs descriptive verbose in lower snake case
 * all output ports are declared `logic`
 * all input ports are declared `wire`
 
