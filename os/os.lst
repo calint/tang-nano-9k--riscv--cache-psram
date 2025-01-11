@@ -248,10 +248,10 @@ Disassembly of section .text:
      1f0:	02912223          	sw	s1,36(sp)
      1f4:	03212023          	sw	s2,32(sp)
      1f8:	02112623          	sw	ra,44(sp)
+#     }
+#   }
 # 
 #   auto characters_after_cursor() const -> size_t { return end_ - cursor_; }
-# 
-#   auto command_line() -> char * { return line_; }
 # 
 #   auto input_length() const -> size_t { return end_; }
      1fc:	0515c603          	lbu	a2,81(a1)
