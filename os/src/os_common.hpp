@@ -350,7 +350,6 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
 
   mut &ent = entities[eid];
   mut &lso = ent.objects;
-
   let pos = lso.for_each_until_false([&args](let oid) {
     if (string_equals_cstr(args, objects[oid].name)) {
       return false;
