@@ -1562,7 +1562,7 @@ Disassembly of section .text:
     1070:	418000ef          	jal	1488 <_ZL14uart_send_charc>
 #           cmd_buf.apply_on_chars_from_cursor_to_end(
     1074:	00040513          	mv	a0,s0
-    1078:	7a0000ef          	jal	1818 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0>
+    1078:	7a0000ef          	jal	1818 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlT_E_EEvOS2_.isra.0>
 #           uart_send_char(' ');
     107c:	02000513          	li	a0,32
     1080:	408000ef          	jal	1488 <_ZL14uart_send_charc>
@@ -1641,7 +1641,7 @@ Disassembly of section .text:
     114c:	04f408a3          	sb	a5,81(s0)
 #         cmd_buf.apply_on_chars_from_cursor_to_end(
     1150:	00040513          	mv	a0,s0
-    1154:	6c4000ef          	jal	1818 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0>
+    1154:	6c4000ef          	jal	1818 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlT_E_EEvOS2_.isra.0>
 #   auto characters_after_cursor() const -> size_t { return end_ - cursor_; }
     1158:	05144503          	lbu	a0,81(s0)
     115c:	05044783          	lbu	a5,80(s0)
@@ -1728,7 +1728,7 @@ Disassembly of section .text:
     1240:	04e408a3          	sb	a4,81(s0)
 #             cmd_buf.apply_on_chars_from_cursor_to_end(
     1244:	00040513          	mv	a0,s0
-    1248:	5d0000ef          	jal	1818 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0>
+    1248:	5d0000ef          	jal	1818 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlT_E_EEvOS2_.isra.0>
 #             uart_send_char(' ');
     124c:	02000513          	li	a0,32
     1250:	238000ef          	jal	1488 <_ZL14uart_send_charc>
@@ -2378,7 +2378,7 @@ Disassembly of section .text:
 # 
     1814:	00008067          	ret
 
-00001818 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0>:
+00001818 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlT_E_EEvOS2_.isra.0>:
 #   auto apply_on_chars_from_cursor_to_end(
     1818:	ff010113          	addi	sp,sp,-16
     181c:	00812423          	sw	s0,8(sp)
@@ -2390,7 +2390,7 @@ Disassembly of section .text:
     182c:	00050413          	mv	s0,a0
 #     for (size_t i = cursor_; i < end_; ++i) {
     1830:	05144783          	lbu	a5,81(s0)
-    1834:	00f4ec63          	bltu	s1,a5,184c <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x34>
+    1834:	00f4ec63          	bltu	s1,a5,184c <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlT_E_EEvOS2_.isra.0+0x34>
 #   }
     1838:	00c12083          	lw	ra,12(sp)
     183c:	00812403          	lw	s0,8(sp)
@@ -2399,12 +2399,12 @@ Disassembly of section .text:
     1848:	00008067          	ret
 #       f(line_[i]);
     184c:	009407b3          	add	a5,s0,s1
-#               [](char const c) { uart_send_char(c); });
+#               [](let c) { uart_send_char(c); });
     1850:	0007c503          	lbu	a0,0(a5)
 #     for (size_t i = cursor_; i < end_; ++i) {
     1854:	00148493          	addi	s1,s1,1
     1858:	c31ff0ef          	jal	1488 <_ZL14uart_send_charc>
-    185c:	fd5ff06f          	j	1830 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x18>
+    185c:	fd5ff06f          	j	1830 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlT_E_EEvOS2_.isra.0+0x18>
 
 00001860 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0>:
 #   auto for_each(callable_returns_void<Type> auto f) const -> void {

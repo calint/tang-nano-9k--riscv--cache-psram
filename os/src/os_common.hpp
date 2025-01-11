@@ -472,7 +472,7 @@ static auto input(command_buffer &cmd_buf) -> void {
         if (cmd_buf.backspace()) {
           uart_send_char(ch);
           cmd_buf.apply_on_chars_from_cursor_to_end(
-              [](char const c) { uart_send_char(c); });
+              [](let c) { uart_send_char(c); });
           uart_send_char(' ');
           uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
         }
@@ -483,7 +483,7 @@ static auto input(command_buffer &cmd_buf) -> void {
         uart_send_char(ch);
         cmd_buf.insert(ch);
         cmd_buf.apply_on_chars_from_cursor_to_end(
-            [](char const c) { uart_send_char(c); });
+            [](let c) { uart_send_char(c); });
         uart_send_move_back(cmd_buf.characters_after_cursor());
       }
       break;
@@ -518,7 +518,7 @@ static auto input(command_buffer &cmd_buf) -> void {
             // delete key
             cmd_buf.del();
             cmd_buf.apply_on_chars_from_cursor_to_end(
-                [](char c) { uart_send_char(c); });
+                [](let c) { uart_send_char(c); });
             uart_send_char(' ');
             uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
           }
