@@ -33,6 +33,14 @@ static char const *ascii_art =
 #define let auto const
 #define mut auto
 
+#include "lib/concepts.hpp"
+//
+#include "lib/span.hpp"
+//
+#include "lib/list.hpp"
+//
+#include "lib/command_buffer.hpp"
+
 using name_t = char const *;
 using location_id_t = uint8_t;
 using object_id_t = uint8_t;
@@ -55,14 +63,6 @@ static constexpr size_t ENTITY_MAX_OBJECTS = 32;
 // #define LOCATION_MAX_EXITS 6
 // #define ENTITY_MAX_OBJECTS 32
 //
-
-#include "lib/concepts.hpp"
-//
-#include "lib/span.hpp"
-//
-#include "lib/command_buffer.hpp"
-//
-#include "lib/list.hpp"
 
 struct object final {
   name_t name{};
@@ -430,7 +430,7 @@ enum class input_state { NORMAL, ESCAPE, ESCAPE_BRACKET };
 static auto input(command_buffer &cmd_buf) -> void {
   cmd_buf.reset();
   mut state = input_state::NORMAL;
-  int escape_sequence_parameter = 0;
+  mut escape_sequence_parameter = 0;
 
   while (true) {
     let ch = uart_read_char();
