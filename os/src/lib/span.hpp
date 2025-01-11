@@ -135,7 +135,7 @@ public:
   }
 
   auto for_each_const_ref_until_false(
-      callable_returns_bool<Type const &> auto f) const -> position {
+      callable_returns_bool<Type const &> auto &&f) const -> position {
     Type *it = begin_;
     for (; it < end_; ++it) {
       if (!f(*it)) {
