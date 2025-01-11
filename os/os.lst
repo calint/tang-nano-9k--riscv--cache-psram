@@ -14,12 +14,12 @@ Disassembly of section .text:
        4:	0040006f          	j	8 <run>
 
 00000008 <run>:
-#   sdcard_read_blocking(sector, buf);
-#   for (size_t i = 0; i < sizeof(buf); ++i) {
-#     uart_send_char(buf[i]);
 #   }
 #   uart_send_str("\r\n");
 # }
+# 
+# static auto action_sdcard_test_write(span<char> arg) -> void {
+#   next_word w1 = span_next_word(arg);
        8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdc88>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
@@ -28,7 +28,7 @@ Disassembly of section .text:
       1c:	07412423          	sw	s4,104(sp)
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
-# 
+#   if (w1.word.is_empty()) {
       28:	740010ef          	jal	1768 <_ZL12initiate_bssv>
 #   // initiate statics in freestanding build
 # 
@@ -257,12 +257,12 @@ Disassembly of section .text:
      1fc:	0515c603          	lbu	a2,81(a1)
      200:	00050913          	mv	s2,a0
 # 
-#   span<char> const line = cmd_buf.span();
-#   next_word w1 = span_next_word(line);
+#   let line = cmd_buf.span();
+#   let w1 = span_next_word(line);
      204:	01010513          	addi	a0,sp,16
      208:	00c58633          	add	a2,a1,a2
      20c:	f2dff0ef          	jal	138 <_ZL14span_next_word4spanIcE>
-#   span<char> cmd = w1.word;
+#   let cmd = w1.word;
      210:	01012483          	lw	s1,16(sp)
      214:	01412403          	lw	s0,20(sp)
 # 
@@ -271,7 +271,7 @@ Disassembly of section .text:
      21c:	c3460613          	addi	a2,a2,-972 # 1c34 <_ZNK4spanIcE8for_eachIZL10span_printS0_EUlcE_EEvT_.isra.0+0x42c>
      220:	00048513          	mv	a0,s1
      224:	00040593          	mv	a1,s0
-#   span<char> cmd = w1.word;
+#   let cmd = w1.word;
      228:	00912423          	sw	s1,8(sp)
      22c:	00812623          	sw	s0,12(sp)
 #   if (span_equals_string(cmd, "help")) {
@@ -521,7 +521,7 @@ Disassembly of section .text:
      4dc:	fb010113          	addi	sp,sp,-80
      4e0:	03312e23          	sw	s3,60(sp)
      4e4:	00050993          	mv	s3,a0
-#   location &loc = locations[lid];
+#   mut &loc = locations[lid];
 #   uart_send_str("u r in ");
      4e8:	00002537          	lui	a0,0x2
      4ec:	c8450513          	addi	a0,a0,-892 # 1c84 <_ZNK4spanIcE8for_eachIZL10span_printS0_EUlcE_EEvT_.isra.0+0x47c>
@@ -567,7 +567,7 @@ Disassembly of section .text:
      560:	fb048493          	addi	s1,s1,-80
 #   // print objects at location
 #   {
-#     uint32_t counter = 0;
+#     mut counter = 0;
 #     loc.objects.for_each_until_false([&](object_id_t const id) {
 #       if (counter++) {
 #         uart_send_str(", ");
@@ -596,7 +596,7 @@ Disassembly of section .text:
 # 
 #   // print entities in location
 #   {
-#     uint32_t counter = 0;
+#     mut counter = 0;
      598:	00000793          	li	a5,0
      59c:	00000b13          	li	s6,0
      5a0:	01448a33          	add	s4,s1,s4
@@ -626,20 +626,20 @@ Disassembly of section .text:
 # 
 #   // print exits from location
 #   {
-#     uint32_t counter = 0;
+#     mut counter = 0;
 #     uart_send_str("exits: ");
      5cc:	00002537          	lui	a0,0x2
      5d0:	012484b3          	add	s1,s1,s2
      5d4:	cac50513          	addi	a0,a0,-852 # 1cac <_ZNK4spanIcE8for_eachIZL10span_printS0_EUlcE_EEvT_.isra.0+0x4a4>
      5d8:	5e1000ef          	jal	13b8 <_ZL13uart_send_strPKc>
      5dc:	09c4a983          	lw	s3,156(s1)
-#     auto &lse = loc.exits;
-#     size_t const n = lse.length();
+#     mut &lse = loc.exits;
+#     let n = lse.length();
 #     for (size_t i = 0; i < n; ++i) {
      5e0:	00002437          	lui	s0,0x2
      5e4:	2d040413          	addi	s0,s0,720 # 22d0 <_ZL10exit_names>
      5e8:	00000913          	li	s2,0
-#     uint32_t counter = 0;
+#     mut counter = 0;
      5ec:	00000793          	li	a5,0
 #     for (size_t i = 0; i < n; ++i) {
      5f0:	0d391a63          	bne	s2,s3,6c4 <_ZL14print_locationhh+0x1e8>
@@ -689,10 +689,10 @@ Disassembly of section .text:
      658:	002d1d13          	slli	s10,s10,0x2
      65c:	01a787b3          	add	a5,a5,s10
      660:	0007a503          	lw	a0,0(a5)
+#     for (size_t i = 0; i < len; ++i) {
      664:	001a0a13          	addi	s4,s4,1
      668:	001b8b93          	addi	s7,s7,1
      66c:	54d000ef          	jal	13b8 <_ZL13uart_send_strPKc>
-#     for (size_t i = 0; i < len; ++i) {
      670:	efdff06f          	j	56c <_ZL14print_locationhh+0x90>
 #       if (!f(data[i])) {
      674:	08844d83          	lbu	s11,136(s0)
@@ -766,7 +766,7 @@ Disassembly of section .text:
      738:	00241413          	slli	s0,s0,0x2
 #   uart_send_str("u have: ");
      73c:	47d000ef          	jal	13b8 <_ZL13uart_send_strPKc>
-#   uint32_t counter = 0;
+#   mut counter = 0;
 #   entities[eid].objects.for_each_until_false([&](object_id_t const id) {
      740:	40940433          	sub	s0,s0,s1
      744:	000027b7          	lui	a5,0x2
@@ -821,10 +821,10 @@ Disassembly of section .text:
      7bc:	00291913          	slli	s2,s2,0x2
      7c0:	012787b3          	add	a5,a5,s2
      7c4:	0007a503          	lw	a0,0(a5)
+#     for (size_t i = 0; i < len; ++i) {
      7c8:	00148493          	addi	s1,s1,1
      7cc:	00140413          	addi	s0,s0,1
      7d0:	3e9000ef          	jal	13b8 <_ZL13uart_send_strPKc>
-#     for (size_t i = 0; i < len; ++i) {
      7d4:	f91ff06f          	j	764 <_ZL16action_inventoryh+0x60>
 
 000007d8 <_ZL11action_takeh4spanIcE>:
@@ -873,7 +873,7 @@ Disassembly of section .text:
      858:	06010113          	addi	sp,sp,96
 #   uart_send_str(" not here\r\n\r\n");
      85c:	35d0006f          	j	13b8 <_ZL13uart_send_strPKc>
-#   auto &lso = locations[ent.location].objects;
+#   mut &lso = locations[ent.location].objects;
      860:	00151413          	slli	s0,a0,0x1
      864:	00a40733          	add	a4,s0,a0
      868:	00271713          	slli	a4,a4,0x2
@@ -1094,7 +1094,7 @@ Disassembly of section .text:
      b0c:	01868223          	sb	s8,4(a3)
 # }
      b10:	04812403          	lw	s0,72(sp)
-#   auto &lso = ent.objects;
+#   mut &lso = ent.objects;
      b14:	00848513          	addi	a0,s1,8
 # }
      b18:	04c12083          	lw	ra,76(sp)
@@ -1137,8 +1137,8 @@ Disassembly of section .text:
 00000b94 <_ZL9action_gohh>:
 # 
 # static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
-#   entity &ent = entities[eid];
-#   location &loc = locations[ent.location];
+#   mut &ent = entities[eid];
+#   mut &loc = locations[ent.location];
      b94:	00151793          	slli	a5,a0,0x1
      b98:	00a78733          	add	a4,a5,a0
      b9c:	00271713          	slli	a4,a4,0x2
@@ -1162,7 +1162,7 @@ Disassembly of section .text:
 #       return data[ix];
      be0:	00b705b3          	add	a1,a4,a1
      be4:	0945c883          	lbu	a7,148(a1)
-#   location_id_t const to = loc.exits.at(dir);
+#   let to = loc.exits.at(dir);
 #   if (!to) {
      be8:	00089863          	bnez	a7,bf8 <_ZL9action_gohh+0x64>
 #     uart_send_str("cannot go there\r\n\r\n");
@@ -1229,9 +1229,6 @@ Disassembly of section .text:
      c90:	00008067          	ret
 
 00000c94 <_ZL11action_giveh4spanIcE>:
-# 
-# #define let auto const
-# #define mut auto
 # 
 # static auto action_give(entity_id_t const eid, span<char> args) -> void {
      c94:	f7010113          	addi	sp,sp,-144
@@ -1495,14 +1492,14 @@ Disassembly of section .text:
      f98:	040508a3          	sb	zero,81(a0)
      f9c:	04050823          	sb	zero,80(a0)
 #   cmd_buf.reset();
-#   input_state state = input_state::NORMAL;
+#   mut state = input_state::NORMAL;
 #   int escape_sequence_parameter = 0;
      fa0:	00000d13          	li	s10,0
-#   input_state state = input_state::NORMAL;
+#   mut state = input_state::NORMAL;
      fa4:	00000493          	li	s1,0
 # 
 #   while (true) {
-#     char const ch = uart_read_char();
+#     let ch = uart_read_char();
 #     led_set(~ch);
 #     switch (state) {
      fa8:	00100993          	li	s3,1
@@ -1531,12 +1528,12 @@ Disassembly of section .text:
 #         case '~': // delete
 #           if (escape_sequence_parameter == 3) {
      fc0:	00300c93          	li	s9,3
-#     char const ch = uart_read_char();
+#     let ch = uart_read_char();
      fc4:	42c000ef          	jal	13f0 <_ZL14uart_read_charv>
 #     led_set(~ch);
      fc8:	fff54793          	not	a5,a0
      fcc:	fef02e23          	sw	a5,-4(zero) # fffffffc <__bss_end+0xffffdd04>
-#     char const ch = uart_read_char();
+#     let ch = uart_read_char();
      fd0:	00050913          	mv	s2,a0
 #     switch (state) {
      fd4:	17348863          	beq	s1,s3,1144 <_ZL5inputR14command_buffer+0x1e4>
@@ -1835,12 +1832,12 @@ Disassembly of section .text:
 # 
 # static auto string_to_uint32(char const *str) -> uint32_t {
     129c:	00050713          	mv	a4,a0
-#   uint32_t num = 0;
+#   mut num = 0u;
 #   while (true) {
 #     char const ch = *str;
 #     if (ch >= '0' && ch <= '9') {
     12a0:	00900613          	li	a2,9
-#   uint32_t num = 0;
+#   mut num = 0u;
     12a4:	00000513          	li	a0,0
 #     char const ch = *str;
     12a8:	00074683          	lbu	a3,0(a4)
@@ -1873,7 +1870,7 @@ Disassembly of section .text:
 #     Type *it = begin_;
     12e0:	00050713          	mv	a4,a0
     12e4:	00b12623          	sw	a1,12(sp)
-#   uint32_t num = 0;
+#   mut num = 0u;
     12e8:	00000513          	li	a0,0
 #   str.for_each_until_false([&num](char const ch) {
 #     if (ch <= '0' || ch >= '9') {

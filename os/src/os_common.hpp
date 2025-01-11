@@ -30,6 +30,9 @@ static char const *ascii_art =
     "      | |\r\n"
     "\r\n";
 
+#define let auto const
+#define mut auto
+
 using name_t = char const *;
 using location_id_t = uint8_t;
 using object_id_t = uint8_t;
@@ -186,9 +189,9 @@ static auto span_next_word(span<char> const spn) -> next_word {
 static auto handle_input(entity_id_t const eid,
                          command_buffer &cmd_buf) -> void {
 
-  span<char> const line = cmd_buf.span();
-  next_word w1 = span_next_word(line);
-  span<char> cmd = w1.word;
+  let line = cmd_buf.span();
+  let w1 = span_next_word(line);
+  let cmd = w1.word;
 
   if (span_equals_string(cmd, "help")) {
     print_help();
@@ -226,14 +229,14 @@ static auto handle_input(entity_id_t const eid,
 
 static auto print_location(location_id_t const lid,
                            entity_id_t const eid_exclude_from_output) -> void {
-  location &loc = locations[lid];
+  mut &loc = locations[lid];
   uart_send_str("u r in ");
   uart_send_str(loc.name);
   uart_send_str("\r\nu c: ");
 
   // print objects at location
   {
-    uint32_t counter = 0;
+    mut counter = 0;
     loc.objects.for_each_until_false([&](object_id_t const id) {
       if (counter++) {
         uart_send_str(", ");
@@ -249,7 +252,7 @@ static auto print_location(location_id_t const lid,
 
   // print entities in location
   {
-    uint32_t counter = 0;
+    mut counter = 0;
     loc.entities.for_each_until_false([&](location_id_t const id) {
       if (id == eid_exclude_from_output) {
         return true;
@@ -267,10 +270,10 @@ static auto print_location(location_id_t const lid,
 
   // print exits from location
   {
-    uint32_t counter = 0;
+    mut counter = 0;
     uart_send_str("exits: ");
-    auto &lse = loc.exits;
-    size_t const n = lse.length();
+    mut &lse = loc.exits;
+    let n = lse.length();
     for (size_t i = 0; i < n; ++i) {
       if (!lse.at(i)) {
         continue;
@@ -289,7 +292,7 @@ static auto print_location(location_id_t const lid,
 
 static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_str("u have: ");
-  uint32_t counter = 0;
+  mut counter = 0;
   entities[eid].objects.for_each_until_false([&](object_id_t const id) {
     if (counter++) {
       uart_send_str(", ");
@@ -308,9 +311,9 @@ static auto action_take(entity_id_t const eid, span<char> const args) -> void {
     uart_send_str("take what\r\n\r\n");
     return;
   }
-  entity &ent = entities[eid];
-  auto &lso = locations[ent.location].objects;
-  size_t const n = lso.length();
+  mut &ent = entities[eid];
+  mut &lso = locations[ent.location].objects;
+  let n = lso.length();
   for (size_t i = 0; i < n; ++i) {
     object_id_t const oid = lso.at(i);
     if (!span_equals_string(args, objects[oid].name)) {
@@ -330,11 +333,11 @@ static auto action_drop(entity_id_t const eid, span<char> const args) -> void {
     uart_send_str("drop what\r\n\r\n");
     return;
   }
-  entity &ent = entities[eid];
-  auto &lso = ent.objects;
-  size_t const n = lso.length();
+  mut &ent = entities[eid];
+  mut &lso = ent.objects;
+  let n = lso.length();
   for (size_t i = 0; i < n; ++i) {
-    object_id_t const oid = lso.at(i);
+    let oid = lso.at(i);
     if (!span_equals_string(args, objects[oid].name)) {
       continue;
     }
@@ -349,9 +352,9 @@ static auto action_drop(entity_id_t const eid, span<char> const args) -> void {
 }
 
 static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
-  entity &ent = entities[eid];
-  location &loc = locations[ent.location];
-  location_id_t const to = loc.exits.at(dir);
+  mut &ent = entities[eid];
+  mut &loc = locations[ent.location];
+  let to = loc.exits.at(dir);
   if (!to) {
     uart_send_str("cannot go there\r\n\r\n");
     return;
@@ -361,9 +364,6 @@ static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
     ent.location = to;
   }
 }
-
-#define let auto const
-#define mut auto
 
 static auto action_give(entity_id_t const eid, span<char> args) -> void {
   let w1 = span_next_word(args);
@@ -429,11 +429,11 @@ enum class input_state { NORMAL, ESCAPE, ESCAPE_BRACKET };
 
 static auto input(command_buffer &cmd_buf) -> void {
   cmd_buf.reset();
-  input_state state = input_state::NORMAL;
+  mut state = input_state::NORMAL;
   int escape_sequence_parameter = 0;
 
   while (true) {
-    char const ch = uart_read_char();
+    let ch = uart_read_char();
     led_set(~ch);
     switch (state) {
     case input_state::NORMAL:
@@ -536,7 +536,7 @@ static auto string_copy_to_buffer(char const *str, char *buf) -> char * {
 }
 
 static auto string_to_uint32(char const *str) -> uint32_t {
-  uint32_t num = 0;
+  mut num = 0u;
   while (true) {
     char const ch = *str;
     if (ch >= '0' && ch <= '9') {
@@ -550,7 +550,7 @@ static auto string_to_uint32(char const *str) -> uint32_t {
 }
 
 static auto span_to_uint32(span<char> str) -> uint32_t {
-  uint32_t num = 0;
+  mut num = 0u;
   str.for_each_until_false([&num](char const ch) {
     if (ch <= '0' || ch >= '9') {
       return false;
