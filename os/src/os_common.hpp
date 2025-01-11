@@ -385,7 +385,7 @@ static auto action_go(entity_id_t const eid, exit_t const exit) -> void {
   }
 }
 
-static auto action_give(entity_id_t const eid, string args) -> void {
+static auto action_give(entity_id_t const eid, string const args) -> void {
   let w1 = string_next_word(args);
   let obj_nm = w1.word;
   if (obj_nm.is_empty()) {
@@ -567,7 +567,7 @@ static auto cstr_copy(char const *src, char *dst) -> char * {
   return dst;
 }
 
-static auto string_to_uint32(string str) -> uint32_t {
+static auto string_to_uint32(string const str) -> uint32_t {
   mut num = 0u;
   str.for_each_until_false([&num](let ch) {
     if (ch <= '0' || ch >= '9') {

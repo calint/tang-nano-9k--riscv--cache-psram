@@ -1249,13 +1249,13 @@ Disassembly of section .text:
      d14:	00008067          	ret
 
 00000d18 <_ZL11action_giveh4spanIcE>:
-# static auto action_give(entity_id_t const eid, string args) -> void {
+# static auto action_give(entity_id_t const eid, string const args) -> void {
      d18:	f7010113          	addi	sp,sp,-144
      d1c:	09212023          	sw	s2,128(sp)
      d20:	00050913          	mv	s2,a0
 #   let w1 = string_next_word(args);
      d24:	03010513          	addi	a0,sp,48
-# static auto action_give(entity_id_t const eid, string args) -> void {
+# static auto action_give(entity_id_t const eid, string const args) -> void {
      d28:	07412c23          	sw	s4,120(sp)
      d2c:	07512a23          	sw	s5,116(sp)
      d30:	08112623          	sw	ra,140(sp)
@@ -1816,7 +1816,7 @@ Disassembly of section .text:
     136c:	fe9ff06f          	j	1354 <_ZL9cstr_copyPKcPc+0x8>
 
 00001370 <_ZL16string_to_uint324spanIcE>:
-# static auto string_to_uint32(string str) -> uint32_t {
+# static auto string_to_uint32(string const str) -> uint32_t {
     1370:	ff010113          	addi	sp,sp,-16
     1374:	00a12423          	sw	a0,8(sp)
 #     Type *it = begin_;
