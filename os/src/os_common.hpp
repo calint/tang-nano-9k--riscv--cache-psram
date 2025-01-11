@@ -180,10 +180,10 @@ static auto string_print(string const str) -> void {
   str.for_each([](char const ch) { uart_send_char(ch); });
 }
 
-typedef struct string_next_word_return {
+struct string_next_word_return {
   string word{};
   string rem{};
-} string_next_word_return;
+};
 
 static auto
 string_next_word(string const str) -> struct string_next_word_return {

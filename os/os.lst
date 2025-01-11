@@ -165,7 +165,7 @@ Disassembly of section .text:
 00000134 <_ZL16string_next_word4spanIcE>:
 #   string word{};
 #   string rem{};
-# } string_next_word_return;
+# };
 # 
 # static auto
 # string_next_word(string const str) -> struct string_next_word_return {
