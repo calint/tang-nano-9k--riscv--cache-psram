@@ -14,12 +14,12 @@ Disassembly of section .text:
        4:	0040006f          	j	8 <run>
 
 00000008 <run>:
-# static auto action_sdcard_test_write(string const args) -> void {
-#   let w1 = string_next_word(args);
-#   if (w1.word.is_empty()) {
 #     uart_send_cstr("<sector> <text>\r\n");
 #     return;
 #   }
+#   char buf[512]{};
+#   mut *buf_ptr = buf;
+#   w1.rem.for_each([&buf_ptr](char const ch) {
        8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdbc8>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
@@ -28,7 +28,7 @@ Disassembly of section .text:
       1c:	07412423          	sw	s4,104(sp)
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
-#   char buf[512]{};
+#     *buf_ptr = ch;
       28:	7a8010ef          	jal	17d0 <_ZL12initiate_bssv>
 #   // initiate statics in freestanding build
 # 
@@ -109,12 +109,12 @@ Disassembly of section .text:
 #   }
 # }
 # 
-# static auto string_equals_cstr(string const span, char const *str) -> bool {
+# static auto string_equals_cstr(string const str, char const *cstr) -> bool {
       cc:	ff010113          	addi	sp,sp,-16
       d0:	00a12423          	sw	a0,8(sp)
       d4:	00b12623          	sw	a1,12(sp)
-#   mut e = span.for_each_until_false([&str](char const ch) {
-#     if (*str && *str == ch) {
+#   mut e = str.for_each_until_false([&cstr](char const ch) {
+#     if (*cstr && *cstr == ch) {
       d8:	00064783          	lbu	a5,0(a2)
 #   }
 # 
@@ -123,12 +123,12 @@ Disassembly of section .text:
 #     Type *it = begin_;
 #     for (; it < end_; ++it) {
       dc:	00b56e63          	bltu	a0,a1,f8 <_ZL18string_equals_cstr4spanIcEPKc+0x2c>
-#       ++str;
+#       ++cstr;
 #       return true;
 #     }
 #     return false;
 #   });
-#   return *str == '\0' && span.is_at_end(e);
+#   return *cstr == '\0' && str.is_at_end(e);
       e0:	40b50533          	sub	a0,a0,a1
       e4:	00153593          	seqz	a1,a0
       e8:	0017b513          	seqz	a0,a5
@@ -136,26 +136,26 @@ Disassembly of section .text:
       ec:	00a5f533          	and	a0,a1,a0
       f0:	01010113          	addi	sp,sp,16
       f4:	00008067          	ret
-#     if (*str && *str == ch) {
+#     if (*cstr && *cstr == ch) {
       f8:	fe0784e3          	beqz	a5,e0 <_ZL18string_equals_cstr4spanIcEPKc+0x14>
       fc:	00054703          	lbu	a4,0(a0)
      100:	fef710e3          	bne	a4,a5,e0 <_ZL18string_equals_cstr4spanIcEPKc+0x14>
-#       ++str;
+#       ++cstr;
      104:	00160613          	addi	a2,a2,1
      108:	00150513          	addi	a0,a0,1
      10c:	fcdff06f          	j	d8 <_ZL18string_equals_cstr4spanIcEPKc+0xc>
 
 00000110 <_ZL12string_print4spanIcE>:
 # 
-# static auto string_print(string const span) -> void {
+# static auto string_print(string const str) -> void {
      110:	fe010113          	addi	sp,sp,-32
      114:	00a12423          	sw	a0,8(sp)
-#   span.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](char const ch) { uart_send_char(ch); });
      118:	00810513          	addi	a0,sp,8
-# static auto string_print(string const span) -> void {
+# static auto string_print(string const str) -> void {
      11c:	00112e23          	sw	ra,28(sp)
      120:	00b12623          	sw	a1,12(sp)
-#   span.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](char const ch) { uart_send_char(ch); });
      124:	74c010ef          	jal	1870 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0>
 # }
      128:	01c12083          	lw	ra,28(sp)
@@ -168,7 +168,7 @@ Disassembly of section .text:
 #   string rem{};
 # } string_next_word_return;
 # 
-# static auto string_next_word(string const spn) -> string_next_word_return {
+# static auto string_next_word(string const str) -> string_next_word_return {
      134:	fe010113          	addi	sp,sp,-32
      138:	00b12423          	sw	a1,8(sp)
      13c:	00c12623          	sw	a2,12(sp)
@@ -198,7 +198,7 @@ Disassembly of section .text:
      174:	00000613          	li	a2,0
      178:	00000793          	li	a5,0
      17c:	0400006f          	j	1bc <_ZL16string_next_word4spanIcE+0x88>
-#   mut ce = spn.for_each_until_false(
+#   mut ce = str.for_each_until_false(
 #       [](char const ch) { return ch != ' ' && ch != '\0'; });
      180:	00074783          	lbu	a5,0(a4)
      184:	0df7f793          	andi	a5,a5,223
@@ -221,8 +221,8 @@ Disassembly of section .text:
      1b4:	02d58463          	beq	a1,a3,1dc <_ZL16string_next_word4spanIcE+0xa8>
 #       if (pos.ptr > end_ || pos.ptr < begin_) {
      1b8:	fae7eee3          	bltu	a5,a4,174 <_ZL16string_next_word4spanIcE+0x40>
-#   let word = spn.subspan_ending_at(ce);
-#   let rem = spn.subspan_starting_at(ce);
+#   let word = str.subspan_ending_at(ce);
+#   let rem = str.subspan_starting_at(ce);
 #   let rem_trimmed = rem.subspan_starting_at(
 #       rem.for_each_until_false([](char const ch) { return ch == ' '; }));
 #   return {word, rem_trimmed};
@@ -259,7 +259,7 @@ Disassembly of section .text:
      200:	0515c603          	lbu	a2,81(a1)
      204:	00050913          	mv	s2,a0
 # 
-#   let line = cmd_buf.span();
+#   let line = cmd_buf.string();
 #   let w1 = string_next_word(line);
      208:	02010513          	addi	a0,sp,32
      20c:	00c58633          	add	a2,a1,a2
@@ -931,7 +931,7 @@ Disassembly of section .text:
      924:	070d8d93          	addi	s11,s11,112
      928:	00002737          	lui	a4,0x2
      92c:	033b1063          	bne	s6,s3,94c <_ZL11action_takeh4spanIcE+0x108>
-#   span.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](char const ch) { uart_send_char(ch); });
      930:	01810513          	addi	a0,sp,24
      934:	01912c23          	sw	s9,24(sp)
      938:	01812e23          	sw	s8,28(sp)
@@ -1078,7 +1078,7 @@ Disassembly of section .text:
      ae0:	00002537          	lui	a0,0x2
      ae4:	d6050513          	addi	a0,a0,-672 # 1d60 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x4f0>
      ae8:	15d000ef          	jal	1444 <_ZL14uart_send_cstrPKc>
-#   span.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](char const ch) { uart_send_char(ch); });
      aec:	01810513          	addi	a0,sp,24
      af0:	01612c23          	sw	s6,24(sp)
      af4:	01512e23          	sw	s5,28(sp)
@@ -1353,7 +1353,7 @@ Disassembly of section .text:
      e14:	00000d13          	li	s10,0
      e18:	feca8a93          	addi	s5,s5,-20
      e1c:	03bd1063          	bne	s10,s11,e3c <_ZL11action_giveh4spanIcE+0x13c>
-#   span.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](char const ch) { uart_send_char(ch); });
      e20:	02810513          	addi	a0,sp,40
      e24:	03812423          	sw	s8,40(sp)
      e28:	03712623          	sw	s7,44(sp)
@@ -1394,7 +1394,7 @@ Disassembly of section .text:
      e9c:	00002d37          	lui	s10,0x2
 #     for (mut j = 0u; j < m; j++) {
      ea0:	038b1063          	bne	s6,s8,ec0 <_ZL11action_giveh4spanIcE+0x1c0>
-#   span.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](char const ch) { uart_send_char(ch); });
      ea4:	02810513          	addi	a0,sp,40
      ea8:	03312423          	sw	s3,40(sp)
      eac:	03412623          	sw	s4,44(sp)
@@ -1836,26 +1836,26 @@ Disassembly of section .text:
 
 000012e4 <_ZL9cstr_copyPKcPc>:
 # 
-# static auto cstr_copy(char const *str, char *buf) -> char * {
+# static auto cstr_copy(char const *cstr, char *buf) -> char * {
     12e4:	00050793          	mv	a5,a0
     12e8:	00058513          	mv	a0,a1
-#   while (*str) {
+#   while (*cstr) {
     12ec:	0007c703          	lbu	a4,0(a5)
     12f0:	00071463          	bnez	a4,12f8 <_ZL9cstr_copyPKcPc+0x14>
-#     *buf = *str;
+#     *buf = *cstr;
 #     ++buf;
-#     ++str;
+#     ++cstr;
 #   }
 #   return buf;
 # }
     12f4:	00008067          	ret
-#     *buf = *str;
+#     *buf = *cstr;
     12f8:	00e50023          	sb	a4,0(a0)
-#     ++str;
+#     ++cstr;
     12fc:	00178793          	addi	a5,a5,1
 #     ++buf;
     1300:	00150513          	addi	a0,a0,1
-#     ++str;
+#     ++cstr;
     1304:	fe9ff06f          	j	12ec <_ZL9cstr_copyPKcPc+0x8>
 
 00001308 <_ZL16string_to_uint324spanIcE>:
@@ -2225,7 +2225,6 @@ Disassembly of section .text:
     1660:	01012703          	lw	a4,16(sp)
     1664:	01412783          	lw	a5,20(sp)
     1668:	00f71c63          	bne	a4,a5,1680 <_ZL24action_sdcard_test_write4spanIcE+0x40>
-#     *buf_ptr = ch;
 #     ++buf_ptr;
 #   });
 #   size_t const sector = string_to_uint32(w1.word);
@@ -2510,7 +2509,7 @@ Disassembly of section .text:
     1898:	00412483          	lw	s1,4(sp)
     189c:	01010113          	addi	sp,sp,16
     18a0:	00008067          	ret
-#   span.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](char const ch) { uart_send_char(ch); });
     18a4:	00044503          	lbu	a0,0(s0)
 #     for (Type *it = begin_; it < end_; ++it) {
     18a8:	00140413          	addi	s0,s0,1

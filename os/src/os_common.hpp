@@ -33,15 +33,18 @@ static char const *ascii_art =
 #define let auto const
 #define mut auto
 
+//
 #include "lib/concepts.hpp"
 //
 #include "lib/span.hpp"
 //
 #include "lib/list.hpp"
 //
-#include "lib/command_buffer.hpp"
 
 using string = span<char>;
+
+#include "lib/command_buffer.hpp"
+
 using name_t = char const *;
 using location_id_t = uint8_t;
 using object_id_t = uint8_t;
@@ -98,7 +101,7 @@ static char const *exit_names[] = {"north", "east", "south",
 
 // implemented in platform dependent source
 static auto led_set(int32_t bits) -> void;
-static auto uart_send_cstr(char const *str) -> void;
+static auto uart_send_cstr(char const *cstr) -> void;
 static auto uart_send_char(char ch) -> void;
 static auto uart_read_char() -> char;
 static auto uart_send_move_back(size_t n) -> void;
@@ -126,7 +129,7 @@ static auto sdcard_write_blocking(size_t sector,
                                   int8_t const *buffer512B) -> void;
 static auto cstr_equals(char const *s1, char const *s2) -> bool;
 static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void;
-static auto cstr_copy(char const *str, char *buf) -> char *;
+static auto cstr_copy(char const *cstr, char *buf) -> char *;
 
 extern "C" [[noreturn]] auto run() -> void {
   initiate_bss();
@@ -156,19 +159,19 @@ extern "C" [[noreturn]] auto run() -> void {
   }
 }
 
-static auto string_equals_cstr(string const span, char const *str) -> bool {
-  mut e = span.for_each_until_false([&str](char const ch) {
-    if (*str && *str == ch) {
-      ++str;
+static auto string_equals_cstr(string const str, char const *cstr) -> bool {
+  mut e = str.for_each_until_false([&cstr](char const ch) {
+    if (*cstr && *cstr == ch) {
+      ++cstr;
       return true;
     }
     return false;
   });
-  return *str == '\0' && span.is_at_end(e);
+  return *cstr == '\0' && str.is_at_end(e);
 }
 
-static auto string_print(string const span) -> void {
-  span.for_each([](char const ch) { uart_send_char(ch); });
+static auto string_print(string const str) -> void {
+  str.for_each([](char const ch) { uart_send_char(ch); });
 }
 
 typedef struct string_next_word_return {
@@ -176,11 +179,11 @@ typedef struct string_next_word_return {
   string rem{};
 } string_next_word_return;
 
-static auto string_next_word(string const spn) -> string_next_word_return {
-  mut ce = spn.for_each_until_false(
+static auto string_next_word(string const str) -> string_next_word_return {
+  mut ce = str.for_each_until_false(
       [](char const ch) { return ch != ' ' && ch != '\0'; });
-  let word = spn.subspan_ending_at(ce);
-  let rem = spn.subspan_starting_at(ce);
+  let word = str.subspan_ending_at(ce);
+  let rem = str.subspan_starting_at(ce);
   let rem_trimmed = rem.subspan_starting_at(
       rem.for_each_until_false([](char const ch) { return ch == ' '; }));
   return {word, rem_trimmed};
@@ -189,7 +192,7 @@ static auto string_next_word(string const spn) -> string_next_word_return {
 static auto handle_input(entity_id_t const eid,
                          command_buffer &cmd_buf) -> void {
 
-  let line = cmd_buf.span();
+  let line = cmd_buf.string();
   let w1 = string_next_word(line);
   let cmd = w1.word;
   let args = w1.rem;
@@ -530,11 +533,11 @@ static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void {
   }
 }
 
-static auto cstr_copy(char const *str, char *buf) -> char * {
-  while (*str) {
-    *buf = *str;
+static auto cstr_copy(char const *cstr, char *buf) -> char * {
+  while (*cstr) {
+    *buf = *cstr;
     ++buf;
-    ++str;
+    ++cstr;
   }
   return buf;
 }

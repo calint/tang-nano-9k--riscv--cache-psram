@@ -90,5 +90,5 @@ public:
 
   auto input_length() const -> size_t { return end_; }
 
-  auto span() -> span<char> { return {line_, input_length()}; };
+  auto string() -> string { return {line_, input_length()}; };
 };
