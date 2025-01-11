@@ -316,7 +316,7 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
   mut &lso = locations[ent.location].objects;
   let n = lso.length();
   for (mut i = 0u; i < n; ++i) {
-    object_id_t const oid = lso.at(i);
+    let oid = lso.at(i);
     if (!string_equals_cstr(args, objects[oid].name)) {
       continue;
     }
