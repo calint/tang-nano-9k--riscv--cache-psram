@@ -47,7 +47,7 @@ Disassembly of section .text:
 #   command_buffer cmd_buf{};
 # 
 #   while (true) {
-#     entity const &ent = entities[active_entity];
+#     mut &ent = entities[active_entity];
 #     print_location(ent.location, active_entity);
       3c:	00002ab7          	lui	s5,0x2
 #   uart_send_str(ascii_art);
@@ -198,7 +198,7 @@ Disassembly of section .text:
      178:	00000613          	li	a2,0
      17c:	00000793          	li	a5,0
      180:	0400006f          	j	1c0 <_ZL14span_next_word4spanIcE+0x88>
-#   auto ce = spn.for_each_until_false(
+#   mut ce = spn.for_each_until_false(
 #       [](char const ch) { return ch != ' ' && ch != '\0'; });
      184:	00074783          	lbu	a5,0(a4)
      188:	0df7f793          	andi	a5,a5,223
@@ -221,9 +221,9 @@ Disassembly of section .text:
      1b8:	02d58463          	beq	a1,a3,1e0 <_ZL14span_next_word4spanIcE+0xa8>
 #       if (pos.ptr > end_ || pos.ptr < begin_) {
      1bc:	fae7eee3          	bltu	a5,a4,178 <_ZL14span_next_word4spanIcE+0x40>
-#   span<char> const word = spn.subspan_ending_at(ce);
-#   span<char> const rem = spn.subspan_starting_at(ce);
-#   span<char> const rem_trimmed = rem.subspan_starting_at(
+#   let word = spn.subspan_ending_at(ce);
+#   let rem = spn.subspan_starting_at(ce);
+#   let rem_trimmed = rem.subspan_starting_at(
 #       rem.for_each_until_false([](char const ch) { return ch == ' '; }));
 #   return {word, rem_trimmed};
      1c0:	01012703          	lw	a4,16(sp)

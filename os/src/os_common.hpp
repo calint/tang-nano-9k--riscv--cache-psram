@@ -144,7 +144,7 @@ extern "C" [[noreturn]] auto run() -> void {
   command_buffer cmd_buf{};
 
   while (true) {
-    entity const &ent = entities[active_entity];
+    mut &ent = entities[active_entity];
     print_location(ent.location, active_entity);
     uart_send_str(ent.name);
     uart_send_str(" > ");
@@ -156,7 +156,7 @@ extern "C" [[noreturn]] auto run() -> void {
 }
 
 static auto span_equals_string(span<char> const span, char const *str) -> bool {
-  auto e = span.for_each_until_false([&str](char const ch) {
+  mut e = span.for_each_until_false([&str](char const ch) {
     if (*str && *str == ch) {
       ++str;
       return true;
@@ -176,11 +176,11 @@ typedef struct next_word {
 } next_word;
 
 static auto span_next_word(span<char> const spn) -> next_word {
-  auto ce = spn.for_each_until_false(
+  mut ce = spn.for_each_until_false(
       [](char const ch) { return ch != ' ' && ch != '\0'; });
-  span<char> const word = spn.subspan_ending_at(ce);
-  span<char> const rem = spn.subspan_starting_at(ce);
-  span<char> const rem_trimmed = rem.subspan_starting_at(
+  let word = spn.subspan_ending_at(ce);
+  let rem = spn.subspan_starting_at(ce);
+  let rem_trimmed = rem.subspan_starting_at(
       rem.for_each_until_false([](char const ch) { return ch == ' '; }));
   return {word, rem_trimmed};
 }
