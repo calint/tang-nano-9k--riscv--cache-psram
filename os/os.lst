@@ -1300,8 +1300,8 @@ Disassembly of section .text:
      d7c:	dbc50513          	addi	a0,a0,-580 # 1dbc <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x514>
 # 
 #   // transfer object
-#   if (to_entity.objects.add(from_entity.objects.at(objpos))) {
-#     from_entity.objects.remove_at(objpos);
+#   if (to_entity.objects.add(from_entity.objects.at(obj_pos))) {
+#     from_entity.objects.remove_at(obj_pos);
 #   }
 # }
      d80:	08812403          	lw	s0,136(sp)

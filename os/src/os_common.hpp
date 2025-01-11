@@ -417,21 +417,21 @@ static auto action_give(entity_id_t const eid, string args) -> void {
   mut &to_entity = entities[lse.at(to_pos)];
 
   // find object to give
-  let objpos = from_entity.objects.for_each_until_false([&obj_nm](let oid) {
+  let obj_pos = from_entity.objects.for_each_until_false([&obj_nm](let oid) {
     if (string_equals_cstr(obj_nm, objects[oid].name)) {
       return false;
     }
     return true;
   });
-  if (from_entity.objects.is_at_end(objpos)) {
+  if (from_entity.objects.is_at_end(obj_pos)) {
     string_print(obj_nm);
     uart_send_cstr(" not in inventory\r\n\r\n");
     return;
   }
 
   // transfer object
-  if (to_entity.objects.add(from_entity.objects.at(objpos))) {
-    from_entity.objects.remove_at(objpos);
+  if (to_entity.objects.add(from_entity.objects.at(obj_pos))) {
+    from_entity.objects.remove_at(obj_pos);
   }
 }
 
