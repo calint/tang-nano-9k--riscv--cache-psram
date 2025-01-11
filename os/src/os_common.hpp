@@ -249,7 +249,7 @@ static auto print_location(location_id_t const lid,
   // print objects at location
   {
     mut counter = 0;
-    loc.objects.for_each([&counter](object_id_t const id) {
+    loc.objects.for_each([&counter](let id) {
       if (counter++) {
         uart_send_cstr(", ");
       }
@@ -264,16 +264,15 @@ static auto print_location(location_id_t const lid,
   // print entities in location
   {
     mut counter = 0;
-    loc.entities.for_each(
-        [&counter, eid_exclude_from_output](location_id_t const id) {
-          if (id == eid_exclude_from_output) {
-            return;
-          }
-          if (counter++) {
-            uart_send_cstr(", ");
-          }
-          uart_send_cstr(entities[id].name);
-        });
+    loc.entities.for_each([&counter, eid_exclude_from_output](let id) {
+      if (id == eid_exclude_from_output) {
+        return;
+      }
+      if (counter++) {
+        uart_send_cstr(", ");
+      }
+      uart_send_cstr(entities[id].name);
+    });
     if (counter != 0) {
       uart_send_cstr(" is here\r\n");
     }
@@ -304,7 +303,7 @@ static auto print_location(location_id_t const lid,
 static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_cstr("u have: ");
   mut counter = 0;
-  entities[eid].objects.for_each([&counter](object_id_t const id) {
+  entities[eid].objects.for_each([&counter](let id) {
     if (counter++) {
       uart_send_cstr(", ");
     }
