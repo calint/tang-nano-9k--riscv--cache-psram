@@ -1792,48 +1792,48 @@ Disassembly of section .text:
     12dc:	ff010113          	addi	sp,sp,-16
     12e0:	00812423          	sw	s0,8(sp)
     12e4:	00050413          	mv	s0,a0
-#   uart_send_hex_byte(char(i >> 24));
+#   uart_send_hex_byte(uint8_t(i >> 24));
     12e8:	01855513          	srli	a0,a0,0x18
 #                      bool const separate_half_words = false) -> void {
     12ec:	00912223          	sw	s1,4(sp)
     12f0:	00112623          	sw	ra,12(sp)
     12f4:	00058493          	mv	s1,a1
-#   uart_send_hex_byte(char(i >> 24));
-    12f8:	040000ef          	jal	1338 <_ZL18uart_send_hex_bytec>
-#   uart_send_hex_byte(char(i >> 16));
+#   uart_send_hex_byte(uint8_t(i >> 24));
+    12f8:	040000ef          	jal	1338 <_ZL18uart_send_hex_byteh>
+#   uart_send_hex_byte(uint8_t(i >> 16));
     12fc:	01045513          	srli	a0,s0,0x10
     1300:	0ff57513          	zext.b	a0,a0
-    1304:	034000ef          	jal	1338 <_ZL18uart_send_hex_bytec>
+    1304:	034000ef          	jal	1338 <_ZL18uart_send_hex_byteh>
 #   if (separate_half_words) {
     1308:	00048663          	beqz	s1,1314 <_ZL20uart_send_hex_uint32jb+0x38>
 #     uart_send_char(':');
     130c:	03a00513          	li	a0,58
     1310:	18c000ef          	jal	149c <_ZL14uart_send_charc>
-#   uart_send_hex_byte(char(i >> 8));
+#   uart_send_hex_byte(uint8_t(i >> 8));
     1314:	00845513          	srli	a0,s0,0x8
     1318:	0ff57513          	zext.b	a0,a0
-    131c:	01c000ef          	jal	1338 <_ZL18uart_send_hex_bytec>
-#   uart_send_hex_byte(char(i));
+    131c:	01c000ef          	jal	1338 <_ZL18uart_send_hex_byteh>
+#   uart_send_hex_byte(uint8_t(i));
     1320:	0ff47513          	zext.b	a0,s0
 # }
     1324:	00812403          	lw	s0,8(sp)
     1328:	00c12083          	lw	ra,12(sp)
     132c:	00412483          	lw	s1,4(sp)
     1330:	01010113          	addi	sp,sp,16
-#   uart_send_hex_byte(char(i));
-    1334:	0040006f          	j	1338 <_ZL18uart_send_hex_bytec>
+#   uart_send_hex_byte(uint8_t(i));
+    1334:	0040006f          	j	1338 <_ZL18uart_send_hex_byteh>
 
-00001338 <_ZL18uart_send_hex_bytec>:
-# static auto uart_send_hex_byte(char const ch) -> void {
+00001338 <_ZL18uart_send_hex_byteh>:
+# static auto uart_send_hex_byte(uint8_t const ch) -> void {
     1338:	ff010113          	addi	sp,sp,-16
     133c:	00812423          	sw	s0,8(sp)
     1340:	00050413          	mv	s0,a0
 #   uart_send_hex_nibble(ch >> 4);
     1344:	00455513          	srli	a0,a0,0x4
-# static auto uart_send_hex_byte(char const ch) -> void {
+# static auto uart_send_hex_byte(uint8_t const ch) -> void {
     1348:	00112623          	sw	ra,12(sp)
 #   uart_send_hex_nibble(ch >> 4);
-    134c:	018000ef          	jal	1364 <_ZL20uart_send_hex_nibblec>
+    134c:	018000ef          	jal	1364 <_ZL20uart_send_hex_nibbleh>
 #   uart_send_hex_nibble(ch & 0x0f);
     1350:	00f47513          	andi	a0,s0,15
 # }
@@ -1841,19 +1841,19 @@ Disassembly of section .text:
     1358:	00c12083          	lw	ra,12(sp)
     135c:	01010113          	addi	sp,sp,16
 #   uart_send_hex_nibble(ch & 0x0f);
-    1360:	0040006f          	j	1364 <_ZL20uart_send_hex_nibblec>
+    1360:	0040006f          	j	1364 <_ZL20uart_send_hex_nibbleh>
 
-00001364 <_ZL20uart_send_hex_nibblec>:
+00001364 <_ZL20uart_send_hex_nibbleh>:
 #   if (nibble < 10) {
     1364:	00900793          	li	a5,9
-    1368:	00a7e863          	bltu	a5,a0,1378 <_ZL20uart_send_hex_nibblec+0x14>
-#     uart_send_char('0' + nibble);
+    1368:	00a7e863          	bltu	a5,a0,1378 <_ZL20uart_send_hex_nibbleh+0x14>
+#     uart_send_char('0' + char(nibble));
     136c:	03050513          	addi	a0,a0,48
-#     uart_send_char('A' + (nibble - 10));
+#     uart_send_char('A' + char(nibble - 10));
     1370:	0ff57513          	zext.b	a0,a0
     1374:	1280006f          	j	149c <_ZL14uart_send_charc>
     1378:	03750513          	addi	a0,a0,55
-    137c:	ff5ff06f          	j	1370 <_ZL20uart_send_hex_nibblec+0xc>
+    137c:	ff5ff06f          	j	1370 <_ZL20uart_send_hex_nibbleh+0xc>
 
 00001380 <_ZL19uart_send_move_backj>:
 # static auto uart_send_move_back(size_t const n) -> void {
@@ -2081,13 +2081,13 @@ Disassembly of section .text:
     15a0:	ed9ff0ef          	jal	1478 <_ZL14uart_send_cstrPKc>
 #       uart_send_hex_byte(ch);
     15a4:	00048513          	mv	a0,s1
-    15a8:	d91ff0ef          	jal	1338 <_ZL18uart_send_hex_bytec>
+    15a8:	d91ff0ef          	jal	1338 <_ZL18uart_send_hex_byteh>
 #       uart_send_cstr(" got ");
     15ac:	f54a8513          	addi	a0,s5,-172 # 1f54 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6e0>
     15b0:	ec9ff0ef          	jal	1478 <_ZL14uart_send_cstrPKc>
 #       uart_send_hex_byte(*ptr);
     15b4:	00044503          	lbu	a0,0(s0)
-    15b8:	d81ff0ef          	jal	1338 <_ZL18uart_send_hex_bytec>
+    15b8:	d81ff0ef          	jal	1338 <_ZL18uart_send_hex_byteh>
 #       uart_send_cstr("\r\n");
     15bc:	ce4b0513          	addi	a0,s6,-796 # 1ce4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x470>
     15c0:	eb9ff0ef          	jal	1478 <_ZL14uart_send_cstrPKc>
@@ -2232,21 +2232,21 @@ Disassembly of section .text:
     1720:	d59ff0ef          	jal	1478 <_ZL14uart_send_cstrPKc>
 #   uart_send_hex_byte(char(status >> 24));
     1724:	01845513          	srli	a0,s0,0x18
-    1728:	c11ff0ef          	jal	1338 <_ZL18uart_send_hex_bytec>
+    1728:	c11ff0ef          	jal	1338 <_ZL18uart_send_hex_byteh>
 #   uart_send_hex_byte(char(status >> 16));
     172c:	01045513          	srli	a0,s0,0x10
     1730:	0ff57513          	zext.b	a0,a0
-    1734:	c05ff0ef          	jal	1338 <_ZL18uart_send_hex_bytec>
+    1734:	c05ff0ef          	jal	1338 <_ZL18uart_send_hex_byteh>
 #   uart_send_char(':');
     1738:	03a00513          	li	a0,58
     173c:	d61ff0ef          	jal	149c <_ZL14uart_send_charc>
 #   uart_send_hex_byte(char(status >> 8));
     1740:	00845513          	srli	a0,s0,0x8
     1744:	0ff57513          	zext.b	a0,a0
-    1748:	bf1ff0ef          	jal	1338 <_ZL18uart_send_hex_bytec>
+    1748:	bf1ff0ef          	jal	1338 <_ZL18uart_send_hex_byteh>
 #   uart_send_hex_byte(char(status));
     174c:	0ff47513          	zext.b	a0,s0
-    1750:	be9ff0ef          	jal	1338 <_ZL18uart_send_hex_bytec>
+    1750:	be9ff0ef          	jal	1338 <_ZL18uart_send_hex_byteh>
 #   uart_send_cstr("\r\n");
 # }
     1754:	00812403          	lw	s0,8(sp)

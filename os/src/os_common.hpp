@@ -121,8 +121,8 @@ static auto object_by_id(object_id_t id) -> object &;
 static auto location_by_id(location_id_t id) -> location &;
 static auto link_by_id(link_id_t id) -> cstr;
 static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;
-static auto uart_send_hex_byte(char ch) -> void;
-static auto uart_send_hex_nibble(char nibble) -> void;
+static auto uart_send_hex_byte(uint8_t ch) -> void;
+static auto uart_send_hex_nibble(uint8_t nibble) -> void;
 static auto print_help() -> void;
 static auto print_location(location_id_t lid,
                            entity_id_t eid_excluded_from_output) -> void;
@@ -559,25 +559,25 @@ static auto string_to_uint32(string const str) -> uint32_t {
 static auto
 uart_send_hex_uint32(uint32_t const i,
                      bool const separate_half_words = false) -> void {
-  uart_send_hex_byte(char(i >> 24));
-  uart_send_hex_byte(char(i >> 16));
+  uart_send_hex_byte(uint8_t(i >> 24));
+  uart_send_hex_byte(uint8_t(i >> 16));
   if (separate_half_words) {
     uart_send_char(':');
   }
-  uart_send_hex_byte(char(i >> 8));
-  uart_send_hex_byte(char(i));
+  uart_send_hex_byte(uint8_t(i >> 8));
+  uart_send_hex_byte(uint8_t(i));
 }
 
-static auto uart_send_hex_byte(char const ch) -> void {
+static auto uart_send_hex_byte(uint8_t const ch) -> void {
   uart_send_hex_nibble(ch >> 4);
   uart_send_hex_nibble(ch & 0x0f);
 }
 
-static auto uart_send_hex_nibble(char const nibble) -> void {
+static auto uart_send_hex_nibble(uint8_t const nibble) -> void {
   if (nibble < 10) {
-    uart_send_char('0' + nibble);
+    uart_send_char('0' + char(nibble));
   } else {
-    uart_send_char('A' + (nibble - 10));
+    uart_send_char('A' + char(nibble - 10));
   }
 }
 
