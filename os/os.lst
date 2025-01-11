@@ -14,8 +14,8 @@ Disassembly of section .text:
        4:	0040006f          	j	8 <run>
 
 00000008 <run>:
-# static auto action_sdcard_test_write(span<char> arg) -> void {
-#   let w1 = string_next_word(arg);
+# static auto action_sdcard_test_write(string const args) -> void {
+#   let w1 = string_next_word(args);
 #   if (w1.word.is_empty()) {
 #     uart_send_cstr("<sector> <text>\r\n");
 #     return;
@@ -2155,20 +2155,20 @@ Disassembly of section .text:
     15ac:	f65ff06f          	j	1510 <_ZL15action_mem_testv+0x80>
 
 000015b0 <_ZL23action_sdcard_test_read4spanIcE>:
-# static auto action_sdcard_test_read(span<char> arg) -> void {
+# static auto action_sdcard_test_read(string const args) -> void {
     15b0:	dd010113          	addi	sp,sp,-560
     15b4:	00a12423          	sw	a0,8(sp)
     15b8:	00058613          	mv	a2,a1
     15bc:	00b12623          	sw	a1,12(sp)
-#   let w1 = string_next_word(arg);
+#   let w1 = string_next_word(args);
     15c0:	00050593          	mv	a1,a0
     15c4:	01010513          	addi	a0,sp,16
-# static auto action_sdcard_test_read(span<char> arg) -> void {
+# static auto action_sdcard_test_read(string const args) -> void {
     15c8:	22112623          	sw	ra,556(sp)
     15cc:	22812423          	sw	s0,552(sp)
     15d0:	22912223          	sw	s1,548(sp)
     15d4:	23212023          	sw	s2,544(sp)
-#   let w1 = string_next_word(arg);
+#   let w1 = string_next_word(args);
     15d8:	b5dfe0ef          	jal	134 <_ZL16string_next_word4spanIcE>
 #   if (w1.word.is_empty()) {
     15dc:	01012503          	lw	a0,16(sp)
@@ -2209,17 +2209,17 @@ Disassembly of section .text:
     163c:	fb5ff06f          	j	15f0 <_ZL23action_sdcard_test_read4spanIcE+0x40>
 
 00001640 <_ZL24action_sdcard_test_write4spanIcE>:
-# static auto action_sdcard_test_write(span<char> arg) -> void {
+# static auto action_sdcard_test_write(string const args) -> void {
     1640:	dd010113          	addi	sp,sp,-560
     1644:	00a12423          	sw	a0,8(sp)
     1648:	00058613          	mv	a2,a1
     164c:	00b12623          	sw	a1,12(sp)
-#   let w1 = string_next_word(arg);
+#   let w1 = string_next_word(args);
     1650:	00050593          	mv	a1,a0
     1654:	01010513          	addi	a0,sp,16
-# static auto action_sdcard_test_write(span<char> arg) -> void {
+# static auto action_sdcard_test_write(string const args) -> void {
     1658:	22112623          	sw	ra,556(sp)
-#   let w1 = string_next_word(arg);
+#   let w1 = string_next_word(args);
     165c:	ad9fe0ef          	jal	134 <_ZL16string_next_word4spanIcE>
 #   if (w1.word.is_empty()) {
     1660:	01012703          	lw	a4,16(sp)

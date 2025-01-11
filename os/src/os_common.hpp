@@ -104,8 +104,8 @@ static auto uart_read_char() -> char;
 static auto uart_send_move_back(size_t n) -> void;
 static auto action_mem_test() -> void;
 static auto action_sdcard_status() -> void;
-static auto action_sdcard_test_read(string arg) -> void;
-static auto action_sdcard_test_write(string arg) -> void;
+static auto action_sdcard_test_read(string args) -> void;
+static auto action_sdcard_test_write(string args) -> void;
 
 // API
 static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;

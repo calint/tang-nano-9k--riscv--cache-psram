@@ -108,8 +108,8 @@ static auto action_mem_test() -> void {
   }
 }
 
-static auto action_sdcard_test_read(span<char> arg) -> void {
-  let w1 = string_next_word(arg);
+static auto action_sdcard_test_read(string const args) -> void {
+  let w1 = string_next_word(args);
   if (w1.word.is_empty()) {
     uart_send_cstr("<sector>\r\n");
     return;
@@ -123,8 +123,8 @@ static auto action_sdcard_test_read(span<char> arg) -> void {
   uart_send_cstr("\r\n");
 }
 
-static auto action_sdcard_test_write(span<char> arg) -> void {
-  let w1 = string_next_word(arg);
+static auto action_sdcard_test_write(string const args) -> void {
+  let w1 = string_next_word(args);
   if (w1.word.is_empty()) {
     uart_send_cstr("<sector> <text>\r\n");
     return;
