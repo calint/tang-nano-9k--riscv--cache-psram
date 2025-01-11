@@ -131,9 +131,6 @@ static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
 static auto sdcard_read_blocking(size_t sector, int8_t *buffer512B) -> void;
 static auto sdcard_write_blocking(size_t sector,
                                   int8_t const *buffer512B) -> void;
-static auto cstr_equals(char const *s1, char const *s2) -> bool;
-static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void;
-static auto cstr_copy(char const *src, char *dst) -> char *;
 static auto string_equals_cstr(string const str, char const *cstr) -> bool;
 static auto string_to_uint32(string str) -> uint32_t;
 static auto string_print(string const str) -> void;
@@ -537,39 +534,6 @@ static auto input(command_buffer &cmd_buf) -> void {
       break;
     }
   }
-}
-
-static auto cstr_equals(char const *s1, char const *s2) -> bool {
-  while (true) {
-    if (*s1 != *s2) {
-      return false;
-    }
-    if (*s1 == '\0' && *s2 == '\0') {
-      return true;
-    }
-    ++s1;
-    ++s2;
-  }
-}
-
-// note: 'src_len' is chars to be copied including '\0'
-static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void {
-  while (src_len) {
-    *dst = *src;
-    ++dst;
-    ++src;
-    --src_len;
-  }
-}
-
-static auto cstr_copy(char const *src, char *dst) -> char * {
-  while (*src) {
-    *dst = *src;
-    ++dst;
-    ++src;
-  }
-  *dst = *src;
-  return dst;
 }
 
 static auto string_to_uint32(string const str) -> uint32_t {
