@@ -1,6 +1,7 @@
-static char const *hello = "welcome to adventure #4\r\n    type 'help'\r\n\r\n";
+static char const *const hello =
+    "welcome to adventure #4\r\n    type 'help'\r\n\r\n";
 
-static char const *ascii_art =
+static char const *const ascii_art =
     "                                  oOo.o.\r\n"
     "         frameless osca          oOo.oOo\r\n"
     "      __________________________  .oOo.\r\n"
