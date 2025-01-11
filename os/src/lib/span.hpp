@@ -93,27 +93,27 @@ public:
     return {begin_, pos.ptr};
   }
 
-  auto for_each(callable_returns_void<Type> auto f) const -> void {
+  auto for_each(callable_returns_void<Type> auto &&f) const -> void {
     for (Type *it = begin_; it < end_; ++it) {
       f(*it);
     }
   }
 
-  auto for_each_ref(callable_returns_void<Type &> auto f) const -> void {
+  auto for_each_ref(callable_returns_void<Type &> auto &&f) const -> void {
+    for (Type *it = begin_; it < end_; ++it) {
+      f(*it);
+    }
+  }
+
+  auto for_each_const_ref(callable_returns_void<Type const &> auto &&f) const
+      -> void {
     for (Type *it = begin_; it < end_; ++it) {
       f(*it);
     }
   }
 
   auto
-  for_each_const_ref(callable_returns_void<Type const &> auto f) const -> void {
-    for (Type *it = begin_; it < end_; ++it) {
-      f(*it);
-    }
-  }
-
-  auto
-  for_each_until_false(callable_returns_bool<Type> auto f) const -> position {
+  for_each_until_false(callable_returns_bool<Type> auto &&f) const -> position {
     Type *it = begin_;
     for (; it < end_; ++it) {
       if (!f(*it)) {
@@ -123,7 +123,7 @@ public:
     return {it};
   }
 
-  auto for_each_ref_until_false(callable_returns_bool<Type &> auto f) const
+  auto for_each_ref_until_false(callable_returns_bool<Type &> auto &&f) const
       -> position {
     Type *it = begin_;
     for (; it < end_; ++it) {
