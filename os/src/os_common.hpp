@@ -133,6 +133,11 @@ static auto sdcard_write_blocking(size_t sector,
 static auto cstr_equals(char const *s1, char const *s2) -> bool;
 static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void;
 static auto cstr_copy(char const *cstr, char *buf) -> char *;
+static auto string_equals_cstr(string const str, char const *cstr) -> bool;
+static auto string_print(string const str) -> void;
+struct string_next_word_return;
+static auto
+string_next_word(string const str) -> struct string_next_word_return;
 
 extern "C" [[noreturn]] auto run() -> void {
   initiate_bss();
@@ -182,7 +187,8 @@ typedef struct string_next_word_return {
   string rem{};
 } string_next_word_return;
 
-static auto string_next_word(string const str) -> string_next_word_return {
+static auto
+string_next_word(string const str) -> struct string_next_word_return {
   mut ce = str.for_each_until_false(
       [](char const ch) { return ch != ' ' && ch != '\0'; });
   let word = str.subspan_ending_at(ce);
@@ -192,8 +198,8 @@ static auto string_next_word(string const str) -> string_next_word_return {
   return {word, rem_trimmed};
 }
 
-static auto handle_input(entity_id_t const eid,
-                         command_buffer &cmd_buf) -> void {
+static auto
+handle_input(entity_id_t const eid, command_buffer &cmd_buf) -> void {
 
   let line = cmd_buf.string();
   let w1 = string_next_word(line);
@@ -419,7 +425,8 @@ static auto action_give(entity_id_t const eid, string args) -> void {
 
 static auto print_help() -> void {
   uart_send_cstr(
-      "\r\ncommand:\r\n  n: go north\r\n  e: go east\r\n  s: go south\r\n  w: "
+      "\r\ncommand:\r\n  n: go north\r\n  e: go east\r\n  s: go south\r\n  "
+      "w: "
       "go west\r\n  i: "
       "display inventory\r\n  t <object>: take object\r\n  d <object>: drop "
       "object\r\n  g <object> <entity>: give object to entity\r\n  sdr "
