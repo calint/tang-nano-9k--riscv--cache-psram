@@ -136,7 +136,7 @@ static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
 static auto sdcard_read_blocking(size_t sector, int8_t *buffer512B) -> void;
 static auto sdcard_write_blocking(size_t sector,
                                   int8_t const *buffer512B) -> void;
-static auto string_equals_cstr(string const str, cstr s) -> bool;
+static auto string_equals_cstr(string str, cstr s) -> bool;
 static auto string_to_uint32(string str) -> uint32_t;
 static auto string_print(string str) -> void;
 struct string_next_word_return;
