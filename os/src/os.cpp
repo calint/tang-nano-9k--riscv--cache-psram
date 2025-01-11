@@ -142,11 +142,7 @@ static auto action_sdcard_test_write(string const args) -> void {
 static auto action_sdcard_status() -> void {
   uint32_t const status = *SDCARD_STATUS;
   uart_send_cstr("SDCARD_STATUS: 0x");
-  uart_send_hex_byte(char(status >> 24));
-  uart_send_hex_byte(char(status >> 16));
-  uart_send_char(':');
-  uart_send_hex_byte(char(status >> 8));
-  uart_send_hex_byte(char(status));
+  uart_send_hex_uint32(status, true);
   uart_send_cstr("\r\n");
 }
 
