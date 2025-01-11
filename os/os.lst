@@ -1571,7 +1571,7 @@ Disassembly of section .text:
 #       if (ch == 0x1B) {
     1048:	01b00793          	li	a5,27
     104c:	06f50663          	beq	a0,a5,10b8 <_ZL5inputR14command_buffer+0xec>
-#       } else if (ch == CHAR_BACKSPACE) {
+#       } else if (ch == char_backspace) {
     1050:	07f00793          	li	a5,127
     1054:	08f51863          	bne	a0,a5,10e4 <_ZL5inputR14command_buffer+0x118>
 #     if (cursor_ == 0) {

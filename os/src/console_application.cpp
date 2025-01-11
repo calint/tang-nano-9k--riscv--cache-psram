@@ -29,7 +29,7 @@ auto main() -> int {
 }
 
 static auto uart_send_char(char const ch) -> void {
-  if (ch == CHAR_BACKSPACE) {
+  if (ch == char_backspace) {
     printf("\b \b");
   } else {
     putchar(ch);

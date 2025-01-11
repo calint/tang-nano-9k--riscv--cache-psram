@@ -45,21 +45,21 @@ using string = span<char>;
 
 #include "lib/command_buffer.hpp"
 
-static let CHAR_BACKSPACE = '\x7f';
-static let CHAR_TAB = '\x09';
-static let LOCATION_MAX_OBJECTS = 128u;
-static let LOCATION_MAX_ENTITIES = 8u;
-static let LOCATION_MAX_EXITS = 6u;
-static let ENTITY_MAX_OBJECTS = 32u;
+static let char_backspace = '\x7f';
+static let char_tab = '\x09';
+static let location_max_objects = 128u;
+static let location_max_entities = 8u;
+static let location_max_exits = 6u;
+static let entity_max_objects = 32u;
 
 // note: defines are not stored in data segment thus gives a slightly smaller
 // binary. in this case 20 B smaller
-// #define CHAR_BACKSPACE 0x7f
-// #define CHAR_TAB 0x09
-// #define LOCATION_MAX_OBJECTS 128
-// #define LOCATION_MAX_ENTITIES 8
-// #define LOCATION_MAX_EXITS 6
-// #define ENTITY_MAX_OBJECTS 32
+// #define char_backspace 0x7f
+// #define char_tab 0x09
+// #define location_max_objects 128
+// #define location_max_entities 8
+// #define location_max_exits 6
+// #define entity_max_objects 32
 //
 
 using name_t = char const *;
@@ -76,7 +76,7 @@ using object_id_t = uint8_t;
 struct entity final {
   name_t name{};
   location_id_t location{};
-  list<object_id_t, ENTITY_MAX_OBJECTS> objects{};
+  list<object_id_t, entity_max_objects> objects{};
 };
 
 static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
@@ -85,9 +85,9 @@ using entity_id_t = uint8_t;
 
 struct location final {
   name_t name{};
-  list<object_id_t, LOCATION_MAX_OBJECTS> objects{};
-  list<entity_id_t, LOCATION_MAX_ENTITIES> entities{};
-  list<location_id_t, LOCATION_MAX_EXITS> exits{};
+  list<object_id_t, location_max_objects> objects{};
+  list<entity_id_t, location_max_entities> entities{};
+  list<location_id_t, location_max_exits> exits{};
 };
 
 static location locations[] = {
@@ -456,7 +456,7 @@ static auto input(command_buffer &cmd_buf) -> void {
     case input_state::NORMAL:
       if (ch == 0x1B) {
         state = input_state::ESCAPE;
-      } else if (ch == CHAR_BACKSPACE) {
+      } else if (ch == char_backspace) {
         if (cmd_buf.backspace()) {
           uart_send_char(ch);
           cmd_buf.apply_on_chars_from_cursor_to_end(
