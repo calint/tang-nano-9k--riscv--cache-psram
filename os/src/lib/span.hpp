@@ -34,37 +34,6 @@ public:
 
   auto is_empty() const -> bool { return begin_ == end_; }
 
-  // auto subspan(size_t const begin_index,
-  //              size_t const end_index) const -> span<Type> {
-  //   if constexpr (safe_span) {
-  //     size_t const n = size();
-  //     if (begin_index > n || end_index > n || begin_index > end_index) {
-  //       return {};
-  //     }
-  //   }
-  //   return {begin_ + begin_index, begin_ + end_index};
-  // }
-
-  // auto subspan(Type *const span_begin,
-  //              Type *const span_end) const -> span<Type> {
-  //   if constexpr (safe_span) {
-  //     if (span_begin > end_ || span_begin < begin_ || span_end > end_ ||
-  //         span_begin > span_end) {
-  //       return {};
-  //     }
-  //   }
-  //   return {span_begin, span_end};
-  // }
-
-  // auto subspan_starting_at_index(size_t begin_index) const -> span<Type> {
-  //   if constexpr (safe_span) {
-  //     if (begin_index > size()) {
-  //       return {};
-  //     }
-  //   }
-  //   return {begin_ + begin_index, end_};
-  // }
-
   auto subspan_starting_at(position const pos) const -> span<Type> {
     if constexpr (safe_span) {
       if (pos.ptr > end_ || pos.ptr < begin_) {
@@ -73,15 +42,6 @@ public:
     }
     return {pos.ptr, end_};
   }
-
-  // auto subspan_ending_at_index(size_t const end_index) const -> span<Type> {
-  //   if constexpr (safe_span) {
-  //     if (end_index > size()) {
-  //       return {};
-  //     }
-  //   }
-  //   return {begin_, end_index};
-  // }
 
   auto subspan_ending_at(position const pos) const -> span<Type> {
     if constexpr (safe_span) {

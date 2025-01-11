@@ -42,17 +42,6 @@ public:
     return false;
   }
 
-  // auto remove_at_index(size_t ix) -> bool {
-  //   if (ix >= len) {
-  //     return false;
-  //   }
-  //   --len;
-  //   for (size_t i = ix; i < len; ++i) {
-  //     data[i] = data[i + 1];
-  //   }
-  //   return true;
-  // }
-
   auto remove_at(position const pos) -> bool {
     if constexpr (safe_list) {
       if (pos.index >= len) {
@@ -65,13 +54,6 @@ public:
     }
     return true;
   }
-
-  // auto at(size_t const ix) const -> Type {
-  //   if (ix < len) {
-  //     return data[ix];
-  //   }
-  //   return {};
-  // }
 
   auto at(position const pos) const -> Type {
     if constexpr (safe_list) {
