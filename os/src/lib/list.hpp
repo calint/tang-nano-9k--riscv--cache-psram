@@ -1,5 +1,7 @@
 #pragma once
 
+static bool constexpr safe_list = true;
+
 template <class Type, unsigned Size> class list final {
 public:
   Type data[Size]{};
@@ -16,8 +18,10 @@ public:
   auto is_at_end(position pos) const -> bool { return pos.index == len; }
 
   auto add(Type elem) -> bool {
-    if (len == Size - 1) {
-      return false;
+    if constexpr (safe_list) {
+      if (len == Size - 1) {
+        return false;
+      }
     }
     data[len] = elem;
     ++len;
@@ -50,8 +54,10 @@ public:
   // }
 
   auto remove_at(position const pos) -> bool {
-    if (pos.index >= len) {
-      return false;
+    if constexpr (safe_list) {
+      if (pos.index >= len) {
+        return false;
+      }
     }
     --len;
     for (size_t i = pos.index; i < len; ++i) {
@@ -68,8 +74,10 @@ public:
   // }
 
   auto at(position const pos) const -> Type {
-    if (pos.index < len) {
-      return data[pos.index];
+    if constexpr (safe_list) {
+      if (pos.index < len) {
+        return data[pos.index];
+      }
     }
     return {};
   }

@@ -20,7 +20,7 @@ Disassembly of section .text:
 #   uint32_t const status = *SDCARD_STATUS;
 #   uart_send_cstr("SDCARD_STATUS: 0x");
 #   uart_send_hex_byte(char(status >> 24));
-       8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdbcc>
+       8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdbc8>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
       14:	07212823          	sw	s2,112(sp)
@@ -39,7 +39,7 @@ Disassembly of section .text:
       2c:	00002537          	lui	a0,0x2
       30:	8d450513          	addi	a0,a0,-1836 # 18d4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x74>
 # static auto led_set(uint32_t const bits) -> void { *LED = bits; }
-      34:	fe002e23          	sw	zero,-4(zero) # fffffffc <__bss_end+0xffffdc48>
+      34:	fe002e23          	sw	zero,-4(zero) # fffffffc <__bss_end+0xffffdc44>
       38:	42c010ef          	jal	1464 <_ZL14uart_send_cstrPKc>
 #   uart_send_cstr(hello);
       3c:	00002537          	lui	a0,0x2
@@ -74,7 +74,7 @@ Disassembly of section .text:
       74:	00279793          	slli	a5,a5,0x2
       78:	408787b3          	sub	a5,a5,s0
       7c:	00279793          	slli	a5,a5,0x2
-      80:	fe0a8493          	addi	s1,s5,-32 # 1fe0 <_ZL8entities>
+      80:	fe4a8493          	addi	s1,s5,-28 # 1fe4 <_ZL8entities>
       84:	00f484b3          	add	s1,s1,a5
       88:	0044c503          	lbu	a0,4(s1)
       8c:	00040593          	mv	a1,s0
@@ -568,7 +568,7 @@ Disassembly of section .text:
      57c:	00002437          	lui	s0,0x2
 #     if (id >= sizeof(locations) / sizeof(location)) {
      580:	10a76663          	bltu	a4,a0,68c <_ZL14print_locationhh+0x144>
-     584:	06440793          	addi	a5,s0,100 # 2064 <_ZL9locations>
+     584:	06840793          	addi	a5,s0,104 # 2068 <_ZL9locations>
 #       return locations[0];
 #     }
 #   }
@@ -587,7 +587,7 @@ Disassembly of section .text:
      5ac:	00042503          	lw	a0,0(s0)
      5b0:	000029b7          	lui	s3,0x2
 #     }
-#     return {i};
+#     return {};
 #   }
 # 
 #   auto for_each(callable_returns_void<Type> auto f) const -> void {
@@ -602,7 +602,7 @@ Disassembly of section .text:
      5c8:	00002ab7          	lui	s5,0x2
 #     if (id >= sizeof(objects) / sizeof(object)) {
      5cc:	00300b13          	li	s6,3
-     5d0:	fd098993          	addi	s3,s3,-48 # 1fd0 <_ZL7objects>
+     5d0:	fd498993          	addi	s3,s3,-44 # 1fd4 <_ZL7objects>
      5d4:	09442783          	lw	a5,148(s0)
      5d8:	0af4ee63          	bltu	s1,a5,694 <_ZL14print_locationhh+0x14c>
 #     if (!counter) {
@@ -622,7 +622,7 @@ Disassembly of section .text:
      600:	00000c13          	li	s8,0
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      604:	00200a13          	li	s4,2
-     608:	fe048493          	addi	s1,s1,-32 # 1fe0 <_ZL8entities>
+     608:	fe448493          	addi	s1,s1,-28 # 1fe4 <_ZL8entities>
 #         uart_send_cstr(", ");
      60c:	00002ab7          	lui	s5,0x2
      610:	0a042703          	lw	a4,160(s0)
@@ -667,7 +667,7 @@ Disassembly of section .text:
      684:	03010113          	addi	sp,sp,48
 #     uart_send_cstr("\r\n");
      688:	5dd0006f          	j	1464 <_ZL14uart_send_cstrPKc>
-     68c:	06440413          	addi	s0,s0,100
+     68c:	06840413          	addi	s0,s0,104
      690:	f11ff06f          	j	5a0 <_ZL14print_locationhh+0x58>
 #       f(data[i]);
      694:	009407b3          	add	a5,s0,s1
@@ -755,7 +755,7 @@ Disassembly of section .text:
      770:	00200713          	li	a4,2
      774:	00002437          	lui	s0,0x2
      778:	06976c63          	bltu	a4,s1,7f0 <_ZL16action_inventoryh+0xb0>
-     77c:	fe040793          	addi	a5,s0,-32 # 1fe0 <_ZL8entities>
+     77c:	fe440793          	addi	a5,s0,-28 # 1fe4 <_ZL8entities>
 #   return entities[id];
      780:	00149413          	slli	s0,s1,0x1
      784:	00940433          	add	s0,s0,s1
@@ -769,7 +769,7 @@ Disassembly of section .text:
      7a0:	00002a37          	lui	s4,0x2
 #     if (id >= sizeof(objects) / sizeof(object)) {
      7a4:	00300a93          	li	s5,3
-     7a8:	fd090913          	addi	s2,s2,-48 # 1fd0 <_ZL7objects>
+     7a8:	fd490913          	addi	s2,s2,-44 # 1fd4 <_ZL7objects>
      7ac:	02842783          	lw	a5,40(s0)
      7b0:	04f4e463          	bltu	s1,a5,7f8 <_ZL16action_inventoryh+0xb8>
 #   if (counter == 0) {
@@ -793,7 +793,7 @@ Disassembly of section .text:
      7e8:	02010113          	addi	sp,sp,32
 #   uart_send_cstr("\r\n");
      7ec:	4790006f          	j	1464 <_ZL14uart_send_cstrPKc>
-     7f0:	fe040413          	addi	s0,s0,-32
+     7f0:	fe440413          	addi	s0,s0,-28
      7f4:	fa5ff06f          	j	798 <_ZL16action_inventoryh+0x58>
 #       f(data[i]);
      7f8:	009407b3          	add	a5,s0,s1
@@ -854,11 +854,11 @@ Disassembly of section .text:
      89c:	000024b7          	lui	s1,0x2
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      8a0:	00200713          	li	a4,2
-     8a4:	fe048793          	addi	a5,s1,-32 # 1fe0 <_ZL8entities>
+     8a4:	fe448793          	addi	a5,s1,-28 # 1fe4 <_ZL8entities>
      8a8:	00058b13          	mv	s6,a1
      8ac:	00060a93          	mv	s5,a2
 #       return entities[0];
-     8b0:	fe048493          	addi	s1,s1,-32
+     8b0:	fe448493          	addi	s1,s1,-28
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      8b4:	00a76e63          	bltu	a4,a0,8d0 <_ZL11action_takeh4spanIcE+0xa4>
 #   return entities[id];
@@ -873,9 +873,9 @@ Disassembly of section .text:
 #     if (id >= sizeof(locations) / sizeof(location)) {
      8d4:	00002437          	lui	s0,0x2
      8d8:	00400693          	li	a3,4
-     8dc:	06440713          	addi	a4,s0,100 # 2064 <_ZL9locations>
+     8dc:	06840713          	addi	a4,s0,104 # 2068 <_ZL9locations>
 #       return locations[0];
-     8e0:	06440413          	addi	s0,s0,100
+     8e0:	06840413          	addi	s0,s0,104
 #     if (id >= sizeof(locations) / sizeof(location)) {
      8e4:	00f6ee63          	bltu	a3,a5,900 <_ZL11action_takeh4spanIcE+0xd4>
 #   return locations[id];
@@ -885,6 +885,11 @@ Disassembly of section .text:
      8f4:	00f40433          	add	s0,s0,a5
      8f8:	00241413          	slli	s0,s0,0x2
      8fc:	00870433          	add	s0,a4,s0
+#   }
+# 
+#   auto
+#   for_each_until_false(callable_returns_bool<Type> auto f) const -> position {
+#     size_t i = 0;
 #     for (; i < len; ++i) {
      900:	09442983          	lw	s3,148(s0)
      904:	00002bb7          	lui	s7,0x2
@@ -892,7 +897,7 @@ Disassembly of section .text:
      908:	00000a13          	li	s4,0
 #     if (id >= sizeof(objects) / sizeof(object)) {
      90c:	00300c13          	li	s8,3
-     910:	fd0b8b93          	addi	s7,s7,-48 # 1fd0 <_ZL7objects>
+     910:	fd4b8b93          	addi	s7,s7,-44 # 1fd4 <_ZL7objects>
 #     for (; i < len; ++i) {
      914:	033a1063          	bne	s4,s3,934 <_ZL11action_takeh4spanIcE+0x108>
 #   str.for_each([](let ch) { uart_send_char(ch); });
@@ -925,11 +930,11 @@ Disassembly of section .text:
      964:	fb1ff06f          	j	914 <_ZL11action_takeh4spanIcE+0xe8>
 #     return {};
      968:	00000713          	li	a4,0
-#     if (pos.index < len) {
+#       if (pos.index < len) {
      96c:	013a7463          	bgeu	s4,s3,974 <_ZL11action_takeh4spanIcE+0x148>
-#       return data[pos.index];
+#         return data[pos.index];
      970:	01494703          	lbu	a4,20(s2)
-#     if (len == Size - 1) {
+#       if (len == Size - 1) {
      974:	0284a783          	lw	a5,40(s1)
      978:	01f00693          	li	a3,31
      97c:	02d78863          	beq	a5,a3,9ac <_ZL11action_takeh4spanIcE+0x180>
@@ -939,7 +944,7 @@ Disassembly of section .text:
 #     ++len;
      988:	00178793          	addi	a5,a5,1
      98c:	02f4a423          	sw	a5,40(s1)
-#     if (pos.index >= len) {
+#       if (pos.index >= len) {
      990:	013a7e63          	bgeu	s4,s3,9ac <_ZL11action_takeh4spanIcE+0x180>
 #     --len;
      994:	fff98793          	addi	a5,s3,-1
@@ -1003,11 +1008,11 @@ Disassembly of section .text:
      a50:	00002437          	lui	s0,0x2
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      a54:	00200713          	li	a4,2
-     a58:	fe040793          	addi	a5,s0,-32 # 1fe0 <_ZL8entities>
+     a58:	fe440793          	addi	a5,s0,-28 # 1fe4 <_ZL8entities>
      a5c:	00058a93          	mv	s5,a1
      a60:	00060a13          	mv	s4,a2
 #       return entities[0];
-     a64:	fe040413          	addi	s0,s0,-32
+     a64:	fe440413          	addi	s0,s0,-28
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      a68:	00a76e63          	bltu	a4,a0,a84 <_ZL11action_droph4spanIcE+0x9c>
 #   return entities[id];
@@ -1024,7 +1029,7 @@ Disassembly of section .text:
      a8c:	00000993          	li	s3,0
 #     if (id >= sizeof(objects) / sizeof(object)) {
      a90:	00300b93          	li	s7,3
-     a94:	fd0b0b13          	addi	s6,s6,-48 # 1fd0 <_ZL7objects>
+     a94:	fd4b0b13          	addi	s6,s6,-44 # 1fd4 <_ZL7objects>
 #     for (; i < len; ++i) {
      a98:	03299663          	bne	s3,s2,ac4 <_ZL11action_droph4spanIcE+0xdc>
 #     uart_send_cstr("u don't have ");
@@ -1064,9 +1069,9 @@ Disassembly of section .text:
 #     if (id >= sizeof(locations) / sizeof(location)) {
      afc:	000027b7          	lui	a5,0x2
      b00:	00400613          	li	a2,4
-     b04:	06478693          	addi	a3,a5,100 # 2064 <_ZL9locations>
+     b04:	06878693          	addi	a3,a5,104 # 2068 <_ZL9locations>
 #       return locations[0];
-     b08:	06478793          	addi	a5,a5,100
+     b08:	06878793          	addi	a5,a5,104
 #     if (id >= sizeof(locations) / sizeof(location)) {
      b0c:	00e66e63          	bltu	a2,a4,b28 <_ZL11action_droph4spanIcE+0x140>
 #   return locations[id];
@@ -1078,11 +1083,11 @@ Disassembly of section .text:
      b24:	00f687b3          	add	a5,a3,a5
 #     return {};
      b28:	00000693          	li	a3,0
-#     if (pos.index < len) {
+#       if (pos.index < len) {
      b2c:	0129f463          	bgeu	s3,s2,b34 <_ZL11action_droph4spanIcE+0x14c>
-#       return data[pos.index];
+#         return data[pos.index];
      b30:	0084c683          	lbu	a3,8(s1)
-#     if (len == Size - 1) {
+#       if (len == Size - 1) {
      b34:	0947a703          	lw	a4,148(a5)
      b38:	07f00613          	li	a2,127
      b3c:	02c70863          	beq	a4,a2,b6c <_ZL11action_droph4spanIcE+0x184>
@@ -1092,7 +1097,7 @@ Disassembly of section .text:
 #     ++len;
      b48:	00170713          	addi	a4,a4,1
      b4c:	08e7aa23          	sw	a4,148(a5)
-#     if (pos.index >= len) {
+#       if (pos.index >= len) {
      b50:	0129fe63          	bgeu	s3,s2,b6c <_ZL11action_droph4spanIcE+0x184>
 #     --len;
      b54:	fff90793          	addi	a5,s2,-1
@@ -1124,9 +1129,9 @@ Disassembly of section .text:
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      ba4:	000026b7          	lui	a3,0x2
      ba8:	00200713          	li	a4,2
-     bac:	fe068793          	addi	a5,a3,-32 # 1fe0 <_ZL8entities>
+     bac:	fe468793          	addi	a5,a3,-28 # 1fe4 <_ZL8entities>
 #       return entities[0];
-     bb0:	fe068693          	addi	a3,a3,-32
+     bb0:	fe468693          	addi	a3,a3,-28
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      bb4:	00a76e63          	bltu	a4,a0,bd0 <_ZL9action_gohh+0x2c>
 #   return entities[id];
@@ -1141,9 +1146,9 @@ Disassembly of section .text:
 #     if (id >= sizeof(locations) / sizeof(location)) {
      bd4:	000027b7          	lui	a5,0x2
      bd8:	00400613          	li	a2,4
-     bdc:	06478813          	addi	a6,a5,100 # 2064 <_ZL9locations>
+     bdc:	06878813          	addi	a6,a5,104 # 2068 <_ZL9locations>
 #       return locations[0];
-     be0:	06478793          	addi	a5,a5,100
+     be0:	06878793          	addi	a5,a5,104
 #     if (id >= sizeof(locations) / sizeof(location)) {
      be4:	00e66e63          	bltu	a2,a4,c00 <_ZL9action_gohh+0x5c>
 #   return locations[id];
@@ -1170,9 +1175,9 @@ Disassembly of section .text:
      c24:	00b30663          	beq	t1,a1,c30 <_ZL9action_gohh+0x8c>
      c28:	00170713          	addi	a4,a4,1
      c2c:	fe1ff06f          	j	c0c <_ZL9action_gohh+0x68>
-#     if (pos.index < len) {
+#       if (pos.index < len) {
      c30:	07177863          	bgeu	a4,a7,ca0 <_ZL9action_gohh+0xfc>
-#       return data[pos.index];
+#         return data[pos.index];
      c34:	00171713          	slli	a4,a4,0x1
      c38:	00e78733          	add	a4,a5,a4
      c3c:	00574603          	lbu	a2,5(a4)
@@ -1189,7 +1194,7 @@ Disassembly of section .text:
      c58:	00c70733          	add	a4,a4,a2
      c5c:	00271713          	slli	a4,a4,0x2
      c60:	00e80733          	add	a4,a6,a4
-#     if (len == Size - 1) {
+#       if (len == Size - 1) {
      c64:	0a072583          	lw	a1,160(a4)
      c68:	00700813          	li	a6,7
      c6c:	07058463          	beq	a1,a6,cd4 <_ZL9action_gohh+0x130>
@@ -1299,9 +1304,9 @@ Disassembly of section .text:
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      da4:	00002437          	lui	s0,0x2
      da8:	00200793          	li	a5,2
-     dac:	fe040a13          	addi	s4,s0,-32 # 1fe0 <_ZL8entities>
+     dac:	fe440a13          	addi	s4,s0,-28 # 1fe4 <_ZL8entities>
 #       return entities[0];
-     db0:	fe040413          	addi	s0,s0,-32
+     db0:	fe440413          	addi	s0,s0,-28
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      db4:	0097ee63          	bltu	a5,s1,dd0 <_ZL11action_giveh4spanIcE+0xf8>
 #   return entities[id];
@@ -1316,9 +1321,9 @@ Disassembly of section .text:
 #     if (id >= sizeof(locations) / sizeof(location)) {
      dd4:	000024b7          	lui	s1,0x2
      dd8:	00400693          	li	a3,4
-     ddc:	06448713          	addi	a4,s1,100 # 2064 <_ZL9locations>
+     ddc:	06848713          	addi	a4,s1,104 # 2068 <_ZL9locations>
 #       return locations[0];
-     de0:	06448493          	addi	s1,s1,100
+     de0:	06848493          	addi	s1,s1,104
 #     if (id >= sizeof(locations) / sizeof(location)) {
      de4:	00f6ee63          	bltu	a3,a5,e00 <_ZL11action_giveh4spanIcE+0x128>
 #   return locations[id];
@@ -1398,11 +1403,11 @@ Disassembly of section .text:
      ebc:	0440006f          	j	f00 <_ZL11action_giveh4spanIcE+0x228>
 #     return {};
      ec0:	00000713          	li	a4,0
-#     if (pos.index < len) {
+#       if (pos.index < len) {
      ec4:	017af463          	bgeu	s5,s7,ecc <_ZL11action_giveh4spanIcE+0x1f4>
-#       return data[pos.index];
+#         return data[pos.index];
      ec8:	008a4703          	lbu	a4,8(s4)
-#     if (len == Size - 1) {
+#       if (len == Size - 1) {
      ecc:	0284a783          	lw	a5,40(s1)
      ed0:	01f00693          	li	a3,31
      ed4:	02d78a63          	beq	a5,a3,f08 <_ZL11action_giveh4spanIcE+0x230>
@@ -1412,7 +1417,7 @@ Disassembly of section .text:
 #     ++len;
      ee0:	00178793          	addi	a5,a5,1
      ee4:	02f4a423          	sw	a5,40(s1)
-#     if (pos.index >= len) {
+#       if (pos.index >= len) {
      ee8:	02842703          	lw	a4,40(s0)
      eec:	00eafe63          	bgeu	s5,a4,f08 <_ZL11action_giveh4spanIcE+0x230>
 #     --len;
@@ -1440,9 +1445,9 @@ Disassembly of section .text:
      f3c:	00008067          	ret
 #     return {};
      f40:	00000793          	li	a5,0
-#     if (pos.index < len) {
+#       if (pos.index < len) {
      f44:	018bfa63          	bgeu	s7,s8,f58 <_ZL11action_giveh4spanIcE+0x280>
-#       return data[pos.index];
+#         return data[pos.index];
      f48:	098cc783          	lbu	a5,152(s9)
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      f4c:	00200713          	li	a4,2
@@ -1464,7 +1469,7 @@ Disassembly of section .text:
      f78:	00000a93          	li	s5,0
 #     if (id >= sizeof(objects) / sizeof(object)) {
      f7c:	00300c13          	li	s8,3
-     f80:	fd0b0b13          	addi	s6,s6,-48 # 1fd0 <_ZL7objects>
+     f80:	fd4b0b13          	addi	s6,s6,-44 # 1fd4 <_ZL7objects>
 #     for (; i < len; ++i) {
      f84:	ef7a9ae3          	bne	s5,s7,e78 <_ZL11action_giveh4spanIcE+0x1a0>
 #   str.for_each([](let ch) { uart_send_char(ch); });
@@ -1523,7 +1528,7 @@ Disassembly of section .text:
     1014:	488000ef          	jal	149c <_ZL14uart_read_charv>
 #     led_set(uint32_t(~ch));
     1018:	fff54793          	not	a5,a0
-    101c:	fef02e23          	sw	a5,-4(zero) # fffffffc <__bss_end+0xffffdc48>
+    101c:	fef02e23          	sw	a5,-4(zero) # fffffffc <__bss_end+0xffffdc44>
 #     let ch = uart_read_char();
     1020:	00050913          	mv	s2,a0
 #     switch (state) {
@@ -1870,7 +1875,7 @@ Disassembly of section .text:
 #     if (id >= sizeof(entities) / sizeof(entity)) {
     13ac:	000027b7          	lui	a5,0x2
     13b0:	00200693          	li	a3,2
-    13b4:	fe078713          	addi	a4,a5,-32 # 1fe0 <_ZL8entities>
+    13b4:	fe478713          	addi	a4,a5,-28 # 1fe4 <_ZL8entities>
     13b8:	02a6e063          	bltu	a3,a0,13d8 <_ZL12entity_by_idh+0x2c>
 #   return entities[id];
     13bc:	00151793          	slli	a5,a0,0x1
@@ -1881,7 +1886,7 @@ Disassembly of section .text:
     13d0:	00a70533          	add	a0,a4,a0
     13d4:	00008067          	ret
 #       return entities[0];
-    13d8:	fe078513          	addi	a0,a5,-32
+    13d8:	fe478513          	addi	a0,a5,-28
 # }
     13dc:	00008067          	ret
 
@@ -1889,14 +1894,14 @@ Disassembly of section .text:
 #     if (id >= sizeof(objects) / sizeof(object)) {
     13e0:	000027b7          	lui	a5,0x2
     13e4:	00300693          	li	a3,3
-    13e8:	fd078713          	addi	a4,a5,-48 # 1fd0 <_ZL7objects>
+    13e8:	fd478713          	addi	a4,a5,-44 # 1fd4 <_ZL7objects>
     13ec:	00a6e863          	bltu	a3,a0,13fc <_ZL12object_by_idh+0x1c>
 #   return objects[id];
     13f0:	00251513          	slli	a0,a0,0x2
     13f4:	00a70533          	add	a0,a4,a0
     13f8:	00008067          	ret
 #       return objects[0];
-    13fc:	fd078513          	addi	a0,a5,-48
+    13fc:	fd478513          	addi	a0,a5,-44
 # }
     1400:	00008067          	ret
 
@@ -1904,7 +1909,7 @@ Disassembly of section .text:
 #     if (id >= sizeof(locations) / sizeof(location)) {
     1404:	000027b7          	lui	a5,0x2
     1408:	00400693          	li	a3,4
-    140c:	06478713          	addi	a4,a5,100 # 2064 <_ZL9locations>
+    140c:	06878713          	addi	a4,a5,104 # 2068 <_ZL9locations>
     1410:	02a6e063          	bltu	a3,a0,1430 <_ZL14location_by_idh+0x2c>
 #   return locations[id];
     1414:	00251793          	slli	a5,a0,0x2
@@ -1915,7 +1920,7 @@ Disassembly of section .text:
     1428:	00a70533          	add	a0,a4,a0
     142c:	00008067          	ret
 #       return locations[0];
-    1430:	06478513          	addi	a0,a5,100
+    1430:	06878513          	addi	a0,a5,104
 # }
     1434:	00008067          	ret
 
@@ -1926,7 +1931,7 @@ Disassembly of section .text:
 #     if (id >= sizeof(links) / sizeof(cstr)) {
     1438:	000027b7          	lui	a5,0x2
     143c:	00600713          	li	a4,6
-    1440:	39878793          	addi	a5,a5,920 # 2398 <_ZL5links>
+    1440:	39c78793          	addi	a5,a5,924 # 239c <_ZL5links>
     1444:	00a77663          	bgeu	a4,a0,1450 <_ZL10link_by_idh+0x18>
 #       return links[0];
 #     }
@@ -1941,7 +1946,7 @@ Disassembly of section .text:
     1458:	ff1ff06f          	j	1448 <_ZL10link_by_idh+0x10>
 
 0000145c <_ZL7led_setj>:
-    145c:	fea02e23          	sw	a0,-4(zero) # fffffffc <__bss_end+0xffffdc48>
+    145c:	fea02e23          	sw	a0,-4(zero) # fffffffc <__bss_end+0xffffdc44>
     1460:	00008067          	ret
 
 00001464 <_ZL14uart_send_cstrPKc>:
@@ -1953,27 +1958,27 @@ Disassembly of section .text:
 # }
     1470:	00008067          	ret
 #     while (*UART_OUT != -1)
-    1474:	ff802683          	lw	a3,-8(zero) # fffffff8 <__bss_end+0xffffdc44>
+    1474:	ff802683          	lw	a3,-8(zero) # fffffff8 <__bss_end+0xffffdc40>
     1478:	fee69ee3          	bne	a3,a4,1474 <_ZL14uart_send_cstrPKc+0x10>
 #     *UART_OUT = *str++;
     147c:	00150513          	addi	a0,a0,1
-    1480:	fef02c23          	sw	a5,-8(zero) # fffffff8 <__bss_end+0xffffdc44>
+    1480:	fef02c23          	sw	a5,-8(zero) # fffffff8 <__bss_end+0xffffdc40>
     1484:	fe5ff06f          	j	1468 <_ZL14uart_send_cstrPKc+0x4>
 
 00001488 <_ZL14uart_send_charc>:
 #   while (*UART_OUT != -1)
     1488:	fff00793          	li	a5,-1
-    148c:	ff802703          	lw	a4,-8(zero) # fffffff8 <__bss_end+0xffffdc44>
+    148c:	ff802703          	lw	a4,-8(zero) # fffffff8 <__bss_end+0xffffdc40>
     1490:	fef71ee3          	bne	a4,a5,148c <_ZL14uart_send_charc+0x4>
 #   *UART_OUT = ch;
-    1494:	fea02c23          	sw	a0,-8(zero) # fffffff8 <__bss_end+0xffffdc44>
+    1494:	fea02c23          	sw	a0,-8(zero) # fffffff8 <__bss_end+0xffffdc40>
 # }
     1498:	00008067          	ret
 
 0000149c <_ZL14uart_read_charv>:
 #   while ((ch = *UART_IN) == -1)
     149c:	fff00793          	li	a5,-1
-    14a0:	ff402503          	lw	a0,-12(zero) # fffffff4 <__bss_end+0xffffdc40>
+    14a0:	ff402503          	lw	a0,-12(zero) # fffffff4 <__bss_end+0xffffdc3c>
     14a4:	fef50ee3          	beq	a0,a5,14a0 <_ZL14uart_read_charv+0x4>
 # }
     14a8:	0ff57513          	zext.b	a0,a0
@@ -2001,10 +2006,10 @@ Disassembly of section .text:
 #   uart_send_cstr("testing memory (write)\r\n");
     14e0:	f85ff0ef          	jal	1464 <_ZL14uart_send_cstrPKc>
 #   char *ptr = &__heap_start;
-    14e4:	3b440713          	addi	a4,s0,948 # 23b4 <__bss_end>
+    14e4:	3b840713          	addi	a4,s0,952 # 23b8 <__bss_end>
 #   char ch = 0;
     14e8:	00000793          	li	a5,0
-    14ec:	3b440413          	addi	s0,s0,948
+    14ec:	3b840413          	addi	s0,s0,952
 #   while (ptr < end) {
     14f0:	001f06b7          	lui	a3,0x1f0
     14f4:	06d76263          	bltu	a4,a3,1558 <_ZL15action_mem_testv+0xa8>
@@ -2211,7 +2216,7 @@ Disassembly of section .text:
 #   uart_send_cstr("SDCARD_STATUS: 0x");
     16fc:	00002537          	lui	a0,0x2
 #   uint32_t const status = *SDCARD_STATUS;
-    1700:	fe402403          	lw	s0,-28(zero) # ffffffe4 <__bss_end+0xffffdc30>
+    1700:	fe402403          	lw	s0,-28(zero) # ffffffe4 <__bss_end+0xffffdc2c>
 #   uart_send_cstr("SDCARD_STATUS: 0x");
     1704:	f9c50513          	addi	a0,a0,-100 # 1f9c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x73c>
 # static auto action_sdcard_status() -> void {
@@ -2252,19 +2257,19 @@ Disassembly of section .text:
 # static auto sdcard_read_blocking(size_t const sector,
 #                                  int8_t *buffer512B) -> void {
 #   while (*SDCARD_BUSY)
-    1758:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc3c>
+    1758:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc38>
     175c:	fe079ee3          	bnez	a5,1758 <_ZL20sdcard_read_blockingjPc>
 #     ;
 #   *SDCARD_READ_SECTOR = sector;
-    1760:	fea02623          	sw	a0,-20(zero) # ffffffec <__bss_end+0xffffdc38>
+    1760:	fea02623          	sw	a0,-20(zero) # ffffffec <__bss_end+0xffffdc34>
 #   while (*SDCARD_BUSY)
-    1764:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc3c>
+    1764:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc38>
     1768:	fe079ee3          	bnez	a5,1764 <_ZL20sdcard_read_blockingjPc+0xc>
     176c:	20058793          	addi	a5,a1,512
 #     ;
 #   for (size_t i = 0; i < 512; ++i) {
 #     *buffer512B = char(*SDCARD_NEXT_BYTE);
-    1770:	fe802703          	lw	a4,-24(zero) # ffffffe8 <__bss_end+0xffffdc34>
+    1770:	fe802703          	lw	a4,-24(zero) # ffffffe8 <__bss_end+0xffffdc30>
 #     ++buffer512B;
     1774:	00158593          	addi	a1,a1,1
 #     *buffer512B = char(*SDCARD_NEXT_BYTE);
@@ -2280,7 +2285,7 @@ Disassembly of section .text:
 # static auto sdcard_write_blocking(size_t const sector,
 #                                   int8_t const *buffer512B) -> void {
 #   while (*SDCARD_BUSY)
-    1784:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc3c>
+    1784:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc38>
     1788:	fe079ee3          	bnez	a5,1784 <_ZL21sdcard_write_blockingjPKc>
     178c:	20058793          	addi	a5,a1,512
 #     ;
@@ -2290,14 +2295,14 @@ Disassembly of section .text:
 #     ++buffer512B;
     1794:	00158593          	addi	a1,a1,1
 #     *SDCARD_NEXT_BYTE = *buffer512B;
-    1798:	fee02423          	sw	a4,-24(zero) # ffffffe8 <__bss_end+0xffffdc34>
+    1798:	fee02423          	sw	a4,-24(zero) # ffffffe8 <__bss_end+0xffffdc30>
 #   for (size_t i = 0; i < 512; ++i) {
     179c:	feb79ae3          	bne	a5,a1,1790 <_ZL21sdcard_write_blockingjPKc+0xc>
 #   }
 #   *SDCARD_WRITE_SECTOR = sector;
-    17a0:	fea02023          	sw	a0,-32(zero) # ffffffe0 <__bss_end+0xffffdc2c>
+    17a0:	fea02023          	sw	a0,-32(zero) # ffffffe0 <__bss_end+0xffffdc28>
 #   while (*SDCARD_BUSY)
-    17a4:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc3c>
+    17a4:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc38>
     17a8:	fe079ee3          	bnez	a5,17a4 <_ZL21sdcard_write_blockingjPKc+0x20>
 #     ;
 # }
@@ -2358,11 +2363,11 @@ Disassembly of section .text:
 #   memset(&__bss_start, 0, &__bss_end - &__bss_start);
     17f0:	00002537          	lui	a0,0x2
     17f4:	000027b7          	lui	a5,0x2
-    17f8:	3b450613          	addi	a2,a0,948 # 23b4 <__bss_end>
-    17fc:	3b478793          	addi	a5,a5,948 # 23b4 <__bss_end>
+    17f8:	3b850613          	addi	a2,a0,952 # 23b8 <__bss_end>
+    17fc:	3b878793          	addi	a5,a5,952 # 23b8 <__bss_end>
     1800:	40c78633          	sub	a2,a5,a2
     1804:	00000593          	li	a1,0
-    1808:	3b450513          	addi	a0,a0,948
+    1808:	3b850513          	addi	a0,a0,952
     180c:	fa5ff06f          	j	17b0 <memset>
 
 00001810 <_ZL16initiate_staticsv>:

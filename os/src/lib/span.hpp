@@ -1,6 +1,6 @@
 #pragma once
 
-bool constexpr safe_span = true;
+static bool constexpr safe_span = true;
 
 template <typename Type> class span {
   Type *begin_{};
