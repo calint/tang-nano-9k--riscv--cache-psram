@@ -321,19 +321,22 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
     uart_send_cstr("take what\r\n\r\n");
     return;
   }
+
   mut &ent = entities[eid];
   mut &lso = locations[ent.location].objects;
-  let pos = lso.for_each_until_false([&args](object_id_t const oid) {
+  let pos = lso.for_each_until_false([&args](let oid) {
     if (string_equals_cstr(args, objects[oid].name)) {
       return false;
     }
     return true;
   });
+
   if (lso.is_at_end(pos)) {
     string_print(args);
     uart_send_cstr(" not here\r\n\r\n");
     return;
   }
+
   if (ent.objects.add(lso.at(pos))) {
     lso.remove_at(pos);
   }
@@ -344,22 +347,27 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
     uart_send_cstr("drop what\r\n\r\n");
     return;
   }
+
   mut &ent = entities[eid];
   mut &lso = ent.objects;
-  let n = lso.length();
-  for (mut i = 0u; i < n; ++i) {
-    let oid = lso.at(i);
-    if (!string_equals_cstr(args, objects[oid].name)) {
-      continue;
+
+  let pos = lso.for_each_until_false([&args](let oid) {
+    if (string_equals_cstr(args, objects[oid].name)) {
+      return false;
     }
-    if (locations[ent.location].objects.add(oid)) {
-      lso.remove_at_index(i);
-    }
+    return true;
+  });
+
+  if (lso.is_at_end(pos)) {
+    uart_send_cstr("u don't have ");
+    string_print(args);
+    uart_send_cstr("\r\n\r\n");
     return;
   }
-  uart_send_cstr("u don't have ");
-  string_print(args);
-  uart_send_cstr("\r\n\r\n");
+
+  if (locations[ent.location].objects.add(lso.at(pos))) {
+    lso.remove_at(pos);
+  }
 }
 
 static auto action_go(entity_id_t const eid, exit_t const exit) -> void {
