@@ -553,8 +553,11 @@ static auto cstr_equals(char const *s1, char const *s2) -> bool {
 }
 
 static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void {
-  while (src_len--) {
-    *dst++ = *src++;
+  while (src_len) {
+    *dst = *src;
+    ++dst;
+    ++src;
+    --src_len;
   }
 }
 
@@ -564,6 +567,7 @@ static auto cstr_copy(char const *src, char *dst) -> char * {
     ++dst;
     ++src;
   }
+  *dst = *src;
   return dst;
 }
 
