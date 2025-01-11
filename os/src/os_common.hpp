@@ -84,9 +84,9 @@ struct location_link final {
 
 struct location final {
   name_t name{};
+  list<location_link, location_max_links> links{};
   list<object_id_t, location_max_objects> objects{};
   list<entity_id_t, location_max_entities> entities{};
-  list<location_link, location_max_links> links{};
 };
 
 static bool constexpr safe_arrays = true;
@@ -97,10 +97,10 @@ static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
 
 static location locations[] = {
     {},
-    {"roome", {}, {{1}, 1}, {{{1, 2}, {2, 3}, {4, 4}}, 3}},
-    {"office", {{1, 3}, 2}, {{2}, 1}, {{{3, 1}}, 1}},
+    {"roome", {{{1, 2}, {2, 3}, {4, 4}}, 3}, {}, {{1}, 1}},
+    {"office", {{{3, 1}}, 1}, {{1, 3}, 2}, {{2}, 1}},
     {"bathroom"},
-    {"kitchen", {}, {}, {{{2, 1}}, 1}}};
+    {"kitchen", {{{2, 1}}, 1}, {}, {}}};
 
 static cstr links[] = {"", "north", "east", "south", "west", "up", "down"};
 

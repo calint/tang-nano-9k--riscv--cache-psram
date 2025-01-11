@@ -606,7 +606,7 @@ Disassembly of section .text:
 #     if (id >= sizeof(objects) / sizeof(object)) {
      5cc:	00300b13          	li	s6,3
      5d0:	fc898993          	addi	s3,s3,-56 # 1fc8 <_ZL7objects>
-     5d4:	08442783          	lw	a5,132(s0)
+     5d4:	09442783          	lw	a5,148(s0)
      5d8:	0af4ee63          	bltu	s1,a5,694 <_ZL14print_locationhh+0x14c>
 #     if (!counter) {
      5dc:	00049863          	bnez	s1,5ec <_ZL14print_locationhh+0xa4>
@@ -628,7 +628,7 @@ Disassembly of section .text:
      608:	fd848493          	addi	s1,s1,-40 # 1fd8 <_ZL8entities>
 #         uart_send_cstr(", ");
      60c:	00002ab7          	lui	s5,0x2
-     610:	09042703          	lw	a4,144(s0)
+     610:	0a042703          	lw	a4,160(s0)
      614:	0aec6a63          	bltu	s8,a4,6c8 <_ZL14print_locationhh+0x180>
 #     if (counter != 0) {
      618:	00078863          	beqz	a5,628 <_ZL14print_locationhh+0xe0>
@@ -641,11 +641,11 @@ Disassembly of section .text:
      62c:	cfc50513          	addi	a0,a0,-772 # 1cfc <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x49c>
      630:	635000ef          	jal	1464 <_ZL14uart_send_cstrPKc>
 #     lse.for_each([&counter](let loc_link) {
-     634:	09440913          	addi	s2,s0,148
+     634:	00440913          	addi	s2,s0,4
      638:	00000493          	li	s1,0
 #         uart_send_cstr(", ");
      63c:	00002a37          	lui	s4,0x2
-     640:	0a042783          	lw	a5,160(s0)
+     640:	01042783          	lw	a5,16(s0)
      644:	0cf4ea63          	bltu	s1,a5,718 <_ZL14print_locationhh+0x1d0>
 #     if (counter == 0) {
      648:	00049863          	bnez	s1,658 <_ZL14print_locationhh+0x110>
@@ -674,7 +674,7 @@ Disassembly of section .text:
      690:	f11ff06f          	j	5a0 <_ZL14print_locationhh+0x58>
 #       f(data[i]);
      694:	009407b3          	add	a5,s0,s1
-     698:	0047ca03          	lbu	s4,4(a5)
+     698:	0147ca03          	lbu	s4,20(a5)
 #       if (counter++) {
      69c:	00048663          	beqz	s1,6a8 <_ZL14print_locationhh+0x160>
 #         uart_send_cstr(", ");
@@ -695,7 +695,7 @@ Disassembly of section .text:
      6c4:	f11ff06f          	j	5d4 <_ZL14print_locationhh+0x8c>
 #       f(data[i]);
      6c8:	01840733          	add	a4,s0,s8
-     6cc:	08874b83          	lbu	s7,136(a4)
+     6cc:	09874b83          	lbu	s7,152(a4)
 #       if (id == eid_excluded_from_output) {
      6d0:	05790063          	beq	s2,s7,710 <_ZL14print_locationhh+0x1c8>
 #       if (counter++) {
@@ -889,7 +889,7 @@ Disassembly of section .text:
      8f8:	00241413          	slli	s0,s0,0x2
      8fc:	00870433          	add	s0,a4,s0
 #     for (; i < len; ++i) {
-     900:	08442983          	lw	s3,132(s0)
+     900:	09442983          	lw	s3,148(s0)
      904:	00002bb7          	lui	s7,0x2
 #     size_t i = 0;
      908:	00000a13          	li	s4,0
@@ -909,7 +909,7 @@ Disassembly of section .text:
      930:	f3dff06f          	j	86c <_ZL11action_takeh4spanIcE+0x40>
 #       if (!f(data[i])) {
      934:	01440933          	add	s2,s0,s4
-     938:	00494783          	lbu	a5,4(s2)
+     938:	01494783          	lbu	a5,20(s2)
 #       return objects[0];
      93c:	000b8713          	mv	a4,s7
 #     if (id >= sizeof(objects) / sizeof(object)) {
@@ -931,7 +931,7 @@ Disassembly of section .text:
 #     if (pos.index < len) {
      96c:	013a7463          	bgeu	s4,s3,974 <_ZL11action_takeh4spanIcE+0x148>
 #       return data[pos.index];
-     970:	00494703          	lbu	a4,4(s2)
+     970:	01494703          	lbu	a4,20(s2)
 #     if (len == Size - 1) {
      974:	0284a783          	lw	a5,40(s1)
      978:	01f00693          	li	a3,31
@@ -946,7 +946,7 @@ Disassembly of section .text:
      990:	013a7e63          	bgeu	s4,s3,9ac <_ZL11action_takeh4spanIcE+0x180>
 #     --len;
      994:	fff98793          	addi	a5,s3,-1
-     998:	08f42223          	sw	a5,132(s0)
+     998:	08f42a23          	sw	a5,148(s0)
      99c:	008989b3          	add	s3,s3,s0
      9a0:	00090793          	mv	a5,s2
 #     for (size_t i = pos.index; i < len; ++i) {
@@ -966,8 +966,8 @@ Disassembly of section .text:
      9d4:	05010113          	addi	sp,sp,80
      9d8:	00008067          	ret
 #       data[i] = data[i + 1];
-     9dc:	0047c703          	lbu	a4,4(a5)
-     9e0:	00e781a3          	sb	a4,3(a5)
+     9dc:	0147c703          	lbu	a4,20(a5)
+     9e0:	00e789a3          	sb	a4,19(a5)
 #     for (size_t i = pos.index; i < len; ++i) {
      9e4:	fc1ff06f          	j	9a4 <_ZL11action_takeh4spanIcE+0x178>
 
@@ -1086,15 +1086,15 @@ Disassembly of section .text:
 #       return data[pos.index];
      b30:	0084c683          	lbu	a3,8(s1)
 #     if (len == Size - 1) {
-     b34:	0847a703          	lw	a4,132(a5)
+     b34:	0947a703          	lw	a4,148(a5)
      b38:	07f00613          	li	a2,127
      b3c:	02c70863          	beq	a4,a2,b6c <_ZL11action_droph4spanIcE+0x184>
 #     data[len] = elem;
      b40:	00e78633          	add	a2,a5,a4
-     b44:	00d60223          	sb	a3,4(a2)
+     b44:	00d60a23          	sb	a3,20(a2)
 #     ++len;
      b48:	00170713          	addi	a4,a4,1
-     b4c:	08e7a223          	sw	a4,132(a5)
+     b4c:	08e7aa23          	sw	a4,148(a5)
 #     if (pos.index >= len) {
      b50:	0129fe63          	bgeu	s3,s2,b6c <_ZL11action_droph4spanIcE+0x184>
 #     --len;
@@ -1157,8 +1157,8 @@ Disassembly of section .text:
      bf8:	00279793          	slli	a5,a5,0x2
      bfc:	00f807b3          	add	a5,a6,a5
 #     for (; i < len; ++i) {
-     c00:	0a07a883          	lw	a7,160(a5)
-     c04:	09478613          	addi	a2,a5,148
+     c00:	0107a883          	lw	a7,16(a5)
+     c04:	00478613          	addi	a2,a5,4
 #     size_t i = 0;
      c08:	00000713          	li	a4,0
 #     for (; i < len; ++i) {
@@ -1178,7 +1178,7 @@ Disassembly of section .text:
 #       return data[pos.index];
      c34:	00171713          	slli	a4,a4,0x1
      c38:	00e78733          	add	a4,a5,a4
-     c3c:	09574603          	lbu	a2,149(a4)
+     c3c:	00574603          	lbu	a2,5(a4)
 #     if (id >= sizeof(locations) / sizeof(location)) {
      c40:	00400593          	li	a1,4
 #       return locations[0];
@@ -1193,22 +1193,22 @@ Disassembly of section .text:
      c5c:	00271713          	slli	a4,a4,0x2
      c60:	00e80733          	add	a4,a6,a4
 #     if (len == Size - 1) {
-     c64:	09072583          	lw	a1,144(a4)
+     c64:	0a072583          	lw	a1,160(a4)
      c68:	00700813          	li	a6,7
      c6c:	07058463          	beq	a1,a6,cd4 <_ZL9action_gohh+0x130>
 #     data[len] = elem;
      c70:	00b70833          	add	a6,a4,a1
-     c74:	08a80423          	sb	a0,136(a6)
+     c74:	08a80c23          	sb	a0,152(a6)
 #     ++len;
      c78:	00158593          	addi	a1,a1,1
-     c7c:	08b72823          	sw	a1,144(a4)
+     c7c:	0ab72023          	sw	a1,160(a4)
 #     for (size_t i = 0; i < len; ++i) {
      c80:	00000813          	li	a6,0
-     c84:	0907a583          	lw	a1,144(a5)
+     c84:	0a07a583          	lw	a1,160(a5)
      c88:	02b87a63          	bgeu	a6,a1,cbc <_ZL9action_gohh+0x118>
 #       if (data[i] != elem) {
      c8c:	01078733          	add	a4,a5,a6
-     c90:	08874883          	lbu	a7,136(a4)
+     c90:	09874883          	lbu	a7,152(a4)
      c94:	00a88a63          	beq	a7,a0,ca8 <_ZL9action_gohh+0x104>
 #     for (size_t i = 0; i < len; ++i) {
      c98:	00180813          	addi	a6,a6,1
@@ -1218,7 +1218,7 @@ Disassembly of section .text:
      ca4:	fa9ff06f          	j	c4c <_ZL9action_gohh+0xa8>
 #       --len;
      ca8:	fff58593          	addi	a1,a1,-1
-     cac:	08b7a823          	sw	a1,144(a5)
+     cac:	0ab7a023          	sw	a1,160(a5)
 #       for (size_t j = i; j < len; ++j) {
      cb0:	00170513          	addi	a0,a4,1
      cb4:	40f70733          	sub	a4,a4,a5
@@ -1227,8 +1227,8 @@ Disassembly of section .text:
      cbc:	00c68223          	sb	a2,4(a3)
      cc0:	00008067          	ret
 #         data[j] = data[j + 1];
-     cc4:	08854703          	lbu	a4,136(a0)
-     cc8:	08e503a3          	sb	a4,135(a0)
+     cc4:	09854703          	lbu	a4,152(a0)
+     cc8:	08e50ba3          	sb	a4,151(a0)
      ccc:	00050713          	mv	a4,a0
      cd0:	fe1ff06f          	j	cb0 <_ZL9action_gohh+0x10c>
 # }
@@ -1332,7 +1332,7 @@ Disassembly of section .text:
      df8:	00249493          	slli	s1,s1,0x2
      dfc:	009704b3          	add	s1,a4,s1
 #     for (; i < len; ++i) {
-     e00:	0904ac03          	lw	s8,144(s1)
+     e00:	0a04ac03          	lw	s8,160(s1)
 #     size_t i = 0;
      e04:	00000b93          	li	s7,0
 #     if (id >= sizeof(entities) / sizeof(entity)) {
@@ -1350,7 +1350,7 @@ Disassembly of section .text:
      e28:	f15ff06f          	j	d3c <_ZL11action_giveh4spanIcE+0x64>
 #       if (!f(data[i])) {
      e2c:	01748cb3          	add	s9,s1,s7
-     e30:	088cc703          	lbu	a4,136(s9)
+     e30:	098cc703          	lbu	a4,152(s9)
 #       return entities[0];
      e34:	000a0793          	mv	a5,s4
 #     if (id >= sizeof(entities) / sizeof(entity)) {
@@ -1446,7 +1446,7 @@ Disassembly of section .text:
 #     if (pos.index < len) {
      f44:	018bfa63          	bgeu	s7,s8,f58 <_ZL11action_giveh4spanIcE+0x280>
 #       return data[pos.index];
-     f48:	088cc783          	lbu	a5,136(s9)
+     f48:	098cc783          	lbu	a5,152(s9)
 #     if (id >= sizeof(entities) / sizeof(entity)) {
      f4c:	00200713          	li	a4,2
 #       return entities[0];
