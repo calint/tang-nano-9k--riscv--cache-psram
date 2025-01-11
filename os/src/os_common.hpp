@@ -326,8 +326,8 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
 
   mut &ent = entity_by_id(eid);
   mut &lso = location_by_id(ent.location).objects;
-  let pos = lso.for_each_until_false([&args](let oid) {
-    if (string_equals_cstr(args, object_by_id(oid).name)) {
+  let pos = lso.for_each_until_false([&args](let id) {
+    if (string_equals_cstr(args, object_by_id(id).name)) {
       return false;
     }
     return true;
@@ -352,8 +352,8 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
 
   mut &ent = entity_by_id(eid);
   mut &lso = ent.objects;
-  let pos = lso.for_each_until_false([&args](let oid) {
-    if (string_equals_cstr(args, object_by_id(oid).name)) {
+  let pos = lso.for_each_until_false([&args](let id) {
+    if (string_equals_cstr(args, object_by_id(id).name)) {
       return false;
     }
     return true;
@@ -420,8 +420,8 @@ static auto action_give(entity_id_t const eid, string args) -> void {
   mut &to_entity = entity_by_id(lse.at(to_pos));
 
   // find object to give
-  let obj_pos = from_entity.objects.for_each_until_false([&obj_nm](let oid) {
-    if (string_equals_cstr(obj_nm, object_by_id(oid).name)) {
+  let obj_pos = from_entity.objects.for_each_until_false([&obj_nm](let id) {
+    if (string_equals_cstr(obj_nm, object_by_id(id).name)) {
       return false;
     }
     return true;
