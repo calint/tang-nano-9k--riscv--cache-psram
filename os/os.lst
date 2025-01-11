@@ -86,13 +86,13 @@ Disassembly of section .text:
       94:	0004a503          	lw	a0,0(s1)
       98:	3c0010ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #     uart_send_cstr(" > ");
-      9c:	c78a0513          	addi	a0,s4,-904 # 1c78 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x424>
+      9c:	c78a0513          	addi	a0,s4,-904 # 1c78 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x424>
       a0:	3b8010ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #     input(cmd_buf);
       a4:	00c10513          	addi	a0,sp,12
       a8:	739000ef          	jal	fe0 <_ZL5inputR14command_buffer>
 #     uart_send_cstr("\r\n");
-      ac:	c7c98513          	addi	a0,s3,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x428>
+      ac:	c7c98513          	addi	a0,s3,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x428>
       b0:	3a8010ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #     handle_input(active_entity, cmd_buf);
       b4:	00040513          	mv	a0,s0
@@ -113,7 +113,7 @@ Disassembly of section .text:
       cc:	ff010113          	addi	sp,sp,-16
       d0:	00a12423          	sw	a0,8(sp)
       d4:	00b12623          	sw	a1,12(sp)
-#   mut e = str.for_each_until_false([&cstr](char const ch) {
+#   mut e = str.for_each_until_false([&cstr](let ch) {
 #     if (*cstr && *cstr == ch) {
       d8:	00064783          	lbu	a5,0(a2)
 #   }
@@ -150,13 +150,13 @@ Disassembly of section .text:
 # static auto string_print(string const str) -> void {
      110:	fe010113          	addi	sp,sp,-32
      114:	00a12423          	sw	a0,8(sp)
-#   str.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](let ch) { uart_send_char(ch); });
      118:	00810513          	addi	a0,sp,8
 # static auto string_print(string const str) -> void {
      11c:	00112e23          	sw	ra,28(sp)
      120:	00b12623          	sw	a1,12(sp)
-#   str.for_each([](char const ch) { uart_send_char(ch); });
-     124:	730010ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0>
+#   str.for_each([](let ch) { uart_send_char(ch); });
+     124:	730010ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0>
 # }
      128:	01c12083          	lw	ra,28(sp)
      12c:	02010113          	addi	sp,sp,32
@@ -198,8 +198,8 @@ Disassembly of section .text:
      174:	00000613          	li	a2,0
      178:	00000793          	li	a5,0
      17c:	0400006f          	j	1bc <_ZL16string_next_word4spanIcE+0x88>
-#   mut ce = str.for_each_until_false(
-#       [](char const ch) { return ch != ' ' && ch != '\0'; });
+#   mut ce =
+#       str.for_each_until_false([](let ch) { return ch != ' ' && ch != '\0'; });
      180:	00074783          	lbu	a5,0(a4)
      184:	0df7f793          	andi	a5,a5,223
      188:	00079a63          	bnez	a5,19c <_ZL16string_next_word4spanIcE+0x68>
@@ -224,7 +224,7 @@ Disassembly of section .text:
 #   let word = str.subspan_ending_at(ce);
 #   let rem = str.subspan_starting_at(ce);
 #   let rem_trimmed = rem.subspan_starting_at(
-#       rem.for_each_until_false([](char const ch) { return ch == ' '; }));
+#       rem.for_each_until_false([](let ch) { return ch == ' '; }));
 #   return {word, rem_trimmed};
      1bc:	01012703          	lw	a4,16(sp)
      1c0:	00f52423          	sw	a5,8(a0)
@@ -273,7 +273,7 @@ Disassembly of section .text:
 # 
 #   if (string_equals_cstr(cmd, "help")) {
      224:	00002637          	lui	a2,0x2
-     228:	c8060613          	addi	a2,a2,-896 # 1c80 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x42c>
+     228:	c8060613          	addi	a2,a2,-896 # 1c80 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x42c>
      22c:	00048513          	mv	a0,s1
      230:	00040593          	mv	a1,s0
 #   let cmd = w1.word;
@@ -302,7 +302,7 @@ Disassembly of section .text:
      268:	5590006f          	j	fc0 <_ZL10print_helpv>
 #   } else if (string_equals_cstr(cmd, "i")) {
      26c:	00002637          	lui	a2,0x2
-     270:	c8860613          	addi	a2,a2,-888 # 1c88 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x434>
+     270:	c8860613          	addi	a2,a2,-888 # 1c88 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x434>
      274:	00048513          	mv	a0,s1
      278:	00040593          	mv	a1,s0
      27c:	e51ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
@@ -312,7 +312,7 @@ Disassembly of section .text:
      288:	4e8000ef          	jal	770 <_ZL16action_inventoryh>
 #     uart_send_cstr("\r\n");
      28c:	00002537          	lui	a0,0x2
-     290:	c7c50513          	addi	a0,a0,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x428>
+     290:	c7c50513          	addi	a0,a0,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x428>
 # }
      294:	04812403          	lw	s0,72(sp)
      298:	04c12083          	lw	ra,76(sp)
@@ -325,7 +325,7 @@ Disassembly of section .text:
      2b0:	1a80106f          	j	1458 <_ZL14uart_send_cstrPKc>
 #   } else if (string_equals_cstr(cmd, "t")) {
      2b4:	00002637          	lui	a2,0x2
-     2b8:	c8c60613          	addi	a2,a2,-884 # 1c8c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x438>
+     2b8:	c8c60613          	addi	a2,a2,-884 # 1c8c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x438>
      2bc:	00048513          	mv	a0,s1
      2c0:	00040593          	mv	a1,s0
      2c4:	e09ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
@@ -349,7 +349,7 @@ Disassembly of section .text:
      2f4:	5500006f          	j	844 <_ZL11action_takeh4spanIcE>
 #   } else if (string_equals_cstr(cmd, "d")) {
      2f8:	00002637          	lui	a2,0x2
-     2fc:	c9060613          	addi	a2,a2,-880 # 1c90 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x43c>
+     2fc:	c9060613          	addi	a2,a2,-880 # 1c90 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x43c>
      300:	00048513          	mv	a0,s1
      304:	00040593          	mv	a1,s0
      308:	dc5ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
@@ -374,7 +374,7 @@ Disassembly of section .text:
 #   } else if (string_equals_cstr(cmd, "n")) {
      33c:	00002637          	lui	a2,0x2
      340:	00040593          	mv	a1,s0
-     344:	c9460613          	addi	a2,a2,-876 # 1c94 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x440>
+     344:	c9460613          	addi	a2,a2,-876 # 1c94 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x440>
      348:	00048513          	mv	a0,s1
      34c:	d81ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
 #     action_go(eid, 0);
@@ -383,7 +383,7 @@ Disassembly of section .text:
      354:	02051063          	bnez	a0,374 <_ZL12handle_inputhR14command_buffer+0x190>
 #   } else if (string_equals_cstr(cmd, "e")) {
      358:	00002637          	lui	a2,0x2
-     35c:	c9860613          	addi	a2,a2,-872 # 1c98 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x444>
+     35c:	c9860613          	addi	a2,a2,-872 # 1c98 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x444>
      360:	00048513          	mv	a0,s1
      364:	00040593          	mv	a1,s0
      368:	d65ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
@@ -406,7 +406,7 @@ Disassembly of section .text:
 #   } else if (string_equals_cstr(cmd, "s")) {
      398:	00002637          	lui	a2,0x2
      39c:	00040593          	mv	a1,s0
-     3a0:	c9c60613          	addi	a2,a2,-868 # 1c9c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x448>
+     3a0:	c9c60613          	addi	a2,a2,-868 # 1c9c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x448>
      3a4:	00048513          	mv	a0,s1
      3a8:	d25ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
 #     action_go(eid, 2);
@@ -416,7 +416,7 @@ Disassembly of section .text:
 #   } else if (string_equals_cstr(cmd, "w")) {
      3b4:	00002637          	lui	a2,0x2
      3b8:	00040593          	mv	a1,s0
-     3bc:	ca060613          	addi	a2,a2,-864 # 1ca0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x44c>
+     3bc:	ca060613          	addi	a2,a2,-864 # 1ca0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x44c>
      3c0:	00048513          	mv	a0,s1
      3c4:	d09ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
 #     action_go(eid, 3);
@@ -425,7 +425,7 @@ Disassembly of section .text:
      3cc:	fa0514e3          	bnez	a0,374 <_ZL12handle_inputhR14command_buffer+0x190>
 #   } else if (string_equals_cstr(cmd, "g")) {
      3d0:	00002637          	lui	a2,0x2
-     3d4:	ca460613          	addi	a2,a2,-860 # 1ca4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x450>
+     3d4:	ca460613          	addi	a2,a2,-860 # 1ca4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x450>
      3d8:	00048513          	mv	a0,s1
      3dc:	00040593          	mv	a1,s0
      3e0:	cedff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
@@ -449,7 +449,7 @@ Disassembly of section .text:
      410:	1090006f          	j	d18 <_ZL11action_giveh4spanIcE>
 #   } else if (string_equals_cstr(cmd, "m")) {
      414:	00002637          	lui	a2,0x2
-     418:	ca860613          	addi	a2,a2,-856 # 1ca8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x454>
+     418:	ca860613          	addi	a2,a2,-856 # 1ca8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x454>
      41c:	00048513          	mv	a0,s1
      420:	00040593          	mv	a1,s0
      424:	ca9ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
@@ -468,7 +468,7 @@ Disassembly of section .text:
      44c:	01012503          	lw	a0,16(sp)
      450:	01412583          	lw	a1,20(sp)
      454:	00002637          	lui	a2,0x2
-     458:	cac60613          	addi	a2,a2,-852 # 1cac <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x458>
+     458:	cac60613          	addi	a2,a2,-852 # 1cac <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x458>
      45c:	c71ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
      460:	02050263          	beqz	a0,484 <_ZL12handle_inputhR14command_buffer+0x2a0>
 # }
@@ -485,7 +485,7 @@ Disassembly of section .text:
      484:	01012503          	lw	a0,16(sp)
      488:	01412583          	lw	a1,20(sp)
      48c:	00002637          	lui	a2,0x2
-     490:	cb060613          	addi	a2,a2,-848 # 1cb0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x45c>
+     490:	cb060613          	addi	a2,a2,-848 # 1cb0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x45c>
      494:	c39ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
      498:	02050663          	beqz	a0,4c4 <_ZL12handle_inputhR14command_buffer+0x2e0>
 # }
@@ -506,7 +506,7 @@ Disassembly of section .text:
      4c4:	01012503          	lw	a0,16(sp)
      4c8:	01412583          	lw	a1,20(sp)
      4cc:	00002637          	lui	a2,0x2
-     4d0:	cb460613          	addi	a2,a2,-844 # 1cb4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x460>
+     4d0:	cb460613          	addi	a2,a2,-844 # 1cb4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x460>
      4d4:	bf9ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
      4d8:	02050663          	beqz	a0,504 <_ZL12handle_inputhR14command_buffer+0x320>
 # }
@@ -527,12 +527,12 @@ Disassembly of section .text:
      504:	01012503          	lw	a0,16(sp)
      508:	01412583          	lw	a1,20(sp)
      50c:	00002637          	lui	a2,0x2
-     510:	cb860613          	addi	a2,a2,-840 # 1cb8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x464>
+     510:	cb860613          	addi	a2,a2,-840 # 1cb8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x464>
      514:	bb9ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
      518:	00051863          	bnez	a0,528 <_ZL12handle_inputhR14command_buffer+0x344>
 #     uart_send_cstr("not understood\r\n\r\n");
      51c:	00002537          	lui	a0,0x2
-     520:	cbc50513          	addi	a0,a0,-836 # 1cbc <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x468>
+     520:	cbc50513          	addi	a0,a0,-836 # 1cbc <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x468>
      524:	d71ff06f          	j	294 <_ZL12handle_inputhR14command_buffer+0xb0>
 # }
      528:	04c12083          	lw	ra,76(sp)
@@ -554,7 +554,7 @@ Disassembly of section .text:
 #   mut &loc = locations[lid];
 #   uart_send_cstr("u r in ");
      554:	00002537          	lui	a0,0x2
-     558:	cd050513          	addi	a0,a0,-816 # 1cd0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x47c>
+     558:	cd050513          	addi	a0,a0,-816 # 1cd0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x47c>
 #                            entity_id_t const eid_exclude_from_output) -> void {
      55c:	04112623          	sw	ra,76(sp)
      560:	00b12623          	sw	a1,12(sp)
@@ -591,7 +591,7 @@ Disassembly of section .text:
      5b8:	6a1000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #   uart_send_cstr("\r\nu c: ");
      5bc:	00002537          	lui	a0,0x2
-     5c0:	cd850513          	addi	a0,a0,-808 # 1cd8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x484>
+     5c0:	cd850513          	addi	a0,a0,-808 # 1cd8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x484>
      5c4:	695000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
      5c8:	00000a13          	li	s4,0
      5cc:	05448493          	addi	s1,s1,84
@@ -612,12 +612,12 @@ Disassembly of section .text:
      5e0:	000a1863          	bnez	s4,5f0 <_ZL14print_locationhh+0xa8>
 #       uart_send_cstr("nothing");
      5e4:	00002537          	lui	a0,0x2
-     5e8:	ce450513          	addi	a0,a0,-796 # 1ce4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x490>
+     5e8:	ce450513          	addi	a0,a0,-796 # 1ce4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x490>
      5ec:	66d000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #     }
 #     uart_send_cstr("\r\n");
      5f0:	00002bb7          	lui	s7,0x2
-     5f4:	c7cb8513          	addi	a0,s7,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x428>
+     5f4:	c7cb8513          	addi	a0,s7,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x428>
      5f8:	01390a33          	add	s4,s2,s3
      5fc:	65d000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
      600:	005a1a13          	slli	s4,s4,0x5
@@ -645,7 +645,7 @@ Disassembly of section .text:
      620:	00078863          	beqz	a5,630 <_ZL14print_locationhh+0xe8>
 #       uart_send_cstr(" is here\r\n");
      624:	00002537          	lui	a0,0x2
-     628:	cec50513          	addi	a0,a0,-788 # 1cec <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x498>
+     628:	cec50513          	addi	a0,a0,-788 # 1cec <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x498>
      62c:	62d000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #   auto length() const -> size_t { return len; }
      630:	01390933          	add	s2,s2,s3
@@ -658,7 +658,7 @@ Disassembly of section .text:
 #     uart_send_cstr("exits: ");
      638:	00002537          	lui	a0,0x2
      63c:	012484b3          	add	s1,s1,s2
-     640:	cf850513          	addi	a0,a0,-776 # 1cf8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x4a4>
+     640:	cf850513          	addi	a0,a0,-776 # 1cf8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x4a4>
      644:	615000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
      648:	09c4a983          	lw	s3,156(s1)
 #     mut &lse = loc.exits;
@@ -680,7 +680,7 @@ Disassembly of section .text:
      660:	00079863          	bnez	a5,670 <_ZL14print_locationhh+0x128>
 #       uart_send_cstr("none");
      664:	00002537          	lui	a0,0x2
-     668:	d0050513          	addi	a0,a0,-768 # 1d00 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x4ac>
+     668:	d0050513          	addi	a0,a0,-768 # 1d00 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x4ac>
      66c:	5ed000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #     }
 #     uart_send_cstr("\r\n");
@@ -710,7 +710,7 @@ Disassembly of section .text:
 #       if (counter++) {
      6b4:	000a0663          	beqz	s4,6c0 <_ZL14print_locationhh+0x178>
 #         uart_send_cstr(", ");
-     6b8:	ce0c0513          	addi	a0,s8,-800 # 1ce0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x48c>
+     6b8:	ce0c0513          	addi	a0,s8,-800 # 1ce0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x48c>
      6bc:	59d000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #       uart_send_cstr(objects[id].name);
      6c0:	fc0c8793          	addi	a5,s9,-64 # 1fc0 <_ZL7objects>
@@ -760,7 +760,7 @@ Disassembly of section .text:
      744:	00078863          	beqz	a5,754 <_ZL14print_locationhh+0x20c>
 #         uart_send_cstr(", ");
      748:	00002537          	lui	a0,0x2
-     74c:	ce050513          	addi	a0,a0,-800 # 1ce0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x48c>
+     74c:	ce050513          	addi	a0,a0,-800 # 1ce0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x48c>
      750:	509000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #       uart_send_cstr(exit_names[i]);
      754:	00042503          	lw	a0,0(s0)
@@ -784,7 +784,7 @@ Disassembly of section .text:
      780:	00002537          	lui	a0,0x2
      784:	00149413          	slli	s0,s1,0x1
      788:	00940433          	add	s0,s0,s1
-     78c:	d0850513          	addi	a0,a0,-760 # 1d08 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x4b4>
+     78c:	d0850513          	addi	a0,a0,-760 # 1d08 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x4b4>
 # static auto action_inventory(entity_id_t const eid) -> void {
      790:	01312623          	sw	s3,12(sp)
      794:	01412423          	sw	s4,8(sp)
@@ -817,7 +817,7 @@ Disassembly of section .text:
      7d8:	00049863          	bnez	s1,7e8 <_ZL16action_inventoryh+0x78>
 #     uart_send_cstr("nothing");
      7dc:	00002537          	lui	a0,0x2
-     7e0:	ce450513          	addi	a0,a0,-796 # 1ce4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x490>
+     7e0:	ce450513          	addi	a0,a0,-796 # 1ce4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x490>
      7e4:	475000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #   }
 #   uart_send_cstr("\r\n");
@@ -831,7 +831,7 @@ Disassembly of section .text:
      800:	00412a83          	lw	s5,4(sp)
 #   uart_send_cstr("\r\n");
      804:	00002537          	lui	a0,0x2
-     808:	c7c50513          	addi	a0,a0,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x428>
+     808:	c7c50513          	addi	a0,a0,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x428>
 # }
      80c:	02010113          	addi	sp,sp,32
 #   uart_send_cstr("\r\n");
@@ -841,7 +841,7 @@ Disassembly of section .text:
 #     if (counter++) {
      818:	00048663          	beqz	s1,824 <_ZL16action_inventoryh+0xb4>
 #       uart_send_cstr(", ");
-     81c:	ce0a0513          	addi	a0,s4,-800 # 1ce0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x48c>
+     81c:	ce0a0513          	addi	a0,s4,-800 # 1ce0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x48c>
      820:	439000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #     uart_send_cstr(objects[id].name);
      824:	fc0a8793          	addi	a5,s5,-64 # 1fc0 <_ZL7objects>
@@ -877,7 +877,7 @@ Disassembly of section .text:
      884:	04b61463          	bne	a2,a1,8cc <_ZL11action_takeh4spanIcE+0x88>
 #     uart_send_cstr("take what\r\n\r\n");
      888:	00002537          	lui	a0,0x2
-     88c:	d1450513          	addi	a0,a0,-748 # 1d14 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x4c0>
+     88c:	d1450513          	addi	a0,a0,-748 # 1d14 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x4c0>
 #   }
 # 
 #   if (ent.objects.add(lso.at(pos))) {
@@ -929,14 +929,14 @@ Disassembly of section .text:
 #     for (; i < len; ++i) {
      928:	000026b7          	lui	a3,0x2
      92c:	03441063          	bne	s0,s4,94c <_ZL11action_takeh4spanIcE+0x108>
-#   str.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](let ch) { uart_send_char(ch); });
      930:	01810513          	addi	a0,sp,24
      934:	01a12c23          	sw	s10,24(sp)
      938:	01912e23          	sw	s9,28(sp)
-     93c:	719000ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0>
+     93c:	719000ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0>
 #     uart_send_cstr(" not here\r\n\r\n");
      940:	00002537          	lui	a0,0x2
-     944:	d2450513          	addi	a0,a0,-732 # 1d24 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x4d0>
+     944:	d2450513          	addi	a0,a0,-732 # 1d24 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x4d0>
      948:	f49ff06f          	j	890 <_ZL11action_takeh4spanIcE+0x4c>
 #     if (string_equals_cstr(args, objects[oid].name)) {
      94c:	004dc703          	lbu	a4,4(s11)
@@ -1034,7 +1034,7 @@ Disassembly of section .text:
      a70:	04b61063          	bne	a2,a1,ab0 <_ZL11action_droph4spanIcE+0x78>
 #     uart_send_cstr("drop what\r\n\r\n");
      a74:	00002537          	lui	a0,0x2
-     a78:	d3450513          	addi	a0,a0,-716 # 1d34 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x4e0>
+     a78:	d3450513          	addi	a0,a0,-716 # 1d34 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x4e0>
 #   }
 # 
 #   if (locations[ent.location].objects.add(lso.at(pos))) {
@@ -1078,16 +1078,16 @@ Disassembly of section .text:
      af0:	03449663          	bne	s1,s4,b1c <_ZL11action_droph4spanIcE+0xe4>
 #     uart_send_cstr("u don't have ");
      af4:	00002537          	lui	a0,0x2
-     af8:	d4450513          	addi	a0,a0,-700 # 1d44 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x4f0>
+     af8:	d4450513          	addi	a0,a0,-700 # 1d44 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x4f0>
      afc:	15d000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
-#   str.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](let ch) { uart_send_char(ch); });
      b00:	01810513          	addi	a0,sp,24
      b04:	01712c23          	sw	s7,24(sp)
      b08:	01612e23          	sw	s6,28(sp)
-     b0c:	549000ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0>
+     b0c:	549000ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0>
 #     uart_send_cstr("\r\n\r\n");
      b10:	00002537          	lui	a0,0x2
-     b14:	8c050513          	addi	a0,a0,-1856 # 18c0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x6c>
+     b14:	8c050513          	addi	a0,a0,-1856 # 18c0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6c>
      b18:	f65ff06f          	j	a7c <_ZL11action_droph4spanIcE+0x44>
 #     if (string_equals_cstr(args, objects[oid].name)) {
      b1c:	008c4703          	lbu	a4,8(s8)
@@ -1202,7 +1202,7 @@ Disassembly of section .text:
      c6c:	00089863          	bnez	a7,c7c <_ZL9action_gohh+0x64>
 #     uart_send_cstr("cannot go there\r\n\r\n");
      c70:	00002537          	lui	a0,0x2
-     c74:	d5450513          	addi	a0,a0,-684 # 1d54 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x500>
+     c74:	d5450513          	addi	a0,a0,-684 # 1d54 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x500>
      c78:	7e00006f          	j	1458 <_ZL14uart_send_cstrPKc>
 #     if (len == Size - 1) {
      c7c:	00289693          	slli	a3,a7,0x2
@@ -1297,7 +1297,7 @@ Disassembly of section .text:
      d74:	04991463          	bne	s2,s1,dbc <_ZL11action_giveh4spanIcE+0xa4>
 #     uart_send_cstr("give what\r\n\r\n");
      d78:	00002537          	lui	a0,0x2
-     d7c:	d6850513          	addi	a0,a0,-664 # 1d68 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x514>
+     d7c:	d6850513          	addi	a0,a0,-664 # 1d68 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x514>
 #     uart_send_cstr(" not in inventory\r\n\r\n");
 #     return;
 #   }
@@ -1334,7 +1334,7 @@ Disassembly of section .text:
      ddc:	018b9863          	bne	s7,s8,dec <_ZL11action_giveh4spanIcE+0xd4>
 #     uart_send_cstr("give to whom\r\n\r\n");
      de0:	00002537          	lui	a0,0x2
-     de4:	d7850513          	addi	a0,a0,-648 # 1d78 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x524>
+     de4:	d7850513          	addi	a0,a0,-648 # 1d78 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x524>
      de8:	f99ff06f          	j	d80 <_ZL11action_giveh4spanIcE+0x68>
 #   let &loc = locations[ent.location];
      dec:	001a1b13          	slli	s6,s4,0x1
@@ -1358,14 +1358,14 @@ Disassembly of section .text:
      e2c:	00000d13          	li	s10,0
      e30:	fd0a8a93          	addi	s5,s5,-48
      e34:	03bd1063          	bne	s10,s11,e54 <_ZL11action_giveh4spanIcE+0x13c>
-#   str.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](let ch) { uart_send_char(ch); });
      e38:	02810513          	addi	a0,sp,40
      e3c:	03812423          	sw	s8,40(sp)
      e40:	03712623          	sw	s7,44(sp)
-     e44:	211000ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0>
+     e44:	211000ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0>
 #   uart_send_cstr(" is not here\r\n\r\n");
      e48:	00002537          	lui	a0,0x2
-     e4c:	da450513          	addi	a0,a0,-604 # 1da4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x550>
+     e4c:	da450513          	addi	a0,a0,-604 # 1da4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x550>
      e50:	f31ff06f          	j	d80 <_ZL11action_giveh4spanIcE+0x68>
 #     mut &to = entities[lse.at(i)];
      e54:	08844c83          	lbu	s9,136(s0)
@@ -1398,14 +1398,14 @@ Disassembly of section .text:
      eb4:	00000b93          	li	s7,0
      eb8:	00002737          	lui	a4,0x2
      ebc:	03bb9063          	bne	s7,s11,edc <_ZL11action_giveh4spanIcE+0x1c4>
-#   str.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](let ch) { uart_send_char(ch); });
      ec0:	02810513          	addi	a0,sp,40
      ec4:	02912423          	sw	s1,40(sp)
      ec8:	03212623          	sw	s2,44(sp)
-     ecc:	189000ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0>
+     ecc:	189000ef          	jal	1854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0>
 #     uart_send_cstr(" not in inventory\r\n\r\n");
      ed0:	00002537          	lui	a0,0x2
-     ed4:	d8c50513          	addi	a0,a0,-628 # 1d8c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x538>
+     ed4:	d8c50513          	addi	a0,a0,-628 # 1d8c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x538>
      ed8:	ea9ff06f          	j	d80 <_ZL11action_giveh4spanIcE+0x68>
 #       return data[ix];
      edc:	008c4d03          	lbu	s10,8(s8)
@@ -1486,7 +1486,7 @@ Disassembly of section .text:
 # static auto print_help() -> void {
 #   uart_send_cstr(
      fc0:	00002537          	lui	a0,0x2
-     fc4:	db850513          	addi	a0,a0,-584 # 1db8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x564>
+     fc4:	db850513          	addi	a0,a0,-584 # 1db8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x564>
      fc8:	4900006f          	j	1458 <_ZL14uart_send_cstrPKc>
 
 00000fcc <_ZL27input_escape_sequence_clearv>:
@@ -1744,7 +1744,7 @@ Disassembly of section .text:
     1218:	fff78793          	addi	a5,a5,-1
     121c:	04f40823          	sb	a5,80(s0)
 #             uart_send_cstr("\x1B[D");
-    1220:	ef0b8513          	addi	a0,s7,-272 # 1ef0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x69c>
+    1220:	ef0b8513          	addi	a0,s7,-272 # 1ef0 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x69c>
 #             uart_send_cstr("\x1B[C");
     1224:	234000ef          	jal	1458 <_ZL14uart_send_cstrPKc>
     1228:	fddff06f          	j	1204 <_ZL5inputR14command_buffer+0x224>
@@ -1756,7 +1756,7 @@ Disassembly of section .text:
     1238:	00178793          	addi	a5,a5,1
     123c:	00002537          	lui	a0,0x2
     1240:	04f40823          	sb	a5,80(s0)
-    1244:	ef450513          	addi	a0,a0,-268 # 1ef4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x6a0>
+    1244:	ef450513          	addi	a0,a0,-268 # 1ef4 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6a0>
     1248:	fddff06f          	j	1224 <_ZL5inputR14command_buffer+0x244>
 #           if (escape_sequence_parameter == 3) {
     124c:	fb9d1ce3          	bne	s10,s9,1204 <_ZL5inputR14command_buffer+0x224>
@@ -1873,7 +1873,7 @@ Disassembly of section .text:
     1328:	00b12623          	sw	a1,12(sp)
 #   mut num = 0u;
     132c:	00000513          	li	a0,0
-#   str.for_each_until_false([&num](char const ch) {
+#   str.for_each_until_false([&num](let ch) {
 #     if (ch <= '0' || ch >= '9') {
     1330:	00700613          	li	a2,7
 #     for (; it < end_; ++it) {
@@ -2051,7 +2051,7 @@ Disassembly of section .text:
 # static auto action_mem_test() -> void {
     14a8:	fe010113          	addi	sp,sp,-32
 #   uart_send_cstr("testing memory (write)\r\n");
-    14ac:	ef850513          	addi	a0,a0,-264 # 1ef8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x6a4>
+    14ac:	ef850513          	addi	a0,a0,-264 # 1ef8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6a4>
 # static auto action_mem_test() -> void {
     14b0:	00812c23          	sw	s0,24(sp)
     14b4:	00112e23          	sw	ra,28(sp)
@@ -2076,7 +2076,7 @@ Disassembly of section .text:
     14e8:	06d76263          	bltu	a4,a3,154c <_ZL15action_mem_testv+0xa8>
 #   uart_send_cstr("testing memory (read)\r\n");
     14ec:	00002537          	lui	a0,0x2
-    14f0:	f1450513          	addi	a0,a0,-236 # 1f14 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x6c0>
+    14f0:	f1450513          	addi	a0,a0,-236 # 1f14 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6c0>
     14f4:	f65ff0ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #   bool failed = false;
     14f8:	00000793          	li	a5,0
@@ -2098,7 +2098,7 @@ Disassembly of section .text:
     1518:	0a078063          	beqz	a5,15b8 <_ZL15action_mem_testv+0x114>
 #     uart_send_cstr("testing memory FAILED\r\n");
     151c:	00002537          	lui	a0,0x2
-    1520:	f4450513          	addi	a0,a0,-188 # 1f44 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x6f0>
+    1520:	f4450513          	addi	a0,a0,-188 # 1f44 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6f0>
 # }
     1524:	01812403          	lw	s0,24(sp)
     1528:	01c12083          	lw	ra,28(sp)
@@ -2124,26 +2124,26 @@ Disassembly of section .text:
     1560:	00044703          	lbu	a4,0(s0)
     1564:	04970263          	beq	a4,s1,15a8 <_ZL15action_mem_testv+0x104>
 #       uart_send_cstr("at ");
-    1568:	f2c98513          	addi	a0,s3,-212 # 1f2c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x6d8>
+    1568:	f2c98513          	addi	a0,s3,-212 # 1f2c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6d8>
     156c:	eedff0ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #       uart_send_hex_uint32(uint32_t(ptr), true);
     1570:	00100593          	li	a1,1
     1574:	00040513          	mv	a0,s0
     1578:	df5ff0ef          	jal	136c <_ZL20uart_send_hex_uint32jb>
 #       uart_send_cstr(" expected ");
-    157c:	f30a0513          	addi	a0,s4,-208 # 1f30 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x6dc>
+    157c:	f30a0513          	addi	a0,s4,-208 # 1f30 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6dc>
     1580:	ed9ff0ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #       uart_send_hex_byte(ch);
     1584:	00048513          	mv	a0,s1
     1588:	e41ff0ef          	jal	13c8 <_ZL18uart_send_hex_bytec>
 #       uart_send_cstr(" got ");
-    158c:	f3ca8513          	addi	a0,s5,-196 # 1f3c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x6e8>
+    158c:	f3ca8513          	addi	a0,s5,-196 # 1f3c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x6e8>
     1590:	ec9ff0ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #       uart_send_hex_byte(*ptr);
     1594:	00044503          	lbu	a0,0(s0)
     1598:	e31ff0ef          	jal	13c8 <_ZL18uart_send_hex_bytec>
 #       uart_send_cstr("\r\n");
-    159c:	c7cb0513          	addi	a0,s6,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x428>
+    159c:	c7cb0513          	addi	a0,s6,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x428>
     15a0:	eb9ff0ef          	jal	1458 <_ZL14uart_send_cstrPKc>
 #       failed = true;
     15a4:	00100793          	li	a5,1
@@ -2156,7 +2156,7 @@ Disassembly of section .text:
     15b4:	f61ff06f          	j	1514 <_ZL15action_mem_testv+0x70>
 #     uart_send_cstr("testing memory succeeded\r\n");
     15b8:	00002537          	lui	a0,0x2
-    15bc:	f5c50513          	addi	a0,a0,-164 # 1f5c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x708>
+    15bc:	f5c50513          	addi	a0,a0,-164 # 1f5c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x708>
     15c0:	f65ff06f          	j	1524 <_ZL15action_mem_testv+0x80>
 
 000015c4 <_ZL23action_sdcard_test_read4spanIcE>:
@@ -2181,7 +2181,7 @@ Disassembly of section .text:
     15f8:	02b51263          	bne	a0,a1,161c <_ZL23action_sdcard_test_read4spanIcE+0x58>
 #     uart_send_cstr("<sector>\r\n");
     15fc:	00002537          	lui	a0,0x2
-    1600:	f7850513          	addi	a0,a0,-136 # 1f78 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x724>
+    1600:	f7850513          	addi	a0,a0,-136 # 1f78 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x724>
 # }
     1604:	22812403          	lw	s0,552(sp)
     1608:	22c12083          	lw	ra,556(sp)
@@ -2210,7 +2210,7 @@ Disassembly of section .text:
     1644:	ff2418e3          	bne	s0,s2,1634 <_ZL23action_sdcard_test_read4spanIcE+0x70>
 #   uart_send_cstr("\r\n");
     1648:	00002537          	lui	a0,0x2
-    164c:	c7c50513          	addi	a0,a0,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x428>
+    164c:	c7c50513          	addi	a0,a0,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x428>
     1650:	fb5ff06f          	j	1604 <_ZL23action_sdcard_test_read4spanIcE+0x40>
 
 00001654 <_ZL24action_sdcard_test_write4spanIcE>:
@@ -2234,7 +2234,7 @@ Disassembly of section .text:
     1680:	22c12083          	lw	ra,556(sp)
 #     uart_send_cstr("<sector> <text>\r\n");
     1684:	00002537          	lui	a0,0x2
-    1688:	f8450513          	addi	a0,a0,-124 # 1f84 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x730>
+    1688:	f8450513          	addi	a0,a0,-124 # 1f84 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x730>
 # }
     168c:	23010113          	addi	sp,sp,560
 #     uart_send_cstr("<sector> <text>\r\n");
@@ -2280,7 +2280,7 @@ Disassembly of section .text:
 #   uint32_t const status = *SDCARD_STATUS;
     16f4:	fe402403          	lw	s0,-28(zero) # ffffffe4 <__bss_end+0xffffdc48>
 #   uart_send_cstr("SDCARD_STATUS: 0x");
-    16f8:	f9850513          	addi	a0,a0,-104 # 1f98 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x744>
+    16f8:	f9850513          	addi	a0,a0,-104 # 1f98 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x744>
 # static auto action_sdcard_status() -> void {
     16fc:	00112623          	sw	ra,12(sp)
 #   uart_send_cstr("SDCARD_STATUS: 0x");
@@ -2308,7 +2308,7 @@ Disassembly of section .text:
     1738:	00c12083          	lw	ra,12(sp)
 #   uart_send_cstr("\r\n");
     173c:	00002537          	lui	a0,0x2
-    1740:	c7c50513          	addi	a0,a0,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x428>
+    1740:	c7c50513          	addi	a0,a0,-900 # 1c7c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x428>
 # }
     1744:	01010113          	addi	sp,sp,16
 #   uart_send_cstr("\r\n");
@@ -2470,7 +2470,7 @@ Disassembly of section .text:
     184c:	c31ff0ef          	jal	147c <_ZL14uart_send_charc>
     1850:	fd5ff06f          	j	1824 <_ZNK14command_buffer33apply_on_chars_from_cursor_to_endIZL5inputRS_EUlcE_EEvOT_.isra.0+0x18>
 
-00001854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0>:
+00001854 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0>:
 #   auto for_each(callable_returns_void<Type> auto f) const -> void {
     1854:	ff010113          	addi	sp,sp,-16
     1858:	00812423          	sw	s0,8(sp)
@@ -2482,16 +2482,16 @@ Disassembly of section .text:
     1868:	00050493          	mv	s1,a0
 #     for (Type *it = begin_; it < end_; ++it) {
     186c:	0044a783          	lw	a5,4(s1)
-    1870:	00f46c63          	bltu	s0,a5,1888 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x34>
+    1870:	00f46c63          	bltu	s0,a5,1888 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x34>
 #   }
     1874:	00c12083          	lw	ra,12(sp)
     1878:	00812403          	lw	s0,8(sp)
     187c:	00412483          	lw	s1,4(sp)
     1880:	01010113          	addi	sp,sp,16
     1884:	00008067          	ret
-#   str.for_each([](char const ch) { uart_send_char(ch); });
+#   str.for_each([](let ch) { uart_send_char(ch); });
     1888:	00044503          	lbu	a0,0(s0)
 #     for (Type *it = begin_; it < end_; ++it) {
     188c:	00140413          	addi	s0,s0,1
     1890:	bedff0ef          	jal	147c <_ZL14uart_send_charc>
-    1894:	fd9ff06f          	j	186c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlcE_EEvT_.isra.0+0x18>
+    1894:	fd9ff06f          	j	186c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x18>

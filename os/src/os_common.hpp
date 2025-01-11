@@ -167,7 +167,7 @@ extern "C" [[noreturn]] auto run() -> void {
 }
 
 static auto string_equals_cstr(string const str, char const *cstr) -> bool {
-  mut e = str.for_each_until_false([&cstr](char const ch) {
+  mut e = str.for_each_until_false([&cstr](let ch) {
     if (*cstr && *cstr == ch) {
       ++cstr;
       return true;
@@ -178,7 +178,7 @@ static auto string_equals_cstr(string const str, char const *cstr) -> bool {
 }
 
 static auto string_print(string const str) -> void {
-  str.for_each([](char const ch) { uart_send_char(ch); });
+  str.for_each([](let ch) { uart_send_char(ch); });
 }
 
 struct string_next_word_return {
@@ -188,12 +188,12 @@ struct string_next_word_return {
 
 static auto
 string_next_word(string const str) -> struct string_next_word_return {
-  mut ce = str.for_each_until_false(
-      [](char const ch) { return ch != ' ' && ch != '\0'; });
+  mut ce =
+      str.for_each_until_false([](let ch) { return ch != ' ' && ch != '\0'; });
   let word = str.subspan_ending_at(ce);
   let rem = str.subspan_starting_at(ce);
   let rem_trimmed = rem.subspan_starting_at(
-      rem.for_each_until_false([](char const ch) { return ch == ' '; }));
+      rem.for_each_until_false([](let ch) { return ch == ' '; }));
   return {word, rem_trimmed};
 }
 
@@ -557,7 +557,7 @@ static auto cstr_copy(char const *cstr, char *buf) -> char * {
 
 static auto string_to_uint32(string str) -> uint32_t {
   mut num = 0u;
-  str.for_each_until_false([&num](char const ch) {
+  str.for_each_until_false([&num](let ch) {
     if (ch <= '0' || ch >= '9') {
       return false;
     }
