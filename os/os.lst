@@ -1797,7 +1797,7 @@ Disassembly of section .text:
     129c:	00e79a63          	bne	a5,a4,12b0 <_ZL11cstr_equalsPKcS0_+0x1c>
 #       return false;
 #     }
-#     if (!*s1 && !*s2) {
+#     if (*s1 == '\0' && *s2 == '\0') {
     12a0:	00078c63          	beqz	a5,12b8 <_ZL11cstr_equalsPKcS0_+0x24>
 #       return true;
 #     }

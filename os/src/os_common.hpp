@@ -515,7 +515,7 @@ static auto cstr_equals(char const *s1, char const *s2) -> bool {
     if (*s1 != *s2) {
       return false;
     }
-    if (!*s1 && !*s2) {
+    if (*s1 == '\0' && *s2 == '\0') {
       return true;
     }
     ++s1;
