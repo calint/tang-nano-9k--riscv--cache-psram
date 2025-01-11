@@ -112,6 +112,9 @@ static auto action_sdcard_test_read(string args) -> void;
 static auto action_sdcard_test_write(string args) -> void;
 
 // API
+static auto entity_by_id(entity_id_t id) -> entity &;
+static auto object_by_id(object_id_t id) -> object &;
+static auto location_by_id(location_id_t id) -> location &;
 static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;
 static auto uart_send_hex_byte(char ch) -> void;
 static auto uart_send_hex_nibble(char nibble) -> void;
@@ -155,7 +158,7 @@ extern "C" [[noreturn]] auto run() -> void {
   mut cmd_buf = command_buffer{};
 
   while (true) {
-    mut &ent = entities[active_entity];
+    mut &ent = entity_by_id(active_entity);
     print_location(ent.location, active_entity);
     uart_send_cstr(ent.name);
     uart_send_cstr(" > ");
@@ -241,7 +244,7 @@ handle_input(entity_id_t const eid, command_buffer &cmd_buf) -> void {
 
 static auto print_location(location_id_t const lid,
                            entity_id_t const eid_exclude_from_output) -> void {
-  mut &loc = locations[lid];
+  mut &loc = location_by_id(lid);
   uart_send_cstr("u r in ");
   uart_send_cstr(loc.name);
   uart_send_cstr("\r\nu c: ");
@@ -253,7 +256,7 @@ static auto print_location(location_id_t const lid,
       if (counter++) {
         uart_send_cstr(", ");
       }
-      uart_send_cstr(objects[id].name);
+      uart_send_cstr(object_by_id(id).name);
     });
     if (!counter) {
       uart_send_cstr("nothing");
@@ -271,7 +274,7 @@ static auto print_location(location_id_t const lid,
       if (counter++) {
         uart_send_cstr(", ");
       }
-      uart_send_cstr(entities[id].name);
+      uart_send_cstr(entity_by_id(id).name);
     });
     if (counter != 0) {
       uart_send_cstr(" is here\r\n");
@@ -303,11 +306,11 @@ static auto print_location(location_id_t const lid,
 static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_cstr("u have: ");
   mut counter = 0;
-  entities[eid].objects.for_each([&counter](let id) {
+  entity_by_id(eid).objects.for_each([&counter](let id) {
     if (counter++) {
       uart_send_cstr(", ");
     }
-    uart_send_cstr(objects[id].name);
+    uart_send_cstr(object_by_id(id).name);
   });
   if (counter == 0) {
     uart_send_cstr("nothing");
@@ -321,10 +324,10 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
     return;
   }
 
-  mut &ent = entities[eid];
-  mut &lso = locations[ent.location].objects;
+  mut &ent = entity_by_id(eid);
+  mut &lso = location_by_id(ent.location).objects;
   let pos = lso.for_each_until_false([&args](let oid) {
-    if (string_equals_cstr(args, objects[oid].name)) {
+    if (string_equals_cstr(args, object_by_id(oid).name)) {
       return false;
     }
     return true;
@@ -347,10 +350,10 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
     return;
   }
 
-  mut &ent = entities[eid];
+  mut &ent = entity_by_id(eid);
   mut &lso = ent.objects;
   let pos = lso.for_each_until_false([&args](let oid) {
-    if (string_equals_cstr(args, objects[oid].name)) {
+    if (string_equals_cstr(args, object_by_id(oid).name)) {
       return false;
     }
     return true;
@@ -363,20 +366,20 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
     return;
   }
 
-  if (locations[ent.location].objects.add(lso.at(pos))) {
+  if (location_by_id(ent.location).objects.add(lso.at(pos))) {
     lso.remove_at(pos);
   }
 }
 
 static auto action_go(entity_id_t const eid, exit_t const exit) -> void {
-  mut &ent = entities[eid];
-  mut &loc = locations[ent.location];
+  mut &ent = entity_by_id(eid);
+  mut &loc = location_by_id(ent.location);
   let to = loc.exits.at(exit);
   if (!to) {
     uart_send_cstr("cannot go there\r\n\r\n");
     return;
   }
-  if (locations[to].entities.add(eid)) {
+  if (location_by_id(to).entities.add(eid)) {
     loc.entities.remove(eid);
     ent.location = to;
   }
@@ -397,12 +400,12 @@ static auto action_give(entity_id_t const eid, string args) -> void {
     return;
   }
 
-  mut &from_entity = entities[eid];
-  let &loc = locations[from_entity.location];
+  mut &from_entity = entity_by_id(eid);
+  let &loc = location_by_id(from_entity.location);
   let &lse = loc.entities;
   // find 'to' entity in location
   let to_pos = lse.for_each_until_false([&to_ent_nm](let id) {
-    if (string_equals_cstr(to_ent_nm, entities[id].name)) {
+    if (string_equals_cstr(to_ent_nm, entity_by_id(id).name)) {
       return false;
     }
     return true;
@@ -414,11 +417,11 @@ static auto action_give(entity_id_t const eid, string args) -> void {
   }
 
   // get 'to' entity
-  mut &to_entity = entities[lse.at(to_pos)];
+  mut &to_entity = entity_by_id(lse.at(to_pos));
 
   // find object to give
   let obj_pos = from_entity.objects.for_each_until_false([&obj_nm](let oid) {
-    if (string_equals_cstr(obj_nm, objects[oid].name)) {
+    if (string_equals_cstr(obj_nm, object_by_id(oid).name)) {
       return false;
     }
     return true;
@@ -574,6 +577,12 @@ static auto string_to_uint32(string str) -> uint32_t {
     return true;
   });
   return num;
+}
+
+static auto entity_by_id(entity_id_t id) -> entity & { return entities[id]; }
+static auto object_by_id(object_id_t id) -> object & { return objects[id]; }
+static auto location_by_id(location_id_t id) -> location & {
+  return locations[id];
 }
 
 static auto
