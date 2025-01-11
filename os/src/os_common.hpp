@@ -138,10 +138,9 @@ static auto sdcard_write_blocking(size_t sector,
                                   int8_t const *buffer512B) -> void;
 static auto string_equals_cstr(string const str, cstr s) -> bool;
 static auto string_to_uint32(string str) -> uint32_t;
-static auto string_print(string const str) -> void;
+static auto string_print(string str) -> void;
 struct string_next_word_return;
-static auto
-string_next_word(string const str) -> struct string_next_word_return;
+static auto string_next_word(string str) -> struct string_next_word_return;
 
 extern "C" [[noreturn]] auto run() -> void {
   initiate_bss();
