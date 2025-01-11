@@ -50,7 +50,7 @@ static let char_backspace = '\x7f';
 static let char_tab = '\x09';
 static let location_max_objects = 128u;
 static let location_max_entities = 8u;
-static let location_max_exits = 6u;
+static let location_max_links = 6u;
 static let entity_max_objects = 32u;
 
 // note: defines are not stored in data segment thus gives a 20 B smaller binary
@@ -58,14 +58,14 @@ static let entity_max_objects = 32u;
 // #define char_tab 0x09
 // #define location_max_objects 128
 // #define location_max_entities 8
-// #define location_max_exits 6
+// #define location_max_links 6
 // #define entity_max_objects 32
 
 using name_t = cstr;
 using location_id_t = uint8_t;
 using object_id_t = uint8_t;
 using entity_id_t = uint8_t;
-using exit_id_t = uint8_t;
+using link_id_t = uint8_t;
 
 struct object final {
   name_t name{};
@@ -77,8 +77,8 @@ struct entity final {
   list<object_id_t, entity_max_objects> objects{};
 };
 
-struct location_exit final {
-  exit_id_t id{};
+struct location_link final {
+  link_id_t link{};
   location_id_t location{};
 };
 
@@ -86,7 +86,7 @@ struct location final {
   name_t name{};
   list<object_id_t, location_max_objects> objects{};
   list<entity_id_t, location_max_entities> entities{};
-  list<location_exit, location_max_exits> exits{};
+  list<location_link, location_max_links> links{};
 };
 
 static bool constexpr safe_arrays = true;
@@ -102,7 +102,7 @@ static location locations[] = {
     {"bathroom"},
     {"kitchen", {}, {}, {{{2, 1}}, 1}}};
 
-static cstr exits[] = {"", "north", "east", "south", "west", "up", "down"};
+static cstr links[] = {"", "north", "east", "south", "west", "up", "down"};
 
 // implemented in platform dependent source
 static auto led_set(int32_t bits) -> void;
@@ -119,7 +119,7 @@ static auto action_sdcard_test_write(string args) -> void;
 static auto entity_by_id(entity_id_t id) -> entity &;
 static auto object_by_id(object_id_t id) -> object &;
 static auto location_by_id(location_id_t id) -> location &;
-static auto exit_by_id(exit_id_t id) -> cstr;
+static auto link_by_id(link_id_t id) -> cstr;
 static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;
 static auto uart_send_hex_byte(char ch) -> void;
 static auto uart_send_hex_nibble(char nibble) -> void;
@@ -128,7 +128,7 @@ static auto print_location(location_id_t lid,
                            entity_id_t eid_excluded_from_output) -> void;
 static auto action_inventory(entity_id_t eid) -> void;
 static auto action_give(entity_id_t eid, string args) -> void;
-static auto action_go(entity_id_t eid, exit_id_t exit) -> void;
+static auto action_go(entity_id_t eid, link_id_t link_id) -> void;
 static auto action_drop(entity_id_t eid, string args) -> void;
 static auto action_take(entity_id_t eid, string args) -> void;
 static auto input(command_buffer &cmd_buf) -> void;
@@ -283,16 +283,16 @@ static auto print_location(location_id_t const lid,
     }
   }
 
-  // print exits from location
+  // print links from location
   {
     uart_send_cstr("exits: ");
-    mut &lse = loc.exits;
+    mut &lse = loc.links;
     mut counter = 0;
-    lse.for_each([&counter](let xit) {
+    lse.for_each([&counter](let loc_link) {
       if (counter++) {
         uart_send_cstr(", ");
       }
-      uart_send_cstr(exit_by_id(xit.id));
+      uart_send_cstr(link_by_id(loc_link.link));
     });
     if (counter == 0) {
       uart_send_cstr("none");
@@ -369,22 +369,22 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
   }
 }
 
-static auto action_go(entity_id_t const eid, exit_id_t const xit_id) -> void {
+static auto action_go(entity_id_t const eid, link_id_t const link_id) -> void {
   mut &ent = entity_by_id(eid);
   mut &loc = location_by_id(ent.location);
-  let xit_pos = loc.exits.for_each_until_false([xit_id](let xit) {
-    if (xit.id == xit_id) {
+  let link_pos = loc.links.for_each_until_false([link_id](let lnk) {
+    if (lnk.link == link_id) {
       return false;
     }
     return true;
   });
 
-  if (loc.exits.is_at_end(xit_pos)) {
+  if (loc.links.is_at_end(link_pos)) {
     uart_send_cstr("cannot go there\r\n\r\n");
     return;
   }
 
-  let loc_exit = loc.exits.at(xit_pos);
+  let loc_exit = loc.links.at(link_pos);
   if (location_by_id(loc_exit.location).entities.add(eid)) {
     loc.entities.remove(eid);
     ent.location = loc_exit.location;
@@ -615,11 +615,11 @@ static auto location_by_id(location_id_t const id) -> location & {
   return locations[id];
 }
 
-static auto exit_by_id(exit_id_t const id) -> cstr {
+static auto link_by_id(link_id_t const id) -> cstr {
   if constexpr (safe_arrays) {
-    if (id >= sizeof(exits) / sizeof(cstr)) {
-      return exits[0];
+    if (id >= sizeof(links) / sizeof(cstr)) {
+      return links[0];
     }
   }
-  return exits[id];
+  return links[id];
 }

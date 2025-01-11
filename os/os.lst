@@ -640,7 +640,7 @@ Disassembly of section .text:
      628:	00002537          	lui	a0,0x2
      62c:	d1050513          	addi	a0,a0,-752 # 1d10 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x49c>
      630:	649000ef          	jal	1478 <_ZL14uart_send_cstrPKc>
-#     lse.for_each([&counter](let xit) {
+#     lse.for_each([&counter](let loc_link) {
      634:	09440913          	addi	s2,s0,148
      638:	00000493          	li	s1,0
 #         uart_send_cstr(", ");
@@ -729,9 +729,9 @@ Disassembly of section .text:
 #         uart_send_cstr(", ");
      720:	cf8a0513          	addi	a0,s4,-776 # 1cf8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x484>
      724:	555000ef          	jal	1478 <_ZL14uart_send_cstrPKc>
-#       uart_send_cstr(exit_by_id(xit.id));
+#       uart_send_cstr(link_by_id(loc_link.link));
      728:	000a8513          	mv	a0,s5
-     72c:	521000ef          	jal	144c <_ZL10exit_by_idh>
+     72c:	521000ef          	jal	144c <_ZL10link_by_idh>
      730:	549000ef          	jal	1478 <_ZL14uart_send_cstrPKc>
      734:	00148493          	addi	s1,s1,1
      738:	00290913          	addi	s2,s2,2
@@ -1167,7 +1167,7 @@ Disassembly of section .text:
      c10:	00002537          	lui	a0,0x2
      c14:	d6c50513          	addi	a0,a0,-660 # 1d6c <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x4f8>
      c18:	0610006f          	j	1478 <_ZL14uart_send_cstrPKc>
-#     if (xit.id == xit_id) {
+#     if (lnk.link == link_id) {
      c1c:	00064303          	lbu	t1,0(a2)
      c20:	00260613          	addi	a2,a2,2
      c24:	00b30663          	beq	t1,a1,c30 <_ZL9action_gohh+0x8c>
@@ -1931,26 +1931,26 @@ Disassembly of section .text:
 # }
     1448:	00008067          	ret
 
-0000144c <_ZL10exit_by_idh>:
+0000144c <_ZL10link_by_idh>:
 # 
-# static auto exit_by_id(exit_id_t const id) -> cstr {
+# static auto link_by_id(link_id_t const id) -> cstr {
 #   if constexpr (safe_arrays) {
-#     if (id >= sizeof(exits) / sizeof(cstr)) {
+#     if (id >= sizeof(links) / sizeof(cstr)) {
     144c:	000027b7          	lui	a5,0x2
     1450:	00600713          	li	a4,6
-    1454:	3a478793          	addi	a5,a5,932 # 23a4 <_ZL5exits>
-    1458:	00a77663          	bgeu	a4,a0,1464 <_ZL10exit_by_idh+0x18>
-#       return exits[0];
+    1454:	3a478793          	addi	a5,a5,932 # 23a4 <_ZL5links>
+    1458:	00a77663          	bgeu	a4,a0,1464 <_ZL10link_by_idh+0x18>
+#       return links[0];
 #     }
 #   }
-#   return exits[id];
+#   return links[id];
     145c:	0007a503          	lw	a0,0(a5)
 # }
     1460:	00008067          	ret
-#   return exits[id];
+#   return links[id];
     1464:	00251513          	slli	a0,a0,0x2
     1468:	00a787b3          	add	a5,a5,a0
-    146c:	ff1ff06f          	j	145c <_ZL10exit_by_idh+0x10>
+    146c:	ff1ff06f          	j	145c <_ZL10link_by_idh+0x10>
 
 00001470 <_ZL7led_seti>:
     1470:	fea02e23          	sw	a0,-4(zero) # fffffffc <__bss_end+0xffffdc2c>
