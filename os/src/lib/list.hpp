@@ -29,7 +29,7 @@ public:
   }
 
   auto remove_at_index(size_t ix) -> bool {
-    if (len == 0 || ix >= len) {
+    if (ix >= len) {
       return false;
     }
     --len;
