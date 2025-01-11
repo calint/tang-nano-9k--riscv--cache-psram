@@ -41,6 +41,7 @@ static char const *ascii_art =
 //
 #include "lib/command_buffer.hpp"
 
+using string = span<char>;
 using name_t = char const *;
 using location_id_t = uint8_t;
 using object_id_t = uint8_t;
@@ -105,27 +106,26 @@ static auto uart_send_hex_nibble(char nibble) -> void;
 static auto uart_send_move_back(size_t n) -> void;
 static auto action_mem_test() -> void;
 static auto action_sdcard_status() -> void;
-static auto action_sdcard_test_read(span<char> arg) -> void;
-static auto action_sdcard_test_write(span<char> arg) -> void;
+static auto action_sdcard_test_read(string arg) -> void;
+static auto action_sdcard_test_write(string arg) -> void;
 
 // API
 static auto print_help() -> void;
 static auto print_location(location_id_t lid,
                            entity_id_t eid_exclude_from_output) -> void;
 static auto action_inventory(entity_id_t eid) -> void;
-static auto action_give(entity_id_t eid, span<char> args) -> void;
+static auto action_give(entity_id_t eid, string args) -> void;
 static auto action_go(entity_id_t eid, direction_t dir) -> void;
-static auto action_drop(entity_id_t eid, span<char> args) -> void;
-static auto action_take(entity_id_t eid, span<char> args) -> void;
+static auto action_drop(entity_id_t eid, string args) -> void;
+static auto action_take(entity_id_t eid, string args) -> void;
 static auto input(command_buffer &cmd_buf) -> void;
 static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
 static auto sdcard_read_blocking(size_t sector, int8_t *buffer512B) -> void;
 static auto sdcard_write_blocking(size_t sector,
                                   int8_t const *buffer512B) -> void;
-static auto strings_equal(char const *s1, char const *s2) -> bool;
-static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
-static auto string_copy(char const *str, char *buf) -> char *;
-static auto string_to_uint32(char const *str) -> uint32_t;
+static auto cstr_equals(char const *s1, char const *s2) -> bool;
+static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void;
+static auto cstr_copy(char const *str, char *buf) -> char *;
 
 extern "C" [[noreturn]] auto run() -> void {
   initiate_bss();
@@ -155,7 +155,7 @@ extern "C" [[noreturn]] auto run() -> void {
   }
 }
 
-static auto span_equals_string(span<char> const span, char const *str) -> bool {
+static auto string_equals_cstr(string const span, char const *str) -> bool {
   mut e = span.for_each_until_false([&str](char const ch) {
     if (*str && *str == ch) {
       ++str;
@@ -166,16 +166,16 @@ static auto span_equals_string(span<char> const span, char const *str) -> bool {
   return span.is_end_of_span(e) && *str == '\0';
 }
 
-static auto span_print(span<char> const span) -> void {
+static auto string_print(string const span) -> void {
   span.for_each([](char const ch) { uart_send_char(ch); });
 }
 
 typedef struct next_word {
-  span<char> word{};
-  span<char> rem{};
+  string word{};
+  string rem{};
 } next_word;
 
-static auto span_next_word(span<char> const spn) -> next_word {
+static auto string_next_word(string const spn) -> next_word {
   mut ce = spn.for_each_until_false(
       [](char const ch) { return ch != ' ' && ch != '\0'; });
   let word = spn.subspan_ending_at(ce);
@@ -189,38 +189,38 @@ static auto handle_input(entity_id_t const eid,
                          command_buffer &cmd_buf) -> void {
 
   let line = cmd_buf.span();
-  let w1 = span_next_word(line);
+  let w1 = string_next_word(line);
   let cmd = w1.word;
   let args = w1.rem;
 
-  if (span_equals_string(cmd, "help")) {
+  if (string_equals_cstr(cmd, "help")) {
     print_help();
-  } else if (span_equals_string(cmd, "i")) {
+  } else if (string_equals_cstr(cmd, "i")) {
     action_inventory(eid);
     uart_send_str("\r\n");
-  } else if (span_equals_string(cmd, "t")) {
+  } else if (string_equals_cstr(cmd, "t")) {
     action_take(eid, args);
-  } else if (span_equals_string(cmd, "d")) {
+  } else if (string_equals_cstr(cmd, "d")) {
     action_drop(eid, args);
-  } else if (span_equals_string(cmd, "n")) {
+  } else if (string_equals_cstr(cmd, "n")) {
     action_go(eid, 0);
-  } else if (span_equals_string(cmd, "e")) {
+  } else if (string_equals_cstr(cmd, "e")) {
     action_go(eid, 1);
-  } else if (span_equals_string(cmd, "s")) {
+  } else if (string_equals_cstr(cmd, "s")) {
     action_go(eid, 2);
-  } else if (span_equals_string(cmd, "w")) {
+  } else if (string_equals_cstr(cmd, "w")) {
     action_go(eid, 3);
-  } else if (span_equals_string(cmd, "g")) {
+  } else if (string_equals_cstr(cmd, "g")) {
     action_give(eid, args);
-  } else if (span_equals_string(cmd, "m")) {
+  } else if (string_equals_cstr(cmd, "m")) {
     action_mem_test();
-  } else if (span_equals_string(cmd, "sds")) {
+  } else if (string_equals_cstr(cmd, "sds")) {
     action_sdcard_status();
-  } else if (span_equals_string(cmd, "sdr")) {
+  } else if (string_equals_cstr(cmd, "sdr")) {
     action_sdcard_test_read(args);
-  } else if (span_equals_string(cmd, "sdw")) {
+  } else if (string_equals_cstr(cmd, "sdw")) {
     action_sdcard_test_write(args);
-  } else if (span_equals_string(cmd, "q")) {
+  } else if (string_equals_cstr(cmd, "q")) {
     exit(0);
   } else {
     uart_send_str("not understood\r\n\r\n");
@@ -306,7 +306,7 @@ static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_str("\r\n");
 }
 
-static auto action_take(entity_id_t const eid, span<char> const args) -> void {
+static auto action_take(entity_id_t const eid, string const args) -> void {
   if (args.size() == 0) {
     uart_send_str("take what\r\n\r\n");
     return;
@@ -316,7 +316,7 @@ static auto action_take(entity_id_t const eid, span<char> const args) -> void {
   let n = lso.length();
   for (size_t i = 0; i < n; ++i) {
     object_id_t const oid = lso.at(i);
-    if (!span_equals_string(args, objects[oid].name)) {
+    if (!string_equals_cstr(args, objects[oid].name)) {
       continue;
     }
     if (ent.objects.add(oid)) {
@@ -324,11 +324,11 @@ static auto action_take(entity_id_t const eid, span<char> const args) -> void {
     }
     return;
   }
-  span_print(args);
+  string_print(args);
   uart_send_str(" not here\r\n\r\n");
 }
 
-static auto action_drop(entity_id_t const eid, span<char> const args) -> void {
+static auto action_drop(entity_id_t const eid, string const args) -> void {
   if (args.size() == 0) {
     uart_send_str("drop what\r\n\r\n");
     return;
@@ -338,7 +338,7 @@ static auto action_drop(entity_id_t const eid, span<char> const args) -> void {
   let n = lso.length();
   for (size_t i = 0; i < n; ++i) {
     let oid = lso.at(i);
-    if (!span_equals_string(args, objects[oid].name)) {
+    if (!string_equals_cstr(args, objects[oid].name)) {
       continue;
     }
     if (locations[ent.location].objects.add(oid)) {
@@ -347,7 +347,7 @@ static auto action_drop(entity_id_t const eid, span<char> const args) -> void {
     return;
   }
   uart_send_str("u don't have ");
-  span_print(args);
+  string_print(args);
   uart_send_str("\r\n\r\n");
 }
 
@@ -365,15 +365,15 @@ static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
   }
 }
 
-static auto action_give(entity_id_t const eid, span<char> args) -> void {
-  let w1 = span_next_word(args);
+static auto action_give(entity_id_t const eid, string args) -> void {
+  let w1 = string_next_word(args);
   let obj_nm = w1.word;
   if (obj_nm.is_empty()) {
     uart_send_str("give what\r\n\r\n");
     return;
   }
 
-  let w2 = span_next_word(w1.rem);
+  let w2 = string_next_word(w1.rem);
   let to_ent_nm = w2.word;
   if (to_ent_nm.is_empty()) {
     uart_send_str("give to whom\r\n\r\n");
@@ -386,14 +386,14 @@ static auto action_give(entity_id_t const eid, span<char> args) -> void {
   let n = lse.length();
   for (size_t i = 0; i < n; ++i) {
     mut &to = entities[lse.at(i)];
-    if (!span_equals_string(to_ent_nm, to.name)) {
+    if (!string_equals_cstr(to_ent_nm, to.name)) {
       continue;
     }
     mut &lso = ent.objects;
     size_t const m = lso.length();
     for (size_t j = 0; j < m; j++) {
       let oid = lso.at(j);
-      if (!span_equals_string(obj_nm, objects[oid].name)) {
+      if (!string_equals_cstr(obj_nm, objects[oid].name)) {
         continue;
       }
       if (to.objects.add(oid)) {
@@ -401,11 +401,11 @@ static auto action_give(entity_id_t const eid, span<char> args) -> void {
       }
       return;
     }
-    span_print(obj_nm);
+    string_print(obj_nm);
     uart_send_str(" not in inventory\r\n\r\n");
     return;
   }
-  span_print(to_ent_nm);
+  string_print(to_ent_nm);
   uart_send_str(" is not here\r\n\r\n");
 }
 
@@ -509,7 +509,7 @@ static auto input(command_buffer &cmd_buf) -> void {
   }
 }
 
-static auto strings_equal(char const *s1, char const *s2) -> bool {
+static auto cstr_equals(char const *s1, char const *s2) -> bool {
   while (true) {
     if (*s1 != *s2) {
       return false;
@@ -522,13 +522,13 @@ static auto strings_equal(char const *s1, char const *s2) -> bool {
   }
 }
 
-static auto string_copy(char const *src, size_t src_len, char *dst) -> void {
+static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void {
   while (src_len--) {
     *dst++ = *src++;
   }
 }
 
-static auto string_copy(char const *str, char *buf) -> char * {
+static auto cstr_copy(char const *str, char *buf) -> char * {
   while (*str) {
     *buf = *str;
     ++buf;
@@ -537,21 +537,7 @@ static auto string_copy(char const *str, char *buf) -> char * {
   return buf;
 }
 
-static auto string_to_uint32(char const *str) -> uint32_t {
-  mut num = 0u;
-  while (true) {
-    char const ch = *str;
-    if (ch >= '0' && ch <= '9') {
-      num = num * 10 + uint32_t(ch - '0');
-    } else {
-      break;
-    }
-    ++str;
-  }
-  return num;
-}
-
-static auto span_to_uint32(span<char> str) -> uint32_t {
+static auto string_to_uint32(string str) -> uint32_t {
   mut num = 0u;
   str.for_each_until_false([&num](char const ch) {
     if (ch <= '0' || ch >= '9') {

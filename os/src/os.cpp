@@ -113,33 +113,33 @@ static auto action_mem_test() -> void {
 }
 
 static auto action_sdcard_test_read(span<char> arg) -> void {
-  next_word w1 = span_next_word(arg);
+  let w1 = string_next_word(arg);
   if (w1.word.is_empty()) {
     uart_send_str("<sector>\r\n");
     return;
   }
-  size_t const sector = span_to_uint32(w1.word);
+  let sector = string_to_uint32(w1.word);
   char buf[512];
   sdcard_read_blocking(sector, buf);
-  for (size_t i = 0; i < sizeof(buf); ++i) {
+  for (mut i = 0u; i < sizeof(buf); ++i) {
     uart_send_char(buf[i]);
   }
   uart_send_str("\r\n");
 }
 
 static auto action_sdcard_test_write(span<char> arg) -> void {
-  next_word w1 = span_next_word(arg);
+  let w1 = string_next_word(arg);
   if (w1.word.is_empty()) {
     uart_send_str("<sector> <text>\r\n");
     return;
   }
   char buf[512]{};
-  char *buf_ptr = buf;
+  mut *buf_ptr = buf;
   w1.rem.for_each([&buf_ptr](char const ch) {
     *buf_ptr = ch;
     ++buf_ptr;
   });
-  size_t const sector = span_to_uint32(w1.word);
+  size_t const sector = string_to_uint32(w1.word);
   sdcard_write_blocking(sector, buf);
 }
 
