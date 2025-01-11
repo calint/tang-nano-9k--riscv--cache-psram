@@ -48,8 +48,7 @@ public:
 
   auto length() const -> size_t { return len; }
 
-  auto
-  for_each_until_false(callable_returns_bool<Type> auto &&f) const -> void {
+  auto for_each_until_false(callable_returns_bool<Type> auto f) const -> void {
     for (size_t i = 0; i < len; ++i) {
       if (!f(data[i])) {
         return;

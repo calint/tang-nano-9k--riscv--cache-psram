@@ -581,11 +581,11 @@ Disassembly of section .text:
      5a8:	00f40433          	add	s0,s0,a5
      5ac:	00042503          	lw	a0,0(s0)
      5b0:	00040a93          	mv	s5,s0
+#   }
 # 
 #   auto length() const -> size_t { return len; }
 # 
-#   auto
-#   for_each_until_false(callable_returns_bool<Type> auto &&f) const -> void {
+#   auto for_each_until_false(callable_returns_bool<Type> auto f) const -> void {
 #     for (size_t i = 0; i < len; ++i) {
      5b4:	00040b93          	mv	s7,s0
      5b8:	68d000ef          	jal	1444 <_ZL13uart_send_strPKc>
