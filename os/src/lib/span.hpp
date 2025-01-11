@@ -5,6 +5,12 @@ template <typename Type> class span {
   Type *end_{};
 
 public:
+  class position {
+    friend class span;
+    Type *ptr{};
+    position(Type *p) : ptr{p} {}
+  };
+
   span() : begin_{nullptr}, end_{nullptr} {}
 
   span(Type *const span_begin, Type *const span_end)
@@ -41,25 +47,25 @@ public:
     return {begin_ + begin_index, end_};
   }
 
-  auto subspan_starting_at(Type *const span_begin) const -> span<Type> {
-    if (span_begin > end_ || span_begin < begin_) {
+  auto subspan_starting_at(position const pos) const -> span<Type> {
+    if (pos.ptr > end_ || pos.ptr < begin_) {
       return {};
     }
-    return {span_begin, end_};
+    return {pos.ptr, end_};
   }
 
-  auto subspan_ending_at_index(size_t end_index) const -> span<Type> {
+  auto subspan_ending_at_index(size_t const end_index) const -> span<Type> {
     if (end_index > size()) {
       return {};
     }
     return {begin_, end_index};
   }
 
-  auto subspan_ending_at(Type *const span_end) const -> span<Type> {
-    if (span_end > end_ || span_end < begin_) {
+  auto subspan_ending_at(position const pos) const -> span<Type> {
+    if (pos.ptr > end_ || pos.ptr < begin_) {
       return {};
     }
-    return {begin_, span_end};
+    return {begin_, pos.ptr};
   }
 
   auto for_each(callable_returns_void<Type> auto f) const -> void {
@@ -82,43 +88,43 @@ public:
   }
 
   auto
-  for_each_until_false(callable_returns_bool<Type> auto f) const -> Type * {
+  for_each_until_false(callable_returns_bool<Type> auto f) const -> position {
     Type *it = begin_;
     for (; it < end_; ++it) {
       if (!f(*it)) {
-        return it;
+        return {it};
       }
     }
-    return it;
+    return {it};
   }
 
   auto for_each_ref_until_false(callable_returns_bool<Type &> auto f) const
-      -> Type * {
+      -> position {
     Type *it = begin_;
     for (; it < end_; ++it) {
       if (!f(*it)) {
-        return it;
+        return {it};
       }
     }
-    return it;
+    return {it};
   }
 
   auto for_each_const_ref_until_false(
-      callable_returns_bool<Type const &> auto f) const -> Type * {
+      callable_returns_bool<Type const &> auto f) const -> position {
     Type *it = begin_;
     for (; it < end_; ++it) {
       if (!f(*it)) {
-        return it;
+        return {it};
       }
     }
-    return it;
+    return {it};
   }
 
-  auto is_within_span(Type const *const t) const -> bool {
-    return t >= begin_ && t <= end_;
+  auto is_within_span(position const pos) const -> bool {
+    return pos.ptr >= begin_ && pos.ptr <= end_;
   }
 
-  auto is_end_of_span(Type const *const t) const -> bool { return t == end_; }
+  auto is_end_of_span(position const t) const -> bool { return t.ptr == end_; }
 
   auto is_null() const -> bool { return begin_ = nullptr && end_ == nullptr; }
 

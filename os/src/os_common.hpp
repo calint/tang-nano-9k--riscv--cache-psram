@@ -154,7 +154,7 @@ extern "C" [[noreturn]] auto run() -> void {
 }
 
 static auto span_equals_string(span<char> const span, char const *str) -> bool {
-  char *const e = span.for_each_until_false([&str](char const ch) {
+  auto e = span.for_each_until_false([&str](char const ch) {
     if (*str && *str == ch) {
       ++str;
       return true;
@@ -174,7 +174,7 @@ typedef struct next_word {
 } next_word;
 
 static auto span_next_word(span<char> const spn) -> next_word {
-  char *const ce = spn.for_each_until_false(
+  auto ce = spn.for_each_until_false(
       [](char const ch) { return ch != ' ' && ch != '\0'; });
   span<char> const word = spn.subspan_ending_at(ce);
   span<char> const rem = spn.subspan_starting_at(ce);
