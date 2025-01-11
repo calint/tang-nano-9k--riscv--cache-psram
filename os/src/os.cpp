@@ -40,7 +40,7 @@ static constexpr char CHAR_CARRIAGE_RETURN = 0x0d;
 
 static auto led_set(int32_t const bits) -> void { *LED = bits; }
 
-static auto uart_send_str(char const *str) -> void {
+static auto uart_send_cstr(char const *str) -> void {
   while (*str) {
     while (*UART_OUT != -1)
       ;
@@ -63,15 +63,15 @@ static auto uart_read_char() -> char {
 
 // simple test of FPGA memory
 static auto action_mem_test() -> void {
-  uart_send_str("testing memory (write)\r\n");
+  uart_send_cstr("testing memory (write)\r\n");
   char *ptr = &__heap_start;
-  // uart_send_str(" heap starts at: ");
+  // uart_send_cstr(" heap starts at: ");
   // uart_send_hex_byte(char(uint32_t(ptr) >> 24));
   // uart_send_hex_byte(char(uint32_t(ptr) >> 16));
   // uart_send_char(':');
   // uart_send_hex_byte(char(uint32_t(ptr) >> 8));
   // uart_send_hex_byte(char(uint32_t(ptr)));
-  // uart_send_str("\r\n");
+  // uart_send_cstr("\r\n");
   char const *const end = reinterpret_cast<char *>(MEMORY_END - 0x1'0000);
   // ??? 0x1'0000 bytes reserved for stack, something more solid would be better
   // ??? don't forget about this when the application grows
@@ -81,20 +81,20 @@ static auto action_mem_test() -> void {
     ++ptr;
     ++ch;
   }
-  uart_send_str("testing memory (read)\r\n");
+  uart_send_cstr("testing memory (read)\r\n");
   ptr = &__heap_start;
   // ptr = reinterpret_cast<char *>(0x1'0000);
   ch = 0;
   bool failed = false;
   while (ptr < end) {
     if (*ptr != ch) {
-      uart_send_str("at ");
+      uart_send_cstr("at ");
       uart_send_hex_uint32(uint32_t(ptr), true);
-      uart_send_str(" expected ");
+      uart_send_cstr(" expected ");
       uart_send_hex_byte(ch);
-      uart_send_str(" got ");
+      uart_send_cstr(" got ");
       uart_send_hex_byte(*ptr);
-      uart_send_str("\r\n");
+      uart_send_cstr("\r\n");
       failed = true;
     }
     ++ptr;
@@ -102,16 +102,16 @@ static auto action_mem_test() -> void {
   }
 
   if (failed) {
-    uart_send_str("testing memory FAILED\r\n");
+    uart_send_cstr("testing memory FAILED\r\n");
   } else {
-    uart_send_str("testing memory succeeded\r\n");
+    uart_send_cstr("testing memory succeeded\r\n");
   }
 }
 
 static auto action_sdcard_test_read(span<char> arg) -> void {
   let w1 = string_next_word(arg);
   if (w1.word.is_empty()) {
-    uart_send_str("<sector>\r\n");
+    uart_send_cstr("<sector>\r\n");
     return;
   }
   let sector = string_to_uint32(w1.word);
@@ -120,13 +120,13 @@ static auto action_sdcard_test_read(span<char> arg) -> void {
   for (mut i = 0u; i < sizeof(buf); ++i) {
     uart_send_char(buf[i]);
   }
-  uart_send_str("\r\n");
+  uart_send_cstr("\r\n");
 }
 
 static auto action_sdcard_test_write(span<char> arg) -> void {
   let w1 = string_next_word(arg);
   if (w1.word.is_empty()) {
-    uart_send_str("<sector> <text>\r\n");
+    uart_send_cstr("<sector> <text>\r\n");
     return;
   }
   char buf[512]{};
@@ -141,13 +141,13 @@ static auto action_sdcard_test_write(span<char> arg) -> void {
 
 static auto action_sdcard_status() -> void {
   uint32_t const status = *SDCARD_STATUS;
-  uart_send_str("SDCARD_STATUS: 0x");
+  uart_send_cstr("SDCARD_STATUS: 0x");
   uart_send_hex_byte(char(status >> 24));
   uart_send_hex_byte(char(status >> 16));
   uart_send_char(':');
   uart_send_hex_byte(char(status >> 8));
   uart_send_hex_byte(char(status));
-  uart_send_str("\r\n");
+  uart_send_cstr("\r\n");
 }
 
 static auto sdcard_read_blocking(size_t const sector,

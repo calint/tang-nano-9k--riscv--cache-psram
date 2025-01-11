@@ -36,7 +36,7 @@ static auto uart_send_char(char const ch) -> void {
   }
 }
 
-static auto uart_send_str(char const *str) -> void { printf("%s", str); }
+static auto uart_send_cstr(char const *str) -> void { printf("%s", str); }
 
 static auto uart_read_char() -> char { return char(getchar()); }
 

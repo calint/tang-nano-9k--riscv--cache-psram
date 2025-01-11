@@ -98,7 +98,7 @@ static char const *exit_names[] = {"north", "east", "south",
 
 // implemented in platform dependent source
 static auto led_set(int32_t bits) -> void;
-static auto uart_send_str(char const *str) -> void;
+static auto uart_send_cstr(char const *str) -> void;
 static auto uart_send_char(char ch) -> void;
 static auto uart_read_char() -> char;
 static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;
@@ -138,8 +138,8 @@ extern "C" [[noreturn]] auto run() -> void {
   led_set(0b0000);
   // turn on all leds
 
-  uart_send_str(ascii_art);
-  uart_send_str(hello);
+  uart_send_cstr(ascii_art);
+  uart_send_cstr(hello);
 
   mut active_entity = entity_id_t{1};
   mut cmd_buf = command_buffer{};
@@ -147,10 +147,10 @@ extern "C" [[noreturn]] auto run() -> void {
   while (true) {
     mut &ent = entities[active_entity];
     print_location(ent.location, active_entity);
-    uart_send_str(ent.name);
-    uart_send_str(" > ");
+    uart_send_cstr(ent.name);
+    uart_send_cstr(" > ");
     input(cmd_buf);
-    uart_send_str("\r\n");
+    uart_send_cstr("\r\n");
     handle_input(active_entity, cmd_buf);
     active_entity = active_entity == 1 ? 2 : 1;
   }
@@ -198,7 +198,7 @@ static auto handle_input(entity_id_t const eid,
     print_help();
   } else if (string_equals_cstr(cmd, "i")) {
     action_inventory(eid);
-    uart_send_str("\r\n");
+    uart_send_cstr("\r\n");
   } else if (string_equals_cstr(cmd, "t")) {
     action_take(eid, args);
   } else if (string_equals_cstr(cmd, "d")) {
@@ -224,31 +224,31 @@ static auto handle_input(entity_id_t const eid,
   } else if (string_equals_cstr(cmd, "q")) {
     exit(0);
   } else {
-    uart_send_str("not understood\r\n\r\n");
+    uart_send_cstr("not understood\r\n\r\n");
   }
 }
 
 static auto print_location(location_id_t const lid,
                            entity_id_t const eid_exclude_from_output) -> void {
   mut &loc = locations[lid];
-  uart_send_str("u r in ");
-  uart_send_str(loc.name);
-  uart_send_str("\r\nu c: ");
+  uart_send_cstr("u r in ");
+  uart_send_cstr(loc.name);
+  uart_send_cstr("\r\nu c: ");
 
   // print objects at location
   {
     mut counter = 0;
     loc.objects.for_each_until_false([&counter](object_id_t const id) {
       if (counter++) {
-        uart_send_str(", ");
+        uart_send_cstr(", ");
       }
-      uart_send_str(objects[id].name);
+      uart_send_cstr(objects[id].name);
       return true;
     });
     if (!counter) {
-      uart_send_str("nothing");
+      uart_send_cstr("nothing");
     }
-    uart_send_str("\r\n");
+    uart_send_cstr("\r\n");
   }
 
   // print entities in location
@@ -260,20 +260,20 @@ static auto print_location(location_id_t const lid,
             return true;
           }
           if (counter++) {
-            uart_send_str(", ");
+            uart_send_cstr(", ");
           }
-          uart_send_str(entities[id].name);
+          uart_send_cstr(entities[id].name);
           return true;
         });
     if (counter != 0) {
-      uart_send_str(" is here\r\n");
+      uart_send_cstr(" is here\r\n");
     }
   }
 
   // print exits from location
   {
     mut counter = 0;
-    uart_send_str("exits: ");
+    uart_send_cstr("exits: ");
     mut &lse = loc.exits;
     let n = lse.length();
     for (mut i = 0u; i < n; ++i) {
@@ -281,36 +281,36 @@ static auto print_location(location_id_t const lid,
         continue;
       }
       if (counter++) {
-        uart_send_str(", ");
+        uart_send_cstr(", ");
       }
-      uart_send_str(exit_names[i]);
+      uart_send_cstr(exit_names[i]);
     }
     if (counter == 0) {
-      uart_send_str("none");
+      uart_send_cstr("none");
     }
-    uart_send_str("\r\n");
+    uart_send_cstr("\r\n");
   }
 }
 
 static auto action_inventory(entity_id_t const eid) -> void {
-  uart_send_str("u have: ");
+  uart_send_cstr("u have: ");
   mut counter = 0;
   entities[eid].objects.for_each_until_false([&counter](object_id_t const id) {
     if (counter++) {
-      uart_send_str(", ");
+      uart_send_cstr(", ");
     }
-    uart_send_str(objects[id].name);
+    uart_send_cstr(objects[id].name);
     return true;
   });
   if (counter == 0) {
-    uart_send_str("nothing");
+    uart_send_cstr("nothing");
   }
-  uart_send_str("\r\n");
+  uart_send_cstr("\r\n");
 }
 
 static auto action_take(entity_id_t const eid, string const args) -> void {
   if (args.size() == 0) {
-    uart_send_str("take what\r\n\r\n");
+    uart_send_cstr("take what\r\n\r\n");
     return;
   }
   mut &ent = entities[eid];
@@ -327,12 +327,12 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
     return;
   }
   string_print(args);
-  uart_send_str(" not here\r\n\r\n");
+  uart_send_cstr(" not here\r\n\r\n");
 }
 
 static auto action_drop(entity_id_t const eid, string const args) -> void {
   if (args.size() == 0) {
-    uart_send_str("drop what\r\n\r\n");
+    uart_send_cstr("drop what\r\n\r\n");
     return;
   }
   mut &ent = entities[eid];
@@ -348,9 +348,9 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
     }
     return;
   }
-  uart_send_str("u don't have ");
+  uart_send_cstr("u don't have ");
   string_print(args);
-  uart_send_str("\r\n\r\n");
+  uart_send_cstr("\r\n\r\n");
 }
 
 static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
@@ -358,7 +358,7 @@ static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
   mut &loc = locations[ent.location];
   let to = loc.exits.at(dir);
   if (!to) {
-    uart_send_str("cannot go there\r\n\r\n");
+    uart_send_cstr("cannot go there\r\n\r\n");
     return;
   }
   if (locations[to].entities.add(eid)) {
@@ -371,14 +371,14 @@ static auto action_give(entity_id_t const eid, string args) -> void {
   let w1 = string_next_word(args);
   let obj_nm = w1.word;
   if (obj_nm.is_empty()) {
-    uart_send_str("give what\r\n\r\n");
+    uart_send_cstr("give what\r\n\r\n");
     return;
   }
 
   let w2 = string_next_word(w1.rem);
   let to_ent_nm = w2.word;
   if (to_ent_nm.is_empty()) {
-    uart_send_str("give to whom\r\n\r\n");
+    uart_send_cstr("give to whom\r\n\r\n");
     return;
   }
 
@@ -404,15 +404,15 @@ static auto action_give(entity_id_t const eid, string args) -> void {
       return;
     }
     string_print(obj_nm);
-    uart_send_str(" not in inventory\r\n\r\n");
+    uart_send_cstr(" not in inventory\r\n\r\n");
     return;
   }
   string_print(to_ent_nm);
-  uart_send_str(" is not here\r\n\r\n");
+  uart_send_cstr(" is not here\r\n\r\n");
 }
 
 static auto print_help() -> void {
-  uart_send_str(
+  uart_send_cstr(
       "\r\ncommand:\r\n  n: go north\r\n  e: go east\r\n  s: go south\r\n  w: "
       "go west\r\n  i: "
       "display inventory\r\n  t <object>: take object\r\n  d <object>: drop "
@@ -478,13 +478,13 @@ static auto input(command_buffer &cmd_buf) -> void {
         switch (ch) {
         case 'D': // arrow left
           if (cmd_buf.move_cursor_left()) {
-            uart_send_str("\x1B[D");
+            uart_send_cstr("\x1B[D");
           }
           break;
 
         case 'C': // arrow right
           if (cmd_buf.move_cursor_right()) {
-            uart_send_str("\x1B[C");
+            uart_send_cstr("\x1B[C");
           }
           break;
 
