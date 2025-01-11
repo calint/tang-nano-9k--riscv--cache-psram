@@ -547,7 +547,7 @@ Disassembly of section .text:
 00000548 <_ZL14print_locationhh>:
 # 
 # static auto print_location(location_id_t const lid,
-#                            entity_id_t const eid_exclude_from_output) -> void {
+#                            entity_id_t const eid_excluded_from_output) -> void {
      548:	fb010113          	addi	sp,sp,-80
      54c:	03312e23          	sw	s3,60(sp)
      550:	00050993          	mv	s3,a0
@@ -555,7 +555,7 @@ Disassembly of section .text:
 #   uart_send_cstr("u r in ");
      554:	00002537          	lui	a0,0x2
      558:	d0450513          	addi	a0,a0,-764 # 1d04 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x47c>
-#                            entity_id_t const eid_exclude_from_output) -> void {
+#                            entity_id_t const eid_excluded_from_output) -> void {
      55c:	04112623          	sw	ra,76(sp)
      560:	00b12623          	sw	a1,12(sp)
      564:	04812423          	sw	s0,72(sp)
@@ -724,7 +724,7 @@ Disassembly of section .text:
      6dc:	efdff06f          	j	5d8 <_ZL14print_locationhh+0x90>
 #       f(data[i]);
      6e0:	08844d83          	lbu	s11,136(s0)
-#       if (id == eid_exclude_from_output) {
+#       if (id == eid_excluded_from_output) {
      6e4:	00c12703          	lw	a4,12(sp)
      6e8:	03b70e63          	beq	a4,s11,724 <_ZL14print_locationhh+0x1dc>
 #       if (counter++) {

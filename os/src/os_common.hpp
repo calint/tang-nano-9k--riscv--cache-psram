@@ -120,7 +120,7 @@ static auto uart_send_hex_byte(char ch) -> void;
 static auto uart_send_hex_nibble(char nibble) -> void;
 static auto print_help() -> void;
 static auto print_location(location_id_t lid,
-                           entity_id_t eid_exclude_from_output) -> void;
+                           entity_id_t eid_excluded_from_output) -> void;
 static auto action_inventory(entity_id_t eid) -> void;
 static auto action_give(entity_id_t eid, string args) -> void;
 static auto action_go(entity_id_t eid, exit_t exit) -> void;
@@ -240,7 +240,7 @@ handle_input(entity_id_t const eid, command_buffer &cmd_buf) -> void {
 }
 
 static auto print_location(location_id_t const lid,
-                           entity_id_t const eid_exclude_from_output) -> void {
+                           entity_id_t const eid_excluded_from_output) -> void {
   mut &loc = location_by_id(lid);
   uart_send_cstr("u r in ");
   uart_send_cstr(loc.name);
@@ -264,8 +264,8 @@ static auto print_location(location_id_t const lid,
   // print entities in location
   {
     mut counter = 0;
-    loc.entities.for_each([&counter, eid_exclude_from_output](let id) {
-      if (id == eid_exclude_from_output) {
+    loc.entities.for_each([&counter, eid_excluded_from_output](let id) {
+      if (id == eid_excluded_from_output) {
         return;
       }
       if (counter++) {
