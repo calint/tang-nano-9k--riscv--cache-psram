@@ -400,30 +400,38 @@ static auto action_give(entity_id_t const eid, string args) -> void {
   mut &ent = entities[eid];
   let &loc = locations[ent.location];
   let &lse = loc.entities;
-  let n = lse.length();
-  for (mut i = 0u; i < n; ++i) {
-    mut &to = entities[lse.at(i)];
-    if (!string_equals_cstr(to_ent_nm, to.name)) {
-      continue;
+  // find 'to' entity in location
+  let topos = lse.for_each_until_false([&to_ent_nm](let id) {
+    if (string_equals_cstr(to_ent_nm, entities[id].name)) {
+      return false;
     }
-    mut &lso = ent.objects;
-    let m = lso.length();
-    for (mut j = 0u; j < m; j++) {
-      let oid = lso.at(j);
-      if (!string_equals_cstr(obj_nm, objects[oid].name)) {
-        continue;
-      }
-      if (to.objects.add(oid)) {
-        lso.remove_at_index(j);
-      }
-      return;
+    return true;
+  });
+  if (lse.is_at_end(topos)) {
+    string_print(to_ent_nm);
+    uart_send_cstr(" is not here\r\n\r\n");
+    return;
+  }
+
+  // get 'to' entity
+  mut &to = entities[lse.at(topos)];
+
+  // find object to give
+  let objpos = ent.objects.for_each_until_false([&obj_nm](let oid) {
+    if (string_equals_cstr(obj_nm, objects[oid].name)) {
+      return false;
     }
+    return true;
+  });
+  if (ent.objects.is_at_end(objpos)) {
     string_print(obj_nm);
     uart_send_cstr(" not in inventory\r\n\r\n");
     return;
   }
-  string_print(to_ent_nm);
-  uart_send_cstr(" is not here\r\n\r\n");
+
+  if (to.objects.add(ent.objects.at(objpos))) {
+    ent.objects.remove_at(objpos);
+  }
 }
 
 static auto print_help() -> void {
