@@ -55,4 +55,10 @@ public:
       }
     }
   }
+
+  auto for_each(callable_returns_void<Type> auto f) const -> void {
+    for (size_t i = 0; i < len; ++i) {
+      f(data[i]);
+    }
+  }
 };

@@ -132,6 +132,7 @@ static auto cstr_equals(char const *s1, char const *s2) -> bool;
 static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void;
 static auto cstr_copy(char const *cstr, char *buf) -> char *;
 static auto string_equals_cstr(string const str, char const *cstr) -> bool;
+static auto string_to_uint32(string str) -> uint32_t;
 static auto string_print(string const str) -> void;
 struct string_next_word_return;
 static auto
@@ -248,12 +249,11 @@ static auto print_location(location_id_t const lid,
   // print objects at location
   {
     mut counter = 0;
-    loc.objects.for_each_until_false([&counter](object_id_t const id) {
+    loc.objects.for_each([&counter](object_id_t const id) {
       if (counter++) {
         uart_send_cstr(", ");
       }
       uart_send_cstr(objects[id].name);
-      return true;
     });
     if (!counter) {
       uart_send_cstr("nothing");
@@ -264,16 +264,15 @@ static auto print_location(location_id_t const lid,
   // print entities in location
   {
     mut counter = 0;
-    loc.entities.for_each_until_false(
+    loc.entities.for_each(
         [&counter, eid_exclude_from_output](location_id_t const id) {
           if (id == eid_exclude_from_output) {
-            return true;
+            return;
           }
           if (counter++) {
             uart_send_cstr(", ");
           }
           uart_send_cstr(entities[id].name);
-          return true;
         });
     if (counter != 0) {
       uart_send_cstr(" is here\r\n");
@@ -305,12 +304,11 @@ static auto print_location(location_id_t const lid,
 static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_cstr("u have: ");
   mut counter = 0;
-  entities[eid].objects.for_each_until_false([&counter](object_id_t const id) {
+  entities[eid].objects.for_each([&counter](object_id_t const id) {
     if (counter++) {
       uart_send_cstr(", ");
     }
     uart_send_cstr(objects[id].name);
-    return true;
   });
   if (counter == 0) {
     uart_send_cstr("nothing");

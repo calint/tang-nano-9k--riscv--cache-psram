@@ -14,12 +14,12 @@ Disassembly of section .text:
        4:	0040006f          	j	8 <run>
 
 00000008 <run>:
-#     *buf_ptr = ch;
 #     ++buf_ptr;
 #   });
 #   size_t const sector = string_to_uint32(w1.word);
 #   sdcard_write_blocking(sector, buf);
 # }
+# 
        8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdbc8>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
@@ -28,7 +28,7 @@ Disassembly of section .text:
       1c:	07412423          	sw	s4,104(sp)
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
-# 
+# static auto action_sdcard_status() -> void {
       28:	7a8010ef          	jal	17d0 <_ZL12initiate_bssv>
 #   // initiate statics in freestanding build
 # 
@@ -581,11 +581,11 @@ Disassembly of section .text:
      5a8:	00f40433          	add	s0,s0,a5
      5ac:	00042503          	lw	a0,0(s0)
      5b0:	00040a93          	mv	s5,s0
+#       }
+#     }
 #   }
 # 
-#   auto length() const -> size_t { return len; }
-# 
-#   auto for_each_until_false(callable_returns_bool<Type> auto f) const -> void {
+#   auto for_each(callable_returns_void<Type> auto f) const -> void {
 #     for (size_t i = 0; i < len; ++i) {
      5b4:	00040b93          	mv	s7,s0
      5b8:	68d000ef          	jal	1444 <_ZL14uart_send_cstrPKc>
@@ -598,7 +598,7 @@ Disassembly of section .text:
 #   // print objects at location
 #   {
 #     mut counter = 0;
-#     loc.objects.for_each_until_false([&counter](object_id_t const id) {
+#     loc.objects.for_each([&counter](object_id_t const id) {
 #       if (counter++) {
 #         uart_send_cstr(", ");
      5d0:	00002c37          	lui	s8,0x2
@@ -607,7 +607,6 @@ Disassembly of section .text:
      5d4:	00002cb7          	lui	s9,0x2
      5d8:	08442783          	lw	a5,132(s0)
      5dc:	0cfa6a63          	bltu	s4,a5,6b0 <_ZL14print_locationhh+0x168>
-#       return true;
 #     });
 #     if (!counter) {
      5e0:	000a1863          	bnez	s4,5f0 <_ZL14print_locationhh+0xa8>
@@ -630,7 +629,7 @@ Disassembly of section .text:
      604:	00000793          	li	a5,0
      608:	00000b13          	li	s6,0
      60c:	01448a33          	add	s4,s1,s4
-#             return true;
+#             return;
 #           }
 #           if (counter++) {
 #             uart_send_cstr(", ");
@@ -641,7 +640,6 @@ Disassembly of section .text:
      614:	00002cb7          	lui	s9,0x2
      618:	090a2683          	lw	a3,144(s4)
      61c:	0cdb6263          	bltu	s6,a3,6e0 <_ZL14print_locationhh+0x198>
-#           return true;
 #         });
 #     if (counter != 0) {
      620:	00078863          	beqz	a5,630 <_ZL14print_locationhh+0xe8>
@@ -707,7 +705,7 @@ Disassembly of section .text:
      6a8:	05010113          	addi	sp,sp,80
 #     uart_send_cstr("\r\n");
      6ac:	5990006f          	j	1444 <_ZL14uart_send_cstrPKc>
-#       if (!f(data[i])) {
+#       f(data[i]);
      6b0:	004bcd03          	lbu	s10,4(s7)
 #       if (counter++) {
      6b4:	000a0663          	beqz	s4,6c0 <_ZL14print_locationhh+0x178>
@@ -724,7 +722,7 @@ Disassembly of section .text:
      6d4:	001b8b93          	addi	s7,s7,1
      6d8:	56d000ef          	jal	1444 <_ZL14uart_send_cstrPKc>
      6dc:	efdff06f          	j	5d8 <_ZL14print_locationhh+0x90>
-#       if (!f(data[i])) {
+#       f(data[i]);
      6e0:	08844d83          	lbu	s11,136(s0)
 #           if (id == eid_exclude_from_output) {
      6e4:	00c12703          	lw	a4,12(sp)
@@ -797,7 +795,7 @@ Disassembly of section .text:
 #   uart_send_cstr("u have: ");
      7a8:	49d000ef          	jal	1444 <_ZL14uart_send_cstrPKc>
 #   mut counter = 0;
-#   entities[eid].objects.for_each_until_false([&counter](object_id_t const id) {
+#   entities[eid].objects.for_each([&counter](object_id_t const id) {
      7ac:	40940433          	sub	s0,s0,s1
      7b0:	000027b7          	lui	a5,0x2
      7b4:	00241413          	slli	s0,s0,0x2
@@ -814,7 +812,6 @@ Disassembly of section .text:
      7cc:	00002ab7          	lui	s5,0x2
      7d0:	0289a783          	lw	a5,40(s3)
      7d4:	04f4e063          	bltu	s1,a5,814 <_ZL16action_inventoryh+0xa4>
-#     return true;
 #   });
 #   if (counter == 0) {
      7d8:	00049863          	bnez	s1,7e8 <_ZL16action_inventoryh+0x78>
@@ -839,7 +836,7 @@ Disassembly of section .text:
      80c:	02010113          	addi	sp,sp,32
 #   uart_send_cstr("\r\n");
      810:	4350006f          	j	1444 <_ZL14uart_send_cstrPKc>
-#       if (!f(data[i])) {
+#       f(data[i]);
      814:	00844903          	lbu	s2,8(s0)
 #     if (counter++) {
      818:	00048663          	beqz	s1,824 <_ZL16action_inventoryh+0xb4>
