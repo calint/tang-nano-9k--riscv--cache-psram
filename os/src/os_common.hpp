@@ -552,6 +552,7 @@ static auto cstr_equals(char const *s1, char const *s2) -> bool {
   }
 }
 
+// note: 'src_len' is chars to be copied including '\0'
 static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void {
   while (src_len) {
     *dst = *src;
