@@ -46,6 +46,7 @@ using string = span<char>;
 
 #include "lib/command_buffer.hpp"
 
+static let safe_arrays = true;
 static let char_backspace = '\x7f';
 static let char_tab = '\x09';
 static let location_max_objects = 128u;
@@ -88,8 +89,6 @@ struct location final {
   list<object_id_t, location_max_objects> objects{};
   list<entity_id_t, location_max_entities> entities{};
 };
-
-static bool constexpr safe_arrays = true;
 
 static object objects[] = {{}, {"notebook"}, {"mirror"}, {"lighter"}};
 
