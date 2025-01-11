@@ -41,6 +41,7 @@ static char const *ascii_art =
 #include "lib/list.hpp"
 //
 
+using cstr = char const *;
 using string = span<char>;
 
 #include "lib/command_buffer.hpp"
@@ -60,13 +61,11 @@ static let entity_max_objects = 32u;
 // #define location_max_exits 6
 // #define entity_max_objects 32
 
-using name_t = char const *;
+using name_t = cstr;
 
 struct object final {
   name_t name{};
 };
-
-static object objects[] = {{}, {"notebook"}, {"mirror"}, {"lighter"}};
 
 using location_id_t = uint8_t;
 using object_id_t = uint8_t;
@@ -77,8 +76,6 @@ struct entity final {
   list<object_id_t, entity_max_objects> objects{};
 };
 
-static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
-
 using entity_id_t = uint8_t;
 
 struct location final {
@@ -88,21 +85,11 @@ struct location final {
   list<location_id_t, location_max_exits> exits{};
 };
 
-static location locations[] = {
-    {},
-    {"roome", {}, {{1}, 1}, {{2, 3, 0, 4}, 4}},
-    {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
-    {"bathroom"},
-    {"kitchen", {}, {}, {{0, 1}, 2}}};
-
-using exit_t = uint8_t;
-
-static char const *exit_names[] = {"north", "east", "south",
-                                   "west",  "up",   "down"};
+using exit_id_t = uint8_t;
 
 // implemented in platform dependent source
 static auto led_set(int32_t bits) -> void;
-static auto uart_send_cstr(char const *cstr) -> void;
+static auto uart_send_cstr(cstr str) -> void;
 static auto uart_send_char(char ch) -> void;
 static auto uart_read_char() -> char;
 static auto uart_send_move_back(size_t n) -> void;
@@ -115,6 +102,7 @@ static auto action_sdcard_test_write(string args) -> void;
 static auto entity_by_id(entity_id_t id) -> entity &;
 static auto object_by_id(object_id_t id) -> object &;
 static auto location_by_id(location_id_t id) -> location &;
+static auto exit_by_id(exit_id_t id) -> cstr;
 static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;
 static auto uart_send_hex_byte(char ch) -> void;
 static auto uart_send_hex_nibble(char nibble) -> void;
@@ -123,7 +111,7 @@ static auto print_location(location_id_t lid,
                            entity_id_t eid_excluded_from_output) -> void;
 static auto action_inventory(entity_id_t eid) -> void;
 static auto action_give(entity_id_t eid, string args) -> void;
-static auto action_go(entity_id_t eid, exit_t exit) -> void;
+static auto action_go(entity_id_t eid, exit_id_t exit) -> void;
 static auto action_drop(entity_id_t eid, string args) -> void;
 static auto action_take(entity_id_t eid, string args) -> void;
 static auto input(command_buffer &cmd_buf) -> void;
@@ -131,7 +119,7 @@ static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
 static auto sdcard_read_blocking(size_t sector, int8_t *buffer512B) -> void;
 static auto sdcard_write_blocking(size_t sector,
                                   int8_t const *buffer512B) -> void;
-static auto string_equals_cstr(string const str, char const *cstr) -> bool;
+static auto string_equals_cstr(string const str, cstr s) -> bool;
 static auto string_to_uint32(string str) -> uint32_t;
 static auto string_print(string const str) -> void;
 struct string_next_word_return;
@@ -166,15 +154,15 @@ extern "C" [[noreturn]] auto run() -> void {
   }
 }
 
-static auto string_equals_cstr(string const str, char const *cstr) -> bool {
-  mut e = str.for_each_until_false([&cstr](let ch) {
-    if (*cstr && *cstr == ch) {
-      ++cstr;
+static auto string_equals_cstr(string const str, cstr s) -> bool {
+  mut e = str.for_each_until_false([&s](let ch) {
+    if (*s != '\0' && *s == ch) {
+      ++s;
       return true;
     }
     return false;
   });
-  return *cstr == '\0' && str.is_at_end(e);
+  return *s == '\0' && str.is_at_end(e);
 }
 
 static auto string_print(string const str) -> void {
@@ -284,14 +272,14 @@ static auto print_location(location_id_t const lid,
     uart_send_cstr("exits: ");
     mut &lse = loc.exits;
     let n = lse.length();
-    for (mut i = 0u; i < n; ++i) {
+    for (mut i = exit_id_t{0}; i < n; ++i) {
       if (!lse.at(i)) {
         continue;
       }
       if (counter++) {
         uart_send_cstr(", ");
       }
-      uart_send_cstr(exit_names[i]);
+      uart_send_cstr(exit_by_id(i));
     }
     if (counter == 0) {
       uart_send_cstr("none");
@@ -368,7 +356,7 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
   }
 }
 
-static auto action_go(entity_id_t const eid, exit_t const exit) -> void {
+static auto action_go(entity_id_t const eid, exit_id_t const exit) -> void {
   mut &ent = entity_by_id(eid);
   mut &loc = location_by_id(ent.location);
   let to = loc.exits.at(exit);
@@ -548,16 +536,6 @@ static auto string_to_uint32(string const str) -> uint32_t {
   return num;
 }
 
-static auto entity_by_id(entity_id_t const id) -> entity & {
-  return entities[id];
-}
-static auto object_by_id(object_id_t const id) -> object & {
-  return objects[id];
-}
-static auto location_by_id(location_id_t const id) -> location & {
-  return locations[id];
-}
-
 static auto
 uart_send_hex_uint32(uint32_t const i,
                      bool const separate_half_words = false) -> void {
@@ -587,4 +565,55 @@ static auto uart_send_move_back(size_t const n) -> void {
   for (mut i = 0u; i < n; ++i) {
     uart_send_char('\b');
   }
+}
+
+static bool constexpr safe_arrays = true;
+
+static object objects[] = {{}, {"notebook"}, {"mirror"}, {"lighter"}};
+
+static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
+
+static location locations[] = {
+    {},
+    {"roome", {}, {{1}, 1}, {{2, 3, 0, 4}, 4}},
+    {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
+    {"bathroom"},
+    {"kitchen", {}, {}, {{0, 1}, 2}}};
+
+static cstr exits[] = {"north", "east", "south", "west", "up", "down"};
+
+static auto entity_by_id(entity_id_t const id) -> entity & {
+  if constexpr (safe_arrays) {
+    if (id >= sizeof(entities) / sizeof(entity)) {
+      return entities[0];
+    }
+  }
+  return entities[id];
+}
+
+static auto object_by_id(object_id_t const id) -> object & {
+  if constexpr (safe_arrays) {
+    if (id >= sizeof(objects) / sizeof(object)) {
+      return objects[0];
+    }
+  }
+  return objects[id];
+}
+
+static auto location_by_id(location_id_t const id) -> location & {
+  if constexpr (safe_arrays) {
+    if (id >= sizeof(locations) / sizeof(location)) {
+      return locations[0];
+    }
+  }
+  return locations[id];
+}
+
+static auto exit_by_id(exit_id_t const id) -> cstr {
+  if constexpr (safe_arrays) {
+    if (id >= sizeof(exits) / sizeof(cstr)) {
+      return exits[0];
+    }
+  }
+  return exits[id];
 }
