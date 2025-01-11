@@ -14,12 +14,12 @@ Disassembly of section .text:
        4:	0040006f          	j	8 <run>
 
 00000008 <run>:
-#   }
 #   char buf[512]{};
 #   mut *buf_ptr = buf;
 #   w1.rem.for_each([&buf_ptr](char const ch) {
 #     *buf_ptr = ch;
 #     ++buf_ptr;
+#   });
        8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdbc8>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
@@ -28,7 +28,7 @@ Disassembly of section .text:
       1c:	07412423          	sw	s4,104(sp)
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
-#   });
+#   size_t const sector = string_to_uint32(w1.word);
       28:	7a8010ef          	jal	17d0 <_ZL12initiate_bssv>
 #   // initiate statics in freestanding build
 # 
@@ -1166,7 +1166,7 @@ Disassembly of section .text:
 
 00000c00 <_ZL9action_gohh>:
 # 
-# static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
+# static auto action_go(entity_id_t const eid, exit_t const exit) -> void {
 #   mut &ent = entities[eid];
 #   mut &loc = locations[ent.location];
      c00:	00151793          	slli	a5,a0,0x1
@@ -1192,7 +1192,7 @@ Disassembly of section .text:
 #       return data[ix];
      c4c:	00b705b3          	add	a1,a4,a1
      c50:	0945c883          	lbu	a7,148(a1)
-#   let to = loc.exits.at(dir);
+#   let to = loc.exits.at(exit);
 #   if (!to) {
      c54:	00089863          	bnez	a7,c64 <_ZL9action_gohh+0x64>
 #     uart_send_cstr("cannot go there\r\n\r\n");
@@ -2225,7 +2225,6 @@ Disassembly of section .text:
     1660:	01012703          	lw	a4,16(sp)
     1664:	01412783          	lw	a5,20(sp)
     1668:	00f71c63          	bne	a4,a5,1680 <_ZL24action_sdcard_test_write4spanIcE+0x40>
-#   size_t const sector = string_to_uint32(w1.word);
 #   sdcard_write_blocking(sector, buf);
 # }
     166c:	22c12083          	lw	ra,556(sp)

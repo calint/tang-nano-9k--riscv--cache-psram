@@ -82,7 +82,6 @@ struct entity final {
 static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
 
 using entity_id_t = uint8_t;
-using direction_t = uint8_t;
 
 struct location final {
   name_t name{};
@@ -97,6 +96,8 @@ static location locations[] = {
     {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
     {"bathroom"},
     {"kitchen", {}, {}, {{0, 1}, 2}}};
+
+using exit_t = uint8_t;
 
 static char const *exit_names[] = {"north", "east", "south",
                                    "west",  "up",   "down"};
@@ -121,7 +122,7 @@ static auto print_location(location_id_t lid,
                            entity_id_t eid_exclude_from_output) -> void;
 static auto action_inventory(entity_id_t eid) -> void;
 static auto action_give(entity_id_t eid, string args) -> void;
-static auto action_go(entity_id_t eid, direction_t dir) -> void;
+static auto action_go(entity_id_t eid, exit_t exit) -> void;
 static auto action_drop(entity_id_t eid, string args) -> void;
 static auto action_take(entity_id_t eid, string args) -> void;
 static auto input(command_buffer &cmd_buf) -> void;
@@ -358,10 +359,10 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
   uart_send_cstr("\r\n\r\n");
 }
 
-static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
+static auto action_go(entity_id_t const eid, exit_t const exit) -> void {
   mut &ent = entities[eid];
   mut &loc = locations[ent.location];
-  let to = loc.exits.at(dir);
+  let to = loc.exits.at(exit);
   if (!to) {
     uart_send_cstr("cannot go there\r\n\r\n");
     return;
