@@ -89,11 +89,7 @@ static auto action_mem_test() -> void {
   while (ptr < end) {
     if (*ptr != ch) {
       uart_send_str("at ");
-      uart_send_hex_byte(char(uint32_t(ptr) >> 24));
-      uart_send_hex_byte(char(uint32_t(ptr) >> 16));
-      uart_send_char(':');
-      uart_send_hex_byte(char(uint32_t(ptr) >> 8));
-      uart_send_hex_byte(char(uint32_t(ptr)));
+      uart_send_hex_uint32(uint32_t(ptr), true);
       uart_send_str(" expected ");
       uart_send_hex_byte(ch);
       uart_send_str(" got ");

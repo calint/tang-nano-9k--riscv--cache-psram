@@ -101,6 +101,7 @@ static auto led_set(int32_t bits) -> void;
 static auto uart_send_str(char const *str) -> void;
 static auto uart_send_char(char ch) -> void;
 static auto uart_read_char() -> char;
+static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;
 static auto uart_send_hex_byte(char ch) -> void;
 static auto uart_send_hex_nibble(char nibble) -> void;
 static auto uart_send_move_back(size_t n) -> void;
@@ -548,6 +549,18 @@ static auto string_to_uint32(string str) -> uint32_t {
     return true;
   });
   return num;
+}
+
+static auto
+uart_send_hex_uint32(uint32_t const i,
+                     bool const separate_half_words = false) -> void {
+  uart_send_hex_byte(char(i >> 24));
+  uart_send_hex_byte(char(i >> 16));
+  if (separate_half_words) {
+    uart_send_char(':');
+  }
+  uart_send_hex_byte(char(i >> 8));
+  uart_send_hex_byte(char(i));
 }
 
 static auto uart_send_hex_byte(char const ch) -> void {
