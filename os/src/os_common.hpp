@@ -163,7 +163,7 @@ static auto string_equals_cstr(string const span, char const *str) -> bool {
     }
     return false;
   });
-  return span.is_end_of_span(e) && *str == '\0';
+  return *str == '\0' && span.is_end_of_span(e);
 }
 
 static auto string_print(string const span) -> void {
