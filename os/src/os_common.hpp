@@ -52,15 +52,13 @@ static let location_max_entities = 8u;
 static let location_max_exits = 6u;
 static let entity_max_objects = 32u;
 
-// note: defines are not stored in data segment thus gives a slightly smaller
-// binary. in this case 20 B smaller
+// note: defines are not stored in data segment thus gives a 20 B smaller binary
 // #define char_backspace 0x7f
 // #define char_tab 0x09
 // #define location_max_objects 128
 // #define location_max_entities 8
 // #define location_max_exits 6
 // #define entity_max_objects 32
-//
 
 using name_t = char const *;
 
