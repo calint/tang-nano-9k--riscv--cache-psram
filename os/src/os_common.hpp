@@ -275,7 +275,7 @@ static auto print_location(location_id_t const lid,
     uart_send_str("exits: ");
     mut &lse = loc.exits;
     let n = lse.length();
-    for (size_t i = 0; i < n; ++i) {
+    for (mut i = 0u; i < n; ++i) {
       if (!lse.at(i)) {
         continue;
       }
@@ -315,7 +315,7 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
   mut &ent = entities[eid];
   mut &lso = locations[ent.location].objects;
   let n = lso.length();
-  for (size_t i = 0; i < n; ++i) {
+  for (mut i = 0u; i < n; ++i) {
     object_id_t const oid = lso.at(i);
     if (!string_equals_cstr(args, objects[oid].name)) {
       continue;
@@ -337,7 +337,7 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
   mut &ent = entities[eid];
   mut &lso = ent.objects;
   let n = lso.length();
-  for (size_t i = 0; i < n; ++i) {
+  for (mut i = 0u; i < n; ++i) {
     let oid = lso.at(i);
     if (!string_equals_cstr(args, objects[oid].name)) {
       continue;
@@ -385,14 +385,14 @@ static auto action_give(entity_id_t const eid, string args) -> void {
   let &loc = locations[ent.location];
   let &lse = loc.entities;
   let n = lse.length();
-  for (size_t i = 0; i < n; ++i) {
+  for (mut i = 0u; i < n; ++i) {
     mut &to = entities[lse.at(i)];
     if (!string_equals_cstr(to_ent_nm, to.name)) {
       continue;
     }
     mut &lso = ent.objects;
-    size_t const m = lso.length();
-    for (size_t j = 0; j < m; j++) {
+    let m = lso.length();
+    for (mut j = 0u; j < m; j++) {
       let oid = lso.at(j);
       if (!string_equals_cstr(obj_nm, objects[oid].name)) {
         continue;
@@ -423,7 +423,7 @@ static auto print_help() -> void {
 
 static char input_escape_sequence[8];
 static auto input_escape_sequence_clear() -> void {
-  for (size_t i = 0; i < sizeof(input_escape_sequence); ++i) {
+  for (mut i = 0u; i < sizeof(input_escape_sequence); ++i) {
     input_escape_sequence[i] = '\0';
   }
 }
@@ -564,7 +564,7 @@ static auto uart_send_hex_nibble(char const nibble) -> void {
 }
 
 static auto uart_send_move_back(size_t const n) -> void {
-  for (size_t i = 0; i < n; ++i) {
+  for (mut i = 0u; i < n; ++i) {
     uart_send_char('\b');
   }
 }

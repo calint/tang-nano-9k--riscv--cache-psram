@@ -665,13 +665,13 @@ Disassembly of section .text:
      64c:	09c4a983          	lw	s3,156(s1)
 #     mut &lse = loc.exits;
 #     let n = lse.length();
-#     for (size_t i = 0; i < n; ++i) {
+#     for (mut i = 0u; i < n; ++i) {
      650:	00002437          	lui	s0,0x2
      654:	35c40413          	addi	s0,s0,860 # 235c <_ZL10exit_names>
      658:	00000913          	li	s2,0
 #     mut counter = 0;
      65c:	00000793          	li	a5,0
-#     for (size_t i = 0; i < n; ++i) {
+#     for (mut i = 0u; i < n; ++i) {
      660:	0d391a63          	bne	s2,s3,734 <_ZL14print_locationhh+0x1e8>
 #       if (counter++) {
 #         uart_send_str(", ");
@@ -769,7 +769,7 @@ Disassembly of section .text:
      75c:	491000ef          	jal	13ec <_ZL13uart_send_strPKc>
 #       if (counter++) {
      760:	000a0793          	mv	a5,s4
-#     for (size_t i = 0; i < n; ++i) {
+#     for (mut i = 0u; i < n; ++i) {
      764:	00190913          	addi	s2,s2,1
      768:	00440413          	addi	s0,s0,4
      76c:	001a8a93          	addi	s5,s5,1
@@ -924,7 +924,7 @@ Disassembly of section .text:
      910:	00050a13          	mv	s4,a0
      914:	00058c93          	mv	s9,a1
      918:	00060c13          	mv	s8,a2
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
      91c:	000a8b93          	mv	s7,s5
      920:	00000b13          	li	s6,0
      924:	fb878493          	addi	s1,a5,-72
@@ -954,7 +954,7 @@ Disassembly of section .text:
      974:	00412683          	lw	a3,4(sp)
      978:	00051863          	bnez	a0,988 <_ZL11action_takeh4spanIcE+0x140>
      97c:	001b8b93          	addi	s7,s7,1
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
      980:	001b0b13          	addi	s6,s6,1
      984:	fa9ff06f          	j	92c <_ZL11action_takeh4spanIcE+0xe4>
 #     if (len == Size - 1) {
@@ -1067,12 +1067,12 @@ Disassembly of section .text:
      ac8:	00050993          	mv	s3,a0
      acc:	00058b13          	mv	s6,a1
      ad0:	00060a93          	mv	s5,a2
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
      ad4:	00000b93          	li	s7,0
      ad8:	fb8a0a13          	addi	s4,s4,-72
 #     if (!string_equals_cstr(args, objects[oid].name)) {
      adc:	00002d37          	lui	s10,0x2
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
      ae0:	039b9663          	bne	s7,s9,b0c <_ZL11action_droph4spanIcE+0xe8>
 #   uart_send_str("u don't have ");
      ae4:	00002537          	lui	a0,0x2
@@ -1099,7 +1099,7 @@ Disassembly of section .text:
      b28:	da4ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
      b2c:	00051863          	bnez	a0,b3c <_ZL11action_droph4spanIcE+0x118>
      b30:	00190913          	addi	s2,s2,1
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
      b34:	001b8b93          	addi	s7,s7,1
      b38:	fa9ff06f          	j	ae0 <_ZL11action_droph4spanIcE+0xbc>
 #     if (locations[ent.location].objects.add(oid)) {
@@ -1349,7 +1349,7 @@ Disassembly of section .text:
      e0c:	00579793          	slli	a5,a5,0x5
      e10:	00f90933          	add	s2,s2,a5
      e14:	09092d83          	lw	s11,144(s2)
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
      e18:	00000d13          	li	s10,0
      e1c:	fb8a8a93          	addi	s5,s5,-72
      e20:	03bd1063          	bne	s10,s11,e40 <_ZL11action_giveh4spanIcE+0x13c>
@@ -1379,7 +1379,7 @@ Disassembly of section .text:
      e70:	a5cff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
      e74:	00051863          	bnez	a0,e84 <_ZL11action_giveh4spanIcE+0x180>
      e78:	00190913          	addi	s2,s2,1
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
      e7c:	001d0d13          	addi	s10,s10,1
      e80:	fa1ff06f          	j	e20 <_ZL11action_giveh4spanIcE+0x11c>
      e84:	01640433          	add	s0,s0,s6
@@ -1388,11 +1388,11 @@ Disassembly of section .text:
      e90:	00241413          	slli	s0,s0,0x2
      e94:	008a8933          	add	s2,s5,s0
      e98:	02892c03          	lw	s8,40(s2)
-#     for (size_t j = 0; j < m; j++) {
+#     for (mut j = 0u; j < m; j++) {
      e9c:	00000b13          	li	s6,0
 #       if (!string_equals_cstr(obj_nm, objects[oid].name)) {
      ea0:	00002d37          	lui	s10,0x2
-#     for (size_t j = 0; j < m; j++) {
+#     for (mut j = 0u; j < m; j++) {
      ea4:	038b1063          	bne	s6,s8,ec4 <_ZL11action_giveh4spanIcE+0x1c0>
 #   span.for_each([](char const ch) { uart_send_char(ch); });
      ea8:	02810513          	addi	a0,sp,40
@@ -1417,7 +1417,7 @@ Disassembly of section .text:
      ee8:	9e4ff0ef          	jal	cc <_ZL18string_equals_cstr4spanIcEPKc>
      eec:	00051863          	bnez	a0,efc <_ZL11action_giveh4spanIcE+0x1f8>
      ef0:	00190913          	addi	s2,s2,1
-#     for (size_t j = 0; j < m; j++) {
+#     for (mut j = 0u; j < m; j++) {
      ef4:	001b0b13          	addi	s6,s6,1
      ef8:	fadff06f          	j	ea4 <_ZL11action_giveh4spanIcE+0x1a0>
 #     if (len == Size - 1) {
@@ -1489,7 +1489,7 @@ Disassembly of section .text:
 # 
 # static char input_escape_sequence[8];
 # static auto input_escape_sequence_clear() -> void {
-#   for (size_t i = 0; i < sizeof(input_escape_sequence); ++i) {
+#   for (mut i = 0u; i < sizeof(input_escape_sequence); ++i) {
 #     input_escape_sequence[i] = '\0';
      fbc:	000027b7          	lui	a5,0x2
      fc0:	3607ae23          	sw	zero,892(a5) # 237c <_ZL21input_escape_sequence>
@@ -1943,7 +1943,7 @@ Disassembly of section .text:
     13ac:	00912223          	sw	s1,4(sp)
     13b0:	00112623          	sw	ra,12(sp)
     13b4:	00050413          	mv	s0,a0
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
     13b8:	00000493          	li	s1,0
     13bc:	00849c63          	bne	s1,s0,13d4 <_ZL19uart_send_move_backj+0x30>
 #     uart_send_char('\b');
@@ -1957,7 +1957,7 @@ Disassembly of section .text:
 #     uart_send_char('\b');
     13d4:	00800513          	li	a0,8
     13d8:	038000ef          	jal	1410 <_ZL14uart_send_charc>
-#   for (size_t i = 0; i < n; ++i) {
+#   for (mut i = 0u; i < n; ++i) {
     13dc:	00148493          	addi	s1,s1,1
     13e0:	fddff06f          	j	13bc <_ZL19uart_send_move_backj+0x18>
 
