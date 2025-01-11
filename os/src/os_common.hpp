@@ -62,21 +62,20 @@ static let entity_max_objects = 32u;
 // #define entity_max_objects 32
 
 using name_t = cstr;
+using location_id_t = uint8_t;
+using object_id_t = uint8_t;
+using entity_id_t = uint8_t;
+using exit_id_t = uint8_t;
 
 struct object final {
   name_t name{};
 };
-
-using location_id_t = uint8_t;
-using object_id_t = uint8_t;
 
 struct entity final {
   name_t name{};
   location_id_t location{};
   list<object_id_t, entity_max_objects> objects{};
 };
-
-using entity_id_t = uint8_t;
 
 struct location final {
   name_t name{};
@@ -85,7 +84,20 @@ struct location final {
   list<location_id_t, location_max_exits> exits{};
 };
 
-using exit_id_t = uint8_t;
+static bool constexpr safe_arrays = true;
+
+static object objects[] = {{}, {"notebook"}, {"mirror"}, {"lighter"}};
+
+static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
+
+static location locations[] = {
+    {},
+    {"roome", {}, {{1}, 1}, {{2, 3, 0, 4}, 4}},
+    {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
+    {"bathroom"},
+    {"kitchen", {}, {}, {{0, 1}, 2}}};
+
+static cstr exits[] = {"north", "east", "south", "west", "up", "down"};
 
 // implemented in platform dependent source
 static auto led_set(int32_t bits) -> void;
@@ -566,21 +578,6 @@ static auto uart_send_move_back(size_t const n) -> void {
     uart_send_char('\b');
   }
 }
-
-static bool constexpr safe_arrays = true;
-
-static object objects[] = {{}, {"notebook"}, {"mirror"}, {"lighter"}};
-
-static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
-
-static location locations[] = {
-    {},
-    {"roome", {}, {{1}, 1}, {{2, 3, 0, 4}, 4}},
-    {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
-    {"bathroom"},
-    {"kitchen", {}, {}, {{0, 1}, 2}}};
-
-static cstr exits[] = {"north", "east", "south", "west", "up", "down"};
 
 static auto entity_by_id(entity_id_t const id) -> entity & {
   if constexpr (safe_arrays) {
