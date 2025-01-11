@@ -138,11 +138,7 @@ public:
     return {it};
   }
 
-  auto is_within_span(position const pos) const -> bool {
-    return pos.ptr >= begin_ && pos.ptr <= end_;
-  }
-
-  auto is_end_of_span(position const t) const -> bool { return t.ptr == end_; }
+  auto is_at_end(position const t) const -> bool { return t.ptr == end_; }
 
   auto is_null() const -> bool { return begin_ = nullptr && end_ == nullptr; }
 

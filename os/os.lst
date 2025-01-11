@@ -128,7 +128,7 @@ Disassembly of section .text:
 #     }
 #     return false;
 #   });
-#   return *str == '\0' && span.is_end_of_span(e);
+#   return *str == '\0' && span.is_at_end(e);
       e0:	40b50533          	sub	a0,a0,a1
       e4:	00153593          	seqz	a1,a0
       e8:	0017b513          	seqz	a0,a5
