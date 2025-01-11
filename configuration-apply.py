@@ -19,7 +19,7 @@ with open('os/src/os_start.S', 'w') as file:
 with open('os/src/os_config.hpp', 'w') as file:
     file.write('// generated - do not edit (see `configuration.py`)\n')
     file.write('#pragma once\n')
-    file.write('#define LED ((int volatile *)0xffff\'fffc)\n')
+    file.write('#define LED ((unsigned volatile *)0xffff\'fffc)\n')
     file.write('#define UART_OUT ((int volatile *)0xffff\'fff8)\n')
     file.write('#define UART_IN ((int volatile *)0xffff\'fff4)\n')
     file.write('#define SDCARD_BUSY ((int volatile *)0xffff\'fff0)\n')

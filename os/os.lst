@@ -37,7 +37,7 @@ Disassembly of section .text:
 # 
 #   uart_send_cstr(ascii_art);
       2c:	000027b7          	lui	a5,0x2
-# static auto led_set(int32_t const bits) -> void { *LED = bits; }
+# static auto led_set(uint32_t const bits) -> void { *LED = bits; }
       30:	fe002e23          	sw	zero,-4(zero) # fffffffc <__bss_end+0xffffdc48>
       34:	3b07a503          	lw	a0,944(a5) # 23b0 <_ZL9ascii_art>
 #   uart_send_cstr(hello);
@@ -1524,7 +1524,7 @@ Disassembly of section .text:
     1010:	00300c93          	li	s9,3
 #     let ch = uart_read_char();
     1014:	488000ef          	jal	149c <_ZL14uart_read_charv>
-#     led_set(~ch);
+#     led_set(uint32_t(~ch));
     1018:	fff54793          	not	a5,a0
     101c:	fef02e23          	sw	a5,-4(zero) # fffffffc <__bss_end+0xffffdc48>
 #     let ch = uart_read_char();
@@ -1943,7 +1943,7 @@ Disassembly of section .text:
     1454:	00a787b3          	add	a5,a5,a0
     1458:	ff1ff06f          	j	1448 <_ZL10link_by_idh+0x10>
 
-0000145c <_ZL7led_seti>:
+0000145c <_ZL7led_setj>:
     145c:	fea02e23          	sw	a0,-4(zero) # fffffffc <__bss_end+0xffffdc48>
     1460:	00008067          	ret
 

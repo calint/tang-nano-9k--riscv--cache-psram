@@ -105,7 +105,7 @@ static location locations[] = {
 static cstr links[] = {"", "north", "east", "south", "west", "up", "down"};
 
 // implemented in platform dependent source
-static auto led_set(int32_t bits) -> void;
+static auto led_set(uint32_t bits) -> void;
 static auto uart_send_cstr(cstr str) -> void;
 static auto uart_send_char(char ch) -> void;
 static auto uart_read_char() -> char;
@@ -463,7 +463,7 @@ static auto input(command_buffer &cmd_buf) -> void {
   cmd_buf.reset();
   while (true) {
     let ch = uart_read_char();
-    led_set(~ch);
+    led_set(uint32_t(~ch));
     switch (state) {
     case input_state::NORMAL:
       if (ch == 0x1B) {

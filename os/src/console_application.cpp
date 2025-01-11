@@ -40,7 +40,7 @@ static auto uart_send_cstr(char const *str) -> void { printf("%s", str); }
 
 static auto uart_read_char() -> char { return char(getchar()); }
 
-static auto led_set(int32_t const bits) -> void {}
+static auto led_set(uint32_t const bits) -> void {}
 
 static auto action_mem_test() -> void { printf("memory test not supported\n"); }
 
