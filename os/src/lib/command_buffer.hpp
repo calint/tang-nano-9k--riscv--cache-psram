@@ -91,4 +91,6 @@ public:
   auto command_line() -> char * { return line_; }
 
   auto input_length() const -> size_t { return end_; }
+
+  auto span() -> span<char> { return {line_, input_length()}; };
 };
