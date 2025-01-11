@@ -163,12 +163,12 @@ Disassembly of section .text:
      134:	00008067          	ret
 
 00000138 <_ZL16string_next_word4spanIcE>:
-# typedef struct next_word {
+# typedef struct string_next_word_return {
 #   string word{};
 #   string rem{};
-# } next_word;
+# } string_next_word_return;
 # 
-# static auto string_next_word(string const spn) -> next_word {
+# static auto string_next_word(string const spn) -> string_next_word_return {
      138:	fe010113          	addi	sp,sp,-32
      13c:	00b12423          	sw	a1,8(sp)
      140:	00c12623          	sw	a2,12(sp)

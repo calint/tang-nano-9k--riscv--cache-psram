@@ -170,12 +170,12 @@ static auto string_print(string const span) -> void {
   span.for_each([](char const ch) { uart_send_char(ch); });
 }
 
-typedef struct next_word {
+typedef struct string_next_word_return {
   string word{};
   string rem{};
-} next_word;
+} string_next_word_return;
 
-static auto string_next_word(string const spn) -> next_word {
+static auto string_next_word(string const spn) -> string_next_word_return {
   mut ce = spn.for_each_until_false(
       [](char const ch) { return ch != ' ' && ch != '\0'; });
   let word = spn.subspan_ending_at(ce);
