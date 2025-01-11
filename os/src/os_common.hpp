@@ -48,12 +48,12 @@ using object_id_t = uint8_t;
 using entity_id_t = uint8_t;
 using direction_t = uint8_t;
 
-static constexpr char CHAR_BACKSPACE = 0x7f;
-static constexpr char CHAR_TAB = 0x09;
-static constexpr size_t LOCATION_MAX_OBJECTS = 128;
-static constexpr size_t LOCATION_MAX_ENTITIES = 8;
-static constexpr size_t LOCATION_MAX_EXITS = 6;
-static constexpr size_t ENTITY_MAX_OBJECTS = 32;
+static let CHAR_BACKSPACE = '\x7f';
+static let CHAR_TAB = '\x09';
+static let LOCATION_MAX_OBJECTS = 128u;
+static let LOCATION_MAX_ENTITIES = 8u;
+static let LOCATION_MAX_EXITS = 6u;
+static let ENTITY_MAX_OBJECTS = 32u;
 
 // note: defines are not stored in data segment thus gives a slightly smaller
 // binary. in this case 20 B smaller
