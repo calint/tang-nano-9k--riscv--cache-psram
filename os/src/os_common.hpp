@@ -455,20 +455,12 @@ static auto print_help() -> void {
       "message\r\n\r\n");
 }
 
-static char input_escape_sequence[8];
-static auto input_escape_sequence_clear() -> void {
-  for (mut i = 0u; i < sizeof(input_escape_sequence); ++i) {
-    input_escape_sequence[i] = '\0';
-  }
-}
-
-enum class input_state { NORMAL, ESCAPE, ESCAPE_BRACKET };
-
 static auto input(command_buffer &cmd_buf) -> void {
-  cmd_buf.reset();
+  enum class input_state { NORMAL, ESCAPE, ESCAPE_BRACKET };
   mut state = input_state::NORMAL;
   mut escape_sequence_parameter = 0;
 
+  cmd_buf.reset();
   while (true) {
     let ch = uart_read_char();
     led_set(~ch);
