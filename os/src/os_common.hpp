@@ -140,8 +140,8 @@ extern "C" [[noreturn]] auto run() -> void {
   uart_send_str(ascii_art);
   uart_send_str(hello);
 
-  entity_id_t active_entity = 1;
-  command_buffer cmd_buf{};
+  mut active_entity = entity_id_t{1};
+  mut cmd_buf = command_buffer{};
 
   while (true) {
     mut &ent = entities[active_entity];
@@ -171,8 +171,8 @@ static auto span_print(span<char> const span) -> void {
 }
 
 typedef struct next_word {
-  span<char> word;
-  span<char> rem;
+  span<char> word{};
+  span<char> rem{};
 } next_word;
 
 static auto span_next_word(span<char> const spn) -> next_word {
@@ -191,6 +191,7 @@ static auto handle_input(entity_id_t const eid,
   let line = cmd_buf.span();
   let w1 = span_next_word(line);
   let cmd = w1.word;
+  let args = w1.rem;
 
   if (span_equals_string(cmd, "help")) {
     print_help();
@@ -198,9 +199,9 @@ static auto handle_input(entity_id_t const eid,
     action_inventory(eid);
     uart_send_str("\r\n");
   } else if (span_equals_string(cmd, "t")) {
-    action_take(eid, w1.rem);
+    action_take(eid, args);
   } else if (span_equals_string(cmd, "d")) {
-    action_drop(eid, w1.rem);
+    action_drop(eid, args);
   } else if (span_equals_string(cmd, "n")) {
     action_go(eid, 0);
   } else if (span_equals_string(cmd, "e")) {
@@ -210,15 +211,15 @@ static auto handle_input(entity_id_t const eid,
   } else if (span_equals_string(cmd, "w")) {
     action_go(eid, 3);
   } else if (span_equals_string(cmd, "g")) {
-    action_give(eid, w1.rem);
+    action_give(eid, args);
   } else if (span_equals_string(cmd, "m")) {
     action_mem_test();
   } else if (span_equals_string(cmd, "sds")) {
     action_sdcard_status();
   } else if (span_equals_string(cmd, "sdr")) {
-    action_sdcard_test_read(w1.rem);
+    action_sdcard_test_read(args);
   } else if (span_equals_string(cmd, "sdw")) {
-    action_sdcard_test_write(w1.rem);
+    action_sdcard_test_write(args);
   } else if (span_equals_string(cmd, "q")) {
     exit(0);
   } else {
@@ -413,7 +414,9 @@ static auto print_help() -> void {
       "\r\ncommand:\r\n  n: go north\r\n  e: go east\r\n  s: go south\r\n  w: "
       "go west\r\n  i: "
       "display inventory\r\n  t <object>: take object\r\n  d <object>: drop "
-      "object\r\n  g <object> <entity>: give object to entity\r\n  help: this "
+      "object\r\n  g <object> <entity>: give object to entity\r\n  sdr "
+      "<sector>: read from SD card sector\r\n  sdw <sector> <text>: write to "
+      "SD card sector\r\n  help: this "
       "message\r\n\r\n");
 }
 
