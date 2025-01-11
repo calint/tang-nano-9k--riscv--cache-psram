@@ -31,8 +31,8 @@ public:
 
   auto subspan(size_t const begin_index,
                size_t const end_index) const -> span<Type> {
-    size_t const n = size();
     if constexpr (safe_span) {
+      size_t const n = size();
       if (begin_index > n || end_index > n || begin_index > end_index) {
         return {};
       }
