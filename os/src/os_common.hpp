@@ -556,9 +556,8 @@ static auto string_to_uint32(string const str) -> uint32_t {
   return num;
 }
 
-static auto
-uart_send_hex_uint32(uint32_t const i,
-                     bool const separate_half_words = false) -> void {
+static auto uart_send_hex_uint32(uint32_t const i,
+                                 bool const separate_half_words) -> void {
   uart_send_hex_byte(uint8_t(i >> 24));
   uart_send_hex_byte(uint8_t(i >> 16));
   if (separate_half_words) {

@@ -1788,13 +1788,13 @@ Disassembly of section .text:
     12d8:	fcdff06f          	j	12a4 <_ZL16string_to_uint324spanIcE+0x18>
 
 000012dc <_ZL20uart_send_hex_uint32jb>:
-#                      bool const separate_half_words = false) -> void {
+#                                  bool const separate_half_words) -> void {
     12dc:	ff010113          	addi	sp,sp,-16
     12e0:	00812423          	sw	s0,8(sp)
     12e4:	00050413          	mv	s0,a0
 #   uart_send_hex_byte(uint8_t(i >> 24));
     12e8:	01855513          	srli	a0,a0,0x18
-#                      bool const separate_half_words = false) -> void {
+#                                  bool const separate_half_words) -> void {
     12ec:	00912223          	sw	s1,4(sp)
     12f0:	00112623          	sw	ra,12(sp)
     12f4:	00058493          	mv	s1,a1
