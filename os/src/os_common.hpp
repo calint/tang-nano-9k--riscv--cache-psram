@@ -110,22 +110,21 @@ static auto action_sdcard_test_write(span<char> arg) -> void;
 
 // API
 static auto print_help() -> void;
-static auto print_location(location_id_t const lid,
-                           entity_id_t const eid_exclude_from_output) -> void;
-static auto action_inventory(entity_id_t const eid) -> void;
-static auto action_give(entity_id_t const eid, span<char> const args) -> void;
-static auto action_go(entity_id_t const eid, direction_t const dir) -> void;
-static auto action_drop(entity_id_t const eid, span<char> const args) -> void;
-static auto action_take(entity_id_t const eid, span<char> args) -> void;
+static auto print_location(location_id_t lid,
+                           entity_id_t eid_exclude_from_output) -> void;
+static auto action_inventory(entity_id_t eid) -> void;
+static auto action_give(entity_id_t eid, span<char> args) -> void;
+static auto action_go(entity_id_t eid, direction_t dir) -> void;
+static auto action_drop(entity_id_t eid, span<char> args) -> void;
+static auto action_take(entity_id_t eid, span<char> args) -> void;
 static auto input(command_buffer &cmd_buf) -> void;
-static auto handle_input(entity_id_t const eid,
-                         command_buffer &cmd_buf) -> void;
-static auto strings_equal(char const *s1, char const *s2) -> bool;
-static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
+static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
 static auto sdcard_read_blocking(size_t sector, int8_t *buffer512B) -> void;
 static auto sdcard_write_blocking(size_t sector,
                                   int8_t const *buffer512B) -> void;
-static auto string_copy_to_buffer(char const *str, char *buf) -> char *;
+static auto strings_equal(char const *s1, char const *s2) -> bool;
+static auto string_copy(char const *src, size_t src_len, char *dst) -> void;
+static auto string_copy(char const *str, char *buf) -> char *;
 static auto string_to_uint32(char const *str) -> uint32_t;
 
 extern "C" [[noreturn]] auto run() -> void {
@@ -526,7 +525,7 @@ static auto string_copy(char const *src, size_t src_len, char *dst) -> void {
   }
 }
 
-static auto string_copy_to_buffer(char const *str, char *buf) -> char * {
+static auto string_copy(char const *str, char *buf) -> char * {
   while (*str) {
     *buf = *str;
     ++buf;

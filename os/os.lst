@@ -14,12 +14,12 @@ Disassembly of section .text:
        4:	0040006f          	j	8 <run>
 
 00000008 <run>:
+#     uart_send_char(buf[i]);
 #   }
 #   uart_send_str("\r\n");
 # }
 # 
 # static auto action_sdcard_test_write(span<char> arg) -> void {
-#   next_word w1 = span_next_word(arg);
        8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdc8c>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
@@ -28,7 +28,7 @@ Disassembly of section .text:
       1c:	07412423          	sw	s4,104(sp)
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
-#   if (w1.word.is_empty()) {
+#   next_word w1 = span_next_word(arg);
       28:	740010ef          	jal	1768 <_ZL12initiate_bssv>
 #   // initiate statics in freestanding build
 # 
@@ -1804,14 +1804,14 @@ Disassembly of section .text:
     1270:	00d70023          	sb	a3,0(a4)
     1274:	fe5ff06f          	j	1258 <_ZL11string_copyPKcjPc+0x4>
 
-00001278 <_ZL21string_copy_to_bufferPKcPc>:
+00001278 <_ZL11string_copyPKcPc>:
 # 
-# static auto string_copy_to_buffer(char const *str, char *buf) -> char * {
+# static auto string_copy(char const *str, char *buf) -> char * {
     1278:	00050793          	mv	a5,a0
     127c:	00058513          	mv	a0,a1
 #   while (*str) {
     1280:	0007c703          	lbu	a4,0(a5)
-    1284:	00071463          	bnez	a4,128c <_ZL21string_copy_to_bufferPKcPc+0x14>
+    1284:	00071463          	bnez	a4,128c <_ZL11string_copyPKcPc+0x14>
 #     *buf = *str;
 #     ++buf;
 #     ++str;
@@ -1826,7 +1826,7 @@ Disassembly of section .text:
 #     ++buf;
     1294:	00150513          	addi	a0,a0,1
 #     ++str;
-    1298:	fe9ff06f          	j	1280 <_ZL21string_copy_to_bufferPKcPc+0x8>
+    1298:	fe9ff06f          	j	1280 <_ZL11string_copyPKcPc+0x8>
 
 0000129c <_ZL16string_to_uint32PKc>:
 # 
