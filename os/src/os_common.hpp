@@ -579,9 +579,13 @@ static auto string_to_uint32(string str) -> uint32_t {
   return num;
 }
 
-static auto entity_by_id(entity_id_t id) -> entity & { return entities[id]; }
-static auto object_by_id(object_id_t id) -> object & { return objects[id]; }
-static auto location_by_id(location_id_t id) -> location & {
+static auto entity_by_id(entity_id_t const id) -> entity & {
+  return entities[id];
+}
+static auto object_by_id(object_id_t const id) -> object & {
+  return objects[id];
+}
+static auto location_by_id(location_id_t const id) -> location & {
   return locations[id];
 }
 
