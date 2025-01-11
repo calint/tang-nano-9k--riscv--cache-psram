@@ -570,7 +570,7 @@ Disassembly of section .text:
      578:	00058913          	mv	s2,a1
      57c:	00002437          	lui	s0,0x2
 #     if (id >= sizeof(locations) / sizeof(location)) {
-     580:	10a76263          	bltu	a4,a0,684 <_ZL14print_locationhh+0x13c>
+     580:	10a76063          	bltu	a4,a0,680 <_ZL14print_locationhh+0x138>
      584:	02440793          	addi	a5,s0,36 # 2024 <_ZL9locations>
 #       return locations[0];
 #     }
@@ -605,7 +605,7 @@ Disassembly of section .text:
      5c4:	00300b13          	li	s6,3
      5c8:	f9098993          	addi	s3,s3,-112 # 1f90 <_ZL7objects>
      5cc:	08442783          	lw	a5,132(s0)
-     5d0:	0af4ee63          	bltu	s1,a5,68c <_ZL14print_locationhh+0x144>
+     5d0:	0af4ec63          	bltu	s1,a5,688 <_ZL14print_locationhh+0x140>
 #     if (!counter) {
      5d4:	00049863          	bnez	s1,5e4 <_ZL14print_locationhh+0x9c>
 #       uart_send_cstr("nothing");
@@ -627,7 +627,7 @@ Disassembly of section .text:
 #         uart_send_cstr(", ");
      604:	00002ab7          	lui	s5,0x2
      608:	09042703          	lw	a4,144(s0)
-     60c:	0aec6a63          	bltu	s8,a4,6c0 <_ZL14print_locationhh+0x178>
+     60c:	0aec6863          	bltu	s8,a4,6bc <_ZL14print_locationhh+0x174>
 #     if (counter != 0) {
      610:	00078863          	beqz	a5,620 <_ZL14print_locationhh+0xd8>
 #       uart_send_cstr(" is here\r\n");
@@ -641,106 +641,105 @@ Disassembly of section .text:
 #     mut counter = 0;
      62c:	00000793          	li	a5,0
      630:	00000493          	li	s1,0
-#         uart_send_cstr(", ");
-     634:	00002937          	lui	s2,0x2
-     638:	09c42703          	lw	a4,156(s0)
-     63c:	0ce4ea63          	bltu	s1,a4,710 <_ZL14print_locationhh+0x1c8>
+     634:	09c42703          	lw	a4,156(s0)
+     638:	0ce4ea63          	bltu	s1,a4,70c <_ZL14print_locationhh+0x1c4>
 #     if (counter == 0) {
-     640:	00079863          	bnez	a5,650 <_ZL14print_locationhh+0x108>
+     63c:	00079863          	bnez	a5,64c <_ZL14print_locationhh+0x104>
 #       uart_send_cstr("none");
-     644:	00002537          	lui	a0,0x2
-     648:	c5850513          	addi	a0,a0,-936 # 1c58 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x438>
-     64c:	5d9000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
+     640:	00002537          	lui	a0,0x2
+     644:	c5850513          	addi	a0,a0,-936 # 1c58 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x438>
+     648:	5dd000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
 # }
-     650:	02812403          	lw	s0,40(sp)
-     654:	02c12083          	lw	ra,44(sp)
-     658:	02412483          	lw	s1,36(sp)
-     65c:	02012903          	lw	s2,32(sp)
-     660:	01812a03          	lw	s4,24(sp)
-     664:	01412a83          	lw	s5,20(sp)
-     668:	01012b03          	lw	s6,16(sp)
-     66c:	00c12b83          	lw	s7,12(sp)
-     670:	00812c03          	lw	s8,8(sp)
+     64c:	02812403          	lw	s0,40(sp)
+     650:	02c12083          	lw	ra,44(sp)
+     654:	02412483          	lw	s1,36(sp)
+     658:	02012903          	lw	s2,32(sp)
+     65c:	01812a03          	lw	s4,24(sp)
+     660:	01412a83          	lw	s5,20(sp)
+     664:	01012b03          	lw	s6,16(sp)
+     668:	00c12b83          	lw	s7,12(sp)
+     66c:	00812c03          	lw	s8,8(sp)
 #     uart_send_cstr("\r\n");
-     674:	bd498513          	addi	a0,s3,-1068
+     670:	bd498513          	addi	a0,s3,-1068
 # }
-     678:	01c12983          	lw	s3,28(sp)
-     67c:	03010113          	addi	sp,sp,48
+     674:	01c12983          	lw	s3,28(sp)
+     678:	03010113          	addi	sp,sp,48
 #     uart_send_cstr("\r\n");
-     680:	5a50006f          	j	1424 <_ZL14uart_send_cstrPKc>
-     684:	02440413          	addi	s0,s0,36
-     688:	f11ff06f          	j	598 <_ZL14print_locationhh+0x50>
+     67c:	5a90006f          	j	1424 <_ZL14uart_send_cstrPKc>
+     680:	02440413          	addi	s0,s0,36
+     684:	f15ff06f          	j	598 <_ZL14print_locationhh+0x50>
 #       f(data[i]);
-     68c:	009407b3          	add	a5,s0,s1
-     690:	0047ca03          	lbu	s4,4(a5)
+     688:	009407b3          	add	a5,s0,s1
+     68c:	0047ca03          	lbu	s4,4(a5)
 #       if (counter++) {
-     694:	00048663          	beqz	s1,6a0 <_ZL14print_locationhh+0x158>
+     690:	00048663          	beqz	s1,69c <_ZL14print_locationhh+0x154>
 #         uart_send_cstr(", ");
-     698:	c38a8513          	addi	a0,s5,-968 # 1c38 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x418>
-     69c:	589000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
+     694:	c38a8513          	addi	a0,s5,-968 # 1c38 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x418>
+     698:	58d000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
 #       return objects[0];
-     6a0:	00098793          	mv	a5,s3
+     69c:	00098793          	mv	a5,s3
 #     if (id >= sizeof(objects) / sizeof(object)) {
-     6a4:	014b6663          	bltu	s6,s4,6b0 <_ZL14print_locationhh+0x168>
+     6a0:	014b6663          	bltu	s6,s4,6ac <_ZL14print_locationhh+0x164>
 #   return objects[id];
-     6a8:	002a1a13          	slli	s4,s4,0x2
-     6ac:	014987b3          	add	a5,s3,s4
+     6a4:	002a1a13          	slli	s4,s4,0x2
+     6a8:	014987b3          	add	a5,s3,s4
 #       uart_send_cstr(object_by_id(id).name);
-     6b0:	0007a503          	lw	a0,0(a5)
+     6ac:	0007a503          	lw	a0,0(a5)
 #     for (size_t i = 0; i < len; ++i) {
-     6b4:	00148493          	addi	s1,s1,1
-     6b8:	56d000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
-     6bc:	f11ff06f          	j	5cc <_ZL14print_locationhh+0x84>
+     6b0:	00148493          	addi	s1,s1,1
+     6b4:	571000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
+     6b8:	f15ff06f          	j	5cc <_ZL14print_locationhh+0x84>
 #       f(data[i]);
-     6c0:	01840733          	add	a4,s0,s8
-     6c4:	08874b83          	lbu	s7,136(a4)
+     6bc:	01840733          	add	a4,s0,s8
+     6c0:	08874b83          	lbu	s7,136(a4)
 #       if (id == eid_excluded_from_output) {
-     6c8:	05790063          	beq	s2,s7,708 <_ZL14print_locationhh+0x1c0>
+     6c4:	05790063          	beq	s2,s7,704 <_ZL14print_locationhh+0x1bc>
 #       if (counter++) {
-     6cc:	00178b13          	addi	s6,a5,1
-     6d0:	00078663          	beqz	a5,6dc <_ZL14print_locationhh+0x194>
+     6c8:	00178b13          	addi	s6,a5,1
+     6cc:	00078663          	beqz	a5,6d8 <_ZL14print_locationhh+0x190>
 #         uart_send_cstr(", ");
-     6d4:	c38a8513          	addi	a0,s5,-968
-     6d8:	54d000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
+     6d0:	c38a8513          	addi	a0,s5,-968
+     6d4:	551000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
 #       return entities[0];
-     6dc:	00048793          	mv	a5,s1
+     6d8:	00048793          	mv	a5,s1
 #     if (id >= sizeof(entities) / sizeof(entity)) {
-     6e0:	017a6e63          	bltu	s4,s7,6fc <_ZL14print_locationhh+0x1b4>
+     6dc:	017a6e63          	bltu	s4,s7,6f8 <_ZL14print_locationhh+0x1b0>
 #   return entities[id];
-     6e4:	001b9793          	slli	a5,s7,0x1
-     6e8:	017787b3          	add	a5,a5,s7
-     6ec:	00279793          	slli	a5,a5,0x2
-     6f0:	417787b3          	sub	a5,a5,s7
-     6f4:	00279793          	slli	a5,a5,0x2
-     6f8:	00f487b3          	add	a5,s1,a5
+     6e0:	001b9793          	slli	a5,s7,0x1
+     6e4:	017787b3          	add	a5,a5,s7
+     6e8:	00279793          	slli	a5,a5,0x2
+     6ec:	417787b3          	sub	a5,a5,s7
+     6f0:	00279793          	slli	a5,a5,0x2
+     6f4:	00f487b3          	add	a5,s1,a5
 #       uart_send_cstr(entity_by_id(id).name);
-     6fc:	0007a503          	lw	a0,0(a5)
-     700:	525000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
+     6f8:	0007a503          	lw	a0,0(a5)
+     6fc:	529000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
 #       if (counter++) {
-     704:	000b0793          	mv	a5,s6
+     700:	000b0793          	mv	a5,s6
 #     for (size_t i = 0; i < len; ++i) {
-     708:	001c0c13          	addi	s8,s8,1
-     70c:	efdff06f          	j	608 <_ZL14print_locationhh+0xc0>
+     704:	001c0c13          	addi	s8,s8,1
+     708:	f01ff06f          	j	608 <_ZL14print_locationhh+0xc0>
 #       f(data[i]);
-     710:	00940733          	add	a4,s0,s1
-#       if (id == 0) {
-     714:	09474703          	lbu	a4,148(a4)
-     718:	02070263          	beqz	a4,73c <_ZL14print_locationhh+0x1f4>
-#       if (counter++) {
-     71c:	00178a13          	addi	s4,a5,1
-     720:	00078663          	beqz	a5,72c <_ZL14print_locationhh+0x1e4>
-#         uart_send_cstr(", ");
-     724:	c3890513          	addi	a0,s2,-968 # 1c38 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x418>
+     70c:	00940733          	add	a4,s0,s1
+#       if (id != 0) {
+     710:	09474703          	lbu	a4,148(a4)
+     714:	02070463          	beqz	a4,73c <_ZL14print_locationhh+0x1f4>
+#         if (counter++) {
+     718:	00178913          	addi	s2,a5,1
+     71c:	00078863          	beqz	a5,72c <_ZL14print_locationhh+0x1e4>
+#           uart_send_cstr(", ");
+     720:	00002537          	lui	a0,0x2
+     724:	c3850513          	addi	a0,a0,-968 # 1c38 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x418>
      728:	4fd000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
-#       uart_send_cstr(exit_by_id(i));
+#         uart_send_cstr(exit_by_id(i));
      72c:	0ff4f513          	zext.b	a0,s1
      730:	4c9000ef          	jal	13f8 <_ZL10exit_by_idh>
      734:	4f1000ef          	jal	1424 <_ZL14uart_send_cstrPKc>
-#       if (counter++) {
-     738:	000a0793          	mv	a5,s4
+#         if (counter++) {
+     738:	00090793          	mv	a5,s2
 #     for (size_t i = 0; i < len; ++i) {
      73c:	00148493          	addi	s1,s1,1
-     740:	ef9ff06f          	j	638 <_ZL14print_locationhh+0xf0>
+     740:	ef5ff06f          	j	634 <_ZL14print_locationhh+0xec>
 
 00000744 <_ZL16action_inventoryh>:
 # static auto action_inventory(entity_id_t const eid) -> void {
