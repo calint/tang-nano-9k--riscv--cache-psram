@@ -317,25 +317,26 @@ static auto action_inventory(entity_id_t const eid) -> void {
 }
 
 static auto action_take(entity_id_t const eid, string const args) -> void {
-  if (args.size() == 0) {
+  if (args.is_empty()) {
     uart_send_cstr("take what\r\n\r\n");
     return;
   }
   mut &ent = entities[eid];
   mut &lso = locations[ent.location].objects;
-  let n = lso.length();
-  for (mut i = 0u; i < n; ++i) {
-    let oid = lso.at(i);
-    if (!string_equals_cstr(args, objects[oid].name)) {
-      continue;
+  let pos = lso.for_each_until_false([&args](object_id_t const oid) {
+    if (string_equals_cstr(args, objects[oid].name)) {
+      return false;
     }
-    if (ent.objects.add(oid)) {
-      lso.remove_at_index(i);
-    }
+    return true;
+  });
+  if (lso.is_at_end(pos)) {
+    string_print(args);
+    uart_send_cstr(" not here\r\n\r\n");
     return;
   }
-  string_print(args);
-  uart_send_cstr(" not here\r\n\r\n");
+  if (ent.objects.add(lso.at(pos))) {
+    lso.remove_at(pos);
+  }
 }
 
 static auto action_drop(entity_id_t const eid, string const args) -> void {
