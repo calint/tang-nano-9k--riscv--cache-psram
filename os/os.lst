@@ -1230,11 +1230,14 @@ Disassembly of section .text:
 
 00000c94 <_ZL11action_giveh4spanIcE>:
 # 
+# #define let auto const
+# #define mut auto
+# 
 # static auto action_give(entity_id_t const eid, span<char> args) -> void {
      c94:	f7010113          	addi	sp,sp,-144
      c98:	07612823          	sw	s6,112(sp)
      c9c:	00050b13          	mv	s6,a0
-#   next_word w1 = span_next_word(args);
+#   let w1 = span_next_word(args);
      ca0:	03010513          	addi	a0,sp,48
 # static auto action_give(entity_id_t const eid, span<char> args) -> void {
      ca4:	07312e23          	sw	s3,124(sp)
@@ -1251,15 +1254,15 @@ Disassembly of section .text:
      cd0:	05b12e23          	sw	s11,92(sp)
      cd4:	00b12423          	sw	a1,8(sp)
      cd8:	00c12623          	sw	a2,12(sp)
-#   next_word w1 = span_next_word(args);
+#   let w1 = span_next_word(args);
      cdc:	c5cff0ef          	jal	138 <_ZL14span_next_word4spanIcE>
-     ce0:	03012a03          	lw	s4,48(sp)
-     ce4:	03412983          	lw	s3,52(sp)
-#   span<char> obj_nm = w1.word;
-     ce8:	01412c23          	sw	s4,24(sp)
-     cec:	01312e23          	sw	s3,28(sp)
+#   let obj_nm = w1.word;
+     ce0:	03012983          	lw	s3,48(sp)
+     ce4:	03412a03          	lw	s4,52(sp)
+     ce8:	01312c23          	sw	s3,24(sp)
+     cec:	01412e23          	sw	s4,28(sp)
 #   if (obj_nm.is_empty()) {
-     cf0:	05499463          	bne	s3,s4,d38 <_ZL11action_giveh4spanIcE+0xa4>
+     cf0:	053a1463          	bne	s4,s3,d38 <_ZL11action_giveh4spanIcE+0xa4>
 #     uart_send_str("give what\r\n\r\n");
      cf4:	00002537          	lui	a0,0x2
      cf8:	d1c50513          	addi	a0,a0,-740 # 1d1c <_ZNK4spanIcE8for_eachIZL10span_printS0_EUlcE_EEvT_.isra.0+0x514>
@@ -1285,14 +1288,14 @@ Disassembly of section .text:
      d30:	09010113          	addi	sp,sp,144
 #   uart_send_str(" is not here\r\n\r\n");
      d34:	6840006f          	j	13b8 <_ZL13uart_send_strPKc>
-#   next_word w2 = span_next_word(w1.rem);
+#   let w2 = span_next_word(w1.rem);
      d38:	03812583          	lw	a1,56(sp)
      d3c:	03c12603          	lw	a2,60(sp)
      d40:	04010513          	addi	a0,sp,64
      d44:	bf4ff0ef          	jal	138 <_ZL14span_next_word4spanIcE>
+#   let to_ent_nm = w2.word;
      d48:	04012c03          	lw	s8,64(sp)
      d4c:	04412b83          	lw	s7,68(sp)
-#   span<char> to_ent_nm = w2.word;
      d50:	03812023          	sw	s8,32(sp)
      d54:	03712223          	sw	s7,36(sp)
 #   if (to_ent_nm.is_empty()) {
@@ -1301,7 +1304,7 @@ Disassembly of section .text:
      d5c:	00002537          	lui	a0,0x2
      d60:	d2c50513          	addi	a0,a0,-724 # 1d2c <_ZNK4spanIcE8for_eachIZL10span_printS0_EUlcE_EEvT_.isra.0+0x524>
      d64:	f99ff06f          	j	cfc <_ZL11action_giveh4spanIcE+0x68>
-#   location &loc = locations[ent.location];
+#   let &loc = locations[ent.location];
      d68:	001b1413          	slli	s0,s6,0x1
      d6c:	016407b3          	add	a5,s0,s6
      d70:	00279793          	slli	a5,a5,0x2
@@ -1332,7 +1335,7 @@ Disassembly of section .text:
      dc4:	00002537          	lui	a0,0x2
      dc8:	d5850513          	addi	a0,a0,-680 # 1d58 <_ZNK4spanIcE8for_eachIZL10span_printS0_EUlcE_EEvT_.isra.0+0x550>
      dcc:	f31ff06f          	j	cfc <_ZL11action_giveh4spanIcE+0x68>
-#     entity &to = entities[lse.at(i)];
+#     mut &to = entities[lse.at(i)];
      dd0:	08894c83          	lbu	s9,136(s2)
 #     if (!span_equals_string(to_ent_nm, to.name)) {
      dd4:	000c0513          	mv	a0,s8
@@ -1366,8 +1369,8 @@ Disassembly of section .text:
      e34:	038b1063          	bne	s6,s8,e54 <_ZL11action_giveh4spanIcE+0x1c0>
 #   span.for_each([](char const ch) { uart_send_char(ch); });
      e38:	02810513          	addi	a0,sp,40
-     e3c:	03412423          	sw	s4,40(sp)
-     e40:	03312623          	sw	s3,44(sp)
+     e3c:	03312423          	sw	s3,40(sp)
+     e40:	03412623          	sw	s4,44(sp)
      e44:	1c5000ef          	jal	1808 <_ZNK4spanIcE8for_eachIZL10span_printS0_EUlcE_EEvT_.isra.0>
 #     uart_send_str(" not in inventory\r\n\r\n");
      e48:	00002537          	lui	a0,0x2
@@ -1377,13 +1380,13 @@ Disassembly of section .text:
      e54:	00894b83          	lbu	s7,8(s2)
 #       if (!span_equals_string(obj_nm, objects[oid].name)) {
      e58:	f1cd0793          	addi	a5,s10,-228 # 1f1c <_ZL7objects>
-     e5c:	000a0513          	mv	a0,s4
+     e5c:	00098513          	mv	a0,s3
      e60:	002b9713          	slli	a4,s7,0x2
      e64:	00e787b3          	add	a5,a5,a4
      e68:	0007a603          	lw	a2,0(a5)
-     e6c:	00098593          	mv	a1,s3
-     e70:	01412c23          	sw	s4,24(sp)
-     e74:	01312e23          	sw	s3,28(sp)
+     e6c:	000a0593          	mv	a1,s4
+     e70:	01312c23          	sw	s3,24(sp)
+     e74:	01412e23          	sw	s4,28(sp)
      e78:	a54ff0ef          	jal	cc <_ZL18span_equals_string4spanIcEPKc>
      e7c:	00051863          	bnez	a0,e8c <_ZL11action_giveh4spanIcE+0x1f8>
      e80:	00190913          	addi	s2,s2,1
@@ -1402,7 +1405,7 @@ Disassembly of section .text:
 #     data[len] = elem;
      eac:	00e786b3          	add	a3,a5,a4
      eb0:	01768423          	sb	s7,8(a3)
-#     auto &lso = ent.objects;
+#     mut &lso = ent.objects;
      eb4:	00840413          	addi	s0,s0,8
 #         lso.remove_at_index(j);
      eb8:	008a8533          	add	a0,s5,s0

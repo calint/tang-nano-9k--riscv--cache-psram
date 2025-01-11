@@ -362,34 +362,37 @@ static auto action_go(entity_id_t const eid, direction_t const dir) -> void {
   }
 }
 
+#define let auto const
+#define mut auto
+
 static auto action_give(entity_id_t const eid, span<char> args) -> void {
-  next_word w1 = span_next_word(args);
-  span<char> obj_nm = w1.word;
+  let w1 = span_next_word(args);
+  let obj_nm = w1.word;
   if (obj_nm.is_empty()) {
     uart_send_str("give what\r\n\r\n");
     return;
   }
 
-  next_word w2 = span_next_word(w1.rem);
-  span<char> to_ent_nm = w2.word;
+  let w2 = span_next_word(w1.rem);
+  let to_ent_nm = w2.word;
   if (to_ent_nm.is_empty()) {
     uart_send_str("give to whom\r\n\r\n");
     return;
   }
 
-  entity &ent = entities[eid];
-  location &loc = locations[ent.location];
-  auto &lse = loc.entities;
-  size_t const n = lse.length();
+  mut &ent = entities[eid];
+  let &loc = locations[ent.location];
+  let &lse = loc.entities;
+  let n = lse.length();
   for (size_t i = 0; i < n; ++i) {
-    entity &to = entities[lse.at(i)];
+    mut &to = entities[lse.at(i)];
     if (!span_equals_string(to_ent_nm, to.name)) {
       continue;
     }
-    auto &lso = ent.objects;
+    mut &lso = ent.objects;
     size_t const m = lso.length();
     for (size_t j = 0; j < m; j++) {
-      object_id_t const oid = lso.at(j);
+      let oid = lso.at(j);
       if (!span_equals_string(obj_nm, objects[oid].name)) {
         continue;
       }
