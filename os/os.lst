@@ -598,7 +598,7 @@ Disassembly of section .text:
 #   // print objects at location
 #   {
 #     mut counter = 0;
-#     loc.objects.for_each_until_false([&](object_id_t const id) {
+#     loc.objects.for_each_until_false([&counter](object_id_t const id) {
 #       if (counter++) {
 #         uart_send_str(", ");
      5d4:	00002c37          	lui	s8,0x2
@@ -630,19 +630,19 @@ Disassembly of section .text:
      608:	00000793          	li	a5,0
      60c:	00000b13          	li	s6,0
      610:	01448a33          	add	s4,s1,s4
-#         return true;
-#       }
-#       if (counter++) {
-#         uart_send_str(", ");
-#       }
-#       uart_send_str(entities[id].name);
+#             return true;
+#           }
+#           if (counter++) {
+#             uart_send_str(", ");
+#           }
+#           uart_send_str(entities[id].name);
      614:	00002c37          	lui	s8,0x2
-#         uart_send_str(", ");
+#             uart_send_str(", ");
      618:	00002cb7          	lui	s9,0x2
      61c:	090a2683          	lw	a3,144(s4)
      620:	0cdb6263          	bltu	s6,a3,6e4 <_ZL14print_locationhh+0x198>
-#       return true;
-#     });
+#           return true;
+#         });
 #     if (counter != 0) {
      624:	00078863          	beqz	a5,634 <_ZL14print_locationhh+0xe8>
 #       uart_send_str(" is here\r\n");
@@ -726,16 +726,16 @@ Disassembly of section .text:
      6e0:	efdff06f          	j	5dc <_ZL14print_locationhh+0x90>
 #       if (!f(data[i])) {
      6e4:	08844d83          	lbu	s11,136(s0)
-#       if (id == eid_exclude_from_output) {
+#           if (id == eid_exclude_from_output) {
      6e8:	00c12703          	lw	a4,12(sp)
      6ec:	03b70e63          	beq	a4,s11,728 <_ZL14print_locationhh+0x1dc>
-#       if (counter++) {
+#           if (counter++) {
      6f0:	00178d13          	addi	s10,a5,1
      6f4:	00078663          	beqz	a5,700 <_ZL14print_locationhh+0x1b4>
-#         uart_send_str(", ");
+#             uart_send_str(", ");
      6f8:	cc8c8513          	addi	a0,s9,-824
      6fc:	4f1000ef          	jal	13ec <_ZL13uart_send_strPKc>
-#       uart_send_str(entities[id].name);
+#           uart_send_str(entities[id].name);
      700:	001d9793          	slli	a5,s11,0x1
      704:	01b787b3          	add	a5,a5,s11
      708:	00279793          	slli	a5,a5,0x2
@@ -745,7 +745,7 @@ Disassembly of section .text:
      718:	00f687b3          	add	a5,a3,a5
      71c:	0007a503          	lw	a0,0(a5)
      720:	4cd000ef          	jal	13ec <_ZL13uart_send_strPKc>
-#       if (counter++) {
+#           if (counter++) {
      724:	000d0793          	mv	a5,s10
 #     for (size_t i = 0; i < len; ++i) {
      728:	001b0b13          	addi	s6,s6,1
@@ -797,7 +797,7 @@ Disassembly of section .text:
 #   uart_send_str("u have: ");
      7ac:	441000ef          	jal	13ec <_ZL13uart_send_strPKc>
 #   mut counter = 0;
-#   entities[eid].objects.for_each_until_false([&](object_id_t const id) {
+#   entities[eid].objects.for_each_until_false([&counter](object_id_t const id) {
      7b0:	40940433          	sub	s0,s0,s1
      7b4:	000027b7          	lui	a5,0x2
      7b8:	00241413          	slli	s0,s0,0x2

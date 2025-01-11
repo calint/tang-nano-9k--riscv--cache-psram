@@ -237,7 +237,7 @@ static auto print_location(location_id_t const lid,
   // print objects at location
   {
     mut counter = 0;
-    loc.objects.for_each_until_false([&](object_id_t const id) {
+    loc.objects.for_each_until_false([&counter](object_id_t const id) {
       if (counter++) {
         uart_send_str(", ");
       }
@@ -253,16 +253,17 @@ static auto print_location(location_id_t const lid,
   // print entities in location
   {
     mut counter = 0;
-    loc.entities.for_each_until_false([&](location_id_t const id) {
-      if (id == eid_exclude_from_output) {
-        return true;
-      }
-      if (counter++) {
-        uart_send_str(", ");
-      }
-      uart_send_str(entities[id].name);
-      return true;
-    });
+    loc.entities.for_each_until_false(
+        [&counter, eid_exclude_from_output](location_id_t const id) {
+          if (id == eid_exclude_from_output) {
+            return true;
+          }
+          if (counter++) {
+            uart_send_str(", ");
+          }
+          uart_send_str(entities[id].name);
+          return true;
+        });
     if (counter != 0) {
       uart_send_str(" is here\r\n");
     }
@@ -293,7 +294,7 @@ static auto print_location(location_id_t const lid,
 static auto action_inventory(entity_id_t const eid) -> void {
   uart_send_str("u have: ");
   mut counter = 0;
-  entities[eid].objects.for_each_until_false([&](object_id_t const id) {
+  entities[eid].objects.for_each_until_false([&counter](object_id_t const id) {
     if (counter++) {
       uart_send_str(", ");
     }
