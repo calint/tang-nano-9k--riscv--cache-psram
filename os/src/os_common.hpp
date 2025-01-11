@@ -77,11 +77,16 @@ struct entity final {
   list<object_id_t, entity_max_objects> objects{};
 };
 
+struct location_exit final {
+  exit_id_t id{};
+  location_id_t location{};
+};
+
 struct location final {
   name_t name{};
   list<object_id_t, location_max_objects> objects{};
   list<entity_id_t, location_max_entities> entities{};
-  list<location_id_t, location_max_exits> exits{};
+  list<location_exit, location_max_exits> exits{};
 };
 
 static bool constexpr safe_arrays = true;
@@ -92,12 +97,12 @@ static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
 
 static location locations[] = {
     {},
-    {"roome", {}, {{1}, 1}, {{2, 3, 0, 4}, 4}},
-    {"office", {{1, 3}, 2}, {{2}, 1}, {{0, 0, 1}, 3}},
+    {"roome", {}, {{1}, 1}, {{{1, 2}, {2, 3}, {4, 4}}, 3}},
+    {"office", {{1, 3}, 2}, {{2}, 1}, {{{3, 1}}, 1}},
     {"bathroom"},
-    {"kitchen", {}, {}, {{0, 1}, 2}}};
+    {"kitchen", {}, {}, {{{2, 1}}, 1}}};
 
-static cstr exits[] = {"north", "east", "south", "west", "up", "down"};
+static cstr exits[] = {"", "north", "east", "south", "west", "up", "down"};
 
 // implemented in platform dependent source
 static auto led_set(int32_t bits) -> void;
@@ -215,13 +220,13 @@ handle_input(entity_id_t const eid, command_buffer &cmd_buf) -> void {
   } else if (string_equals_cstr(cmd, "d")) {
     action_drop(eid, args);
   } else if (string_equals_cstr(cmd, "n")) {
-    action_go(eid, 0);
-  } else if (string_equals_cstr(cmd, "e")) {
     action_go(eid, 1);
-  } else if (string_equals_cstr(cmd, "s")) {
+  } else if (string_equals_cstr(cmd, "e")) {
     action_go(eid, 2);
-  } else if (string_equals_cstr(cmd, "w")) {
+  } else if (string_equals_cstr(cmd, "s")) {
     action_go(eid, 3);
+  } else if (string_equals_cstr(cmd, "w")) {
+    action_go(eid, 4);
   } else if (string_equals_cstr(cmd, "g")) {
     action_give(eid, args);
   } else if (string_equals_cstr(cmd, "m")) {
@@ -283,15 +288,11 @@ static auto print_location(location_id_t const lid,
     uart_send_cstr("exits: ");
     mut &lse = loc.exits;
     mut counter = 0;
-    mut i = exit_id_t{0};
-    lse.for_each([&counter, &i](let id) {
-      if (id != 0) {
-        if (counter++) {
-          uart_send_cstr(", ");
-        }
-        uart_send_cstr(exit_by_id(i));
+    lse.for_each([&counter](let xit) {
+      if (counter++) {
+        uart_send_cstr(", ");
       }
-      ++i;
+      uart_send_cstr(exit_by_id(xit.id));
     });
     if (counter == 0) {
       uart_send_cstr("none");
@@ -368,17 +369,25 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
   }
 }
 
-static auto action_go(entity_id_t const eid, exit_id_t const exit) -> void {
+static auto action_go(entity_id_t const eid, exit_id_t const xit_id) -> void {
   mut &ent = entity_by_id(eid);
   mut &loc = location_by_id(ent.location);
-  let to = loc.exits.at(exit);
-  if (!to) {
+  let xit_pos = loc.exits.for_each_until_false([xit_id](let xit) {
+    if (xit.id == xit_id) {
+      return false;
+    }
+    return true;
+  });
+
+  if (loc.exits.is_at_end(xit_pos)) {
     uart_send_cstr("cannot go there\r\n\r\n");
     return;
   }
-  if (location_by_id(to).entities.add(eid)) {
+
+  let loc_exit = loc.exits.at(xit_pos);
+  if (location_by_id(loc_exit.location).entities.add(eid)) {
     loc.entities.remove(eid);
-    ent.location = to;
+    ent.location = loc_exit.location;
   }
 }
 
