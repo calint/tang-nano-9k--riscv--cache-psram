@@ -268,19 +268,21 @@ static auto print_location(location_id_t const lid,
 
   // print exits from location
   {
-    mut counter = 0;
     uart_send_cstr("exits: ");
     mut &lse = loc.exits;
-    let n = lse.length();
-    for (mut i = exit_id_t{0}; i < n; ++i) {
-      if (!lse.at(i)) {
-        continue;
+    mut counter = 0;
+    mut i = exit_id_t{0};
+    lse.for_each([&counter, &i](let id) {
+      if (id == 0) {
+        ++i;
+        return;
       }
       if (counter++) {
         uart_send_cstr(", ");
       }
       uart_send_cstr(exit_by_id(i));
-    }
+      ++i;
+    });
     if (counter == 0) {
       uart_send_cstr("none");
     }
