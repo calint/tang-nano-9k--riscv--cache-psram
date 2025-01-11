@@ -15,8 +15,7 @@ public:
 
   span() : begin_{nullptr}, end_{nullptr} {}
 
-  span(Type *const span_begin, Type *const span_end)
-      : begin_{span_begin}, end_{span_end} {
+  span(Type *const begin, Type *const end) : begin_{begin}, end_{end} {
     if constexpr (safe_span) {
       if (begin_ > end_) {
         begin_ = end_ = nullptr;
@@ -24,8 +23,8 @@ public:
     }
   }
 
-  span(Type *const span_begin, size_t const size)
-      : begin_{span_begin}, end_{span_begin + size} {}
+  span(Type *const begin, size_t const size)
+      : begin_{begin}, end_{begin + size} {}
 
   auto size() const -> size_t { return size_t(end_ - begin_); }
 
