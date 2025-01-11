@@ -101,9 +101,6 @@ static auto led_set(int32_t bits) -> void;
 static auto uart_send_cstr(char const *str) -> void;
 static auto uart_send_char(char ch) -> void;
 static auto uart_read_char() -> char;
-static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;
-static auto uart_send_hex_byte(char ch) -> void;
-static auto uart_send_hex_nibble(char nibble) -> void;
 static auto uart_send_move_back(size_t n) -> void;
 static auto action_mem_test() -> void;
 static auto action_sdcard_status() -> void;
@@ -111,6 +108,9 @@ static auto action_sdcard_test_read(string arg) -> void;
 static auto action_sdcard_test_write(string arg) -> void;
 
 // API
+static auto uart_send_hex_uint32(uint32_t i, bool separate_half_words) -> void;
+static auto uart_send_hex_byte(char ch) -> void;
+static auto uart_send_hex_nibble(char nibble) -> void;
 static auto print_help() -> void;
 static auto print_location(location_id_t lid,
                            entity_id_t eid_exclude_from_output) -> void;
