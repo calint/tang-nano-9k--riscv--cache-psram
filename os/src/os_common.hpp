@@ -45,12 +45,6 @@ using string = span<char>;
 
 #include "lib/command_buffer.hpp"
 
-using name_t = char const *;
-using location_id_t = uint8_t;
-using object_id_t = uint8_t;
-using entity_id_t = uint8_t;
-using direction_t = uint8_t;
-
 static let CHAR_BACKSPACE = '\x7f';
 static let CHAR_TAB = '\x09';
 static let LOCATION_MAX_OBJECTS = 128u;
@@ -68,11 +62,16 @@ static let ENTITY_MAX_OBJECTS = 32u;
 // #define ENTITY_MAX_OBJECTS 32
 //
 
+using name_t = char const *;
+
 struct object final {
   name_t name{};
 };
 
 static object objects[] = {{}, {"notebook"}, {"mirror"}, {"lighter"}};
+
+using location_id_t = uint8_t;
+using object_id_t = uint8_t;
 
 struct entity final {
   name_t name{};
@@ -81,6 +80,9 @@ struct entity final {
 };
 
 static entity entities[] = {{}, {"me", 1, {{2}, 1}}, {"u", 2, {}}};
+
+using entity_id_t = uint8_t;
+using direction_t = uint8_t;
 
 struct location final {
   name_t name{};
