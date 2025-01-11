@@ -1,7 +1,7 @@
 {
     "tasks": [
         {
-            "label": "Build and run all tests using iverilog",
+            "label": "osqa: build and run all tests using iverilog",
             "type": "shell",
             "command": "sh",
             "args": [
@@ -10,6 +10,18 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "osqa: build console application",
+            "type": "shell",
+            "command": "sh",
+            "args": [
+                "os/make-console-application.sh"
+            ],
+            "group": {
+                "kind": "build",
             },
             "problemMatcher": []
         }

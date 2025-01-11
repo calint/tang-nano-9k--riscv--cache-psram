@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/os/console_application",
             "args": [],
             "cwd": "${workspaceFolder}",
-            //"preLaunchTask": "glos: build",
+            "preLaunchTask": "osqa: build console application",
         }
     ]
 }
