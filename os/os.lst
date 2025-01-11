@@ -1798,21 +1798,21 @@ Disassembly of section .text:
     1348:	fe5ff06f          	j	132c <_ZL9cstr_copyPKcjPc+0x4>
 
 0000134c <_ZL9cstr_copyPKcPc>:
-# static auto cstr_copy(char const *cstr, char *buf) -> char * {
+# static auto cstr_copy(char const *src, char *dst) -> char * {
     134c:	00050793          	mv	a5,a0
     1350:	00058513          	mv	a0,a1
-#   while (*cstr) {
+#   while (*src) {
     1354:	0007c703          	lbu	a4,0(a5)
     1358:	00071463          	bnez	a4,1360 <_ZL9cstr_copyPKcPc+0x14>
 # }
     135c:	00008067          	ret
-#     *buf = *cstr;
+#     *dst = *src;
     1360:	00e50023          	sb	a4,0(a0)
-#     ++cstr;
+#     ++src;
     1364:	00178793          	addi	a5,a5,1
-#     ++buf;
+#     ++dst;
     1368:	00150513          	addi	a0,a0,1
-#     ++cstr;
+#     ++src;
     136c:	fe9ff06f          	j	1354 <_ZL9cstr_copyPKcPc+0x8>
 
 00001370 <_ZL16string_to_uint324spanIcE>:

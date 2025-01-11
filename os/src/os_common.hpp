@@ -133,7 +133,7 @@ static auto sdcard_write_blocking(size_t sector,
                                   int8_t const *buffer512B) -> void;
 static auto cstr_equals(char const *s1, char const *s2) -> bool;
 static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void;
-static auto cstr_copy(char const *cstr, char *buf) -> char *;
+static auto cstr_copy(char const *src, char *dst) -> char *;
 static auto string_equals_cstr(string const str, char const *cstr) -> bool;
 static auto string_to_uint32(string str) -> uint32_t;
 static auto string_print(string const str) -> void;
@@ -558,13 +558,13 @@ static auto cstr_copy(char const *src, size_t src_len, char *dst) -> void {
   }
 }
 
-static auto cstr_copy(char const *cstr, char *buf) -> char * {
-  while (*cstr) {
-    *buf = *cstr;
-    ++buf;
-    ++cstr;
+static auto cstr_copy(char const *src, char *dst) -> char * {
+  while (*src) {
+    *dst = *src;
+    ++dst;
+    ++src;
   }
-  return buf;
+  return dst;
 }
 
 static auto string_to_uint32(string str) -> uint32_t {
