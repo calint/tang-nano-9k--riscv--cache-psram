@@ -397,40 +397,41 @@ static auto action_give(entity_id_t const eid, string args) -> void {
     return;
   }
 
-  mut &ent = entities[eid];
-  let &loc = locations[ent.location];
+  mut &from_entity = entities[eid];
+  let &loc = locations[from_entity.location];
   let &lse = loc.entities;
   // find 'to' entity in location
-  let topos = lse.for_each_until_false([&to_ent_nm](let id) {
+  let to_pos = lse.for_each_until_false([&to_ent_nm](let id) {
     if (string_equals_cstr(to_ent_nm, entities[id].name)) {
       return false;
     }
     return true;
   });
-  if (lse.is_at_end(topos)) {
+  if (lse.is_at_end(to_pos)) {
     string_print(to_ent_nm);
     uart_send_cstr(" is not here\r\n\r\n");
     return;
   }
 
   // get 'to' entity
-  mut &to = entities[lse.at(topos)];
+  mut &to_entity = entities[lse.at(to_pos)];
 
   // find object to give
-  let objpos = ent.objects.for_each_until_false([&obj_nm](let oid) {
+  let objpos = from_entity.objects.for_each_until_false([&obj_nm](let oid) {
     if (string_equals_cstr(obj_nm, objects[oid].name)) {
       return false;
     }
     return true;
   });
-  if (ent.objects.is_at_end(objpos)) {
+  if (from_entity.objects.is_at_end(objpos)) {
     string_print(obj_nm);
     uart_send_cstr(" not in inventory\r\n\r\n");
     return;
   }
 
-  if (to.objects.add(ent.objects.at(objpos))) {
-    ent.objects.remove_at(objpos);
+  // transfer object
+  if (to_entity.objects.add(from_entity.objects.at(objpos))) {
+    from_entity.objects.remove_at(objpos);
   }
 }
 

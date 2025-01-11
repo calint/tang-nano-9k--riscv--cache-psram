@@ -1298,10 +1298,10 @@ Disassembly of section .text:
 #     uart_send_cstr("give what\r\n\r\n");
      d78:	00002537          	lui	a0,0x2
      d7c:	dbc50513          	addi	a0,a0,-580 # 1dbc <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x514>
-#   }
 # 
-#   if (to.objects.add(ent.objects.at(objpos))) {
-#     ent.objects.remove_at(objpos);
+#   // transfer object
+#   if (to_entity.objects.add(from_entity.objects.at(objpos))) {
+#     from_entity.objects.remove_at(objpos);
 #   }
 # }
      d80:	08812403          	lw	s0,136(sp)
@@ -1336,7 +1336,7 @@ Disassembly of section .text:
      de0:	00002537          	lui	a0,0x2
      de4:	dcc50513          	addi	a0,a0,-564 # 1dcc <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvS2_.isra.0+0x524>
      de8:	f99ff06f          	j	d80 <_ZL11action_giveh4spanIcE+0x68>
-#   let &loc = locations[ent.location];
+#   let &loc = locations[from_entity.location];
      dec:	00191493          	slli	s1,s2,0x1
      df0:	012487b3          	add	a5,s1,s2
      df4:	00279793          	slli	a5,a5,0x2
