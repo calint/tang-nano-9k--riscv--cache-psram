@@ -16,14 +16,18 @@ public:
   span() : begin_{nullptr}, end_{nullptr} {}
 
   span(Type *const span_begin, Type *const span_end)
-      : begin_{span_begin}, end_{span_end} {}
+      : begin_{span_begin}, end_{span_end} {
+    if constexpr (safe_span) {
+      if (begin_ > end_) {
+        begin_ = end_ = nullptr;
+      }
+    }
+  }
 
   span(Type *const span_begin, size_t const size)
       : begin_{span_begin}, end_{span_begin + size} {}
 
-  auto size() const -> size_t {
-    return size_t(end_ - begin_);
-  } // ? what if end<begin
+  auto size() const -> size_t { return size_t(end_ - begin_); }
 
   auto subspan(size_t const begin_index,
                size_t const end_index) const -> span<Type> {
