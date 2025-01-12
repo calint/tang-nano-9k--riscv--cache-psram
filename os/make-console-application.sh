@@ -18,6 +18,7 @@ g++ -std=c++23 \
     -g \
     -fno-rtti \
     -fno-exceptions \
+    -fimplicit-constexpr \
     -fno-toplevel-reorder \
     -Wfatal-errors \
     -Werror \

@@ -25,6 +25,7 @@ $CC -std=c++23 \
     -nostdlib \
     -fno-rtti \
     -fno-exceptions \
+    -fimplicit-constexpr \
     -fno-toplevel-reorder \
     -Wfatal-errors \
     -Werror \
