@@ -18,7 +18,6 @@ iverilog -g2012 -Winfloop -pfileline=1 -o iverilog.vvp -s testbench testbench.sv
     $SRCPTH/uarttx.sv \
     $SRCPTH/uartrx.sv \
     $SRCPTH/ip/regymm/sd_controller.v \
-    $SRCPTH/ip/FPGA-SDcard-Reader/sd_fake.v \
     $SRCPTH/sdcard.sv \
     $SRCPTH/ramio.sv \
     $SRCPTH/registers.sv \
