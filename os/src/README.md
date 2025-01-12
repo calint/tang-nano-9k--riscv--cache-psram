@@ -12,7 +12,8 @@
   - functions are requested to be inlined assuming compilers won't adhere to the hint when it does not make sense, such as big functions called from multiple locations
   - functions called from only one location should be inlined
 * `const` is preferred and used where applicable
-* `let` and `mut` are defined as `auto const` and `auto` and used to declare variables or constants
+* `auto` is used when the type name is too verbose, such as iterators and templates; otherwise, types are spelled out for readability
+* `let` and `mut` are defined as `auto const` and `auto` and can be used to declare variables and immutables
 * `using namespace std;` is ok within namespace or implementation
 * right to left notation `some_type const &inst` instead of `const some_type &inst`
   - for consistency, `const` is written after the type such as `char const *ptr` instead of `const char *ptr` and `float const x` instead of `const float x`
