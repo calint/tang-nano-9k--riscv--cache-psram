@@ -1225,7 +1225,7 @@ Disassembly of section .text:
      cb0:	00170513          	addi	a0,a4,1
      cb4:	40f70733          	sub	a4,a4,a5
      cb8:	00b76663          	bltu	a4,a1,cc4 <_ZL9action_gohh+0x120>
-#     ent.location = loc_exit.location;
+#     ent.location = lnk.location;
      cbc:	00c68223          	sb	a2,4(a3)
      cc0:	00008067          	ret
 #         data[j] = data[j + 1];

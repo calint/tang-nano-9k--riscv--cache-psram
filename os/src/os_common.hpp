@@ -245,7 +245,7 @@ handle_input(entity_id_t const eid, command_buffer &cmd_buf) -> void {
 
 static auto print_location(location_id_t const lid,
                            entity_id_t const eid_excluded_from_output) -> void {
-  mut &loc = location_by_id(lid);
+  let &loc = location_by_id(lid);
   uart_send_cstr("u r in ");
   uart_send_cstr(loc.name);
   uart_send_cstr("\r\nu c: ");
@@ -285,7 +285,7 @@ static auto print_location(location_id_t const lid,
   // print links from location
   {
     uart_send_cstr("exits: ");
-    mut &lse = loc.links;
+    let &lse = loc.links;
     mut counter = 0;
     lse.for_each([&counter](let loc_link) {
       if (counter++) {
@@ -329,7 +329,6 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
     }
     return true;
   });
-
   if (lso.is_at_end(pos)) {
     string_print(args);
     uart_send_cstr(" not here\r\n\r\n");
@@ -355,7 +354,6 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
     }
     return true;
   });
-
   if (lso.is_at_end(pos)) {
     uart_send_cstr("u don't have ");
     string_print(args);
@@ -370,23 +368,26 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
 
 static auto action_go(entity_id_t const eid, link_id_t const link_id) -> void {
   mut &ent = entity_by_id(eid);
+
+  // find link in entity location
   mut &loc = location_by_id(ent.location);
-  let link_pos = loc.links.for_each_until_false([link_id](let lnk) {
+  let lnk_pos = loc.links.for_each_until_false([link_id](let lnk) {
     if (lnk.link == link_id) {
       return false;
     }
     return true;
   });
-
-  if (loc.links.is_at_end(link_pos)) {
+  // if not found
+  if (loc.links.is_at_end(lnk_pos)) {
     uart_send_cstr("cannot go there\r\n\r\n");
     return;
   }
 
-  let loc_exit = loc.links.at(link_pos);
-  if (location_by_id(loc_exit.location).entities.add(eid)) {
+  let lnk = loc.links.at(lnk_pos); // ? hmm. extra lookup
+  // move entity
+  if (location_by_id(lnk.location).entities.add(eid)) {
     loc.entities.remove(eid);
-    ent.location = loc_exit.location;
+    ent.location = lnk.location;
   }
 }
 
