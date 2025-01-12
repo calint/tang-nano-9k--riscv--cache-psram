@@ -30,7 +30,7 @@ static auto initiate_statics() -> void;
 static auto exit(int code) -> void;
 // FPGA has no exit
 
-static constexpr char char_carriage_return = 0x0d;
+static constexpr char char_carriage_return = '\x0d';
 // freestanding serial terminal uses carriage return for newline
 
 #include "os_common.hpp"
