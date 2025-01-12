@@ -335,7 +335,8 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
     return;
   }
 
-  if (ent.objects.add(lso.at(pos))) { // ? lso.at extra lookup
+  // ? lso.at extra lookup
+  if (ent.objects.add(lso.at(pos))) {
     lso.remove_at(pos);
   }
 }
