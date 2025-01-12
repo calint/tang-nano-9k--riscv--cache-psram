@@ -13,7 +13,7 @@ static auto initiate_bss() -> void {}
 static auto initiate_statics() -> void {}
 // note: statics are initiated by the C++ runtime
 
-static constexpr char char_carriage_return = '\x0a';
+static char constexpr char_carriage_return = '\x0a';
 // console application uses newline
 
 #include "os_common.hpp"
