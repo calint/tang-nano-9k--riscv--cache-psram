@@ -112,8 +112,8 @@ static auto uart_read_char() -> char;
 static auto uart_send_move_back(size_t n) -> void;
 static auto action_mem_test() -> void;
 static auto action_sdcard_status() -> void;
-static auto action_sdcard_test_read(string args) -> void;
-static auto action_sdcard_test_write(string args) -> void;
+static auto action_sdcard_read(string args) -> void;
+static auto action_sdcard_write(string args) -> void;
 
 // API
 static auto entity_by_id(entity_id_t id) -> entity &;
@@ -233,9 +233,9 @@ handle_input(entity_id_t const eid, command_buffer &cmd_buf) -> void {
   } else if (string_equals_cstr(cmd, "sds")) {
     action_sdcard_status();
   } else if (string_equals_cstr(cmd, "sdr")) {
-    action_sdcard_test_read(args);
+    action_sdcard_read(args);
   } else if (string_equals_cstr(cmd, "sdw")) {
-    action_sdcard_test_write(args);
+    action_sdcard_write(args);
   } else if (string_equals_cstr(cmd, "q")) {
     exit(0);
   } else {
