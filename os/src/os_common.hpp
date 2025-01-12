@@ -286,7 +286,7 @@ static auto print_location(location_id_t const lid,
     uart_send_cstr("exits: ");
     let &lse = loc.links;
     mut counter = 0;
-    lse.for_each([&counter](let lnk) {
+    lse.for_each([&counter](let &lnk) {
       if (counter++) {
         uart_send_cstr(", ");
       }

@@ -638,7 +638,7 @@ Disassembly of section .text:
      628:	00002537          	lui	a0,0x2
      62c:	cd850513          	addi	a0,a0,-808 # 1cd8 <_ZNK4spanIcE8for_eachIZL12string_printS0_EUlT_E_EEvOS2_.isra.0+0x49c>
      630:	635000ef          	jal	1464 <_ZL14uart_send_cstrPKc>
-#     lse.for_each([&counter](let lnk) {
+#     lse.for_each([&counter](let &lnk) {
      634:	00440913          	addi	s2,s0,4
      638:	00000493          	li	s1,0
 #         uart_send_cstr(", ");
