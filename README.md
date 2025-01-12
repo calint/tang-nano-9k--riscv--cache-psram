@@ -89,6 +89,7 @@ welcome to adventure #4
 [ ] emulator: implement write sector to card file
 [ ] uarttx: optimize away the cycle between go=1 and busy=1
     => cannot with only always_ff and running on posedge clk
+    => use always_comb
 [ ] investigate and try to recreate the "// !!!" issue in 'ramio'
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp

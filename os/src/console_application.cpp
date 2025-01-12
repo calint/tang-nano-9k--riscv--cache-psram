@@ -45,11 +45,11 @@ static auto led_set(uint32_t const bits) -> void {}
 static auto action_mem_test() -> void { printf("memory test not supported\n"); }
 
 static auto action_sdcard_read(string const args) -> void {
-  printf("sdcard test read not supported\n");
+  printf("action sdcard read not supported\n");
 }
 
 static auto action_sdcard_write(string const args) -> void {
-  printf("sdcard test write not supported\n");
+  printf("action sdcard write not supported\n");
 }
 
 static auto action_sdcard_status() -> void {
