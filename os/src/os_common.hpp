@@ -49,7 +49,7 @@ using string = span<char>;
 
 static let safe_arrays = true;
 static let char_backspace = '\x7f';
-static let char_tab = '\x09';
+static let char_tab = '\t';
 static let location_max_objects = 128u;
 static let location_max_entities = 8u;
 static let location_max_links = 6u;
