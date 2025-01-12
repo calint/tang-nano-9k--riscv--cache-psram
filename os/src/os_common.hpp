@@ -448,13 +448,10 @@ static auto action_give(entity_id_t const eid, string const args) -> void {
 static auto print_help() -> void {
   uart_send_cstr(
       "\r\ncommand:\r\n  n: go north\r\n  e: go east\r\n  s: go south\r\n  "
-      "w: "
-      "go west\r\n  i: "
-      "display inventory\r\n  t <object>: take object\r\n  d <object>: drop "
-      "object\r\n  g <object> <entity>: give object to entity\r\n  sdr "
-      "<sector>: read from SD card sector\r\n  sdw <sector> <text>: write to "
-      "SD card sector\r\n  help: this "
-      "message\r\n\r\n");
+      "w: go west\r\n  i: display inventory\r\n  t <object>: take object\r\n  "
+      "d <object>: drop object\r\n  g <object> <entity>: give object to "
+      "entity\r\n  sdr <sector>: read sector from SD card\r\n  sdw <sector> "
+      "<text>: write sector to SD card\r\n  help: this message\r\n\r\n");
 }
 
 static auto input(command_buffer &cmd_buf) -> void {
