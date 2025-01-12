@@ -287,11 +287,11 @@ static auto print_location(location_id_t const lid,
     uart_send_cstr("exits: ");
     let &lse = loc.links;
     mut counter = 0;
-    lse.for_each([&counter](let loc_link) {
+    lse.for_each([&counter](let lnk) {
       if (counter++) {
         uart_send_cstr(", ");
       }
-      uart_send_cstr(link_by_id(loc_link.link));
+      uart_send_cstr(link_by_id(lnk.link));
     });
     if (counter == 0) {
       uart_send_cstr("none");
@@ -408,9 +408,9 @@ static auto action_give(entity_id_t const eid, string const args) -> void {
   }
 
   mut &from_entity = entity_by_id(eid);
+  // find 'to' entity in location
   let &loc = location_by_id(from_entity.location);
   let &lse = loc.entities;
-  // find 'to' entity in location
   let to_pos = lse.for_each_until_false([&to_ent_nm](let id) {
     if (string_equals_cstr(to_ent_nm, entity_by_id(id).name)) {
       return false;
@@ -424,8 +424,8 @@ static auto action_give(entity_id_t const eid, string const args) -> void {
   }
 
   // get 'to' entity
-  mut &to_entity = entity_by_id(lse.at(to_pos)); // ? lse.at extra lookup
-
+  // ? lse.at, entity_by_id extra lookup
+  mut &to_entity = entity_by_id(lse.at(to_pos));
   // find object to give
   let obj_pos = from_entity.objects.for_each_until_false([&obj_nm](let id) {
     if (string_equals_cstr(obj_nm, object_by_id(id).name)) {
