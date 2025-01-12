@@ -192,8 +192,7 @@ struct string_next_word_return {
 
 static auto
 string_next_word(string const str) -> struct string_next_word_return {
-  mut ce =
-      str.for_each_until_false([](let ch) { return ch != ' ' && ch != '\0'; });
+  mut ce = str.for_each_until_false([](let ch) { return ch != ' '; });
   let word = str.subspan_ending_at(ce);
   let rem = str.subspan_starting_at(ce);
   let rem_trimmed = rem.subspan_starting_at(

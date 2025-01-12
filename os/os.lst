@@ -171,53 +171,54 @@ Disassembly of section .text:
      13c:	00c12623          	sw	a2,12(sp)
 #     Type *it = begin_;
      140:	00058713          	mv	a4,a1
-#     for (; it < end_; ++it) {
-     144:	02c76e63          	bltu	a4,a2,180 <_ZL16string_next_word4spanIcE+0x4c>
-#         return {};
-     148:	00000793          	li	a5,0
-     14c:	00000693          	li	a3,0
-#       if (pos.ptr > end_ || pos.ptr < begin_) {
-     150:	02e67e63          	bgeu	a2,a4,18c <_ZL16string_next_word4spanIcE+0x58>
-     154:	00d12823          	sw	a3,16(sp)
-     158:	00f12a23          	sw	a5,20(sp)
-#       if (pos.ptr > end_ || pos.ptr < begin_) {
-     15c:	00e66c63          	bltu	a2,a4,174 <_ZL16string_next_word4spanIcE+0x40>
-     160:	00b76a63          	bltu	a4,a1,174 <_ZL16string_next_word4spanIcE+0x40>
-#     Type *it = begin_;
-     164:	00070793          	mv	a5,a4
 #       if (!f(*it)) {
-     168:	02000693          	li	a3,32
+     144:	02000793          	li	a5,32
 #     for (; it < end_; ++it) {
-     16c:	04c7e263          	bltu	a5,a2,1b0 <_ZL16string_next_word4spanIcE+0x7c>
-#       if (pos.ptr > end_ || pos.ptr < begin_) {
-     170:	04f67463          	bgeu	a2,a5,1b8 <_ZL16string_next_word4spanIcE+0x84>
+     148:	02c76e63          	bltu	a4,a2,184 <_ZL16string_next_word4spanIcE+0x50>
 #         return {};
-     174:	00000613          	li	a2,0
-     178:	00000793          	li	a5,0
-     17c:	0400006f          	j	1bc <_ZL16string_next_word4spanIcE+0x88>
-#   mut ce =
-#       str.for_each_until_false([](let ch) { return ch != ' ' && ch != '\0'; });
-     180:	00074783          	lbu	a5,0(a4)
-     184:	0df7f793          	andi	a5,a5,223
-     188:	00079a63          	bnez	a5,19c <_ZL16string_next_word4spanIcE+0x68>
+     14c:	00000793          	li	a5,0
+     150:	00000693          	li	a3,0
+#       if (pos.ptr > end_ || pos.ptr < begin_) {
+     154:	02e67c63          	bgeu	a2,a4,18c <_ZL16string_next_word4spanIcE+0x58>
+     158:	00d12823          	sw	a3,16(sp)
+     15c:	00f12a23          	sw	a5,20(sp)
+#       if (pos.ptr > end_ || pos.ptr < begin_) {
+     160:	00e66c63          	bltu	a2,a4,178 <_ZL16string_next_word4spanIcE+0x44>
+     164:	00b76a63          	bltu	a4,a1,178 <_ZL16string_next_word4spanIcE+0x44>
+#     Type *it = begin_;
+     168:	00070793          	mv	a5,a4
+#       if (!f(*it)) {
+     16c:	02000693          	li	a3,32
+#     for (; it < end_; ++it) {
+     170:	04c7e063          	bltu	a5,a2,1b0 <_ZL16string_next_word4spanIcE+0x7c>
+#       if (pos.ptr > end_ || pos.ptr < begin_) {
+     174:	04f67263          	bgeu	a2,a5,1b8 <_ZL16string_next_word4spanIcE+0x84>
+#         return {};
+     178:	00000613          	li	a2,0
+     17c:	00000793          	li	a5,0
+     180:	03c0006f          	j	1bc <_ZL16string_next_word4spanIcE+0x88>
+#       if (!f(*it)) {
+     184:	00074683          	lbu	a3,0(a4)
+     188:	00f69a63          	bne	a3,a5,19c <_ZL16string_next_word4spanIcE+0x68>
 #       if (pos.ptr > end_ || pos.ptr < begin_) {
      18c:	00b76c63          	bltu	a4,a1,1a4 <_ZL16string_next_word4spanIcE+0x70>
 #     return {begin_, pos.ptr};
      190:	00070793          	mv	a5,a4
      194:	00058693          	mv	a3,a1
-     198:	fbdff06f          	j	154 <_ZL16string_next_word4spanIcE+0x20>
+     198:	fc1ff06f          	j	158 <_ZL16string_next_word4spanIcE+0x24>
 #     for (; it < end_; ++it) {
      19c:	00170713          	addi	a4,a4,1
-     1a0:	fa5ff06f          	j	144 <_ZL16string_next_word4spanIcE+0x10>
+     1a0:	fa9ff06f          	j	148 <_ZL16string_next_word4spanIcE+0x14>
 #         return {};
      1a4:	00000793          	li	a5,0
      1a8:	00000693          	li	a3,0
-     1ac:	fa9ff06f          	j	154 <_ZL16string_next_word4spanIcE+0x20>
+     1ac:	fadff06f          	j	158 <_ZL16string_next_word4spanIcE+0x24>
 #       if (!f(*it)) {
      1b0:	0007c583          	lbu	a1,0(a5)
      1b4:	02d58463          	beq	a1,a3,1dc <_ZL16string_next_word4spanIcE+0xa8>
 #       if (pos.ptr > end_ || pos.ptr < begin_) {
-     1b8:	fae7eee3          	bltu	a5,a4,174 <_ZL16string_next_word4spanIcE+0x40>
+     1b8:	fce7e0e3          	bltu	a5,a4,178 <_ZL16string_next_word4spanIcE+0x44>
+#   mut ce = str.for_each_until_false([](let ch) { return ch != ' '; });
 #   let word = str.subspan_ending_at(ce);
 #   let rem = str.subspan_starting_at(ce);
 #   let rem_trimmed = rem.subspan_starting_at(
@@ -234,7 +235,7 @@ Disassembly of section .text:
      1d8:	00008067          	ret
 #     for (; it < end_; ++it) {
      1dc:	00178793          	addi	a5,a5,1
-     1e0:	f8dff06f          	j	16c <_ZL16string_next_word4spanIcE+0x38>
+     1e0:	f91ff06f          	j	170 <_ZL16string_next_word4spanIcE+0x3c>
 
 000001e4 <_ZL12handle_inputhR14command_buffer>:
 # 
