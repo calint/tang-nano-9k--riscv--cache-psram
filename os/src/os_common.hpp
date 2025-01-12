@@ -335,7 +335,7 @@ static auto action_take(entity_id_t const eid, string const args) -> void {
     return;
   }
 
-  if (ent.objects.add(lso.at(pos))) {
+  if (ent.objects.add(lso.at(pos))) { // ? lso.at extra lookup
     lso.remove_at(pos);
   }
 }
@@ -361,6 +361,7 @@ static auto action_drop(entity_id_t const eid, string const args) -> void {
     return;
   }
 
+  // ? lso.at extra lookup
   if (location_by_id(ent.location).objects.add(lso.at(pos))) {
     lso.remove_at(pos);
   }
@@ -382,8 +383,8 @@ static auto action_go(entity_id_t const eid, link_id_t const link_id) -> void {
     return;
   }
 
-  let lnk = loc.links.at(lnk_pos);
   // move entity
+  let lnk = loc.links.at(lnk_pos); // ? extra lookup
   if (location_by_id(lnk.location).entities.add(eid)) {
     loc.entities.remove(eid);
     ent.location = lnk.location;
@@ -422,7 +423,7 @@ static auto action_give(entity_id_t const eid, string const args) -> void {
   }
 
   // get 'to' entity
-  mut &to_entity = entity_by_id(lse.at(to_pos));
+  mut &to_entity = entity_by_id(lse.at(to_pos)); // ? lse.at extra lookup
 
   // find object to give
   let obj_pos = from_entity.objects.for_each_until_false([&obj_nm](let id) {
@@ -438,6 +439,7 @@ static auto action_give(entity_id_t const eid, string const args) -> void {
   }
 
   // transfer object
+  // ? from_entity.objects.at extra lookup
   if (to_entity.objects.add(from_entity.objects.at(obj_pos))) {
     from_entity.objects.remove_at(obj_pos);
   }
