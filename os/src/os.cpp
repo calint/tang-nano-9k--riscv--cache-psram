@@ -65,13 +65,6 @@ static auto uart_read_char() -> char {
 static auto action_mem_test() -> void {
   uart_send_cstr("testing memory (write)\r\n");
   char *ptr = &__heap_start;
-  // uart_send_cstr(" heap starts at: ");
-  // uart_send_hex_byte(char(uint32_t(ptr) >> 24));
-  // uart_send_hex_byte(char(uint32_t(ptr) >> 16));
-  // uart_send_char(':');
-  // uart_send_hex_byte(char(uint32_t(ptr) >> 8));
-  // uart_send_hex_byte(char(uint32_t(ptr)));
-  // uart_send_cstr("\r\n");
   char const *const end = reinterpret_cast<char *>(MEMORY_END - 0x1'0000);
   // ??? 0x1'0000 bytes reserved for stack, something more solid would be better
   // ??? don't forget about this when the application grows

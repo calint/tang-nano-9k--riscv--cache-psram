@@ -16,10 +16,10 @@ Disassembly of section .text:
 00000008 <run>:
 # }
 # 
-# static auto action_sdcard_status() -> void {
-#   uint32_t const status = *SDCARD_STATUS;
-#   uart_send_cstr("SDCARD_STATUS: 0x");
-#   uart_send_hex_uint32(status, true);
+# static auto sdcard_read_blocking(size_t const sector,
+#                                  int8_t *buffer512B) -> void {
+#   while (*SDCARD_BUSY)
+#     ;
        8:	f8010113          	addi	sp,sp,-128 # 1fff80 <__bss_end+0x1fdbec>
        c:	06112e23          	sw	ra,124(sp)
       10:	06812c23          	sw	s0,120(sp)
@@ -28,7 +28,7 @@ Disassembly of section .text:
       1c:	07412423          	sw	s4,104(sp)
       20:	07512223          	sw	s5,100(sp)
       24:	06912a23          	sw	s1,116(sp)
-#   uart_send_cstr("\r\n");
+#   *SDCARD_READ_SECTOR = sector;
       28:	7a4010ef          	jal	17cc <_ZL12initiate_bssv>
 #   // initiate statics in freestanding build
 # 
@@ -2239,13 +2239,9 @@ Disassembly of section .text:
     1730:	d35ff06f          	j	1464 <_ZL14uart_send_cstrPKc>
 
 00001734 <_ZL20sdcard_read_blockingjPc>:
-# 
-# static auto sdcard_read_blocking(size_t const sector,
-#                                  int8_t *buffer512B) -> void {
 #   while (*SDCARD_BUSY)
     1734:	ff002783          	lw	a5,-16(zero) # fffffff0 <__bss_end+0xffffdc5c>
     1738:	fe079ee3          	bnez	a5,1734 <_ZL20sdcard_read_blockingjPc>
-#     ;
 #   *SDCARD_READ_SECTOR = sector;
     173c:	fea02623          	sw	a0,-20(zero) # ffffffec <__bss_end+0xffffdc58>
 #   while (*SDCARD_BUSY)
