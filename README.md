@@ -5,6 +5,7 @@
   - no `ecall`, `ebreak`, `fence` or counters
 * multi-cycle with ad-hoc pipeline
 * configurable unified instruction and data cache backed by 2 MB of on-board burst PSRAM
+* read and write sectors to and from the SD card
 * developing a back-to-basics freestanding bare metal C++23 application
 * explore the FPGA board
 
