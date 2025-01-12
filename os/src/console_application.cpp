@@ -1,6 +1,9 @@
 //
 // source for console build
 //
+// note: meant to be run in Visual Code terminal for debugging purposes where
+// backspace is encoded 0x7f
+//
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
