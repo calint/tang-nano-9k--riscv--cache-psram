@@ -377,13 +377,12 @@ static auto action_go(entity_id_t const eid, link_id_t const link_id) -> void {
     }
     return true;
   });
-  // if not found
   if (loc.links.is_at_end(lnk_pos)) {
     uart_send_cstr("cannot go there\r\n\r\n");
     return;
   }
 
-  let lnk = loc.links.at(lnk_pos); // ? hmm. extra lookup
+  let lnk = loc.links.at(lnk_pos);
   // move entity
   if (location_by_id(lnk.location).entities.add(eid)) {
     loc.entities.remove(eid);
