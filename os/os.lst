@@ -1594,7 +1594,7 @@ Disassembly of section .text:
     10c0:	04e408a3          	sb	a4,81(s0)
 #     return true;
     10c4:	fa9ff06f          	j	106c <_ZL5inputR14command_buffer+0xbc>
-#       } else if (ch == CHAR_CARRIAGE_RETURN || cmd_buf.is_full()) {
+#       } else if (ch == char_carriage_return || cmd_buf.is_full()) {
     10c8:	00d00713          	li	a4,13
 #     if (cursor_ == end_) {
     10cc:	05144783          	lbu	a5,81(s0)

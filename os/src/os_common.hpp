@@ -476,7 +476,7 @@ static auto input(command_buffer &cmd_buf) -> void {
           uart_send_char(' ');
           uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
         }
-      } else if (ch == CHAR_CARRIAGE_RETURN || cmd_buf.is_full()) {
+      } else if (ch == char_carriage_return || cmd_buf.is_full()) {
         cmd_buf.set_eos();
         return;
       } else {
