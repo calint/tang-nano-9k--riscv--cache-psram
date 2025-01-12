@@ -134,8 +134,8 @@ static auto action_take(entity_id_t eid, string args) -> void;
 static auto input(command_buffer &cmd_buf) -> void;
 static auto handle_input(entity_id_t eid, command_buffer &cmd_buf) -> void;
 static auto sdcard_read_blocking(size_t sector, int8_t *buffer512B) -> void;
-static auto sdcard_write_blocking(size_t sector,
-                                  int8_t const *buffer512B) -> void;
+static auto sdcard_write_blocking(size_t sector, int8_t const *buffer512B)
+    -> void;
 static auto string_equals_cstr(string str, cstr s) -> bool;
 static auto string_to_uint32(string str) -> uint32_t;
 static auto string_print(string str) -> void;
@@ -190,8 +190,8 @@ struct string_next_word_return {
   string rem{};
 };
 
-static auto
-string_next_word(string const str) -> struct string_next_word_return {
+static auto string_next_word(string const str)
+    -> struct string_next_word_return {
   mut ce = str.for_each_until_false([](let ch) { return ch != ' '; });
   let word = str.subspan_ending_at(ce);
   let rem = str.subspan_starting_at(ce);
@@ -372,7 +372,7 @@ static auto action_go(entity_id_t const eid, link_id_t const link_id) -> void {
 
   // find link in entity location
   mut &loc = location_by_id(ent.location);
-  let lnk_pos = loc.links.for_each_until_false([link_id](let lnk) {
+  let lnk_pos = loc.links.for_each_until_false([link_id](let &lnk) {
     if (lnk.link == link_id) {
       return false;
     }

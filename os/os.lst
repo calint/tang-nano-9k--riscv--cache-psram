@@ -164,8 +164,8 @@ Disassembly of section .text:
 #   string rem{};
 # };
 # 
-# static auto
-# string_next_word(string const str) -> struct string_next_word_return {
+# static auto string_next_word(string const str)
+#     -> struct string_next_word_return {
      134:	fe010113          	addi	sp,sp,-32
      138:	00b12423          	sw	a1,8(sp)
      13c:	00c12623          	sw	a2,12(sp)
