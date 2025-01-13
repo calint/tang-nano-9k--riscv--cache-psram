@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.120 (w)1999-2024 BSI
-[*] Mon Jan 13 12:56:47 2025
+[*] Mon Jan 13 13:29:20 2025
 [*]
 [dumpfile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/4/log.vcd"
-[dumpfile_mtime] "Mon Jan 13 12:56:25 2025"
-[dumpfile_size] 30458
+[dumpfile_mtime] "Mon Jan 13 13:10:36 2025"
+[dumpfile_size] 45274
 [savefile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/4/log.gtkw"
-[timestart] 375100
+[timestart] 272500
 [size] 2230 1344
 [pos] -1 -1
-*-14.814335 390000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.814335 380000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] testbench.
 [treeopen] testbench.ramio.
 [sst_width] 273
@@ -23,9 +23,14 @@ testbench.clk
 -ramio
 @22
 testbench.ramio.address[31:0]
+@29
+testbench.ramio.read_type[2:0]
 @28
+testbench.ramio.write_type[1:0]
 testbench.ramio.uart_rx
 testbench.uart_tx
+@22
+testbench.ramio.uarttx_data_sending[31:0]
 @200
 -
 -uarttx
@@ -33,7 +38,6 @@ testbench.uart_tx
 testbench.ramio.uarttx.rst_n
 testbench.ramio.uarttx.clk
 testbench.ramio.uarttx.go
-@29
 testbench.ramio.uarttx.busy
 @420
 testbench.ramio.uarttx.state
