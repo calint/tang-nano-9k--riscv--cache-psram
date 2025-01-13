@@ -51,30 +51,39 @@ module uarttx #(
 
   always_comb begin
     unique case (state)
+
       Idle: begin
         tx   = 1;
         busy = go ? 1 : 0;
       end
+
       StartBit: begin
         tx   = 0;
         busy = 1;
       end
+
       DataBits: begin
         tx   = data[bit_count];
         busy = 1;
       end
+
       StopBit: begin
         tx   = 1;
         busy = 1;
       end
+
       WaitForGoLow: begin
         tx   = 1;
         busy = 0;
       end
+
       default: begin
+        // note: not necessary but otherwise Gowin EDA 1.9.10.03 Educational
+        //       infers latch for 'busy' and 'tx'
         tx   = 1;
         busy = 0;
       end
+
     endcase
   end
 
@@ -127,7 +136,7 @@ module uarttx #(
           end
         end
 
-        default: ;
+        default: ;  // note: not necessary
 
       endcase
     end
