@@ -18,3 +18,7 @@ i\x7f\x7f\x7fi
 i\e[D\e[D\e[3~i
 t o\e[Dn\e[Ctebook
 m
+sdw 123 writing to sector
+sdr 123
+sdw 123 writing to sector 2
+sdr 123

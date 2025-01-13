@@ -86,7 +86,9 @@ welcome to adventure #4
 ## Todo
 ```
 ----------------------------------------------------------------------------
-[ ] emulator: implement write sector to card file
+[x] emulator: implement write sector to card file
+[x] emulator: test for read/write sector
+[x] os: end-to-end test read/write sector
 [ ] uarttx: optimize away the cycle between go=1 and busy=1
     => cannot with only always_ff and running on posedge clk
     => use always_comb
