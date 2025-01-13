@@ -57,11 +57,11 @@ public:
 
   auto at(position const pos) const -> Type {
     if constexpr (safe_list) {
-      if (pos.index < len) {
-        return data[pos.index];
+      if (pos.index >= len) {
+        return {};
       }
     }
-    return {};
+    return data[pos.index];
   }
 
   auto for_each(callable_returns_void<Type> auto &&f) const -> void {
@@ -70,8 +70,8 @@ public:
     }
   }
 
-  auto
-  for_each_until_false(callable_returns_bool<Type> auto &&f) const -> position {
+  auto for_each_until_false(callable_returns_bool<Type> auto &&f) const
+      -> position {
     size_t i = 0;
     for (; i < len; ++i) {
       if (!f(data[i])) {

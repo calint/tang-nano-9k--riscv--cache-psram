@@ -71,8 +71,8 @@ public:
     }
   }
 
-  auto
-  for_each_until_false(callable_returns_bool<Type> auto &&f) const -> position {
+  auto for_each_until_false(callable_returns_bool<Type> auto &&f) const
+      -> position {
     Type *it = begin_;
     for (; it < end_; ++it) {
       if (!f(*it)) {
