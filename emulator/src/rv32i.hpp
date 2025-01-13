@@ -1,7 +1,8 @@
+#pragma once
+
 // from https://github.com/alexriegler12/riscv
 //  re-written to C++23 with modifications
 
-#pragma once
 #include <cstdint>
 #include <cstdio>
 
