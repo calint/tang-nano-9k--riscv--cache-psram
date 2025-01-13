@@ -5,7 +5,7 @@ Emulates the FPGA program.
 ## usage
 `./make.sh` to build the emulator
 
-`./osqa ../os/os.bin` to run the firmware.
+`./osqa ../os/os.bin ../notes/samples/sample.txt` to run the firmware with SD card image.
 
 ## todo
 ```
