@@ -90,8 +90,6 @@ module uarttx #(
   always_ff @(posedge clk) begin
     if (!rst_n) begin
       state <= Idle;
-      bit_count <= 0;
-      bit_time_counter <= 0;
     end else begin
       unique case (state)
 
