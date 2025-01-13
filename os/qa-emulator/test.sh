@@ -13,7 +13,7 @@ echo "Running test for 5 seconds"
 echo -e "$(cat test.in)" | timeout 5 $EMULATOR $FIRMWARE $SDCARD > test.out || true
 
 if cmp -s test.diff test.out; then
-    echo "test: OK"
+    echo "test: PASSED"
     rm test.out
 else
     echo "test: FAILED, check 'diff test.diff test.out'"
