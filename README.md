@@ -77,11 +77,11 @@ welcome to adventure #4
 
 ## Coding Style
 * no default nettype
-* module names in lower snake case
+* modules, inputs, outputs, logics and wires name verbose, descriptive, lower snake case
+* module parameters pascal case
+* local parameters upper snake case
 * output ports declared `logic`
 * input ports declared `wire`
-* inputs and outputs descriptive verbose in lower snake case
-* logic and wires: descriptive verbose
 
 ## Todo
 ```
