@@ -106,7 +106,7 @@ with open('scripts/configuration.sh', 'w') as file:
     file.write('# location of the bitstream file relative to project root\n')
     file.write('\n')
     file.write('BITSTREAM_FLASH_TO_EXTERNAL={}\n'.format(
-        cfg.BITSTREAM_FLASH_TO_EXTERNAL))
+        int(cfg.BITSTREAM_FLASH_TO_EXTERNAL)))
     file.write(
         '# 0 to flash the bitstream to the internal flash, 1 for the external flash\n')
     file.write('\n')

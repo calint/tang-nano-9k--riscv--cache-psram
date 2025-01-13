@@ -52,8 +52,8 @@ STARTUP_WAIT_CYCLES = 1_000_000
 BITSTREAM_FILE = "impl/pnr/riscv.fs"
 # location of the bitstream file relative to project root
 
-BITSTREAM_FLASH_TO_EXTERNAL = 0
-# 0 to flash the bitstream to the internal flash, 1 for the external flash
+BITSTREAM_FLASH_TO_EXTERNAL = False
+# False to flash the bitstream to the internal flash, True for the external flash
 
 BITSTREAM_FILE_MAX_SIZE_BYTES = 0x40_0000
 # used to check if the bitstream size is within the limit of flash storage
