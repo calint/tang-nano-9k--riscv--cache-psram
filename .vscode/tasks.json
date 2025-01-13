@@ -1,11 +1,11 @@
 {
     "tasks": [
         {
-            "label": "osqa: build and run all tests using iverilog",
+            "label": "osqa: run tests",
             "type": "shell",
             "command": "sh",
             "args": [
-                "qa/qa.sh"
+                "scripts/run-tests.sh"
             ],
             "group": {
                 "kind": "build",
