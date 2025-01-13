@@ -79,7 +79,7 @@ module uarttx #(
 
       default: begin
         // note: not necessary but otherwise Gowin EDA 1.9.10.03 Educational
-        //       infers latch for 'busy' and 'tx'
+        //       infers latches for 'busy' and 'tx'
         tx   = 1;
         busy = 0;
       end

@@ -100,9 +100,8 @@ welcome to adventure #4
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] read LEDs
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
-[ ] fix red hold and recovery paths (not involved in running CPU, ignored)
-[ ]   psram: CALIB
-[ ]   psram: RESET 
+[x] fix red hold path
+    => Hold Path timing violation to CALIB does not seem to have an effect on the design
 
 next step
 [ ] reduce execution cycle by one step by doing CpuExecute in CpuFetch when ramio_data_out_ready
