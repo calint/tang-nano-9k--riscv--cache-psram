@@ -239,7 +239,6 @@ module testbench;
     #clk_tk;
 
     // start bit
-    #clk_tk;
     assert (uart_tx == 0)
     else $fatal;
     #clk_tk;
@@ -289,7 +288,7 @@ module testbench;
     else $fatal;
     #clk_tk;
 
-    // uarttx sets 'bsy' low
+    // uarttx sets 'busy' low
     #clk_tk;
 
     assert (ramio.uarttx.busy == 0)
