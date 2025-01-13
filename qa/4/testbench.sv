@@ -362,7 +362,7 @@ module testbench;
     assert (data_out[7:0] == 8'haa)
     else $fatal;
 
-    #clk_tk;  // 'ramio' clears data from 'uartrx'
+    // 'ramio' has cleared data from 'uartrx' and now returns -1
 
     // read from UART again, should be -1
     enable <= 1;
