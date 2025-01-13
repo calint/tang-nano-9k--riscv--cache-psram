@@ -17,8 +17,8 @@
 ## Howto
 * configure project as described above
 * build bitstream
-* run `/scripts/flash-fpga.sh` to flash bitstream file or `/scripts/program-fpga.sh`
-* then `/scripts/make-and-flash-os.sh` to flash the firmware
+* run `/scripts/make-and-flash-os.sh` to flash the firmware
+* then `/scripts/flash-fpga.sh` to flash bitstream file or `/scripts/program-fpga.sh`
 * connect with serial terminal to the tty (e.g. `/dev/ttyUSB1`) at 115200 baud, 8 bit data, 1 stop bit, no parity, no flow control
 
 ![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/serial-terminal-settings/1.png)
