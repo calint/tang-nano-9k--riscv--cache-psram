@@ -89,7 +89,6 @@ module uarttx #(
         Idle: begin
           if (go) begin
             bit_time_counter <= BIT_TIME - 1;
-            // note: -1 because first 'tick' of 'start bit' is being sent in this state
             state <= StartBit;
           end
         end
@@ -109,7 +108,6 @@ module uarttx #(
             bit_time_counter <= BIT_TIME - 1;
             bit_count <= bit_count + 1'b1;
             if (bit_count == 8 - 1) begin
-              bit_count <= 0;
               state <= StopBit;
             end
           end
