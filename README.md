@@ -86,41 +86,40 @@ welcome to adventure #4
 ## Todo
 ```
 ----------------------------------------------------------------------------
+[ ] os: list, span: position with list instance id so that a position in one
+    list / span can't be used in different list / span instance
+[ ] investigate and try to recreate the "// !!!" issue in 'ramio'
+    => Gowin 1.9.10.03 Education still an issue
+[ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
+    => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
+    => Visual Code terminal sends 0x7f, xterm 0x08
+[ ] cat > /dev/ttyUSB1 should echo without dropping input
+[ ] read LEDs
+[ ] counter[highest_bit] == 1 in decreasing counters into negative instead of 
+    counter == 0 to save some logic for an extra register
+[x] fix red hold path
+    => Hold Path timing violation to CALIB does not seem to have an effect
+       on the design
+----------------------------------------------------------------------------
+step 12
+[ ] always_comb based CPU
+[ ]   1 cycle ALU op
+[ ]   1+ cycle store op
+[ ]   1+ cycle load op
+[ ] dual channel 4 MB PSRAM
+    => reasonable cache size does not fit in fpga resources
+    => study cache synthesized as block ram
+----------------------------------------------------------------------------
+step 13
+[ ] fully pipe-lined core
+[ ] consider FIFO in UART
+----------------------------------------------------------------------------
 [x] emulator: implement write sector to card file
 [x] emulator: test for read/write sector
 [x] os: end-to-end test read/write sector
 [x] uarttx: optimize away the cycle between go=1 and busy=1
     => cannot with only always_ff and running on posedge clk
     => use always_comb
-[ ] os:list,span: position with id so that a position in one list/span
-    can't be used in another list/span
-[ ] investigate and try to recreate the "// !!!" issue in 'ramio'
-[ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
-    => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
-[ ] cat > /dev/ttyUSB1 should echo without dropping input
-[ ] read LEDs
-[ ] counter[highest_bit] == 1 in decreasing counters into negative instead of counter == 0
-[x] fix red hold path
-    => Hold Path timing violation to CALIB does not seem to have an effect on the design
-
-next step
-[ ] reduce execution cycle by one step by doing CpuExecute in CpuFetch when ramio_data_out_ready
-    => registers module would be a 2 port read, 1 port write per cycle
-
-step 12
-[ ] always_comb based CPU
-[ ]   1 cycle ALU op
-[ ]   1+ cycle store op
-[ ]   1+ cycle load op
-[ ] FSM in always_comb?
-[ ] dual channel 4 MB PSRAM
-    => reasonable cache size does not fit in fpga resources
-    => study cache synthesized as block ram
-
-step 13
-[ ] fully pipe-lined core
-[ ] consider FIFO in UART
--------------------------------------------------------------------------------------------------------------
 [x] ramio, sdcard: SDCARD_STATUS returning card_stat and card_type
     => returns int: lowest byte: state, second byte: card type
 [x] study why BAUD rate less than 2400 does not work
