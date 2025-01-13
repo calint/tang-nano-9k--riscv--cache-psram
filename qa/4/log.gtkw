@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.120 (w)1999-2024 BSI
-[*] Mon Jan 13 13:29:20 2025
+[*] Mon Jan 13 13:44:39 2025
 [*]
 [dumpfile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/4/log.vcd"
-[dumpfile_mtime] "Mon Jan 13 13:10:36 2025"
+[dumpfile_mtime] "Mon Jan 13 13:32:14 2025"
 [dumpfile_size] 45274
 [savefile] "/home/c/w/tang-nano-9k--riscv--cache-psram/qa/4/log.gtkw"
-[timestart] 272500
+[timestart] 632500
 [size] 2230 1344
 [pos] -1 -1
-*-14.814335 380000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-14.814335 820000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] testbench.
 [treeopen] testbench.ramio.
 [sst_width] 273
@@ -18,15 +18,18 @@
 [sst_vpaned_height] 415
 @28
 testbench.rst_n
+@29
 testbench.clk
 @200
 -ramio
 @22
 testbench.ramio.address[31:0]
-@29
-testbench.ramio.read_type[2:0]
 @28
+testbench.ramio.read_type[2:0]
 testbench.ramio.write_type[1:0]
+@22
+testbench.data_out[31:0]
+@28
 testbench.ramio.uart_rx
 testbench.uart_tx
 @22
@@ -53,9 +56,16 @@ testbench.ramio.uarttx.data[7:0]
 testbench.ramio.uarttx.BIT_TIME
 @200
 -
+-uartrx
+@420
+testbench.ramio.uartrx.state
+@28
+testbench.ramio.uartrx.go
+testbench.ramio.uartrx.rx
 @22
-testbench.data_out[31:0]
-@200
--
+testbench.ramio.uartrx.data[7:0]
+@28
+testbench.ramio.uartrx.bit_counter
+testbench.ramio.uartrx.data_ready
 [pattern_trace] 1
 [pattern_trace] 0
