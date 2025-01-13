@@ -52,6 +52,8 @@ printf "i\r" > $TTY
 sleep $SLP
 printf "i\r" > $TTY
 sleep $SLP
+printf "sds\r" > $TTY
+sleep $SLP
 printf "sdw 123 hello world\r" > $TTY
 sleep $SLP
 printf "sdr 123\r" > $TTY
