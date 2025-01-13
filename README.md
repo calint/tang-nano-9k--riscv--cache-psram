@@ -90,7 +90,8 @@ welcome to adventure #4
     list / span can't be used in different list / span instance
 [ ] investigate and try to recreate the "// !!!" issue in 'ramio'
     => Gowin 1.9.10.03 Education still an issue
-[ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration screenshot
+[ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration
+    screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
     => Visual Code terminal sends 0x7f, xterm 0x08
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
