@@ -292,7 +292,7 @@ module testbench;
     // uarttx sets 'bsy' low
     #clk_tk;
 
-    assert (ramio.uarttx.bsy == 0)
+    assert (ramio.uarttx.busy == 0)
     else $fatal;
 
     // ramio sets 'go' low to acknowledge 'bsy' 0

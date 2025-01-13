@@ -21,15 +21,15 @@ module uarttx #(
 
     input wire go,
     // enable to start transmission
-    // disable after 'bsy' has gone low to acknowledge that data has been sent
+    // disable after 'busy' has gone low to acknowledge that data has been sent
     //   then enable to start sending new data
 
     output logic tx,
     // UART tx wire
 
-    output logic bsy
+    output logic busy
     // enabled while sending
-    //  after sending, 'bsy' is set to low and needs to be acknowledged by setting 'go' low
+    //  after sending, 'busy' is set to low and needs to be acknowledged by setting 'go' low
     //   before transmitting new 'data' by enabling 'go'
 );
 
@@ -52,28 +52,28 @@ module uarttx #(
   always_comb begin
     unique case (state)
       Idle: begin
-        tx  = 1;
-        bsy = go ? 1 : 0;
+        tx   = 1;
+        busy = go ? 1 : 0;
       end
       StartBit: begin
-        tx  = 0;
-        bsy = 1;
+        tx   = 0;
+        busy = 1;
       end
       DataBits: begin
-        tx  = data[bit_count];
-        bsy = 1;
+        tx   = data[bit_count];
+        busy = 1;
       end
       StopBit: begin
-        tx  = 1;
-        bsy = 1;
+        tx   = 1;
+        busy = 1;
       end
       WaitForGoLow: begin
-        tx  = 1;
-        bsy = 0;
+        tx   = 1;
+        busy = 0;
       end
       default: begin
-        tx  = 1;
-        bsy = 0;
+        tx   = 1;
+        busy = 0;
       end
     endcase
   end
