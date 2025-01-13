@@ -49,22 +49,47 @@ module uarttx #(
 
   logic [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_time_counter;
 
+  always_comb begin
+    unique case (state)
+      Idle: begin
+        tx  = 1;
+        bsy = go ? 1 : 0;
+      end
+      StartBit: begin
+        tx  = 0;
+        bsy = 1;
+      end
+      DataBits: begin
+        tx  = data[bit_count];
+        bsy = 1;
+      end
+      StopBit: begin
+        tx  = 1;
+        bsy = 1;
+      end
+      WaitForGoLow: begin
+        tx  = 1;
+        bsy = 0;
+      end
+      default: begin
+        tx  = 1;
+        bsy = 0;
+      end
+    endcase
+  end
+
   always_ff @(posedge clk) begin
     if (!rst_n) begin
       state <= Idle;
       bit_count <= 0;
       bit_time_counter <= 0;
-      tx <= 1;
-      bsy <= 0;
     end else begin
       unique case (state)
 
         Idle: begin
           if (go) begin
-            bsy <= 1;
             bit_time_counter <= BIT_TIME - 1;
             // note: -1 because first 'tick' of 'start bit' is being sent in this state
-            tx <= 0;  // start sending 'start bit'
             state <= StartBit;
           end
         end
@@ -73,9 +98,7 @@ module uarttx #(
           bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
             bit_time_counter <= BIT_TIME - 1;
-            // note: -1 because first 'tick' of the first bit is being sent in this state
-            tx <= data[0];  // start sending first bit of data
-            bit_count <= 1;  // first bit is being sent during this cycle
+            bit_count <= 0;
             state <= DataBits;
           end
         end
@@ -83,13 +106,10 @@ module uarttx #(
         DataBits: begin
           bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
-            tx <= data[bit_count];
             bit_time_counter <= BIT_TIME - 1;
-            // note: -1 because first 'tick' of next bit is sent in this state
             bit_count <= bit_count + 1'b1;
-            if (bit_count == 8) begin
+            if (bit_count == 8 - 1) begin
               bit_count <= 0;
-              tx <= 1;  // overwrite tx, start sending stop bit
               state <= StopBit;
             end
           end
@@ -98,7 +118,6 @@ module uarttx #(
         StopBit: begin
           bit_time_counter <= bit_time_counter - 1'b1;
           if (bit_time_counter == 0) begin
-            bsy   <= 0;
             state <= WaitForGoLow;
           end
         end

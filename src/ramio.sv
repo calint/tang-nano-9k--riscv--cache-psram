@@ -367,10 +367,6 @@ module ramio #(
   // enable to start receiving
   //  disable to acknowledge that received data has been read from 'uartrx'
 
-  logic       prev_cycle_uarttx_go;
-  // true when previous cycle enabled 'uarttx_go'
-  //  need to wait one cycle for 'uarttx' to assert 'uarttx_bsy'
-
   always_ff @(posedge clk) begin
     if (!rst_n) begin
       led <= 4'b1111;  // turn off all LEDs
@@ -379,8 +375,6 @@ module ramio #(
       uartrx_data_received <= -1;
       uartrx_go <= 1;
     end else begin
-      prev_cycle_uarttx_go <= 0;
-
       // if read from UART then reset the read data to -1
       if (address == AddressUartIn && read_type != '0) begin
         uartrx_data_received <= -1;
@@ -405,7 +399,7 @@ module ramio #(
 
       // if UART is done sending data then acknowledge (uarttx_go = 0)
       //  and set idle (0xffff'ffff)
-      if (uarttx_go && !uarttx_bsy && !prev_cycle_uarttx_go) begin
+      if (uarttx_go && !uarttx_bsy) begin
         uarttx_go <= 0;
         uarttx_data_sending <= -1;
       end
@@ -414,7 +408,6 @@ module ramio #(
       if (address == AddressUartOut && write_type != '0) begin
         uarttx_data_sending <= {24'b0, data_in[7:0]};
         uarttx_go <= 1;
-        prev_cycle_uarttx_go <= 1;
       end
 
       // if writing to LEDs

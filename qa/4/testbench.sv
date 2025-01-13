@@ -72,7 +72,7 @@ module testbench;
       .RamAddressingMode(3),  // 64 bit word RAM
       .CacheLineIndexBitWidth(1),
       .ClockFrequencyHz(20_250_000),
-      .BaudRate(20_250_000)
+      .BaudRate(20_250_000 / 2)
   ) ramio (
       .rst_n(rst_n && br_init_calib),
       .clk,
@@ -242,56 +242,62 @@ module testbench;
     #clk_tk;
     assert (uart_tx == 0)
     else $fatal;
+    #clk_tk;
+    // bit 0
+    #clk_tk;
+    assert (uart_tx == 0)
+    else $fatal;
+    #clk_tk;
     // bit 1
     #clk_tk;
-    assert (uart_tx == 0)
+    assert (uart_tx == 1)
     else $fatal;
+    #clk_tk;
     // bit 2
     #clk_tk;
-    assert (uart_tx == 1)
+    assert (uart_tx == 0)
     else $fatal;
+    #clk_tk;
     // bit 3
     #clk_tk;
-    assert (uart_tx == 0)
+    assert (uart_tx == 1)
     else $fatal;
+    #clk_tk;
     // bit 4
     #clk_tk;
-    assert (uart_tx == 1)
+    assert (uart_tx == 0)
     else $fatal;
+    #clk_tk;
     // bit 5
     #clk_tk;
+    assert (uart_tx == 1)
+    else $fatal;
+    #clk_tk;
+    // bit 6
+    #clk_tk;
     assert (uart_tx == 0)
     else $fatal;
-    // bit 6
+    #clk_tk;
+    // bit 7
     #clk_tk;
     assert (uart_tx == 1)
     else $fatal;
-    // bit 7
     #clk_tk;
-    assert (uart_tx == 0)
-    else $fatal;
-
-    assert (data_out != 0)
-    else $fatal;
-
     // stop bit
     #clk_tk;
     assert (uart_tx == 1)
     else $fatal;
-
-    assert (data_out != 0)
-    else $fatal;
-
     #clk_tk;
-    assert (uart_tx == 1)
-    else $fatal;
 
+    // uarttx sets 'bsy' low
     #clk_tk;
 
     assert (ramio.uarttx.bsy == 0)
     else $fatal;
 
+    // ramio sets 'go' low to acknowledge 'bsy' 0
     #clk_tk;
+
     assert (ramio.uarttx_data_sending == -1)
     else $fatal;
 
@@ -301,32 +307,42 @@ module testbench;
     // start bit
     uart_rx <= 0;
     #clk_tk;
+    #clk_tk;
     // bit 0
     uart_rx <= 0;
+    #clk_tk;
     #clk_tk;
     // bit 1
     uart_rx <= 1;
     #clk_tk;
+    #clk_tk;
     // bit 2
     uart_rx <= 0;
+    #clk_tk;
     #clk_tk;
     // bit 3
     uart_rx <= 1;
     #clk_tk;
+    #clk_tk;
     // bit 4
     uart_rx <= 0;
+    #clk_tk;
     #clk_tk;
     // bit 5
     uart_rx <= 1;
     #clk_tk;
+    #clk_tk;
     // bit 6
     uart_rx <= 0;
+    #clk_tk;
     #clk_tk;
     // bit 7
     uart_rx <= 1;
     #clk_tk;
+    #clk_tk;
     // stop bit
     uart_rx <= 1;
+    #clk_tk;
     #clk_tk;
 
     assert (data_out == -1)

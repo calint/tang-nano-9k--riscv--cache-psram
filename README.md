@@ -89,7 +89,7 @@ welcome to adventure #4
 [x] emulator: implement write sector to card file
 [x] emulator: test for read/write sector
 [x] os: end-to-end test read/write sector
-[ ] uarttx: optimize away the cycle between go=1 and busy=1
+[x] uarttx: optimize away the cycle between go=1 and busy=1
     => cannot with only always_ff and running on posedge clk
     => use always_comb
 [ ] os:list,span: position with id so that a position in one list/span
