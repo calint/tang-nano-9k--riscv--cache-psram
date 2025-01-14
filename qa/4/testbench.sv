@@ -238,6 +238,9 @@ module testbench;
     write_type <= 0;
     #clk_tk;
 
+    #clk_tk;
+    // uarttx starts sending
+
     // start bit
     assert (uart_tx == 0)
     else $fatal;

@@ -9,14 +9,9 @@
 * developing a back-to-basics freestanding bare metal C++23 application
 * explore the FPGA board
 
-## Gowin EDA 1.9.10.03 Education Build (77527) Project Configuration
-![1](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/1.png)
-
-![2](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/notes/gowin-project-configuration/2.png)
-
-## Howto
-* configure project as described above
-* build bitstream
+## Howto Gowin EDA 1.9.10.03 Education
+* build bitstream using `/scripts/build-using-gowin.sh` or in Gowin EDA
+  - note: `gw_sh` assumed to be in path
 * run `/scripts/make-and-flash-os.sh` to flash the firmware
 * then `/scripts/flash-fpga.sh` to flash bitstream file or `/scripts/program-fpga.sh`
 * connect with serial terminal to the tty (e.g. `/dev/ttyUSB1`) at 115200 baud, 8 bit data, 1 stop bit, no parity, no flow control
@@ -88,6 +83,7 @@ welcome to adventure #4
 ----------------------------------------------------------------------------
 [ ] os: list, span: position with list instance id so that a position in one
     list / span can't be used in different list / span instance
+[ ] investigate why release 1.1.7 has flukes at tests
 [x] investigate and try to recreate the "// !!!" issue in 'ramio'
     => Gowin 1.9.10.03 Education still an issue
     => without the 'else' 'data_out_ready' is assigned twice during the same
