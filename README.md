@@ -10,8 +10,7 @@
 * explore the FPGA board
 
 ## Howto Gowin EDA 1.9.10.03 Education
-* build bitstream using `/scripts/build-using-gowin.sh` or in Gowin EDA
-  - note: `gw_sh` assumed to be in path
+* build bitstream in Gowin EDA or using `/scripts/build-using-gowin.sh` (note: `gw_sh` assumed to be in path)
 * run `/scripts/make-and-flash-os.sh` to flash the firmware
 * then `/scripts/flash-fpga.sh` to flash bitstream file or `/scripts/program-fpga.sh`
 * connect with serial terminal to the tty (e.g. `/dev/ttyUSB1`) at 115200 baud, 8 bit data, 1 stop bit, no parity, no flow control
