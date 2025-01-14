@@ -126,7 +126,8 @@ module cache #(
   bram #(
       .AddressBitWidth(LineIndexBitWidth)
   ) tag (
-      .clk(clk),
+      .rst_n,
+      .clk,
       .write_enable(tag_write_enable),
       .address(line_ix),
       .data_in(tag_data_in),
@@ -166,7 +167,8 @@ module cache #(
       bram #(
           .AddressBitWidth(LineIndexBitWidth)
       ) column (
-          .clk(clk),
+          .rst_n,
+          .clk,
           .write_enable(column_write_enable[i]),
           .address(line_ix),
           .data_in(burst_is_reading ? burst_data_in[i] : column_data_in[i]),

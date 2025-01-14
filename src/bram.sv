@@ -10,11 +10,11 @@
 // `define INFO
 
 module bram #(
-    parameter int unsigned DataFilePath = "",
     parameter int unsigned AddressBitWidth = 16,
     parameter int unsigned DataBitWidth = 32,
     parameter int unsigned ColumnBitWidth = 8
 ) (
+    input wire rst_n,
     input wire clk,
 
     input wire [ColumnCount-1:0] write_enable,
@@ -29,20 +29,16 @@ module bram #(
 
   assign data_out = data[address];
 
-  initial begin
-    for (int i = 0; i < 2 ** AddressBitWidth; i++) begin
-      data[i] = 0;
-    end
-
-    if (DataFilePath != "") begin
-      $readmemh(DataFilePath, data, 0, 2 ** AddressBitWidth - 1);
-    end
-  end
-
   always_ff @(posedge clk) begin
-    for (int i = 0; i < ColumnCount; i++) begin
-      if (write_enable[i]) begin
-        data[address][(i+1)*ColumnBitWidth-1-:ColumnBitWidth] <= data_in[(i+1)*ColumnBitWidth-1-:ColumnBitWidth];
+    if (!rst_n) begin
+      for (int i = 0; i < 2 ** AddressBitWidth; i++) begin
+        data[i] <= 0;
+      end
+    end else begin
+      for (int i = 0; i < ColumnCount; i++) begin
+        if (write_enable[i]) begin
+          data[address][(i+1)*ColumnBitWidth-1-:ColumnBitWidth] <= data_in[(i+1)*ColumnBitWidth-1-:ColumnBitWidth];
+        end
       end
     end
   end
