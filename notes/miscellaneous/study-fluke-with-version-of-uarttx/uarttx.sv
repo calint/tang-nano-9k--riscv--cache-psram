@@ -45,7 +45,7 @@ module uarttx #(
 
   state_e state;
 
-  logic [3:0] bit_count;  // 4 bits to fit number 8
+  logic [2:0] bit_count;  // 3 bits to fit number 7
 
   logic [(BIT_TIME == 1 ? 1 : $clog2(BIT_TIME))-1:0] bit_time_counter;
 
