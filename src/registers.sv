@@ -45,7 +45,7 @@ module registers #(
   always_ff @(posedge clk) begin
     if (rd_write_enable) begin
 `ifdef DBG
-      $display("%0t: clk+: Registers (rs1,rs2,rd,we,rd_dat)=(%0h,%0h,%0h,%0d,%0h)", $time, rs1,
+      $display("%m: %0t: clk+: Registers (rs1,rs2,rd,we,rd_dat)=(%0h,%0h,%0h,%0d,%0h)", $time, rs1,
                rs2, rd, rd_write_enable, rd_data_in);
 `endif
       data[rd] <= rd_data_in;

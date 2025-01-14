@@ -88,8 +88,13 @@ welcome to adventure #4
 ----------------------------------------------------------------------------
 [ ] os: list, span: position with list instance id so that a position in one
     list / span can't be used in different list / span instance
-[ ] investigate and try to recreate the "// !!!" issue in 'ramio'
+[x] investigate and try to recreate the "// !!!" issue in 'ramio'
     => Gowin 1.9.10.03 Education still an issue
+    => without the 'else' 'data_out_ready' is assigned twice during the same
+       clock cycle with the second assignment being correct. it works as
+       expected in simulation but the hardware occasionally behaves
+       differently
+    => fluke: observed miss reads in tests
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration
     screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp

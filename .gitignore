@@ -3,7 +3,8 @@
 /__pycache__
 /os/os
 /os/console_application
-**/impl/
+/impl/
+!/impl/riscv_process_config.json
 *.gprj.user
 *.vvp
 *.vcd

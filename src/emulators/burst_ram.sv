@@ -157,7 +157,7 @@ module burst_ram #(
           end else begin
             data[addr_iter] <= wr_data;
 `ifdef DBG
-            $display("burst_ram[0x%h]=0x%h", addr_iter, wr_data);
+            $display("%m: %0t: burst_ram[0x%h]=0x%h", $time, addr_iter, wr_data);
 `endif
           end
         end

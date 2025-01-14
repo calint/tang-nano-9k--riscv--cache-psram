@@ -4,8 +4,8 @@
 `timescale 1ns / 1ps
 //
 `default_nettype none
-//`define DBG
-//`define INFO
+// `define DBG
+// `define INFO
 
 module sdcard #(
     parameter bit Simulate = 0,

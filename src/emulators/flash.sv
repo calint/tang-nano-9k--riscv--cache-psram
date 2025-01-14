@@ -7,8 +7,8 @@
 `timescale 1ns / 1ps
 //
 `default_nettype none
-//`define DBG
-//`define INFO
+// `define DBG
+// `define INFO
 
 module flash #(
     parameter string DataFilePath = "",
@@ -78,7 +78,7 @@ module flash #(
       state <= ReceiveCommand;
     end else begin
 `ifdef DBG
-      $display("state: %0d  counter: %0d  address: %h", state, counter, address);
+      $display("%m: %0t: state: %0d  counter: %0d  address: %h", $time, state, counter, address);
 `endif
       unique case (state)
 

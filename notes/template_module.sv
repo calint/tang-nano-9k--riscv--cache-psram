@@ -4,8 +4,8 @@
 `timescale 1ns / 1ps
 //
 `default_nettype none
-//`define DBG
-//`define INFO
+// `define DBG
+// `define INFO
 
 module my_module #(
     parameter int unsigned Width  = 80,
@@ -44,6 +44,9 @@ module my_module #(
   end
 
   always_ff @(posedge clk_i) begin
+`ifdef DBG
+    $display("%m: %0t: state: %0d", $time, state);
+`endif
     if (!rst_ni) begin
       // ...
     end else begin

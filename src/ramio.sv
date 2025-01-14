@@ -184,8 +184,8 @@ module ramio #(
     if (enable) begin
 
 `ifdef DBG
-      $display("address: %h  read_type: %b  write_type: %b  data_in: %h", address, read_type,
-               write_type, data_in);
+      $display("%m: %0t: address: %h  read_type: %b  write_type: %b  data_in: %h", $time, address,
+               read_type, write_type, data_in);
 `endif
 
       if (write_type != '0) begin
@@ -377,8 +377,14 @@ module ramio #(
     end else begin
       // if read from UART then reset the read data to -1
       if (address == AddressUartIn && read_type != '0) begin
+`ifdef DBG
+        $display("%m: %0t: uart read  uartrx_data_received: %h", $time, uartrx_data_received);
+`endif
         uartrx_data_received <= -1;
       end else if (uartrx_go && uartrx_data_ready) begin
+`ifdef DBG
+        $display("%m: %0t: uart data ready  uartrx_data_received: %h", $time, uartrx_data);
+`endif
         // !!! unclear why necessary for this to be in an 'else if' instead 
         // !!!  of stand-alone 'if' to avoid characters being dropped from 'uartrx'
         // !!! note: issue does not happen in Gowin 19.10.03 as often
