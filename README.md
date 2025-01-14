@@ -78,16 +78,9 @@ welcome to adventure #4
 ## Todo
 ```
 ----------------------------------------------------------------------------
+[ ] emulator: implement write sector to card file
 [ ] os: list, span: position with list instance id so that a position in one
     list / span can't be used in different list / span instance
-[ ] investigate why release 1.1.7 has flukes at tests
-[x] investigate and try to recreate the "// !!!" issue in 'ramio'
-    => Gowin 1.9.10.03 Education still an issue
-    => without the 'else' 'data_out_ready' is assigned twice during the same
-       clock cycle with the second assignment being correct. it works as
-       expected in simulation but the hardware occasionally behaves
-       differently
-    => fluke: observed miss reads in tests
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration
     screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
@@ -113,7 +106,18 @@ step 13
 [ ] fully pipe-lined core
 [ ] consider FIFO in UART
 ----------------------------------------------------------------------------
-[x] emulator: implement write sector to card file
+[x] investigate why release 1.1.7 has flukes at end-to-end tests // !!!
+    => reverted to 1.1.6, 20 end-to-end tests ran ok
+    => tested 20 runs with same code on Tang Nano 20K without fluke
+       possible problem with Tang Nano 9K
+[x] investigate and try to recreate the "// !!!" issue in 'ramio'
+    => Gowin 1.9.10.03 Education still an issue
+    => without the 'else' 'data_out_ready' is assigned twice during the same
+       clock cycle with the second assignment overriding the first.
+       it works as expected in simulation but the hardware occasionally
+       behaves differently
+    => fluke: observed miss reads in end-to-end tests on Tang Nano 9K
+    => works on Tang Nano 20K, possible problem with Tang Nano 9K
 [x] emulator: test for read/write sector
 [x] os: end-to-end test read/write sector
 [x] uarttx: optimize away the cycle between go=1 and busy=1
