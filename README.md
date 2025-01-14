@@ -118,6 +118,8 @@ step 13
        behaves differently
     => fluke: observed miss reads in end-to-end tests on Tang Nano 9K
     => works on Tang Nano 20K, possible problem with Tang Nano 9K
+    => oddly, in a non-deterministic ways the ramio workaround and improved
+       uarttx now works
 [x] emulator: test for read/write sector
 [x] os: end-to-end test read/write sector
 [x] uarttx: optimize away the cycle between go=1 and busy=1
