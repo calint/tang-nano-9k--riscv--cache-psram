@@ -126,7 +126,6 @@ module cache #(
   bram #(
       .AddressBitWidth(LineIndexBitWidth)
   ) tag (
-      .rst_n,
       .clk,
       .write_enable(tag_write_enable),
       .address(line_ix),
@@ -167,7 +166,6 @@ module cache #(
       bram #(
           .AddressBitWidth(LineIndexBitWidth)
       ) column (
-          .rst_n,
           .clk,
           .write_enable(column_write_enable[i]),
           .address(line_ix),

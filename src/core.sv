@@ -462,7 +462,6 @@ module core #(
   end
 
   registers registers (
-      .rst_n,
       .clk,
       .rs1,
       .rs1_data_out,

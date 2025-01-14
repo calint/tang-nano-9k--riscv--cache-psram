@@ -12,7 +12,6 @@ module registers #(
     parameter int unsigned AddressBitWidth = 5,
     parameter int unsigned DataBitWidth = 32
 ) (
-    input wire rst_n,
     input wire clk,
 
     input wire [AddressBitWidth-1:0] rs1,
@@ -44,18 +43,12 @@ module registers #(
   assign rs2_data_out = rs2 == 0 ? 0 : data[rs2];
 
   always_ff @(posedge clk) begin
-    if (!rst_n) begin
-      for (int i = 0; i < 2 ** AddressBitWidth; i++) begin
-        data[i] <= 0;
-      end
-    end else begin
-      if (rd_write_enable) begin
+    if (rd_write_enable) begin
 `ifdef DBG
-        $display("%m: %0t: clk+: Registers (rs1,rs2,rd,we,rd_dat)=(%0h,%0h,%0h,%0d,%0h)", $time,
-                 rs1, rs2, rd, rd_write_enable, rd_data_in);
+      $display("%m: %0t: clk+: Registers (rs1,rs2,rd,we,rd_dat)=(%0h,%0h,%0h,%0d,%0h)", $time, rs1,
+               rs2, rd, rd_write_enable, rd_data_in);
 `endif
-        data[rd] <= rd_data_in;
-      end
+      data[rd] <= rd_data_in;
     end
   end
 
