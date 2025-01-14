@@ -51,47 +51,71 @@ module uarttx #(
 
   always_comb begin
     unique case (state)
+
       Idle: begin
-        tx   = 1;
-        busy = go ? 1 : 0;
+        if (go) begin
+          // start sending start bit in this cycle
+          tx   = 0;
+          busy = 1;
+        end else begin
+          tx   = 1;
+          busy = 0;
+        end
       end
+
       StartBit: begin
         tx   = 0;
         busy = 1;
       end
+
       DataBits: begin
         tx   = data[bit_count];
         busy = 1;
       end
+
       StopBit: begin
         tx   = 1;
         busy = 1;
       end
+
       WaitForGoLow: begin
         tx   = 1;
         busy = 0;
       end
+
       default: begin
         // note: not necessary but otherwise Gowin EDA 1.9.10.03 Educational
         //       infers latches for 'busy' and 'tx'
         tx   = 1;
         busy = 0;
       end
+
     endcase
   end
 
   always_ff @(posedge clk) begin
     if (!rst_n) begin
       state <= Idle;
-      bit_count <= 0;
-      bit_time_counter <= 0;
     end else begin
       unique case (state)
 
         Idle: begin
           if (go) begin
-            bit_time_counter <= BIT_TIME - 1;
-            state <= StartBit;
+            // start bit starts sending during this cycle
+            if (BIT_TIME == 1) begin
+              // special case: full start bit was sent during
+              // this cycle. jump to send data bits
+              bit_time_counter <= BIT_TIME - 1;
+              bit_count <= 0;
+              state <= DataBits;
+            end else begin
+              bit_time_counter <= BIT_TIME - 2;
+              // note: -1 because first cycle in the start bit
+              //       is sent during this cycle and another -1 
+              //       because of the comparison when non-blocking 
+              //       assignments
+              state <= StartBit;
+            end
           end
         end
 
@@ -129,7 +153,7 @@ module uarttx #(
           end
         end
 
-        default: ;  // not necessary
+        default: ;  // note: not necessary
 
       endcase
     end
