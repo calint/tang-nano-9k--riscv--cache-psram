@@ -68,11 +68,12 @@ welcome to adventure #4
 
 ## Coding Style
 * no default nettype
-* modules, inputs, outputs, logics and wires name verbose, descriptive, lower snake case
+* module, input, output, logic and wire names verbose, descriptive, lower snake case
 * module parameters pascal case
-* local parameters upper snake case
 * output ports declared `logic`
 * input ports declared `wire`
+* local parameters upper snake case
+* `enum` types have name suffix `_e`
 
 ## Todo
 ```
