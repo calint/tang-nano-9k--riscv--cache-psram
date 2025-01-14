@@ -61,6 +61,11 @@ module uarttx #(
           tx   = 1;
           busy = 0;
         end
+
+        // this also flukes:
+        // tx   = go ? 0 : 1;
+        // busy = go ? 1 : 0;
+
       end
 
       StartBit: begin
