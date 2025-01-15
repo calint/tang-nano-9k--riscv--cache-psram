@@ -29,8 +29,8 @@ CACHE_COLUMN_INDEX_BITWIDTH = 3
 # 2 ^ 3 = 8 entries (32 B) per cache line
 # hardcoded. setting has no effect.
 
-CACHE_LINE_INDEX_BITWIDTH = 5
-# 2 ^ 5 * 32 = 1 KB unified instruction and data cache
+CACHE_LINE_INDEX_BITWIDTH = 7
+# 2 ^ 7 * 32 = 4 KB unified instruction and data cache
 # from 1 to 5: cache implemented with SSRAM
 #           6: leads to excessive build time
 #           7: cache implemented with some BSRAM
