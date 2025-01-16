@@ -39,6 +39,8 @@ echo "size: $FILE_SIZE B"
 echo " max: $BITSTREAM_FILE_MAX_SIZE_BYTES B"
 echo -e "\e[0m"
 
+grep -A 4 "2.3 Max Frequency Summary" impl/pnr/riscv.tr | tail -n 4
+
 if [ "$FILE_SIZE" -gt "$BITSTREAM_FILE_MAX_SIZE_BYTES" ]; then
     echo -e "\e[31mfirmware size exceeds allocated flash storage.\e[0m"
     exit 1
