@@ -80,7 +80,7 @@ static auto action_mem_test() -> void {
   ch = 0;
   bool failed = false;
   while (ptr < end) {
-    if (*ptr != ch) {
+    if (*ptr != ch) [[unlikely]] {
       uart_send_cstr("at ");
       uart_send_hex_uint32(uint32_t(ptr), true);
       uart_send_cstr(" expected ");
@@ -139,8 +139,8 @@ static auto action_sdcard_status() -> void {
   uart_send_cstr("\r\n");
 }
 
-static auto sdcard_read_blocking(size_t const sector,
-                                 int8_t *buffer512B) -> void {
+static auto sdcard_read_blocking(size_t const sector, int8_t *buffer512B)
+    -> void {
   while (*SDCARD_BUSY)
     ;
   *SDCARD_READ_SECTOR = sector;
@@ -152,8 +152,8 @@ static auto sdcard_read_blocking(size_t const sector,
   }
 }
 
-static auto sdcard_write_blocking(size_t const sector,
-                                  int8_t const *buffer512B) -> void {
+static auto sdcard_write_blocking(size_t const sector, int8_t const *buffer512B)
+    -> void {
   while (*SDCARD_BUSY)
     ;
   for (size_t i = 0; i < 512; ++i) {
