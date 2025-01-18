@@ -130,7 +130,9 @@ static auto string_to_uint32(string str) -> uint32_t;
 static auto string_print(string str) -> void;
 struct string_next_word_return;
 static auto string_next_word(string str) -> struct string_next_word_return;
+//
 // implemented in platform dependent source
+//
 static auto led_set(uint32_t bits) -> void;
 static auto uart_send_cstr(cstr str) -> void;
 static auto uart_send_char(char ch) -> void;
