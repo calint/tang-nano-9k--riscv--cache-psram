@@ -26,6 +26,11 @@ LD_PRELOAD=/usr/lib/libfreetype.so ~/apps/gowin/IDE/bin/gw_ide
 
 -------------------------------------------------------------
 
+on Ubuntu and derivatives: if `ttyUSBx` hangs do:
+`sudo modprobe -r xhci_pci && sleep 5 && sudo modprobe xhci_pci` to reset the USB system
+
+-------------------------------------------------------------
+
 https://github.com/harbaum/MiSTeryNano/blob/main/src/misc/sd_rw.v
 https://github.com/WangXuan95/FPGA-SDcard-Reader/
 https://github.com/WangXuan95/FPGA-SDfake
