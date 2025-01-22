@@ -1,3 +1,4 @@
+#include <array>
 #include <cstdint>
 #include <cstdio>
 #include <fstream>
