@@ -24,6 +24,9 @@ openFPGALoader -b tangnano9k --external-flash test.txt
 start Gowin EDA on Arch Linux:
 LD_PRELOAD=/usr/lib/libfreetype.so ~/apps/gowin/IDE/bin/gw_ide
 
+start Gowin EDA on Ubuntu 24.04 LTS:
+LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libfreetype.so.6 ~/apps/gowin/IDE/bin/gw_ide
+
 -------------------------------------------------------------
 
 on Ubuntu and derivatives: if `ttyUSBx` hangs do:
