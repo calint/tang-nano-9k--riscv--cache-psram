@@ -36,7 +36,7 @@ module sdcard #(
     // data to write when 'command' is 3
 
     output logic busy,
-    // true while busy reading SD card
+    // true while reading or writing SD card
 
     output logic [31:0] status,
     // state of 'sd_reader'

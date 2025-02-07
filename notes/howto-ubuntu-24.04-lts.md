@@ -10,3 +10,5 @@ LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libfreetype.so ~/apps/gowin/IDE/bin/gw_ide 
 ## launch command line Gowin build
 LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libfreetype.so ~/apps/gowin/IDE/bin/gw_sh $*
 
+## verible-verilog-format
+https://github.com/chipsalliance/verible/releases
