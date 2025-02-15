@@ -79,6 +79,7 @@ welcome to adventure #4
 ```
 ----------------------------------------------------------------------------
 [ ] emulator: implement write sector to card file
+[ ] dual channel 4 MB PSRAM
 [ ] os: list, span: position with list instance id so that a position in one
     list / span can't be used in different list / span instance
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration
@@ -98,9 +99,6 @@ step 12
 [ ]   1 cycle ALU op
 [ ]   1+ cycle store op
 [ ]   1+ cycle load op
-[ ] dual channel 4 MB PSRAM
-    => reasonable cache size does not fit in fpga resources
-    => study cache synthesized as block ram
 ----------------------------------------------------------------------------
 step 13
 [ ] fully pipe-lined core
