@@ -16,9 +16,9 @@ OBJCOPY=riscv64-elf-objcopy
 OBJDUMP=riscv64-elf-objdump
 
 # ubuntu 24.04
-CC=riscv64-unknown-elf-g++
-OBJCOPY=riscv64-unknown-elf-objcopy
-OBJDUMP=riscv64-unknown-elf-objdump
+#CC=riscv64-unknown-elf-g++
+#OBJCOPY=riscv64-unknown-elf-objcopy
+#OBJDUMP=riscv64-unknown-elf-objdump
 
 BIN=os
 
