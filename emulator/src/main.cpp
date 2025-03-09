@@ -30,6 +30,8 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
                 bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
   uint32_t const width = static_cast<uint32_t>(op_width);
+
+  // check if address is not an IO address and within the memory range
   if (address < osqa::io_addresses_start && address + width > ram.size()) {
     return 1;
   }
@@ -45,7 +47,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       return 3;
     }
     case osqa::sdcard_next_byte: {
-      sector_buffer[sector_buffer_index] = char(data);
+      sector_buffer[sector_buffer_index] = uint8_t(data);
       sector_buffer_index = (sector_buffer_index + 1) % sector_buffer.size();
       break;
     }
@@ -140,7 +142,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         data = 0x7f;
         break;
       default:
-        data = ch;
+        data = uint32_t(ch);
         break;
       }
       break;
