@@ -78,7 +78,6 @@ welcome to adventure #4
 ## Todo
 ```
 ----------------------------------------------------------------------------
-[ ] dual channel 4 MB PSRAM
 [ ] emulator: implement write sector to card file
 [ ] os: list, span: position with list instance id so that a position in one
     list / span can't be used in different list / span instance
@@ -88,6 +87,7 @@ welcome to adventure #4
     => Visual Code terminal sends 0x7f, xterm 0x08
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] read LEDs
+[ ] dual channel 4 MB PSRAM
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of 
     counter == 0 to save some logic for an extra register
 [x] fix red hold path
