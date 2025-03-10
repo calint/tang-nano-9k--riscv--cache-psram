@@ -1,10 +1,12 @@
 //
+// RISC-V RV32I emulator
+//
+// from https://github.com/alexriegler12/riscv
+//  re-written to C++23 with modifications
+//
 // reviewed: 2025-03-10
 //
 #pragma once
-
-// from https://github.com/alexriegler12/riscv
-//  re-written to C++23 with modifications
 
 #include <cstdint>
 #include <cstdio>
@@ -376,9 +378,7 @@ public:
       printf("jal x%u, 0x%x\n", rd, pc_ + uint32_t(J_imm20));
 #endif
       regs_[rd] = int32_t(pc_ + 4);
-      next_pc = pc_ + uint32_t(J_imm20);
-      // note: relying on the bitpatterns in 2's complement are equivalent
-      //       for signed and unsigned integers
+      next_pc = uint32_t(int32_t(pc_) + J_imm20);
       break;
     }
     //-----------------------------------------------------------------------
@@ -401,15 +401,14 @@ public:
       uint32_t const rs2 = RS2_from(instruction);
       int32_t const B_imm12 = B_imm12_from(instruction);
       uint32_t const funct3 = FUNCT3_from(instruction);
+      uint32_t const branch_taken_pc = uint32_t(int32_t(pc_) + B_imm12);
       switch (funct3) {
       case FUNCT3_BEQ: {
 #ifdef RV32I_DEBUG
         printf("beq x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (regs_[rs1] == regs_[rs2]) {
-          next_pc = pc_ + uint32_t(B_imm12);
-          // note: relying on the bitpatterns in 2's complement are equivalent
-          //       for signed and unsigned integers
+          next_pc = branch_taken_pc;
         }
         break;
       }
@@ -418,9 +417,7 @@ public:
         printf("bne x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (regs_[rs1] != regs_[rs2]) {
-          next_pc = pc_ + uint32_t(B_imm12);
-          // note: relying on the bitpatterns in 2's complement are equivalent
-          //       for signed and unsigned integers
+          next_pc = branch_taken_pc;
         }
         break;
       }
@@ -429,9 +426,7 @@ public:
         printf("blt x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (regs_[rs1] < regs_[rs2]) {
-          next_pc = pc_ + uint32_t(B_imm12);
-          // note: relying on the bitpatterns in 2's complement are equivalent
-          //       for signed and unsigned integers
+          next_pc = branch_taken_pc;
         }
         break;
       }
@@ -440,9 +435,7 @@ public:
         printf("bge x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (regs_[rs1] >= regs_[rs2]) {
-          next_pc = pc_ + uint32_t(B_imm12);
-          // note: relying on the bitpatterns in 2's complement are equivalent
-          //       for signed and unsigned integers
+          next_pc = branch_taken_pc;
         }
         break;
       }
@@ -451,9 +444,7 @@ public:
         printf("bltu x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (uint32_t(regs_[rs1]) < uint32_t(regs_[rs2])) {
-          next_pc = pc_ + uint32_t(B_imm12);
-          // note: relying on the bitpatterns in 2's complement are equivalent
-          //       for signed and unsigned integers
+          next_pc = branch_taken_pc;
         }
         break;
       }
@@ -462,9 +453,7 @@ public:
         printf("bgeu x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (uint32_t(regs_[rs1]) >= uint32_t(regs_[rs2])) {
-          next_pc = pc_ + uint32_t(B_imm12);
-          // note: relying on the bitpatterns in 2's complement are equivalent
-          //       for signed and unsigned integers
+          next_pc = branch_taken_pc;
         }
         break;
       }
