@@ -400,8 +400,8 @@ public:
       uint32_t const rs1 = RS1_from(instruction);
       uint32_t const rs2 = RS2_from(instruction);
       int32_t const B_imm12 = B_imm12_from(instruction);
-      uint32_t const funct3 = FUNCT3_from(instruction);
       uint32_t const branch_taken_pc = uint32_t(int32_t(pc_) + B_imm12);
+      uint32_t const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case FUNCT3_BEQ: {
 #ifdef RV32I_DEBUG
