@@ -205,7 +205,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("srl x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
-          regs_[rd] = regs_[rs1] >> (regs_[rs2] & 0x1f);
+          regs_[rd] = int32_t(uint32_t(regs_[rs1]) >> (regs_[rs2] & 0x1f));
           break;
         }
         case FUNCT7_SRA: {
@@ -406,7 +406,6 @@ public:
 #endif
         if (regs_[rs1] == regs_[rs2]) {
           next_pc = pc_ + uint32_t(B_imm12);
-          // note: pc_ is incremented by 4 after the instruction
           // note: relying on the bitpatterns in 2's complement are equivalent
           //       for signed and unsigned integers
         }
@@ -418,7 +417,6 @@ public:
 #endif
         if (regs_[rs1] != regs_[rs2]) {
           next_pc = pc_ + uint32_t(B_imm12);
-          // note: pc_ is incremented by 4 after the instruction
           // note: relying on the bitpatterns in 2's complement are equivalent
           //       for signed and unsigned integers
         }
@@ -430,7 +428,6 @@ public:
 #endif
         if (regs_[rs1] < regs_[rs2]) {
           next_pc = pc_ + uint32_t(B_imm12);
-          // note: pc_ is incremented by 4 after the instruction
           // note: relying on the bitpatterns in 2's complement are equivalent
           //       for signed and unsigned integers
         }
@@ -442,7 +439,6 @@ public:
 #endif
         if (regs_[rs1] >= regs_[rs2]) {
           next_pc = pc_ + uint32_t(B_imm12);
-          // note: pc_ is incremented by 4 after the instruction
           // note: relying on the bitpatterns in 2's complement are equivalent
           //       for signed and unsigned integers
         }
@@ -454,7 +450,6 @@ public:
 #endif
         if (uint32_t(regs_[rs1]) < uint32_t(regs_[rs2])) {
           next_pc = pc_ + uint32_t(B_imm12);
-          // note: pc_ is incremented by 4 after the instruction
           // note: relying on the bitpatterns in 2's complement are equivalent
           //       for signed and unsigned integers
         }
@@ -466,7 +461,6 @@ public:
 #endif
         if (uint32_t(regs_[rs1]) >= uint32_t(regs_[rs2])) {
           next_pc = pc_ + uint32_t(B_imm12);
-          // note: pc_ is incremented by 4 after the instruction
           // note: relying on the bitpatterns in 2's complement are equivalent
           //       for signed and unsigned integers
         }
