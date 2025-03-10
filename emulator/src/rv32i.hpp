@@ -203,20 +203,21 @@ public:
         break;
       }
       case FUNCT3_SRL_SRA: {
+        uint32_t const shift_amount = regs_[rs2] & 0x1f;
         uint32_t const funct7 = FUNCT7_from(instruction);
         switch (funct7) {
         case FUNCT7_SRL: {
 #ifdef RV32I_DEBUG
           printf("srl x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
-          regs_[rd] = int32_t(uint32_t(regs_[rs1]) >> (regs_[rs2] & 0x1f));
+          regs_[rd] = int32_t(uint32_t(regs_[rs1]) >> shift_amount);
           break;
         }
         case FUNCT7_SRA: {
 #ifdef RV32I_DEBUG
           printf("sra x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
-          regs_[rd] = regs_[rs1] >> (regs_[rs2] & 0x1f);
+          regs_[rd] = regs_[rs1] >> shift_amount;
           break;
         }
         default:
