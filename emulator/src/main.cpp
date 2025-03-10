@@ -31,7 +31,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
 
   uint32_t const width = static_cast<uint32_t>(op_width);
 
-  // check if address is not an IO address and within the memory range
+  // check if address is not an IO address and outside the memory range
   if (address < osqa::io_addresses_start && address + width > ram.size()) {
     return 1;
   }
