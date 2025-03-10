@@ -58,7 +58,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       if (dst + sector_buffer.size() > sdcard.end()) {
         return 3;
       }
-      std::copy(bgn, end, dst);
+      copy(bgn, end, dst);
       break;
     }
     case osqa::sdcard_read_sector: {
@@ -68,7 +68,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       if (end > sdcard.end()) {
         return 2;
       }
-      std::copy(bgn, end, sector_buffer.data());
+      copy(bgn, end, sector_buffer.data());
       break;
     }
     case osqa::uart_out: {
