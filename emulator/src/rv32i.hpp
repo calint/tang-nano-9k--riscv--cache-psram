@@ -406,7 +406,7 @@ public:
       switch (funct3) {
       case FUNCT3_BEQ: {
 #ifdef RV32I_DEBUG
-        printf("beq x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
+        printf("beq x%u, x%u, 0x%x\n", rs1, rs2, branch_taken_pc);
 #endif
         if (regs_[rs1] == regs_[rs2]) {
           next_pc = branch_taken_pc;
@@ -415,7 +415,7 @@ public:
       }
       case FUNCT3_BNE: {
 #ifdef RV32I_DEBUG
-        printf("bne x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
+        printf("bne x%u, x%u, 0x%x\n", rs1, rs2, branch_taken_pc);
 #endif
         if (regs_[rs1] != regs_[rs2]) {
           next_pc = branch_taken_pc;
@@ -424,7 +424,7 @@ public:
       }
       case FUNCT3_BLT: {
 #ifdef RV32I_DEBUG
-        printf("blt x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
+        printf("blt x%u, x%u, 0x%x\n", rs1, rs2, branch_taken_pc);
 #endif
         if (regs_[rs1] < regs_[rs2]) {
           next_pc = branch_taken_pc;
@@ -433,7 +433,7 @@ public:
       }
       case FUNCT3_BGE: {
 #ifdef RV32I_DEBUG
-        printf("bge x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
+        printf("bge x%u, x%u, 0x%x\n", rs1, rs2, branch_taken_pc);
 #endif
         if (regs_[rs1] >= regs_[rs2]) {
           next_pc = branch_taken_pc;
@@ -442,7 +442,7 @@ public:
       }
       case FUNCT3_BLTU: {
 #ifdef RV32I_DEBUG
-        printf("bltu x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
+        printf("bltu x%u, x%u, 0x%x\n", rs1, rs2, branch_taken_pc);
 #endif
         if (uint32_t(regs_[rs1]) < uint32_t(regs_[rs2])) {
           next_pc = branch_taken_pc;
@@ -451,7 +451,7 @@ public:
       }
       case FUNCT3_BGEU: {
 #ifdef RV32I_DEBUG
-        printf("bgeu x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
+        printf("bgeu x%u, x%u, 0x%x\n", rs1, rs2, branch_taken_pc);
 #endif
         if (uint32_t(regs_[rs1]) >= uint32_t(regs_[rs2])) {
           next_pc = branch_taken_pc;
