@@ -49,7 +49,7 @@ public:
       uint32_t const rd = RD_from(instruction);
       uint32_t const U_imm20 = U_imm20_from(instruction);
 #ifdef RV32I_DEBUG
-      printf("lui x%d, 0x%x\n", rd, U_imm20 >> 12);
+      printf("lui x%u, 0x%x\n", rd, U_imm20 >> 12);
 #endif
       regs_[rd] = int32_t(U_imm20);
       break;
@@ -64,42 +64,42 @@ public:
       switch (funct3) {
       case FUNCT3_ADDI: {
 #ifdef RV32I_DEBUG
-        printf("addi x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("addi x%u, x%u, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] + I_imm12;
         break;
       }
       case FUNCT3_SLTI: {
 #ifdef RV32I_DEBUG
-        printf("slti x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("slti x%u, x%u, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] < I_imm12 ? 1 : 0;
         break;
       }
       case FUNCT3_SLTIU: {
 #ifdef RV32I_DEBUG
-        printf("sltiu x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("sltiu x%u, x%u, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = uint32_t(regs_[rs1]) < uint32_t(I_imm12) ? 1 : 0;
         break;
       }
       case FUNCT3_XORI: {
 #ifdef RV32I_DEBUG
-        printf("xori x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("xori x%u, x%u, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] ^ I_imm12;
         break;
       }
       case FUNCT3_ORI: {
 #ifdef RV32I_DEBUG
-        printf("ori x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("ori x%u, x%u, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] | I_imm12;
         break;
       }
       case FUNCT3_ANDI: {
 #ifdef RV32I_DEBUG
-        printf("andi x%d, x%d, %d\n", rd, rs1, I_imm12);
+        printf("andi x%u, x%u, %d\n", rd, rs1, I_imm12);
 #endif
         regs_[rd] = regs_[rs1] & I_imm12;
         break;
@@ -107,7 +107,7 @@ public:
       case FUNCT3_SLLI: {
         uint32_t const rs2 = RS2_from(instruction);
 #ifdef RV32I_DEBUG
-        printf("slli x%d, x%d, %d\n", rd, rs1, rs2);
+        printf("slli x%u, x%u, %u\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] << rs2;
         break;
@@ -118,14 +118,14 @@ public:
         switch (funct7) {
         case FUNCT7_SRLI: {
 #ifdef RV32I_DEBUG
-          printf("srli x%d, x%d, %d\n", rd, rs1, rs2);
+          printf("srli x%u, x%u, %u\n", rd, rs1, rs2);
 #endif
           regs_[rd] = int32_t(uint32_t(regs_[rs1]) >> rs2);
           break;
         }
         case FUNCT7_SRAI: {
 #ifdef RV32I_DEBUG
-          printf("srai x%d, x%d, %d\n", rd, rs1, rs2);
+          printf("srai x%u, x%u, %u\n", rd, rs1, rs2);
 #endif
           regs_[rd] = regs_[rs1] >> rs2;
           break;
@@ -153,14 +153,14 @@ public:
         switch (FUNCT7) {
         case FUNCT7_ADD: {
 #ifdef RV32I_DEBUG
-          printf("add x%d, x%d, x%d\n", rd, rs1, rs2);
+          printf("add x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
           regs_[rd] = regs_[rs1] + regs_[rs2];
           break;
         }
         case FUNCT7_SUB: {
 #ifdef RV32I_DEBUG
-          printf("sub x%d, x%d, x%d\n", rd, rs1, rs2);
+          printf("sub x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
           regs_[rd] = regs_[rs1] - regs_[rs2];
           break;
@@ -172,28 +172,28 @@ public:
       }
       case FUNCT3_SLL: {
 #ifdef RV32I_DEBUG
-        printf("sll x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("sll x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] << (regs_[rs2] & 0x1f);
         break;
       }
       case FUNCT3_SLT: {
 #ifdef RV32I_DEBUG
-        printf("slt x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("slt x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] < regs_[rs2] ? 1 : 0;
         break;
       }
       case FUNCT3_SLTU: {
 #ifdef RV32I_DEBUG
-        printf("sltu x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("sltu x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
         regs_[rd] = uint32_t(regs_[rs1]) < uint32_t(regs_[rs2]) ? 1 : 0;
         break;
       }
       case FUNCT3_XOR: {
 #ifdef RV32I_DEBUG
-        printf("xor x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("xor x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] ^ regs_[rs2];
         break;
@@ -203,14 +203,14 @@ public:
         switch (funct7) {
         case FUNCT7_SRL: {
 #ifdef RV32I_DEBUG
-          printf("srl x%d, x%d, x%d\n", rd, rs1, rs2);
+          printf("srl x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
           regs_[rd] = int32_t(uint32_t(regs_[rs1]) >> (regs_[rs2] & 0x1f));
           break;
         }
         case FUNCT7_SRA: {
 #ifdef RV32I_DEBUG
-          printf("sra x%d, x%d, x%d\n", rd, rs1, rs2);
+          printf("sra x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
           regs_[rd] = regs_[rs1] >> (regs_[rs2] & 0x1f);
           break;
@@ -222,14 +222,14 @@ public:
       }
       case FUNCT3_OR: {
 #ifdef RV32I_DEBUG
-        printf("or x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("or x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] | regs_[rs2];
         break;
       }
       case FUNCT3_AND: {
 #ifdef RV32I_DEBUG
-        printf("and x%d, x%d, x%d\n", rd, rs1, rs2);
+        printf("and x%u, x%u, x%u\n", rd, rs1, rs2);
 #endif
         regs_[rd] = regs_[rs1] & regs_[rs2];
         break;
@@ -251,7 +251,7 @@ public:
       switch (funct3) {
       case FUNCT3_SB: {
 #ifdef RV32I_DEBUG
-        printf("sb x%d, %d(x%d)\n", rs2, S_imm12, rs1);
+        printf("sb x%u, %d(x%u)\n", rs2, S_imm12, rs1);
 #endif
         uint32_t value = uint32_t(regs_[rs2] & 0xff);
         if (bus_status const s = bus_(address, BYTE, true, value)) {
@@ -261,7 +261,7 @@ public:
       }
       case FUNCT3_SH: {
 #ifdef RV32I_DEBUG
-        printf("sh x%d, %d(x%d)\n", rs2, S_imm12, rs1);
+        printf("sh x%u, %d(x%u)\n", rs2, S_imm12, rs1);
 #endif
         uint32_t value = uint32_t(regs_[rs2] & 0xffff);
         if (bus_status const s = bus_(address, HALF_WORD, true, value)) {
@@ -271,7 +271,7 @@ public:
       }
       case FUNCT3_SW: {
 #ifdef RV32I_DEBUG
-        printf("sw x%d, %d(x%d)\n", rs2, S_imm12, rs1);
+        printf("sw x%u, %d(x%u)\n", rs2, S_imm12, rs1);
 #endif
         uint32_t value = uint32_t(regs_[rs2]);
         if (bus_status const s = bus_(address, WORD, true, value)) {
@@ -296,7 +296,7 @@ public:
       switch (funct3) {
       case FUNCT3_LB: {
 #ifdef RV32I_DEBUG
-        printf("lb x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lb x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status const s = bus_(address, BYTE, false, loaded)) {
@@ -307,7 +307,7 @@ public:
       }
       case FUNCT3_LH: {
 #ifdef RV32I_DEBUG
-        printf("lh x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lh x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status const s = bus_(address, HALF_WORD, false, loaded)) {
@@ -318,7 +318,7 @@ public:
       }
       case FUNCT3_LW: {
 #ifdef RV32I_DEBUG
-        printf("lw x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lw x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status const s = bus_(address, WORD, false, loaded)) {
@@ -329,7 +329,7 @@ public:
       }
       case FUNCT3_LBU: {
 #ifdef RV32I_DEBUG
-        printf("lbu x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lbu x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status const s = bus_(address, BYTE, false, loaded)) {
@@ -340,7 +340,7 @@ public:
       }
       case FUNCT3_LHU: {
 #ifdef RV32I_DEBUG
-        printf("lhu x%d, %d(x%d)\n", rd, I_imm12, rs1);
+        printf("lhu x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
         uint32_t loaded = 0;
         if (bus_status const s = bus_(address, HALF_WORD, false, loaded)) {
@@ -360,7 +360,7 @@ public:
       uint32_t const rd = RD_from(instruction);
       uint32_t const U_imm20 = U_imm20_from(instruction);
 #ifdef RV32I_DEBUG
-      printf("auipc x%d, 0x%x\n", rd, U_imm20 >> 12);
+      printf("auipc x%u, 0x%x\n", rd, U_imm20 >> 12);
 #endif
       regs_[rd] = int32_t(pc_ + U_imm20);
       break;
@@ -371,7 +371,7 @@ public:
       uint32_t const rd = RD_from(instruction);
       int32_t const J_imm20 = J_imm20_from(instruction);
 #ifdef RV32I_DEBUG
-      printf("jal x%d, 0x%x\n", rd, pc_ + J_imm20);
+      printf("jal x%u, 0x%x\n", rd, pc_ + uint32_t(J_imm20));
 #endif
       regs_[rd] = int32_t(pc_ + 4);
       next_pc = pc_ + uint32_t(J_imm20);
@@ -386,7 +386,7 @@ public:
       uint32_t const rd = RD_from(instruction);
       int32_t const I_imm12 = I_imm12_from(instruction);
 #ifdef RV32I_DEBUG
-      printf("jalr x%d, %d(x%d)\n", rd, I_imm12, rs1);
+      printf("jalr x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
       regs_[rd] = int32_t(pc_ + 4);
       next_pc = uint32_t(regs_[rs1] + I_imm12);
@@ -402,7 +402,7 @@ public:
       switch (funct3) {
       case FUNCT3_BEQ: {
 #ifdef RV32I_DEBUG
-        printf("beq x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("beq x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (regs_[rs1] == regs_[rs2]) {
           next_pc = pc_ + uint32_t(B_imm12);
@@ -413,7 +413,7 @@ public:
       }
       case FUNCT3_BNE: {
 #ifdef RV32I_DEBUG
-        printf("bne x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("bne x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (regs_[rs1] != regs_[rs2]) {
           next_pc = pc_ + uint32_t(B_imm12);
@@ -424,7 +424,7 @@ public:
       }
       case FUNCT3_BLT: {
 #ifdef RV32I_DEBUG
-        printf("blt x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("blt x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (regs_[rs1] < regs_[rs2]) {
           next_pc = pc_ + uint32_t(B_imm12);
@@ -435,7 +435,7 @@ public:
       }
       case FUNCT3_BGE: {
 #ifdef RV32I_DEBUG
-        printf("bge x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("bge x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (regs_[rs1] >= regs_[rs2]) {
           next_pc = pc_ + uint32_t(B_imm12);
@@ -446,7 +446,7 @@ public:
       }
       case FUNCT3_BLTU: {
 #ifdef RV32I_DEBUG
-        printf("bltu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("bltu x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (uint32_t(regs_[rs1]) < uint32_t(regs_[rs2])) {
           next_pc = pc_ + uint32_t(B_imm12);
@@ -457,7 +457,7 @@ public:
       }
       case FUNCT3_BGEU: {
 #ifdef RV32I_DEBUG
-        printf("bgeu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
+        printf("bgeu x%u, x%u, 0x%x\n", rs1, rs2, pc_ + uint32_t(B_imm12));
 #endif
         if (uint32_t(regs_[rs1]) >= uint32_t(regs_[rs2])) {
           next_pc = pc_ + uint32_t(B_imm12);
