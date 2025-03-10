@@ -150,7 +150,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     default: {
       data = 0;
       for (uint32_t i = 0; i < width; ++i) {
-        data |= ((uint32_t)ram[address + i]) << (i * 8);
+        data |= uint32_t(ram[address + i]) << (i * 8);
       }
     }
     }
