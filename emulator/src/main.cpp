@@ -13,7 +13,7 @@
 using namespace std;
 
 // initialize RAM with -1 being the default value from flash
-static vector<uint8_t> ram(osqa::memory_end, -1);
+static vector<uint8_t> ram(osqa::memory_end, 0xff);
 
 // initialize SD card 1 GB
 static vector<uint8_t> sdcard(1024 * 1024 * 1024, 0);
@@ -62,7 +62,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       break;
     }
     case osqa::sdcard_read_sector: {
-      size_t const ix = data * sector_buffer.size();
+      int32_t const ix = int32_t(data * sector_buffer.size());
       auto const bgn = sdcard.begin() + ix;
       auto const end = sdcard.begin() + ix + sector_buffer.size();
       if (end > sdcard.end()) {
@@ -241,7 +241,7 @@ auto main(int argc, char **argv) -> int {
   struct termios newt;
   tcgetattr(STDIN_FILENO, &saved_termios);
   newt = saved_termios;
-  newt.c_lflag &= ~(ICANON | ECHO);
+  newt.c_lflag &= tcflag_t(~(ICANON | ECHO));
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
   // reset terminal settings at exit
@@ -254,7 +254,7 @@ auto main(int argc, char **argv) -> int {
   while (true) {
     if (rv32i::cpu::status const s = cpu.tick()) {
       printf("CPU error: %d\n", s);
-      return s;
+      return int32_t(s);
     }
   }
 

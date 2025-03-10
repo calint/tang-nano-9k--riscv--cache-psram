@@ -1,3 +1,4 @@
+// reviewed: 2025-03-10
 #pragma once
 
 // from https://github.com/alexriegler12/riscv
@@ -21,7 +22,7 @@ class cpu final {
 
   bus bus_{};
   uint32_t pc_{};
-  uint32_t regs_[32]{};
+  int32_t regs_[32]{};
 
 public:
   using status = uint32_t;
@@ -50,7 +51,7 @@ public:
 #ifdef RV32I_DEBUG
       printf("lui x%d, 0x%x\n", rd, U_imm20 >> 12);
 #endif
-      regs_[rd] = U_imm20;
+      regs_[rd] = int32_t(U_imm20);
       break;
     }
     //-----------------------------------------------------------------------
@@ -72,14 +73,14 @@ public:
 #ifdef RV32I_DEBUG
         printf("slti x%d, x%d, %d\n", rd, rs1, I_imm12);
 #endif
-        regs_[rd] = int32_t(regs_[rs1]) < I_imm12 ? 1 : 0;
+        regs_[rd] = regs_[rs1] < I_imm12 ? 1 : 0;
         break;
       }
       case FUNCT3_SLTIU: {
 #ifdef RV32I_DEBUG
         printf("sltiu x%d, x%d, %d\n", rd, rs1, I_imm12);
 #endif
-        regs_[rd] = regs_[rs1] < uint32_t(I_imm12) ? 1 : 0;
+        regs_[rd] = uint32_t(regs_[rs1]) < uint32_t(I_imm12) ? 1 : 0;
         break;
       }
       case FUNCT3_XORI: {
@@ -119,14 +120,14 @@ public:
 #ifdef RV32I_DEBUG
           printf("srli x%d, x%d, %d\n", rd, rs1, rs2);
 #endif
-          regs_[rd] = regs_[rs1] >> rs2;
+          regs_[rd] = int32_t(uint32_t(regs_[rs1]) >> rs2);
           break;
         }
         case FUNCT7_SRAI: {
 #ifdef RV32I_DEBUG
           printf("srai x%d, x%d, %d\n", rd, rs1, rs2);
 #endif
-          regs_[rd] = int32_t(regs_[rs1]) >> rs2;
+          regs_[rd] = regs_[rs1] >> rs2;
           break;
         }
         default:
@@ -180,14 +181,14 @@ public:
 #ifdef RV32I_DEBUG
         printf("slt x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
-        regs_[rd] = int32_t(regs_[rs1]) < int32_t(regs_[rs2]) ? 1 : 0;
+        regs_[rd] = regs_[rs1] < regs_[rs2] ? 1 : 0;
         break;
       }
       case FUNCT3_SLTU: {
 #ifdef RV32I_DEBUG
         printf("sltu x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
-        regs_[rd] = regs_[rs1] < regs_[rs2] ? 1 : 0;
+        regs_[rd] = uint32_t(regs_[rs1]) < uint32_t(regs_[rs2]) ? 1 : 0;
         break;
       }
       case FUNCT3_XOR: {
@@ -211,7 +212,7 @@ public:
 #ifdef RV32I_DEBUG
           printf("sra x%d, x%d, x%d\n", rd, rs1, rs2);
 #endif
-          regs_[rd] = int32_t(regs_[rs1]) >> (regs_[rs2] & 0x1f);
+          regs_[rd] = regs_[rs1] >> (regs_[rs2] & 0x1f);
           break;
         }
         default:
@@ -245,14 +246,14 @@ public:
       uint32_t const rs1 = RS1_from(instruction);
       uint32_t const rs2 = RS2_from(instruction);
       int32_t const S_imm12 = S_imm12_from(instruction);
-      uint32_t const address = regs_[rs1] + S_imm12;
+      uint32_t const address = uint32_t(regs_[rs1] + S_imm12);
       uint32_t const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case FUNCT3_SB: {
 #ifdef RV32I_DEBUG
         printf("sb x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
-        uint32_t value = regs_[rs2] & 0xff;
+        uint32_t value = uint32_t(regs_[rs2] & 0xff);
         if (bus_status const s = bus_(address, BYTE, true, value)) {
           return 1100 + s;
         }
@@ -262,7 +263,7 @@ public:
 #ifdef RV32I_DEBUG
         printf("sh x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
-        uint32_t value = regs_[rs2] & 0xffff;
+        uint32_t value = uint32_t(regs_[rs2] & 0xffff);
         if (bus_status const s = bus_(address, HALF_WORD, true, value)) {
           return 1200 + s;
         }
@@ -272,7 +273,8 @@ public:
 #ifdef RV32I_DEBUG
         printf("sw x%d, %d(x%d)\n", rs2, S_imm12, rs1);
 #endif
-        if (bus_status const s = bus_(address, WORD, true, regs_[rs2])) {
+        uint32_t value = uint32_t(regs_[rs2]);
+        if (bus_status const s = bus_(address, WORD, true, value)) {
           return 1300 + s;
         }
         break;
@@ -289,7 +291,7 @@ public:
       uint32_t const rs1 = RS1_from(instruction);
       uint32_t const rd = RD_from(instruction);
       int32_t const I_imm12 = I_imm12_from(instruction);
-      uint32_t const address = regs_[rs1] + I_imm12;
+      uint32_t const address = uint32_t(regs_[rs1] + I_imm12);
       uint32_t const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case FUNCT3_LB: {
@@ -300,7 +302,7 @@ public:
         if (bus_status const s = bus_(address, BYTE, false, loaded)) {
           return 1400 + s;
         }
-        regs_[rd] = loaded & 0x80 ? 0xffff'ff00 | loaded : loaded;
+        regs_[rd] = int32_t(loaded & 0x80 ? 0xffff'ff00 | loaded : loaded);
         break;
       }
       case FUNCT3_LH: {
@@ -311,7 +313,7 @@ public:
         if (bus_status const s = bus_(address, HALF_WORD, false, loaded)) {
           return 1500 + s;
         }
-        regs_[rd] = loaded & 0x8000 ? 0xffff'0000 | loaded : loaded;
+        regs_[rd] = int32_t(loaded & 0x8000 ? 0xffff'0000 | loaded : loaded);
         break;
       }
       case FUNCT3_LW: {
@@ -322,7 +324,7 @@ public:
         if (bus_status const s = bus_(address, WORD, false, loaded)) {
           return 1600 + s;
         }
-        regs_[rd] = loaded;
+        regs_[rd] = int32_t(loaded);
         break;
       }
       case FUNCT3_LBU: {
@@ -333,7 +335,7 @@ public:
         if (bus_status const s = bus_(address, BYTE, false, loaded)) {
           return 1700 + s;
         }
-        regs_[rd] = loaded;
+        regs_[rd] = int32_t(loaded);
         break;
       }
       case FUNCT3_LHU: {
@@ -344,7 +346,7 @@ public:
         if (bus_status const s = bus_(address, HALF_WORD, false, loaded)) {
           return 1800 + s;
         }
-        regs_[rd] = loaded;
+        regs_[rd] = int32_t(loaded);
         break;
       }
       default:
@@ -360,7 +362,7 @@ public:
 #ifdef RV32I_DEBUG
       printf("auipc x%d, 0x%x\n", rd, U_imm20 >> 12);
 #endif
-      regs_[rd] = pc_ + U_imm20;
+      regs_[rd] = int32_t(pc_ + U_imm20);
       break;
     }
     //-----------------------------------------------------------------------
@@ -371,8 +373,10 @@ public:
 #ifdef RV32I_DEBUG
       printf("jal x%d, 0x%x\n", rd, pc_ + J_imm20);
 #endif
-      regs_[rd] = pc_ + 4;
-      next_pc = pc_ + J_imm20;
+      regs_[rd] = int32_t(pc_ + 4);
+      next_pc = pc_ + uint32_t(J_imm20);
+      // note: relying on the bitpatterns in 2's complement are equivalent
+      //       for signed and unsigned integers
       break;
     }
     //-----------------------------------------------------------------------
@@ -384,8 +388,8 @@ public:
 #ifdef RV32I_DEBUG
       printf("jalr x%d, %d(x%d)\n", rd, I_imm12, rs1);
 #endif
-      regs_[rd] = pc_ + 4;
-      next_pc = regs_[rs1] + I_imm12;
+      regs_[rd] = int32_t(pc_ + 4);
+      next_pc = uint32_t(regs_[rs1] + I_imm12);
       break;
     }
     //-----------------------------------------------------------------------
@@ -401,7 +405,10 @@ public:
         printf("beq x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] == regs_[rs2]) {
-          next_pc = pc_ + B_imm12;
+          next_pc = pc_ + uint32_t(B_imm12);
+          // note: pc_ is incremented by 4 after the instruction
+          // note: relying on the bitpatterns in 2's complement are equivalent
+          //       for signed and unsigned integers
         }
         break;
       }
@@ -410,8 +417,10 @@ public:
         printf("bne x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
         if (regs_[rs1] != regs_[rs2]) {
-          next_pc = pc_ + B_imm12;
+          next_pc = pc_ + uint32_t(B_imm12);
           // note: pc_ is incremented by 4 after the instruction
+          // note: relying on the bitpatterns in 2's complement are equivalent
+          //       for signed and unsigned integers
         }
         break;
       }
@@ -419,8 +428,11 @@ public:
 #ifdef RV32I_DEBUG
         printf("blt x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
-        if (int32_t(regs_[rs1]) < int32_t(regs_[rs2])) {
-          next_pc = pc_ + B_imm12;
+        if (regs_[rs1] < regs_[rs2]) {
+          next_pc = pc_ + uint32_t(B_imm12);
+          // note: pc_ is incremented by 4 after the instruction
+          // note: relying on the bitpatterns in 2's complement are equivalent
+          //       for signed and unsigned integers
         }
         break;
       }
@@ -428,8 +440,11 @@ public:
 #ifdef RV32I_DEBUG
         printf("bge x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
-        if (int32_t(regs_[rs1]) >= int32_t(regs_[rs2])) {
-          next_pc = pc_ + B_imm12;
+        if (regs_[rs1] >= regs_[rs2]) {
+          next_pc = pc_ + uint32_t(B_imm12);
+          // note: pc_ is incremented by 4 after the instruction
+          // note: relying on the bitpatterns in 2's complement are equivalent
+          //       for signed and unsigned integers
         }
         break;
       }
@@ -437,8 +452,11 @@ public:
 #ifdef RV32I_DEBUG
         printf("bltu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
-        if (regs_[rs1] < regs_[rs2]) {
-          next_pc = pc_ + B_imm12;
+        if (uint32_t(regs_[rs1]) < uint32_t(regs_[rs2])) {
+          next_pc = pc_ + uint32_t(B_imm12);
+          // note: pc_ is incremented by 4 after the instruction
+          // note: relying on the bitpatterns in 2's complement are equivalent
+          //       for signed and unsigned integers
         }
         break;
       }
@@ -446,9 +464,11 @@ public:
 #ifdef RV32I_DEBUG
         printf("bgeu x%d, x%d, 0x%x\n", rs1, rs2, pc_ + B_imm12);
 #endif
-        if (regs_[rs1] >= regs_[rs2]) {
-          next_pc = pc_ + B_imm12;
-          // note: pc is incremented by 4 after the instruction
+        if (uint32_t(regs_[rs1]) >= uint32_t(regs_[rs2])) {
+          next_pc = pc_ + uint32_t(B_imm12);
+          // note: pc_ is incremented by 4 after the instruction
+          // note: relying on the bitpatterns in 2's complement are equivalent
+          //       for signed and unsigned integers
         }
         break;
       }
@@ -509,9 +529,9 @@ private:
     uint32_t const bits = extract_bits(instruction, 20, 31, 0);
     if (instruction & 0x8000'0000) {
       // sign extend
-      return 0xffff'f000 | bits;
+      return int32_t(0xffff'f000 | bits);
     } else {
-      return bits;
+      return int32_t(bits);
     }
   }
 
@@ -520,9 +540,9 @@ private:
                           extract_bits(instruction, 25, 31, 5);
     if (instruction & 0x8000'0000) {
       // sign extend
-      return 0xffff'f000 | bits;
+      return int32_t(0xffff'f000 | bits);
     } else {
-      return bits;
+      return int32_t(bits);
     }
   }
 
@@ -533,11 +553,11 @@ private:
                           extract_bits(instruction, 31, 31, 12);
     if (instruction & 0x8000'0000) {
       // sign extend
-      return 0xffff'e000 | bits;
+      return int32_t(0xffff'e000 | bits);
       // note: not 0xffff'f000 because of the always 0 first bit
       //       making the immediate value 13 bits
     } else {
-      return bits;
+      return int32_t(bits);
     }
   }
 
@@ -548,11 +568,11 @@ private:
                           extract_bits(instruction, 31, 31, 20);
     if (instruction & 0x8000'0000) {
       // sign extend
-      return 0xffe0'0000 | bits;
+      return int32_t(0xffe0'0000 | bits);
       // note: not 0xfff0'0000 because of the always 0 first bit
       //       making the immediate value 13 bits
     } else {
-      return bits;
+      return int32_t(bits);
     }
   }
 
