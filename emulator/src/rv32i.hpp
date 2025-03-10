@@ -252,13 +252,13 @@ public:
       uint32_t const rs2 = RS2_from(instruction);
       int32_t const S_imm12 = S_imm12_from(instruction);
       uint32_t const address = uint32_t(regs_[rs1] + S_imm12);
+      uint32_t value = uint32_t(regs_[rs2]);
       uint32_t const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case FUNCT3_SB: {
 #ifdef RV32I_DEBUG
         printf("sb x%u, %d(x%u)\n", rs2, S_imm12, rs1);
 #endif
-        uint32_t value = uint32_t(regs_[rs2] & 0xff);
         if (bus_status const s = bus_(address, BYTE, true, value)) {
           return 1100 + s;
         }
@@ -268,7 +268,6 @@ public:
 #ifdef RV32I_DEBUG
         printf("sh x%u, %d(x%u)\n", rs2, S_imm12, rs1);
 #endif
-        uint32_t value = uint32_t(regs_[rs2] & 0xffff);
         if (bus_status const s = bus_(address, HALF_WORD, true, value)) {
           return 1200 + s;
         }
@@ -278,7 +277,6 @@ public:
 #ifdef RV32I_DEBUG
         printf("sw x%u, %d(x%u)\n", rs2, S_imm12, rs1);
 #endif
-        uint32_t value = uint32_t(regs_[rs2]);
         if (bus_status const s = bus_(address, WORD, true, value)) {
           return 1300 + s;
         }
@@ -297,61 +295,57 @@ public:
       uint32_t const rd = RD_from(instruction);
       int32_t const I_imm12 = I_imm12_from(instruction);
       uint32_t const address = uint32_t(regs_[rs1] + I_imm12);
+      uint32_t value = 0;
       uint32_t const funct3 = FUNCT3_from(instruction);
       switch (funct3) {
       case FUNCT3_LB: {
 #ifdef RV32I_DEBUG
         printf("lb x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
-        uint32_t loaded = 0;
-        if (bus_status const s = bus_(address, BYTE, false, loaded)) {
+        if (bus_status const s = bus_(address, BYTE, false, value)) {
           return 1400 + s;
         }
-        regs_[rd] = int32_t(loaded & 0x80 ? 0xffff'ff00 | loaded : loaded);
+        regs_[rd] = int32_t(value & 0x80 ? 0xffff'ff00 | value : value);
         break;
       }
       case FUNCT3_LH: {
 #ifdef RV32I_DEBUG
         printf("lh x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
-        uint32_t loaded = 0;
-        if (bus_status const s = bus_(address, HALF_WORD, false, loaded)) {
+        if (bus_status const s = bus_(address, HALF_WORD, false, value)) {
           return 1500 + s;
         }
-        regs_[rd] = int32_t(loaded & 0x8000 ? 0xffff'0000 | loaded : loaded);
+        regs_[rd] = int32_t(value & 0x8000 ? 0xffff'0000 | value : value);
         break;
       }
       case FUNCT3_LW: {
 #ifdef RV32I_DEBUG
         printf("lw x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
-        uint32_t loaded = 0;
-        if (bus_status const s = bus_(address, WORD, false, loaded)) {
+        if (bus_status const s = bus_(address, WORD, false, value)) {
           return 1600 + s;
         }
-        regs_[rd] = int32_t(loaded);
+        regs_[rd] = int32_t(value);
         break;
       }
       case FUNCT3_LBU: {
 #ifdef RV32I_DEBUG
         printf("lbu x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
-        uint32_t loaded = 0;
-        if (bus_status const s = bus_(address, BYTE, false, loaded)) {
+        if (bus_status const s = bus_(address, BYTE, false, value)) {
           return 1700 + s;
         }
-        regs_[rd] = int32_t(loaded);
+        regs_[rd] = int32_t(value);
         break;
       }
       case FUNCT3_LHU: {
 #ifdef RV32I_DEBUG
         printf("lhu x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
-        uint32_t loaded = 0;
-        if (bus_status const s = bus_(address, HALF_WORD, false, loaded)) {
+        if (bus_status const s = bus_(address, HALF_WORD, false, value)) {
           return 1800 + s;
         }
-        regs_[rd] = int32_t(loaded);
+        regs_[rd] = int32_t(value);
         break;
       }
       default:
