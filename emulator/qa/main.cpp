@@ -18,11 +18,6 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
 
   uint32_t const width = static_cast<uint32_t>(op_width);
 
-  // check if address is not an IO address and outside the memory range
-  if (address + width > ram.size()) {
-    return 1;
-  }
-
   if (is_store) {
     for (uint32_t i = 0; i < width; ++i) {
       ram[address + i] = uint8_t(data >> (i * 8));
