@@ -2,7 +2,6 @@
 #include <cstdint>
 #include <cstdio>
 #include <fstream>
-#include <unistd.h>
 #include <vector>
 // #define RV32I_DEBUG
 #include "../src/rv32i.hpp"
