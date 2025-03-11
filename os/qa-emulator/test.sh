@@ -9,7 +9,7 @@ EMULATOR=../../emulator/osqa
 FIRMWARE=../os.bin
 SDCARD=../../notes/samples/sample.txt
 
-echo "Running test for 5 seconds"
+echo " * running test for 5 seconds"
 echo -e "$(cat test.in)" | timeout 5 $EMULATOR $FIRMWARE $SDCARD > test.out || true
 
 if cmp -s test.diff test.out; then
