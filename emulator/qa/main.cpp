@@ -73,8 +73,9 @@ auto assert(bool const condition, int32_t const test_number) -> void {
 }
 
 auto main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) -> int {
+
   if (!load_file("ram.bin", "Firmware", ram)) {
-    return 2;
+    return 1;
   }
 
   // run CPU
