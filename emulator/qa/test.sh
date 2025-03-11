@@ -2,10 +2,6 @@
 set -e
 cd $(dirname "$0")
 
-#
-# compile rv32i
-#
-
 echo " * build rv32i for tests"
 
 CMD="g++ -std=c++23 -O3 $@ -fno-rtti -fno-exceptions -Wfatal-errors -Werror -Wall -Wextra -Wpedantic \
