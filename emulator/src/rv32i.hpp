@@ -466,6 +466,9 @@ public:
     return 0;
   }
 
+  auto reg(uint32_t const num) const -> int32_t { return regs_[num]; }
+  auto pc() const -> uint32_t { return pc_; }
+
 private:
   //
   // instruction decoding
