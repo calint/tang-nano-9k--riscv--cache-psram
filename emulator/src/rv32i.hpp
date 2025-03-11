@@ -550,7 +550,7 @@ private:
       // sign extend
       return int32_t(0xffe0'0000 | bits);
       // note: not 0xfff0'0000 because of the always 0 first bit
-      //       making the immediate value 13 bits
+      //       making the immediate value 21 bits
     } else {
       return int32_t(bits);
     }
