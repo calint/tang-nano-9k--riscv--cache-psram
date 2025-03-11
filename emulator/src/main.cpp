@@ -204,11 +204,11 @@ auto main(int argc, char **argv) -> int {
   }
 
   if (!load_file(argv[1], "Firmware", ram)) {
-    return 1;
+    return 2;
   }
 
   if (!load_file(argv[2], "SD card", sdcard)) {
-    return 1;
+    return 3;
   }
 
   // configure terminal to not echo and enable non-blocking getchar()
