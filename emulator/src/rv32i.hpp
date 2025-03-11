@@ -109,29 +109,29 @@ public:
         break;
       }
       case FUNCT3_SLLI: {
-        uint32_t const rs2 = RS2_from(instruction);
+        uint32_t const shift_amount = RS2_from(instruction);
 #ifdef RV32I_DEBUG
-        printf("slli x%u, x%u, %u\n", rd, rs1, rs2);
+        printf("slli x%u, x%u, %u\n", rd, rs1, shift_amount);
 #endif
-        regs_[rd] = regs_[rs1] << rs2;
+        regs_[rd] = regs_[rs1] << shift_amount;
         break;
       }
       case FUNCT3_SRLI_SRAI: {
-        uint32_t const rs2 = RS2_from(instruction);
+        uint32_t const shift_amount = RS2_from(instruction);
         uint32_t const funct7 = FUNCT7_from(instruction);
         switch (funct7) {
         case FUNCT7_SRLI: {
 #ifdef RV32I_DEBUG
-          printf("srli x%u, x%u, %u\n", rd, rs1, rs2);
+          printf("srli x%u, x%u, %u\n", rd, rs1, shift_amount);
 #endif
-          regs_[rd] = int32_t(uint32_t(regs_[rs1]) >> rs2);
+          regs_[rd] = int32_t(uint32_t(regs_[rs1]) >> shift_amount);
           break;
         }
         case FUNCT7_SRAI: {
 #ifdef RV32I_DEBUG
-          printf("srai x%u, x%u, %u\n", rd, rs1, rs2);
+          printf("srai x%u, x%u, %u\n", rd, rs1, shift_amount);
 #endif
-          regs_[rd] = regs_[rs1] >> rs2;
+          regs_[rd] = regs_[rs1] >> shift_amount;
           break;
         }
         default:

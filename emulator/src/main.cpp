@@ -15,8 +15,8 @@ using namespace std;
 // initialize RAM with -1 being the default value from flash
 static vector<uint8_t> ram(osqa::memory_end, 0xff);
 
-// initialize SD card 1 GB
-static vector<uint8_t> sdcard(1024 * 1024 * 1024, 0);
+// initialize SD card 8 MB
+static vector<uint8_t> sdcard(8 * 1024 * 1024, 0);
 
 // sdcard sector buffer
 static array<uint8_t, 512> sector_buffer;
@@ -159,82 +159,56 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
   return 0;
 }
 
+static auto load_file(char const *file_name, char const *data_name,
+                      vector<uint8_t> &data) -> bool {
+
+  ifstream file{file_name, ios::binary | ios::ate};
+  if (!file) {
+    printf("%s: error opening file '%s'\n", data_name, file_name);
+    return false;
+  }
+
+  streamsize const size = file.tellg();
+  if (size == -1) {
+    printf("%s: error determining size of file '%s'\n", data_name, file_name);
+    return false;
+  }
+
+  if (size > streamsize(data.size())) {
+    printf("%s: size of file (%zu B) exceeds size of data container (%zu B)\n",
+           data_name, size, data.size());
+    return false;
+  }
+
+  file.seekg(0, ios::beg);
+  if (file.fail()) {
+    printf("%s: error seeking to beginning of file '%s'\n", data_name,
+           file_name);
+    return false;
+  }
+
+  if (!file.read(reinterpret_cast<char *>(data.data()), size)) {
+    printf("%s: error reading file '%s'\n", data_name, file_name);
+    return false;
+  }
+
+  file.close();
+
+  return true;
+}
+
 auto main(int argc, char **argv) -> int {
   if (argc != 3) {
     printf("Usage: %s <firmware.bin> <sdcard.bin>\n", argv[0]);
     return 1;
   }
 
-  // load firmware
-  {
-    size_t const arg = 1;
-
-    ifstream file{argv[1], ios::binary | ios::ate};
-    if (!file) {
-      printf("Error opening file '%s'\n", argv[arg]);
-      return 1;
-    }
-
-    streamsize const size = file.tellg();
-    if (size == -1) {
-      printf("Error determining size of file '%s'\n", argv[arg]);
-      return 1;
-    }
-
-    if (size > streamsize(ram.size())) {
-      printf("Firmware size (%zu B) exceeds RAM size (%zu B)\n", size,
-             ram.size());
-      return 1;
-    }
-
-    file.seekg(0, ios::beg);
-    if (file.fail()) {
-      printf("Error seeking to beginning of file '%s'\n", argv[arg]);
-      return 1;
-    }
-
-    if (!file.read(reinterpret_cast<char *>(ram.data()), size)) {
-      printf("Error reading file '%s'\n", argv[1]);
-      return 1;
-    }
-
-    file.close();
+  if (!load_file(argv[1], "Firmware", ram)) {
+    return 1;
   }
 
-  // load sdcard
-  {
-    size_t const arg = 2;
-
-    ifstream file{argv[2], ios::binary | ios::ate};
-    if (!file) {
-      printf("Error opening file '%s'\n", argv[arg]);
-      return 1;
-    }
-
-    streamsize const size = file.tellg();
-    if (size == -1) {
-      printf("Error determining size of file '%s'\n", argv[arg]);
-      return 1;
-    }
-
-    if (size > streamsize(sdcard.size())) {
-      printf("SD card file size (%zu B) exceeds SD card size (%zu B)\n", size,
-             sdcard.size());
-      return 1;
-    }
-
-    file.seekg(0, ios::beg);
-    if (file.fail()) {
-      printf("Error seeking to beginning of file '%s'\n", argv[arg]);
-      return 1;
-    }
-
-    if (!file.read(reinterpret_cast<char *>(sdcard.data()), size)) {
-      printf("Error reading file '%s'\n", argv[arg]);
-      return 1;
-    }
-
-    file.close();
+  if (!load_file(argv[2], "SD card", sdcard)) {
+    return 1;
   }
 
   // configure terminal to not echo and enable non-blocking getchar()
