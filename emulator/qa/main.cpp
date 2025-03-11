@@ -1,10 +1,6 @@
-#include <array>
-#include <cstdint>
-#include <cstdio>
+#include "../src/rv32i.hpp"
 #include <fstream>
 #include <vector>
-// #define RV32I_DEBUG
-#include "../src/rv32i.hpp"
 
 using namespace std;
 
