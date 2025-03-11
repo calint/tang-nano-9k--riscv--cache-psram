@@ -42,7 +42,6 @@ $CC -std=c++23 \
 
 $OBJCOPY $BIN -O binary $BIN.bin
 $OBJDUMP -Mnumeric,no-aliases -dr $BIN > $BIN.lst
-$OBJCOPY $BIN -O binary $BIN.bin
 
 rm $BIN
 
