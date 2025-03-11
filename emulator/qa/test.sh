@@ -4,7 +4,7 @@ cd $(dirname "$0")
 
 echo " * build rv32i for tests"
 
-CMD="g++ -std=c++23 -O3 $@ -fno-rtti -fno-exceptions -Wfatal-errors -Werror -Wall -Wextra -Wpedantic \
+CMD="g++ -std=c++23 -O3 -fno-rtti -fno-exceptions -Wfatal-errors -Werror -Wall -Wextra -Wpedantic \
     -Wconversion -Wsign-conversion -Wswitch-default \
     -o osqa-test main.cpp"
 #echo
