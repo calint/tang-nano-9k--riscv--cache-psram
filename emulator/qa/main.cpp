@@ -11,15 +11,13 @@ static vector<uint8_t> ram(8 * 1024, 0xff);
 static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
                 bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
-  uint32_t const width = static_cast<uint32_t>(op_width);
-
   if (is_store) {
-    for (uint32_t i = 0; i < width; ++i) {
+    for (uint32_t i = 0; i < uint32_t(op_width); ++i) {
       ram[address + i] = uint8_t(data >> (i * 8));
     }
   } else {
     data = 0;
-    for (uint32_t i = 0; i < width; ++i) {
+    for (uint32_t i = 0; i < uint32_t(op_width); ++i) {
       data |= uint32_t(ram[address + i]) << (i * 8);
     }
   }

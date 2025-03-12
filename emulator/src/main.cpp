@@ -29,10 +29,9 @@ static struct termios saved_termios;
 static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
                 bool const is_store, uint32_t &data) -> rv32i::bus_status {
 
-  uint32_t const width = static_cast<uint32_t>(op_width);
-
   // check if address is not an IO address and outside the memory range
-  if (address < osqa::io_addresses_start && address + width > ram.size()) {
+  if (address < osqa::io_addresses_start &&
+      address + uint32_t(op_width) > ram.size()) {
     return 1;
   }
 
@@ -91,7 +90,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       break;
     }
     default: {
-      for (uint32_t i = 0; i < width; ++i) {
+      for (uint32_t i = 0; i < uint32_t(op_width); ++i) {
         ram[address + i] = uint8_t(data >> (i * 8));
       }
     }
@@ -149,7 +148,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     }
     default: {
       data = 0;
-      for (uint32_t i = 0; i < width; ++i) {
+      for (uint32_t i = 0; i < uint32_t(op_width); ++i) {
         data |= uint32_t(ram[address + i]) << (i * 8);
       }
     }
