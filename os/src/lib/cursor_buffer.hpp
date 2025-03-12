@@ -1,12 +1,12 @@
 #pragma once
 
-class command_buffer final {
-  char line_[80]{};
-  uint8_t cursor_{};
-  uint8_t end_{};
+template <size_t Size = 80, class Type = char> class cursor_buffer final {
+  Type line_[Size]{};
+  size_t cursor_{};
+  size_t end_{};
 
 public:
-  auto insert(char const ch) -> bool {
+  auto insert(Type const ch) -> bool {
     if (end_ == sizeof(line_) - 1) {
       return false;
     }
@@ -59,7 +59,7 @@ public:
 
   auto reset() -> void { cursor_ = end_ = 0; }
 
-  auto set_eos() -> void { line_[end_] = '\0'; }
+  auto set_terminator() -> void { line_[end_] = {}; }
 
   auto is_full() const -> bool { return end_ == sizeof(line_) - 1; }
 
@@ -79,16 +79,16 @@ public:
     return true;
   }
 
-  auto apply_on_chars_from_cursor_to_end(
-      callable_returns_void<char> auto &&f) const -> void {
+  auto apply_on_elements_from_cursor_to_end(
+      callable_returns_void<Type> auto &&f) const -> void {
     for (size_t i = cursor_; i < end_; ++i) {
       f(line_[i]);
     }
   }
 
-  auto characters_after_cursor() const -> size_t { return end_ - cursor_; }
+  auto elements_after_cursor_count() const -> size_t { return end_ - cursor_; }
 
   auto input_length() const -> size_t { return end_; }
 
-  auto string() -> string { return {line_, input_length()}; };
+  auto span() -> span<Type> { return {line_, input_length()}; };
 };

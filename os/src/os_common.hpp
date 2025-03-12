@@ -45,7 +45,7 @@ static char const *const ascii_art =
 using cstr = char const *;
 using string = span<char>;
 
-#include "lib/command_buffer.hpp"
+#include "lib/cursor_buffer.hpp"
 
 static let safe_arrays = true;
 static let char_backspace = '\x7f';
@@ -68,6 +68,8 @@ using location_id_t = uint8_t;
 using link_id_t = uint8_t;
 using entity_id_t = uint8_t;
 using object_id_t = uint8_t;
+
+using command_buffer = cursor_buffer<160>;
 
 struct object final {
   name_t name{};
@@ -204,7 +206,7 @@ static auto string_next_word(string const str)
 static auto
 handle_input(entity_id_t const eid, command_buffer &cmd_buf) -> void {
 
-  let line = cmd_buf.string();
+  let line = cmd_buf.span();
   let w1 = string_next_word(line);
   let cmd = w1.word;
   let args = w1.rem;
@@ -471,20 +473,20 @@ static auto input(command_buffer &cmd_buf) -> void {
       } else if (ch == char_backspace) {
         if (cmd_buf.backspace()) {
           uart_send_char(ch);
-          cmd_buf.apply_on_chars_from_cursor_to_end(
+          cmd_buf.apply_on_elements_from_cursor_to_end(
               [](let c) { uart_send_char(c); });
           uart_send_char(' ');
-          uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
+          uart_send_move_back(cmd_buf.elements_after_cursor_count() + 1);
         }
       } else if (ch == char_carriage_return || cmd_buf.is_full()) {
-        cmd_buf.set_eos();
+        cmd_buf.set_terminator();
         return;
       } else {
         uart_send_char(ch);
         cmd_buf.insert(ch);
-        cmd_buf.apply_on_chars_from_cursor_to_end(
+        cmd_buf.apply_on_elements_from_cursor_to_end(
             [](let c) { uart_send_char(c); });
-        uart_send_move_back(cmd_buf.characters_after_cursor());
+        uart_send_move_back(cmd_buf.elements_after_cursor_count());
       }
       break;
 
@@ -517,10 +519,10 @@ static auto input(command_buffer &cmd_buf) -> void {
           if (escape_sequence_parameter == 3) {
             // delete key
             cmd_buf.del();
-            cmd_buf.apply_on_chars_from_cursor_to_end(
+            cmd_buf.apply_on_elements_from_cursor_to_end(
                 [](let c) { uart_send_char(c); });
             uart_send_char(' ');
-            uart_send_move_back(cmd_buf.characters_after_cursor() + 1);
+            uart_send_move_back(cmd_buf.elements_after_cursor_count() + 1);
           }
           break;
 
