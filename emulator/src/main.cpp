@@ -55,7 +55,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       auto const bgn = sector_buffer.begin();
       auto const end = sector_buffer.end();
       if (dst + sector_buffer.size() > sdcard.end()) {
-        return 3;
+        return 4;
       }
       copy(bgn, end, dst);
       break;
@@ -65,7 +65,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       auto const bgn = sdcard.begin() + ix;
       auto const end = sdcard.begin() + ix + sector_buffer.size();
       if (end > sdcard.end()) {
-        return 2;
+        return 5;
       }
       copy(bgn, end, sector_buffer.data());
       break;
@@ -83,7 +83,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     }
     case osqa::uart_in: {
       // address does not support write
-      return 4;
+      return 6;
     }
     case osqa::led: {
       // do nothing when writing to address LED
@@ -113,15 +113,15 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     }
     case osqa::sdcard_read_sector: {
       // address does not support read
-      return 5;
+      return 7;
     }
     case osqa::sdcard_write_sector: {
       // address does not support read
-      return 6;
+      return 8;
     }
     case osqa::led: {
       // address does not support read
-      return 7;
+      return 9;
     }
     case osqa::uart_out: {
       data = 0xffff'ffff; // -1
