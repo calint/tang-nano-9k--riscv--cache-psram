@@ -4,5 +4,5 @@ cd $(dirname "$0")
 
 ../configuration-apply.py
 ../qa/qa.sh
-../emulator/qa/test.sh
+../emulator/qa/qa.sh
 ../os/make-and-test-all.sh
