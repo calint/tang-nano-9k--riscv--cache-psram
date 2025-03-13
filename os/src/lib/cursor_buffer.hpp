@@ -1,6 +1,6 @@
 #pragma once
 
-template <size_t Size = 80, class Type = char> class cursor_buffer final {
+template <typename Type, size_t Size> class cursor_buffer final {
   Type line_[Size]{};
   size_t cursor_{};
   size_t end_{};

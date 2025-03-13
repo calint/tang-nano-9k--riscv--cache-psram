@@ -69,7 +69,7 @@ using link_id_t = uint8_t;
 using entity_id_t = uint8_t;
 using object_id_t = uint8_t;
 
-using command_buffer = cursor_buffer<160>;
+using command_buffer = cursor_buffer<char, 160>;
 
 struct object final {
   name_t name{};
