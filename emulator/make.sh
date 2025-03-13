@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 #
 # tools used:
-#        g++: 14.2.1 20240910
+#        g++: 14.2.1
 #
 set -e
 cd $(dirname "$0")
