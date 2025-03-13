@@ -47,6 +47,8 @@ using string = span<char>;
 
 #include "lib/cursor_buffer.hpp"
 
+using command_buffer = cursor_buffer<char, 160>;
+
 static let safe_arrays = true;
 static let char_backspace = '\x7f';
 static let char_tab = '\t';
@@ -68,8 +70,6 @@ using location_id_t = uint8_t;
 using link_id_t = uint8_t;
 using entity_id_t = uint8_t;
 using object_id_t = uint8_t;
-
-using command_buffer = cursor_buffer<char, 160>;
 
 struct object final {
   name_t name{};
