@@ -63,7 +63,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     case osqa::sdcard_read_sector: {
       int32_t const ix = int32_t(data * sector_buffer.size());
       auto const bgn = sdcard.begin() + ix;
-      auto const end = sdcard.begin() + ix + sector_buffer.size();
+      auto const end = bgn + sector_buffer.size();
       if (end > sdcard.end()) {
         return 5;
       }

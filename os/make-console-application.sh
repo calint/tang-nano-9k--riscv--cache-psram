@@ -41,6 +41,7 @@ g++ -std=c++23 \
     -Wno-stringop-overflow \
     -Wno-unused-function \
     -Wno-unused-parameter \
+    -Wno-maybe-uninitialized \
     -o $BIN \
     src/console_application.cpp
 

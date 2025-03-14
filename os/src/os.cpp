@@ -101,37 +101,6 @@ static auto action_mem_test() -> void {
   }
 }
 
-static auto action_sdcard_read(string const args) -> void {
-  let w1 = string_next_word(args);
-  if (w1.word.is_empty()) {
-    uart_send_cstr("<sector>\r\n");
-    return;
-  }
-  let sector = string_to_uint32(w1.word);
-  char buf[512];
-  sdcard_read_blocking(sector, buf);
-  for (mut i = 0u; i < sizeof(buf); ++i) {
-    uart_send_char(buf[i]);
-  }
-  uart_send_cstr("\r\n");
-}
-
-static auto action_sdcard_write(string const args) -> void {
-  let w1 = string_next_word(args);
-  if (w1.word.is_empty()) {
-    uart_send_cstr("<sector> <text>\r\n");
-    return;
-  }
-  char buf[512]{};
-  mut *buf_ptr = buf;
-  w1.rem.for_each([&buf_ptr](char const ch) {
-    *buf_ptr = ch;
-    ++buf_ptr;
-  });
-  size_t const sector = string_to_uint32(w1.word);
-  sdcard_write_blocking(sector, buf);
-}
-
 static auto action_sdcard_status() -> void {
   uint32_t const status = *SDCARD_STATUS;
   uart_send_cstr("SDCARD_STATUS: 0x");

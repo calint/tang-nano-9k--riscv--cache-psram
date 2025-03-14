@@ -17,4 +17,9 @@ d noteboook\e[D\e[D\e[3~
 i\x7f\x7f\x7fi
 i\e[D\e[D\e[3~i
 t o\e[Dn\e[Ctebook
+sds
+sdw 1 hello world
+sdr 1
+sdw 1 another hello
+sdr 1
 q

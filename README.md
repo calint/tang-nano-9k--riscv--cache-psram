@@ -78,8 +78,8 @@ welcome to adventure #4
 ## Todo
 ```
 ----------------------------------------------------------------------------
-[ ] emulator: implement write sector to card file
-[ ] console_application: implement SD card support
+[ ] emulator,console_application: implement write sector to card file
+[x] console_application: implement SD card support
 [ ] os: list, span: position with list instance id so that a position in one
     list / span can't be used in different list / span instance
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration
