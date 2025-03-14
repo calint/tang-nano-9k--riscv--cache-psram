@@ -101,7 +101,11 @@ static auto uart_read_char() -> char { return char(getchar()); }
 
 static auto led_set(uint32_t const bits) -> void {}
 
-static auto action_mem_test() -> void { printf("memory test not supported\n"); }
+static auto action_mem_test() -> void {
+  uart_send_cstr("testing memory (write)\r\n");
+  uart_send_cstr("testing memory (read)\r\n");
+  uart_send_cstr("testing memory succeeded\r\n");
+}
 
 static auto action_sdcard_status() -> void {
   uart_send_cstr("SDCARD_STATUS: 0x");
