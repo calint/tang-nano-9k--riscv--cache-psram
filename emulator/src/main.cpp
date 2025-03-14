@@ -211,9 +211,8 @@ auto main(int argc, char **argv) -> int {
   }
 
   // configure terminal to not echo and enable non-blocking getchar()
-  struct termios newt;
   tcgetattr(STDIN_FILENO, &saved_termios);
-  newt = saved_termios;
+  struct termios newt = saved_termios;
   newt.c_lflag &= tcflag_t(~(ICANON | ECHO));
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
