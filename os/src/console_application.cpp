@@ -129,7 +129,7 @@ static auto sdcard_write_blocking(size_t const sector, int8_t const *buffer512B)
   int64_t const ix = int64_t(sector * sdcard_sector_size_bytes);
   auto const dst = sdcard.begin() + ix;
   auto const bgn = buffer512B;
-  auto const end = buffer512B + sdcard_sector_size_bytes;
+  auto const end = bgn + sdcard_sector_size_bytes;
   if (dst + sdcard_sector_size_bytes > sdcard.end()) {
     return;
   }
