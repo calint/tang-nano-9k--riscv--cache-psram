@@ -24,14 +24,14 @@ static char constexpr char_carriage_return = '\x0a';
 #include "os_common.hpp"
 // the platform independent source
 
-using namespace std;
-
 // initialize SD card 8 MB
-static vector<uint8_t> sdcard(8 * 1024 * 1024, 0);
+static std::vector<uint8_t> sdcard(8 * 1024 * 1024, 0);
 static size_t constexpr sdcard_sector_size_bytes = 512;
 
 static auto load_file(char const *file_name, char const *data_name,
-                      vector<uint8_t> &data) -> bool {
+                      std::vector<uint8_t> &data) -> bool {
+
+  using namespace std;
 
   ifstream file{file_name, ios::binary | ios::ate};
   if (!file) {
