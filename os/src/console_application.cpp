@@ -76,7 +76,7 @@ auto main(int argc, char *argv[]) -> int {
   }
 
   if (!load_file(argv[1], "SD card", sdcard)) {
-    return 1;
+    return 2;
   }
 
   struct termios term{};
