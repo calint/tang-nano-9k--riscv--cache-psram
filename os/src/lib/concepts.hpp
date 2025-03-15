@@ -9,14 +9,14 @@ template <typename T> struct is_same<T, T> {
 };
 
 template <typename T, typename U>
-concept is_same_v = is_same<T, U>::value;
+concept same_as = is_same<T, U>::value;
 
 template <typename Func, typename Arg>
 concept callable_returns_bool = requires(Func f, Arg arg) {
-  { f(arg) } -> is_same_v<bool>;
+  { f(arg) } -> same_as<bool>;
 };
 
 template <typename Func, typename Arg>
 concept callable_returns_void = requires(Func f, Arg arg) {
-  { f(arg) } -> is_same_v<void>;
+  { f(arg) } -> same_as<void>;
 };
