@@ -6,7 +6,9 @@
             "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/os/console_application",
-            "args": [],
+            "args": [
+                "notes/samples/sample.txt"
+            ],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "osqa: build console application",
         }
