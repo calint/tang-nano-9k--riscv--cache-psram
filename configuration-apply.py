@@ -109,13 +109,13 @@ with open("src/configuration.sv", "w") as file:
 with open(cfg.BOARD_NAME + ".sdc", "w") as file:
     file.write("// generated - do not edit (see `configuration.py`)\n")
     file.write("\n")
-    ClockMHz = cfg.CLOCK_FREQUENCY_HZ / 1000000
-    ClockPeriod = 1 / ClockMHz * 1000
-    ClockWaveform = ClockPeriod / 2
-    file.write("// {} MHz\n".format(ClockMHz))
+    clock_mHz = cfg.CLOCK_FREQUENCY_HZ / 1000000
+    clock_period = 1 / clock_mHz * 1000
+    clock_wave_form = clock_period / 2
+    file.write("// {} MHz\n".format(clock_mHz))
     file.write(
         "create_clock -name clk -period {:.4f} -waveform {{0 {:.4f}}} [get_ports {{clk}}]\n".format(
-            ClockPeriod, ClockWaveform
+            clock_period, clock_wave_form
         )
     )
 
