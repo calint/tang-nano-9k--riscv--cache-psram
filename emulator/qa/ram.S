@@ -81,7 +81,7 @@ lbl_done:
 
 .org 0x400
 lbl_jal:
-	jalr x0, 0(x1)
+	jalr x1, 0(x1)
 
 .org 0x408
 lbl_beq:

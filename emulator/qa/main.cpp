@@ -239,7 +239,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) -> int {
   cpu.tick();
   assert(cpu.pc() == 0x400, 36);
 
-  // 400: 00008067 jalr x0,0(x1)
+  // 400: 00008067 jalr x1,0(x1)
+  // test BUG 1
   cpu.tick();
   assert(cpu.pc() == 0xa4, 37);
 
@@ -330,7 +331,8 @@ auto main([[maybe_unused]] int argc, [[maybe_unused]] char **argv) -> int {
   cpu.tick();
   assert(cpu.reg(2) == int32_t(0xffff'f438), 57);
 
-  // 43c: 00008067 jalr x0,0(x1)
+  // 43c: 00008067 jalr x1,0(x1)
+  // test BUG 1
   cpu.tick();
   assert(cpu.pc() == 0xd8, 58);
 
