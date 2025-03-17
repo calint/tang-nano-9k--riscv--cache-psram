@@ -1,6 +1,7 @@
 #include <array>
 #include <cstdint>
 #include <cstdio>
+#include <fcntl.h>
 #include <fstream>
 #include <termios.h>
 #include <unistd.h>
@@ -216,10 +217,15 @@ auto main(int argc, char **argv) -> int {
   newt.c_lflag &= tcflag_t(~(ICANON | ECHO));
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 
-  // reset terminal settings at exit
-  atexit([] { tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios); });
+  int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+  fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
 
-  // run CPU
+  // reset terminal settings at exit
+  atexit([] {
+    tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios);
+    int flgs = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, flgs & ~O_NONBLOCK);
+  });
 
   rv32i::cpu cpu{bus};
 
