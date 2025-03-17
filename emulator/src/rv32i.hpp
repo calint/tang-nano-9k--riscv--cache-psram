@@ -326,6 +326,10 @@ public:
           return 1600 + s;
         }
         regs_[rd] = int32_t(value);
+#ifdef RV32I_DEBUG
+        printf("  x%u=0x%x\n", rs1, regs_[rs1]);
+        printf("  x%u=0x%x\n", rd, regs_[rd]);
+#endif
         break;
       }
       case FUNCT3_LBU: {
@@ -362,6 +366,9 @@ public:
       printf("auipc x%u, 0x%x\n", rd, U_imm20 >> 12);
 #endif
       regs_[rd] = int32_t(pc_ + U_imm20);
+#ifdef RV32I_DEBUG
+      printf("  x%u=0x%x\n", rd, regs_[rd]);
+#endif
       break;
     }
     //-----------------------------------------------------------------------
@@ -385,8 +392,13 @@ public:
 #ifdef RV32I_DEBUG
       printf("jalr x%u, %d(x%u)\n", rd, I_imm12, rs1);
 #endif
-      regs_[rd] = int32_t(pc_ + 4);
       next_pc = uint32_t(regs_[rs1] + I_imm12);
+      regs_[rd] = int32_t(pc_ + 4);
+#ifdef RV32I_DEBUG
+      printf("  x%u=0x%x\n", rs1, regs_[rs1]);
+      printf("  imm=%d\n", I_imm12);
+      printf("  0x%x\n", next_pc);
+#endif
       break;
     }
     //-----------------------------------------------------------------------
@@ -441,6 +453,10 @@ public:
         if (uint32_t(regs_[rs1]) < uint32_t(regs_[rs2])) {
           next_pc = branch_taken_pc;
         }
+#ifdef RV32I_DEBUG
+        printf("  x%u=0x%x\n", rs1, regs_[rs1]);
+        printf("  x%u=0x%x\n", rs2, regs_[rs2]);
+#endif
         break;
       }
       case FUNCT3_BGEU: {
