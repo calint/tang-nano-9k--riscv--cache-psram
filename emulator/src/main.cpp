@@ -52,7 +52,9 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       break;
     }
     case osqa::sdcard_write_sector: {
-      auto const dst = sdcard.begin() + data * sector_buffer.size();
+      auto const dst = sdcard.begin() + data;
+      // note: 'data' expected to be multiples of 512
+      //       sector 0: 0, 1: 512, 2: 1024 etc
       auto const bgn = sector_buffer.begin();
       auto const end = sector_buffer.end();
       if (dst + sector_buffer.size() > sdcard.end()) {
@@ -62,7 +64,9 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
       break;
     }
     case osqa::sdcard_read_sector: {
-      int32_t const ix = int32_t(data * sector_buffer.size());
+      int32_t const ix = int32_t(data);
+      // note: 'data' expected to be multiples of 512
+      //       sector 0: 0, 1: 512, 2: 1024 etc
       auto const bgn = sdcard.begin() + ix;
       auto const end = bgn + sector_buffer.size();
       if (end > sdcard.end()) {
