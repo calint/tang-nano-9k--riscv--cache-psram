@@ -62,6 +62,16 @@ printf "sdw 123 another hello world\r" > $TTY
 sleep $SLP
 printf "sdr 123\r" > $TTY
 sleep $SLP
+printf "sdw 1 sector 1\r" > $TTY
+sleep $SLP
+printf "sdr 1\r" > $TTY
+sleep $SLP
+printf "sdw 1 sector 1 again\r" > $TTY
+sleep $SLP
+printf "sdr 1\r" > $TTY
+sleep $SLP
+printf "sdr 123\r" > $TTY
+sleep $SLP
 
 # send SIGTERM (termination signal) to 'cat'
 kill -SIGTERM %1

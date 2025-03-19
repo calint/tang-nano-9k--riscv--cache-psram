@@ -112,7 +112,9 @@ static auto sdcard_read_blocking(size_t const sector, int8_t *buffer512B)
     -> void {
   while (*SDCARD_BUSY)
     ;
-  *SDCARD_READ_SECTOR = sector;
+  *SDCARD_READ_SECTOR = sector * 512;
+  // note: hardware assumes 512 B multiples
+  //       sector 1: 512, 2: 1024 etc
   while (*SDCARD_BUSY)
     ;
   for (size_t i = 0; i < 512; ++i) {
@@ -129,7 +131,9 @@ static auto sdcard_write_blocking(size_t const sector, int8_t const *buffer512B)
     *SDCARD_NEXT_BYTE = *buffer512B;
     ++buffer512B;
   }
-  *SDCARD_WRITE_SECTOR = sector;
+  *SDCARD_WRITE_SECTOR = sector * 512;
+  // note: hardware assumes 512 B multiples
+  //       sector 1: 512, 2: 1024 etc
   while (*SDCARD_BUSY)
     ;
 }
