@@ -107,7 +107,8 @@ module sdcard #(
           case (command)
             1: begin  // read sector
               rd <= 1;
-              address <= sector;
+              address <= sector << 9;
+              // note: 'sd_controller' expects address to be multiples of sector size 512
               state <= PreReadSector;
             end
             2: begin  // advance buffer index
@@ -120,7 +121,8 @@ module sdcard #(
             4: begin  // write sector
               wr <= 1;
               waiting_ready_for_next_byte <= 1;
-              address <= sector;
+              address <= sector << 9;
+              // note: 'sd_controller' expects address to be multiples of sector size 512
               state <= PreWriteSector;
             end
           endcase
