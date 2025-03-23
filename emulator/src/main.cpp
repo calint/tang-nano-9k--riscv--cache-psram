@@ -99,7 +99,7 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
     // read op
     switch (address) {
     case osqa::sdcard_status: {
-      data = 0;
+      data = 6;
       break;
     }
     case osqa::sdcard_busy: {
