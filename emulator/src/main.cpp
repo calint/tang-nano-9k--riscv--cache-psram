@@ -215,15 +215,15 @@ auto main(int argc, char **argv) -> int {
   struct termios newt = saved_termios;
   newt.c_lflag &= tcflag_t(~(ICANON | ECHO));
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-
-  int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-  fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
-
+  { // note: code block to not shadow identifier 'flags' in 'atexit'
+    int const flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+  }
   // reset terminal settings at exit
   atexit([] {
     tcsetattr(STDIN_FILENO, TCSANOW, &saved_termios);
-    int flgs = fcntl(STDIN_FILENO, F_GETFL, 0);
-    fcntl(STDIN_FILENO, F_SETFL, flgs & ~O_NONBLOCK);
+    int const flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, flags & ~O_NONBLOCK);
   });
 
   rv32i::cpu cpu{bus};
