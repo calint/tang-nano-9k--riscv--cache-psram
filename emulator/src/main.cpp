@@ -215,7 +215,7 @@ auto main(int argc, char **argv) -> int {
   struct termios newt = saved_termios;
   newt.c_lflag &= tcflag_t(~(ICANON | ECHO));
   tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-  { // note: code block to not shadow identifier 'flags' in 'atexit'
+  { // note: code block to not get shadowed by 'flags' in 'atexit'
     int const flags = fcntl(STDIN_FILENO, F_GETFL, 0);
     fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
   }
