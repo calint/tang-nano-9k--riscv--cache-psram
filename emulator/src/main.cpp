@@ -11,6 +11,8 @@
 //
 #include "main_config.hpp"
 
+// #define LOG_UART_IN_TO_STDERR
+
 using namespace std;
 
 // initialize RAM with -1 being the default value from flash
@@ -144,6 +146,11 @@ static auto bus(uint32_t const address, rv32i::bus_op_width const op_width,
         data = uint32_t(ch);
         break;
       }
+#ifdef LOG_UART_IN_TO_STDERR
+      if (ch != -1) {
+        fputc(char(data), stderr);
+      }
+#endif
       break;
     }
     default: {
