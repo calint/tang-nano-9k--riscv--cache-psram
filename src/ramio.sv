@@ -199,11 +199,11 @@ module ramio #(
         //------------------------------------------------------------------
 
         case (address)
-          AddressUartOut: ;
-          AddressUartIn: ;
-          AddressLed: ;
-          AddressSDCardBusy: ;
-          AddressSDCardStatus: ;
+          AddressUartOut: ;  // handled in always_ff
+          AddressUartIn: ;  // ignore write
+          AddressLed: ;  // handled in always_ff
+          AddressSDCardBusy: ;  // ignore write
+          AddressSDCardStatus: ;  // ignore write
           AddressSDCardNextByte: begin
             sdcard_command = 3;
             sdcard_data_in = data_in[7:0];
@@ -275,9 +275,9 @@ module ramio #(
 
       if (read_type != '0) begin
         unique case (address)
-          AddressLed: ;
-          AddressSDCardReadSector: ;
-          AddressSDCardWriteSector: ;
+          AddressLed: ;  // ignore read
+          AddressSDCardReadSector: ;  // ignore read
+          AddressSDCardWriteSector: ;  // ignore read
           AddressUartOut: begin
             // any read from 'uarttx' returns signed word
             data_out = uarttx_data_sending;
@@ -293,8 +293,8 @@ module ramio #(
             data_out = sdcard_status;
           end
           AddressSDCardNextByte: begin
-            data_out = sdcard_data_out;
             sdcard_command = 2;
+            data_out = sdcard_data_out;
           end
           default: begin
             cache_enable = 1;

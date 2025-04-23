@@ -8,7 +8,7 @@ cd $(dirname "$0")
 
 TTY=/dev/ttyUSB1
 BAUD=115200
-SLP=1
+SLP=0.5
 
 # capture ctrl+c and kill cat
 trap 'kill $(jobs -p); exit 130' INT

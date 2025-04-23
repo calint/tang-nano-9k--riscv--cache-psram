@@ -36,4 +36,4 @@ fi
 echo "flashing '$FIRMWARE_FILE' to '$BOARD_NAME' at offset $FIRMWARE_FLASH_OFFSET"
 echo
 
-openFPGALoader --offset $FIRMWARE_FLASH_OFFSET --verify --external-flash "$FIRMWARE_FILE"
+openFPGALoader --offset $FIRMWARE_FLASH_OFFSET --external-flash "$FIRMWARE_FILE"
