@@ -9,7 +9,9 @@
 #pragma once
 
 #include <cstdint>
+#ifdef RV32I_DEBUG
 #include <cstdio>
+#endif
 
 namespace rv32i {
 
