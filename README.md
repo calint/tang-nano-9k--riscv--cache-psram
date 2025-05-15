@@ -7,7 +7,7 @@
 * configurable unified instruction and data cache backed by 2 MB of on-board burst PSRAM
 * transfer binary image from on-board flash to RAM
 * read and write sectors to and from the SD card
-* developing a back-to-basics freestanding bare metal C++23 application
+* develop a back-to-basics freestanding bare metal C++23 application
 * explore the FPGA board
 
 ## Howto Gowin EDA 1.9.10.03 Education
