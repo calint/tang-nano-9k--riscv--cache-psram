@@ -3,6 +3,6 @@ set -e
 cd $(dirname "$0")
 
 ../configuration-apply.py
-../qa/qa.sh
-../emulator/qa/qa.sh
+../qa/test.sh
+../emulator/qa/test.sh
 ../os/make-and-test-all.sh
