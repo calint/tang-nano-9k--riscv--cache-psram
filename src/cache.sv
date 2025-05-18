@@ -234,7 +234,6 @@ module cache #(
     Read1,
     Read2,
     Read3,
-    ReadUpdateTag,
     ReadFinish,
     Write1,
     Write2,
@@ -366,19 +365,13 @@ module cache #(
           burst_data_in[6] <= br_rd_data[31:0];
           burst_write_enable[7] <= 4'b1111;
           burst_data_in[7] <= br_rd_data[63:32];
-          state <= ReadUpdateTag;
-        end
-
-        ReadUpdateTag: begin
-          // note: reading line can be initiated after a cache eviction
-          //       'burst_write_enable[6]' and 7 are then high, set to low
-          burst_write_enable[6] <= 0;
-          burst_write_enable[7] <= 0;
           burst_tag_write_enable <= 4'b1111;
           state <= ReadFinish;
         end
 
         ReadFinish: begin
+          burst_write_enable[6] <= 0;
+          burst_write_enable[7] <= 0;
           // note: tag has been written after read data has settled
           burst_is_reading <= 0;
           burst_tag_write_enable <= 0;
