@@ -79,6 +79,7 @@ welcome to adventure #4
 ## Todo
 ```
 ----------------------------------------------------------------------------
+[ ] cache: write_enable for tag can be single bit since always writing 32b
 [ ] emulator,console_application: implement write sector to card file
 [x] console_application: implement SD card support
 [ ] os: list, span: position with list instance id so that a position in one
