@@ -13,10 +13,10 @@
 // `define INFO
 
 module cache #(
-    parameter int unsigned LineIndexBitWidth = 8,
+    parameter int unsigned LineIndexBitwidth = 8,
     // cache lines: 2 ^ value
 
-    parameter int unsigned RamAddressBitWidth = 21,
+    parameter int unsigned RamAddressBitwidth = 21,
     // bits in the address of underlying burst RAM
 
     parameter int unsigned CommandDelayIntervalCycles = 13,
@@ -54,7 +54,7 @@ module cache #(
     // burst RAM wiring; prefix 'br_'
     output logic br_cmd,  // 0: read, 1: write
     output logic br_cmd_en,  // 1: cmd and addr is valid
-    output logic [RamAddressBitWidth-1:0] br_addr,  // see 'RamAddressingMode'
+    output logic [RamAddressBitwidth-1:0] br_addr,  // see 'RamAddressingMode'
     output logic [63:0] br_wr_data,  // data to write
     output logic [7:0] br_data_mask,  // always 0 meaning write all bytes
     input wire [63:0] br_rd_data,  // data out
@@ -74,9 +74,9 @@ module cache #(
   localparam int unsigned ZEROS_BITWIDTH = 2;  // leading zeros in the address
   localparam int unsigned COLUMN_IX_BITWIDTH = 3;  // 2 ^ 3 = 8 elements per line
   localparam int unsigned COLUMN_COUNT = 2 ** COLUMN_IX_BITWIDTH;
-  localparam int unsigned LINE_COUNT = 2 ** LineIndexBitWidth;
+  localparam int unsigned LINE_COUNT = 2 ** LineIndexBitwidth;
   localparam int unsigned TAG_BITWIDTH = 
-    RamAddressBitWidth + RamAddressingMode - LineIndexBitWidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
+    RamAddressBitwidth + RamAddressingMode - LineIndexBitwidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
   // note: assumes there are 2 bits free after 'TAG_BITWIDTH' for 'valid' and 'dirty' flags in storage
 
   localparam int unsigned LINE_VALID_BIT = TAG_BITWIDTH;
@@ -95,18 +95,18 @@ module cache #(
     COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
     -:COLUMN_IX_BITWIDTH
   ];
-  wire [LineIndexBitWidth-1:0] line_ix =  address[
-    LineIndexBitWidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
-    -:LineIndexBitWidth
+  wire [LineIndexBitwidth-1:0] line_ix =  address[
+    LineIndexBitwidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
+    -:LineIndexBitwidth
   ];
   wire [TAG_BITWIDTH-1:0] address_tag = address[
-    TAG_BITWIDTH+LineIndexBitWidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
+    TAG_BITWIDTH+LineIndexBitwidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1
     -:TAG_BITWIDTH
   ];
 
   // starting address of cache line in RAM for current address
-  wire [RamAddressBitWidth-1:0] burst_line_address = {
-    address[TAG_BITWIDTH+LineIndexBitWidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1:COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH],
+  wire [RamAddressBitwidth-1:0] burst_line_address = {
+    address[TAG_BITWIDTH+LineIndexBitwidth+COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH-1:COLUMN_IX_BITWIDTH+ZEROS_BITWIDTH],
     {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
   };
 
@@ -124,7 +124,7 @@ module cache #(
   assign br_data_mask = 0;  // writing whole cache lines
 
   bram #(
-      .AddressBitWidth(LineIndexBitWidth)
+      .AddressBitwidth(LineIndexBitwidth)
   ) tag (
       .clk,
       .write_enable({4{tag_write_enable}}),
@@ -139,7 +139,7 @@ module cache #(
   wire [TAG_BITWIDTH-1:0] cached_tag = cached_tag_and_flags[TAG_BITWIDTH-1:0];
 
   // starting address in burst RAM for the cached line
-  wire [RamAddressBitWidth-1:0] cached_line_address = {
+  wire [RamAddressBitwidth-1:0] cached_line_address = {
     {cached_tag, line_ix}, {LINE_TO_RAM_ADDRESS_LEFT_SHIFT{1'b0}}
   };
 
@@ -164,7 +164,7 @@ module cache #(
   generate
     for (genvar i = 0; i < COLUMN_COUNT; i++) begin : column
       bram #(
-          .AddressBitWidth(LineIndexBitWidth)
+          .AddressBitwidth(LineIndexBitwidth)
       ) column (
           .clk,
           .write_enable(column_write_enable[i]),

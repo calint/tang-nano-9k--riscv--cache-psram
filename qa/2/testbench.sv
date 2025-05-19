@@ -27,8 +27,8 @@ module testbench;
 
   burst_ram #(
       .DataFilePath("ram.mem"),
-      .AddressBitWidth(4),
-      .DataBitWidth(64),
+      .AddressBitwidth(4),
+      .DataBitwidth(64),
       .BurstDataCount(4),
       .CyclesBeforeInitiated(10),
       .CyclesBeforeDataValid(4)

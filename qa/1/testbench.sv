@@ -7,7 +7,7 @@
 
 module testbench;
 
-  localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 4;
+  localparam int unsigned RAM_ADDRESS_BITWIDTH = 4;
 
   logic rst_n;
   logic clk = 1;
@@ -24,7 +24,7 @@ module testbench;
   // wires between 'burst_ram' and 'cache'
   wire br_cmd;
   wire br_cmd_en;
-  wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
+  wire [RAM_ADDRESS_BITWIDTH-1:0] br_addr;
   wire [63:0] br_wr_data;
   wire [7:0] br_data_mask;
   wire [63:0] br_rd_data;
@@ -34,7 +34,7 @@ module testbench;
 
   burst_ram #(
       .DataFilePath("ram.mem"),  // initial RAM content
-      .AddressBitWidth(RAM_ADDRESS_BIT_WIDTH),  // 2 ^ 4 * 8 B entries
+      .AddressBitwidth(RAM_ADDRESS_BITWIDTH),  // 2 ^ 4 * 8 B entries
       .BurstDataCount(4),  // 4 * 64 bit data per burst
       .CyclesBeforeDataValid(6)
   ) burst_ram (
@@ -64,8 +64,8 @@ module testbench;
   logic enable;
 
   cache #(
-      .LineIndexBitWidth(1),
-      .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
+      .LineIndexBitwidth(1),
+      .RamAddressBitwidth(RAM_ADDRESS_BITWIDTH),
       .RamAddressingMode(3)  // 64 bit words
   ) cache (
       .clk  (clkout),

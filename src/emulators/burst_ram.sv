@@ -14,10 +14,10 @@ module burst_ram #(
     parameter string DataFilePath = "",
     // initial RAM content; ascii hex, data width
 
-    parameter int unsigned DataBitWidth = 64,
+    parameter int unsigned DataBitwidth = 64,
     // must be divisible by 8
 
-    parameter int unsigned AddressBitWidth = 4,
+    parameter int unsigned AddressBitwidth = 4,
     // 2 ^ 4 * 8 B entries
 
     parameter int unsigned BurstDataCount = 4,
@@ -38,16 +38,16 @@ module burst_ram #(
     input wire cmd_en,
     // 1: cmd and addr is valid
 
-    input wire [AddressBitWidth-1:0] addr,
+    input wire [AddressBitwidth-1:0] addr,
     // in default configuration 8 bytes word
 
-    input wire [DataBitWidth-1:0] wr_data,
+    input wire [DataBitwidth-1:0] wr_data,
     // data to write
 
-    input wire [DataBitWidth/8-1:0] data_mask,
+    input wire [DataBitwidth/8-1:0] data_mask,
     // not implemented (same as 0 in IP component)
 
-    output logic [DataBitWidth-1:0] rd_data,
+    output logic [DataBitwidth-1:0] rd_data,
     // read data
 
     output logic rd_data_valid,
@@ -59,11 +59,11 @@ module burst_ram #(
     output logic busy
 );
 
-  localparam int unsigned DEPTH = 2 ** AddressBitWidth;
+  localparam int unsigned DEPTH = 2 ** AddressBitwidth;
   localparam int unsigned CMD_READ = 0;
   localparam int unsigned CMD_WRITE = 1;
 
-  logic [DataBitWidth-1:0] data[DEPTH];
+  logic [DataBitwidth-1:0] data[DEPTH];
 
   logic [$clog2(CyclesBeforeInitiated):0] init_calib_delay_counter;
   // note: not -1 because comparison is against CyclesBeforeInitiated
@@ -72,7 +72,7 @@ module burst_ram #(
 
   logic [$clog2(CyclesBeforeDataValid)-1:0] read_delay_counter;
 
-  logic [AddressBitWidth-1:0] addr_iter;
+  logic [AddressBitwidth-1:0] addr_iter;
   // used in burst read / write
 
   typedef enum {
@@ -90,9 +90,9 @@ module burst_ram #(
     $display("----------------------------------------");
     $display("  burst_ram");
     $display("----------------------------------------");
-    $display("         size: %0d B", DEPTH * DataBitWidth / 8);
+    $display("         size: %0d B", DEPTH * DataBitwidth / 8);
     $display("        depth: %0d", DEPTH);
-    $display("    data size: %0d bits", DataBitWidth);
+    $display("    data size: %0d bits", DataBitwidth);
     $display(" read latency: %0d cycles", CyclesBeforeDataValid);
     $display("  burst count: %0d", BurstDataCount);
     $display("----------------------------------------");

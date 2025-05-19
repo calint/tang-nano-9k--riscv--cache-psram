@@ -12,7 +12,7 @@ module testbench;
   localparam int unsigned clk_tk = 10;
   always #(clk_tk / 2) clk = ~clk;
 
-  localparam int unsigned RAM_ADDRESS_BIT_WIDTH = 10;  // 2^10 * 8 B = 8192 B
+  localparam int unsigned RAM_ADDRESS_BITWIDTH = 10;  // 2^10 * 8 B = 8192 B
 
   wire [5:0] led;
   wire uart_tx;
@@ -30,7 +30,7 @@ module testbench;
 
   flash #(
       .DataFilePath("ram.mem"),
-      .AddressBitWidth(12)  // 2 ^ 12 = 4 KB
+      .AddressBitwidth(12)  // 2 ^ 12 = 4 KB
   ) flash (
       .rst_n,
       .clk (flash_clk),
@@ -46,7 +46,7 @@ module testbench;
   // wires between 'burst_ram' and 'cache'
   wire br_cmd;
   wire br_cmd_en;
-  wire [RAM_ADDRESS_BIT_WIDTH-1:0] br_addr;
+  wire [RAM_ADDRESS_BITWIDTH-1:0] br_addr;
   wire [63:0] br_wr_data;
   wire [7:0] br_data_mask;
   wire [63:0] br_rd_data;
@@ -56,7 +56,7 @@ module testbench;
 
   burst_ram #(
       .DataFilePath(""),  // initial RAM content
-      .AddressBitWidth(RAM_ADDRESS_BIT_WIDTH),  // 2 ^ x * 8 B entries
+      .AddressBitwidth(RAM_ADDRESS_BITWIDTH),  // 2 ^ x * 8 B entries
       .BurstDataCount(4),  // 4 * 64 bit data per burst
       .CyclesBeforeDataValid(6),
       .CyclesBeforeInitiated(0)
@@ -89,9 +89,9 @@ module testbench;
   wire ramio_busy;
 
   ramio #(
-      .RamAddressBitWidth(RAM_ADDRESS_BIT_WIDTH),
+      .RamAddressBitwidth(RAM_ADDRESS_BITWIDTH),
       .RamAddressingMode(3),  // 64 bits word per address in RAM 
-      .CacheLineIndexBitWidth(1),
+      .CacheLineIndexBitwidth(1),
       .ClockFrequencyHz(20_250_000),
       .BaudRate(20_250_000)
   ) ramio (

@@ -14,7 +14,7 @@ module flash #(
     parameter string DataFilePath = "",
     // initial RAM content; one byte per line in hex text
 
-    parameter int unsigned AddressBitWidth = 8,
+    parameter int unsigned AddressBitwidth = 8,
     // size of stored data in bit width; 2 ^ 8 = 256 B
 
     parameter int unsigned AddressOffset = 0
@@ -29,11 +29,11 @@ module flash #(
     input  wire  cs_n
 );
 
-  localparam int unsigned DEPTH = 2 ** AddressBitWidth;
+  localparam int unsigned DEPTH = 2 ** AddressBitwidth;
 
   logic [7:0] data[DEPTH];
 
-  logic [AddressBitWidth-1:0] address;
+  logic [AddressBitwidth-1:0] address;
   logic [7:0] current_byte;
   logic [8:0] counter;
   // note: one extra bit to decrement into negative for more efficient comparison
