@@ -24,7 +24,7 @@ SECTIONS
         *(.sdata*)
     }
 
-    __bss_start = .; /* declared as extern in os.cpp */
+    __bss_start = .;
     .bss : {
         *(.bss*)
     }
@@ -32,7 +32,7 @@ SECTIONS
     .sbss : {
         *(.sbss*)
     }
-    __bss_end = .; /* declared as extern in os.cpp */
+    __bss_end = .;
 
     __heap_start = .;
 }

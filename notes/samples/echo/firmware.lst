@@ -10,8 +10,8 @@ Disassembly of section .text:
 # _start:
 #     li sp, 0x200000
    0:	00200137          	lui	sp,0x200
-#     jal ra, run
-   4:	004000ef          	jal	8 <run>
+#     j run
+   4:	0040006f          	j	8 <run>
 
 00000008 <run>:
 # #define MEMORY_TOP 0x200000
@@ -28,19 +28,19 @@ Disassembly of section .text:
 # 
 #   while (1) {
 #     const char ch = uart_read_char();
-  18:	02c000ef          	jal	44 <_Z14uart_read_charv>
+  18:	02c000ef          	jal	44 <uart_read_char()>
   1c:	00050413          	mv	s0,a0
 #     uart_send_char(ch);
 #     *LED = ~ch;
   20:	fff44413          	not	s0,s0
 #     uart_send_char(ch);
-  24:	00c000ef          	jal	30 <_Z14uart_send_charc>
+  24:	00c000ef          	jal	30 <uart_send_char(char)>
 #     *LED = ~ch;
   28:	fe802e23          	sw	s0,-4(zero) # fffffffc <__bss_end+0xffffffa4>
 #   while (1) {
   2c:	fedff06f          	j	18 <run+0x10>
 
-00000030 <_Z14uart_send_charc>:
+00000030 <uart_send_char(char)>:
 #   }
 # }
 # 
@@ -49,14 +49,14 @@ Disassembly of section .text:
 #   while (*UART_OUT != -1)
   30:	fff00793          	li	a5,-1
   34:	ff802703          	lw	a4,-8(zero) # fffffff8 <__bss_end+0xffffffa0>
-  38:	fef71ee3          	bne	a4,a5,34 <_Z14uart_send_charc+0x4>
+  38:	fef71ee3          	bne	a4,a5,34 <uart_send_char(char)+0x4>
 #     ;
 #   *UART_OUT = ch;
   3c:	fea02c23          	sw	a0,-8(zero) # fffffff8 <__bss_end+0xffffffa0>
 # }
   40:	00008067          	ret
 
-00000044 <_Z14uart_read_charv>:
+00000044 <uart_read_char()>:
 # 
 # char uart_read_char() {
 #   int ch = 0;
@@ -64,7 +64,7 @@ Disassembly of section .text:
 #   while ((ch = *UART_IN) == -1)
   44:	fff00793          	li	a5,-1
   48:	ff402503          	lw	a0,-12(zero) # fffffff4 <__bss_end+0xffffff9c>
-  4c:	fef50ee3          	beq	a0,a5,48 <_Z14uart_read_charv+0x4>
+  4c:	fef50ee3          	beq	a0,a5,48 <uart_read_char()+0x4>
 #     ;
 #   return char(ch);
 # }
