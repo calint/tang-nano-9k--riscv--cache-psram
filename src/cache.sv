@@ -113,12 +113,12 @@ module cache #(
   logic burst_is_reading;  // true if in burst read operation
   logic [31:0] burst_data_in[COLUMN_COUNT];
   logic [3:0] burst_write_enable[COLUMN_COUNT];
-  logic [3:0] burst_tag_write_enable;
+  logic burst_tag_write_enable;
 
   logic burst_is_writing;  // true if in burst write operation
 
   wire [31:0] cached_tag_and_flags;
-  logic [3:0] tag_write_enable;  // true when cache hit; write to set line dirty
+  logic tag_write_enable;  // true when cache hit; write to set line dirty
   logic [31:0] tag_data_in;  // tag and flags written when cache hit write
 
   assign br_data_mask = 0;  // writing whole cache lines
@@ -127,7 +127,7 @@ module cache #(
       .AddressBitWidth(LineIndexBitWidth)
   ) tag (
       .clk,
-      .write_enable(tag_write_enable),
+      .write_enable({4{tag_write_enable}}),
       .address(line_ix),
       .data_in(tag_data_in),
       .data_out(cached_tag_and_flags)
@@ -207,7 +207,7 @@ module cache #(
         $display("%m: %0t: @(*) cache hit, set dirty flag", $time);
 `endif
         // enable write tag with dirty bit set
-        tag_write_enable = 4'b1111;
+        tag_write_enable = 1;
         tag_data_in = {1'b1, 1'b1, address_tag};
         // note: { dirty, valid, tag }
 
@@ -365,7 +365,7 @@ module cache #(
           burst_data_in[6] <= br_rd_data[31:0];
           burst_write_enable[7] <= 4'b1111;
           burst_data_in[7] <= br_rd_data[63:32];
-          burst_tag_write_enable <= 4'b1111;
+          burst_tag_write_enable <= 1;
           state <= ReadFinish;
         end
 
