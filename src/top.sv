@@ -105,9 +105,9 @@ module top (
   wire ramio_busy;
 
   ramio #(
-      .RamAddressBitWidth(configuration::RAM_ADDRESS_BITWIDTH),
+      .RamAddressBitwidth(configuration::RAM_ADDRESS_BITWIDTH),
       .RamAddressingMode(0),  // addressing 8 bit words
-      .CacheLineIndexBitWidth(configuration::CACHE_LINE_INDEX_BITWIDTH),
+      .CacheLineIndexBitwidth(configuration::CACHE_LINE_INDEX_BITWIDTH),
       .ClockFrequencyHz(configuration::CPU_FREQUENCY_HZ),
       .BaudRate(configuration::UART_BAUD_RATE),
       .SDCardSimulate(0),
