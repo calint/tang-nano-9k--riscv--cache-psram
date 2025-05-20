@@ -18,7 +18,6 @@ module core #(
 
     parameter int unsigned FlashTransferByteCount = 32'h0010_0000
     // number of bytes to transfer from flash to 'ramio'
-
 ) (
     input wire rst_n,
     input wire clk,

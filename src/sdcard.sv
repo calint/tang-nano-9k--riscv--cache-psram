@@ -13,7 +13,7 @@ module sdcard #(
 
     parameter int unsigned ClockDivider = 4
     // generates slow clock for SD
-    //  0: ~30 MHz
+    //  0: at ~30 MHz, 54 MHz, 60 MHz
 ) (
     input wire clk,
 
