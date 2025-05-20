@@ -188,7 +188,7 @@ module ramio #(
                read_type, write_type, data_in);
 `endif
 
-      if (write_type != '0) begin
+      if (write_type != 0) begin
 
         //------------------------------------------------------------------
         //
@@ -273,7 +273,7 @@ module ramio #(
       //
       //------------------------------------------------------------------
 
-      if (read_type != '0) begin
+      if (read_type != 0) begin
         unique case (address)
           AddressLed: ;  // ignore read
           AddressSDCardReadSector: ;  // ignore read
@@ -376,7 +376,7 @@ module ramio #(
       uartrx_go <= 1;
     end else begin
       // if read from UART then reset the read data to -1
-      if (address == AddressUartIn && read_type != '0) begin
+      if (address == AddressUartIn && read_type != 0) begin
 `ifdef DBG
         $display("%m: %0t: uart read  uartrx_data_received: %h", $time, uartrx_data_received);
 `endif
@@ -407,13 +407,13 @@ module ramio #(
       end
 
       // if writing to UART out
-      if (address == AddressUartOut && write_type != '0) begin
+      if (address == AddressUartOut && write_type != 0) begin
         uarttx_data_sending <= {24'b0, data_in[7:0]};
         uarttx_go <= 1;
       end
 
       // if writing to LEDs
-      if (address == AddressLed && write_type != '0) begin
+      if (address == AddressLed && write_type != 0) begin
         led <= data_in[3:0];
       end
     end

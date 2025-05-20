@@ -185,10 +185,10 @@ module sdcard #(
   // 'ClockDivider' adjusted depending on 'clk' frequency
 
   logic [ClockDivider == 0 ? 0 : ClockDivider-1:0] counter;
-  wire clk_pulse_slow = (counter == '0);
+  wire clk_pulse_slow = (counter == 0);
   always_ff @(posedge clk) begin
     if (!rst_n) begin
-      counter <= '0;
+      counter <= 0;
     end else begin
       if (ClockDivider != 0) begin
         counter <= counter + 1'b1;

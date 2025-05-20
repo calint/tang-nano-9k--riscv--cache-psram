@@ -152,7 +152,7 @@ module cache #(
 
   // select data from requested column
   assign data_out = column_data_out[column_ix];
-  assign data_out_ready = write_enable != '0 ? 0 : enable && cache_line_hit;
+  assign data_out_ready = write_enable != 0 ? 0 : enable && cache_line_hit;
 
   // 8 instances of byte enabled semi dual port RAM blocks
   // if cache hit at write then connect 'data_in' to the column
@@ -197,7 +197,7 @@ module cache #(
       // note: {dirty, valid, upper address bits}
     end else if (burst_is_writing) begin
       //
-    end else if (write_enable != '0) begin
+    end else if (write_enable != 0) begin
 `ifdef DBG
       $display("%m: %0t: @(*) write 0x%h = 0x%h  mask: %b  line: %0d  column: %0d", $time, address,
                data_in, write_enable, line_ix, column_ix);
