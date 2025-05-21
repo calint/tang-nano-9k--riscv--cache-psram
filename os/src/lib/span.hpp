@@ -18,7 +18,7 @@ template <typename Type> class span {
     span(Type* const begin, Type* const end) : begin_{begin}, end_{end} {
         if constexpr (safe_span) {
             if (begin_ > end_) {
-                begin_ = end_ = nullptr;
+                begin_ = end_ = begin_;
             }
         }
     }
