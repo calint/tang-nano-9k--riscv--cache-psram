@@ -189,8 +189,8 @@ static auto string_print(string const str) -> void {
 }
 
 struct string_next_word_return {
-    string word{};
-    string rem{};
+    string word;
+    string rem;
 };
 
 static auto string_next_word(string const str)

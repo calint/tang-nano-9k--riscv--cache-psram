@@ -15,8 +15,6 @@ template <typename Type> class span {
         position(Type* p) : ptr{p} {}
     };
 
-    span() : begin_{nullptr}, end_{nullptr} {}
-
     span(Type* const begin, Type* const end) : begin_{begin}, end_{end} {
         if constexpr (safe_span) {
             if (begin_ > end_) {
@@ -32,14 +30,14 @@ template <typename Type> class span {
 
     auto is_at_end(position const t) const -> bool { return t.ptr == end_; }
 
-    auto is_null() const -> bool { return begin_ = nullptr && end_ == nullptr; }
-
     auto is_empty() const -> bool { return begin_ == end_; }
 
     auto subspan_starting_at(position const pos) const -> span<Type> {
         if constexpr (safe_span) {
-            if (pos.ptr > end_ || pos.ptr < begin_) {
-                return {};
+            if (pos.ptr > end_) {
+                return {end_, end_};
+            } else if (pos.ptr < begin_) {
+                return {begin_, begin_};
             }
         }
         return {pos.ptr, end_};
@@ -47,8 +45,10 @@ template <typename Type> class span {
 
     auto subspan_ending_at(position const pos) const -> span<Type> {
         if constexpr (safe_span) {
-            if (pos.ptr > end_ || pos.ptr < begin_) {
-                return {};
+            if (pos.ptr > end_) {
+                return {end_, end_};
+            } else if (pos.ptr < begin_) {
+                return {begin_, begin_};
             }
         }
         return {begin_, pos.ptr};
