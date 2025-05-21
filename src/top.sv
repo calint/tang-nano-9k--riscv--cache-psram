@@ -106,7 +106,7 @@ module top (
 
   ramio #(
       .RamAddressBitwidth(configuration::RAM_ADDRESS_BITWIDTH),
-      .RamAddressingMode(0),  // addressing 8 bit words
+      .RamAddressingMode(configuration::RAM_ADDRESSING_MODE),
       .CacheLineIndexBitwidth(configuration::CACHE_LINE_INDEX_BITWIDTH),
       .ClockFrequencyHz(configuration::CPU_FREQUENCY_HZ),
       .BaudRate(configuration::UART_BAUD_RATE),

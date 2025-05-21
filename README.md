@@ -4,7 +4,7 @@
 * RISC-V implementation of RV32I for application intended use
   - no `ecall`, `ebreak`, `fence` or counters
 * multi-cycle with ad-hoc pipeline
-* configurable unified instruction and data cache backed by 2 MB of on-board burst PSRAM
+* configurable unified instruction and data cache backed by 8 MB of on-board burst PSRAM
 * transfer binary image from on-board flash to RAM
 * read and write sectors to and from the SD card
 * develop a back-to-basics freestanding bare metal C++23 application
@@ -78,8 +78,9 @@ welcome to adventure #4
 
 ## Todo
 ```
-----------------------------------------------------------------------------
-[ ] cache: write_enable for tag can be single bit since always writing 32b
+-------------------------------------------------------------------------------
+[x] use all 8 MB of PSRAM by assuming there are 4 bytes stored per adddress
+[x] cache: write_enable for tag can be single bit since always writing 32b
 [ ] emulator,console_application: implement write sector to card file
 [x] console_application: implement SD card support
 [ ] os: list, span: position with list instance id so that a position in one

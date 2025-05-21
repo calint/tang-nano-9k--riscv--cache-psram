@@ -14,6 +14,6 @@ std::uint32_t constexpr sdcard_next_byte = 0xffff'ffe8;
 std::uint32_t constexpr sdcard_status = 0xffff'ffe4;
 std::uint32_t constexpr sdcard_write_sector = 0xffff'ffe0;
 std::uint32_t constexpr io_addresses_start = 0xffff'ffe0;
-std::uint32_t constexpr memory_end = 0x200000;
+std::uint32_t constexpr memory_end = 0x800000;
 
 } // namespace osqa

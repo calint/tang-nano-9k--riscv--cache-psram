@@ -8,8 +8,8 @@ Disassembly of section .text:
 # # generated - do not edit (see `configuration.py`)
 # .global _start
 # _start:
-#     li sp, 0x200000
-       0:	00200137          	lui	sp,0x200
+#     li sp, 0x800000
+       0:	00800137          	lui	sp,0x800
 #     j run
        4:	0040006f          	j	8 <run>
 
@@ -20,7 +20,7 @@ Disassembly of section .text:
 # }
 # 
 # // built-in function called by compiler
-       8:	f3010113          	addi	sp,sp,-208 # 1fff30 <__bss_end+0x1fdbc0>
+       8:	f3010113          	addi	sp,sp,-208 # 7fff30 <__bss_end+0x7fdbc0>
        c:	0c112623          	sw	ra,204(sp)
       10:	0c812423          	sw	s0,200(sp)
       14:	0d212023          	sw	s2,192(sp)
@@ -2129,7 +2129,7 @@ Disassembly of section .text:
     15f8:	00000793          	li	a5,0
     15fc:	37040413          	addi	s0,s0,880
 #     while (ptr < end) {
-    1600:	001f06b7          	lui	a3,0x1f0
+    1600:	007f06b7          	lui	a3,0x7f0
     1604:	04d76263          	bltu	a4,a3,1648 <action_mem_test()+0x78>
 #     uart_send_cstr("testing memory (read)\r\n");
     1608:	00002537          	lui	a0,0x2
@@ -2140,7 +2140,7 @@ Disassembly of section .text:
 #     ch = 0;
     1618:	00000493          	li	s1,0
 #     while (ptr < end) {
-    161c:	001f0937          	lui	s2,0x1f0
+    161c:	007f0937          	lui	s2,0x7f0
     1620:	03246e63          	bltu	s0,s2,165c <action_mem_test()+0x8c>
 #     if (failed) {
     1624:	0a078063          	beqz	a5,16c4 <action_mem_test()+0xf4>

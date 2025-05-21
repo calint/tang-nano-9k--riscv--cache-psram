@@ -14,7 +14,7 @@ CPU_FREQUENCY_HZ = 30_000_000
 RAM_ADDRESS_BITWIDTH = 21
 # 2 ^ 21 B = 2 MB PSRAM (specification)
 
-RAM_ADDRESSING_MODE = 0
+RAM_ADDRESSING_MODE = 2
 # amount of data stored per address (specification)
 #    mode:
 #       0: 1 B (byte addressed)
