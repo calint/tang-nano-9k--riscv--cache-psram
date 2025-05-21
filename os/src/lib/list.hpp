@@ -15,7 +15,9 @@ template <class Type, unsigned Size> class list final {
 
     auto length() const -> size_t { return len; }
 
-    auto is_at_end(position pos) const -> bool { return pos.index == len; }
+    auto is_at_end(position const pos) const -> bool {
+        return pos.index == len;
+    }
 
     auto add(Type elem) -> bool {
         if constexpr (safe_list) {
