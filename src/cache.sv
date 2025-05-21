@@ -9,8 +9,8 @@
 `timescale 1ns / 1ps
 //
 `default_nettype none
-// `define DBG
-// `define INFO
+//`define DBG
+//`define INFO
 
 module cache #(
     parameter int unsigned LineIndexBitwidth = 8,
@@ -65,7 +65,7 @@ module cache #(
   initial begin
     $display("Cache");
     $display("      lines: %0d", LINE_COUNT);
-    $display("    columns: %0d x 4B", 2 ** COLUMN_IX_BITWIDTH);
+    $display("    columns: %0d x 4 B", 2 ** COLUMN_IX_BITWIDTH);
     $display("        tag: %0d bits", TAG_BITWIDTH);
     $display(" cache size: %0d B", LINE_COUNT * (2 ** COLUMN_IX_BITWIDTH) * 4);
   end
@@ -199,8 +199,8 @@ module cache #(
       //
     end else if (write_enable != 0) begin
 `ifdef DBG
-      $display("%m: %0t: @(*) write 0x%h = 0x%h  mask: %b  line: %0d  column: %0d", $time, address,
-               data_in, write_enable, line_ix, column_ix);
+      $display("%m: %0t: @(*) write 0x%h = 0x%h  mask: 0b%b  line: %0d  column: %0d", $time,
+               address, data_in, write_enable, line_ix, column_ix);
 `endif
       if (cache_line_hit) begin
 `ifdef DBG
@@ -255,12 +255,12 @@ module cache #(
       state <= Idle;
     end else begin
 `ifdef DBG
-      $display("%m: %0t: @(c) state: %0d", $time, state);
+      $display("%m: %0t: state: %0d", $time, state);
 `endif
       // count down command interval
       if (command_delay_interval_counter != 0) begin
 `ifdef DBG
-        $display("%m: %0t: @(c) command delay interval counter: %0d", $time,
+        $display("%m: %0t: command delay interval counter: %0d", $time,
                  command_delay_interval_counter);
 `endif
         command_delay_interval_counter <= command_delay_interval_counter - 1'b1;
@@ -269,40 +269,41 @@ module cache #(
       unique case (state)
 
         Idle: begin
-          if (enable && !cache_line_hit && command_delay_interval_counter == 0) begin
-            // cache miss, start reading the addressed cache line
+          if (command_delay_interval_counter == 0) begin
+            if (enable && !cache_line_hit) begin
+              // cache miss, start reading the addressed cache line
 `ifdef DBG
-            $display("%m: %0t: @(c) cache miss address 0x%h  line: %0d  write enable: %b", $time,
-                     address, line_ix, write_enable);
+              $display("%m: %0t: cache miss address 0x%h  line: %0d  write enable: 0b%b", $time,
+                       address, line_ix, write_enable);
 `endif
-            if (line_dirty) begin
+              if (line_dirty) begin
 `ifdef DBG
-              $display("%m: %0t: @(c) line %0d dirty, evict to RAM address 0x%h", $time, line_ix,
-                       cached_line_address);
-              $display("%m: %0t: @(c) write line (1): 0x%h%h", column_data_out[0], $time,
-                       column_data_out[1]);
+                $display("%m: %0t: line %0d dirty, evict to RAM address 0x%h", $time, line_ix,
+                         cached_line_address);
+                $display("%m: %0t: write line (1): 0x%h%h", $time, column_data_out[0], $time,
+                         column_data_out[1]);
 `endif
-              br_cmd <= 1;  // command write
-              br_addr <= cached_line_address;
-              br_wr_data[31:0] <= column_data_out[0];
-              br_wr_data[63:32] <= column_data_out[1];
-              br_cmd_en <= 1;
-              command_delay_interval_counter <= CommandDelayIntervalCycles;
-              burst_is_writing <= 1;
-              state <= Write1;
-            end else begin  // not (write_enable && line_dirty)
+                br_cmd <= 1;  // command write
+                br_addr <= cached_line_address;
+                br_wr_data[31:0] <= column_data_out[0];
+                br_wr_data[63:32] <= column_data_out[1];
+                br_cmd_en <= 1;
+                command_delay_interval_counter <= CommandDelayIntervalCycles;
+                burst_is_writing <= 1;
+                state <= Write1;
+              end else begin  // not (line_dirty)
 `ifdef DBG
-              if (write_enable && !line_dirty) begin
-                $display("%m: %0t: @(c) line %0d not dirty", $time, line_ix);
+                $display("%m: %0t: line %0d not dirty", $time, line_ix);
+                $display("%m: %0t: read line %0d from RAM address 0x%h", $time, line_ix,
+                         burst_line_address);
+`endif
+                br_cmd <= 0;  // command read
+                br_addr <= burst_line_address;
+                br_cmd_en <= 1;
+                command_delay_interval_counter <= CommandDelayIntervalCycles;
+                burst_is_reading <= 1;
+                state <= ReadWaitForDataReady;
               end
-              $display("%m: %0t: @(c) read line from RAM address 0x%h", $time, burst_line_address);
-`endif
-              br_cmd <= 0;  // command read
-              br_addr <= burst_line_address;
-              br_cmd_en <= 1;
-              command_delay_interval_counter <= CommandDelayIntervalCycles;
-              burst_is_reading <= 1;
-              state <= ReadWaitForDataReady;
             end
           end
         end
@@ -312,7 +313,7 @@ module cache #(
           if (br_rd_data_valid) begin
             // first data has arrived
 `ifdef DBG
-            $display("%m: %0t: @(c) read line (1): 0x%h", $time, br_rd_data);
+            $display("%m: %0t: read line (1): 0x%h", $time, br_rd_data);
 `endif
             burst_write_enable[0] <= 4'b1111;
             burst_data_in[0] <= br_rd_data[31:0];
@@ -321,7 +322,7 @@ module cache #(
             state <= Read1;
           end else begin  // not (br_rd_data_valid)
 `ifdef DBG
-            $display("%m: %0t: @(c) waiting for data valid from RAM", $time);
+            $display("%m: %0t: waiting for data valid from RAM", $time);
 `endif
           end
         end
@@ -329,7 +330,7 @@ module cache #(
         Read1: begin
           // second data has arrived
 `ifdef DBG
-          $display("%m: %0t: @(c) read line (2): 0x%h", $time, br_rd_data);
+          $display("%m: %0t: read line (2): 0x%h", $time, br_rd_data);
 `endif
           burst_write_enable[0] <= 0;
           burst_write_enable[1] <= 0;
@@ -343,7 +344,7 @@ module cache #(
         Read2: begin
           // third data has arrived
 `ifdef DBG
-          $display("%m: %0t: @(c) read line (3): 0x%h", $time, br_rd_data);
+          $display("%m: %0t: read line (3): 0x%h", $time, br_rd_data);
 `endif
           burst_write_enable[2] <= 0;
           burst_write_enable[3] <= 0;
@@ -357,7 +358,7 @@ module cache #(
         Read3: begin
           // last data has arrived
 `ifdef DBG
-          $display("%m: %0t: @(c) read line (4): 0x%h", $time, br_rd_data);
+          $display("%m: %0t: read line (4): 0x%h", $time, br_rd_data);
 `endif
           burst_write_enable[4] <= 0;
           burst_write_enable[5] <= 0;
@@ -380,7 +381,7 @@ module cache #(
 
         Write1: begin
 `ifdef DBG
-          $display("%m: %0t: @(c) write line (2): 0x%h%h", $time, column_data_out[2],
+          $display("%m: %0t: write line (2): 0x%h%h", $time, column_data_out[2],
                    column_data_out[3]);
 `endif
           br_cmd_en <= 0;  // hold command enable only one cycle
@@ -391,7 +392,7 @@ module cache #(
 
         Write2: begin
 `ifdef DBG
-          $display("%m: %0t: @(c) write line (3): 0x%h%h", $time, column_data_out[4],
+          $display("%m: %0t: write line (3): 0x%h%h", $time, column_data_out[4],
                    column_data_out[5]);
 `endif
           br_wr_data[31:0] <= column_data_out[4];
@@ -401,7 +402,7 @@ module cache #(
 
         Write3: begin
 `ifdef DBG
-          $display("%m: %0t: @(c) write line (4): 0x%h%h", $time, column_data_out[6],
+          $display("%m: %0t: write line (4): 0x%h%h", $time, column_data_out[6],
                    column_data_out[7]);
 `endif
           br_wr_data[31:0] <= column_data_out[6];
@@ -413,7 +414,7 @@ module cache #(
           // check if need to wait for command interval delay
           if (command_delay_interval_counter == 0) begin
 `ifdef DBG
-            $display("%m: %0t: @(c) read line after eviction from RAM address 0x%h", $time,
+            $display("%m: %0t: read line after eviction from RAM address 0x%h", $time,
                      burst_line_address);
 `endif
             // start reading the cache line
@@ -426,7 +427,7 @@ module cache #(
             state <= ReadWaitForDataReady;
           end else begin
 `ifdef DBG
-            $display("%m: %0t: @(c) waiting for command delay counter %0d", $time,
+            $display("%m: %0t: waiting for command delay counter %0d", $time,
                      command_delay_interval_counter);
 `endif
           end
