@@ -269,41 +269,39 @@ module cache #(
       unique case (state)
 
         Idle: begin
-          if (command_delay_interval_counter == 0) begin
-            if (enable && !cache_line_hit) begin
-              // cache miss, start reading the addressed cache line
+          if (enable && !cache_line_hit && command_delay_interval_counter == 0) begin
+            // cache miss, start reading the addressed cache line
 `ifdef DBG
-              $display("%m: %0t: cache miss address 0x%h  line: %0d  write enable: 0b%b", $time,
-                       address, line_ix, write_enable);
+            $display("%m: %0t: cache miss address 0x%h  line: %0d  write enable: 0b%b", $time,
+                     address, line_ix, write_enable);
 `endif
-              if (line_dirty) begin
+            if (line_dirty) begin
 `ifdef DBG
-                $display("%m: %0t: line %0d dirty, evict to RAM address 0x%h", $time, line_ix,
-                         cached_line_address);
-                $display("%m: %0t: write line (1): 0x%h%h", $time, column_data_out[0], $time,
-                         column_data_out[1]);
+              $display("%m: %0t: line %0d dirty, evict to RAM address 0x%h", $time, line_ix,
+                       cached_line_address);
+              $display("%m: %0t: write line (1): 0x%h%h", $time, column_data_out[0], $time,
+                       column_data_out[1]);
 `endif
-                br_cmd <= 1;  // command write
-                br_addr <= cached_line_address;
-                br_wr_data[31:0] <= column_data_out[0];
-                br_wr_data[63:32] <= column_data_out[1];
-                br_cmd_en <= 1;
-                command_delay_interval_counter <= CommandDelayIntervalCycles;
-                burst_is_writing <= 1;
-                state <= Write1;
-              end else begin  // not (line_dirty)
+              br_cmd <= 1;  // command write
+              br_addr <= cached_line_address;
+              br_wr_data[31:0] <= column_data_out[0];
+              br_wr_data[63:32] <= column_data_out[1];
+              br_cmd_en <= 1;
+              command_delay_interval_counter <= CommandDelayIntervalCycles;
+              burst_is_writing <= 1;
+              state <= Write1;
+            end else begin  // not (line_dirty)
 `ifdef DBG
-                $display("%m: %0t: line %0d not dirty", $time, line_ix);
-                $display("%m: %0t: read line %0d from RAM address 0x%h", $time, line_ix,
-                         burst_line_address);
+              $display("%m: %0t: line %0d not dirty", $time, line_ix);
+              $display("%m: %0t: read line %0d from RAM address 0x%h", $time, line_ix,
+                       burst_line_address);
 `endif
-                br_cmd <= 0;  // command read
-                br_addr <= burst_line_address;
-                br_cmd_en <= 1;
-                command_delay_interval_counter <= CommandDelayIntervalCycles;
-                burst_is_reading <= 1;
-                state <= ReadWaitForDataReady;
-              end
+              br_cmd <= 0;  // command read
+              br_addr <= burst_line_address;
+              br_cmd_en <= 1;
+              command_delay_interval_counter <= CommandDelayIntervalCycles;
+              burst_is_reading <= 1;
+              state <= ReadWaitForDataReady;
             end
           end
         end
