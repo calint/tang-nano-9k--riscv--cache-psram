@@ -470,6 +470,10 @@ static auto action_sdcard_write(string const args) -> void {
         return;
     }
     int8_t buf[512]{};
+    if (w1.rem.size() > sizeof(buf)) {
+        uart_send_cstr("<text> exceeds sector size");
+        return;
+    }
     mut* buf_ptr = buf;
     w1.rem.for_each([&buf_ptr](char const ch) {
         *buf_ptr = ch;
