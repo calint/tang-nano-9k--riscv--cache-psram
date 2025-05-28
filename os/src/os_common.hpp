@@ -471,7 +471,7 @@ static auto action_sdcard_write(string const args) -> void {
     }
     int8_t buf[512]{};
     if (w1.rem.size() > sizeof(buf)) {
-        uart_send_cstr("<text> exceeds sector size");
+        uart_send_cstr("<text> exceeds sector size\r\n");
         return;
     }
     mut* buf_ptr = buf;
