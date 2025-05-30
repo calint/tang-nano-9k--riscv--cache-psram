@@ -11,9 +11,13 @@ module sdcard #(
     parameter bit Simulate = 0,
     // set 1 to shorten some delay cycles
 
-    parameter int unsigned ClockDivider = 4
+    parameter int unsigned ClockDivider = 4,
     // generates slow clock for SD
     //  0: at ~30 MHz, 54 MHz, 60 MHz
+
+    parameter int unsigned SectorToSDCardAddressShiftLeft = 0
+    // 8 GB card is addressed in sectors thus shift 0
+    // 64 MB card is addressed in multiple of 512 bytes thus shift 9
 ) (
     input wire clk,
 
@@ -107,8 +111,7 @@ module sdcard #(
           case (command)
             1: begin  // read sector
               rd <= 1;
-              address <= sector << 9;
-              // note: 'sd_controller' expects address to be multiples of sector size 512
+              address <= sector << SectorToSDCardAddressShiftLeft;
               state <= PreReadSector;
             end
             2: begin  // advance buffer index
@@ -121,8 +124,7 @@ module sdcard #(
             4: begin  // write sector
               wr <= 1;
               waiting_ready_for_next_byte <= 1;
-              address <= sector << 9;
-              // note: 'sd_controller' expects address to be multiples of sector size 512
+              address <= sector << SectorToSDCardAddressShiftLeft;
               state <= PreWriteSector;
             end
           endcase
