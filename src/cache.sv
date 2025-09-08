@@ -39,14 +39,16 @@ module cache #(
     // enabled for cache to operate
 
     input wire [31:0] address,
-    // byte addressed; must be held while 'busy' + 1 cycle
+    // byte addressed
+    // note: must be held while 'busy' + 1 cycle
 
     output logic [31:0] data_out,
     output logic data_out_ready,
     input wire [31:0] data_in,
 
     input wire [3:0] write_enable,
-    // note: write enable bytes must be held while busy + 1 cycle
+    // write enable bytes mask
+    // note: must be held while 'busy' + 1 cycle
 
     output logic busy,
     // asserted when busy reading / writing cache line
