@@ -98,7 +98,7 @@ module sdcard #(
       state <= Init;
     end else begin
 
-      case (state)
+      unique case (state)
 
         Init: begin
           if (ready) begin
@@ -108,7 +108,7 @@ module sdcard #(
         end
 
         Idle: begin
-          case (command)
+          unique case (command)
             1: begin  // read sector
               rd <= 1;
               address <= sector << SectorToSDCardAddressShiftLeft;
@@ -131,7 +131,7 @@ module sdcard #(
         end
 
         PreReadSector: begin
-          // note: this state is necessary because in this cycle 'sd_controller' state is IDLE 
+          // note: this state is necessary because in this cycle 'sd_controller' state is IDLE
           //       with 'ready' asserted. next cycle state is READ_BLOCK and 'ready' de-asserted
           rd <= 0;
           state <= ReadSector;
@@ -152,7 +152,7 @@ module sdcard #(
         end
 
         PreWriteSector: begin
-          // note: this state is necessary because in this cycle 'sd_controller' state is IDLE 
+          // note: this state is necessary because in this cycle 'sd_controller' state is IDLE
           //       with 'ready' asserted. next cycle state is WRITE_BLOCK_CMD and 'ready' de-asserted
           wr <= 0;
           state <= WriteSector;
@@ -206,11 +206,11 @@ module sdcard #(
       .mosi(sd_mosi),  // Connect to SD_CMD.
       .miso(sd_miso),  // Connect to SD_DAT[0].
       .sclk(sd_clk),   // Connect to SD_SCK.
-      // For SPI mode, SD_DAT[2] and SD_DAT[1] should be held HIGH. 
+      // For SPI mode, SD_DAT[2] and SD_DAT[1] should be held HIGH.
       // SD_RESET should be held LOW.
 
-      .rd,  // Read-enable. When [ready] is HIGH, asseting [rd] will 
-      // begin a 512-byte READ operation at [address]. 
+      .rd,  // Read-enable. When [ready] is HIGH, asseting [rd] will
+      // begin a 512-byte READ operation at [address].
       // [byte_available] will transition HIGH as a new byte has been
       // read from the SD card. The byte is presented on [dout].
       .dout,  // Data output for READ operation.
@@ -225,7 +225,7 @@ module sdcard #(
 
       .reset (!rst_n),    // Resets controller on assertion.
       .ready,  // HIGH if the SD card is ready for a read or write operation.
-      .address,  // Memory address for read/write operation. This MUST 
+      .address,  // Memory address for read/write operation. This MUST
       // be a multiple of 512 bytes, due to SD sectoring.
       // note: on the card tested 'address' is sector number starting at 0
       .status(status_in), // For debug purposes: Current state of controller.

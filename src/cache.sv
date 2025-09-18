@@ -77,8 +77,7 @@ module cache #(
   localparam int unsigned COLUMN_IX_BITWIDTH = 3;  // 2 ^ 3 = 8 elements per line
   localparam int unsigned COLUMN_COUNT = 2 ** COLUMN_IX_BITWIDTH;
   localparam int unsigned LINE_COUNT = 2 ** LineIndexBitwidth;
-  localparam int unsigned TAG_BITWIDTH = 
-    RamAddressBitwidth + RamAddressingMode - LineIndexBitwidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
+  localparam int unsigned TAG_BITWIDTH = RamAddressBitwidth + RamAddressingMode - LineIndexBitwidth - COLUMN_IX_BITWIDTH - ZEROS_BITWIDTH;
   // note: assumes there are 2 bits free after 'TAG_BITWIDTH' for 'valid' and 'dirty' flags in storage
 
   localparam int unsigned LINE_VALID_BIT = TAG_BITWIDTH;
@@ -164,7 +163,7 @@ module cache #(
   logic [31:0] column_data_out[COLUMN_COUNT];
 
   generate
-    for (genvar i = 0; i < COLUMN_COUNT; i++) begin : column
+    for (genvar i = 0; i < COLUMN_COUNT; i++) begin : gen_column
       bram #(
           .AddressBitwidth(LineIndexBitwidth)
       ) column (

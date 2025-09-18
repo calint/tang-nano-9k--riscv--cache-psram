@@ -111,8 +111,8 @@ module uarttx #(
             end else begin
               bit_time_counter <= BIT_TIME - 2;
               // note: -2: -1 because first cycle in the start bit
-              //       is sent during this cycle and another -1 
-              //       because of the comparison when non-blocking 
+              //       is sent during this cycle and another -1
+              //       because of the comparison when non-blocking
               //       assignments
               state <= StartBit;
             end

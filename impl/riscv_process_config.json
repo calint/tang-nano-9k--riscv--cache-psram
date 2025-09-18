@@ -75,6 +75,7 @@
  "SEU_HANDLER_MODE" : "auto",
  "SSPI" : false,
  "STOP_SEU_HANDLER" : false,
+ "SerDes_retiming" : false,
  "Show_All_Warnings" : false,
  "Synthesize_tool" : "GowinSyn",
  "TclPre" : "",

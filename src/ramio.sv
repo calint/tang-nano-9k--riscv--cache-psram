@@ -125,8 +125,8 @@ module ramio #(
   // bytes in the word enabled for writing; default 4-bytes in a word
 
   // forward 'busy' and 'data ready' signals from cache unless it is I/O
-  assign busy = address == AddressUartOut || 
-                address == AddressUartIn || 
+  assign busy = address == AddressUartOut ||
+                address == AddressUartIn ||
                 address == AddressLed ||
                 address == AddressSDCardBusy ||
                 address == AddressSDCardReadSector ||
@@ -135,7 +135,7 @@ module ramio #(
                 address == AddressSDCardStatus
                 ? 0 : cache_busy;
 
-  assign data_out_ready = address == AddressUartOut || 
+  assign data_out_ready = address == AddressUartOut ||
                           address == AddressUartIn ||
                           address == AddressLed ||
                           address == AddressSDCardBusy ||
@@ -266,7 +266,7 @@ module ramio #(
       end
 
       //------------------------------------------------------------------
-      // 
+      //
       // Read
       //  convert 'cache_data_out' according to 'read_type'
       //   or handle I/O
@@ -303,22 +303,22 @@ module ramio #(
               3'b?01: begin  // byte
                 unique case (address[1:0])
                   2'b00: begin
-                    data_out = read_type[2] ? 
+                    data_out = read_type[2] ?
                     {{24{cache_data_out[7]}}, cache_data_out[7:0]} :
                     {{24{1'b0}}, cache_data_out[7:0]};
                   end
                   2'b01: begin
-                    data_out = read_type[2] ? 
+                    data_out = read_type[2] ?
                     {{24{cache_data_out[15]}}, cache_data_out[15:8]} :
                     {{24{1'b0}}, cache_data_out[15:8]};
                   end
                   2'b10: begin
-                    data_out = read_type[2] ? 
+                    data_out = read_type[2] ?
                     {{24{cache_data_out[23]}}, cache_data_out[23:16]} :
                     {{24{1'b0}}, cache_data_out[23:16]};
                   end
                   2'b11: begin
-                    data_out = read_type[2] ? 
+                    data_out = read_type[2] ?
                     {{24{cache_data_out[31]}}, cache_data_out[31:24]} :
                     {{24{1'b0}}, cache_data_out[31:24]};
                   end
@@ -327,13 +327,13 @@ module ramio #(
               3'b?10: begin  // half word
                 unique case (address[1:0])
                   2'b00: begin
-                    data_out = read_type[2] ? 
+                    data_out = read_type[2] ?
                     {{16{cache_data_out[15]}}, cache_data_out[15:0]} :
                     {{16{1'b0}}, cache_data_out[15:0]};
                   end
                   2'b01: data_out = 0;  // ? error
                   2'b10: begin
-                    data_out = read_type[2] ? 
+                    data_out = read_type[2] ?
                     {{16{cache_data_out[31]}}, cache_data_out[31:16]} :
                     {{16{1'b0}}, cache_data_out[31:16]};
                   end

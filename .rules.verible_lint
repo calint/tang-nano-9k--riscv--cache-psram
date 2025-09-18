@@ -1,5 +1,2 @@
 -line-length
 -parameter-name-style
--no-trailing-spaces
--generate-label-prefix
--case-missing-default
