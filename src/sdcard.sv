@@ -108,7 +108,7 @@ module sdcard #(
         end
 
         Idle: begin
-          unique case (command)
+          case (command)
             1: begin  // read sector
               rd <= 1;
               address <= sector << SectorToSDCardAddressShiftLeft;
@@ -126,6 +126,8 @@ module sdcard #(
               waiting_ready_for_next_byte <= 1;
               address <= sector << SectorToSDCardAddressShiftLeft;
               state <= PreWriteSector;
+            end
+            default: begin
             end
           endcase
         end
