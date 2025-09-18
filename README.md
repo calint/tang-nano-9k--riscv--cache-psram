@@ -24,7 +24,7 @@ burst PSRAM
 
 ## Greeting
 
-```
+```text
                                   oOo.o.
          frameless osca          oOo.oOo
       __________________________  .oOo.
