@@ -1,23 +1,29 @@
 # [Tang Nano 9K](https://www.aliexpress.com/item/1005003803994525.html)
 
 ## Intention
+
 * RISC-V implementation of RV32I for application intended use
-  - no `ecall`, `ebreak`, `fence` or counters
+  * no `ecall`, `ebreak`, `fence` or counters
 * multi-cycle with ad-hoc pipeline
-* configurable unified instruction and data cache backed by 8 MB of on-board burst PSRAM
+* configurable unified instruction and data cache backed by 8 MB of on-board
+burst PSRAM
 * transfer binary image from on-board flash to RAM
 * read and write sectors to and from the SD card
 * develop a back-to-basics freestanding bare metal C++23 application
 * explore the FPGA board
 
-## Howto Gowin EDA 1.9.11.02 build(80616)
-* build bitstream in Gowin EDA or using `/scripts/build-using-gowin.sh` (note: `gw_sh` assumed to be in path)
+## Howto Gowin EDA 1.9.12 build(82029)
+
+* build bitstream in Gowin EDA or using `/scripts/build-using-gowin.sh` (note:
+`gw_sh` assumed to be in path)
 * run `/scripts/make-and-flash-os.sh` to flash the firmware
 * then `/scripts/flash-fpga.sh` to flash bitstream file or `/scripts/program-fpga.sh`
-* connect with serial terminal to the tty (e.g. `/dev/ttyUSB1`) at 115200 baud, 8 bit data, 1 stop bit, no parity, no flow control
+* connect with serial terminal to the tty (e.g. `/dev/ttyUSB1`) at 115200 baud,
+8 bit data, 1 stop bit, no parity, no flow control
 * press button S1 to reset and view the greeting
 
 ## Greeting
+
 ```
                                   oOo.o.
          frameless osca          oOo.oOo
@@ -52,24 +58,32 @@ welcome to adventure #4
 ```
 
 ## Sample Program
+
 * an "operating system" in `/os/` inspired by text adventure games
 * other examples in `/notes/samples/`
   
 ## Emulator
-* a RV32I emulator with an implementation of the current FPGA configuration can be found in the `/emulator/` directory
-* the emulator can be used with generated firmware, such as `/os/os.bin`, along with an image of a SD card
+
+* a RV32I emulator with an implementation of the current FPGA configuration can
+be found in the `/emulator/` directory
+* the emulator can be used with generated firmware, such as `/os/os.bin`, along
+with an image of a SD card
 
 ## Configuration
+
 * see [`configuration.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration.py)
 * [`configuration-apply.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration-apply.py) generates include files with constants in `/os/src/`, `/emulator/src/`, `/src/` and clock constraints file `/tang_nano_9k.sdc`
 * screenshots of how to configure the IP blocks used can be found in [`/notes/ip-blocks-gui-configuration/`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/tree/main/notes/ip-blocks-gui-configuration)
 
 ## Source
-* SystemVerilog adhering to most of style guide https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md
+
+* SystemVerilog adhering to most of style guide <https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md>
 
 ## Coding Style
+
 * no default nettype
-* `module`, `input`, `output`, `logic`, `wire`, `enum` names verbose, descriptive, lower snake case
+* `module`, `input`, `output`, `logic`, `wire`, `enum` names verbose,
+descriptive, lower snake case
 * module `parameter` and `enum` values verbose, descriptive, pascal case
 * output ports declared `logic`
 * input ports declared `wire`
@@ -77,7 +91,8 @@ welcome to adventure #4
 * `enum` type names with suffix `_e`
 
 ## Todo
-```
+
+```text
 -------------------------------------------------------------------------------
 [x] use all 8 MB of PSRAM by assuming there are 4 bytes stored per adddress
 [x] cache: write_enable for tag can be single bit since always writing 32b
@@ -245,19 +260,19 @@ step 13
 [x]    Ternary expressions nested in the true condition of another ternary expression must be enclosed in parentheses.
 [x]    C++ style comments (// foo) are preferred. C style comments (/* bar */) can also be used.
 [x]    Signals must be declared before they are used. This means that implicit net declarations must not be used.
-[x]    Declarations (module, class, package, interface)	lower_snake_case
-[x]    Instance names	lower_snake_case
-[x]    Signals (nets and ports)	lower_snake_case
-[x]    Variables, functions, tasks	lower_snake_case
-[x]    Named code blocks	lower_snake_case
-[x]    `define macros	ALL_CAPS
+[x]    Declarations (module, class, package, interface) lower_snake_case
+[x]    Instance names lower_snake_case
+[x]    Signals (nets and ports) lower_snake_case
+[x]    Variables, functions, tasks lower_snake_case
+[x]    Named code blocks lower_snake_case
+[x]    `define macros ALL_CAPS
          => not used
 [x]    Tunable parameters for parameterized modules, classes, and interfaces UpperCamelCase
 [x]    Constants ALL_CAPS or UpperCamelCase
 [x]    Enumeration types lower_snake_case_e
 [x]    Other typedef types lower_snake_case_t
          => not used
-[x]    Enumerated value names	UpperCamelCase
+[x]    Enumerated value names UpperCamelCase
 [x]    Declare global constants using parameters in the project package file.
 [x]    `define ALL_CAPS Truly constant
 [x]    module parameter UpperCamelCase truly modifiable by instantiation, not constant
@@ -266,7 +281,7 @@ step 13
        is used by designer to explore the design space conveniently
 [x]    true localparam constant ALL_CAPS
 [x]    enum member true constant ALL_CAPS
-[x]    enum set member	ALL_CAPS or UpperCamelCase
+[x]    enum set member ALL_CAPS or UpperCamelCase
 [x]    Use parameter to parameterize, and localparam to declare module-scoped constants. Within a package, use parameter.
 [x]    Explicitly declare the type for parameters.
 [ ]    Suffixes are used in several places to give guidance to intent.
