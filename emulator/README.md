@@ -3,11 +3,14 @@
 Emulates the FPGA program.
 
 ## usage
+
 `./make.sh` to build the emulator
 
-`./osqa ../os/os.bin ../notes/samples/sample.txt` to run the firmware with SD card image.
+`./osqa ../os/os.bin ../notes/samples/sample.txt` to run the firmware with SD
+card image.
 
 ## todo
+
 ```
 [ ] record the maximum used stack space during a run
 [ ] building the immediate values can be done with 1 AND, 1 SHIFT per section
