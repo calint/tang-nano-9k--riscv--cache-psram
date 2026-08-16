@@ -477,6 +477,9 @@ public:
     }
     //-----------------------------------------------------------------------
     case OPCODE_FENCE_PAUSE: { //                                 FENCE/PAUSE
+#ifdef RV32I_DEBUG
+      printf("fence / pause");
+#endif
       // NOP
       break;
     }
