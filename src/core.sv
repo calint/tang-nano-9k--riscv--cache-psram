@@ -422,6 +422,9 @@ module core #(
                 default: led <= 0;  // error
               endcase  // case (funct3)
             end
+            5'b00011: begin  // FENCE, FENCE.TSO, FENCE.I, PAUSE
+              // NOP
+            end
             default: led <= 0;  // error
           endcase  // case (opcode)
         end
