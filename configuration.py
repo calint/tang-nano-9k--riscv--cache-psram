@@ -8,7 +8,7 @@ BOARD_NAME = "tangnano9k"
 CLOCK_FREQUENCY_HZ = 27_000_000
 # frequency of clock in (signal 'clk', specification)
 
-CPU_FREQUENCY_HZ = 30_000_000
+CPU_FREQUENCY_HZ = 27_000_000
 # frequency that CPU runs on
 
 RAM_ADDRESS_BITWIDTH = 21

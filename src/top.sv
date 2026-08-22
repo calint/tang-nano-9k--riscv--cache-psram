@@ -45,7 +45,7 @@ module top (
 
   Gowin_rPLL rpll (
       .clkin(clk),  // 27 MHz
-      .clkout(rpll_clkout),  // 60 MHz
+      .clkout(rpll_clkout),  // 54 MHz
       .lock(rpll_lock)
   );
 
@@ -69,7 +69,7 @@ module top (
       .rst_n,
       .clk(br_memory_clk),
       .memory_clk(br_memory_clk),
-      .clk_out(br_clk_out),  // memory_clk / 2 = 60 / 2 = 30 MHz
+      .clk_out(br_clk_out),  // memory_clk / 2 = 54 / 2 = 27 MHz
       .pll_lock(br_pll_lock),
       .init_calib(br_init_calib),
 

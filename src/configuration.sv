@@ -3,7 +3,7 @@
 package configuration;
 
   parameter int unsigned CLOCK_FREQUENCY_HZ = 27000000;
-  parameter int unsigned CPU_FREQUENCY_HZ = 30000000;
+  parameter int unsigned CPU_FREQUENCY_HZ = 27000000;
   parameter int unsigned RAM_ADDRESS_BITWIDTH = 21;
   parameter int unsigned RAM_ADDRESSING_MODE = 2;
   parameter int unsigned CACHE_COLUMN_INDEX_BITWIDTH = 3;
