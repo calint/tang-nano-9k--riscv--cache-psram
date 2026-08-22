@@ -3,7 +3,7 @@
 ## Intention
 
 * RISC-V implementation of RV32I for application intended use
-  * no `ecall`, `ebreak`, `fence` or counters
+  * no `ecall`, `ebreak` or counters
 * multi-cycle with ad-hoc pipeline
 * configurable unified instruction and data cache backed by 8 MB of on-board
 burst PSRAM
