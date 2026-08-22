@@ -61,6 +61,7 @@ welcome to adventure #4
 
 * an "operating system" in `/os/` inspired by text adventure games
 * other examples in `/notes/samples/`
+* project <https://github.com/calint/rust_rv32i_os>
   
 ## Emulator
 
