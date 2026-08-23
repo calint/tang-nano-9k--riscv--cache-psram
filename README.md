@@ -76,7 +76,7 @@ with an image of a SD card
 * [`configuration-apply.py`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/blob/main/configuration-apply.py) generates include files with constants in `/os/src/`, `/emulator/src/`, `/src/` and clock constraints file `/tang_nano_9k.sdc`
 * screenshots of how to configure the IP blocks used can be found in [`/notes/ip-blocks-gui-configuration/`](https://github.com/calint/tang-nano-9k--riscv--cache-psram/tree/main/notes/ip-blocks-gui-configuration)
 
-## About supported SD cards
+## Supported SD cards
 
 * use SDHC/SDXC cards (> 2 GB) that expect addressing in sectors rather than bytes
 
