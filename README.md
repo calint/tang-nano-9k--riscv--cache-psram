@@ -80,6 +80,10 @@ with an image of a SD card
 
 * SystemVerilog adhering to most of style guide <https://github.com/lowRISC/style-guides/blob/master/VerilogCodingStyle.md>
 
+## About supported SD cards
+
+* use SDHC/SDXC cards (> 2 GB) that expect addressing in sectors rather than bytes
+
 ## Coding Style
 
 * no default nettype
