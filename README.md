@@ -117,7 +117,7 @@ descriptive, lower snake case
     counter == 0 to save some logic for an extra register
 [x] fix red hold path
     => Hold Path timing violation to CALIB does not seem to have an effect
-       on the design
+       on the design since it is only used at initiating the PSRAM IP
 ----------------------------------------------------------------------------
 step 12
 [ ] always_comb based CPU
