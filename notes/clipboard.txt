@@ -15,6 +15,9 @@ git push origin main --force
 # in case the ttyUSBx hangs
 sudo modprobe -r xhci_pci && sleep 5 && sudo modprobe xhci_pci
 
+# sdc
+set_clock_uncertainty -setup 0.500 -from [get_clocks {clk}] -to [get_clocks {clk}]
+
 -------------------------------------------------------------
 
 openFPGALoader -b tangnano9k --external-flash test.txt
