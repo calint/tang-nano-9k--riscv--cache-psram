@@ -111,7 +111,8 @@ descriptive, lower snake case
     => Visual Code terminal sends 0x7f, xterm 0x08
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] read LEDs
-[ ] dual channel 4 MB PSRAM
+[-] dual channel 4 MB PSRAM
+    => all ram is now being used
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of 
     counter == 0 to save some logic for an extra register
 [x] fix red hold path
