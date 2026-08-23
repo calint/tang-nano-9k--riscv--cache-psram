@@ -12,7 +12,8 @@
 module bram #(
     parameter int unsigned AddressBitwidth = 16,
     parameter int unsigned DataBitwidth = 32,
-    parameter int unsigned ColumnBitwidth = 8
+    parameter int unsigned ColumnBitwidth = 8,
+    localparam int unsigned ColumnCount = DataBitwidth / ColumnBitwidth
 ) (
     input wire clk,
 
@@ -21,8 +22,6 @@ module bram #(
     output logic [DataBitwidth-1:0] data_out,
     input wire [DataBitwidth-1:0] data_in
 );
-
-  localparam int unsigned ColumnCount = DataBitwidth / ColumnBitwidth;
 
   logic [DataBitwidth-1:0] data[2**AddressBitwidth];
 
