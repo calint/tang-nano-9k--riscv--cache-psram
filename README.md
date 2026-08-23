@@ -142,6 +142,8 @@ step 13
     => works on Tang Nano 20K, possible problem with Tang Nano 9K
     => oddly, in a non-deterministic ways the ramio workaround and improved
        uarttx now works
+    => reducing clock speed giving more margin to reported maximum by Gowin
+       fixes the issue
 [x] emulator: test for read/write sector
 [x] os: end-to-end test read/write sector
 [x] uarttx: optimize away the cycle between go=1 and busy=1
