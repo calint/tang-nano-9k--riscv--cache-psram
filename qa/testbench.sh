@@ -1,8 +1,8 @@
 #!/bin/sh
 #
 # tools used:
-#   iverilog: Icarus Verilog version 12.0 (stable)
-#        vvp: Icarus Verilog runtime version 12.0 (stable)
+#   iverilog: Icarus Verilog version 13.0 (stable) (v13_0-dirty)
+#        vvp: Icarus Verilog runtime version 13.0 (stable) (v13_0-dirty)
 #
 set -e
 cd $(dirname "$0")
