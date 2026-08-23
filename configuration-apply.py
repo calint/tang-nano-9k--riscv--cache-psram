@@ -83,8 +83,8 @@ with open("src/configuration.sv", "w") as file:
 with open(cfg.BOARD_NAME + ".sdc", "w") as file:
     file.write("// generated - do not edit (see `configuration.py`)\n")
     file.write("\n")
-    clock_mHz = cfg.CLOCK_FREQUENCY_HZ / 1000000
-    clock_period = 1 / clock_mHz * 1000
+    clock_mHz = cfg.CLOCK_FREQUENCY_HZ / 1_000_000
+    clock_period = 1 / clock_mHz * 1_000
     clock_wave_form = clock_period / 2
     file.write(f"// {clock_mHz} MHz\n")
     file.write(
