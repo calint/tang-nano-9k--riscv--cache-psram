@@ -1,9 +1,9 @@
 #!/bin/sh
 # tools used:
-#                   g++: 14.2.1
-#       riscv64-elf-g++: 14.1.0
-#   riscv64-elf-objcopy: 2.42
-#   riscv64-elf-objdump: 2.42
+#                   g++: 16.2.1
+#       riscv64-elf-g++: 15.2.0
+#   riscv64-elf-objcopy: 2.45.1
+#   riscv64-elf-objdump: 2.45.1
 #
 set -e
 cd $(dirname "$0")
@@ -49,8 +49,8 @@ $CC -std=c++23 \
     -fno-toplevel-reorder \
     -o $BIN $SRC
 
-$OBJCOPY $BIN -O binary $BIN.bin
-$OBJDUMP -Mnumeric,no-aliases -dr $BIN > $BIN.lst
+$OBJCOPY $BIN --output-target=binary $BIN.bin
+$OBJDUMP -Mnumeric,no-aliases -dr $BIN >$BIN.lst
 
 rm $BIN
 
