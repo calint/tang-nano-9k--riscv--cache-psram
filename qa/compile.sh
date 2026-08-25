@@ -4,11 +4,11 @@
 # extracts '.mem' file from binary to be included by the simulation
 #
 # tools used:
-#       riscv64-elf-g++: 14.1.0
-#   riscv64-elf-objcopy: 2.42
-#   riscv64-elf-objdump: 2.42
-#                   xxd: tinyxxd 1.3.7
-#                   awk: 5.3.1
+#       riscv64-elf-g++: 15.2.0
+#   riscv64-elf-objcopy: 2.45.1
+#   riscv64-elf-objdump: 2.45.1
+#                   xxd: 1.3.16
+#                   awk: 5.4.1
 #
 set -e
 
@@ -36,8 +36,8 @@ $CC -std=c++23 \
     -o $BIN $SRC
 
 $OBJCOPY $BIN -O binary $BIN.bin
-$OBJDUMP -Mnumeric,no-aliases -dr $BIN > $BIN.lst
-xxd -p -c 1 -e $BIN.bin | awk '{print $2}' > $BIN.mem
+$OBJDUMP -Mnumeric,no-aliases -dr $BIN >$BIN.lst
+xxd -p -c 1 -e $BIN.bin | awk '{print $2}' >$BIN.mem
 ls -la $BIN.bin $BIN.mem $BIN.lst
 rm $BIN
 rm $BIN.bin
