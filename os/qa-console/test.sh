@@ -4,7 +4,7 @@ cd $(dirname "$0")
 
 SDCARD=../../notes/samples/sample.txt
 
-echo "* making console application"
+echo " * making console application"
 ../make-console-application.sh
 
 echo -e "$(cat test.in)" | ../console_application $SDCARD >test.out
