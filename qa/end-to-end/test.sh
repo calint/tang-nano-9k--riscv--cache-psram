@@ -22,9 +22,6 @@ trap 'kill $LOG_PID 2>/dev/null || true' EXIT
 
 echo "Assuming the FPGA opens $TTY at $BAUD baud, 8 data bits, 1 stop bit, no parity"
 read -rsp $'Program or reset FPGA then press "Enter" to continue\n\n'
-TTY=/dev/ttyUSB1
-BAUD=115200
-SLP=0.1
 
 printf "i\r" >$TTY
 sleep $SLP
