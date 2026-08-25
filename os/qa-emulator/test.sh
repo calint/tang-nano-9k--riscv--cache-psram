@@ -6,9 +6,10 @@ EMULATOR=../../emulator/osqa
 FIRMWARE=../os.bin
 SDCARD=../../notes/samples/sample.txt
 
-echo "* building emulator"
+echo " * building emulator"
 ../../emulator/make.sh
-echo "* building firmware image"
+../../emulator/qa/test.sh
+echo " * building firmware image"
 ../make-fpga-flash-binary.sh
 
 echo " * running test for 2 seconds"
