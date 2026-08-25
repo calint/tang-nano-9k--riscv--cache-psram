@@ -6,7 +6,7 @@
 #       regarding encoding of backspace and delete
 #
 # tools used:
-#        g++: 14.2.1
+#        g++: 16.2.1
 #
 set -e
 cd $(dirname "$0")
@@ -46,4 +46,3 @@ g++ -std=c++23 \
     src/console_application.cpp
 
 ls -l --color $BIN
-

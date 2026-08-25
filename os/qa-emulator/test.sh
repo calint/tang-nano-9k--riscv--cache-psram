@@ -2,17 +2,17 @@
 set -e
 cd $(dirname "$0")
 
-#echo "Making emulator"
-#../../emulator/make.sh
+echo "* building emulator"
+../../emulator/make.sh
 
 EMULATOR=../../emulator/osqa
 FIRMWARE=../os.bin
 SDCARD=../../notes/samples/sample.txt
 
-echo " * running test for 5 seconds"
-echo -e "$(cat test.in)" | timeout 5 $EMULATOR $FIRMWARE $SDCARD > test.out || true
+echo " * running test for 2 seconds"
+echo -e "$(cat test.in)" | timeout 2 $EMULATOR $FIRMWARE $SDCARD >test.out || true
 
-if cmp -s test.diff test.out; then
+if cmp --silent test.diff test.out; then
     echo "test: PASSED"
     rm test.out
 else

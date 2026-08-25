@@ -4,11 +4,14 @@ cd $(dirname "$0")
 
 SDCARD=../../notes/samples/sample.txt
 
-echo -e "$(cat test.in)" | ../console_application $SDCARD > test.out
+echo "* making console application"
+../make-console-application.sh
 
-if cmp -s test.diff test.out; then
+echo -e "$(cat test.in)" | ../console_application $SDCARD >test.out
+
+if cmp --silent test.diff test.out; then
     echo "test: PASSED"
     rm test.out
 else
-    echo "test: FAILED, check 'diff test.diff test.out'"
+    echo "test: FAILED, check 'diff --text test.diff test.out'"
 fi

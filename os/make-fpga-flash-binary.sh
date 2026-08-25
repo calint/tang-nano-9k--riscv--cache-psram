@@ -3,9 +3,9 @@
 # builds binary to be flashed on FPGA
 #
 # tools used:
-#       riscv64-elf-g++: 14.1.0
-#   riscv64-elf-objcopy: 2.42
-#   riscv64-elf-objdump: 2.42
+#       riscv64-elf-g++: 15.2.0
+#   riscv64-elf-objcopy: 2.45.2
+#   riscv64-elf-objdump: 2.45.1
 #
 set -e
 cd $(dirname "$0")
@@ -73,8 +73,8 @@ $OBJCOPY $BIN -O binary $BIN.bin
 chmod -x $BIN.bin
 
 #$OBJDUMP -Mnumeric,no-aliases --source-comment -Sr $BIN > $BIN.lst
-$OBJDUMP --source-comment -SCr $BIN > $BIN.lst
-$OBJDUMP -s --section=.rodata --section=.srodata --section=.data --section=.sdata --section=.bss --section=.sbss $BIN > $BIN.dat || true
+$OBJDUMP --source-comment -SCr $BIN >$BIN.lst
+$OBJDUMP -s --section=.rodata --section=.srodata --section=.data --section=.sdata --section=.bss --section=.sbss $BIN >$BIN.dat || true
 
 #rm $BIN
 
