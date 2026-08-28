@@ -99,35 +99,38 @@ descriptive, lower snake case
 
 ```text
 -------------------------------------------------------------------------------
-[x] use all 8 MB of PSRAM by assuming there are 4 bytes stored per adddress
-[x] cache: write_enable for tag can be single bit since always writing 32b
 [ ] emulator,console_application: implement write sector to card file
-[x] console_application: implement SD card support
+[ ] read LEDs
+[ ] separate unfied cache into instruction and data cache
+[ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] os: list, span: position with list instance id so that a position in one
     list / span can't be used in different list / span instance
 [ ] os: backspace to ctrl+h (0x08) and update putty terminal configuration
     screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
     => Visual Code terminal sends 0x7f, xterm 0x08
-[ ] separate unfied cache into instruction and data cache
-[ ] cat > /dev/ttyUSB1 should echo without dropping input
-[ ] read LEDs
-[-] dual channel 4 MB PSRAM
-    => all ram is now being used
 [ ] counter[highest_bit] == 1 in decreasing counters into negative instead of 
     counter == 0 to save some logic for an extra register
+[x] use all 8 MB of PSRAM by assuming there are 4 bytes stored per adddress
+[x] cache: write_enable for tag can be single bit since always writing 32b
+[x] console_application: implement SD card support
+[-] dual channel 4 MB PSRAM
+    => all ram is now being used
 [x] fix red hold path
     => Hold Path timing violation to CALIB does not seem to have an effect
        on the design since it is only used at initiating the PSRAM IP
 ----------------------------------------------------------------------------
 step 12
-[ ] always_comb based CPU
-[ ]   1 cycle ALU op
-[ ]   1+ cycle store op
-[ ]   1+ cycle load op
+[-] always_comb based CPU
+[-]   1 cycle ALU op
+[-]   1+ cycle store op
+[-]   1+ cycle load op
+    => in a different project
 ----------------------------------------------------------------------------
 step 13
-[ ] fully pipe-lined core
+[-] fully pipe-lined core
+    => the simplicity of current implementation and performance is ok. new
+       project for the fully pipelined version
 [ ] consider FIFO in UART
 ----------------------------------------------------------------------------
 [x] investigate why release 1.1.7 has flukes at end-to-end tests // !!!
