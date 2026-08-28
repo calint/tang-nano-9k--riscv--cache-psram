@@ -109,6 +109,7 @@ descriptive, lower snake case
     screenshot
     => move the 0x08 definition to console_application.cpp and 0x7f to os.cpp
     => Visual Code terminal sends 0x7f, xterm 0x08
+[ ] separate unfied cache into instruction and data cache
 [ ] cat > /dev/ttyUSB1 should echo without dropping input
 [ ] read LEDs
 [-] dual channel 4 MB PSRAM
@@ -118,7 +119,6 @@ descriptive, lower snake case
 [x] fix red hold path
     => Hold Path timing violation to CALIB does not seem to have an effect
        on the design since it is only used at initiating the PSRAM IP
-[ ] separate unfied cache into instruction and data cache
 ----------------------------------------------------------------------------
 step 12
 [ ] always_comb based CPU
