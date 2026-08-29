@@ -50,7 +50,7 @@ $CC -std=c++23 \
     -o $BIN $SRC
 
 $OBJCOPY $BIN --output-target=binary $BIN.bin
-$OBJDUMP -Mnumeric,no-aliases -dr $BIN >$BIN.lst
+$OBJDUMP --disassembler-options=numeric,no-aliases --disassemble --reloc $BIN >$BIN.lst
 
 rm $BIN
 
