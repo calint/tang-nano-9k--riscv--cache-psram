@@ -8,37 +8,35 @@ Disassembly of section .text:
 # # generated - do not edit (see `configuration.py`)
 # .global _start
 # _start:
-#     li sp, 0x200000
-   0:	00200137          	lui	sp,0x200
+#     li sp, 0x800000
+   0:	00800137          	lui	sp,0x800
 #     j run
    4:	0040006f          	j	8 <run>
 
 00000008 <run>:
-# #define MEMORY_TOP 0x200000
+# #define UART_IN ((volatile int *)0xffff'fff4)
 # 
 # void uart_send_char(char ch);
 # char uart_read_char();
 # 
 # extern "C" void run() {
-   8:	ff010113          	addi	sp,sp,-16 # 1ffff0 <__bss_end+0x1fff98>
-   c:	00112623          	sw	ra,12(sp)
-  10:	00812423          	sw	s0,8(sp)
+   8:	fe010113          	addi	sp,sp,-32 # 7fffe0 <__bss_end+0x7fff88>
+   c:	00112e23          	sw	ra,28(sp)
 #   *LED = 0; // all leds on
-  14:	fe002e23          	sw	zero,-4(zero) # fffffffc <__bss_end+0xffffffa4>
+  10:	fe002e23          	sw	zero,-4(zero) # fffffffc <__bss_end+0xffffffa4>
 # 
 #   while (1) {
 #     const char ch = uart_read_char();
-  18:	02c000ef          	jal	44 <uart_read_char()>
-  1c:	00050413          	mv	s0,a0
+  14:	030000ef          	jal	44 <uart_read_char()>
+  18:	00a12623          	sw	a0,12(sp)
 #     uart_send_char(ch);
+  1c:	014000ef          	jal	30 <uart_send_char(char)>
 #     *LED = ~ch;
-  20:	fff44413          	not	s0,s0
-#     uart_send_char(ch);
-  24:	00c000ef          	jal	30 <uart_send_char(char)>
-#     *LED = ~ch;
-  28:	fe802e23          	sw	s0,-4(zero) # fffffffc <__bss_end+0xffffffa4>
+  20:	00c12503          	lw	a0,12(sp)
+  24:	fff54513          	not	a0,a0
+  28:	fea02e23          	sw	a0,-4(zero) # fffffffc <__bss_end+0xffffffa4>
 #   while (1) {
-  2c:	fedff06f          	j	18 <run+0x10>
+  2c:	fe9ff06f          	j	14 <run+0xc>
 
 00000030 <uart_send_char(char)>:
 #   }
