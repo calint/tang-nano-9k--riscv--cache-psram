@@ -66,7 +66,7 @@ $OBJCOPY $BIN --output-target=binary $BIN.bin
 chmod -x $BIN.bin
 
 #$OBJDUMP -Mnumeric,no-aliases --source-comment -Sr $BIN > $BIN.lst
-$OBJDUMP --source-comment -SCr $BIN >$BIN.lst
+$OBJDUMP --source-comment --source --demangle --reloc $BIN >$BIN.lst
 $OBJDUMP --full-contents --section=.rodata --section=.srodata --section=.data --section=.sdata --section=.bss --section=.sbss $BIN >$BIN.dat 2>/dev/null || true
 
 rm $BIN
