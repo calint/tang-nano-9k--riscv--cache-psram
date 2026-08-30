@@ -12,7 +12,7 @@ burst PSRAM
 * develop a back-to-basics freestanding bare metal C++23 application
 * explore the FPGA board
 
-## Howto Gowin EDA 1.9.12 build(82029)
+## Howto Gowin EDA 1.9.11.03 Education build(81398)
 
 * build bitstream in Gowin EDA or using `/scripts/build-using-gowin.sh` (note:
 `gw_sh` assumed to be in path)
